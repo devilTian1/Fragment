@@ -28,6 +28,7 @@
         }
         delNonParentNode( &$navArr );
     }
+    /*
     echo 'BEFORE:<BR/>';
     echo Dtool::printArr( $navArr );
 
@@ -36,4 +37,18 @@
     echo 'AFTER:<BR/>';
     echo Dtool::printArr( $navArr );
     echo '<br/>';
+    */
+    sortNavArr(&$navArr);
+
+    function showNav( $navArr ) {
+        echo "<ul>";
+        foreach ( $navArr as $key => $root ) {
+            echo "<li>{$root['name']}</li>";
+            if ( is_array( $root['children'] ) ) {
+                showNav($root['children']);
+            }
+        }
+        echo "</ul>";
+    }
+    showNav($navArr);
 ?>
