@@ -1,14 +1,13 @@
 <?php
-    require_once('../Dtool/Dtool.php');
     require_once('config.php');
-    // if $arr has not the key 'children', add it
+    // if $node['children'] does not exist, then add it
     function addChildrenArr( &$node ) {
         if ( !is_array($node['children']) ) {
             $node['children'] = array();   
         }
     }
 
-    // remote non parent node
+    // remote non-root node
     function delNonParentNode( &$navArr ) {
         foreach ( $navArr as $key => $node ) {
             if ( $node['pid'] !== 0 ) {
@@ -28,27 +27,20 @@
         }
         delNonParentNode( &$navArr );
     }
-    /*
-    echo 'BEFORE:<BR/>';
-    echo Dtool::printArr( $navArr );
 
-    sortNavArr(&$navArr);
-
-    echo 'AFTER:<BR/>';
-    echo Dtool::printArr( $navArr );
-    echo '<br/>';
-    */
-    sortNavArr(&$navArr);
-
+    // show Nav
     function showNav( $navArr ) {
         echo "<ul>";
         foreach ( $navArr as $key => $root ) {
             echo "<li>{$root['name']}</li>";
-            if ( is_array( $root['children'] ) ) {
-                showNav($root['children']);
+            $children = $root['children'];
+            if ( is_array( $children ) ) {
+                showNav($children);
             }
         }
         echo "</ul>";
     }
+
+    sortNavArr(&$navArr);
     showNav($navArr);
 ?>
