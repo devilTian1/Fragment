@@ -9,54 +9,15 @@
         array('pid' => 6, 'name' => '2.1.1', 'href' => '#'),
     );
 
-    // if $arr has not the key 'children', add it
-    function addChildrenArr( &$node ) {
-        if ( !is_array($node['children']) ) {
-            $node['children'] = array();   
-        }
+    //test
+    /*
+    $navArr = array();
+    $arr = array(0,1,2,3,4,5,6,7,8,9);
+    shuffle($arr);
+    for ( $i=0; $i<10; $i++ ) {
+        $id = $arr[$i];
+        $node = array('pid' => $id, 'name' => $id, 'href' => '#');
+        array_push($navArr, $node);
     }
-
-    // remote non parent node
-    function delNonParentNode( &$navArr ) {
-        foreach ( $navArr as $key => $node ) {
-            if ( $node['pid'] !== 0 ) {
-                unset($navArr[$key]);
-            }
-        }
-    }
-    
-    // sort all nav nodes
-    function sortNavArr( &$navArr ) {
-        foreach ( $navArr as $key => $node ) {
-            $pid = $node['pid'];
-            if ( $pid !== 0 ) {
-                addChildrenArr(&$navArr[$pid-1]);
-                array_push($navArr[$pid-1]['children'], &$navArr[$key]);
-            }
-        }
-        delNonParentNode( &$navArr );
-    }
-
-
-
-    // print an array, instead of function var_dump or var_export
-    function printArr( $arr ) {
-        $result = '<ul>';
-        foreach ( $arr as $key => $val ) {
-            $result .= "<li>[$key] => ";
-            if ( is_array($val) ) {
-                $result .= printArr($val);
-            } else {
-                $result .= $val;
-            }
-            $result .= '</li>';
-        }
-        $result .= '</ul>';
-        return $result;
-    }
-
-    sortNavArr(&$navArr);
-    echo printArr( $navArr );
-    echo '<br/>';
-    var_export( $navArr );
+    */
 ?>
