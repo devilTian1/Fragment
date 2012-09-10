@@ -3,12 +3,12 @@
         <link rel='stylesheet' media='screen' type='text/css' href='base.css'/>
     </head>
     <body>
-        <div id="container">
-            <!-- header -->
-            <div id="header">
+        <div class="wrapper">
+            <!-- HEADER -->
+            <div class="header">
                 <!-- top left logo -->
                 <div class="float_left logo">
-                left
+                logo
                 </div>
             
                 <!-- top right nav -->
@@ -18,48 +18,66 @@
 
                 <!-- top middle nav -->
                 <div class="float_left toolbar">
-                    <div style="border:1px solid red;margin:auto 0">
                         middle
+                </div>
+                <br class="clear_float"/>
+            </div>
+
+	        <!-- CONTENT -->
+            <div class="content">
+                <div class="secondary">
+                    <!-- userinfo  -->
+                    <div class="userinfo">
+                    userinfo
+                    </div>
+
+                    <!-- left menu  -->
+                    <div class="leftmenu">
+                        <ul>
+                            <li><a href="#">系统配置</a></li>
+                            <li><a href="#">网络配置</a></li>
+                            <li><a href="#">资源定义</a></li>
+                            <li><a href="#">定制访问</a></li>
+                            <li><a href="#">抗攻击设置</a></li>
+                            <li><a href="#">系统监控</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+
+                <!-- main content -->
+                <div class="primary">
+                    <div class="box-outer">
+                        <div class="box-inner">
+                            <h2>Headline</h2><p>Content</p>
+                            <div class="headline">设置</div>
+                            <br/>
+                            <div class="itemTitle">登录</div>
+                            <ul style="margin-left : 10px">
+                                <li>
+                                    <input class="inline" type="radio" name='enx'/>
+                                    <label>手机保密</label>
+                                </li>
+                                <li>
+                                    <input class="inline" type="radio" name='enx'/>123
+                                </li>
+                                <li>
+                                    <input class="inline" type="radio" name='enx'/>123
+                                </li>
+                                <li>
+                                    <input class="inline" type="radio" name='enx'/>123
+                                </li>
+                            </ul>
+                            <p style="text-indent:2em;margin:0px;">indent</p>
+                        </div>
                     </div>
                 </div>
                 <br class="clear_float"/>
             </div>
 
-            <div id="pagebody">
-                <!-- left menu  -->
-                <div id="leftmenu">
-                </div>
-
-
-                <!-- main content -->
-                <div id="mainContent">
-                    <div style="width: 300px; height:200px; border:1px solid red;padding:10 5 0 5"> 
-                    <div class="headline">设置</div>
-                    <br/>
-                    <div class="itemTitle">登录</div>
-                    <ul style="margin-left : 10px">
-                        <li>
-                            <input class="inline" type="radio" name='enx'/>
-                            <label>手机保密</label>
-                        </li>
-                        <li>
-                            <input class="inline" type="radio" name='enx'/>123
-                        </li>
-                        <li>
-                            <input class="inline" type="radio" name='enx'/>123
-                        </li>
-                        <li>
-                            <input class="inline" type="radio" name='enx'/>123
-                        </li>
-                    </ul>
-                    <p style="text-indent:2em;margin:0px;">indent</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- footer -->
-            <div class="clear_float" id='footer'>
-                im footer
+            <!-- FOOTER -->
+            <div class="footer">
+                <label>Footer</label>
             </div>
         </div>
     </body>
