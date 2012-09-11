@@ -1,24 +1,25 @@
 <html>
     <head>
-        <link rel='stylesheet' media='screen' type='text/css' href='base.css'/>
+        <link rel='stylesheet' media='screen' type='text/css' href='css/base.css'/>
+        <link rel='stylesheet' media='screen' type='text/css' href='css/form.css'/>
     </head>
     <body>
         <div class="wrapper">
             <!-- HEADER -->
             <div class="header">
-                <!-- top left logo -->
-                <div class="float_left logo">
+                <!-- logo -->
+                <div class="float_left logo_l">
                 logo
                 </div>
             
-                <!-- top right nav -->
+                <!-- title & right logo -->
                 <div class="float_right">
-                right
-                </div>
-
-                <!-- top middle nav -->
-                <div class="float_left toolbar">
-                        middle
+                    <div class="float_left toolbar">
+                        <h1>Leadsec网御SIS 安全隔离与信息交换系统</h1>
+                    </div>
+                    <div class="float_right logo_r">
+                        right
+                    </div>
                 </div>
                 <br class="clear_float"/>
             </div>
@@ -28,7 +29,10 @@
                 <div class="secondary">
                     <!-- userinfo  -->
                     <div class="userinfo">
-                    userinfo
+                        Logged in as
+                        <a href="#">
+                            David Tian
+                        </a>
                     </div>
 
                     <!-- left menu  -->
@@ -47,28 +51,31 @@
 
                 <!-- main content -->
                 <div class="primary">
-                    <div class="box-outer">
-                        <div class="box-inner">
-                            <h2>Headline</h2><p>Content</p>
-                            <div class="headline">设置</div>
+                    <div class="tab">
+                        <ul>
+                            <li><a href="google.com">date & time</a></li>
+                            <li><a href="">system params</a></li>
+                            <li><a href="">update</a></li>
+                            <li><a href="">management</a></li>
+                            <li><a href="">report</a></li>
+                            <li><a href="">license</a></li>
+                        </ul>
+                    </div>
+                    <div class="innerPage">
+                        <div class="headline">
+                            <label>安全隔离网闸</label>
+                            <hr/>
+                        </div>
+
+                        <div class="form">
+                            <label>名称</label>
+                            <input name="name" value="NetGap"/>
                             <br/>
-                            <div class="itemTitle">登录</div>
-                            <ul style="margin-left : 10px">
-                                <li>
-                                    <input class="inline" type="radio" name='enx'/>
-                                    <label>手机保密</label>
-                                </li>
-                                <li>
-                                    <input class="inline" type="radio" name='enx'/>123
-                                </li>
-                                <li>
-                                    <input class="inline" type="radio" name='enx'/>123
-                                </li>
-                                <li>
-                                    <input class="inline" type="radio" name='enx'/>123
-                                </li>
-                            </ul>
-                            <p style="text-indent:2em;margin:0px;">indent</p>
+                            <label>名称</label>
+                            <input name="name" value="NetGap"/>
+                            <br/>
+                            <label>名称</label>
+                            <input name="name" value="NetGap"/>
                         </div>
                     </div>
                 </div>
@@ -82,3 +89,18 @@
         </div>
     </body>
 </html>
+<script type="text/javascript" src="js/jquery/jquery-1.8.1.js"></script>
+<script>
+    $(document).ready(function() {
+        $(".leftmenu>ul>li>a").bind("click", function(){
+            $(".leftmenu>ul>li>a").css({background: "#66DDFF", "font-weight": "normal"});
+            $(this).css({background: "#FFFFFF", "font-weight": "bold"});
+            return false;
+        });
+        $(".tab>ul>li>a").bind("click", function(){
+            $(".tab>ul>li").css({background: "#66DDFF"});
+            $(this).parent().css({background: "#FFFFFF"});
+            return false;
+        });
+    });
+</script>
