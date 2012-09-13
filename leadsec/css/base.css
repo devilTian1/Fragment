@@ -16,6 +16,7 @@ ul {
 h3 {
     margin: 20px 0px 0px 100px;
     padding: 0px;
+    width: 400px;
 }
 
 a {
@@ -58,14 +59,16 @@ a {
 /* FOOTER */
 .footer {
     height: 30px;
-    background-color: grey;
+    background: #D9EAFF;
+    text-align: center;
 }
 
 .footer label {
+    color: #005AA0;
+    font-weight: bold;
     position: relative;
     top: 5px;
-    left: 20px;
-    font-weight: bold;
+    font-size: 12px;
 }
 
 /* CONTENT */
@@ -138,6 +141,7 @@ a {
 .secondary .leftmenu .l2>li>a:hover {
     font-weight: normal;
     background: #F5F5F5;
+    text-decoration: underline;
 }
 
 /* TAB */
@@ -184,16 +188,41 @@ a {
     margin: 0px;
 }
 
+.leadsecSIS_logo {
+    position: absolute;
+    top: 20px;
+    left: 0px;
+}
+
 /* header */
-.header .toolbar {
-    width: 800px;
+.header .top_nav {
+    position: relative;
+    width: 700px;
+    height: 80px;
 }
 
-.header .info {
-    
+.header .top_nav .toolbar_l {
+    width: 280px;
+    height: 40px; 
+    position: absolute;
+    top: 40px;
+    left: 200px;
 }
 
+.header .top_nav .toolbar_r {
+    font-size: 12px;
+}
 
+.header .top_nav .toolbar_r a {
+    margin: 5px 0px 0px 20px;
+    position: relative;
+    top: 5px;
+    text-decoration: none;
+}
+
+.header .top_nav .toolbar_r a:hover {
+    text-decoration: underline;
+}
 
 /* HELP */
 .border {
