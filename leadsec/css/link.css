@@ -1,0 +1,11 @@
+/* a href */
+.clicked {
+    color: #005AA0;
+    font-weight: bold;
+    background-image: url("../image/clicked_leftmenu_bg.gif");
+}
+
+.tab_clicked {
+    background-image: url("../image/clicked_tab_bg.png");
+}
+.

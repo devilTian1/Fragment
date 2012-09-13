@@ -13,9 +13,13 @@ ul {
     list-style-type: none;
 }
 
-h1 {
-    margin: 0px;
+h3 {
+    margin: 20px 0px 0px 100px;
     padding: 0px;
+}
+
+a {
+    color: #5A5A5A;
 }
 
 /* BASE */
@@ -48,7 +52,7 @@ h1 {
 /* HEADER */
 .header {
     height: 85px;
-    background-color: #00CCFF;
+    background-image: url("../image/header.gif");
 }
 
 /* FOOTER */
@@ -71,7 +75,7 @@ h1 {
 }
 
 .content .primary { 
-    width: 690px;
+    width: 700px;
     height: 520px;
     float: right;
     display: inline;
@@ -82,11 +86,11 @@ h1 {
 }
 
 .content .secondary {
-    width: 230px;
+    width: 220px;
     height: 520px;
     float: left;
     display: inline;
-    background-color: #66DDFF;
+    background-image: url("../image/secondary_bg.jpg");
 }
 
 
@@ -107,42 +111,61 @@ h1 {
     margin-left: 10px; 
 }
 
-.leftmenu ul a {
+.secondary .leftmenu li {
+    display: inline;
+}
+
+.secondary .leftmenu a {
     display: block;
-    font-size: 14px;
-    color: #5A5A5A;
+    font-size: 16px;
     text-decoration: none;
     padding: 10px 20px;
 }
 
-.leftmenu ul a:hover {
+.secondary .leftmenu a:hover {
+    font-weight: bold;
+}
+
+/* LEFT MENU level 2 */
+.secondary .leftmenu .l2 {
+    margin-left: 30px;
+}
+
+.secondary .leftmenu .l2>li>a {
+    font-size: 14px;
+}
+
+.secondary .leftmenu .l2>li>a:hover {
+    font-weight: normal;
     background: #F5F5F5;
 }
 
 /* TAB */
 .primary .tab {
     overflow: hidden;
-    background-color: #66DDFF;
-    height: 27px;
-}
-
-.primary .tab ul {
+    background-image: url("../image/tab_bg.jpg");
     height: 27px;
 }
 
 .primary .tab li {
     float: left;
-    padding:5px;
+    padding-top: 5px;
+    text-align: center;
+    width: 100px;
+    height: 22px;
 }
 
 .primary .tab li a {
+    font-size: 12px;
     color: black;
     text-decoration: none;
-    margin-right: 20px;
 }
 
 .primary .tab li a:hover {
     background: #FFFFFF;
+}
+.primary .tab li a:hover {
+    left: 50%;
 }
 
 
@@ -156,14 +179,21 @@ h1 {
 
 .logo_r {
     border: 1px solid grey;
-    height: 50px;
-    width: 50px;
-    margin: 5px 20px 0px 0px;
+    height: 40px;
+    width: 200px;
+    margin: 0px;
 }
 
-.toolbar {
-    margin: 20px;
+/* header */
+.header .toolbar {
+    width: 800px;
 }
+
+.header .info {
+    
+}
+
+
 
 /* HELP */
 .border {

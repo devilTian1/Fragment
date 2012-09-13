@@ -15,11 +15,29 @@
 /* form */
 .form {
     margin-top: 5px;
-}
-.form label {
     margin-left: 1em;
+}
+
+.form label {
     font-size: 14px;
-    padding-right: 20px;
+    width: 10em;
+}
+
+.form button {
+    margin-top: 5px;
+}
+
+.form .stat {
+    position: relative;
+    top: 4px;
+    width: 20px;
+    height: 20px;
+    display: inline;
+}
+
+.form .loadImg {
+    width: 20px;
+    height: 20px;
 }
 
 .itemTitle {

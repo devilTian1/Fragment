@@ -2,23 +2,22 @@
     <head>
         <link rel='stylesheet' media='screen' type='text/css' href='css/base.css'/>
         <link rel='stylesheet' media='screen' type='text/css' href='css/form.css'/>
+        <link rel='stylesheet' media='screen' type='text/css' href='css/link.css'/>
+        <!--[if IE 7]>
+        <link rel='stylesheet' media='screen' type='text/css' href='css/ie7.css'/>
+        <![endif]-->
     </head>
     <body>
         <div class="wrapper">
             <!-- HEADER -->
             <div class="header">
-                <!-- logo -->
-                <div class="float_left logo_l">
-                logo
-                </div>
-            
                 <!-- title & right logo -->
-                <div class="float_right">
-                    <div class="float_left toolbar">
-                        <h1>Leadsec网御SIS 安全隔离与信息交换系统</h1>
+                <div class="float_right toolbar">
+                    <div class="float_left">
+                        <h3>Leadsec网御SIS 安全隔离与信息交换系统</h3>
                     </div>
-                    <div class="float_right logo_r">
-                        right
+                    <div class="float_right info">
+                        asd | asd | asd
                     </div>
                 </div>
                 <br class="clear_float"/>
@@ -37,10 +36,26 @@
 
                     <!-- left menu  -->
                     <div class="leftmenu">
-                        <ul>
+                        <ul class="l1">
                             <li><a href="#">系统配置</a></li>
-                            <li><a href="#">网络配置</a></li>
-                            <li><a href="#">资源定义</a></li>
+                            <li>
+                                <a href="#">网络配置</a>
+                                <ul class="l2">
+                                    <li><a href="">123</a></li>
+                                    <li><a href="">123</a></li>
+                                    <li><a href="">123</a></li>
+                                    <li><a href="">123</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#">资源定义</a>
+                                <ul class="l2">
+                                    <li><a href="">23</a></li>
+                                    <li><a href="">3</a></li>
+                                    <li><a href="">23</a></li>
+                                    <li><a href="">23</a></li>
+                                </ul>
+                            </li>
                             <li><a href="#">定制访问</a></li>
                             <li><a href="#">抗攻击设置</a></li>
                             <li><a href="#">系统监控</a></li>
@@ -53,14 +68,16 @@
                 <div class="primary">
                     <div class="tab">
                         <ul>
-                            <li><a href="google.com">date & time</a></li>
-                            <li><a href="">system params</a></li>
-                            <li><a href="">update</a></li>
-                            <li><a href="">management</a></li>
-                            <li><a href="">report</a></li>
-                            <li><a href="">license</a></li>
+                            <li><a href="google.com">系统参数</a></li>
+                            <li><a href="">双统配置</a></li>
+                            <li><a href="">产口许可证</a></li>
+                            <li><a href="">模块升级</a></li>
+                            <li><a href="">导入导出</a></li>
+                            <li><a href="">管理主机</a></li>
+                            <li><a href="">产口许可证</a></li>
                         </ul>
                     </div>
+                    <!-- inner page -->
                     <div class="innerPage">
                         <div class="headline">
                             <label>安全隔离网闸</label>
@@ -70,12 +87,15 @@
                         <div class="form">
                             <label>名称</label>
                             <input name="name" value="NetGap"/>
+                            <div class="stat"></div>
+                            <label class="note">( 1-20 个ASCII字符 )</label>
                             <br/>
-                            <label>名称</label>
-                            <input name="name" value="NetGap"/>
-                            <br/>
-                            <label>名称</label>
-                            <input name="name" value="NetGap"/>
+                            <button type="submit" onClick="modifyName()">
+                                confirm
+                            </button>
+                            <button type="button" onClick="clearasd()">
+                                clear
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -91,16 +111,46 @@
 </html>
 <script type="text/javascript" src="js/jquery/jquery-1.8.1.js"></script>
 <script>
+    function modifyName() {
+        $(".stat").empty();
+        var loadingImg = $("<img class='loadImg' src='image/loading.gif'/>");
+        var checkmarkImg = $("<img class='loadImg' src='image/checkmark.png'/>");
+        var forkImg = $("<img class='loadImg' src='image/wrong.gif'/>");
+        $(".stat").append(loadingImg).append(checkmarkImg).append(forkImg);
+    }
+    function clearasd() {
+        $(".stat").empty();
+    }
+
     $(document).ready(function() {
-        $(".leftmenu>ul>li>a").bind("click", function(){
-            $(".leftmenu>ul>li>a").css({background: "#66DDFF", "font-weight": "normal"});
-            $(this).css({background: "#FFFFFF", "font-weight": "bold"});
+        // left menu
+        // (init)level2-menu is hidden
+        $(".l2").hide();
+        $(".leftmenu a, .tab a").bind("click", function() {
             return false;
         });
+
+        // visible of level1-menu
+        $(".l1>li>a").bind("click", function(){
+            // fold level2-menus, whose level1-menu have not been clicked.
+            $(".l1>li").not($(this).parent()).children("ul").slideUp("normal");
+            // reflash all menu style
+            $(".l1>li>a").removeClass("clicked");
+            // fold/unfold the clicked level1-menu
+            $(this).addClass("clicked").siblings().slideToggle()
+        });
+
+        // visible of level2-menu
+        $(".l2>li>a").bind("click", function(){
+            $(".l2>li>a").removeClass("clicked");
+            $(this).addClass("clicked");
+        });
+
+
+        //tab
         $(".tab>ul>li>a").bind("click", function(){
-            $(".tab>ul>li").css({background: "#66DDFF"});
-            $(this).parent().css({background: "#FFFFFF"});
-            return false;
+            $(".tab>ul>li").removeClass("tab_clicked");
+            $(this).parent().addClass("tab_clicked");
         });
     });
 </script>
