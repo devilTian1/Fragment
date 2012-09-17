@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="../../css/common.css" type="text/css" />
+<link rel="stylesheet" href="../../js/jqtransformplugin/jqtransform.css" type="text/css" media="all" />
+<title>管理区域</title>
+<script type="text/javascript" src="../../js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="../../js/jqtransformplugin/jquery.jqtransform.js" ></script>
+<script type="text/javascript" src="../../js/common.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		//changeClientId('man_zone');
+		document.getElementById("man_zone").style.height='380px';
+		$('form').jqTransform({imgPath:'../../js/jqtransformplugin/img/'});
+	});
+</script>
+</head>
+
+<body>
+<div id="man_zone">
+  <table width="99%" border="0" align="center"  cellpadding="3" cellspacing="1" class="table_style">
+  <form action="xtcs.html" method="POST">
+    <tr>
+      <td width="100%" class="tabletop">网络调试结果<br /></td>
+    </tr>
+    <tr>
+      <td class="right_title_1">工具名称:ping 参数:10.0.0.1 </td>
+      </tr>
+    <tr class="center_title_2">
+      <td height="300" class="center_title_2">&nbsp;</td>
+    </tr>
+    </form>
+  </table>
+</div>
+</body>
+</html>

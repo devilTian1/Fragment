@@ -1,0 +1,121 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="../../css/common.css" type="text/css" />
+<link rel="stylesheet" href="../../js/jqtransformplugin/jqtransform.css" type="text/css" media="all" />
+<link rel="stylesheet" href="../../js/pagination/pagination.css" type="text/css" media="all" />
+<title>管理区域</title>
+<script type="text/javascript" src="../../js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="../../js/jqtransformplugin/jquery.jqtransform.js" ></script>
+<script type="text/javascript" src="../../js/pagination/jquery.pagination.js" ></script>
+<script type="text/javascript" src="../../js/zdialog/zDialog.js" ></script>
+<script type="text/javascript" src="../../js/common.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		changeClientId('man_zone');
+		$('.inputbtn').jqTransInputButton({imgPath:'../../js/jqtransformplugin/img/'});
+		$('.inputfile').jqTransInputText({imgPath:'../../js/jqtransformplugin/img/'});
+		//分页
+		var initPagination = function() {
+			var num_entries = $("#hiddenresult div.result").length;
+			num_entries=3;
+			// 创建分页
+			$("#Pagination").pagination(num_entries, {
+				num_edge_entries: 1, //边缘页数
+				num_display_entries: 4, //主体页数
+				callback: pageselectCallback,
+				items_per_page:1 //每页显示1项
+			});
+		 }();
+		 
+		function pageselectCallback(page_index, jq){
+			//var new_content = $("#hiddenresult div.result:eq("+page_index+")").clone();
+			new_content='';
+			$("#Searchresult").empty().append(new_content); //装载对应分页的内容
+			return false;
+		}
+		//分页结束
+		$('#addValue').click(function(){
+				rsEdit('ipmac.html',500,160,'添加静态路由');	
+									  
+									  });
+	});
+</script>
+</head>
+
+<body>
+<div id="man_zone">
+<table width="99%" border="0" align="center"  cellpadding="3" cellspacing="1" class="table_style maginbotton12">
+    <tr>
+      <td colspan="2" class="tabletop">地址绑定服务</td>
+    </tr>
+    <tr>
+      <td width="18%" class="left_title_1">当前服务状态:</td>
+      <td width="82%"><span class="red">停止</span></td>
+    </tr>
+    <tr>
+      <td class="center_title_1"></td>
+      <td class="right_title_1"><div class="rowElem"><input type="submit" value="启动服务" width="50" class="inputbtn" />
+        <input type="submit" value="停止服务" width="50" disabled="disabled" class="inputbtn" />
+      </div></td>
+    </tr>
+  </table>
+  
+  <table width="99%" border="0" align="center"  cellpadding="3" cellspacing="1" class="table_style maginbotton12">
+    <tr>
+      <td colspan="2" class="tabletop">主动探测IP/MAC对 </td>
+    </tr>
+    <tr>
+      <td width="18%" class="left_title_1"><label>
+          <input name="radio" type="radio" id="radio" value="radio" checked="checked" />
+按网口探测</label>
+      :</td>
+      <td width="82%"><label>
+        <input type="checkbox" name="checkbox" id="checkbox" />
+      fe2</label></td>
+    </tr>
+    <tr>
+      <td class="left_title_2"><input type="radio" name="radio" id="radio2" value="radio" />
+      按 IP 探测:</td>
+      <td><span class="rowElem">
+        <input type="text" name="inputtext"/>
+      </span></td>
+    </tr>
+    <tr>
+      <td class="center_title_1"></td>
+      <td class="right_title_1"><div class="rowElem"><input type="submit" value="探测" width="50" class="inputbtn" />
+        <input type="submit" value="探测到的IP与地此对" width="50" class="inputbtn" />
+      </div></td>
+    </tr>
+  </table>
+
+  <table width="99%" border="0" align="center"  cellpadding="3" cellspacing="1" class="table_style">
+    <tr>
+      <td colspan="4" class="tabletop">已绑定IP/MAC对</td>
+    </tr>
+    <tr>
+      <td width="16%" class="center_title_1">IP地址</td>
+      <td width="40%" class="center_title_1">MAC地址</td>
+      <td width="27%" class="center_title_1">唯一性检查</td>
+      <td width="17%" class="center_title_1">操作</td>
+    </tr>
+    <tr>
+      <td class="center_title_2">&nbsp;</td>
+      <td colspan="3" align="left" class="right_title_2"><label>
+        <input type="button" name="button" id="addValue" value="添加" class="inputbtn" />
+      </label></td>
+     </tr>
+    <tr>
+      <td colspan="4" align="right" class="tabletop1">
+      		<div id="Pagination" class="pagination"><!-- 这里显示分页 --></div>
+<div id="Searchresult">分页初始化完成后这里的内容会被替换。</div>
+<!--<div id="hiddenresult" style="display:none;">
+    <div class="result">第1项内容</div>
+</div>-->
+       </td>
+    </tr>
+  </table>
+</div>
+</body>
+</html>

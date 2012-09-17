@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="../../css/common.css" type="text/css" />
+<link rel="stylesheet" href="../../js/jqtransformplugin/jqtransform.css" type="text/css" media="all" />
+<link rel="stylesheet" type="text/css" href="../../js/checkbox/jquery.tzCheckbox.css" />
+<title>管理区域</title>
+<script type="text/javascript" src="../../js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="../../js/jqtransformplugin/jquery.jqtransform.js" ></script>
+<script type="text/javascript" src="../../js/checkbox/jquery.tzCheckbox.js" ></script>
+<script type="text/javascript" src="../../js/zdialog/zDialog.js" ></script>
+<script type="text/javascript" src="../../js/common.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		changeClientId('man_zone');
+		$('.inputbtn').jqTransInputButton({imgPath:'../../js/jqtransformplugin/img/'});
+		$('.inputtext').jqTransInputText({imgPath:'../../js/jqtransformplugin/img/'});
+		$('.tiaojiao').click(function(){
+			$('#t_file').click()
+		})
+		//$('#allowmore').tzCheckbox({labels:['Enable','Disable']});
+		$('#addUser').click(function(){
+			rsEdit('usered.html',600,200,'用户添加');						 
+		});
+		$('#allowmore').bind('change',function(){
+			if($("#allowmore").attr('checked')=='checked'){
+			var msg="在多个管理员修改配置情况时，可能导致冲突,不建议这种管理方式,确定继续吗？";
+				Dialog.confirm(msg,function(){
+							   $('#allowmore').attr('checked',true);
+									},
+						   function(){
+									$('#allowmore').attr('checked',false);
+										});
+			}
+		});
+	});
+	function deluser(id){
+		var url='#'
+		rsDel(url);
+	}
+	function edituser(id){
+		rsEdit('usered.html',600,200,'用户编辑');		
+	}
+function fclick(obj){
+   with(obj){
+     style.posTop=event.srcElement.offsetTop
+     var x=event.x-offsetWidth/2
+     if(x<event.srcElement.offsetLeft)x=event.srcElement.offsetLeft
+     if(x>event.srcElement.offsetLeft+event.srcElement.offsetWidth-offsetWidth)x=event.srcElement.offsetLeft+event.srcElement.offsetWidth-offsetWidth;
+	 style.posLeft=x
+   }
+}
+
+	
+</script>
+</head>
+
+<body>
+<div id="man_zone">
+  <table width="99%" border="0" align="center"  cellpadding="3" cellspacing="1" class="table_style maginbotton12">
+    <tr>
+      <td colspan="2" class="tabletop">管理员帐号</td>
+    </tr>
+    <tr>
+      <td width="18%" class="left_title_1">管理员登录超时时间:</td>
+      <td width="82%"><div class="rowElem"><input type="text" name="inputtext" value="860"/>秒&nbsp;&nbsp;&nbsp; <span class="red">注意</span>：不能小于60秒或超过86400秒（24小时） </div></td>
+    </tr>
+    <tr>
+      <td class="center_title_1"></td>
+      <td class="right_title_1"><div class="rowElem"><input type="submit" value="确定" width="50" class="inputbtn" /></div></td>
+    </tr>
+  </table>
+  
+   <table width="99%" border="0" align="center"  cellpadding="3" cellspacing="1" class="table_style">
+    <tr>
+      <td colspan="3" class="tabletop">管理员帐号列表</td>
+    </tr>
+    <tr>
+      <td width="18%" class="center_title_1">帐号</td>
+      <td width="48%" class="center_title_1">帐号类型</td>
+      <td width="34%" class="center_title_1">操作</td>
+    </tr>
+    <tr>
+      <td class="center_title_2">administrator</td>
+      <td class="center_title_2"><span class="red">超级管理员</span>+配置管理员+任务管理员+日志审计员 </td>
+      <td class="center_title_2"><a href="#" class="edit" onclick="edituser()">编辑</a>&nbsp;&nbsp;&nbsp;<a href="#" class="delete" onclick="deluser()">删除</a></td>
+    </tr>
+    <tr>
+      <td class="center_title_2">admin</td>
+      <td class="center_title_2">配置管理员+任务管理员+日志审计员 </td>
+      <td class="center_title_2"><a href="#" class="edit" onclick="edituser()">编辑</a>&nbsp;&nbsp;&nbsp;<a href="#" class="delete" onclick="deluser()">删除</a></td>
+    </tr>
+    <tr>
+      <td class="center_title_1">
+        <input name="input" type="button" value="添加" class="add inputbtn" id="addUser" />
+      </td>
+      <td colspan="2" class="right_title_1"><input type="checkbox" value="1" name="allowmore" id="allowmore"  />
+允许多个管理员同时管理</td>
+     </tr>
+  </table>
+</div>
+</body>
+</html>

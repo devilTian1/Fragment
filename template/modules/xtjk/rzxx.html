@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="../../css/common.css" type="text/css" />
+<link rel="stylesheet" href="../../js/jqtransformplugin/jqtransform.css" type="text/css" media="all" />
+<title>管理区域</title>
+<script type="text/javascript" src="../../js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="../../js/jqtransformplugin/jquery.jqtransform.js" ></script>
+<script type="text/javascript" src="../../js/common.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		changeClientId('man_zone');
+		//$('form').jqTransform({imgPath:'../../js/jqtransformplugin/img/'});
+		//$('.inputbtn').jqTransInputButton({imgPath:'../../js/jqtransformplugin/img/'});
+		$('.inputbtn').jqTransInputButton({imgPath:'../../js/jqtransformplugin/img/'});
+	});
+</script>
+</head>
+
+<body>
+<div id="man_zone">
+<table width="99%" border="0" align="center"  cellpadding="3" cellspacing="1" class="table_style maginbotton12">
+  <form action="xtcs.html" method="post">
+    <tr>
+      <td width="79%">
+     
+      
+      </td>
+      <td width="21%">
+       <div class="rowElem">
+			<label> 日志级别 :</label>
+			<select name="select">
+            <option>所有</option>
+            <optgroup label="警报">
+				 <option>--紧急</option>
+                  <option>--一般</option>
+                  <option>--临界</option>
+             </optgroup>
+              <optgroup label="事件">
+				 <option>--错误</option>
+                  <option>--警告</option>
+                  <option>--注意</option>
+                  <option>--信息</option>
+                  <option>--调试</option>
+             </optgroup>
+			</select>
+          &nbsp;&nbsp;</div>
+        </td>
+    </tr>
+  </form>
+</table>
+<table width="99%" border="0" align="center"  cellpadding="3" cellspacing="1" class="table_style maginbotton12">
+  <form action="xtcs.html" method="POST">
+    <tr>
+      <td colspan="3" class="tabletop">日志查看</td>
+    </tr>
+    <tr class="center_title_2">
+      <td class="center_title_1">日期／时间</td>
+      <td width="10%" class="center_title_1">级别</td>
+      <td class="center_title_1">详细信息</td>
+      </tr>
+    <tr class="center_title_2">
+      <td width="18%" class="center_title_1">&nbsp;</td>
+      <td colspan="2" class="right_title_1"><label>
+        <input type="button" name="button2" id="button2" value="刷新" class="inputbtn" />
+        <input type="button" name="button" id="button" value="导出" class="inputbtn" />
+        <input type="button" name="button3" id="button3" value="清空" class="inputbtn" />
+      </label></td>
+    </tr>
+    </form>
+  </table>
+</div>
+</body>
+</html>

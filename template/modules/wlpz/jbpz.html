@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="../../css/common.css" type="text/css" />
+<link rel="stylesheet" href="../../js/jqtransformplugin/jqtransform.css" type="text/css" media="all" />
+<title>管理区域</title>
+<script type="text/javascript" src="../../js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="../../js/jqtransformplugin/jquery.jqtransform.js" ></script>
+<script type="text/javascript" src="../../js/zdialog/zDialog.js" ></script>
+<script type="text/javascript" src="../../js/common.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		changeClientId('man_zone');
+		//$('form').jqTransform({imgPath:'../../js/jqtransformplugin/img/'});
+		$('.inputbtn').jqTransInputButton({imgPath:'../../js/jqtransformplugin/img/'});
+		$('.inputtext').jqTransInputText({imgPath:'../../js/jqtransformplugin/img/'});
+		$('.inputsel').jqTransSelect({imgPath:'../../js/jqtransformplugin/img/'});
+		$('#stopsnmp').click(function(){			  	
+					var url='#',
+						msg="是否停止服务?"
+						rsDel(url,msg);			
+				});
+	});
+</script>
+</head>
+
+<body>
+<div id="man_zone">
+  <table width="99%" border="0" align="center"  cellpadding="3" cellspacing="1" class="table_style maginbotton12">
+  <form action="jbpz.html" method="POST">
+    <tr>
+      <td colspan="2" class="tabletop">基本配置</td>
+    </tr>
+    <tr>
+      <td width="18%" valign="middle" class="left_title_1"><span class="red">*</span> 工作角色: <br /></td>
+      <td width="82%"> <div class="rowElem magintop5">
+        <input name="radio" type="radio" id="radio" value="radio" checked="checked" /> 
+        本机作为主闸
+            </div>
+         <div class="rowElem magintop5">
+        <input name="radio" type="radio" id="radio" value="radio" /> 
+         本机作为从闸</div>
+       <div class="rowElem magintop5">
+        <input name="radio" type="radio" id="radio" value="radio" /> 
+        本机作为节点
+            </div></td>
+    </tr>
+    <tr>
+      <td valign="middle" class="left_title_1"><span class="red">*</span> 工作模式: </td>
+      <td><div class="rowElem magintop5">
+        <input name="radio1" type="radio" id="radio2" value="radio" checked="checked" />
+        抢占模式</div>
+        <div class="rowElem magintop5">
+          <input name="radio1" type="radio" id="radio3" value="radio" />
+        非抢占模式</div></td>
+    </tr>
+    <tr>
+      <td valign="middle" class="left_title_1"><span class="red">*</span> 网卡设置: </td>
+      <td><div class="rowElem magintop5">
+        <input name="radio2" type="radio" id="radio4" value="radio" checked="checked" />
+        切换虚拟IP后关闭物理网卡</div>
+        <div class="rowElem magintop5">
+          <input name="radio2" type="radio" id="radio5" value="radio"/>
+        切换虚拟IP后不关闭物理网卡</div></td>
+    </tr>
+    <tr>
+      <td valign="middle" class="left_title_1"><span class="red">*</span> 对端网闸HA: </td>
+      <td><span class="rowElem magintop5">
+        <input name="input8" type="text" value="0.0.0.0"  class="inputtext"/>
+      :
+      <input name="input" type="text" value="8000" class="inputtext" />
+      </span></td>
+    </tr>
+    <tr>
+      <td valign="middle" class="left_title_1"><span class="red"></span><span class="red">*</span> 本机主机名</td>
+      <td> NetGap</td>
+    </tr>
+    <tr>
+      <td class="center_title_1"></td>
+      <td class="right_title_1"><div class="rowElem">
+        <input type="submit" value="确定" width="50" class="inputbtn" />
+        </div></td>
+    </tr>
+    </form>
+  </table>
+  <table width="99%" border="0" align="center"  cellpadding="3" cellspacing="1" class="table_style ">
+    <form action="rzhfq.html" method="post">
+      <tr>
+        <td colspan="2" class="tabletop">服务管理</td>
+      </tr>
+      <tr class="table_style maginbotton12">
+        <td valign="middle" class="left_title_1"><span class="red"></span><span class="red"></span>当前服务状态:</td>
+        <td>  停止</td>
+      </tr>
+      <tr class="table_style maginbotton12">
+        <td valign="middle" class="left_title_1"><span class="red"></span><span class="red"></span>当前工作角色:</td>
+        <td> NetGap</td>
+      </tr>
+      <tr>
+        <td width="18%" class="left_title_1">&nbsp;</td>
+        <td width="82%"><span class="rowElem">
+          <input type="button" value="启动服务" width="50" class="inputbtn" id="stopsnmp2" />
+          <input type="button" value="停止服务" width="50" class="inputbtn" id="stopsnmp" />
+        </span></td>
+      </tr>
+      <tr>
+        <td colspan="2" class="center_title_1"></td>
+      </tr>
+    </form>
+  </table>
+</div>
+</body>
+</html>

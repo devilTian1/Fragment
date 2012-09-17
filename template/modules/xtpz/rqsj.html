@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="../../css/common.css" type="text/css" />
+<link rel="stylesheet" href="../../js/jqtransformplugin/jqtransform.css" type="text/css" media="all" />
+<link rel="stylesheet" type="text/css" href="../../js/checkbox/jquery.tzCheckbox.css" />
+<title>管理区域</title>
+<script type="text/javascript" src="../../js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="../../js/jqtransformplugin/jquery.jqtransform.js" ></script>
+<script type="text/javascript" src="../../js/checkbox/jquery.tzCheckbox.js" ></script>
+<script type="text/javascript" src="../../js/common.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		changeClientId('man_zone');
+		$('form').jqTransform({imgPath:'../../js/jqtransformplugin/img/'});
+		$('.btn_tb').jqTransInputButton({imgPath:'../../js/jqtransformplugin/img/'});
+		$('input[type=text]').jqTransInputText({imgPath:'../../js/jqtransformplugin/img/'});
+		$('input[type=checkbox]').tzCheckbox({labels:['Enable','Disable']});
+	});
+</script>
+</head>
+
+<body>
+<div id="man_zone">
+  <table width="99%" border="0" align="center"  cellpadding="3" cellspacing="1" class="table_style maginbotton12">
+    <tr>
+      <td colspan="2" class="tabletop">日期时间</td>
+    </tr>
+    <tr>
+      <td width="18%" class="left_title_1">安全隔离网闸当前时间:</td>
+      <td width="82%">2012/09/02 09:49:19</td>
+    </tr>
+    <tr>
+      <td class="left_title_2"> 管理主机当前时间:</td>
+      <td valign="middle">2012/08/17 12:46:35 <input name="" type="button" value="时间同步" class="btn_tb" /></td>
+    </tr>
+  </table>
+  
+  <table width="99%" border="0" align="center"  cellpadding="3" cellspacing="1" class="table_style">
+    <tr>
+      <td colspan="2" class="tabletop">时钟服务器</td>
+    </tr>
+    <tr>
+      <td width="18%" class="left_title_1">启用时钟服务器:</td>
+      <td width="82%"><input type="checkbox" name="ch_location" /></td>
+    </tr>
+    <tr>
+      <td width="18%" class="left_title_2">时钟服务器 IP:</td>
+      <td width="82%"><div class="rowElem"><input type="text" name="inputtext" value="192.168.5.3"/>&nbsp;&nbsp;&nbsp;
+      <input name="" type="button" value="立即同步" disabled="disabled"/> </div>
+       </td>
+    </tr>
+    <tr>
+      <td width="18%" class="left_title_1">每隔:    </td>
+      <td width="82%"><div class="rowElem"><input type="text" name="inputtext" value="5" disabled="disabled" style="width:50px"/>&nbsp;&nbsp;&nbsp;分钟同步一次 ( 范围: 1-65535 默认: 5 分钟 ) </div></td>
+    </tr>
+    <tr>
+      <td class="center_title_1"></td>
+      <td class="right_title_1"><div class="rowElem"><input type="submit" value="确定" width="50" class="btn_tb" /></div></td>
+    </tr>
+  </table>
+</div>
+</body>
+</html>

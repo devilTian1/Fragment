@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="../../css/common.css" type="text/css" />
+<link rel="stylesheet" href="../../js/jqtransformplugin/jqtransform.css" type="text/css" media="all" />
+<title>添加用户</title>
+<script type="text/javascript" src="../../js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="../../js/jqtransformplugin/jquery.jqtransform.js" ></script>
+<script type="text/javascript" src="../../js/common.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		//changeClientId('man_zone');
+		document.getElementById("man_zone").style.height='430px';
+		$('.inputtext').jqTransInputText({imgPath:'../../js/jqtransformplugin/img/'});
+		$('.inputselect').jqTransSelect({imgPath:'../../js/jqtransformplugin/img/'});
+		//$('form').jqTransform({imgPath:'../../js/jqtransformplugin/img/'});
+	});
+</script>
+</head>
+
+<body>
+<div id="man_zone">
+  <table width="99%" border="0" align="center"  cellpadding="3" cellspacing="1" class="table_style">
+  <form action="xtcs.html" method="POST">
+    <tr>
+      <td width="23%" class="left_title_1"><span class="red">*</span> 用户名: <br /></td>
+      <td width="77%"><div class="rowElem">
+        <input type="text" name="inputtext2" class="inputtext"/>
+        &nbsp;( 1-15 字母、数字、减号、下划线、点的组合 ) 
+        </div></td>
+    </tr>
+    <tr>
+      <td class="left_title_1"><span class="red">*</span>  口令: <br /></td>
+      <td><div class="rowElem">
+        <input type="text" name="inputtext"  class="inputtext"/>
+        &nbsp;( 6-16位。必须包含字母、数字以及第二排键盘上端的非字母字符‘!’与‘$’除外) </div></td>
+    </tr>
+    <tr>
+      <td class="left_title_1"><span class="red">*</span>确认口令: <br /></td>
+      <td><div class="rowElem">
+        <input type="text" name="inputtext"  class="inputtext"/>
+      </div></td>
+    </tr>
+    <tr>
+      <td class="left_title_1"><span class="red">*</span> 生存时间: <br /></td>
+      <td><div class="rowElem">
+        <input type="text" name="inputtext"  class="inputtext"/>
+        &nbsp;( 0-3650 天，0表示不限制 ) </div></td>
+    </tr>
+    <tr>
+      <td class="left_title_1"><span class="red">*</span> 密码存留期: <br /></td>
+      <td><div class="rowElem">
+        <input type="text" name="inputtext"  class="inputtext"/>
+        ( 0-3650 天，0表示不限制 ) </div></td>
+    </tr>
+    <tr>
+      <td class="left_title_1">是否允许登录:<br /></td>
+      <td><div class="rowElem">
+        <label>
+          <input type="checkbox" name="checkbox" id="checkbox" />
+        </label>
+      </div></td>
+    </tr>
+    <tr>
+      <td class="left_title_1"><span class="red"></span>是否绑定IP: <br /></td>
+      <td><div class="rowElem">
+        <input type="checkbox" name="checkbox2" id="checkbox2" />
+      </div></td>
+    </tr>
+    <tr>
+      <td class="left_title_1"><span class="red"></span>绑定IP：<br /></td>
+      <td><div class="rowElem">
+        <input type="text" name="inputtext"  class="inputtext"/>
+      </div></td>
+    </tr>
+    <tr>
+      <td class="left_title_1">掩码:<br /></td>
+      <td><div class="rowElem">
+        <label>
+          <select name="select" id="select" class="inputselect">
+            <option>255.255.255.0</option>
+            <option>255.255.0.0</option>
+            </select>
+        </label>
+      </div></td>
+    </tr>
+    <tr>
+      <td class="left_title_1">是否检查客户端版本: </td>
+      <td><div class="rowElem">
+        <input type="checkbox" name="checkbox3" id="checkbox3" />
+      </div></td>
+    </tr>
+    <tr>
+      <td class="left_title_1"><span class="red"></span>客户端版本：<br /></td>
+      <td><div class="rowElem">
+        <input type="text" name="inputtext"  class="inputtext"/>
+        &nbsp;( 只能够输入数字和. ) </div></td>
+    </tr>
+    </form>
+  </table>
+</div>
+</body>
+</html>

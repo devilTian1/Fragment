@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="../../css/common.css" type="text/css" />
+<link rel="stylesheet" href="../../js/jqtransformplugin/jqtransform.css" type="text/css" media="all" />
+<link rel="stylesheet" type="text/css" href="../../js/checkbox/jquery.tzCheckbox.css" />
+<link rel="stylesheet" href="../../js/pagination/pagination.css" type="text/css" media="all" />
+<title>管理区域</title>
+<script type="text/javascript" src="../../js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="../../js/jqtransformplugin/jquery.jqtransform.js" ></script>
+<script type="text/javascript" src="../../js/pagination/jquery.pagination.js" ></script>
+<script type="text/javascript" src="../../js/checkbox/jquery.tzCheckbox.js" ></script>
+<script type="text/javascript" src="../../js/zdialog/zDialog.js" ></script>
+<script type="text/javascript" src="../../js/common.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		changeClientId('man_zone');
+		$('.inputbtn').jqTransInputButton({imgPath:'../../js/jqtransformplugin/img/'});
+		$('.inputtext').jqTransInputText({imgPath:'../../js/jqtransformplugin/img/'});
+		//$('#allowmore').tzCheckbox({labels:['Enable','Disable']});
+		$('#addAddress').click(function(){
+			rsEdit('zdyjcedit.html',900,580,'自定义策略添加');						 
+		});
+	});
+	function deladdress(id){
+		var url='#'
+		rsDel(url);
+	}
+	function changeaddress(id){
+		var url='#',
+		msg='确定改变状态';
+		rsDel(url,msg);
+	}
+	function editaddress(id){
+		rsEdit('zdyjcedit.html',900,580,'自定义策略编辑');		
+	}
+
+	
+</script>
+</head>
+
+<body>
+<div id="man_zone">
+  <table width="99%" border="0" align="center"  cellpadding="3" cellspacing="1" class="table_style">
+    <tr>
+      <td colspan="8" class="tabletop">自定义检测 </td>
+    </tr>
+    <tr>
+      <td class="center_title_1">序号</td>
+      <td class="center_title_1">源地址</td>
+      <td class="center_title_1">端口</td>
+      <td class="center_title_1">目的地址 </td>
+      <td class="center_title_1">端口</td>
+      <td class="center_title_1">协议类型</td>
+      <td class="center_title_1">事件主题</td>
+      <td class="center_title_1">操作</td>
+    </tr>
+    <tr>
+      <td width="7%" class="center_title_2">1</td>
+      <td width="14%" class="center_title_2">192.168.6.1</td>
+      <td width="7%" class="center_title_2">0:65535</td>
+      <td width="9%" class="center_title_2">192.168.4.3</td>
+      <td width="15%" class="center_title_2">0:65535</td>
+      <td width="12%" class="center_title_2">TCP</td>
+      <td width="20%" class="center_title_2">111</td>
+      <td width="16%" class="center_title_2">
+      <a href="#" onclick="changeaddress()"><img src="../../images/icon/select.png" alt="" /></a>
+      &nbsp;&nbsp;
+      <a href="#" onclick="editaddress()"><img src="../../images/icon/edit.gif" alt="" /></a>
+       &nbsp;&nbsp;
+       <a href="#" onclick="deladdress()"><img src="../../images/icon/delete.png" alt="" /></a>
+      
+      </td>
+    </tr>
+    <tr>
+      <td class="center_title_1">&nbsp;</td>
+      <td colspan="7" class="right_title_1"><span class="left_title_1">
+        <input name="input" type="button" value="添加" class="inputbtn" id="addAddress" />
+      </span></td>
+    </tr>
+  </table>
+</div>
+</body>
+</html>

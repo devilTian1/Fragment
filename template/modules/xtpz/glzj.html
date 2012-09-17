@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="../../css/common.css" type="text/css" />
+<link rel="stylesheet" href="../../js/jqtransformplugin/jqtransform.css" type="text/css" media="all" />
+<title>管理区域</title>
+<script type="text/javascript" src="../../js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="../../js/jqtransformplugin/jquery.jqtransform.js" ></script>
+<script type="text/javascript" src="../../js/common.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		changeClientId('man_zone');
+		$('form').jqTransform({imgPath:'../../js/jqtransformplugin/img/'});
+	});
+</script>
+</head>
+
+<body>
+<div id="man_zone">
+  <table width="99%" border="0" align="center"  cellpadding="3" cellspacing="1" class="table_style">
+  <form action="glzj.html" method="POST">
+    <tr>
+      <td colspan="4" class="tabletop">管理主机</td>
+    </tr>
+    <tr>
+      <td class="center_title_1">序号</td>
+      <td class="center_title_1">管理主机 IP</td>
+      <td class="center_title_1">子网掩码</td>
+      <td class="center_title_1">说明</td>
+    </tr>
+    <tr>
+      <td width="6%" align="center">1</td>
+      <td width="17%"><div class="rowElem"><input type="text" name="inputtext" value="192.16.0.100"/>&nbsp;&nbsp;</div></td>
+      <td width="17%"><div class="rowElem">
+        <input type="text" name="inputtext3" value="255.255.255.0"/>
+        &nbsp;&nbsp;</div></td>
+      <td width="60%"><div class="rowElem">
+        <input type="text" name="inputtext4" value="说明" size="50"/>
+        &nbsp;&nbsp;</div></td>
+    </tr>
+    <tr>
+      <td width="6%" align="center">2</td>
+      <td width="17%"><div class="rowElem"><input type="text" name="inputtext" />&nbsp;&nbsp;</div></td>
+      <td width="17%"><div class="rowElem">
+        <input type="text" name="inputtext3"/>
+        &nbsp;&nbsp;</div></td>
+      <td width="60%"><div class="rowElem">
+        <input type="text" name="inputtext2" size="50"/>
+        &nbsp;&nbsp;</div></td>
+    </tr>
+    <tr>
+      <td width="6%" align="center">3</td>
+      <td width="17%"><div class="rowElem"><input type="text" name="inputtext" />&nbsp;&nbsp;</div></td>
+      <td width="17%"><div class="rowElem">
+        <input type="text" name="inputtext3"/>
+        &nbsp;&nbsp;</div></td>
+      <td width="60%"><div class="rowElem">
+        <input type="text" name="inputtext5" size="50"/>
+        &nbsp;&nbsp;</div></td>
+    </tr>
+    <tr>
+      <td width="6%" align="center">4</td>
+      <td width="17%"><div class="rowElem"><input type="text" name="inputtext" />&nbsp;&nbsp;</div></td>
+      <td width="17%"><div class="rowElem">
+        <input type="text" name="inputtext3"/>
+        &nbsp;&nbsp;</div></td>
+      <td width="60%"><div class="rowElem">
+        <input type="text" name="inputtext6" size="50"/>
+        &nbsp;&nbsp;</div></td>
+    </tr>
+    <tr>
+      <td width="6%" align="center">5</td>
+      <td width="17%"><div class="rowElem"><input type="text" name="inputtext" />&nbsp;&nbsp;</div></td>
+      <td width="17%"><div class="rowElem">
+        <input type="text" name="inputtext3"/>
+        &nbsp;&nbsp;</div></td>
+      <td width="60%"><div class="rowElem">
+        <input type="text" name="inputtext7" size="50"/>
+        &nbsp;&nbsp;</div></td>
+    </tr>
+    <tr>
+      <td width="6%" align="center">6</td>
+      <td width="17%"><div class="rowElem"><input type="text" name="inputtext" />&nbsp;&nbsp;</div></td>
+      <td width="17%"><div class="rowElem">
+        <input type="text" name="inputtext3"/>
+        &nbsp;&nbsp;</div></td>
+      <td width="60%"><div class="rowElem">
+        <input type="text" name="inputtext8" size="50"/>
+        &nbsp;&nbsp;</div></td>
+    </tr>
+    <tr>
+      <td colspan="2" class="center_title_1"><div class="rowElem">
+        <input type="submit" value="集中管理主机" width="50" />
+      </div></td>
+      <td class="right_title_1"><div class="rowElem">
+        <input type="submit" value="确定" width="50" />
+      </div></td>
+      <td class="right_title_1">&nbsp;</td>
+    </tr>
+    </form>
+  </table>
+</div>
+</body>
+</html>
