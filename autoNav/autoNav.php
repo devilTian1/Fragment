@@ -32,7 +32,7 @@
     function showNav( $navArr ) {
         echo "<ul>";
         foreach ( $navArr as $key => $root ) {
-            echo "<li>{$root['name']}</li>";
+            echo "<li>{$root['name']}</li>\n";
             $children = $root['children'];
             if ( is_array( $children ) ) {
                 showNav($children);
