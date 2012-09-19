@@ -1,0 +1,213 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="css/common.css" type="text/css" />
+<link rel="stylesheet" href="js/jqtransformplugin/jqtransform.css" type="text/css" media="all" />
+<style type="text/css">
+      .idTabs ul { background:#8BBEED; padding:5px; float:left; }
+      .idTabs li { list-style:none; /*Try deleting this float*/ float:left; }
+      .idTabs a.tabsv { display:block; background:#8BBEED; color:snow; padding:0 8px; font:bold 16px Arial; text-decoration:none; }
+      .idTabs a.selected { background:#FFF; color:#000; }
+      .idTabs ul, .idTabs a.tabsv { border-radius:4px; -moz-border-radius:4px; }
+</style>
+<title>管理区域</title>
+<script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="js/jqtransformplugin/jquery.jqtransform.js" ></script>
+<script type="text/javascript" src="js/jquery.idTabs.js"></script>
+<script type="text/javascript" src="js/common.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		changeClientId('man_zone');
+		$('form').jqTransform({imgPath:'js/jqtransformplugin/img/'});
+		$(".idTabs").idTabs();
+		//$('label').jqTransInputText({imgPath:'js/jqtransformplugin/img/'});
+		//$('select').jqTransSelect({imgPath:'js/jqtransformplugin/img/'});
+	});
+</script>
+</head>
+
+<body>
+<div id="man_zone">
+  <table width="99%" border="0" align="center"  cellpadding="3" cellspacing="1" class="table_style maginbotton5">
+    <tr>
+      <td><form action="post.php" method="POST">
+        <div class="rowElem right">
+          <label>设定刷新时间 :</label>
+          <select name="select">
+            <option value="10">10秒</option>
+            <option value="30">30秒</option>
+            <option value="10">1分钟</option>
+            <option value="30">5分钟</option>
+            <option value="10">10分钟</option>
+            <option value="30">30分钟</option>
+          </select>
+        </div>
+      </form></td>
+    </tr>
+  </table>
+  <div class="idTabs">
+  <table width="99%" border="0" align="center"  cellpadding="3" cellspacing="1" style="background:#8BBEED">
+  	<tr>
+      <td>
+      <ul>
+        <li><a href="#one" class="tabsv">设备信息</a></li>
+        <li><a href="#two" class="tabsv">网络设备</a></li>
+        <li><a href="#three" class="tabsv">资源状态</a></li>
+        <li><a href="#four" class="tabsv">周边设备</a></li>
+      </ul>
+      </td>
+    </tr>
+    </table>
+    
+    <table width="99%" border="0" align="center"  cellpadding="3" cellspacing="1">
+  	<tr>
+    <tr>
+      <td>
+      
+      <table id="one" width="99%" border="0" align="center"  cellpadding="3" cellspacing="1" class="table_style">
+        <tr>
+          <td class="left_title_1"><span class="left-title">名称</span></td>
+          <td class="right_title_1">内容
+         
+          </td>
+          </tr>
+        <tr>
+          <td width="18%" class="left_title_2">安全隔离网闸序列号</td>
+          <td width="82%">d6757df2b05c23cb </td>
+        </tr>
+        <tr>
+          <td class="left_title_1">硬件版本号</td>
+          <td>SIS-3000-Z6101</td>
+        </tr>
+        <tr>
+          <td class="left_title_2">软件版本号</td>
+          <td>1.0.200.31</td>
+        </tr>
+        <tr>
+          <td class="left_title_1">安全隔离网闸名称</td>
+          <td>NetGap</td>
+        </tr>
+      </table>
+      
+      
+      <table id="two" width="99%" border="0" align="center"  cellpadding="3" cellspacing="1" class="table_style">
+        <tr>
+          <td class="left_title_1"><span class="left-title">名称</span></td>
+          <td colspan="3" class="right_title_1">连接
+           <span class="more">
+          	<a href="">更多</a>
+          </span></td>
+        </tr>
+        <tr>
+          <td width="9%" class="left_title_2">f1</td>
+          <td width="14%">&nbsp;</td>
+          <td width="28%">发送0 字节 </td>
+          <td width="49%">接收0 字节 </td>
+        </tr>
+        <tr>
+          <td class="left_title_1">f2</td>
+          <td>&nbsp;</td>
+          <td>发送155406046 字节 </td>
+          <td>接收54739230 字节 </td>
+        </tr>
+        <tr>
+          <td class="left_title_2">f3</td>
+          <td>&nbsp;</td>
+          <td>发送0 字节 </td>
+          <td>接收0 字节 </td>
+        </tr>
+      </table>
+      
+      <table id="three" width="99%" border="0" align="center"  cellpadding="3" cellspacing="1" class="table_style">
+       <tr>
+          <td class="left_title_1"><span class="left-title">名称</span></td>
+          <td colspan="3" class="right_title_1">使用情况
+           <span class="more">
+          	<a href="">更多</a>
+          </span></td>
+        </tr>
+        <tr>
+          <td width="18%" class="left_title_2"><span class="left-title">CPU 利用率</span></td>
+          <td width="82%">
+          	
+          </td>
+        </tr>
+        <tr>
+          <td class="left_title_1">内存利用率</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td class="left_title_2">磁盘利用率</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td class="left_title_1">硬件报警</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>
+      
+       <table id="four" width="99%" border="0" align="center"  cellpadding="3" cellspacing="1" class="table_style">
+        <tr>
+          <td class="left_title_1"><span class="left-title">名称</span></td>
+          <td colspan="3" class="right_title_1">IP地此</td>
+        </tr>
+        <tr>
+          <td width="18%" class="left_title_2"><span class="left-title">域名服务器</span></td>
+          <td width="82%">&nbsp;</td>
+        </tr>
+        <tr>
+          <td class="left_title_1">日志服务器</td>
+          <td>127.1.0.1</td>
+        </tr>
+        <tr>
+          <td class="left_title_2">时钟服务器</td>
+          <td>禁用</td>
+        </tr>
+         <tr>
+          <td class="left_title_1">集中管理主机</td>
+          <td>(null)</td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+    </table>
+   </div>
+  
+  <table width="99%" border="0" align="center"  cellpadding="3" cellspacing="1" class="table_style magintop5">
+  	<tr >
+          <td colspan="5" class="tabletop">最近事件
+          	<span class="more">
+          		<a href="">更多</a>
+          	</span>
+          </td>
+     </tr>
+     <tr>
+      <td class="left_title_1">日期 / 时间</td>
+      <td class="center_title_1">级别</td>
+      <td class="center_title_1">详细信息</td>
+    </tr>
+    <tr>
+      <td width="18%" class="left_title_2"><span class="left-title">2012/08/31 19:02:25 </span></td>
+      <td width="41%" align="center">注意</td>
+      <td width="41%">Sep 2 00:36:19 127.1.0.1 snmpd: devid=3 date=&quot;2012/08/31 19:02:25&quot; dname=NetGap logtype=8 pri=5 mod=snmp act=trap result=0 admin= serial=d6757df2b05c23cb msg=&quot;CPU threshold trap: threshold=85%, used=100%&quot; </td>
+    </tr>
+    <tr>
+      <td class="left_title_1"><span class="left-title">2012/08/31 19:02:25 </span></td>
+      <td align="center">注意</td>
+      <td>Sep 2 00:36:19 127.1.0.1 snmpd: devid=3 date=&quot;2012/08/31 19:02:25&quot; dname=NetGap logtype=8 pri=5 mod=snmp act=trap result=0 admin= serial=d6757df2b05c23cb msg=&quot;CPU threshold trap: threshold=85%, used=100%&quot; </td>
+    </tr>
+    <tr>
+      <td class="left_title_2"><span class="left-title">2012/08/31 19:02:25 </span></td>
+      <td align="center">注意</td>
+      <td>Sep 2 00:36:19 127.1.0.1 snmpd: devid=3 date=&quot;2012/08/31 19:02:25&quot; dname=NetGap logtype=8 pri=5 mod=snmp act=trap result=0 admin= serial=d6757df2b05c23cb msg=&quot;CPU threshold trap: threshold=85%, used=100%&quot; </td>
+    </tr>
+    <tr>
+      <td class="left_title_1"><span class="left-title">2012/08/31 19:02:25 </span></td>
+      <td align="center">注意</td>
+      <td>Sep 2 00:36:19 127.1.0.1 snmpd: devid=3 date=&quot;2012/08/31 19:02:25&quot; dname=NetGap logtype=8 pri=5 mod=snmp act=trap result=0 admin= serial=d6757df2b05c23cb msg=&quot;CPU threshold trap: threshold=85%, used=100%&quot; </td>
+    </tr>
+  </table>
+</div>
+</body>
+</html>
