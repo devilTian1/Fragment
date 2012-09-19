@@ -87,6 +87,10 @@ div {
 	width: 20%;
 }
 
+.header .logo img {
+    float: left;
+}
+
 
 /* HEADER */
 /* right_nav */
