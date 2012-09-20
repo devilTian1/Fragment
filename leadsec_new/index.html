@@ -346,6 +346,12 @@ function showInnerText(Id){
                     $("#mainZone").css("width", "99%");
                 }
             });
+            if( $(this).offset().left > 195 ) { // close leftmenu
+                var mzWidth = "99%";
+            } else { // open leftmenu
+                var mzWidth = mainZoneWidth + "px";
+            }
+            $("#mainZone").animate({"width" : mzWidth}, 600);
         });
         // end toggle leftmenu div
     });
