@@ -318,14 +318,17 @@ function showInnerText(Id){
     $(document).ready(function() {
         // init layout
         initinav('系统配置');
-        var secondaryWidth = 206;
-        var screenWidth = parseInt($("#content").css("width"));
-        var mainZoneWidth = screenWidth-secondaryWidth;
+        var secondaryDom = $("#content>.secondary");
+        var secondaryWidth =secondaryDom.width();
+
+        var contentWidth = parseInt($("#content").css("width"));
+        var mainZoneWidth = contentWidth-secondaryWidth;
+
         $("#mainZone").css("width", mainZoneWidth + "px");
         // end init layout
         
         // toggle leftmenu div
-        var maxWidth = 195; //secondary
+        var maxWidth = $('#leftmenu').width();
         var arrowImg = $("#ImgArrow");
         var leftArrow = {
             src : "images/switch_left.gif",
@@ -336,7 +339,7 @@ function showInnerText(Id){
             title : "显示左侧导航栏"
         }
         arrowImg.click(function() {
-            $("#content>.secondary").animate({"left" : "-=" + maxWidth}, 600, function() {
+            secondaryDom.animate({"left" : "-=" + maxWidth}, 600, function() {
                 maxWidth = -maxWidth;
                 if ( maxWidth > 0 ) { // close leftmenu
                     arrowImg.attr("src", leftArrow.src).attr("title", leftArrow.title);
