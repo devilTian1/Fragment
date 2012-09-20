@@ -33,18 +33,58 @@
                     <!-- userinfo -->
                     <div class="userinfo">
                         Welcome,&nbsp;<strong>DavidTian</strong>
-                        <br/>
                         [<a href="#">Administrator</a>,&nbsp;<a href="#">logout</a>]
                     </div>
                     <!-- leftmenu -->
                     <div id="leftmenu">
                     </div>
+                    <!-- switch btn -->
+                    <div class="switchpic">
+                        <img src="images/switch_left.gif" title="隐藏左侧导航栏" id="ImgArrow"/>
+                    </div>
                 </div>
                 <!-- content -->
-                <div class="primary" id="mainContent">
+                <div class="primary" id="mainZone">
+                    <!-- tabs -->
+                    <div class="tabs">
+                        <ul>
+                            <li id="man_nav_1" onclick="list_sub_nav(id,'系统配置')"  class="bg_image_onclick">系统配置</li>
+                            <li id="man_nav_2" onclick="list_sub_nav(id,'网络配置')"  class="bg_image">网络配置</li>
+                            <li id="man_nav_3" onclick="list_sub_nav(id,'资源定义')"  class="bg_image">资源定义</li>
+                            <li id="man_nav_4"  onclick="list_sub_nav(id,'定制访问')"  class="bg_image">定制访问</li>
+                            <li id="man_nav_5"  onclick="list_sub_nav(id,'抗攻击设置')"  class="bg_image">抗攻击设置</li>
+                            <li id="man_nav_6"  onclick="list_sub_nav(id,'系统监控')"  class="bg_image">系统监控</li>
+                            <li id="man_nav_7"  onclick="list_sub_nav(id,'病毒防护')"  class="bg_image">病毒防护</li>
+                            <li id="man_nav_8"  onclick="list_sub_nav(id,'数据库同步')"  class="bg_image">数据库同步</li>
+                        </ul>
+                    </div>
+                    <div class="tabinfo">
+                        &nbsp;&nbsp;<img src="images/hi.gif" />&nbsp;
+                        <span id="show_text">headline</span>
+                    </div>
+                    <br class="clearFloat"/>
+                    <!-- mainContent -->
+                    <div class="mainContent">
+                        <div class="table">
+                            <div class="column column_20 colTitle_1">
+                                名称&nbsp;
+                            </div>
+                            <div class="column column_80 colTitle_2">
+                                内容
+                            </div>
+                        
+                            <br class="clearFloat"/>
+                            <div class="column column_20 leftTitle_1">
+                                安全隔离网闸序列号&nbsp;
+                            </div>
+                            <div class="column column_75 secCol">
+                                123
+                            </div>
+                            <br class="clearFloat"/>
+                        </div>
+                    </div>
                 </div>
             </div>
-
             <!-- FOOTER -->
             <div class="footer">
                 <div class="bottom">@ 2010-2020 北京网御星云信息技术有限公司版权所有</div>
@@ -217,12 +257,99 @@ function initinav(sortname) {
 </script>
 
 <script src=js/nav.js></script>
-<script type="text/javascript">
-    window.onload = function() {
-        var leftNavWidth =  206;
-        var screenWidth = document.getElementById('content').clientWidth;
-        var mainContentWidth = screenWidth - 206;
-        document.getElementById('mainContent').style.width = mainContentWidth + 'px';
-        initinav('系统配置');
+
+
+<script  type="text/javascript">
+var preClassName = "man_nav_1";
+function list_sub_nav(Id,sortname){
+   if(preClassName != ""){
+      getObject(preClassName).className="bg_image";
+   }
+   if(getObject(Id).className == "bg_image"){
+      getObject(Id).className="bg_image_onclick";
+      preClassName = Id;
+	  showInnerText(Id);
+	  window.top.frames['leftFrame'].outlookbar.getbytitle(sortname);
+	  window.top.frames['leftFrame'].outlookbar.getdefaultnav(sortname);
+   }
+}
+
+function showInnerText(Id){
+    var switchId = parseInt(Id.substring(8));
+	var showText = "i don`t know";
+	switch(switchId){
+	    case 1:
+		   showText =  "headline2";
+		   break;
+	    case 2:
+		   showText =  "system setting!";
+		   break;
+	    case 3:
+		   showText =  "User Manage";
+		   break;		   
+	    case 4:
+		   showText =  "Chanage Manage";
+		   break;	
+	    case 5:
+		   showText =  "Ad AND news!";
+		   break;		   		   
+	}
+	getObject('show_text').innerHTML = showText;
+}
+ //»ñÈ¡¶ÔÏóÊôÐÔ¼æÈÝ·½·¨
+ function getObject(objectId) {
+    if(document.getElementById && document.getElementById(objectId)) {
+	// W3C DOM
+	return document.getElementById(objectId);
+    } else if (document.all && document.all(objectId)) {
+	// MSIE 4 DOM
+	return document.all(objectId);
+    } else if (document.layers && document.layers[objectId]) {
+	// NN 4 DOM.. note: this won't find nested layers
+	return document.layers[objectId];
+    } else {
+	return false;
     }
+}
 </script>
+
+<script type="text/javascript" src="js/jquery/jquery-1.8.1.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // init layout
+        initinav('系统配置');
+        var secondaryWidth = 206;
+        var screenWidth = parseInt($("#content").css("width"));
+        var mainZoneWidth = screenWidth-secondaryWidth;
+        $("#mainZone").css("width", mainZoneWidth + "px");
+        // end init layout
+        
+        // toggle leftmenu div
+        var maxWidth = 195; //secondary
+        var arrowImg = $("#ImgArrow");
+        var leftArrow = {
+            src : "images/switch_left.gif",
+            title : "隐藏左侧导航栏"
+        };
+        var rightArrow = {
+            src : "images/switch_right.gif",
+            title : "显示左侧导航栏"
+        }
+        arrowImg.click(function() {
+            $("#content>.secondary").animate({"left" : "-=" + maxWidth}, 600, function() {
+                maxWidth = -maxWidth;
+                if ( maxWidth > 0 ) { // close leftmenu
+                    arrowImg.attr("src", leftArrow.src).attr("title", leftArrow.title);
+                    $("#mainZone").css("width", mainZoneWidth + "px");
+                } else { // open leftmenu
+                    arrowImg.attr("src", rightArrow.src).attr("title", rightArrow.title);
+                    $("#mainZone").css("width", "99%");
+                }
+            });
+        });
+        // end toggle leftmenu div
+    });
+    /*
+    */
+</script>
+
