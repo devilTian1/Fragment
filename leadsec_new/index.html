@@ -128,10 +128,9 @@
 </html>
 
 <script  type="text/javascript">
-function showInnerText(Id){
-    var switchId = parseInt(Id.substring(8));
+function showInnerText(id){
 	var showText = "i don`t know";
-	switch(switchId){
+	switch(id){
 	    case 1:
 		   showText =  "headline2";
 		   break;
@@ -217,6 +216,8 @@ function showInnerText(Id){
         $("#mainZone>.tabs>ul>li").addClass('linkTab').click(function() {
             $(this).toggleClass('visitedTab');
             $("#mainZone>.tabs>ul>li").not($(this)).removeClass('visitedTab');
+            var id = $("#mainZone>.tabs>ul>li").index($(this)) + 1;
+            showInnerText(id);
         });
         // end tabs
     });
