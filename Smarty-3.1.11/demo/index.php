@@ -4,7 +4,7 @@
 
  * @package Example-application
  */
-
+define('SMARTY_DIR', '/usr/local/lib/Smarty-3.1.11/libs/');
 require('../libs/Smarty.class.php');
 
 $smarty = new Smarty;
@@ -14,7 +14,6 @@ $smarty = new Smarty;
 //$smarty->force_compile = true;
 $smarty->debugging = true;
 $smarty->caching = true;
-$smarty->cache_lifetime = 120;
 
 $smarty->assign("Name","Fred Irving Johnathan Bradley Peppergill",true);
 $smarty->assign("FirstName",array("John","Mary","James","Henry"));
