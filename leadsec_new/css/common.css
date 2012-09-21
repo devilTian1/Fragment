@@ -233,6 +233,15 @@ div {
 	float: left;
 	background-image: url(../images/nav_bg.jpg);
 }
+
+.linkTab {
+    background: url(../images/manage_r2_c14.jpg) no-repeat;
+}
+.visitedTab {
+    background: url(../images/manage_r2_c13.jpg) no-repeat;
+	color:#0099CC;
+}
+
 #mainZone .tabs ul { 
       margin: 0px; 
 	  list-style: none; 
@@ -245,6 +254,7 @@ div {
 	 padding: 2px 35px 0px 30px;
 	 line-height: 24px;
 	 font-weight: bold;
+	 cursor:pointer;
 }
 
 #mainZone .tabinfo {
@@ -340,15 +350,6 @@ div {
 	background-repeat: no-repeat;
 	color:#333333;
 }
-.bg_image{
-	 background: url(../images/manage_r2_c14.jpg) no-repeat;
-	 cursor:pointer;
-}
-.bg_image_onclick{
-	 background: url(../images/manage_r2_c13.jpg) no-repeat;
-	 color:#0099CC;
-}
-
 .left_title_1 {
 	background-color: #F3F8F7;
 	color:#73938E;

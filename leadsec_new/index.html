@@ -39,26 +39,38 @@
                     <!-- leftmenu -->
                     <div id="leftmenu">
                         <div class="l1" name="f">
-                            123
+                            <span>系统管理</span>
                         </div>
                         <div class="l2" name="f">
                             <ul>
-                                <li>1</li>
-                                <li>2</li>
-                                <li>3</li>
+                                <li><a href="#">系统概览</a></li>
+                                <li><a href="#">快捷配置</a></li>
+                                <li><a href="#">配置</a></li>
+                                <li><a href="#">管理员设置</a></li>
+                                <li><a href="#">维护</a></li>
                             </ul>
                         </div>
                         <div class="l1" name="a">
-                            123
+                            <span>网络管理</span>
                         </div>
                         <div class="l2" name="a">
                             <ul>
-                                <li>1</li>
-                                <li>2</li>
-                                <li>3</li>
+                                <li><a href="#">网络接口</a></li>
+                                <li><a href="#">基本配置</a></li>
+                                <li><a href="#">高可用性</a></li>
                             </ul>
                         </div>
-
+                        <div class="l1" name="w">
+                            <span>资源配置</span>
+                        </div>
+                        <div class="l2" name="w">
+                            <ul>
+                                <li><a href="#">地址</a></li>
+                                <li><a href="#">时间</a></li>
+                                <li><a href="#">用户</a></li>
+                                <li><a href="#">地址绑定</a></li>
+                            </ul>
+                        </div>
                     </div>
                     <!-- switch btn -->
                     <div class="switchpic">
@@ -70,14 +82,14 @@
                     <!-- tabs -->
                     <div class="tabs">
                         <ul>
-                            <li id="man_nav_1" onclick="list_sub_nav(id,'系统配置')"  class="bg_image_onclick">系统配置</li>
-                            <li id="man_nav_2" onclick="list_sub_nav(id,'网络配置')"  class="bg_image">网络配置</li>
-                            <li id="man_nav_3" onclick="list_sub_nav(id,'资源定义')"  class="bg_image">资源定义</li>
-                            <li id="man_nav_4"  onclick="list_sub_nav(id,'定制访问')"  class="bg_image">定制访问</li>
-                            <li id="man_nav_5"  onclick="list_sub_nav(id,'抗攻击设置')"  class="bg_image">抗攻击设置</li>
-                            <li id="man_nav_6"  onclick="list_sub_nav(id,'系统监控')"  class="bg_image">系统监控</li>
-                            <li id="man_nav_7"  onclick="list_sub_nav(id,'病毒防护')"  class="bg_image">病毒防护</li>
-                            <li id="man_nav_8"  onclick="list_sub_nav(id,'数据库同步')"  class="bg_image">数据库同步</li>
+                            <li>系统配置</li>
+                            <li>网络配置</li>
+                            <li>资源定义</li>
+                            <li>定制访问</li>
+                            <li>抗攻击设置</li>
+                            <li>系统监控</li>
+                            <li>病毒防护</li>
+                            <li>数据库同步</li>
                         </ul>
                     </div>
                     <div class="tabinfo">
@@ -116,19 +128,6 @@
 </html>
 
 <script  type="text/javascript">
-var preClassName = "man_nav_1";
-function list_sub_nav(Id,sortname){
-   if(preClassName != ""){
-      getObject(preClassName).className="bg_image";
-   }
-   if(getObject(Id).className == "bg_image"){
-      getObject(Id).className="bg_image_onclick";
-      preClassName = Id;
-	  showInnerText(Id);
-	  window.top.frames['leftFrame'].outlookbar.getdefaultnav(sortname);
-   }
-}
-
 function showInnerText(Id){
     var switchId = parseInt(Id.substring(8));
 	var showText = "i don`t know";
@@ -169,17 +168,17 @@ function showInnerText(Id){
 
         // fold/unfold level1 of leftmenu
         $("#leftmenu>div:not(.l1)").hide(); // fold all child-menu
-        $("#leftmenu>.l1").addClass('l1_close'); // add bg img
-        $("#leftmenu>.l1").click(function() {
+        $("#leftmenu>.l1").addClass('l1_close').click(function() {
             var pname = $(this).attr("name");
             var l2Dom = $("#leftmenu>.l2[name='" + pname + "']");
-            if ( l2Dom.css("display") == 'none' ) {
+            $("#leftmenu>.l1").not($(this)).removeClass('l1_open').addClass('l1_close');
+            $("#leftmenu>.l2").not(l2Dom).slideUp();
+            if ( l2Dom.css('display') == 'none' ) {
                 l2Dom.slideDown('slow');
-                $(this).removeClass('l1_close').addClass('l1_open');
             } else {
                 l2Dom.slideUp('slow');
-                $(this).removeClass('l1_open').addClass('l1_close');
             }
+            $(this).toggleClass('l1_open l1_close');
         });
         // end unfold/fold leftmenu
    
@@ -213,5 +212,12 @@ function showInnerText(Id){
             $("#mainZone").animate({"width" : mzWidth}, 600);
         });
         // end toggle leftmenu div
+
+        // tabs
+        $("#mainZone>.tabs>ul>li").addClass('linkTab').click(function() {
+            $(this).toggleClass('visitedTab');
+            $("#mainZone>.tabs>ul>li").not($(this)).removeClass('visitedTab');
+        });
+        // end tabs
     });
 </script>
