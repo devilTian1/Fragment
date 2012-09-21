@@ -184,6 +184,38 @@ div {
     background-color: #FFFFFF;
 }
 
+#leftmenu .l1_close {
+	background-image: url(../images/l1_down.gif);
+}
+
+#leftmenu .l1_open {
+	background-image: url(../images/l1_up.gif);
+}
+
+#leftmenu .l1 {
+	background-repeat: no-repeat;
+	height: 22px;
+	width: 140px;
+	margin: 9px 0px 0px 13px;
+	padding-left: 30px;
+	font-weight: bold;
+	color: #0099CC;
+	cursor:pointer;
+    float:left;
+}
+
+#leftmenu .l2 {
+    float:left;
+	margin: 0 auto;
+}
+
+#leftmenu .l2 li {
+	list-style-image: url(../images/direct_blue.gif);
+	list-style-position: inside;
+	padding: 0px 0px 0px 4px;
+    margin-left: 20px;
+}
+
 #content .secondary .switchpic {
     clear: both;
 	width: 6px;
@@ -308,41 +340,6 @@ div {
 	background-repeat: no-repeat;
 	color:#333333;
 }
-.list_tilte {
-	background-image: url(../images/list_title.gif);
-	background-repeat: no-repeat;
-	margin: 0 auto;
-	clear: both;
-	height: 22px;
-	width: 140px;
-	padding-left: 30px;
-	font-weight: bold;
-	color: #0099CC;
-	margin-top: 9px;
-	cursor:pointer;
-}
-.list_tilte_onclick {
-	background-image: url(../images/list_title_onclick.gif);
-	background-repeat: no-repeat;
-	margin: 0 auto;
-	clear: both;
-	height: 22px;
-	width: 140px;
-	padding-left: 30px;
-	font-weight: bold;
-	color: #0099CC;
-	margin-top: 9px;
-	cursor:pointer;
-}
-.list_detail {
-	margin: 0 auto;
-}
-.list_detail li{
-	list-style-image: url(../images/direct_blue.gif);
-	list-style-position: inside;
-	padding: 0 0 0 4px;
-    }
-
 .bg_image{
 	 background: url(../images/manage_r2_c14.jpg) no-repeat;
 	 cursor:pointer;
