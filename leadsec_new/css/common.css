@@ -152,15 +152,14 @@ div {
 #content .secondary {
     width: 206px;
     float: left;
-    overflow: hidden;
     position: absolute;
     top: 50px;
     left: 0px;
+    overflow: hidden;
 }
 
 .footer {
     height: 40px;
-    clear: both;
     margin-top: 6px;
 }
 
