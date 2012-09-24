@@ -38,39 +38,6 @@
                     </div>
                     <!-- leftmenu -->
                     <div id="leftmenu">
-                        <div class="l1" name="f">
-                            <span>系统管理</span>
-                        </div>
-                        <div class="l2" name="f">
-                            <ul>
-                                <li><a href="#">系统概览</a></li>
-                                <li><a href="#">快捷配置</a></li>
-                                <li><a href="#">配置</a></li>
-                                <li><a href="#">管理员设置</a></li>
-                                <li><a href="#">维护</a></li>
-                            </ul>
-                        </div>
-                        <div class="l1" name="a">
-                            <span>网络管理</span>
-                        </div>
-                        <div class="l2" name="a">
-                            <ul>
-                                <li><a href="#">网络接口</a></li>
-                                <li><a href="#">基本配置</a></li>
-                                <li><a href="#">高可用性</a></li>
-                            </ul>
-                        </div>
-                        <div class="l1" name="w">
-                            <span>资源配置</span>
-                        </div>
-                        <div class="l2" name="w">
-                            <ul>
-                                <li><a href="#">地址</a></li>
-                                <li><a href="#">时间</a></li>
-                                <li><a href="#">用户</a></li>
-                                <li><a href="#">地址绑定</a></li>
-                            </ul>
-                        </div>
                     </div>
                     <!-- switch btn -->
                     <div class="switchpic">
@@ -154,6 +121,23 @@ function showInnerText(id){
 <script type="text/javascript" src="js/jquery/jquery-1.8.1.min.js"></script>
 <script>
     $(document).ready(function() {
+        $("#leftmenu").load("leftmenu.html", function() {
+            // fold/unfold level1 of leftmenu
+            $("#leftmenu>div:not(.l1)").hide(); // fold all child-menu
+            $("#leftmenu>.l1").addClass('l1_close').click(function() {
+                var pname = $(this).attr("name");
+                var l2Dom = $("#leftmenu>.l2[name='" + pname + "']");
+                $("#leftmenu>.l1").not($(this)).removeClass('l1_open').addClass('l1_close');
+                $("#leftmenu>.l2").not(l2Dom).slideUp();
+                if ( l2Dom.css('display') == 'none' ) {
+                    l2Dom.slideDown('slow');
+                } else {
+                    l2Dom.slideUp('slow');
+                }
+                $(this).toggleClass('l1_open l1_close');
+            });
+        });
+
         // init layout
         $("#leftmenu").height($("#mainZone>.mainContent").innerHeight());
         var secondaryDom = $("#content>.secondary");
@@ -165,22 +149,7 @@ function showInnerText(id){
         $("#mainZone").css("width", mainZoneWidth + "px");
         // end init layout
 
-        // fold/unfold level1 of leftmenu
-        $("#leftmenu>div:not(.l1)").hide(); // fold all child-menu
-        $("#leftmenu>.l1").addClass('l1_close').click(function() {
-            var pname = $(this).attr("name");
-            var l2Dom = $("#leftmenu>.l2[name='" + pname + "']");
-            $("#leftmenu>.l1").not($(this)).removeClass('l1_open').addClass('l1_close');
-            $("#leftmenu>.l2").not(l2Dom).slideUp();
-            if ( l2Dom.css('display') == 'none' ) {
-                l2Dom.slideDown('slow');
-            } else {
-                l2Dom.slideUp('slow');
-            }
-            $(this).toggleClass('l1_open l1_close');
-        });
-        // end unfold/fold leftmenu
-   
+
         // slide leftmenu div
         var slideWidth = $('#leftmenu').width();
         var arrowImg = $("#ImgArrow");
