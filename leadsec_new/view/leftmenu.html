@@ -32,7 +32,7 @@
     </ul>
 </div>
 <div class="l1" name="cModControl">
-    <span>客户端模块控制</span>
+    <span>客户端</span>
 </div>
 <div class="l2" name="cModControl">
     <ul>
@@ -48,7 +48,7 @@
     </ul>
 </div>
 <div class="l1" name="sModControl">
-    <span>服务端模块控制</span>
+    <span>服务端</span>
 </div>
 <div class="l2" name="sModControl">
     <ul>
@@ -95,7 +95,9 @@
 </div>
 <script type="text/javascript">
     function showPageByAjax(page) {
- //       $("#mainZone").load("test.php");
+        $("#mainZone").html("loading... ...").load("test.php", function() {
+            refreshTab();
+        });
     }
     $(document).ready(function() {
         $("#leftmenu a").click(function() {

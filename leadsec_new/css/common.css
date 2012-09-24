@@ -10,10 +10,9 @@ html {
 }
 
 body {
+    font: normal 12px 'Lucida Grande', Verdana, sans-serif;
 	background-color: #F9F9F9;
-	font-family: Verdana, Arial,Vrinda,Tahoma;
 	line-height: 175%;
-	font-size:12px;
 	color:#666;
     text-align: center;
 }
@@ -57,14 +56,52 @@ div {
     text-align: right;
 }
 
+.error {
+    font-weight: bold;
+    color: red;
+}
+
 .column {
     float: left;
+}
+.column_5 {
+    width: 5%;
 }
 .column_10 {
     width: 10%;
 }
+.column_15 {
+    width: 15%;
+}
 .column_20 {
     width: 20%;
+}
+.column_25 {
+    width: 25%;
+}
+.column_30 {
+    width: 30%;
+}
+.column_35 {
+    width: 35%;
+}
+.column_40 {
+    width: 40%;
+}
+.column_45 {
+    width: 45%;
+}
+.column_50 {
+    width: 50%;
+}
+.column_55 {
+    width: 55%;
+}
+.column_60 {
+    width: 60%;
+}
+.column_65 {
+    width: 65%;
 }
 .column_70 {
     width: 70%;
@@ -74,6 +111,15 @@ div {
 }
 .column_80 {
     width: 80%;
+}
+.column_85 {
+    width: 85%;
+}
+.column_90 {
+    width: 90%;
+}
+.column_95 {
+    width: 95%;
 }
 
 .floatLeft {
@@ -179,7 +225,6 @@ div {
     margin-right: 10px;
 	width: 197px;
     border: 1px solid #B4C9C6;
-	height: 455px;
 	text-align: left;
     background-color: #FFFFFF;
 }
@@ -286,7 +331,6 @@ div {
     background-color:#FFFFFF;
     border: 1px solid #B4C9C6;
     width: 99%;
-    height: 445px;
     margin: 6px 0px 0px 0px;
     padding: 5px 0px;
     overflow: auto;
