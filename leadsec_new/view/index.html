@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <link rel="stylesheet" href="css/common.css" type="text/css" />
+        <link rel="stylesheet" href="../css/common.css" type="text/css" />
         <!--[if IE]>
         <link rel="stylesheet" href="css/ie.css" type="text/css" />
         <![endif]-->
@@ -11,21 +11,6 @@
         <div class="wrapper">
             <!-- HEADER -->
             <div class="header">
-                <!-- logo -->
-                <div class="logo">
-                    <img src="images/man_logo.jpg" alt="leadsec" />
-                </div>
-                <!-- rightNav-->
-                <div class="right_nav">
-                    <div class="text_left">
-                        <img src="images/direct.gif" width="8" height="21" />
-                        安全隔离与信息交换系统
-                    </div>
-                    <div class="text_right">
-                        <img src="images/return.gif" width="13" height="21" />&nbsp;[
-                        <a href="#">返回首页</a>&nbsp;|&nbsp;<a href="#">栏目导航</a> ]
-                   </div>
-                </div>
             </div>
 
             <!-- NAV & CONTENT -->
@@ -41,26 +26,16 @@
                     </div>
                     <!-- switch btn -->
                     <div class="switchpic">
-                        <img src="images/switch_left.gif" title="隐藏左侧导航栏" id="ImgArrow"/>
+                        <img src="../images/switch_left.gif" title="隐藏左侧导航栏" id="ImgArrow"/>
                     </div>
                 </div>
                 <!-- content -->
                 <div class="primary" id="mainZone">
                     <!-- tabs -->
                     <div class="tabs">
-                        <ul>
-                            <li>系统配置</li>
-                            <li>网络配置</li>
-                            <li>资源定义</li>
-                            <li>定制访问</li>
-                            <li>抗攻击设置</li>
-                            <li>系统监控</li>
-                            <li>病毒防护</li>
-                            <li>数据库同步</li>
-                        </ul>
                     </div>
                     <div class="tabinfo">
-                        &nbsp;&nbsp;<img src="images/hi.gif" />&nbsp;
+                        &nbsp;&nbsp;<img src="../images/hi.gif" />&nbsp;
                         <span id="show_text">headline</span>
                     </div>
                     <br class="clearFloat"/>
@@ -94,33 +69,10 @@
     </body>
 </html>
 
-<script  type="text/javascript">
-function showInnerText(id){
-	var showText = "i don`t know";
-	switch(id){
-	    case 1:
-		   showText =  "headline2";
-		   break;
-	    case 2:
-		   showText =  "system setting!";
-		   break;
-	    case 3:
-		   showText =  "User Manage";
-		   break;		   
-	    case 4:
-		   showText =  "Chanage Manage";
-		   break;	
-	    case 5:
-		   showText =  "Ad AND news!";
-		   break;		   		   
-	}
-	$("#show_text").html(showText);
-}
-</script>
-
-<script type="text/javascript" src="js/jquery/jquery-1.8.1.min.js"></script>
+<script type="text/javascript" src="../js/jquery/jquery-1.8.1.min.js"></script>
 <script>
     $(document).ready(function() {
+        $(".wrapper>.header").load("header.html");
         $("#leftmenu").load("leftmenu.html", function() {
             // fold/unfold level1 of leftmenu
             $("#leftmenu>div:not(.l1)").hide(); // fold all child-menu
@@ -149,16 +101,15 @@ function showInnerText(id){
         $("#mainZone").css("width", mainZoneWidth + "px");
         // end init layout
 
-
         // slide leftmenu div
         var slideWidth = $('#leftmenu').width();
         var arrowImg = $("#ImgArrow");
         var leftArrow = {
-            src : "images/switch_left.gif",
+            src : "../images/switch_left.gif",
             title : "隐藏左侧导航栏"
         };
         var rightArrow = {
-            src : "images/switch_right.gif",
+            src : "../images/switch_right.gif",
             title : "显示左侧导航栏"
         }
         arrowImg.click(function() {
@@ -182,12 +133,14 @@ function showInnerText(id){
         // end toggle leftmenu div
 
         // tabs
-        $("#mainZone>.tabs>ul>li").addClass('linkTab').click(function() {
-            $(this).toggleClass('visitedTab');
-            $("#mainZone>.tabs>ul>li").not($(this)).removeClass('visitedTab');
-            var id = $("#mainZone>.tabs>ul>li").index($(this)) + 1;
-            showInnerText(id);
+        $("#mainZone>.tabs").load("tabs.html", function() {
+            $("#mainZone>.tabs>ul>li").addClass('linkTab').click(function() {
+                $(this).toggleClass('visitedTab');
+                $("#mainZone>.tabs>ul>li").not($(this)).removeClass('visitedTab');
+                var id = $("#mainZone>.tabs>ul>li").index($(this)) + 1;
+                showInnerText(id);
+            });
         });
-        // end tabs
+       // end tabs
     });
 </script>
