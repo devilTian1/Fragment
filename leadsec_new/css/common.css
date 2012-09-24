@@ -66,14 +66,14 @@ div {
 .column_20 {
     width: 20%;
 }
+.column_70 {
+    width: 70%;
+}
 .column_75 {
-    width: 79.91%;
+    width: 75%;
 }
 .column_80 {
     width: 80%;
-}
-.column_100 {
-    width: 100%;
 }
 
 .floatLeft {
@@ -202,6 +202,7 @@ div {
 	color: #0099CC;
 	cursor:pointer;
     float:left;
+    font-size: 13px;
 }
 
 #leftmenu .l2 {
@@ -216,6 +217,9 @@ div {
     margin-left: 20px;
 }
 
+/* TAB & CONTENT */
+/* LEFTMENU */
+/* SWITCH ARROW */
 #content .secondary .switchpic {
     clear: both;
 	width: 6px;
@@ -243,18 +247,19 @@ div {
 }
 
 #mainZone .tabs ul { 
-      margin: 0px; 
-	  list-style: none; 
-	  padding: 0px;
+    margin: 0px; 
+	padding: 0px;
+    list-style: none; 
 }
 
 #mainZone .tabs li {
-     float: left; 
-	 margin: 0; 
-	 padding: 2px 35px 0px 30px;
-	 line-height: 24px;
-	 font-weight: bold;
-	 cursor:pointer;
+    float: left; 
+	margin: 0px; 
+	padding: 2px 30px 0px 35px;
+	line-height: 24px;
+	font-weight: bold;
+	cursor: pointer;
+    width: 65px;
 }
 
 #mainZone .tabinfo {
@@ -297,14 +302,14 @@ div {
     border: 1px solid #DBE6E3;
 }
 
-.table .colTitle_1, .table .colTitle_2 {
+.table .th {
     padding: 3px 0px 3px 0px;
 	background-color: #F3F8F7;
     border-bottom: 1px solid #DBE6E3;
 	color: #73938E;
 	font-weight: bold;
 	line-height: 30px;
-    text-align: center;
+    text-align: left;
 
 }
 .table .leftTitle {

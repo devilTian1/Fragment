@@ -1,19 +1,19 @@
-<div class="l1" name="systemManage">
+<div class="l1" name="systemManagement">
     <span>系统管理</span>
 </div>
-<div class="l2" name="systemManage">
+<div class="l2" name="systemManagement">
     <ul>
-        <li><a href="#">系统概览</a></li>
+        <li><a href="overview">系统概览</a></li>
         <li><a href="#">快捷配置</a></li>
-        <li><a href="#">配置</a></li>
+        <li><a href="conf">配置</a></li>
         <li><a href="#">管理员设置</a></li>
         <li><a href="#">维护</a></li>
     </ul>
 </div>
-<div class="l1" name="networkManage">
+<div class="l1" name="networkManagement">
     <span>网络管理</span>
 </div>
-<div class="l2" name="networkManage">
+<div class="l2" name="networkManagement">
     <ul>
         <li><a href="#">网络接口</a></li>
         <li><a href="#">基本配置</a></li>
@@ -93,4 +93,18 @@
         <li><a href="#">日志访问</a></li>
     </ul>
 </div>
-
+<script type="text/javascript">
+    function showPageByAjax(page) {
+ //       $("#mainZone").load("test.php");
+    }
+    $(document).ready(function() {
+        $("#leftmenu a").click(function() {
+            var toHref = $(this).attr("href");
+            var groupName  = $(this).parents("div.l2").attr("name");
+            $("#leftmenu a").css("color", "#555").css("font-weight", "normal");
+            $(this).css("color", "#0099CC").css("font-weight", "bold");
+            showPageByAjax(groupName + '/' + toHref);
+            return false;
+        });
+    });
+</script>

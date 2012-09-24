@@ -1,0 +1,62 @@
+<!-- tabs -->
+<div class="tabs">
+    <ul>
+        <li>First</li>
+        <li>网络配置</li>
+        <li>Second</li>
+    </ul>
+</div>
+<div class="tabinfo">
+    &nbsp;&nbsp;<img src="../images/hi.gif" />&nbsp;
+    <span id="show_text">headline</span>
+</div>
+<br class="clearFloat"/>
+<!-- mainContent -->
+<div class="mainContent">
+    <div class="table">
+        <div class="column column_20 colTitle_1">
+            名称&nbsp;
+        </div>
+        <div class="column column_80 colTitle_2">
+            内容
+        </div>
+    
+        <br class="clearFloat"/>
+        <div class="column column_20 leftTitle_1">
+            安全隔离网闸序列号&nbsp;
+        </div>
+        <div class="column column_75 secCol">
+            123
+        </div>
+        <br class="clearFloat"/>
+    </div>
+</div>
+<script type="text/javascript">
+    function showInnerText(id){
+        var showText = "i don`t know";
+        switch(id){
+            case 1:
+               showText =  "headline2";
+               break;
+            case 2:
+               showText =  "system setting!";
+               break;
+            case 3:
+               showText =  "User Manage";
+               break;          
+            case 4:
+               showText =  "Chanage Manage";
+               break;   
+            case 5:
+               showText =  "Ad AND news!";
+               break;                  
+        }
+        $("#show_text").html(showText);
+    }
+    $("#mainZone>.tabs>ul>li").addClass('linkTab').click(function() {
+        $(this).toggleClass('visitedTab');
+        $("#mainZone>.tabs>ul>li").not($(this)).removeClass('visitedTab');
+        var id = $("#mainZone>.tabs>ul>li").index($(this)) + 1;
+        showInnerText(id);
+    });
+</script>
