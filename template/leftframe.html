@@ -163,13 +163,14 @@ getObject(subsortid).className = "list_tilte_onclick"
 } 
 
 function initinav(sortname) 
-{
-	var height=parent.document.documentElement.clientHeight-157;
+{ 
+	var height=parent.document.body.clientHeight-157;
 	document.getElementById('right_main_nav').style.height=height+'px';
 	outlookbar.getdefaultnav(sortname); 
 	outlookbar.getbytitle(sortname); 
 	window.top.frames['manFrame'].location = "maninfo.html" 
 }
+document.write("<script src=js/nav.js></" + "script>");
 </script>
 <body onload="initinav('系统配置')">
 <div id="left_content">
@@ -181,4 +182,3 @@ function initinav(sortname)
 </div>
 </body>
 </html>
-<script src=js/nav.js></script>

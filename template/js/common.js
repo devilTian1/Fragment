@@ -1,5 +1,5 @@
 function changeClientId(id){
-	var height=parent.document.documentElement.clientHeight-168;
+	var height=parent.document.body.clientHeight-168;
 	document.getElementById(id).style.height=height+'px';
 }
 function alert(s){

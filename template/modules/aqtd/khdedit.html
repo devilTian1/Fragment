@@ -1,0 +1,169 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="../../css/common.css" type="text/css" />
+<link rel="stylesheet" href="../../js/jqtransformplugin/jqtransform.css" type="text/css" media="all" />
+<title>添加用户</title>
+<script type="text/javascript" src="../../js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="../../js/jqtransformplugin/jquery.jqtransform.js" ></script>
+<script type="text/javascript" src="../../js/common.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		//changeClientId('man_zone');
+		document.getElementById("man_zone").style.height='580px';
+		$('.inputtext').jqTransInputText({imgPath:'../../js/jqtransformplugin/img/'});
+		$('.inputselect').jqTransSelect({imgPath:'../../js/jqtransformplugin/img/'});
+		//$('form').jqTransform({imgPath:'../../js/jqtransformplugin/img/'});
+	});
+</script>
+</head>
+
+<body>
+<div id="man_zone">
+  <table width="99%" border="0" align="center"  cellpadding="3" cellspacing="1" class="table_style">
+  <form action="xtcs.html" method="POST">
+    <tr>
+      <td width="23%" class="left_title_1"><span class="red">*</span>任务号: <br /></td>
+      <td width="77%"><div class="rowElem">
+        <input type="text" name="inputtext2" class="inputtext"/>
+        &nbsp;(同一端的任务号必须唯一)</div></td>
+    </tr>
+    <tr>
+      <td class="left_title_1">访问类型: <br /></td>
+      <td><div class="rowElem">
+        <label>
+          <input name="radio3" type="radio" id="radio8" value="radio" checked="checked" />
+        </label>
+        普通访问
+        <label>
+          <input type="radio" name="radio3" id="radio9" value="radio" />
+        </label>
+        透明访问
+      </div></td>
+    </tr>
+    <tr>
+      <td class="left_title_1">源地此: <br /></td>
+      <td><div class="rowElem">
+        <label>
+          <select name="select" class="w200" id="select">
+          </select>
+        </label>
+      </div></td>
+    </tr>
+    <tr>
+      <td class="left_title_1">源端口: <br /></td>
+      <td><div class="rowElem">
+        <input type="text" name="inputtext3"  class="inputtext"/>
+        (1-65535) （输入形如:1200或2000：3000）</div></td>
+    </tr>
+    <tr>
+      <td class="left_title_1"><span class="red">*</span>目的地此:<br /></td>
+      <td><div class="rowElem">
+        <label>
+          <select name="select" class="w200" id="select">
+            </select>
+        </label>
+      </div></td>
+    </tr>
+    <tr>
+      <td class="left_title_1"><span class="red">*</span>目的端口: <br /></td>
+      <td><div class="rowElem">
+        <input type="text" name="inputtext"  class="inputtext"/>
+        (1-65535)
+      （输入形如:1200或2000：3000）</div></td>
+    </tr>
+    <tr>
+      <td class="left_title_1">服务类型:<br /></td>
+      <td><div class="rowElem">
+        <label>
+          <select name="select3" class="w200" id="select2">
+          </select>
+        </label>
+      </div></td>
+    </tr>
+    <tr>
+      <td class="left_title_1"><span class="red"></span><span class="red">*</span>是否启动：<br /></td>
+      <td><div class="rowElem">
+        <label>
+          <input name="radio1" type="radio" id="radio10" value="radio" checked="checked" />
+        </label>
+        启动
+        <label>
+          <input type="radio" name="radio1" id="radio11" value="radio" />
+        </label>
+        停止 </div></td>
+    </tr>
+    <tr>
+      <td class="left_title_1"> 开启日志: <br /></td>
+      <td><div class="rowElem">
+        <label>
+          <input name="radio" type="radio" id="radio" value="radio" checked="checked" />
+        </label>
+        是
+        <label>
+          <input type="radio" name="radio" id="radio2" value="radio" />
+        </label>
+        否
+      </div></td>
+    </tr>
+    <tr>
+      <td class="left_title_1">抗攻击: <br /></td>
+      <td><div class="rowElem">
+        <label>
+          <input type="checkbox" name="checkbox" id="checkbox" />
+        </label>
+        抗SYN Flood
+        <input type="text" name="inputtext4"/>
+        个/秒
+        <div class="rowElem">
+          <label>
+            <input type="checkbox" name="checkbox2" id="checkbox2" />
+            </label>
+          抗UDP Flood 
+          <input type="text" name="inputtext5"/>
+个/秒
+<div class="rowElem">
+  <label>
+    <input type="checkbox" name="checkbox3" id="checkbox3" />
+    </label>
+            抗ICMP Flood 
+            <input type="text" name="inputtext6"/>
+个/秒</div>
+          <div class="rowElem">
+            <label>
+              <input type="checkbox" name="checkbox4" id="checkbox4" />
+              </label>
+            抗Ping of Death</div>
+        </div>
+      </div></td>
+    </tr>
+    <tr>
+      <td class="left_title_1">认证用户组:<br /></td>
+      <td><div class="rowElem">
+        <label>
+          <select name="select3" class="w200" id="select4">
+          </select>
+        </label>
+      </div></td>
+    </tr>
+    <tr>
+      <td class="left_title_1">生效时段:<br /></td>
+      <td><div class="rowElem">
+        <label>
+          <select name="select2" class="w200" id="select3">
+            </select>
+          </label>
+        </div></td>
+    </tr>
+    <tr>
+      <td class="left_title_1">备注：<br /></td>
+      <td><div class="rowElem">
+        <input type="text" name="inputtext"  class="inputtext"/>
+        &nbsp;</div></td>
+    </tr>
+    </form>
+  </table>
+</div>
+</body>
+</html>

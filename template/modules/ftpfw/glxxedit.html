@@ -1,0 +1,169 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="../../css/common.css" type="text/css" />
+<link rel="stylesheet" href="../../js/jqtransformplugin/jqtransform.css" type="text/css" media="all" />
+<title>添加用户</title>
+<script type="text/javascript" src="../../js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="../../js/jqtransformplugin/jquery.jqtransform.js" ></script>
+<script type="text/javascript" src="../../js/common.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		//changeClientId('man_zone');
+		document.getElementById("man_zone").style.height='580px';
+		$('.inputtext').jqTransInputText({imgPath:'../../js/jqtransformplugin/img/'});
+		$('.inputselect').jqTransSelect({imgPath:'../../js/jqtransformplugin/img/'});
+		//$('form').jqTransform({imgPath:'../../js/jqtransformplugin/img/'});
+	});
+</script>
+</head>
+
+<body>
+<div id="man_zone">
+  <table width="99%" border="0" align="center"  cellpadding="3" cellspacing="1" class="table_style">
+  <form action="xtcs.html" method="POST">
+    <tr>
+      <td width="22%" class="left_title_1">名称: <br /></td>
+      <td colspan="2"><div class="rowElem">
+        <input type="text" name="inputtext2" class="inputtext"/>
+      </div></td>
+    </tr>
+    <tr>
+      <td rowspan="2" valign="middle" class="left_title_1">用户控制:</td>
+      <td colspan="2"><div class="rowElem">
+        <label>
+          <input name="radio" type="radio" id="radio" value="radio" checked="checked" />
+          禁止用户
+        </label>
+        <input type="text" name="inputtext3" />
+        &nbsp;多个用户用,隔开</div></td>
+    </tr>
+    <tr>
+      <td colspan="2"><div class="rowElem">
+        <input type="radio" name="radio" id="radio2" value="radio" />
+允许用户
+<input type="text" name="inputtext" />
+        &nbsp;多个用户用,隔开</div></td>
+    </tr>
+    <tr>
+      <td rowspan="2" class="left_title_1">命令控制: </td>
+      <td colspan="2"><div class="rowElem">控制动作：
+        <input name="radio1" type="radio" id="radio3" value="radio" checked="checked" />
+      禁止命令
+      <input name="radio1" type="radio" id="radio4" value="radio" />
+允许命令</div></td>
+    </tr>
+    <tr>
+      <td colspan="2"><div class="rowElem">
+        <label>
+          <input type="checkbox" name="checkbox4" id="checkbox4" />
+        </label>
+      dir
+      <label>
+        <input type="checkbox" name="checkbox5" id="checkbox5" />
+      </label>
+      delete
+      <label>
+        <input type="checkbox" name="checkbox6" id="checkbox6" />
+      </label>
+      ls
+      <input type="checkbox" name="checkbox7" id="checkbox7" />
+      cd 
+      <input type="checkbox" name="checkbox8" id="checkbox8" />
+      get 
+      <input type="checkbox" name="checkbox9" id="checkbox9" />
+      put
+      <input type="checkbox" name="checkbox10" id="checkbox10" />
+      pwd 
+      <input type="checkbox" name="checkbox11" id="checkbox11" />
+      quit
+      <input type="checkbox" name="checkbox12" id="checkbox12" />
+      mkdir
+      <input type="checkbox" name="checkbox13" id="checkbox13" />
+      rename
+      <input type="checkbox" name="checkbox14" id="checkbox14" />
+      radir
+      <input type="checkbox" name="checkbox15" id="checkbox15" />
+      append
+      </div></td>
+    </tr>
+    <tr>
+      <td rowspan="2" class="left_title_1">上传控制:</td>
+      <td><div class="rowElem">
+        <label>
+          <input name="radio3" type="radio" id="radio7" value="radio" checked="checked" />
+          禁止上传文件类型 </label>
+        <input type="text" name="inputtext6"  />
+      </div></td>
+      <td rowspan="2">多个文件类型用,分开，单个.表示没有后缀的文件，如.exe,.txt</td>
+    </tr>
+    <tr>
+      <td><div class="rowElem">
+        <label>
+          <input name="radio3" type="radio" id="radio5" value="radio" />
+          允许上传文件类型 </label>
+        <input type="text" name="inputtext6"  />
+      </div></td>
+    </tr>
+    <tr>
+      <td rowspan="2" class="left_title_1">下载控制:</td>
+      <td width="32%"><div class="rowElem">
+        <label>
+<input name="radio4" type="radio" id="radio5" value="radio" checked="checked" />
+禁止下载文件类型
+        </label>
+        <input type="text" name="inputtext4"  />
+      </div></td>
+      <td width="46%" rowspan="2">多个文件类型用,分开，单个.表示没有后缀的文件，如.exe,.txt</td>
+    </tr>
+    <tr>
+      <td><div class="rowElem">
+        <label>
+          <input name="radio4" type="radio" id="radio6" value="radio" />
+          允许下载文件类型
+          </label>
+        <input type="text" name="inputtext5"  />
+      </div></td>
+      </tr>
+    <tr>
+      <td rowspan="3" class="left_title_1">缓存控制:</td>
+      <td colspan="2"><div class="rowElem">
+文件大小上限
+    <input type="text" name="inputtext7"  />
+    兆(M)
+      (针对缓存文件过滤时，文件大小上限)</div></td>
+    </tr>
+    <tr>
+      <td colspan="2"><div class="rowElem">
+        文件病毒扫描
+            <input name="radio5" type="radio" id="radio8" value="radio" checked="checked" />
+            开启
+            <input name="radio5" type="radio" id="radio9" value="radio" checked="checked" />
+            关闭
+      </div></td>
+    </tr>
+    <tr>
+      <td colspan="2"><div class="rowElem">
+        <input type="checkbox" name="checkbox16" id="checkbox16" />
+        边收边发机制（可保持活连接，减少延迟）
+      </div></td>
+    </tr>
+    <tr>
+      <td class="left_title_1">Banner保护:<br /></td>
+      <td colspan="2"><div class="rowElem">
+        bannner替换
+            <input type="text" name="inputtext8"  />
+      </div></td>
+    </tr>
+    <tr>
+      <td class="left_title_1"><span class="red"></span>备注<br /></td>
+      <td colspan="2"><div class="rowElem">
+        <input type="text" name="inputtext10"  />
+      </div></td>
+    </tr>
+    </form>
+  </table>
+</div>
+</body>
+</html>
