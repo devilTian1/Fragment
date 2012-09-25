@@ -106,8 +106,8 @@
         $("#leftmenu a").click(function() {
             var toHref = $(this).attr("href");
             var groupName  = $(this).parents("div.l2").attr("name");
-            $("#leftmenu a").css("color", "#555").css("font-weight", "normal");
-            $(this).css("color", "#0099CC").css("font-weight", "bold");
+            $("#leftmenu a").removeClass("link");
+            $(this).addClass("link");
             showPageByAjax(groupName + '/' + toHref);
             return false;
         });

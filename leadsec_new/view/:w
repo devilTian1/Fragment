@@ -1,0 +1,27 @@
+fieldset {
+    margin: 1em 0px;
+    padding: 1em;
+    border: 1px solid #CCC;
+    background: #F8F8F8;
+}
+
+legend {
+    font-weight: bold;
+}
+
+label {
+    float: left;
+    width: 10em;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+fieldset div {
+    clear: left;
+    margin: 3px 0px 2px 0px;
+    padding: 5px;
+}
+
+input {
+    width: 20em;
+}

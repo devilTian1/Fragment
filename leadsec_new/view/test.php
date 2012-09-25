@@ -28,7 +28,7 @@
         'client/ftp'        => array(),
         'client/mail'       => array(),
         'client/db'         => array(),
-        'client/customized' => array(),
+        'client/customized' => array('TCP访问', 'UDP访问'),
         'client/safePass'   => array(),
         'client/msgTrans'   => array(),
         'server/fileEx'     => array(),
@@ -37,7 +37,7 @@
         'server/ftp'        => array(),
         'server/mail'       => array(),
         'server/db'         => array(),
-        'server/customized' => array(),
+        'server/customized' => array('TCP访问', 'UDP访问'),
         'server/safePass'   => array(),
         'server/msgTrans'   => array(),
         'appS/virusProtection' => array(),
@@ -83,21 +83,124 @@
 <br class="clearFloat"/>
 <!-- mainContent -->
 <div class="mainContent">
-    <div class="table">
-        <div class="column column_20 colTitle_1">
-            名称&nbsp;
-        </div>
-        <div class="column column_80 colTitle_2">
-            内容
-        </div>
-    
-        <br class="clearFloat"/>
-        <div class="column column_20 leftTitle_1">
-            安全隔离网闸序列号&nbsp;
-        </div>
-        <div class="column column_75 secCol">
-            123
-        </div>
-        <br class="clearFloat"/>
-    </div>
+    <table class="column_95">
+        <caption>
+            透明访问 
+        </caption>
+        <tr>
+            <th class="column_10 textCenter">任务号</th>
+            <th class="column_10 textCenter">源地址</th>
+            <th class="column_10 textCenter">目的地址</th>
+            <th class="column_10 textCenter">目的端口</th>
+            <th class="column_15 textCenter">生效时段</th>
+            <th class="column_10 textCenter">是否启动</th>
+            <th class="column_10 textCenter">备注</th>
+            <th class="column_10 textCenter">操作</th>
+        </tr>
+        <tr>
+            <td class="textCenter">111</td>
+            <td class="textCenter">255.255.255.255</td>
+            <td class="textCenter">255.255.255.255</td>
+            <td class="textCenter">eth0</td>
+            <td class="textCenter">Sep 2 00:36:19</td>
+            <td class="textCenter">Yes</td>
+            <td class="textCenter">++++</td>
+            <td class="textCenter">----</td>
+        </tr>
+
+        <tr>
+            <td class="textCenter">112</td>
+            <td class="textCenter">255.255.255.255</td>
+            <td class="textCenter">255.255.255.255</td>
+            <td class="textCenter">eth0</td>
+            <td class="textCenter">Sep 2 12:31:12</td>
+            <td class="textCenter">No</td>
+            <td class="textCenter">++++</td>
+            <td class="textCenter">----</td>
+        </tr>
+    </table>
+    <ol class="pagination floatRight">
+        <li><a href="#?page=1" rel="prev">Prev</a></li>
+        <li><a href="#?page=1" rel="prev">1</a></li>
+        <li class="selected">2</li>
+        <li><a href="#?page=3">3</a></li>
+        <li><a href="#?page=4">4</a></li>
+        <li><a href="#?page=5">5</a></li>
+        <li><a href="#?page=3" rel="next">Next</a></li>
+    </ol>
+    <button class="floatLeft" type="submit" onClick="openDialog()" id="add">添加</button>
 </div>
+
+<div class="hide" id="dialogForm">
+    <fieldset>
+        <legend>客户端普通访问添加</legend>
+        <div>
+            <label for="mid">任务号:<em class="required">*</em></label>
+            <input type="text" name="mid" id="mid"/>
+            <span>(同一端的任务号必须唯一)</span>
+        </div>
+        <br class="clearFloat"/>
+        <div>
+            <label for="saddr">源地址:</label>
+            <select name="saddr" id="saddr">
+                <option value="1">10.1.1.1</option>
+                <option value="2">255.255.255.255</option>
+                <option value="3">192.168.3.189</option>
+            </select>
+        </div>
+        <br class="clearFloat"/>
+        <div>
+            <label for="daddr">目的地址:</label>
+            <select name="daddr" id="daddr">
+                <option value="1">10.1.1.1</option>
+                <option value="2">255.255.255.255</option>
+                <option value="3">192.168.3.189</option>
+            </select>
+            <br class="clearFloat"/>
+        </div>
+        <div>
+            <label for="dport">目的端口:<em class="required">*</em></label>
+            <input type="text" name="dport" id="dport" maxlength="5"/>
+            <span>(1 - 65535)</span>
+            <br class="clearFloat"/>
+        </div>
+        <div>
+            <label for="virusScan">流病毒扫描:</label>
+            <span><input class="radio" type="radio" name="virusScan"/>开</span>
+            <span><input class="radio" type="radio" name="virusScan"/>关</span>
+            <br class="clearFloat"/>
+        </div>
+        <div>
+            <label for="auGroup">认证用户组:</label>
+            <select name="auGroup" id="auGroup">
+                <option value="1">admin</option>
+                <option value="2">wangqi</option>
+                <option value="3">RenWinFLy</option>
+            </select>
+            <br class="clearFloat"/>
+        </div>
+        <div>
+            <label for="effectivePeriod">生效时段:</label>
+            <select name="effectivePeriod" id="effectivePeriod">
+                <option value="1">right now</option>
+                <option value="2">1 month ago</option>
+                <option value="3">1 year ago</option>
+            </select>
+            <br class="clearFloat"/>
+        </div>
+        <div>
+            <label for="isStart">是否启动:<em class="required">*</em></label>
+            <span><input class="radio" type="radio" name="isStart"/>启动</span>
+            <span><input class="radio" type="radio" name="isStart"/>停止</span>
+            <br class="clearFloat"/>
+        </div>
+        <div>
+            <label for="remark">备注:</label>
+            <input class="remark" type="text" name="remark" id="remark"/>
+            <br class="clearFloat"/>
+        </div>
+    </fieldset>
+</div>
+<script type="text/javascript">
+    $("#add").button();
+</script>

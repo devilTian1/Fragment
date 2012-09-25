@@ -17,13 +17,19 @@ body {
     text-align: center;
 }
 
-a {
+a, .href {
 	color: #555;
 	text-decoration:none;
+    font-weight: normal;
 }
 
 a:hover {
 	color: #0099CC;
+}
+
+.link {
+	color: #0099CC;
+    font-weight: bold;
 }
 
 img {
@@ -51,7 +57,9 @@ div {
 .textLeft {
     text-align: left;
 }
-
+.textCenter {
+    text-align: center;
+}
 .textRight {
     text-align: right;
 }
@@ -125,9 +133,20 @@ div {
 .floatLeft {
     float: left;   
 }
-
+.floatRight {
+    float: right;
+}
 .clearFloat {
     clear: both;
+}
+
+.hide {
+    display: hidden;
+}
+
+.required {
+    color: red;
+    font-size: 0.75em;
 }
 
 /* LAYOUT */
@@ -333,6 +352,9 @@ div {
     margin: 6px 0px 0px 0px;
     padding: 5px 0px;
     overflow: auto;
+}
+#mainZone .mainContent button {
+    margin: 5px;
 }
 
 /* TAB & CONTENT */

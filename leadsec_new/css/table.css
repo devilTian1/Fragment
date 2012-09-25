@@ -5,16 +5,16 @@ table {
     border: 1px solid #DBE6E3;
 }
 
-th, td {
+th, td{
     text-align: left;
-    padding-left: 20px;
     border: 1px solid #DBE6E3;
+    padding: 0px 20px;
 }
 
 th {
+    line-height: 30px;
     color: #73938E;
     background-color: #F3F8F7;
-    line-height: 30px;
 }
 
 caption {
