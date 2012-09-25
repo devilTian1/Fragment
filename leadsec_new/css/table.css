@@ -29,3 +29,7 @@ caption a {
     float: right;
     padding-right: 10px;
 }
+
+.textMid th, .textMid td {
+    text-align: center;
+}

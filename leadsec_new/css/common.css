@@ -141,7 +141,7 @@ div {
 }
 
 .hide {
-    display: hidden;
+    display: none;
 }
 
 .required {
@@ -156,11 +156,11 @@ div {
     text-align: left;
     display: inline;
 }
-.wrapper, .header, #content, .footer{
+.wrapper, #header,.wrapper #content,.wrapper .footer{
 	width: 100%;
 }
 
-.header {
+#header {
     height: 50px;
 }
 
@@ -184,35 +184,35 @@ div {
 
 /* HEADER */
 /* LOGO */
-.header .logo {
+#header .logo {
 	float: left;
 	height: 50px;
 	width: 20%;
 }
 
-.header .logo img {
+#header .logo img {
     float: left;
 }
 
 /* HEADER */
 /* right_nav */
-.header .right_nav {
+#header .right_nav {
 	float: right;
 	width: 80%;
 	height: 50px;
 }
 
-.header .right_nav .text_left {
+#header .right_nav .text_left {
 	float: left;
 	width: 20%;
 	padding: 22px 0 0 0;
 	color: #CC3300;
 }
-.header .right_nav .text_left label {
+#header .right_nav .text_left label {
 }
 
 
-.header .right_nav .text_right {
+#header .right_nav .text_right {
 	float: right;
 	width: 80%;
 	display: inline;
@@ -220,7 +220,7 @@ div {
 	text-align: right;
 }
 
-.header .right_nav .text_right a {
+#header .right_nav .text_right a {
 	display: inline;
 	color:#3399CC;
 }

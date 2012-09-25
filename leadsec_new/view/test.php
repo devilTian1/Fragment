@@ -83,40 +83,86 @@
 <br class="clearFloat"/>
 <!-- mainContent -->
 <div class="mainContent">
-    <table class="column_95">
+    <table class="column_95 textMid tablesorter" id="clientTcp">
         <caption>
-            透明访问 
+            客户端TCP访问表
         </caption>
+        <thead><tr>
+            <th class="column_10">访问类型</th>
+            <th class="column_10">任务号</th>
+            <th class="column_10">源地址</th>
+            <th class="column_10">目的地址</th>
+            <th class="column_10">目的端口</th>
+            <th class="column_15">生效时段</th>
+            <th class="column_10">是否启动</th>
+            <th class="column_10">备注</th>
+            <th class="column_10">操作</th>
+        </tr></thead>
         <tr>
-            <th class="column_10 textCenter">任务号</th>
-            <th class="column_10 textCenter">源地址</th>
-            <th class="column_10 textCenter">目的地址</th>
-            <th class="column_10 textCenter">目的端口</th>
-            <th class="column_15 textCenter">生效时段</th>
-            <th class="column_10 textCenter">是否启动</th>
-            <th class="column_10 textCenter">备注</th>
-            <th class="column_10 textCenter">操作</th>
+            <td>透明</td>
+            <td>111</td>
+            <td>255.255.255.255</td>
+            <td>255.255.255.255</td>
+            <td>eth0</td>
+            <td>Sep 2 00:36:19</td>
+            <td>Yes</td>
+            <td>++++</td>
+            <td>----</td>
         </tr>
         <tr>
-            <td class="textCenter">111</td>
-            <td class="textCenter">255.255.255.255</td>
-            <td class="textCenter">255.255.255.255</td>
-            <td class="textCenter">eth0</td>
-            <td class="textCenter">Sep 2 00:36:19</td>
-            <td class="textCenter">Yes</td>
-            <td class="textCenter">++++</td>
-            <td class="textCenter">----</td>
+            <td>普通</td>
+            <td>112</td>
+            <td>255.255.255.255</td>
+            <td>255.255.255.255</td>
+            <td>eth0</td>
+            <td>Sep 2 12:31:12</td>
+            <td>No</td>
+            <td>++++</td>
+            <td>----</td>
         </tr>
-
         <tr>
-            <td class="textCenter">112</td>
-            <td class="textCenter">255.255.255.255</td>
-            <td class="textCenter">255.255.255.255</td>
-            <td class="textCenter">eth0</td>
-            <td class="textCenter">Sep 2 12:31:12</td>
-            <td class="textCenter">No</td>
-            <td class="textCenter">++++</td>
-            <td class="textCenter">----</td>
+            <td>透明</td>
+            <td>113</td>
+            <td>255.255.255.255</td>
+            <td>255.255.255.255</td>
+            <td>eth0</td>
+            <td>Sep 2 00:36:19</td>
+            <td>Yes</td>
+            <td>++++</td>
+            <td>----</td>
+        </tr>
+        <tr>
+            <td>普通</td>
+            <td>114</td>
+            <td>255.255.255.255</td>
+            <td>255.255.255.255</td>
+            <td>eth0</td>
+            <td>Sep 2 12:31:12</td>
+            <td>No</td>
+            <td>++++</td>
+            <td>----</td>
+        </tr>
+        <tr>
+            <td>透明</td>
+            <td>115</td>
+            <td>255.255.255.255</td>
+            <td>255.255.255.255</td>
+            <td>eth0</td>
+            <td>Sep 2 00:36:19</td>
+            <td>Yes</td>
+            <td>++++</td>
+            <td>----</td>
+        </tr>
+        <tr>
+            <td>普通</td>
+            <td>116</td>
+            <td>255.255.255.255</td>
+            <td>255.255.255.255</td>
+            <td>eth0</td>
+            <td>Sep 2 12:31:12</td>
+            <td>No</td>
+            <td>++++</td>
+            <td>----</td>
         </tr>
     </table>
     <ol class="pagination floatRight">

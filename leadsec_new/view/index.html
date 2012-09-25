@@ -6,6 +6,7 @@
         <link rel="stylesheet" href="../css/table.css" type="text/css" />
         <link rel="stylesheet" href="../css/pagination.css" type="text/css" />
         <link rel="stylesheet" href="../css/form.css" type="text/css" />
+        <link rel="stylesheet" href="../css/tablesorter/style.css" type="text/css" />
         <link rel="stylesheet" href="../js/jquery/smoothness/jquery-ui-1.8.23.custom.css" type="text/css" />
         <!--[if IE]>
         <link rel="stylesheet" href="css/ie.css" type="text/css" />
@@ -14,7 +15,7 @@
     <body>
         <div class="wrapper">
             <!-- HEADER -->
-            <div class="header">
+            <div id="header">
             </div>
 
             <!-- NAV & CONTENT -->
@@ -48,6 +49,7 @@
 
 <script type="text/javascript" src="../js/jquery/jquery-1.8.1.min.js"></script>
 <script type="text/javascript" src="../js/jquery/jquery-ui-1.8.23.custom.min.js"></script>
+<script type="text/javascript" src="../js/jquery/jquery.tablesorter.min.js"></script>
 <script type="text/javascript" src="../js/tabs.js"></script>
 <script type="text/javascript" src="../js/dialog.js"></script>
 <script>
@@ -63,7 +65,7 @@
         });
         // end init layout
 
-        $(".wrapper>.header").load("header.html");
+        $("#header").load("header.html");
         $("#leftmenu").load("leftmenu.html", function() {
             $(this).outerHeight($("#mainZone>.mainContent").outerHeight());
             // fold/unfold level1 of leftmenu
