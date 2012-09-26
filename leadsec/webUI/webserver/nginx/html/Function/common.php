@@ -17,8 +17,10 @@
     require_once(WEB_PATH . '/Lib/driver/dbsqlite.php');
     // CLI driver
     require_once(WEB_PATH . '/Lib/driver/cli.php');
-	// function
+    // function
     require_once(WEB_PATH . '/Lib/driver/function.php');
+    // function
+    require_once(WEB_PATH . '/Lib/driver/fileUpload.php');
     
     //用户操作操时处理
     chklogin(EXPIRED_TIME);

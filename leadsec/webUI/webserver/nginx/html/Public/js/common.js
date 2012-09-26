@@ -240,16 +240,17 @@ function showDialogByAjax(url, data, title, dialogParams, ajaxParams,
 function ajaxSubmitForm(formEle, title, successCallback, errorCallback) {
     var dialog = loadingScreen(title);
     dialog.setOptions({
-        width : 200,
-        height: 100
+        width : 250,
+        height: 150
     });
  
     if (!successCallback) {
         successCallback = function(result, textStatus) {
-            if (!checkTimeOut(result)) {
-                return false;
-            } 
-            dialog.setContent($('<p>' + result + '</p>'));
+	    var content = result.msg;
+	    if ($.isArray(content)) {
+	        content = content.join('<br/>');	
+	    }
+            dialog.setContent($('<p>' + content + '</p>'));
         }
     }
     var s = successCallback;
@@ -268,6 +269,7 @@ function ajaxSubmitForm(formEle, title, successCallback, errorCallback) {
         }
     }
     formEle.ajaxSubmit({
+	dataType : 'json',
         success  : successCallback,
         error    : errorCallback
     });

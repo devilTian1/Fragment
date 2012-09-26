@@ -52,7 +52,7 @@
             </td>
         </tr>
     </table>
-    </button>
+    </form>
     <br/>
     <table class="column_95 tablesorter">
         <tr>

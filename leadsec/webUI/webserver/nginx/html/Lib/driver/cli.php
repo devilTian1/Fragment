@@ -7,8 +7,9 @@
 
         public function run($cmd) {
             list($status, $result) = $this->exec($cmd);
+	    $result = join(' ', $result);
             if ($status !== 0) {
-                $msg = "Executed Command Error: [$cmd], msg: [$result]";
+                $msg = "cmd:[$cmd], msg:[$result]";
                 throw new ExecCmdException($msg);
             }
             return $result;
