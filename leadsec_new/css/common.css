@@ -264,12 +264,10 @@ div {
 	font-weight: bold;
 	color: #0099CC;
 	cursor:pointer;
-    float:left;
     font-size: 13px;
 }
 
 #leftmenu .l2 {
-    float:left;
 	margin: 0 auto;
 }
 
@@ -296,7 +294,7 @@ div {
 /* TAB & CONTENT */
 /* tabs */ 
 #mainZone .tabs {
-	width: 99%;
+	width: 99.5%;
 	float: left;
 	background-image: url(../images/nav_bg.jpg);
 }
@@ -326,20 +324,14 @@ div {
 }
 
 #mainZone .tabinfo {
-	width: 99%;
+	width: 99.5%;
 	float: left;
-	background-image: url(../images/manage_r3_c11.jpg);
-	border-right-width: 1px;
-	border-bottom-width: 1px;
-	border-left-width: 1px;
-	border-right-style: solid;
-	border-bottom-style: solid;
-	border-left-style: solid;
-	border-right-color: #B4C9C6;
-	border-bottom-color: #B4C9C6;
-	border-left-color: #B4C9C6;
+	clear:both;
+	text-align:left;
+	background: url(../images/manage_r3_c11.jpg) repeat-x;
+	border:1px solid  #B4C9C6;
+	border-top:none;
 	height: 27px;
-	background-repeat: repeat-x;
 	padding: 5px 0px 0px 0px;
 }
 
@@ -347,9 +339,10 @@ div {
 /* MAINCONTENT */ 
 #mainZone .mainContent {
     background-color:#FFFFFF;
+	float:left;
     border: 1px solid #B4C9C6;
-    width: 99%;
-    margin: 6px 0px 0px 0px;
+    width: 99.5%;
+    margin: 6px 0 0 0;
     padding: 5px 0px;
     overflow: auto;
 }
@@ -405,6 +398,7 @@ div {
     overflow: auto;
     text-align:center;
     line-height:20px;
+	height:20px;
 }
 
 

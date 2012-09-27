@@ -56,8 +56,9 @@
 
     );
     $page = $_POST['page'];
+	//var_dump($page);
     $tabs = $l3Arr[$page];
-    if ( empty($tabs) ) {
+    if (empty($tabs)) {
         array_push($tabs, 'building');
     }
 ?>
@@ -65,7 +66,7 @@
 <div class="tabs">
     <ul>
         <?php
-            foreach( $tabs as $key => $tab ) {
+            foreach($tabs as $key => $tab ) {
                 if ( $key == 0 ) {
                     echo "<li class='visitedTab'>";
                 } else {
