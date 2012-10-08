@@ -1,0 +1,431 @@
+body {
+	margin: 0px;
+    padding: 0px;
+}
+
+html {
+	margin: 0px;
+    padding: 0px;
+	background-color: #F9F9F9;
+}
+
+body {
+    font: normal 12px 'Lucida Grande', Verdana, sans-serif;
+	background-color: #F9F9F9;
+	line-height: 175%;
+	color:#666;
+    text-align: center;
+}
+
+a, .href {
+	color: #555;
+	text-decoration:none;
+    font-weight: normal;
+}
+
+a:hover {
+	color: #0099CC;
+}
+
+.link {
+	color: #0099CC;
+    font-weight: bold;
+}
+
+img {
+    border-width: 0px;
+	display: inline;
+}
+
+ul {
+    margin: 0;
+	padding: 0;
+	list-style-position: outside;
+	list-style-type: none;
+}
+
+li {
+	margin: 0;
+	padding: 0;
+}
+
+div {
+	margin: 0;
+	padding: 0;
+}
+
+.textLeft {
+    text-align: left;
+}
+.textCenter {
+    text-align: center;
+}
+.textRight {
+    text-align: right;
+}
+
+.error {
+    font-weight: bold;
+    color: red;
+}
+
+.column {
+    float: left;
+}
+.column_5 {
+    width: 5%;
+}
+.column_10 {
+    width: 10%;
+}
+.column_15 {
+    width: 15%;
+}
+.column_20 {
+    width: 20%;
+}
+.column_25 {
+    width: 25%;
+}
+.column_30 {
+    width: 30%;
+}
+.column_35 {
+    width: 35%;
+}
+.column_40 {
+    width: 40%;
+}
+.column_45 {
+    width: 45%;
+}
+.column_50 {
+    width: 50%;
+}
+.column_55 {
+    width: 55%;
+}
+.column_60 {
+    width: 60%;
+}
+.column_65 {
+    width: 65%;
+}
+.column_70 {
+    width: 70%;
+}
+.column_75 {
+    width: 75%;
+}
+.column_80 {
+    width: 80%;
+}
+.column_85 {
+    width: 85%;
+}
+.column_90 {
+    width: 90%;
+}
+.column_95 {
+    width: 95%;
+}
+
+.floatLeft {
+    float: left;   
+}
+.floatRight {
+    float: right;
+}
+.clearFloat {
+    clear: both;
+}
+
+.hide {
+    display: none;
+}
+
+.required {
+    color: red;
+    font-size: 0.75em;
+}
+
+/* LAYOUT */
+.wrapper {
+	margin: 0 auto;
+	padding: 0px;
+    text-align: left;
+    display: inline;
+}
+.wrapper, #header,.wrapper #content,.wrapper .footer{
+	width: 100%;
+}
+
+#header {
+    height: 50px;
+}
+
+#mainZone {
+    float: right;
+}
+
+#content .secondary {
+    width: 206px;
+    float: left;
+    position: absolute;
+    top: 50px;
+    left: 0px;
+    overflow: hidden;
+}
+
+.footer {
+    height: 40px;
+    margin-top: 6px;
+}
+
+/* HEADER */
+/* LOGO */
+#header .logo {
+	float: left;
+	height: 50px;
+	width: 20%;
+}
+
+#header .logo img {
+    float: left;
+}
+
+/* HEADER */
+/* right_nav */
+#header .right_nav {
+	float: right;
+	width: 80%;
+	height: 50px;
+}
+
+#header .right_nav .text_left {
+	float: left;
+	width: 20%;
+	padding: 22px 0 0 0;
+	color: #CC3300;
+}
+#header .right_nav .text_left label {
+}
+
+
+#header .right_nav .text_right {
+	float: right;
+	width: 80%;
+	display: inline;
+	padding: 22px 0 0 0;
+	text-align: right;
+}
+
+#header .right_nav .text_right a {
+	display: inline;
+	color:#3399CC;
+}
+
+/* TAB & CONTENT */
+/* USERINFO */
+#content .secondary .userinfo {
+    height: 55px;
+    padding: 10px 0px 0px 55px;
+    background: url(../images/manage_r2_c1.jpg) no-repeat;
+}
+
+#content .secondary .userinfo a {
+    color: #0099CC;
+}
+
+/* TAB & CONTENT */
+/* LEFTMENU */
+#leftmenu {
+    margin-right: 10px;
+	width: 197px;
+    border: 1px solid #B4C9C6;
+	text-align: left;
+    background-color: #FFFFFF;
+}
+
+#leftmenu .l1_close {
+	background-image: url(../images/l1_down.gif);
+}
+
+#leftmenu .l1_open {
+	background-image: url(../images/l1_up.gif);
+}
+
+#leftmenu .l1 {
+	background-repeat: no-repeat;
+	height: 22px;
+	width: 140px;
+	margin: 9px 0px 0px 13px;
+	padding-left: 30px;
+	font-weight: bold;
+	color: #0099CC;
+	cursor:pointer;
+    font-size: 13px;
+}
+
+#leftmenu .l2 {
+	margin: 0 auto;
+}
+
+#leftmenu .l2 li {
+	list-style-image: url(../images/direct_blue.gif);
+	list-style-position: inside;
+	padding: 0px 0px 0px 4px;
+    margin-left: 20px;
+}
+
+/* TAB & CONTENT */
+/* LEFTMENU */
+/* SWITCH ARROW */
+#content .secondary .switchpic {
+    clear: both;
+	width: 6px;
+	cursor:pointer;
+    position: absolute;
+    top: 250px;
+    left: 198px;
+}
+
+
+/* TAB & CONTENT */
+/* tabs */ 
+#mainZone .tabs {
+	width: 99.5%;
+	float: left;
+	background-image: url(../images/nav_bg.jpg);
+}
+
+.linkTab {
+    background: url(../images/manage_r2_c14.jpg) no-repeat;
+}
+.visitedTab {
+    background: url(../images/manage_r2_c13.jpg) no-repeat;
+	color:#0099CC;
+}
+
+#mainZone .tabs ul { 
+    margin: 0px; 
+	padding: 0px;
+    list-style: none; 
+}
+
+#mainZone .tabs li {
+    float: left; 
+	margin: 0px; 
+	padding: 2px 0 0 0;
+	line-height: 24px;
+	font-weight: bold;
+	cursor: pointer;
+	text-align:center;
+    width: 114px;
+}
+
+#mainZone .tabinfo {
+	width: 99.5%;
+	float: left;
+	clear:both;
+	text-align:left;
+	background: url(../images/manage_r3_c11.jpg) repeat-x;
+	border:1px solid  #B4C9C6;
+	border-top:none;
+	height: 27px;
+	padding: 5px 0px 0px 0px;
+}
+
+/* TAB & CONTENT */
+/* MAINCONTENT */ 
+#mainZone .mainContent {
+    background-color:#FFFFFF;
+	float:left;
+    border: 1px solid #B4C9C6;
+    width: 99.5%;
+    margin: 6px 0 0 0;
+    padding: 5px 0px;
+    overflow: auto;
+}
+#mainZone .mainContent button {
+    margin: 5px;
+}
+
+/* TAB & CONTENT */
+/* TABLE */
+.table {
+    background-color: #F3F8F7;
+    width: 99%;
+    margin: 0px auto;
+    text-align: center;
+    border: 1px solid #DBE6E3;
+}
+
+.table .th {
+    padding: 3px 0px 3px 0px;
+	background-color: #F3F8F7;
+    border-bottom: 1px solid #DBE6E3;
+	color: #73938E;
+	font-weight: bold;
+	line-height: 30px;
+    text-align: left;
+
+}
+.table .leftTitle {
+    padding: 3px 0px;
+	background-color: #F3F8F7;
+    border-right: 1px solid #DBE6E3;
+    border-bottom: 1px solid #DBE6E3;
+	color: #73938E;
+	font-weight: bold;
+	line-height: 30px;
+}
+
+.table .secCol {
+    padding: 3px 0px 3px 10px;
+	background-color: #FFFFFF;
+    border-bottom: 1px solid #DBE6E3;
+	color: #73938E;
+	line-height: 30px;
+}
+
+
+
+/* FOOTER */
+.footer .bottom {
+    border: 1px solid #B4C9C6;
+    background-color:#FFFFFF;
+    padding: 5px 0 5px 0;
+    overflow: auto;
+    text-align:center;
+    line-height:20px;
+	height:20px;
+}
+
+
+
+/* REST */
+.left_back{
+	background-image: url(../images/manage_r7_c2.jpg);
+	background-repeat: no-repeat;
+	cursor:pointer;
+}
+.left_back_onclick{
+	background-image: url(../images/manage_r6_c2.jpg);
+	background-repeat: no-repeat;
+	color:#333333;
+}
+.left_title_1 {
+	background-color: #F3F8F7;
+	color:#73938E;
+	font-weight:bold;
+	line-height:30px;
+	text-align:right
+}
+.left_title_2 {
+	background-color: #fff;
+	color:#73938E;
+	font-weight:bold;
+	line-height:30px;
+	text-align:right;
+}

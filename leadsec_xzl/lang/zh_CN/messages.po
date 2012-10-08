@@ -1,0 +1,27 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: 12\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-03-14 18:34+0800\n"
+"PO-Revision-Date: 2012-09-29 09:43+0800\n"
+"Last-Translator: grd@getroad.cn <bizman>\n"
+"Language-Team: bizm <na@q.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _;__R;gettext;gettext_noop;__\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SourceCharset: GBK\n"
+"Language: zh_CN\n"
+"X-Generator: Poedit 1.5.3\n"
+"X-Poedit-SearchPath-0: D:\\web\\lang\\l3\n"
+
+#: D:\web\lang\l3/index.php:19
+msgid "this is the test key!"
+msgstr "这是一个测试键值!"
+
+msgid "Hello World!"
+msgstr "你好世界!"
+
+msgid "This is book."
+msgstr "这是书."
