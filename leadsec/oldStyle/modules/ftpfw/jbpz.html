@@ -1,0 +1,40 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="../../css/common.css" type="text/css" />
+<link rel="stylesheet" href="../../js/jqtransformplugin/jqtransform.css" type="text/css" media="all" />
+<title>管理区域</title>
+<script type="text/javascript" src="../../js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="../../js/jqtransformplugin/jquery.jqtransform.js" ></script>
+<script type="text/javascript" src="../../js/common.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		changeClientId('man_zone');
+		$('form').jqTransform({imgPath:'../../js/jqtransformplugin/img/'});
+	});
+</script>
+</head>
+
+<body>
+<div id="man_zone">
+  <table width="99%" border="0" align="center"  cellpadding="3" cellspacing="1" class="table_style">
+  <form action="xtcs.html" method="POST">
+    <tr>
+      <td colspan="2" class="tabletop"> 服务管理</td>
+    </tr>
+    <tr>
+      <td width="18%" class="left_title_1">当前服务状态:</td>
+      <td width="82%"><span class="red">停止</span></td>
+    </tr>
+    <tr>
+      <td class="center_title_1"></td>
+      <td class="right_title_1"><div class="rowElem"><input name="按钮" type="button" value="启动服务" width="50" />
+        <input name="按钮" type="button" value="停止服务" width="50" />
+      </div></td>
+    </tr>
+    </form>
+  </table>
+</div>
+</body>
+</html>

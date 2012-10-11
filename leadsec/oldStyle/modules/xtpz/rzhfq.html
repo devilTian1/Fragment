@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="../../css/common.css" type="text/css" />
+<link rel="stylesheet" href="../../js/jqtransformplugin/jqtransform.css" type="text/css" media="all" />
+<title>管理区域</title>
+<script type="text/javascript" src="../../js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="../../js/jqtransformplugin/jquery.jqtransform.js" ></script>
+<script type="text/javascript" src="../../js/common.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		changeClientId('man_zone');
+		//$('form').jqTransform({imgPath:'../../js/jqtransformplugin/img/'});
+		$('.inputbtn').jqTransInputButton({imgPath:'../../js/jqtransformplugin/img/'});
+		$('.inputtext').jqTransInputText({imgPath:'../../js/jqtransformplugin/img/'});
+		$('.inputsel').jqTransSelect({imgPath:'../../js/jqtransformplugin/img/'});
+	});
+</script>
+</head>
+
+<body>
+<div id="man_zone">
+  <table width="99%" border="0" align="center"  cellpadding="3" cellspacing="1" class="table_style">
+  <form action="rzhfq.html" method="POST">
+    <tr>
+      <td colspan="2" class="tabletop">日志服务器</td>
+    </tr>
+    <tr>
+      <td width="18%" class="left_title_1"><span class="red">*</span> 日志服务器 IP</td>
+      <td width="82%"><input name="" type="text" class="inputtext" value="127.1.1.1"  size="20"  />
+        请勿填写本机地址</td>
+    </tr>
+    <tr>
+      <td class="left_title_2">协议</td>
+      <td><label>
+          <select name="select" id="select" class="inputsel">
+            <option>UDP</option>
+          
+          </select>
+        </label></td>
+    </tr>
+    <tr>
+      <td class="left_title_1"><span class="red">*</span> 端口 <br /></td>
+      <td> <input name="input" type="text" class="inputtext" value="514" size="8"/>
+( 1-65535 ) </td>
+    </tr>
+    <tr>
+      <td class="center_title_1"></td>
+      <td class="right_title_1"><div class="rowElem">
+        <input type="submit" value="确定" width="50" class="inputbtn" />
+        <input type="submit" value="查看日志" width="50" class="inputbtn" />
+      </div></td>
+    </tr>
+    </form>
+  </table>
+</div>
+</body>
+</html>

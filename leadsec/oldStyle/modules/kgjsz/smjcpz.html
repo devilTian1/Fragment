@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="../../css/common.css" type="text/css" />
+<link rel="stylesheet" href="../../js/jqtransformplugin/jqtransform.css" type="text/css" media="all" />
+<title>管理区域</title>
+<script type="text/javascript" src="../../js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="../../js/jqtransformplugin/jquery.jqtransform.js" ></script>
+<script type="text/javascript" src="../../js/zdialog/zDialog.js" ></script>
+<script type="text/javascript" src="../../js/common.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		changeClientId('man_zone');
+		$('form').jqTransform({imgPath:'../../js/jqtransformplugin/img/'});
+		
+	});
+</script>
+</head>
+
+<body>
+<div id="man_zone">
+  <table width="99%" border="0" align="center"  cellpadding="3" cellspacing="1" class="table_style">
+  <form action="xtcs.html" method="POST">
+    <tr>
+      <td colspan="2" class="tabletop">扫描检测配置<br /></td>
+    </tr>
+    <tr>
+      <td class="left_title_1">启动扫描检测:<br /></td>
+      <td><label>
+        <input name="checkbox" type="checkbox" id="checkbox" checked="checked" />
+      </label></td>
+    </tr>
+    <tr>
+      <td class="left_title_1">时间间隔: <br /></td>
+      <td><label>
+        <input name="textfield" type="text" id="textfield" value="10" />
+      秒</label></td>
+    </tr>
+    <tr>
+      <td class="left_title_1">发现端口连接次数:  <br /></td>
+      <td><label>
+        <input name="textfield" type="text" id="textfield" value="3" />
+      </label></td>
+    </tr>
+    <tr>
+      <td width="21%" class="left_title_1"><p>忽略来自以下源IP地址的扫描检测: </p>
+        <p>(用英文逗号分隔)        </p></td>
+      <td width="79%"><label>
+        <textarea name="textarea" id="textarea" cols="45" rows="5"></textarea>
+      </label></td>
+    </tr>
+    <tr>
+      <td class="center_title_1"></td>
+      <td class="right_title_1"><div class="rowElem"><input name="按钮" type="button" value="确定" width="50" />
+      </div></td>
+    </tr>
+    </form>
+  </table>
+</div>
+</body>
+</html>

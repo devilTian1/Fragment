@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="../../css/common.css" type="text/css" />
+<link rel="stylesheet" href="../../js/jqtransformplugin/jqtransform.css" type="text/css" media="all" />
+<title>添加用户</title>
+<script type="text/javascript" src="../../js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="../../js/jqtransformplugin/jquery.jqtransform.js" ></script>
+<script type="text/javascript" src="../../js/common.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		//changeClientId('man_zone');
+		document.getElementById("man_zone").style.height='460px';
+		$('.inputtext').jqTransInputText({imgPath:'../../js/jqtransformplugin/img/'});
+		$('.inputselect').jqTransSelect({imgPath:'../../js/jqtransformplugin/img/'});
+		//$('form').jqTransform({imgPath:'../../js/jqtransformplugin/img/'});
+	});
+</script>
+</head>
+
+<body>
+<div id="man_zone">
+  <table width="99%" border="0" align="center"  cellpadding="3" cellspacing="1" class="table_style">
+    <tr>
+      <td class="left_title_1"><span class="red">*</span> 用户名: <br /></td>
+      <td><div class="rowElem">
+        <input type="text" name="inputtext3" class="inputtext"/>
+        &nbsp;( 1-15 字母、数字、减号、下划线、点的组合 ) </div></td>
+    </tr>
+  <form action="xtcs.html" method="POST">
+    <tr>
+      <td width="23%" class="left_title_1"><span class="red">*</span>协议类型: <br /></td>
+      <td width="77%"><div class="rowElem">
+        <input name="radio" type="radio" id="radio" value="radio" checked="checked" />
+        smtp
+        <input type="radio" name="radio" id="radio2" value="radio" />
+        pop3
+      </div></td>
+    </tr>
+    <tr>
+      <td class="left_title_1">允许最大附件: <br /></td>
+      <td><div class="rowElem">
+        <input type="text" name="inputtext"  class="inputtext"/>
+        &nbsp;( 单位M,默认为100M) </div></td>
+    </tr>
+    <tr>
+      <td class="left_title_1">允许的扩展名组: <br /></td>
+      <td><div class="rowElem">
+        <label>
+          <select name="select2" class="w200" id="select2">
+          </select>
+        </label>
+        （附件扩展名组名称）</div></td>
+    </tr>
+    <tr>
+      <td class="left_title_1">发件人地此组: <br /></td>
+      <td><div class="rowElem">
+        <label>
+          <select name="select2" class="w200" id="select2">
+            </select>
+        </label>
+      （来源邮件地此组名称）</div></td>
+    </tr>
+    <tr>
+      <td class="left_title_1">发件人过滤类别: <br /></td>
+      <td><div class="rowElem">
+        <input name="radio1" type="radio" id="radio3" value="radio" checked="checked" />
+        黑名单
+        <input type="radio" name="radio1" id="radio4" value="radio" />
+        白名单
+      </div></td>
+    </tr>
+    <tr>
+      <td class="left_title_1">收件人地此组: <br /></td>
+      <td><div class="rowElem">
+        <label>
+          <select name="select2" class="w200" id="select2">
+          </select>
+        </label>
+        （来源邮件地此组名称）</div></td>
+    </tr>
+    <tr>
+      <td class="left_title_1">收件人过滤类别: <br /></td>
+      <td><div class="rowElem">
+        <input name="radio2" type="radio" id="radio5" value="radio" checked="checked" />
+        黑名单
+        <input type="radio" name="radio2" id="radio6" value="radio" />
+        白名单 </div></td>
+    </tr>
+    <tr>
+      <td class="left_title_1">主题关键字黑名单: <br /></td>
+      <td><div class="rowElem">
+        <label>
+          <select name="select2" class="w200" id="select2">
+          </select>
+        </label>
+        （来源于内容关键字名称）</div></td>
+    </tr>
+    <tr>
+      <td class="left_title_1">正文关键字黑名单: <br /></td>
+      <td><div class="rowElem">
+        <label>
+          <select name="select2" class="w200" id="select2">
+          </select>
+        </label>
+        （来源于内容关键字名称）</div></td>
+    </tr>
+    <tr>
+      <td class="left_title_1">病毒扫描: <br /></td>
+      <td><div class="rowElem">
+        <input name="radio3" type="radio" id="radio7" value="radio" checked="checked" />
+        黑名单
+        <input type="radio" name="radio3" id="radio8" value="radio" />
+        白名单 </div></td>
+    </tr>
+    <tr>
+      <td class="left_title_1"><span class="red"></span>备注：<br /></td>
+      <td><div class="rowElem">
+        <input type="text" name="inputtext"  class="inputtext"/>
+        &nbsp;</div></td>
+    </tr>
+    </form>
+  </table>
+</div>
+</body>
+</html>

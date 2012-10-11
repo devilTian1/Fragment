@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="../../css/common.css" type="text/css" />
+<link rel="stylesheet" href="../../js/jqtransformplugin/jqtransform.css" type="text/css" media="all" />
+<title>管理区域</title>
+<script type="text/javascript" src="../../js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="../../js/jqtransformplugin/jquery.jqtransform.js" ></script>
+<script type="text/javascript" src="../../js/zdialog/zDialog.js" ></script>
+<script type="text/javascript" src="../../js/common.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		changeClientId('man_zone');
+		$('form').jqTransform({imgPath:'../../js/jqtransformplugin/img/'});
+		$('#startdebug').click(function(){
+			win('wltsgj_edit.html',600,400,'调试结果');						 
+		});
+	});
+</script>
+</head>
+
+<body>
+<div id="man_zone">
+  <table width="99%" border="0" align="center"  cellpadding="3" cellspacing="1" class="table_style">
+  <form action="xtcs.html" method="POST">
+    <tr>
+      <td colspan="2" class="tabletop">网络调试工具 <br /></td>
+    </tr>
+    <tr>
+      <td width="19%" class="center_title_1">调试工具</td>
+      <td width="81%" class="right_title_1">调试参数</td>
+    </tr>
+    <tr class="center_title_2">
+      <td class="center_title_2">
+   		  <div class="rowElem">
+			<input type="radio" id="" name="question" value="oui" checked >
+            <label>ping</label>
+   		  </div>
+        </td>
+      <td class="center_title_2">
+      <div class="rowElem">
+        <label>IP地此 </label>
+        <input type="text" name="textfield" id="textfield" />
+      </div>
+      </td>
+    </tr>
+    <tr class="center_title_2">
+      <td class="center_title_2"><div class="rowElem">
+        <input type="radio" id="question" name="question" value="oui" />
+        <label>traceroute </label>
+      </div></td>
+      <td class="center_title_2"> <div class="rowElem">
+        <label>IP地此 </label>
+        <input type="text" name="textfield2" id="textfield2" />
+        </div>
+        </td>
+    </tr>
+    <tr class="center_title_2">
+      <td class="center_title_2"><div class="rowElem">
+        <input type="radio" id="question2" name="question" value="oui" />
+        <label>tcpdump </label></div></td>
+      <td class="center_title_2">	
+      <div class="rowElem">
+			<label>网络接口</label>
+          <select name="select" id="select">
+            <option>fs2</option>
+          </select>
+        </div>
+        </td>
+    </tr>
+    <tr class="center_title_2">
+      <td class="center_title_2"><div class="rowElem">
+        <input type="radio" id="question3" name="question" value="oui" />
+        <label>arp </label></div></td>
+      <td class="center_title_2">&nbsp;</td>
+    </tr>
+    <tr class="center_title_2">
+      <td class="center_title_2"><div class="rowElem">
+        <input type="radio" id="question4" name="question" value="oui" />
+ <label>routeshow </label> </div></td>
+      <td class="center_title_2">&nbsp;</td>
+    </tr>
+    <tr>
+      <td class="center_title_1"></td>
+      <td class="right_title_1"><label>
+        <input type="button" name="button" value="开始调试" id="startdebug" />
+      </label></td>
+    </tr>
+    </form>
+  </table>
+</div>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="../../css/common.css" type="text/css" />
+<link rel="stylesheet" href="../../js/jqtransformplugin/jqtransform.css" type="text/css" media="all" />
+<link rel="stylesheet" type="text/css" href="../../js/checkbox/jquery.tzCheckbox.css" />
+<link rel="stylesheet" href="../../js/pagination/pagination.css" type="text/css" media="all" />
+<title>管理区域</title>
+<script type="text/javascript" src="../../js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="../../js/jqtransformplugin/jquery.jqtransform.js" ></script>
+<script type="text/javascript" src="../../js/pagination/jquery.pagination.js" ></script>
+<script type="text/javascript" src="../../js/checkbox/jquery.tzCheckbox.js" ></script>
+<script type="text/javascript" src="../../js/zdialog/zDialog.js" ></script>
+<script type="text/javascript" src="../../js/common.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		changeClientId('man_zone');
+		$('.inputbtn').jqTransInputButton({imgPath:'../../js/jqtransformplugin/img/'});
+		$('.inputtext').jqTransInputText({imgPath:'../../js/jqtransformplugin/img/'});
+		//$('#allowmore').tzCheckbox({labels:['Enable','Disable']});
+		
+	});
+</script>
+</head>
+
+<body>
+<div id="man_zone">
+  <table width="99%" border="0" align="center"  cellpadding="3" cellspacing="1" class="table_style">
+    <tr>
+      <td colspan="5" class="tabletop"> 进程添加（URL只支持http、https、ftp三种协议，并且不能够有分号、逗号和加号） </td>
+    </tr>
+    <tr>
+      <td width="18%" class="center_title_1">软件名</td>
+      <td width="19%" class="center_title_1">软件名</td>
+      <td width="23%" class="center_title_1">提示信息</td>
+      <td width="18%" class="center_title_1">URL</td>
+      <td width="22%" class="center_title_1">操作</td>
+    </tr>
+    <tr>
+      <td colspan="5"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td  class="left_title_1">软件名：</td>
+          <td><label>
+            <input type="text" name="textfield" id="textfield" />
+          （最多30个字符）</label></td>
+          <td class="left_title_1">进程名：</td>
+          <td><input type="text" name="textfield3" id="textfield3" />
+            （最多30个字符）</td>
+        </tr>
+        <tr>
+          <td class="left_title_1">提示信息：</td>
+          <td><input type="text" name="textfield2" id="textfield2" />
+            （最多50个字符）</td>
+          <td class="left_title_1">进程URL:</td>
+          <td><input type="text" name="textfield4" id="textfield4" />
+            （最多100个字符）</td>
+        </tr>
+      </table></td>
+    </tr>
+    <tr>
+      <td width="18%" class="center_title_1">&nbsp;</td>
+      <td colspan="4" class="right_title_1"><label>
+        <input type="submit" name="button" id="button" value="进程添加" class="inputbtn" />
+      </label></td>
+    </tr>
+  </table>
+</div>
+</body>
+</html>

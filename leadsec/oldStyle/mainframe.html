@@ -1,0 +1,122 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="css/common.css" type="text/css" />
+<title>管理导航区域</title>
+</head>
+<script  type="text/javascript">
+var preClassName = "man_nav_1";
+function list_sub_nav(Id,sortname){
+   if(preClassName != ""){
+      getObject(preClassName).className="bg_image";
+   }
+   if(getObject(Id).className == "bg_image"){
+      getObject(Id).className="bg_image_onclick";
+      preClassName = Id;
+	  showInnerText(Id);
+	  window.top.frames['leftFrame'].outlookbar.getbytitle(sortname);
+	  window.top.frames['leftFrame'].outlookbar.getdefaultnav(sortname);
+   }
+}
+
+function showInnerText(Id){
+    var switchId = parseInt(Id.substring(8));
+	var showText = "对不起没有信息！";
+	switch(switchId){
+	    case 1:
+		   showText =  "系统配置!";
+		   break;
+	    case 2:
+		   showText =  "网络配置";
+		   break;
+	    case 3:
+		   showText =  "资源定义";
+		   break;		   
+	    case 4:
+		   showText =  "定制访问";
+		   break;	
+	    case 5:
+		   showText =  "抗攻击设置";
+		   break;
+		case 6:
+		   showText =  "系统监控";
+		   break;
+		case 7:
+		   showText =  "病毒防护";
+		   break;
+		case 8:
+		   showText =  "数据库同步";
+		   break;
+		case 9:
+		   showText =  "安全浏览";
+		   break;
+	   case 10:
+		   showText =  "文件交换1";
+		   break;
+	  case 11:
+		   showText =  "文件交换2";
+		   break;
+     case 12:
+		   showText =  "FTP访问";
+		   break;
+	case 13:
+		   showText =  "邮件访问";
+		   break;
+	case 14:
+		   showText =  "数据库访问";
+		   break;
+	case 15:
+		   showText =  "安全通道";
+		   break;
+	case 16:
+		   showText =  "消息传递";
+		   break;
+	case 17:
+		   showText =  "在线支持";
+		   break;
+     
+	}
+	getObject('show_text').innerHTML = showText;
+}
+ //获取对象属性兼容方法
+ function getObject(objectId) {
+    if(document.getElementById && document.getElementById(objectId)) {
+	// W3C DOM
+	return document.getElementById(objectId);
+    } else if (document.all && document.all(objectId)) {
+	// MSIE 4 DOM
+	return document.all(objectId);
+    } else if (document.layers && document.layers[objectId]) {
+	// NN 4 DOM.. note: this won't find nested layers
+	return document.layers[objectId];
+    } else {
+	return false;
+    }
+}
+</script>
+<body>
+<div id="nav">
+    <ul>
+    	<li id="man_nav_1" onclick="list_sub_nav(id,'系统配置')"  class="bg_image_onclick">系统配置</li>
+        <li id="man_nav_2" onclick="list_sub_nav(id,'网络配置')"  class="bg_image">网络配置</li>
+        <li id="man_nav_3" onclick="list_sub_nav(id,'资源定义')"  class="bg_image">资源定义</li>
+        <li id="man_nav_4"  onclick="list_sub_nav(id,'定制访问')"  class="bg_image">定制访问</li>
+        <li id="man_nav_5"  onclick="list_sub_nav(id,'抗攻击设置')"  class="bg_image">抗攻击设置</li>
+        <li id="man_nav_6"  onclick="list_sub_nav(id,'系统监控')"  class="bg_image">系统监控</li>
+        <li id="man_nav_7"  onclick="list_sub_nav(id,'病毒防护')"  class="bg_image">病毒防护</li>
+        <li id="man_nav_8"  onclick="list_sub_nav(id,'数据库同步')"  class="bg_image">数据库同步</li>
+        <li id="man_nav_9"  onclick="list_sub_nav(id,'安全浏览')"  class="bg_image">安全浏览</li>
+        <li id="man_nav_10"  onclick="list_sub_nav(id,'文件交换1')"  class="bg_image">文件交换1</li>
+        <li id="man_nav_11"  onclick="list_sub_nav(id,'文件交换2')"  class="bg_image">文件交换2</li>
+        <li id="man_nav_12"  onclick="list_sub_nav(id,'FTP访问')"  class="bg_image">FTP访问</li>
+        <li id="man_nav_13"  onclick="list_sub_nav(id,'邮件访问')"  class="bg_image">邮件访问</li>
+        <li id="man_nav_14"  onclick="list_sub_nav(id,'数据库访问')"  class="bg_image">数据库访问</li>
+        <li id="man_nav_15"  onclick="list_sub_nav(id,'安全通道')"  class="bg_image">安全通道</li>
+        <li id="man_nav_16"  onclick="list_sub_nav(id,'消息传递')"  class="bg_image">消息传递</li>
+        <li id="man_nav_17"  onclick="list_sub_nav(id,'在线支持')"  class="bg_image">在线支持</li>
+    </ul>
+</div>
+<div id="sub_info">&nbsp;&nbsp;<img src="images/hi.gif" />&nbsp;<span id="show_text">欢迎使用安全隔离与信息交换系统</span></div>
+</body>
+</html>
