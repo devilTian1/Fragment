@@ -1,4 +1,5 @@
 <?php
+date_default_timezone_set('Asia/chongqing');
 $lang_file="index.mo";
 include("include/common.ini.php");
 $tpl->assign("title", __R("安全隔离与信息交换系统 "));
