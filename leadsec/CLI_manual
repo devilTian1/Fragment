@@ -1,0 +1,377 @@
+\documentclass[CJK]{cctart}
+
+%页眉页脚
+\usepackage{graphicx,color,fancyhdr,indentfirst,amsmath,amssymb}
+\setcounter{tocdepth}{3}
+\pagestyle{fancy}
+\lhead{网御SIS安全隔离与信息交换系统命令行操作手册}
+\rhead{}
+\lfoot{}
+\rfoot{}
+\begin{document}
+
+\begin{center}
+\resizebox{!}{1.3cm}{Leadsec 网御}
+\vskip 1 cm
+\resizebox{!}{0.8cm}{网御SIS安全隔离与信息交换系统}
+\vskip 2 cm
+\resizebox{!}{0.8cm}{命令行接口手册}
+\begin{flushright} v1.1 \end{flushright}
+\end{center}
+
+\newpage
+\section*{声明}
+\addcontentsline{toc}{section}{声明}
+\begin{itemize}
+\item 本手册所含内容若有任何改动，恕不另行通知。
+\item 在法律法规的最大允许范围内，北京网御星云信息技术有限公司除就本手册和产品应负的瑕疵担保责任外，无论明示或默示，不作其它任何担保，包括（但不限于）本手册中推荐使用产品的适用性和安全性、产品的适销性和适合某特定用途的担保。
+\item 在法律法规的最大允许范围内，北京网御星云信息技术有限公司对于您的使用或不能使用本产品而发生的任何损坏（包括，但不限于直接或间接的个人损害、商业利润的损失、业务中断、商业信息的遗失或任何其它损失），不负任何赔偿责任。
+\item 本手册含受版权保护的信息，未经北京网御星云信息技术有限公司书面允许不得对本手册的任何部分进行影印、复制或翻译。
+\end{itemize}
+\begin{flushright}
+北京网御星云信息技术有限公司\\
+中国北京海淀区中关村南大街6号中电信息大厦8层
+\end{flushright}
+
+% menu
+\newpage
+\tableofcontents
+
+
+
+\newpage
+\section{前言}
+\subsection{导言}
+\indent 《命令行接口手册》是网御SIS安全隔离网闸管理员手册中的一本。该手册主要介绍如何通过终端命令行的方式对网御SIS安全隔离网闸进行配置管理及提供给上层界面的开发。
+\subsection{本书适用对象}
+\indent 本手册适用于上层界面开发、负责支持、维护安全隔离网闸的安全管理员，是进行网御SIS安全隔离网闸配置管理时的必备手册。\\
+\indent 使用本手册的读者，应掌握TCP/IP 协议，IP 地址及子网掩码等基本知识。
+\subsection{本书适合的产品}
+\indent 本书适合网御SIS安全隔离与信息交换系统 系列产品，以后简称网御SIS安全隔离网闸，不再说明。
+\subsection{相关参考手册}
+\indent 《网御SIS安全隔离网闸 Web界面操作手册》：介绍了如何通过Web界面管理网御SIS安全隔离网闸。
+
+
+
+\newpage
+\section{命令行概述}
+\subsection{CLI界面概述}
+\indent CLI界面为用户提供一个纯字符界面。它向不同级别的管理员提供不同的命令集，屏蔽管理员对文件系统的直接访问。\\
+\indent CLI界面可以使用超级终端通过安全隔离网闸上的串口进入，也可以在远程使用ssh客户端进入，进入CLI界面需要提供用户名和密码。SIS安全隔离网闸的初始用户名和口令都是“administrator”，“administrator”中所有的字母都是小写的。\\
+\indent 通过超级终端进入CLI界面的的方法如下：将管理主机的COM串口与安全隔离网闸的CONSOLE口用串口线连接，配置管理主机的超级终端，波特率为9600比特。以默认管理员帐号与密码登录，进入CLI命令行界面：\\
+\includegraphics{clip_image002}
+\indent 在第一次登录成功后，管理员可以按需求变更管理员帐号、管理主机、安全隔离网闸可管理IP、管理方式或导入管理员证书。下次登录时，按变更内容进行认证与登录。\\
+\indent 进入CLI界面后，会出现命令行提示符，用户可在命令行上输入、编辑命令，编辑键如下：\\
+
+\begin{tabular}{l|l}
+\begin{math} \gets \end{math} & 光标前移一格\\
+\begin{math} \to \end{math}  & 光标后移一格\\
+CTRL+A & 光标移到行首\\
+CTRL+E & 光标移到行尾\\
+CTRL+D & 删除光标处的单个字符\\
+CTRL+H & 删除光标前的单个字符\\
+CTRL+U & 清空当前命令行\\
+CTRL+C & 忽略当前命令行，在下一行显示新的命令提示符
+\end{tabular}\\
+\indent 用户可以使用“？”键获得上下文相关的帮助信息。\\
+\indent 用户使用回车键提交命令。\\
+\indent 提交过的命令会储存在历史命令列表中，通过上下箭头键调用。历史命令表可以存储100条命令。\\
+\indent 用户可以使用CTRL+C中止正在执行的命令。\\
+\indent 如果用户在1800秒内没有任何操作，CLI界面会返回到登录提示状态。\\
+\indent 客户端的连接、用户登录信息（成功和失败）、用户提交的命令、用户退出信息都会记录在系统日志中。\\
+
+\subsection{命令行的使用}
+\indent 在使用网御SIS安全隔离网闸的命令集之前，请您参照《网御SIS安全隔离网闸 Web界面操作手册》中的安装过程，安装好安全隔离网闸，并且按照其中命令行配置的步骤进行配置和登录。\\
+
+\subsection{命令的基本结构}
+命令行的命令的基本结构为：“类别命令 操作类型 命令参数1 命令参数2 ……”\\
+\indent 类别命令：表示想配置的项目，如：网络接口（interface）等。\\
+\indent 操作类型：表示对此项目进行什么样的操作，如：添加（add）、删除（del）、修改（set）、显示（show）等。\\
+\indent 命令参数：不同的参数有不同必选或可选参数。\\
+所有的命令和参数都是大小写敏感的。\\
+
+\subsection{基本命令行参数}
+以下介绍在命令行中常用的一些基本参数及其含义和格式，在没有特殊声明的情况下，都遵守这里的约定，如有特殊情况，会特殊声明。\\\\
+标识：\begin{math} \langle id \rangle\\ \end{math}\\
+\indent 含义：序号\\
+\indent 长度：1—5个字符\\
+\indent 可用字符：数字\\
+\indent 格式：1—65535。\\
+
+\noindent 标识: \begin{math} \langle name \rangle\\ \end{math}
+\indent 含义：名字\\
+\indent 长度：1—20个字符\\
+\indent 可用字符：大、小写英文字母，数字，减号，下划线，小数点\\
+\indent 格式：第一个字符必须是大、小写英文字母或数字。\\
+
+\noindent 标识：\begin{math} \langle comment \rangle\\ \end{math}
+\indent 含义：注释\\
+\indent 长度：0—255个字符\\
+\indent 可用字符：除制表符和问号外的任意可打印字符\\
+\indent 格式：无\\
+
+\noindent 标识：\begin{math} \langle keyword \rangle\\ \end{math}
+\indent 含义：URL过滤关键字\\
+\indent 长度：1—255个字符\\
+\indent 可用字符：除制表符和问号外的任意可打印字符\\
+\indent 格式：无\\
+
+\noindent 标识：\begin{math} \langle password \rangle\\ \end{math}
+\indent 含义：密码\\
+\indent 长度：6—15个字符\\
+\indent 可用字符：除制表符和问号外的任意可打印字符\\
+\indent 格式：无\\
+
+\noindent 标识：\begin{math} \langle email \rangle\\ \end{math}
+\indent 含义：E-Mail地址\\
+\indent 长度：1—64个字符\\
+\indent 可用字符：除制表符和问号外的任意可打印字符\\
+\indent 格式：如netgap@leadsec.com\\
+
+\noindent 标识：\begin{math} \langle filename \rangle\\ \end{math}
+\indent 含义：文件名\\
+\indent 长度：1—254个字符\\
+\indent 可用字符：任意可打印字符，不包括斜线、反斜线、冒号、星号、问号、双引号、大于号、小于号、管道符、制表符\\
+\indent 格式：无\\
+
+\noindent 标识：\begin{math} \langle hostname \rangle\\ \end{math}
+\indent 含义：主机名\\
+\indent 长度：1—254个字符\\
+\indent 可用字符：任意可打印字符，不包括斜线、反斜线、冒号、星号、问号、双引号、大于号、小于号、管道符、制表符\\
+\indent 格式：无\\
+
+\noindent 标识：\begin{math} \langle number \rangle\\ \end{math}
+\indent 含义：数字\\
+\indent 长度：1个以上的字符\\
+\indent 可用字符：数字\\
+\indent 格式：无\\
+
+\noindent 标识：\begin{math} \langle percent \rangle\\ \end{math}
+\indent 含义：数字\\
+\indent 长度：1—3个字符\\
+\indent 可用字符：数字\\
+\indent 格式：0—100。\\
+
+\noindent 标识：\begin{math} \langle ip \rangle\\ \end{math}
+\indent 含义：IP地址\\
+\indent 长度：7—31个字符\\
+\indent 可用字符：数字，句号，斜线，冒号\\
+\indent 格式：单个IP地址（1.1.1.1），IP地址/子网掩码（1.1.1.0/255.255.255.0），IP地址段（1.1.1.10:1.1.1.20）。\\
+
+\noindent 标识：\begin{math} \langle netmask \rangle\\ \end{math}
+\indent 含义：子网掩码\\
+\indent 长度：9—15个字符\\
+\indent 可用字符：数字，句号\\
+\indent 格式： 如255.255.255.0。\\
+
+\noindent 标识：\begin{math} \langle port \rangle\\ \end{math}
+\indent 含义：端口\\
+\indent 长度：1—11个字符\\
+\indent 可用字符：数字，冒号\\
+\indent 格式：单个端口（12345），端口段（1000:2000）。\\
+
+\noindent 标识：\begin{math} \langle mac \rangle\\ \end{math}
+\indent 含义：MAC地址\\
+\indent 长度：17个字符\\
+\indent 可用字符：A—F大小写英文字母，数字，减号，冒号\\
+\indent 格式：XX-XX-XX-XX-XX-XX，或XX:XX:XX:XX:XX:XX。\\
+
+\noindent 标识：\begin{math} \langle date \rangle\\ \end{math}
+\indent 含义：日期\\
+\indent 长度：8—10个字符\\
+\indent 可用字符：数字，减号，斜线\\
+\indent 格式：yyyy-mm-dd，或yyyy/mm/dd，其中yyyy为2000—9999，mm为01—12，dd为01—31。\\
+
+\noindent 标识：\begin{math} \langle time \rangle\\ \end{math}
+\indent 含义：时间\\
+\indent 长度：3—17个字符\\
+\indent 可用字符：数字，冒号，减号\\
+\indent 格式： hh:mm:ss或hh:mm，hh:mm:ss-hh:mm:ss或hh:mm-hh:mm，其中hh为00—23，\allowbreak \indent mm为00—59，ss为00—59。\\
+
+\subsection{命令行使用技巧}
+\begin{enumerate}
+\item 关键字自动补全：\\ 用户可以使用TAB键补全命令。
+\item 在线帮助：\\ 用户可以使用？键获得上下文相关的帮助信息。
+\item 历史命令：\\ 提交过的命令会储存在历史命令列表中，通过上下箭头键调用。历史命令表可以存储100条命令。
+\item 编辑功能：\\
+\begin{tabular}{l|l}
+\begin{math} \gets \end{math} & 光标前移一格\\
+\begin{math} \to \end{math}  & 光标后移一格\\
+CTRL+A & 光标移到行首\\
+CTRL+E & 光标移到行尾\\
+CTRL+D & 删除光标处的单个字符\\
+CTRL+H & 删除光标前的单个字符\\
+CTRL+U & 清空当前命令行\\
+CTRL+C & 忽略当前命令行，在下一行显示新的命令提示符
+\end{tabular}\\
+\item 注意事项：\\
+当输入的字符串包含空格时，必须用双引号将此字符串扩起来。\\
+用户可以使用CTRL+C中止正在执行的命令。\\
+如果用户在1800秒内没有任何操作，CLI界面会返回到登录提示状态。
+\end{enumerate}
+
+\subsection{保留字}
+\begin{tabular}{l|l}
+any & 表示任意，如任意IP地址、任意服务\\
+none & 表示不使用
+\end{tabular}
+
+
+
+\newpage
+\section{快速入门}
+\subsection{管理员登录}
+请您参照《网御SIS安全隔离网闸 Web界面操作手册》中的安装过程，安装好安全隔离网闸，并且按照第二章介绍的步骤进行配置和登录。
+\subsection{管理员退出}
+具体操作：执行exit命令
+\subsection{终端命令行配置方法}
+当无法通过Web方式登录管理界面时，通过终端命令行，按照以下步骤进行检查和处理，以恢复通过Web方式管理安全隔离网闸。
+\begin{itemize}
+\item 使用命令interface查看和设置网络接口的IP地址和管理属性
+\item 使用命令admhost查看和设置管理主机IP地址
+\item 使用命令admacct查看和设置管理员帐号
+\end{itemize}
+如果需要使用客户端证书的认证方式，则使用命令admcert查看和设置管理证书。
+
+
+
+\newpage
+\section{系统管理}
+\subsection{系统概览}
+\subsection{快捷配置}
+\subsection{配置}
+    \subsubsection{日期时间}
+    \subsubsection{系统参数}
+        \paragraph{设置安全隔离网闸名称}
+        \begin{description}
+            \item[\small 语法] \hfill \\
+            set hostname \begin{math} \langle hostname \rangle \end{math}
+            \item[\small 参数说明] \hfill \\
+            \begin{tabular}{lp{10cm}}
+            hostname & 安全隔离网闸名称。这是一个最小长度是1，最大长度是14的字符串，包括除制表符和问号外的任意可打印字符。
+            \end{tabular}
+            \item[\small 注意事项] \hfill \\
+            无
+            \item[\small 示例] \hfill \\
+            ac\begin{math}>\end{math}hostname set hostname netgap
+        \end{description}
+
+        \paragraph{显示安全隔离网闸名称}
+        \begin{description}
+            \item[\small 语法] \hfill \\
+            hostname show
+            \item[\small 参数说明] \hfill \\
+            无
+            \item[\small 注意事项] \hfill \\
+            无
+            \item[\small 示例] \hfill \\
+            ac\begin{math}>\end{math} hostname show\\
+            Hostname: netgap
+
+        \end{description}
+
+    \subsubsection{集中管理}
+
+\subsection{管理员设置}
+    \subsubsection{管理员帐号}
+    \subsubsection{管理主机}
+    \subsubsection{管理证书}
+    \subsubsection{管理方式}
+
+\subsection{维护}
+    \subsubsection{系统更新}
+    \subsubsection{备份与恢复}
+    \subsubsection{许可证管理}
+    \subsubsection{批处理工具}
+
+
+
+\newpage
+\section{网络管理}
+\subsection{网络接口}
+    \subsubsection{物理接口}
+    \subsubsection{别名设备}
+    \subsubsection{冗余设备}
+
+\subsection{基本配置}
+    \subsubsection{域名服务器}
+    \subsubsection{静态路由}
+
+\subsection{高可用性}
+    \subsubsection{双机热备}
+    \subsubsection{负载均衡}
+
+
+
+\newpage
+\section{资源配置}
+\subsection{地址}
+\subsection{时间}
+\subsection{用户}
+\subsection{过滤配置}
+
+
+
+\newpage
+\section{客户端}
+\subsection{文件交换}
+\subsection{数据库同步}
+\subsection{安全浏览}
+\subsection{FTP访问}
+\subsection{邮件访问}
+\subsection{数据库访问}
+\subsection{定制访问}
+\subsection{安全通道}
+\subsection{消息传输}
+
+
+
+\newpage
+\section{服务器}
+\subsection{文件交换}
+\subsection{数据库同步}
+\subsection{安全浏览}
+\subsection{FTP访问}
+\subsection{邮件访问}
+\subsection{数据库访问}
+\subsection{定制访问}
+\subsection{安全通道}
+\subsection{消息传输}
+
+
+
+\newpage
+\section{应用防护}
+\subsection{病毒防护}
+    \subsubsection{DDos攻击}
+    \subsubsection{病毒库升级}
+\subsection{入侵防护}
+    \subsubsection{基本配置}
+    \subsubsection{策略配置}
+    \subsubsection{自定义检测}
+    \subsubsection{扫描检测配置}
+    \subsubsection{自动响应配置}
+    \subsubsection{检测结果}
+\subsection{地址绑定}
+
+
+
+\newpage
+\section{状态监控}
+\subsection{资源状态}
+\subsection{网络状态}
+\subsection{用户状态}
+\subsection{服务状态}
+\subsection{网络测试}
+
+
+\newpage
+\section{日志与报表}
+\subsection{日志配置}
+    \subsubsection{日志服务器}
+
+\subsection{日志访问}
+    \subsubsection{日志查看}
+
+
+\end{document}
