@@ -3,9 +3,9 @@
 prefixPath='/usr/local'
 
 # dependant module
-cp -rf lib/*      $prefixPath/lib/
-cp -rf bin/*  	  $prefixPath/bin/
-cp -rf include  $prefixPath/
+cp -rf depLib/lib/*   $prefixPath/lib/
+cp -rf depLib/bin/*   $prefixPath/bin/
+cp -rf depLib/include $prefixPath/
 
 # nginx and php
 cp -rf ssl webserver $prefixPath/
