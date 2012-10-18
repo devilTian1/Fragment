@@ -3,15 +3,23 @@
 prefixPath='/usr/local'
 
 # dependant module
-cp -rf depLib/lib/*   $prefixPath/lib/
-cp -rf depLib/bin/*   $prefixPath/bin/
-cp -rf depLib/include $prefixPath/
+cp -rf depLib/lib/*              $prefixPath/lib/
+cp -rf depLib/bin/*              $prefixPath/bin/
+cp -rf depLib/include depLib/ssl $prefixPath/
 
 # nginx and php
-cp -rf ssl webserver $prefixPath/
+cp -rf webserver $prefixPath/
 
 # add new user 'nobody', for nginx worker process
 adduser nobody -DH
+
+# create Smarty template dir
+mkdir $prefixPath/webserver/nginx/html/Tpls/templates_c
+mkdir $prefixPath/webserver/nginx/html/Tpls/cache
+chown nobody:nobody $prefixPath/webserver/nginx/html/Tpls/templates_c
+chmod 770 $prefixPath/webserver/nginx/html/Tpls/templates_c
+chown nobody:nobody $prefixPath/webserver/nginx/html/Tpls/cache
+chmod 770 $prefixPath/webserver/nginx/html/Tpls/cache
 
 # start nginx server
 $prefixPath/webserver/nginx/sbin/nginx -c $prefixPath/webserver/nginx/conf/nginx.conf
