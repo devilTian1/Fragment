@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/NetGap/!svn/ver/2349/branches/Branch_1.0.300.0_20120822/tree_app/web/LNSP/webserver/php/include/php/ext/spl
+END
+spl_iterators.h
+K 25
+svn:wc:ra_dav:version-url
+V 128
+/svn/NetGap/!svn/ver/2349/branches/Branch_1.0.300.0_20120822/tree_app/web/LNSP/webserver/php/include/php/ext/spl/spl_iterators.h
+END
+spl_array.h
+K 25
+svn:wc:ra_dav:version-url
+V 124
+/svn/NetGap/!svn/ver/2349/branches/Branch_1.0.300.0_20120822/tree_app/web/LNSP/webserver/php/include/php/ext/spl/spl_array.h
+END
+spl_sxe.h
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/svn/NetGap/!svn/ver/2349/branches/Branch_1.0.300.0_20120822/tree_app/web/LNSP/webserver/php/include/php/ext/spl/spl_sxe.h
+END
+spl_exceptions.h
+K 25
+svn:wc:ra_dav:version-url
+V 129
+/svn/NetGap/!svn/ver/2349/branches/Branch_1.0.300.0_20120822/tree_app/web/LNSP/webserver/php/include/php/ext/spl/spl_exceptions.h
+END
+spl_directory.h
+K 25
+svn:wc:ra_dav:version-url
+V 128
+/svn/NetGap/!svn/ver/2349/branches/Branch_1.0.300.0_20120822/tree_app/web/LNSP/webserver/php/include/php/ext/spl/spl_directory.h
+END
+spl_engine.h
+K 25
+svn:wc:ra_dav:version-url
+V 125
+/svn/NetGap/!svn/ver/2349/branches/Branch_1.0.300.0_20120822/tree_app/web/LNSP/webserver/php/include/php/ext/spl/spl_engine.h
+END
+php_spl.h
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/svn/NetGap/!svn/ver/2349/branches/Branch_1.0.300.0_20120822/tree_app/web/LNSP/webserver/php/include/php/ext/spl/php_spl.h
+END
+spl_observer.h
+K 25
+svn:wc:ra_dav:version-url
+V 127
+/svn/NetGap/!svn/ver/2349/branches/Branch_1.0.300.0_20120822/tree_app/web/LNSP/webserver/php/include/php/ext/spl/spl_observer.h
+END
+spl_functions.h
+K 25
+svn:wc:ra_dav:version-url
+V 128
+/svn/NetGap/!svn/ver/2349/branches/Branch_1.0.300.0_20120822/tree_app/web/LNSP/webserver/php/include/php/ext/spl/spl_functions.h
+END

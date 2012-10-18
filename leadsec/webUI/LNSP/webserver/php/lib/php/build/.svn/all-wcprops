@@ -1,0 +1,71 @@
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/NetGap/!svn/ver/2349/branches/Branch_1.0.300.0_20120822/tree_app/web/LNSP/webserver/php/lib/php/build
+END
+mkdep.awk
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/NetGap/!svn/ver/2349/branches/Branch_1.0.300.0_20120822/tree_app/web/LNSP/webserver/php/lib/php/build/mkdep.awk
+END
+libtool.m4
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/NetGap/!svn/ver/2349/branches/Branch_1.0.300.0_20120822/tree_app/web/LNSP/webserver/php/lib/php/build/libtool.m4
+END
+acinclude.m4
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/svn/NetGap/!svn/ver/2349/branches/Branch_1.0.300.0_20120822/tree_app/web/LNSP/webserver/php/lib/php/build/acinclude.m4
+END
+scan_makefile_in.awk
+K 25
+svn:wc:ra_dav:version-url
+V 127
+/svn/NetGap/!svn/ver/2349/branches/Branch_1.0.300.0_20120822/tree_app/web/LNSP/webserver/php/lib/php/build/scan_makefile_in.awk
+END
+shtool
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/NetGap/!svn/ver/2349/branches/Branch_1.0.300.0_20120822/tree_app/web/LNSP/webserver/php/lib/php/build/shtool
+END
+config.guess
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/svn/NetGap/!svn/ver/2349/branches/Branch_1.0.300.0_20120822/tree_app/web/LNSP/webserver/php/lib/php/build/config.guess
+END
+run-tests.php
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svn/NetGap/!svn/ver/2349/branches/Branch_1.0.300.0_20120822/tree_app/web/LNSP/webserver/php/lib/php/build/run-tests.php
+END
+Makefile.global
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/svn/NetGap/!svn/ver/2349/branches/Branch_1.0.300.0_20120822/tree_app/web/LNSP/webserver/php/lib/php/build/Makefile.global
+END
+config.sub
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/NetGap/!svn/ver/2349/branches/Branch_1.0.300.0_20120822/tree_app/web/LNSP/webserver/php/lib/php/build/config.sub
+END
+ltmain.sh
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/NetGap/!svn/ver/2349/branches/Branch_1.0.300.0_20120822/tree_app/web/LNSP/webserver/php/lib/php/build/ltmain.sh
+END
+phpize.m4
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/NetGap/!svn/ver/2349/branches/Branch_1.0.300.0_20120822/tree_app/web/LNSP/webserver/php/lib/php/build/phpize.m4
+END

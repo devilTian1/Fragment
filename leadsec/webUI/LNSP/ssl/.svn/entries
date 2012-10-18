@@ -1,0 +1,83 @@
+10
+
+dir
+2349
+https://10.1.59.20/svn/NetGap/branches/Branch_1.0.300.0_20120822/tree_app/web/LNSP/ssl
+https://10.1.59.20/svn/NetGap
+
+
+
+2012-10-10T08:52:23.093750Z
+2349
+tianye5
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+f4b3465f-2f62-a04b-935f-af04a2d76775
+
+certs
+dir
+
+include
+dir
+
+lib
+dir
+
+bin
+dir
+
+openssl.cnf
+file
+
+
+
+
+2012-10-10T08:32:19.446399Z
+ce31ab5015842bf7c2939514a634e0e4
+2012-10-10T08:52:23.093750Z
+2349
+tianye5
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+10835
+
+private
+dir
+
+misc
+dir
+
+man
+dir
+

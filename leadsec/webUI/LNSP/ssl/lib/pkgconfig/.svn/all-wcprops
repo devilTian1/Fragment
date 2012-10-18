@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/NetGap/!svn/ver/2349/branches/Branch_1.0.300.0_20120822/tree_app/web/LNSP/ssl/lib/pkgconfig
+END
+openssl.pc
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/NetGap/!svn/ver/2349/branches/Branch_1.0.300.0_20120822/tree_app/web/LNSP/ssl/lib/pkgconfig/openssl.pc
+END
+libcrypto.pc
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/NetGap/!svn/ver/2349/branches/Branch_1.0.300.0_20120822/tree_app/web/LNSP/ssl/lib/pkgconfig/libcrypto.pc
+END
+libssl.pc
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/NetGap/!svn/ver/2349/branches/Branch_1.0.300.0_20120822/tree_app/web/LNSP/ssl/lib/pkgconfig/libssl.pc
+END

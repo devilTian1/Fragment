@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/NetGap/!svn/ver/2349/branches/Branch_1.0.300.0_20120822/tree_app/web/LNSP/webserver/php/lib/php/.channels
+END
+__uri.reg
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svn/NetGap/!svn/ver/2349/branches/Branch_1.0.300.0_20120822/tree_app/web/LNSP/webserver/php/lib/php/.channels/__uri.reg
+END
+pecl.php.net.reg
+K 25
+svn:wc:ra_dav:version-url
+V 127
+/svn/NetGap/!svn/ver/2349/branches/Branch_1.0.300.0_20120822/tree_app/web/LNSP/webserver/php/lib/php/.channels/pecl.php.net.reg
+END
+doc.php.net.reg
+K 25
+svn:wc:ra_dav:version-url
+V 126
+/svn/NetGap/!svn/ver/2349/branches/Branch_1.0.300.0_20120822/tree_app/web/LNSP/webserver/php/lib/php/.channels/doc.php.net.reg
+END
+pear.php.net.reg
+K 25
+svn:wc:ra_dav:version-url
+V 127
+/svn/NetGap/!svn/ver/2349/branches/Branch_1.0.300.0_20120822/tree_app/web/LNSP/webserver/php/lib/php/.channels/pear.php.net.reg
+END

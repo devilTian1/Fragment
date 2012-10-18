@@ -1,0 +1,95 @@
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/NetGap/!svn/ver/2349/branches/Branch_1.0.300.0_20120822/tree_app/web/LNSP/webserver/nginx/conf
+END
+fastcgi_params
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/NetGap/!svn/ver/2349/branches/Branch_1.0.300.0_20120822/tree_app/web/LNSP/webserver/nginx/conf/fastcgi_params
+END
+uwsgi_params.default
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svn/NetGap/!svn/ver/2349/branches/Branch_1.0.300.0_20120822/tree_app/web/LNSP/webserver/nginx/conf/uwsgi_params.default
+END
+fastcgi.conf.default
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svn/NetGap/!svn/ver/2349/branches/Branch_1.0.300.0_20120822/tree_app/web/LNSP/webserver/nginx/conf/fastcgi.conf.default
+END
+scgi_params
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/NetGap/!svn/ver/2349/branches/Branch_1.0.300.0_20120822/tree_app/web/LNSP/webserver/nginx/conf/scgi_params
+END
+win-utf
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/NetGap/!svn/ver/2349/branches/Branch_1.0.300.0_20120822/tree_app/web/LNSP/webserver/nginx/conf/win-utf
+END
+nginx.conf.default
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/NetGap/!svn/ver/2349/branches/Branch_1.0.300.0_20120822/tree_app/web/LNSP/webserver/nginx/conf/nginx.conf.default
+END
+mime.types
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/NetGap/!svn/ver/2349/branches/Branch_1.0.300.0_20120822/tree_app/web/LNSP/webserver/nginx/conf/mime.types
+END
+uwsgi_params
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/NetGap/!svn/ver/2349/branches/Branch_1.0.300.0_20120822/tree_app/web/LNSP/webserver/nginx/conf/uwsgi_params
+END
+fastcgi.conf
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/NetGap/!svn/ver/2349/branches/Branch_1.0.300.0_20120822/tree_app/web/LNSP/webserver/nginx/conf/fastcgi.conf
+END
+fastcgi_params.default
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/svn/NetGap/!svn/ver/2349/branches/Branch_1.0.300.0_20120822/tree_app/web/LNSP/webserver/nginx/conf/fastcgi_params.default
+END
+nginx.conf
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/NetGap/!svn/ver/2349/branches/Branch_1.0.300.0_20120822/tree_app/web/LNSP/webserver/nginx/conf/nginx.conf
+END
+scgi_params.default
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/svn/NetGap/!svn/ver/2349/branches/Branch_1.0.300.0_20120822/tree_app/web/LNSP/webserver/nginx/conf/scgi_params.default
+END
+mime.types.default
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/NetGap/!svn/ver/2349/branches/Branch_1.0.300.0_20120822/tree_app/web/LNSP/webserver/nginx/conf/mime.types.default
+END
+koi-win
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/NetGap/!svn/ver/2349/branches/Branch_1.0.300.0_20120822/tree_app/web/LNSP/webserver/nginx/conf/koi-win
+END
+koi-utf
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/NetGap/!svn/ver/2349/branches/Branch_1.0.300.0_20120822/tree_app/web/LNSP/webserver/nginx/conf/koi-utf
+END
