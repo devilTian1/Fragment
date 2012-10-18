@@ -3,11 +3,11 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <title></title>
-        <link rel="stylesheet" href="{$themePath}/css/common.css" type="text/css" />
-        <link rel="stylesheet" href="{$themePath}/css/table.css" type="text/css" />
-        <link rel="stylesheet" href="{$themePath}/css/pagination.css" type="text/css" />
-        <link rel="stylesheet" href="{$themePath}/css/form.css" type="text/css" />
-        <link rel="stylesheet" href="{$themePath}/css/tablesorter/style.css" type="text/css" />
+        <link rel="stylesheet" href="{$smarty.const.THEME_PATH}/css/common.css" type="text/css" />
+        <link rel="stylesheet" href="{$smarty.const.THEME_PATH}/css/table.css" type="text/css" />
+        <link rel="stylesheet" href="{$smarty.const.THEME_PATH}/css/pagination.css" type="text/css" />
+        <link rel="stylesheet" href="{$smarty.const.THEME_PATH}/css/form.css" type="text/css" />
+        <link rel="stylesheet" href="{$smarty.const.THEME_PATH}/css/tablesorter/style.css" type="text/css" />
         <link rel="stylesheet" href="Public/js/jquery/smoothness/jquery-ui-1.8.23.custom.css" type="text/css" />
         <!--[if IE]>
         <link rel="stylesheet" href="css/ie.css" type="text/css" />
@@ -19,7 +19,6 @@
             <div id="header">
             {include file='header.tpl'}
             </div>
-
             <!-- NAV & CONTENT -->
             <div class="content" id="content">
                 <div class="secondary">
@@ -34,7 +33,7 @@
                     </div>
                     <!-- switch btn -->
                     <div class="switchpic">
-                        <img src="{$themePath}/images/switch_left.gif" title="隐藏左侧导航栏" id="ImgArrow"/>
+                        <img src="{$smarty.const.THEME_PATH}/images/switch_left.gif" title="隐藏左侧导航栏" id="ImgArrow"/>
                     </div>
                 </div>
                 <!-- content -->
@@ -88,11 +87,11 @@
         var slideWidth = $('#leftmenu').width();
         var arrowImg = $("#ImgArrow");
         var leftArrow = {
-            src : "{$themePath}/images/switch_left.gif",
+            src : "{$smarty.const.THEME_PATH}/images/switch_left.gif",
             title : "隐藏左侧导航栏"
         };
         var rightArrow = {
-            src : "{$themePath}/images/switch_right.gif",
+            src : "{$smarty.const.THEME_PATH}/images/switch_right.gif",
             title : "显示左侧导航栏"
         };
         arrowImg.click(function() {

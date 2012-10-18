@@ -7,7 +7,7 @@
     </ul>
 </div>
 <div class="tabinfo">
-    &nbsp;&nbsp;<img src="{$themePath}/images/hi.gif" />&nbsp;
+    &nbsp;&nbsp;<img src="{$smarty.const.THEME_PATH}/images/hi.gif" />&nbsp;
     <span id="show_text">headline</span>
 </div>
 
