@@ -8,6 +8,9 @@
 
         private static $instance;
 
+        /**
+         *
+         */
         protected function __construct() {
             parent::__construct();
         }
@@ -46,6 +49,28 @@
         
         public function getMenu() {
             return $this->menu;
+        }
+
+        /**
+         * According to the path, Get the sub menu.
+         * @param $path Array. key: level num. value: node name
+         * @return @menu
+         */
+        public function getSubMenu($path) {
+            $menu  = $this->menu;
+            $count = count($path);
+            foreach ($path as $level => $link) {
+                foreach ($menu as $node) {
+                    if ($node['link'] === $link) {
+                        if ($count === $level) {
+                            return $node;
+                        }
+                        $menu = $node['children'];
+                        break;
+                    }
+                }
+            }
+            return false;
         }
 
         private function showMenuByUl($menu) {

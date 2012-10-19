@@ -13,6 +13,11 @@
 
         abstract public function getMenu();
         
+        /**
+         *@param $path STR. use '/' to concat menu name of every level
+         */
+        abstract public function getSubMenu($path);
+        
         abstract public function sort();
         
         abstract public function show();

@@ -6,7 +6,7 @@
             <ul>
             {foreach $l1.children as $l2}
                 <li>
-                    <a href="{$l2.link}" title="{$l2.name}">{$l2.name}</a>
+                    <a name="{$l2.link}" title="{$l2.name}">{$l2.name}</a>
                 </li>
             {/foreach}
             </ul>

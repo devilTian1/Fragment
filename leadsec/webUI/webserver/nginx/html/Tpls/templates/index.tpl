@@ -119,11 +119,13 @@
 
         // refresh content
         $("#leftmenu a").click(function() {
-            var toHref = $(this).attr("title");
-            var groupName  = $(this).parents("div.l2").attr("name");
+            var path = {
+                1 : $(this).parents("div.l2").attr("name"),
+                2 : $(this).attr("name")
+            }
             $("#leftmenu a").removeClass("link");
             $(this).addClass("link");
-            showPageByAjax(groupName + '/' + toHref);
+            showPageByAjax(path);
             return false;
         });
     });

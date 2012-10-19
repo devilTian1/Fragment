@@ -1,7 +1,7 @@
 <?php
     $leftmenuArr = array(
         // level 1
-        array('pid' => 0,  'name' => '系统管理',   'link' => 'systemManagement'),//id = 1
+        array('pid' => 0,  'name' => '系统管理',   'link' => 'systemManagement'),//menu id = 1
         array('pid' => 0,  'name' => '网络管理',   'link' => 'networkMangement'),//2
         array('pid' => 0,  'name' => '资源配置',   'link' => 'resConf'),//3
         array('pid' => 0,  'name' => '客户端',     'link' => 'client'),//4

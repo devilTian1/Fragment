@@ -2,9 +2,6 @@
 // set time zone
 date_default_timezone_set('Asia/chongqing');
 
-// Load Config File
-require_once('Conf/global.php');
-
 // Load Common Function
 require_once('Function/common.php');
 
