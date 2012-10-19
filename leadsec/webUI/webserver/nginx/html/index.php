@@ -13,6 +13,9 @@ $menuArr = leftmenu::instance()->sort()->getMenu();
 
 // generate Smarty class
 $smarty = new Smarty_SIS();
+$smarty->caching = Smarty::CACHING_OFF;
+$smarty->cache_lifetime = 60*60*24;
+
 $smarty->assign('menuArr', $menuArr);
 $smarty->display('index.tpl');
 ?>

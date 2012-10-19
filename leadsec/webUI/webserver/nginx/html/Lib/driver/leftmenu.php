@@ -9,8 +9,7 @@
         private static $instance;
 
         protected function __construct() {
-            require_once(WEB_PATH . '/Conf/leftmenu.php');
-            parent::__construct($leftmenuArr);
+            parent::__construct();
         }
     
         public static function instance() {
@@ -20,28 +19,33 @@
             return self::$instance;
         }
 
+        protected function init() {
+            require_once(WEB_PATH . '/Conf/leftmenu.php');
+            $this->menu = $leftmenuArr;
+        }
+
         public function sort() {
-            foreach ( self::$menu as $key => $node ) {
+            foreach ( $this->menu as $key => $node ) {
                 $pid = $node['pid'];
                 if ( $pid !== 0 ) {
                     // add array for storing child nodes
-                    if ( !is_array(self::$menu[$pid-1]['children']) ) {
-                        self::$menu[$pid-1]['children'] = array();   
+                    if ( !is_array($this->menu[$pid-1]['children']) ) {
+                        $this->menu[$pid-1]['children'] = array();   
                     }
-                    array_push(self::$menu[$pid-1]['children'], &self::$menu[$key]);
+                    array_push($this->menu[$pid-1]['children'], &$this->menu[$key]);
                 }
             }
             // romote non-root node
-            foreach ( self::$menu as $key => $node ) {
+            foreach ( $this->menu as $key => $node ) {
                 if ( $node['pid'] !== 0 ) {
-                    unset(self::$menu[$key]);
+                    unset($this->menu[$key]);
                 }
             }
             return self::$instance;
         }
         
         public function getMenu() {
-            return self::$menu;
+            return $this->menu;
         }
 
         private function showMenuByUl($menu) {
@@ -57,7 +61,7 @@
         }
 
         public function show() {
-            $this->showMenuByUl(self::$menu);
+            $this->showMenuByUl($this->menu);
         }
     }
 
