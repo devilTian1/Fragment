@@ -2,13 +2,13 @@
     $leftmenuArr = array(
         // level 1
         array('pid' => 0,  'name' => '系统管理',   'link' => 'systemManagement'),//id = 1
-        array('pid' => 0,  'name' => '网络管理',   'link' => '#'),//2
-        array('pid' => 0,  'name' => '资源配置',   'link' => '#'),//3
-        array('pid' => 0,  'name' => '客户端',     'link' => '#'),//4
-        array('pid' => 0,  'name' => '服务端',     'link' => '#'),//5
-        array('pid' => 0,  'name' => '应用防护',   'link' => '#'),//6
-        array('pid' => 0,  'name' => '状态监控',   'link' => '#'),//7
-        array('pid' => 0,  'name' => '日志与报表', 'link' => '#'),//8
+        array('pid' => 0,  'name' => '网络管理',   'link' => 'networkMangement'),//2
+        array('pid' => 0,  'name' => '资源配置',   'link' => 'resConf'),//3
+        array('pid' => 0,  'name' => '客户端',     'link' => 'client'),//4
+        array('pid' => 0,  'name' => '服务端',     'link' => 'server'),//5
+        array('pid' => 0,  'name' => '应用防护',   'link' => 'appS'),//6
+        array('pid' => 0,  'name' => '状态监控',   'link' => 'statMonitor'),//7
+        array('pid' => 0,  'name' => '日志与报表', 'link' => 'log'),//8
 
         //level2 sysManage
         array('pid' => 1,  'name' => '系统概览',   'link' => 'overview'),//9
