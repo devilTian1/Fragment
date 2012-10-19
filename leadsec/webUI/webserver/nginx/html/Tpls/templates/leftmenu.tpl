@@ -1,14 +1,14 @@
-{foreach name=outer item=secondmenu from=$menuArr}
-<div class="l1" name="{$secondmenu.href}">
-    <span>{$secondmenu.name}</span>
-</div>
-<div class="l2" name="{$secondmenu.href}">
-    <ul>
-        {foreach item=submenu from=$secondmenu.children}
-        <li title="{$submenu.href}">
-            <a href="#"> {$submenu.name}</a></li>
-        {/foreach}
-    </ul>
-</div>
+{foreach $menuArr as $l1}
+    <div class="l1" name="{$l1.link}">
+        <span>{$l1.name}</span>
+    </div>
+        <div class="l2" name="{$l1.link}">
+            <ul>
+            {foreach $l1.children as $l2}
+                <li>
+                    <a href="{$l2.link}" title="{$l2.name}">{$l2.name}</a>
+                </li>
+            {/foreach}
+            </ul>
+        </div>
 {/foreach}
-

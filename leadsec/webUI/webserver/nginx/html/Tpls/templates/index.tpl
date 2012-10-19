@@ -53,6 +53,7 @@
 <script type="text/javascript" src="Public/js/jquery/jquery-1.8.1.min.js"></script>
 <script type="text/javascript" src="Public/js/jquery/jquery-ui-1.8.23.custom.min.js"></script>
 <script type="text/javascript" src="Public/js/jquery/jquery.tablesorter.min.js"></script>
+<script type="text/javascript" src="Public/js/common.js"></script>
 <script type="text/javascript" src="Public/js/tabs.js"></script>
 <script type="text/javascript" src="Public/js/dialog.js"></script>
 <script>
@@ -125,6 +126,5 @@
             showPageByAjax(groupName + '/' + toHref);
             return false;
         });
-
     });
 </script>
