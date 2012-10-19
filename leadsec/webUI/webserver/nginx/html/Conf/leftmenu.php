@@ -18,9 +18,9 @@
         array('pid' => 1,  'name' => '维护',       'link' => 'maintain'),//13
 
         //level2 netManage
-        array('pid' => 2,  'name' => '网络接口',     'link' => '#'),//14
-        array('pid' => 2,  'name' => '基本配置',     'link' => '#'),//15
-        array('pid' => 2,  'name' => '高可用性',     'link' => '#'),//16
+        array('pid' => 2,  'name' => '网络接口', 'link' => '#'),//14
+        array('pid' => 2,  'name' => '基本配置', 'link' => '#'),//15
+        array('pid' => 2,  'name' => '高可用性', 'link' => '#'),//16
 
         //level2 resConf
         array('pid' => 3,  'name' => '地址',     'link' => '#'),//17
@@ -67,9 +67,9 @@
         array('pid' => 8, 'name' => '日志访问', 'link' => '#'),//39
 
         //level3  systemManagement/conf
-        array('pid' => 11, 'name' => '日期时间', 'link' => '#'),//40
-        array('pid' => 11, 'name' => '系统参数', 'link' => '#'),//41
-        array('pid' => 11, 'name' => '集中管理', 'link' => '#'),//42
+        array('pid' => 11, 'name' => '日期时间', 'link' => '#', 'title' => ''),//40
+        array('pid' => 11, 'name' => '系统参数', 'link' => '#', 'title' => ''),//41
+        array('pid' => 11, 'name' => '集中管理', 'link' => '#', 'title' => ''),//42
 
         //level3 systemManagement/admin
         array('pid' => 12, 'name' => '管理员帐号', 'link' => 'account'),//43

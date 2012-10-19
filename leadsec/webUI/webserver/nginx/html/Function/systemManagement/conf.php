@@ -1,30 +1,8 @@
 <?php
-    $path = $_POST['path'];
     require_once('../common.php');
-    $subMenu = leftmenu::instance()->sort()->getSubMenu($path);
-    $tabs = $subMenu['children'];
+    displayTabs();
 ?>
 
-<!-- tabs -->
-<div class="tabs">
-    <ul>
-        <?php
-            foreach ($tabs as $seq => $tab) {
-                if ( $seq == 0 ) {
-                    echo "<li class='visitedTab'>";
-                } else {
-                    echo "<li>";
-                }
-                echo "{$tab['name']}</li>\n";
-            } 
-        ?>
-    </ul>
-</div>
-<div class="tabinfo">
-    &nbsp;&nbsp;<img src="<?= THEME_PATH?>/images/hi.gif" />&nbsp;
-    <span id="show_text">headline</span>
-</div>
-<br class="clearFloat"/>
 <!-- mainContent -->
 <div class="mainContent">
     <table class="column_95 textMid tablesorter" id="clientTcp">

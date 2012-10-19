@@ -1,17 +1,5 @@
-<!-- tabs -->
-<div class="tabs">
-    <ul>
-        <li>First</li>
-        <li>网络配置</li>
-        <li>Second</li>
-    </ul>
-</div>
-<div class="tabinfo">
-    &nbsp;&nbsp;<img src="{$smarty.const.THEME_PATH}/images/hi.gif" />&nbsp;
-    <span id="show_text">headline</span>
-</div>
+{include file="tabs.tpl"}
 
-<br class="clearFloat"/>
 <!-- mainContent -->
 <div class="mainContent">
     <table class="floatLeft column_50">
