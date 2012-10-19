@@ -38,6 +38,7 @@
                 </div>
                 <!-- content -->
                 <div class="primary" id="mainZone">
+                {include file="tabs.tpl"}
                 {include file='content.tpl'}
                 </div>
             </div>

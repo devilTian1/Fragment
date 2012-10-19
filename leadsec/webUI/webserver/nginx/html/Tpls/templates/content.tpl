@@ -1,5 +1,3 @@
-{include file="tabs.tpl"}
-
 <!-- mainContent -->
 <div class="mainContent">
     <table class="floatLeft column_50">
