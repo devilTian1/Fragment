@@ -11,9 +11,8 @@ function showTabByAjax(path) {
     });
 }
 
-function showPageByAjax(baseUrl, page) {
-    var url = 'Function/' + baseUrl + '/' + page + '.php';
-
+function showPageByAjax(url) {
+    var url = 'Function/' + url;
     $(".mainContent").html("loading... ...").load(url, {
         data : ''}, function() {
         var contentH  = $("#mainZone>.mainContent").outerHeight();

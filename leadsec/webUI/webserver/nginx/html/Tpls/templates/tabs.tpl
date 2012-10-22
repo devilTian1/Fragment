@@ -14,7 +14,7 @@
                     class="visitedTab"
                 {/if}
                 name="{$tab.link}" title="{$tab.title}"
-                onClick="showPageByAjax('{$baseurl}','{$tab.link}')">
+                onClick="showPageByAjax('{$baseurl|cat:'/'|cat:$tab.link|cat:'.php'}')">
                 {$tab.name}
                 </li>
             {/foreach}
