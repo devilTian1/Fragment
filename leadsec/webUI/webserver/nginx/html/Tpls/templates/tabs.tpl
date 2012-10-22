@@ -1,7 +1,7 @@
 <!-- tabs -->
 <div class="tabs">
     <ul>
-        {if !isset($tabs) }
+        {if !isset($tabs)}
             <li class="visitedTab">1</li>
             <li>2</li>
             <li>3</li>
@@ -9,13 +9,14 @@
             <li>5</li>
         {else}
             {foreach $tabs as $seq => $tab}
+                <li
                 {if $seq eq 0}
-                    <li class="visitedTab" title="{$tab.title}">
-                {else}
-                    <li>
+                    class="visitedTab"
                 {/if}
-                    {$tab.name}
-                    </li>
+                name="{$tab.link}" title="{$tab.title}"
+                onClick="showPageByAjax('{$baseurl}','{$tab.link}')">
+                {$tab.name}
+                </li>
             {/foreach}
         {/if}
     </ul>
@@ -34,3 +35,4 @@
     {/foreach}
 </div>
 <br class="clearFloat"/>
+

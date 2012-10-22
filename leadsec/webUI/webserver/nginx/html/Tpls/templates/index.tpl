@@ -121,12 +121,12 @@
         // refresh content
         $("#leftmenu a").click(function() {
             var path = {
-                1 : $(this).parents("div.l2").attr("name"),
-                2 : $(this).attr("name")
+                '1' : $(this).parents("div.l2").attr("name"),
+                '2' : $(this).attr("name")
             }
             $("#leftmenu a").removeClass("link");
             $(this).addClass("link");
-            showPageByAjax(path);
+            showTabByAjax(path);
             return false;
         });
     });

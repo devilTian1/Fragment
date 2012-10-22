@@ -5,10 +5,11 @@ function showInnerText(id){
 
 function refreshTab() {
     var li = $("#mainZone>.tabs>ul>li");
+    var visited = 'visitedTab';
     li.addClass('linkTab').click(function() {
         var id = li.index($(this));
-        $(this).toggleClass('visitedTab');
-        li.not($(this)).removeClass('visitedTab');
+        $(this).toggleClass(visited);
+        li.not($(this)).removeClass(visited);
         showInnerText(id);
     });
 }

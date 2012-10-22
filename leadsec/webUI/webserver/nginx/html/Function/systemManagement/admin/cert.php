@@ -1,0 +1,3 @@
+<?
+    echo 'cert page';
+?>

@@ -25,8 +25,9 @@
         list($tabinfo, $subMenu) =
             leftmenu::instance()->sort()->getSubMenu($path);
         $tabs = $subMenu['children'];
-        V::getInstance()->assign('tabs', $tabs)
+        V::getInstance()->assign('tabs',    $tabs)
                         ->assign('tabinfo', $tabinfo)
+                        ->assign('baseurl', join('/', $path))
                         ->display('tabs.tpl');
     }
 ?>
