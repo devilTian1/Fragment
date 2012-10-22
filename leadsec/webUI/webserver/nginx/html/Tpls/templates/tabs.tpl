@@ -22,6 +22,15 @@
 </div>
 <div class="tabinfo">
     &nbsp;&nbsp;<img src="{$smarty.const.THEME_PATH}/images/hi.gif" />&nbsp;
-    <span id="show_text">headline</span>
+    {foreach $tabinfo as $t}
+        <span
+        {if !$t@first}
+            class="hide"
+        {/if}
+        id="show_text{$t@index}">
+        {$t.breadCrumbs}&nbsp;&nbsp;&nbsp;&nbsp;{$t.note}
+        </span>
+        
+    {/foreach}
 </div>
 <br class="clearFloat"/>

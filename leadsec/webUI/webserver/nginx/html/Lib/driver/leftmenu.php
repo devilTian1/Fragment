@@ -8,6 +8,8 @@
 
         private static $instance;
 
+        private $breadCrumbs= array();
+
         /**
          *
          */
@@ -54,16 +56,23 @@
         /**
          * According to the path, Get the sub menu.
          * @param $path Array. key: level num. value: node name
-         * @return @menu
+         * @return @result associated array.
          */
         public function getSubMenu($path) {
-            $menu  = $this->menu;
-            $count = count($path);
+            $subMenu     = array();
+            $result      = array($this->breadCrumbs, $subMenu);
+
+            $menu        = $this->menu;
+            $count       = count($path);
+
             foreach ($path as $level => $link) {
                 foreach ($menu as $node) {
                     if ($node['link'] === $link) {
+                        $this->breadCrumbs[] = $node['name'];
                         if ($count === $level) {
-                            return $node;
+                            $result = array(
+                                $this->getTabinfo($node['children']), $node);
+                            return $result;
                         }
                         $menu = $node['children'];
                         break;
@@ -71,6 +80,21 @@
                 }
             }
             return false;
+        }
+
+        /**
+         * Get full bread crumbs and note
+         */
+        private function getTabinfo($tabs) {
+            $tabinfo = array();
+            $flag    = ' >> ';
+            $bc      = join($flag, $this->breadCrumbs);
+            foreach ($tabs as $tab) {
+                $tabinfo[] = array(
+                    'breadCrumbs' => $bc . $flag . $tab['name'],
+                    'note'        => $tab['title']);
+            }
+            return $tabinfo;
         }
 
         private function showMenuByUl($menu) {

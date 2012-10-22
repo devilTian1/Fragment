@@ -72,10 +72,10 @@
         array('pid' => 11, 'name' => '集中管理', 'link' => '#', 'title' => ''),//42
 
         //level3 systemManagement/admin
-        array('pid' => 12, 'name' => '管理员帐号', 'link' => 'account'),//43
-        array('pid' => 12, 'name' => '管理主机',   'link' => 'host'),//44
-        array('pid' => 12, 'name' => '管理证书',   'link' => 'cert'),//45
-        array('pid' => 12, 'name' => '管理方式',   'link' => 'mode'),//46
+        array('pid' => 12, 'name' => '管理员帐号', 'link' => 'account', 'title' => ''),//43
+        array('pid' => 12, 'name' => '管理主机',   'link' => 'host', 'title' => ''),//44
+        array('pid' => 12, 'name' => '管理证书',   'link' => 'cert', 'title' => 'something'),//45
+        array('pid' => 12, 'name' => '管理方式',   'link' => 'mode', 'title' => ''),//46
 
         //level3 systemManagement/maintain
         array('pid' => 13, 'name' => '系统更新',   'link' => '#'),//47

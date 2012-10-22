@@ -1,30 +1,14 @@
 function showInnerText(id){
-    var showText = "i don`t know";
-    switch(id){
-        case 1:
-           showText =  "headline2";
-           break;
-        case 2:
-           showText =  "system setting!";
-           break;
-        case 3:
-           showText =  "User Manage";
-           break;          
-        case 4:
-           showText =  "Chanage Manage";
-           break;   
-        case 5:
-           showText =  "Ad AND news!";
-           break;                  
-    }
-    $("#show_text").html(showText);
+    $("span[id^='show_text']").addClass('hide');
+    $("#show_text"+id).removeClass('hide');
 }
 
 function refreshTab() {
-    $("#mainZone>.tabs>ul>li").addClass('linkTab').click(function() {
+    var li = $("#mainZone>.tabs>ul>li");
+    li.addClass('linkTab').click(function() {
+        var id = li.index($(this));
         $(this).toggleClass('visitedTab');
-        $("#mainZone>.tabs>ul>li").not($(this)).removeClass('visitedTab');
-        var id = $("#mainZone>.tabs>ul>li").index($(this)) + 1;
+        li.not($(this)).removeClass('visitedTab');
         showInnerText(id);
     });
 }

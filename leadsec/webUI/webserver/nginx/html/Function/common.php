@@ -22,8 +22,11 @@
     // display tab content
     function displayTabs() {
         $path = $_POST['path'];
-        $subMenu = leftmenu::instance()->sort()->getSubMenu($path);
+        list($tabinfo, $subMenu) =
+            leftmenu::instance()->sort()->getSubMenu($path);
         $tabs = $subMenu['children'];
-        V::getInstance()->assign('tabs', $tabs)->display('tabs.tpl');
+        V::getInstance()->assign('tabs', $tabs)
+                        ->assign('tabinfo', $tabinfo)
+                        ->display('tabs.tpl');
     }
 ?>
