@@ -19,6 +19,11 @@
         V::getInstance()->assign('menuArr', $menuArr)->display('index.tpl');
     }
 
+    // login page
+    function login() {
+        V::getInstance()->display('login.tpl');
+    }
+
     // display tab content
     function displayTabs() {
         $path = $_POST['path'];

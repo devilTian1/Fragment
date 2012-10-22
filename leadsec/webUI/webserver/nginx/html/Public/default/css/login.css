@@ -1,0 +1,57 @@
+fieldset {
+    margin: 1em auto;
+    padding: 1em;
+    border: 1px solid #CCC;
+    background: #F8F8F8;
+    width: 228px;
+}
+
+legend {
+    font-weight: bold;
+}
+
+label {
+    float: left;
+    text-align: left;
+    width: 5em;
+    color: #73938e;
+    background-color: #f3f8f7;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+fieldset div {
+    padding: 5px 0px;
+    clear: left;
+}
+
+fieldset select {
+    float: left;
+}
+
+fieldset input {
+    width: 10em;
+    float: left;
+}
+fieldset span {
+    float: left;
+    margin-right: 1em;
+}
+
+fieldset .radio {
+    width: auto;
+}
+
+fieldset .remark {
+    width: 20em;
+}
+
+
+.required {
+    color: red;
+    font-size: 0.75em;
+}
+
+button {
+    float: right;
+}
