@@ -25,14 +25,14 @@
     }
 
     // display tab content
-    function displayTabs() {
-        $path = $_POST['path'];
+    function displayTabs() {    
+        $path = $_POST['tabPath'];
         list($tabinfo, $subMenu) =
             leftmenu::instance()->sort()->getSubMenu($path);
         $tabs = $subMenu['children'];
         V::getInstance()->assign('tabs',    $tabs)
                         ->assign('tabinfo', $tabinfo)
                         ->assign('baseurl', join('/', $path))
-                        ->display('tabs.tpl');
+                        ->display('layout/tabs.tpl');
     }
 ?>

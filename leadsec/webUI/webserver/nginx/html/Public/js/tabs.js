@@ -4,7 +4,7 @@ function showInnerText(id){
 }
 
 function refreshTab() {
-    var li = $("#mainZone>.tabs>ul>li");
+    var li = $("#tab>.tabs>ul>li");
     var visited = 'visitedTab';
     li.addClass('linkTab').click(function() {
         var id = li.index($(this));

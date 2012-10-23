@@ -15,7 +15,7 @@
         mainZoneWidth = $("#mainZone").width();
         // end init layout
 
-        $("#leftmenu").outerHeight($("#mainZone>.mainContent").outerHeight());
+        $("#leftmenu").outerHeight($("#mainContent").outerHeight());
         // fold/unfold level1 of leftmenu
         $("#leftmenu>div:not(.l1)").hide(); // fold all child-menu
         $("#leftmenu>.l1").addClass('l1_close').click(function() {

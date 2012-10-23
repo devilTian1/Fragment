@@ -1,13 +1,13 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
-        <{include file='css.tpl'}>
+        <{include file='layout/css.tpl'}>
     </head>
     <body>
         <div class="wrapper">
             <!-- HEADER -->
             <div id="header">
-            <{include file='header.tpl'}>
+            <{include file='layout/header.tpl'}>
             </div>
             <!-- NAV & CONTENT -->
             <div class="content" id="content">
@@ -19,7 +19,7 @@
                     </div>
                     <!-- leftmenu -->
                     <div id="leftmenu">
-                    <{include file='leftmenu.tpl'}>
+                    <{include file='layout/leftmenu.tpl'}>
                     </div>
                     <!-- switch btn -->
                     <div class="switchpic">
@@ -28,8 +28,12 @@
                 </div>
                 <!-- content -->
                 <div class="primary" id="mainZone">
-                <{include file="tabs.tpl"}>
-                <{include file='content.tpl'}>
+                    <div id="tab">
+                        <{include file="layout/tabs.tpl"}>
+                    </div>
+                    <div id="mainContent">
+                        <{include file='layout/content.tpl'}>
+                    </div>
                 </div>
             </div>
             <div class="clearFloat"></div>
@@ -40,4 +44,4 @@
         </div>
     </body>
 </html>
-<{include file='js.tpl'}>
+<{include file='layout/js.tpl'}>

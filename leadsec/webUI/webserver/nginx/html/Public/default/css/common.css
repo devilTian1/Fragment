@@ -293,7 +293,7 @@ div {
 
 /* TAB & CONTENT */
 /* tabs */ 
-#mainZone .tabs {
+#tab .tabs {
 	width: 99.5%;
 	float: left;
 	background-image: url(../images/nav_bg.jpg);
@@ -307,13 +307,13 @@ div {
 	color:#0099CC;
 }
 
-#mainZone .tabs ul { 
+#tab .tabs ul { 
     margin: 0px; 
 	padding: 0px;
     list-style: none; 
 }
 
-#mainZone .tabs li {
+#tab .tabs li {
     float: left; 
 	margin: 0px; 
 	padding: 2px 0 0 0;
@@ -324,7 +324,7 @@ div {
     width: 114px;
 }
 
-#mainZone .tabinfo {
+#tab .tabinfo {
 	width: 99.5%;
 	float: left;
 	clear:both;
@@ -338,7 +338,7 @@ div {
 
 /* TAB & CONTENT */
 /* MAINCONTENT */ 
-#mainZone .mainContent {
+#mainContent {
     background-color:#FFFFFF;
 	float:left;
     border: 1px solid #B4C9C6;
@@ -347,7 +347,7 @@ div {
     padding: 5px 0px;
     overflow: auto;
 }
-#mainZone .mainContent button {
+#mainContent button {
     margin: 5px;
 }
 

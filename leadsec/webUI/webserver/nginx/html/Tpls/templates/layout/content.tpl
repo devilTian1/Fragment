@@ -1,5 +1,4 @@
 <!-- mainContent -->
-<div class="mainContent">
     <table class="floatLeft column_50">
         <tr>
             <th class="column_30">名称</th>
@@ -55,4 +54,3 @@
             <td>Sep 2 00:36:19 127.1.0.1 snmpd: devid=3 date="2012/08/31 19:02:25" dname=NetGap logtype=8 pri=5 mod=snmp act=trap result=0 admin= serial=d6757df2b05c23cb msg="CPU threshold trap: threshold=85%, used=100%"</td>
         </tr>
     </table>
-</div>
