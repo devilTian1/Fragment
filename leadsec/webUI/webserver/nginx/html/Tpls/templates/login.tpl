@@ -54,8 +54,6 @@
 <script type="text/javascript" src="Public/js/formvalidator/formValidator-4.1.3.min.js"></script>
 <script type="text/javascript">
      $(document).ready(function() {
-		ajaxForm_setting.type='POST';
-		ajaxForm_setting.url='index.php';
 		$.formValidator.initConfig({formID:"loginform",theme:"Default",submitOnce:true,
 			onError:function(msg,obj,errorlist){
 				alert(msg);
