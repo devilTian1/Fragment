@@ -2,7 +2,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <title></title>
-        <link rel="stylesheet" href="{$smarty.const.THEME_PATH}/css/login.css" type="text/css" />
+        <link rel="stylesheet" href="<{$smarty.const.THEME_PATH}>/css/login.css" type="text/css" />
     </head>
     <body>
         <fieldset>

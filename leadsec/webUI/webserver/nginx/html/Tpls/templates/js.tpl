@@ -36,16 +36,16 @@
         var slideWidth = $('#leftmenu').width();
         var arrowImg = $("#ImgArrow");
         var leftArrow = {
-            src : "{$smarty.const.THEME_PATH}/images/switch_left.gif",
+            src : "<{$smarty.const.THEME_PATH}>/images/switch_left.gif",
             title : "隐藏左侧导航栏"
         };
         var rightArrow = {
-            src : "{$smarty.const.THEME_PATH}/images/switch_right.gif",
+            src : "<{$smarty.const.THEME_PATH}>/images/switch_right.gif",
             title : "显示左侧导航栏"
         };
         arrowImg.click(function() {
-            $("#content>.secondary").animate({
-                "left" : "-=" + slideWidth}, 600, function() {
+            $("#content>.secondary").animate({"left" : "-=" + slideWidth},
+                600, function() { 
                 slideWidth = -slideWidth;
                 if ( slideWidth > 0 ) { // close leftmenu
                     arrowImg.attr("src", leftArrow.src).attr("title", leftArrow.title);
@@ -60,8 +60,7 @@
             } else { // open leftmenu
                 var mzWidth = mainZoneWidth + "px";
             }
-            $("#mainZone").animate({
-                "width" : mzWidth}, 600);
+            $("#mainZone").animate({"width" : mzWidth}, 600);
         });
         // end toggle leftmenu div
 

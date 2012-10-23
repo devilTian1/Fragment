@@ -17,8 +17,8 @@ class V extends Smarty {
         //$this->caching   = Smarty::CACHING_LIFETIME_CURRENT;
         $this->cache_lifetime = 60*60*24;
 
-        //$this->left_delimiter = '<{';
-        //$this->right_delimiter = '}>';
+        $this->left_delimiter = '<{';
+        $this->right_delimiter = '}>';
     }
     public function getInstance() {
         if (!isset(self::$instance)) {

@@ -1,38 +1,38 @@
 <!-- tabs -->
 <div class="tabs">
     <ul>
-        {if !isset($tabs)}
+        <{if !isset($tabs)}>
             <li class="visitedTab">1</li>
             <li>2</li>
             <li>3</li>
             <li>4</li>
             <li>5</li>
-        {else}
-            {foreach $tabs as $seq => $tab}
+        <{else}>
+            <{foreach $tabs as $seq => $tab}>
                 <li
-                {if $seq eq 0}
+                <{if $seq eq 0}>
                     class="visitedTab"
-                {/if}
-                name="{$tab.link}" title="{$tab.title}"
-                onClick="showPageByAjax('{$baseurl|cat:'/'|cat:$tab.link|cat:'.php'}')">
-                {$tab.name}
+                <{/if}>
+                name="<{$tab.link}>" title="<{$tab.title}>"
+                onClick="showPageByAjax('<{$baseurl|cat:'/'|cat:$tab.link|cat:'.php'}>')">
+                <{$tab.name}>
                 </li>
-            {/foreach}
-        {/if}
+            <{/foreach}>
+        <{/if}>
     </ul>
 </div>
 <div class="tabinfo">
-    &nbsp;&nbsp;<img src="{$smarty.const.THEME_PATH}/images/hi.gif" />&nbsp;
-    {foreach $tabinfo as $t}
+    &nbsp;&nbsp;<img src="<{$smarty.const.THEME_PATH}>/images/hi.gif" />&nbsp;
+    <{foreach $tabinfo as $t}>
         <span
-        {if !$t@first}
+        <{if !$t@first}>
             class="hide"
-        {/if}
-        id="show_text{$t@index}">
-        {$t.breadCrumbs}&nbsp;&nbsp;&nbsp;&nbsp;{$t.note}
+        <{/if}>
+        id="show_text<{$t@index}>">
+        <{$t.breadCrumbs}>&nbsp;&nbsp;&nbsp;&nbsp;<{$t.note}>
         </span>
         
-    {/foreach}
+    <{/foreach}>
 </div>
 <br class="clearFloat"/>
 
