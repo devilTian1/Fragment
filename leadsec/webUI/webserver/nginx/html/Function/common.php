@@ -6,6 +6,12 @@
     require_once(WEB_PATH . '/Lib/driver/smarty.php');
     // Load leftmenu driver
     require_once(WEB_PATH . '/Lib/driver/leftmenu.php');
+    // Load sqlite driver
+    require_once(WEB_PATH . '/Lib/driver/dbsqlite.php');
+
+    //TODO TESTING
+    $db = new dbsqlite(DB_PATH . '/test.db');
+    var_dump($db->exec("insert into account values(?)", array('go')));
 
     // boot web UI
     function bootstrap() {

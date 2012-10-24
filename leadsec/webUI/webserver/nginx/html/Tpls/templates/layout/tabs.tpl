@@ -2,6 +2,7 @@
 <div class="tabs">
     <ul>
         <{if !isset($tabs)}>
+            <{$tabinfo = array(1,2,3,4)}>
             <li class="visitedTab">1</li>
             <li>2</li>
             <li>3</li>

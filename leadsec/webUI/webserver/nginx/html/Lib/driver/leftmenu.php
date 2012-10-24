@@ -34,7 +34,7 @@
                 $pid = $node['pid'];
                 if ( $pid !== 0 ) {
                     // add array for storing child nodes
-                    if ( !is_array($this->menu[$pid-1]['children']) ) {
+                    if ( !isset($this->menu[$pid-1]['children']) ) {
                         $this->menu[$pid-1]['children'] = array();   
                     }
                     array_push($this->menu[$pid-1]['children'], &$this->menu[$key]);
