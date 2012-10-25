@@ -5,9 +5,14 @@
      *
      */
     class dbsqlite extends DB {
-        // PDOStatement
-        private $st;
-        
+
+        private function commit() {
+            self::$db->commit();
+        }
+        private function rollback() {
+            self::$db->rollback();
+        }
+
         public function __construct($path) {
             if (!file_exists($path)) {
                 throw new DBException('No dsn');
@@ -20,6 +25,7 @@
                     self::$db->query("SET NAMES 'utf8'");
                     self::$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                 } catch (DBException $e) {
+                    $this->rollback();
                     throw new DBException($e->getMessage(), $e->getCode());
                 } 
             }
@@ -30,19 +36,14 @@
          */
         public function query($sql) {
             try {
-                return self::$db->query($sql);
+                $this->queryResult = self::$db->query($sql);
+                return $this;
             } catch (DBException $e) {
-                throw new DBException('Database problem: ' . $e->getMessage(), 0);
+                $this->rollback();
+                throw new DBException('Database problem: ' . $e->getMessage());
             } 
         }
 
-        private function commit() {
-            self::$db->commit();
-        }
-        private function rollback() {
-            self::$db->rollback();
-        }
-        
         /**
          * Use for insert/update/delete cmd
          *@return .Int. The number of modified rows.
@@ -51,9 +52,10 @@
             // check whether only one sql or multi-rows sql cmd
             try {
                 if (!empty($params)) {
-                    $this->st = self::$db->prepare($sql);
-                    $this->st->execute($params);
-                    $rowCount = $this->st->rowCount();
+                    // get PDO Statement
+                    $st = self::$db->prepare($sql);
+                    $st->execute($params);
+                    $rowCount = $st->rowCount();
                 } else {
                     $rowCount = self::$db->exec($sql);
                 }
@@ -61,21 +63,42 @@
                 return $rowCount;
             } catch (DBException $e) {
                 $this->rollback();
-                throw new DBException('Database problem: ' . $e->getMessage(), 0);
+                throw new DBException('Database problem: ' . $e->getMessage());
             }
         }
 
-        public function fetchAll($type = PDO::FETCH_BOTH) {
+        public function getAllData($type = PDO::FETCH_BOTH) {
             try {
-                return $this->st->fetchAll($type);
-            } catch (DBException $e) {
-                throw new DBException('Database problem: ' . $e->getMessage(), 0);
-            } 
+                return $this->queryResult->fetchAll($type);
+            } catch (DBExcetion $e) {
+                $this->rollback();
+                throw new DBException('Database problem: ' . $e->getMessage());
+            }
         }
 
-        public function getRowCount() {
-            return count($this->fetchAll());   
+        public function getFirstData($type = PDO::FETCH_BOTH) {
+            try {
+                return $this->queryResult->fetch($type);
+            } catch (DBExcetion $e) {
+                $this->rollback();
+                throw new DBException('Database problem: ' . $e->getMessage());
+            }
+        }
+    
+        public function getCount() {
+            try {
+                return count($this->getAllData());   
+            } catch (DBExcetion $e) {
+                $this->rollback();
+                throw new DBException('Database problem: ' . $e->getMessage());
+            }
         }
 
+        public function close() {
+            if (self::$db && self::$db->inTransaction) {
+                $this->rollback();
+            }
+            self::$db = NULL;
+        }
     }
 ?>

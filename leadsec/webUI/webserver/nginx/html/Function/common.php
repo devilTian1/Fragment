@@ -1,17 +1,19 @@
 <?php
-
     // Load Config File
     require_once(dirname(__FILE__) . '/../Conf/global.php');
-    // Load template engine smarty
+
+    // Include common driver
+    // Template engine, smarty
     require_once(WEB_PATH . '/Lib/driver/smarty.php');
-    // Load leftmenu driver
+    // Menu
     require_once(WEB_PATH . '/Lib/driver/leftmenu.php');
-    // Load sqlite driver
+    // DB driver
     require_once(WEB_PATH . '/Lib/driver/dbsqlite.php');
+
 
     //TODO TESTING
     $db = new dbsqlite(DB_PATH . '/test.db');
-    var_dump($db->exec("insert into account values(?)", array('go')));
+    var_dump($db->query('select * from account')->getFirstData());
 
     // boot web UI
     function bootstrap() {
