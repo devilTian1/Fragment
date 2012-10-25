@@ -6,13 +6,6 @@
      */
     class dbsqlite extends DB {
 
-        private function commit() {
-            self::$db->commit();
-        }
-        private function rollback() {
-            self::$db->rollback();
-        }
-
         public function __construct($path) {
             if (!file_exists($path)) {
                 throw new DBException('No dsn');
@@ -21,11 +14,9 @@
             if (empty(self::$db)) {
                 try {
                     self::$db = new PDO($dsn);
-                    self::$db->beginTransaction();
                     self::$db->query("SET NAMES 'utf8'");
                     self::$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                 } catch (DBException $e) {
-                    $this->rollback();
                     throw new DBException($e->getMessage(), $e->getCode());
                 } 
             }
@@ -39,7 +30,6 @@
                 $this->queryResult = self::$db->query($sql);
                 return $this;
             } catch (DBException $e) {
-                $this->rollback();
                 throw new DBException('Database problem: ' . $e->getMessage());
             } 
         }
@@ -59,10 +49,23 @@
                 } else {
                     $rowCount = self::$db->exec($sql);
                 }
-                $this->commit();
                 return $rowCount;
             } catch (DBException $e) {
-                $this->rollback();
+                throw new DBException('Database problem: ' . $e->getMessage());
+            }
+        }
+
+        public function execByTransaction($sqls, $paramArr = array()) {
+            $result = array();
+            try {
+                self::$db->beginTransaction();
+                foreach ($sqls as $key => $sql) {
+                    $result[] = $this->exec($sql, $paramArr[$key]);
+                }
+                self::$db->commit();
+            return $result;
+            } catch (DBException $e) {
+                self::$db->rollback();
                 throw new DBException('Database problem: ' . $e->getMessage());
             }
         }
@@ -71,7 +74,6 @@
             try {
                 return $this->queryResult->fetchAll($type);
             } catch (DBExcetion $e) {
-                $this->rollback();
                 throw new DBException('Database problem: ' . $e->getMessage());
             }
         }
@@ -80,7 +82,6 @@
             try {
                 return $this->queryResult->fetch($type);
             } catch (DBExcetion $e) {
-                $this->rollback();
                 throw new DBException('Database problem: ' . $e->getMessage());
             }
         }
@@ -89,16 +90,13 @@
             try {
                 return count($this->getAllData());   
             } catch (DBExcetion $e) {
-                $this->rollback();
                 throw new DBException('Database problem: ' . $e->getMessage());
             }
         }
 
         public function close() {
-            if (self::$db && self::$db->inTransaction) {
-                $this->rollback();
-            }
             self::$db = NULL;
+            return true;
         }
     }
 ?>

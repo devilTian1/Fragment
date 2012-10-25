@@ -12,8 +12,30 @@
 
 
     //TODO TESTING
-    $db = new dbsqlite(DB_PATH . '/test.db');
-    var_dump($db->query('select * from account')->getFirstData());
+    $db  = new dbsqlite(DB_PATH . '/test.db');
+    $sql = "select * from account";
+    var_dump($db->query($sql)->getAllData());
+    var_dump($db->query($sql)->getFirstData());
+    var_dump($db->query($sql)->getCount());
+    //insert
+    $insertSql = 'insert into account values(?)';
+    $params = array(99);
+    var_dump($db->exec($insertSql, $params));
+    //update
+    $updateSql = 'update account set x=? where x=?';
+    $params = array(999, 99);
+    var_dump($db->exec($updateSql, $params));
+    //delete
+    $deleteSql = 'delete from account where x="999"';
+    var_dump($db->exec($deleteSql));
+    $db->close();
+
+    //test transaction
+    $db  = new dbsqlite(DB_PATH . '/test.db');
+    $db->execByTransaction(
+            array($insertSql,$insertSql,$insertSql), array(array('a'), array('b'), array('c')));
+
+    
 
     // boot web UI
     function bootstrap() {
