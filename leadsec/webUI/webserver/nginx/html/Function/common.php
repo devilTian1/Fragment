@@ -12,6 +12,7 @@
 
 
     //TODO TESTING
+    /*
     $db  = new dbsqlite(DB_PATH . '/test.db');
     $sql = "select * from account";
     var_dump($db->query($sql)->getAllData());
@@ -35,7 +36,7 @@
     $db->execByTransaction(
             array($insertSql,$insertSql,$insertSql), array(array('a'), array('b'), array('c')));
 
-    
+    */
 
     // boot web UI
     function bootstrap() {
@@ -51,7 +52,22 @@
 
     // login page
     function login() {
-        V::getInstance()->display('login.tpl');
+        $account = @$_POST['account'];
+        $passwd  = @$_POST['passwd'];
+        $db  = new dbsqlite(DB_PATH . '/configs.db');
+        $result = $db->query("select * from accounts where account = '$account' and passwd='$passwd'")
+           ->getFirstData();
+        if ($result === false) {
+            V::getInstance()->display('login/login.tpl');
+        } else {
+            // login successful
+            @$_SESSION['account']  = $result['account'];
+            @$_SESSION['super']    = $result['super'];
+            @$_SESSION['manager']  = $result['manager'];
+            @$_SESSION['policyer'] = $result['policyer'];
+            @$_SESSION['auditor']  = $result['auditor'];
+            bootstrap();
+        }
     }
 
     // display tab content

@@ -55,8 +55,18 @@
 <script type="text/javascript">
      $(document).ready(function() {
 		$.formValidator.initConfig({formID:"loginform",theme:"Default",submitOnce:true,
-			onError:function(msg,obj,errorlist){
-				alert(msg);
+            onSuccess : function(data) {
+                if (data === 'success') {
+                    location.href='index.php';
+                } else {
+                    $('#login_error').html('登录失败,请重新登录.');
+                    setTimeout(function() {
+                        $('#login_error').html('');
+                    }, 3000)
+                }
+            }
+			onError   : function(msg,obj,errorlist){
+                //alert(msg);
 			}
 		});
 		$("#account").formValidator({tipID:"user_error",onShowText:"请输入账号",onShow:"请输入账号",onFocus:"账号不能为空",onCorrect:""}).inputValidator({min:5,max:10,onError:"账号非法"});

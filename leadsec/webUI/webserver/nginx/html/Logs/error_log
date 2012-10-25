@@ -278,3 +278,69 @@
 #0 /usr/local/webserver/nginx/html/Fragment/leadsec/webUI/webserver/nginx/html/Function/common.php(14): dbsqlite->exec('insert into acc...')
 #1 /usr/local/webserver/nginx/html/Fragment/leadsec/webUI/webserver/nginx/html/index.php(5): require_once('/usr/local/webs...')
 #2 {main}
+
+--------------------------
+2012-10-25 16:40:37 | errMsg:No dsn | DBException | code:0
+#0 /usr/local/webserver/nginx/html/Fragment/leadsec/webUI/webserver/nginx/html/Function/common.php(57): dbsqlite->__construct('/usr/local/conf...')
+#1 /usr/local/webserver/nginx/html/Fragment/leadsec/webUI/webserver/nginx/html/index.php(9): login()
+#2 {main}
+
+--------------------------
+2012-10-25 16:41:41 | errMsg:No dsn | DBException | code:0
+#0 /usr/local/webserver/nginx/html/Fragment/leadsec/webUI/webserver/nginx/html/Function/common.php(57): dbsqlite->__construct('/usr/local/conf...')
+#1 /usr/local/webserver/nginx/html/Fragment/leadsec/webUI/webserver/nginx/html/index.php(9): login()
+#2 {main}
+
+--------------------------
+2012-10-25 16:41:54 | errMsg:No dsn | DBException | code:0
+#0 /usr/local/webserver/nginx/html/Fragment/leadsec/webUI/webserver/nginx/html/Function/common.php(58): dbsqlite->__construct('/usr/local/conf...')
+#1 /usr/local/webserver/nginx/html/Fragment/leadsec/webUI/webserver/nginx/html/index.php(9): login()
+#2 {main}
+
+--------------------------
+2012-10-25 16:42:31 | errMsg:No dsn | DBException | code:0
+#0 /usr/local/webserver/nginx/html/Fragment/leadsec/webUI/webserver/nginx/html/Function/common.php(58): dbsqlite->__construct('/usr/local/conf...')
+#1 /usr/local/webserver/nginx/html/Fragment/leadsec/webUI/webserver/nginx/html/index.php(9): login()
+#2 {main}
+
+--------------------------
+2012-10-25 16:42:32 | errMsg:No dsn | DBException | code:0
+#0 /usr/local/webserver/nginx/html/Fragment/leadsec/webUI/webserver/nginx/html/Function/common.php(58): dbsqlite->__construct('/usr/local/conf...')
+#1 /usr/local/webserver/nginx/html/Fragment/leadsec/webUI/webserver/nginx/html/index.php(9): login()
+#2 {main}
+
+--------------------------
+2012-10-25 16:42:32 | errMsg:No dsn | DBException | code:0
+#0 /usr/local/webserver/nginx/html/Fragment/leadsec/webUI/webserver/nginx/html/Function/common.php(58): dbsqlite->__construct('/usr/local/conf...')
+#1 /usr/local/webserver/nginx/html/Fragment/leadsec/webUI/webserver/nginx/html/index.php(9): login()
+#2 {main}
+
+--------------------------
+2012-10-25 16:42:32 | errMsg:No dsn | DBException | code:0
+#0 /usr/local/webserver/nginx/html/Fragment/leadsec/webUI/webserver/nginx/html/Function/common.php(58): dbsqlite->__construct('/usr/local/conf...')
+#1 /usr/local/webserver/nginx/html/Fragment/leadsec/webUI/webserver/nginx/html/index.php(9): login()
+#2 {main}
+
+--------------------------
+2012-10-25 16:43:47 | errMsg:No dsn | DBException | code:0
+#0 /usr/local/webserver/nginx/html/Fragment/leadsec/webUI/webserver/nginx/html/Function/common.php(58): dbsqlite->__construct('/usr/local/conf...')
+#1 /usr/local/webserver/nginx/html/Fragment/leadsec/webUI/webserver/nginx/html/index.php(9): login()
+#2 {main}
+
+--------------------------
+2012-10-25 16:44:36 | errMsg:No dsn | DBException | code:0
+#0 /usr/local/webserver/nginx/html/Fragment/leadsec/webUI/webserver/nginx/html/Function/common.php(58): dbsqlite->__construct('/usr/local/conf...')
+#1 /usr/local/webserver/nginx/html/Fragment/leadsec/webUI/webserver/nginx/html/index.php(9): login()
+#2 {main}
+
+--------------------------
+2012-10-25 16:44:37 | errMsg:No dsn | DBException | code:0
+#0 /usr/local/webserver/nginx/html/Fragment/leadsec/webUI/webserver/nginx/html/Function/common.php(58): dbsqlite->__construct('/usr/local/conf...')
+#1 /usr/local/webserver/nginx/html/Fragment/leadsec/webUI/webserver/nginx/html/index.php(9): login()
+#2 {main}
+
+--------------------------
+2012-10-25 16:44:38 | errMsg:No dsn | DBException | code:0
+#0 /usr/local/webserver/nginx/html/Fragment/leadsec/webUI/webserver/nginx/html/Function/common.php(58): dbsqlite->__construct('/usr/local/conf...')
+#1 /usr/local/webserver/nginx/html/Fragment/leadsec/webUI/webserver/nginx/html/index.php(9): login()
+#2 {main}

@@ -10,10 +10,10 @@
             if (!file_exists($path)) {
                 throw new DBException('No dsn');
             }
-            $dsn = "sqlite:$path";
             if (empty(self::$db)) {
                 try {
-                    self::$db = new PDO($dsn);
+                    $this->dsn = "sqlite:$path";
+                    self::$db = new PDO($this->dsn);
                     self::$db->query("SET NAMES 'utf8'");
                     self::$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                 } catch (DBException $e) {
@@ -63,7 +63,7 @@
                     $result[] = $this->exec($sql, $paramArr[$key]);
                 }
                 self::$db->commit();
-            return $result;
+                return $result;
             } catch (DBException $e) {
                 self::$db->rollback();
                 throw new DBException('Database problem: ' . $e->getMessage());
