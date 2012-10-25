@@ -9,7 +9,7 @@
         // init layout
         var mainZoneWidth;
         // load content div
-        refreshTab();
+        refreshTabs();
         //set height/width of content_inner
         $("#mainZone").width($("#content").width()-$("#content>.secondary").width());
         mainZoneWidth = $("#mainZone").width();

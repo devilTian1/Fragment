@@ -1,7 +1,7 @@
 function openDialog() {
     $("#dialogForm").dialog({
         autoOpen: false,
-        height: 600,
+        height: 300,
         width: 500,
         modal: true,
         title: '客户端普通访问添加',

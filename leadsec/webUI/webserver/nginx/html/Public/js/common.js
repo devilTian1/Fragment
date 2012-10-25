@@ -59,7 +59,6 @@ function loadEmbedPage(url, data, displayDom, params) {
     loadAjax(url, data, embedPageParams);
 }
 
-
 function showTabByAjax(path) {
     var url  = 'Function/layout/showTab.php';
     var data = {tabPath : path};
@@ -76,5 +75,10 @@ function refreshLayout() {
     var leftmenuH = $("#leftmenu").outerHeight();
     contentH > leftmenuH ? $("#leftmenu").outerHeight(contentH) : 
         $("#mainContent").outerHeight(leftmenuH);
-    refreshTab();
+    refreshTabs();
+}
+
+function toggleDom(dom) {
+    $("div[name='toggleDiv']").addClass('hide');
+    dom.removeClass('hide');
 }
