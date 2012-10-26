@@ -19,6 +19,7 @@ body {
 
 a, .href {
 	color: #555;
+    cursor: pointer;
 	text-decoration:none;
     font-weight: normal;
 }
