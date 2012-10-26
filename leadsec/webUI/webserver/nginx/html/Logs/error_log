@@ -344,3 +344,9 @@
 #0 /usr/local/webserver/nginx/html/Fragment/leadsec/webUI/webserver/nginx/html/Function/common.php(58): dbsqlite->__construct('/usr/local/conf...')
 #1 /usr/local/webserver/nginx/html/Fragment/leadsec/webUI/webserver/nginx/html/index.php(9): login()
 #2 {main}
+
+--------------------------
+2012-10-26 16:20:57 | errMsg:No dsn | DBException | code:0
+#0 /usr/local/webserver/nginx/html/Fragment/leadsec/webUI/webserver/nginx/html/Function/common.php(32): dbsqlite->__construct('/usr/local/conf...')
+#1 /usr/local/webserver/nginx/html/Fragment/leadsec/webUI/webserver/nginx/html/index.php(9): login()
+#2 {main}

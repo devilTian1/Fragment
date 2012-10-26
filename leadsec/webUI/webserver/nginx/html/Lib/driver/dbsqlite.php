@@ -14,7 +14,6 @@
                 try {
                     $this->dsn = "sqlite:$path";
                     self::$db = new PDO($this->dsn);
-                    self::$db->query("SET NAMES 'utf8'");
                     self::$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                 } catch (DBException $e) {
                     throw new DBException($e->getMessage(), $e->getCode());

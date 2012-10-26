@@ -9,6 +9,8 @@
     require_once(WEB_PATH . '/Lib/driver/leftmenu.php');
     // DB driver
     require_once(WEB_PATH . '/Lib/driver/dbsqlite.php');
+    // Exception driver
+    require_once(WEB_PATH . '/Lib/driver/exception.php');
 
 
     // boot web UI

@@ -1,5 +1,4 @@
 <?php
-    require_once('exception.php');
     abstract class DB {
         protected $dsn;
 
