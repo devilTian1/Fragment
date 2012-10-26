@@ -64,3 +64,9 @@
 #0 /usr/local/webserver/nginx/html/Fragment/leadsec/webUI/webserver/nginx/html/Function/common.php(18): cli->run('ifconfiga')
 #1 /usr/local/webserver/nginx/html/Fragment/leadsec/webUI/webserver/nginx/html/index.php(5): require_once('/usr/local/webs...')
 #2 {main}
+
+--------------------------
+2012-10-26 17:44:17 | errMsg:Command Error: [ll] | sisException | code:0
+#0 /usr/local/webserver/nginx/html/Fragment/leadsec/webUI/webserver/nginx/html/Function/common.php(18): cli->run('ll')
+#1 /usr/local/webserver/nginx/html/Fragment/leadsec/webUI/webserver/nginx/html/index.php(5): require_once('/usr/local/webs...')
+#2 {main}

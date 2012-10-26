@@ -14,8 +14,10 @@
     // CLI driver
     require_once(WEB_PATH . '/Lib/driver/cli.php');
 
+    // i am tester~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     $cli = new cli();
-    echo $cli->run('ifconfiga');
+    echo $cli->run('ls -al');
+    // i am tester~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     // boot web UI
     function bootstrap() {
