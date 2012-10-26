@@ -3,15 +3,19 @@
     require_once(dirname(__FILE__) . '/../Conf/global.php');
 
     // Include common driver
+    // Exception driver
+    require_once(WEB_PATH . '/Lib/driver/exception.php');
     // Template engine, smarty
     require_once(WEB_PATH . '/Lib/driver/smarty.php');
     // Menu
     require_once(WEB_PATH . '/Lib/driver/leftmenu.php');
     // DB driver
     require_once(WEB_PATH . '/Lib/driver/dbsqlite.php');
-    // Exception driver
-    require_once(WEB_PATH . '/Lib/driver/exception.php');
+    // CLI driver
+    require_once(WEB_PATH . '/Lib/driver/cli.php');
 
+    $cli = new cli();
+    echo $cli->run('ifconfiga');
 
     // boot web UI
     function bootstrap() {

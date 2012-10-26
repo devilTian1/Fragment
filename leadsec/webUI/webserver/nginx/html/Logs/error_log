@@ -1,0 +1,66 @@
+
+--------------------------
+2012-10-26 17:13:33 | errMsg: | sisException | code:0
+#0 /usr/local/webserver/nginx/html/Fragment/leadsec/webUI/webserver/nginx/html/Function/common.php(18): cli->run('ifconfiga')
+#1 /usr/local/webserver/nginx/html/Fragment/leadsec/webUI/webserver/nginx/html/index.php(5): require_once('/usr/local/webs...')
+#2 {main}
+
+--------------------------
+2012-10-26 17:13:33 | errMsg: | sisException | code:0
+#0 /usr/local/webserver/nginx/html/Fragment/leadsec/webUI/webserver/nginx/html/Function/common.php(18): cli->run('ifconfiga')
+#1 /usr/local/webserver/nginx/html/Fragment/leadsec/webUI/webserver/nginx/html/index.php(5): require_once('/usr/local/webs...')
+#2 {main}
+
+--------------------------
+2012-10-26 17:22:37 | errMsg: | sisException | code:0
+#0 /usr/local/webserver/nginx/html/Fragment/leadsec/webUI/webserver/nginx/html/Function/common.php(18): cli->run('ifconfiga')
+#1 /usr/local/webserver/nginx/html/Fragment/leadsec/webUI/webserver/nginx/html/index.php(5): require_once('/usr/local/webs...')
+#2 {main}
+
+--------------------------
+2012-10-26 17:24:01 | errMsg: | sisException | code:0
+#0 /usr/local/webserver/nginx/html/Fragment/leadsec/webUI/webserver/nginx/html/Function/common.php(18): cli->run('ifconfiga')
+#1 /usr/local/webserver/nginx/html/Fragment/leadsec/webUI/webserver/nginx/html/index.php(5): require_once('/usr/local/webs...')
+#2 {main}
+
+--------------------------
+2012-10-26 17:28:07 | errMsg: | sisException | code:0
+#0 /usr/local/webserver/nginx/html/Fragment/leadsec/webUI/webserver/nginx/html/Function/common.php(18): cli->run('ifconfiga')
+#1 /usr/local/webserver/nginx/html/Fragment/leadsec/webUI/webserver/nginx/html/index.php(5): require_once('/usr/local/webs...')
+#2 {main}
+
+--------------------------
+2012-10-26 17:28:15 | errMsg: | sisException | code:0
+#0 /usr/local/webserver/nginx/html/Fragment/leadsec/webUI/webserver/nginx/html/Function/common.php(18): cli->run('ifconfiga')
+#1 /usr/local/webserver/nginx/html/Fragment/leadsec/webUI/webserver/nginx/html/index.php(5): require_once('/usr/local/webs...')
+#2 {main}
+
+--------------------------
+2012-10-26 17:30:15 | errMsg: | sisException | code:0
+#0 /usr/local/webserver/nginx/html/Fragment/leadsec/webUI/webserver/nginx/html/Function/common.php(18): cli->run('ifconfiga')
+#1 /usr/local/webserver/nginx/html/Fragment/leadsec/webUI/webserver/nginx/html/index.php(5): require_once('/usr/local/webs...')
+#2 {main}
+
+--------------------------
+2012-10-26 17:32:08 | errMsg:Command Error: [ifconfiga] | sisException | code:0
+#0 /usr/local/webserver/nginx/html/Fragment/leadsec/webUI/webserver/nginx/html/Function/common.php(18): cli->run('ifconfiga')
+#1 /usr/local/webserver/nginx/html/Fragment/leadsec/webUI/webserver/nginx/html/index.php(5): require_once('/usr/local/webs...')
+#2 {main}
+
+--------------------------
+2012-10-26 17:35:07 | errMsg:Command Error: [ifconfiga] | sisException | code:0
+#0 /usr/local/webserver/nginx/html/Fragment/leadsec/webUI/webserver/nginx/html/Function/common.php(18): cli->run('ifconfiga')
+#1 /usr/local/webserver/nginx/html/Fragment/leadsec/webUI/webserver/nginx/html/index.php(5): require_once('/usr/local/webs...')
+#2 {main}
+
+--------------------------
+2012-10-26 17:35:15 | errMsg:Command Error: [ifconfiga] | sisException | code:0
+#0 /usr/local/webserver/nginx/html/Fragment/leadsec/webUI/webserver/nginx/html/Function/common.php(18): cli->run('ifconfiga')
+#1 /usr/local/webserver/nginx/html/Fragment/leadsec/webUI/webserver/nginx/html/index.php(5): require_once('/usr/local/webs...')
+#2 {main}
+
+--------------------------
+2012-10-26 17:35:25 | errMsg:Command Error: [ifconfiga] | sisException | code:0
+#0 /usr/local/webserver/nginx/html/Fragment/leadsec/webUI/webserver/nginx/html/Function/common.php(18): cli->run('ifconfiga')
+#1 /usr/local/webserver/nginx/html/Fragment/leadsec/webUI/webserver/nginx/html/index.php(5): require_once('/usr/local/webs...')
+#2 {main}
