@@ -30,8 +30,9 @@
         $account = @$_POST['account'];
         $passwd  = @$_POST['passwd'];
         $db  = new dbsqlite(DB_PATH . '/configs.db');
-        $result = $db->query("select * from accounts where account = '$account' and passwd='$passwd'")
-           ->getFirstData();
+        $sql = "select * from accounts 
+            where account = '$account' and passwd='$passwd'";
+        $result = $db->query($sql)->getFirstData();
         if ($result === false) {
             V::getInstance()->display('login/login.tpl');
         } else {
