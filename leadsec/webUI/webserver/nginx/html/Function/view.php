@@ -5,6 +5,12 @@
         return ;
     } else {
         $func = $_POST['func'];
-        @require_once($func);
+        $tpl  = str_replace('.php', '.tpl', $func);
+        try {
+            V::getInstance()->display($tpl);
+        } catch(SmartyException $e) {
+            //todo
+            echo $e->getMessage();
+        }
     }
 ?>

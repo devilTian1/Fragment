@@ -1,5 +1,5 @@
-    <button class="floatLeft" type="submit" onClick="openDialog()" name="import">导入</button>
-    <table class="column_95 textMid tablesorter" id="clientTcp">
+    <button class="floatLeft" type="submit" onClick="openImportCertDialog()" name="import">导入</button>
+    <table class="column_95 textMid tablesorter" id="cert">
         <caption>
             管理员证书列表:
         </caption>
@@ -35,49 +35,11 @@
         <li><a href="#?page=5">5</a></li>
         <li><a href="#?page=3" rel="next">Next</a></li>
     </ol>
-    <button class="floatLeft" type="submit" onClick="openDialog()" name="import">导入</button>
+    <button class="floatLeft" type="submit" onClick="openImportCertDialog()" name="import">导入</button>
 
-<div class="hide" id="dialogForm">
-    <fieldset>
-        <legend>导入证书</legend>
-        <div>
-            <label for="type">类型:</label>
-            <span>
-                <input class="radio" type="radio" name="type" onClick="toggleDom($('#certDiv'))"/>
-                xxx证书
-            </span>
-            <span>
-                <input class="radio" type="radio" name="type" onClick="toggleDom($('#adminCertDiv'))"/>
-                管理员证书
-            </span>
-        </div>
-        <br class="clearFloat"/>
-        <div class="hide" name="toggleDiv" id="adminCertDiv">
-        </div>
-        <div class="hide" name="toggleDiv" id="certDiv">
-            <div>
-                <label for="mid">CA中心证书<em class="required">*</em></label>
-                <input type="file" name="CAcert" id="CAcert"/>
-            </div>
-            <br class="clearFloat"/>
-            <div>
-                <label for="mid">二级CA证书<em class="required">*</em></label>
-                <input type="file" name="CAcert" id="CAcert"/>
-            </div>
-            <br class="clearFloat"/>
-            <div>
-                <label for="mid">安全隔离网闸证书<em class="required">*</em></label>
-                <input type="file" name="SIScert" id="SIScert"/>
-            </div>
-            <br class="clearFloat"/>
-            <div>
-                <label for="mid">安全隔离网闸密钥<em class="required">*</em></label>
-                <input type="file" name="SISkey" id="SISkey"/>
-            </div>
-            <br class="clearFloat"/>
-        </div>
-    </fieldset>
-</div>
-<script type="text/javascript">
+<script type="text/javascript"> 
+$(document).ready(function() {
     $("[name='import']").button();
+});
 </script>
+<script type="text/javascript" src="Public/js/systemManagement/conf/cert.js"></script>
