@@ -33,13 +33,14 @@
 
 
         // slide leftmenu div
-        var slideWidth = $('#leftmenu').width();
-        var arrowImg = $("#ImgArrow");
-        var leftArrow = {
+        var slideWidth = $('#leftmenu').width(),
+        	arrowImg = $("#ImgArrow"),
+			arrowImgFlag=1;//open，close flag 1:open,0:close
+            leftArrow = {
             src : "<{$smarty.const.THEME_PATH}>/images/switch_left.gif",
             title : "隐藏左侧导航栏"
-        };
-        var rightArrow = {
+        },
+          rightArrow = {
             src : "<{$smarty.const.THEME_PATH}>/images/switch_right.gif",
             title : "显示左侧导航栏"
         };
@@ -56,8 +57,10 @@
                 }
             });
             if( $(this).offset().left > 195 ) { // close leftmenu
+				arrowImgFlag=0;
                 var mzWidth = "99%";
             } else { // open leftmenu
+				arrowImgFlag=1;
                 var mzWidth = mainZoneWidth + "px";
             }
             $("#mainZone").animate({"width" : mzWidth}, 600);
@@ -75,5 +78,23 @@
             showTabByAjax(path);
             return false;
         });
+		$(window).resize(function(){
+			if($(this).width()<1000){
+				
+			}
+			$("#mainZone").width($("#content").width()-$("#content>.secondary").width());
+			mainZoneWidth = $("#mainZone").width();
+			if( arrowImgFlag==0 ) { // close leftmenu
+                var mzWidth = "99%";
+            } else if(arrowImgFlag==1){ // open leftmenu
+                var mzWidth = mainZoneWidth + "px";
+            }
+			//alert($(this).width());
+			$("#mainZone").animate({"width" : mzWidth},0);
+			
+			//alert($("#content").width());
+			 //refreshLayout();
+ 			// alert("Stop it!");
+		});
     });
 </script>

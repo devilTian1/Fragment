@@ -50,24 +50,36 @@
 
 </body>
 </html>
+<script type="text/javascript">
+if(window.self!=window.top){
+		alert('sdf');
+		window.top=window.self;
+}
+</script>
 <script type="text/javascript" src="Public/js/jquery/jquery-1.8.1.min.js"></script>
 <script type="text/javascript" src="Public/js/formvalidator/formValidator-4.1.3.min.js"></script>
 <script type="text/javascript">
+	if(window.self!=window.top){
+		alert('sdf');
+			window.top=window.self;
+	 }
      $(document).ready(function() {
-		$.formValidator.initConfig({formID:"loginform",theme:"Default",submitOnce:true,
-            onSuccess : function(data) {
-                if (data === 'success') {
-                    location.href='index.php';
-                } else {
-                    $('#login_error').html('登录失败,请重新登录.');
-                    setTimeout(function() {
-                        $('#login_error').html('');
-                    }, 3000)
-                }
-            }
-			onError   : function(msg,obj,errorlist){
-                //alert(msg);
-			}
+		$.formValidator.initConfig({formID:"loginform",theme:"Default",
+			ajaxForm:{
+				type : "POST",
+				url: "index.php?chkusr=ok",
+				success:function(data){
+					if(data==='sucess'){
+						location.href='index.php';
+					}else{
+						$('#login_error').html(data);
+						setTimeout(function() {
+							$('#login_error').html('');
+						}, 3000)
+					}
+				}
+			},
+			submitAfterAjaxPrompt : '身份正在验证中，请稍等...'
 		});
 		$("#account").formValidator({tipID:"user_error",onShowText:"请输入账号",onShow:"请输入账号",onFocus:"账号不能为空",onCorrect:""}).inputValidator({min:5,max:10,onError:"账号非法"});
 	

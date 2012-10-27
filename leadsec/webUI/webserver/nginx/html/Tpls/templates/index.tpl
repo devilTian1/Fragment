@@ -15,7 +15,7 @@
                     <!-- userinfo -->
                     <div class="userinfo">
                         Welcome,&nbsp;<strong>DavidTian</strong>
-                        [<a href="#">Administrator</a>,&nbsp;<a href="#">logout</a>]
+                        [<a href="#">Administrator</a>,&nbsp;<a href="index.php?logout=1">logout</a>]
                     </div>
                     <!-- leftmenu -->
                     <div id="leftmenu">

@@ -36,4 +36,9 @@
     <{/foreach}>
 </div>
 <br class="clearFloat"/>
-
+<script type="text/javascript">
+	 /*$(document).ready(function() {
+			alert('123');
+								
+	 })*/
+</script>
