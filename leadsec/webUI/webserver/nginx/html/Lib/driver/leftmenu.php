@@ -89,10 +89,12 @@
             $tabinfo = array();
             $flag    = ' >> ';
             $bc      = join($flag, $this->breadCrumbs);
-            foreach ($tabs as $tab) {
-                $tabinfo[] = array(
-                    'breadCrumbs' => $bc . $flag . $tab['name'],
-                    'note'        => $tab['title']);
+            if($tabs!=NULL){
+	            foreach ($tabs as $tab) {
+	                $tabinfo[] = array(
+	                    'breadCrumbs' => $bc . $flag . $tab['name'],
+	                    'note'        => $tab['title']);
+	            }
             }
             return $tabinfo;
         }
