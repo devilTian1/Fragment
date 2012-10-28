@@ -262,4 +262,25 @@ function toggleDom(dom) {
     dom.removeClass('hide');
 }
 
+function tipAutoHide(i,info,time){
+	if(!info) tip='';
+	switch(i){
+		case 1:
+			tip = "服务器繁忙，请稍后再试。";
+		break;
+		case 2:
+			tip = "设置成功！";
+		break;
+		case 3:
+			tip = "数据拉取失败";
+		break;
+		case 4:
+			tip = "正在加载中，请稍后...";
+		break;
+	}
+	tip=info;
+	if(!time) time=2;
+	time=1000*time;
+	ZENG.msgbox.show(tip, i, time);
+}
 StandardUiFactory();
