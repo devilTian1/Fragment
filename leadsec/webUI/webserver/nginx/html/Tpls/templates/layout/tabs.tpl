@@ -37,8 +37,7 @@
 </div>
 <br class="clearFloat"/>
 <script type="text/javascript">
-	 /*$(document).ready(function() {
-			alert('123');
-								
-	 })*/
+ <{if isset($tabs)}>
+	 showPageByAjax("<{$baseurl|cat:'/'|cat:$tabs[0].link|cat:'.php'}>");
+ <{/if}>
 </script>
