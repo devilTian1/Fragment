@@ -33,3 +33,5 @@ caption a {
 .textMid th, .textMid td {
     text-align: center;
 }
+.tdheader{ padding:4px 10px 4px 4px; text-align:right;}
+.tdbody{ padding:4px 4px 4px 10px; text-align:left;}
