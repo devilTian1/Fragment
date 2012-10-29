@@ -430,3 +430,8 @@ div {
 	line-height:30px;
 	text-align:right;
 }
+
+.red{ color:#F00; font-weight:bold}
+.edit{background: url(../images/icon/edit.gif) no-repeat left; padding-left:20px;}
+.delete{background: url(../images/icon/delete.png) no-repeat left; padding-left:20px;}
+.margintop3{ margin-top:3px;}

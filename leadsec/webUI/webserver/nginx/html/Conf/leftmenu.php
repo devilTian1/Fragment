@@ -67,9 +67,9 @@
         array('pid' => 8, 'name' => '日志访问', 'link' => '#'),//39
 
         //level3  systemManagement/conf
-        array('pid' => 11, 'name' => '日期时间', 'link' => '#', 'title' => ''),//40
-        array('pid' => 11, 'name' => '系统参数', 'link' => '#', 'title' => ''),//41
-        array('pid' => 11, 'name' => '集中管理', 'link' => '#', 'title' => ''),//42
+        array('pid' => 11, 'name' => '日期时间', 'link' => 'time', 'title' => ''),//40
+        array('pid' => 11, 'name' => '系统参数', 'link' => 'params', 'title' => ''),//41
+        array('pid' => 11, 'name' => '集中管理', 'link' => 'snmp', 'title' => ''),//42
 
         //level3 systemManagement/admin
         array('pid' => 12, 'name' => '管理员帐号', 'link' => 'account', 'title' => ''),//43
