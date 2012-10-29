@@ -2,6 +2,9 @@
     // Load Config File
     require_once(dirname(__FILE__) . '/../Conf/global.php');
 
+    // debug
+    DEBUG && error_reporting(E_ALL);
+
     // Include common driver
     // Exception driver
     require_once(WEB_PATH . '/Lib/driver/exception.php');
@@ -17,9 +20,11 @@
     require_once(WEB_PATH . '/Lib/driver/function.php');
     //用户操作操时处理
 	//chklogin(600);
+
+
     // i am tester~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   // $cli = new cli();
-   // echo $cli->run('ls -al');
+    // $cli = new cli();
+    // echo $cli->run('ls -al');
     // i am tester~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     // boot web UI
@@ -47,14 +52,13 @@
         $sql_ip="select ip from adminips where ip='$client_ip'";    //管理主机ip检测
         $resultall= $db->query($sql_ip)->getFirstData();
         if($resultall===false){
-        	exit('管理主机限制登录');
+        	DEBUG || exit('管理主机限制登录');
         }
         $sql = "select * from accounts
             where account = '$account' and passwd='$passwd'";
         $result = $db->query($sql)->getFirstData();
         if ($result === false) {
             exit('用户名与密码错误!');
-        	//V::getInstance()->display('login/login.tpl');
         } else {
             // login successful
             @$_SESSION['account']  = $result['account'];
