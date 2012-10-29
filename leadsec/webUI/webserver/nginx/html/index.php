@@ -2,12 +2,14 @@
 @session_start();
 // Load Common Function
 require_once('Function/common.php');
-if(isset($_GET['logout'])){
+
+if (isset($_GET['logout']) && $_GET['logout'] === '1') {
 	logout();
 }
-if(!isset($_SESSION['account'])){
+
+if (!isset($_SESSION['account'])) {
 	login();
-}else { 
+} else { 
 	bootstrap();
 }
 

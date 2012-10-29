@@ -89,7 +89,7 @@
             $tabinfo = array();
             $flag    = ' >> ';
             $bc      = join($flag, $this->breadCrumbs);
-            if($tabs!=NULL){
+            if ($tabs != NULL) {
 	            foreach ($tabs as $tab) {
 	                $tabinfo[] = array(
 	                    'breadCrumbs' => $bc . $flag . $tab['name'],
