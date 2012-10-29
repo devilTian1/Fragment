@@ -37,7 +37,7 @@
 </div>
 <br class="clearFloat"/>
 <script type="text/javascript">
- <{if isset($tabs)}>
+ <{if isset($tabs) && count($tabs) != 0}>
 	 showPageByAjax("<{$baseurl|cat:'/'|cat:$tabs[0].link|cat:'.php'}>");
  <{/if}>
 </script>

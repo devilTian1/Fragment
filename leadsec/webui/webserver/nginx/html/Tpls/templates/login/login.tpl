@@ -63,7 +63,7 @@ if(window.self!=window.top){
 			window.top.location.href=window.self.location.href;
 	 }
      $(document).ready(function() {
-		$.formValidator.initConfig({formID:"loginform",theme:"Default",
+	    $.formValidator.initConfig({formID:"loginform",theme:"Default",
 			ajaxForm:{
 				type : "POST",
 				url: "index.php?chkusr=ok",
@@ -71,16 +71,14 @@ if(window.self!=window.top){
 					if(data==='sucess'){
 						location.href='index.php';
 					}else{
-						$('#login_error').html(data);
-						setTimeout(function() {
-							$('#login_error').html('');
-						}, 3000)
+						$('#login_error').html(data).show();
+						$('#login_error').fadeOut(3000);
 					}
 				}
 			},
 			submitAfterAjaxPrompt : '身份正在验证中，请稍等...'
 		});
-		$("#account").formValidator({tipID:"user_error",onShowText:"请输入账号",onShow:"请输入账号",onFocus:"账号不能为空",onCorrect:""}).inputValidator({min:5,max:10,onError:"账号非法"});
+		$("#account").formValidator({tipID:"user_error",onShowText:"请输入账号",onShow:"请输入账号",onFocus:"账号不能为空",onCorrect:""}).inputValidator({min:5,max:15,onError:"账号非法"});
 	
 		$("#passwd").formValidator({tipID:"passwd_error",onShow:"请输入密码",onFocus:"至少1个长度",onCorrect:""}).inputValidator({min:1,empty:{leftEmpty:false,rightEmpty:false,emptyError:"密码两边不能有空符号"},onError:"密码不能为空"});
 								
