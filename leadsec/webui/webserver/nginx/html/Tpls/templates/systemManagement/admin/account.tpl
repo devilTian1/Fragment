@@ -1,94 +1,36 @@
+  <table class="column_95">
+  <caption>
+  管理员帐号
+  </caption>
+  <tbody>
+    <tr>
+      <td class="tdheader">管理员登录超时时间:</td>
+      <td class="tdbody"><input name="" type="text" />秒  &nbsp;&nbsp;<span class="red">注意</span>：不能小于60秒或超过86400秒（24小时）</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td class="tdbody">
+          <input type="button" value="确定" width="50" id="submitbtn" class="inputbtn" />
+       </td>
+    </tr>
+   </tbody>
+</table>
+
     <table class="column_95 textMid tablesorter" id="clientTcp">
-        <caption>
-            客户端TCP访问表
+    <caption>
+            管理员帐号列表
         </caption>
         <thead><tr>
-            <th class="column_10">访问类型</th>
-            <th class="column_10">任务号</th>
-            <th class="column_10">源地址</th>
-            <th class="column_10">目的地址</th>
-            <th class="column_10">目的端口</th>
-            <th class="column_15">生效时段</th>
-            <th class="column_10">是否启动</th>
-            <th class="column_10">备注</th>
-            <th class="column_10">操作</th>
+            <th class="column_20">账号</th>
+            <th class="column_60">账号类型</th>
+            <th class="column_20">操作</th>
         </tr></thead>
         <tr>
-            <td>透明</td>
-            <td>111</td>
-            <td>255.255.255.255</td>
-            <td>255.255.255.255</td>
-            <td>eth0</td>
-            <td>Sep 2 00:36:19</td>
-            <td>Yes</td>
-            <td>++++</td>
-            <td>----</td>
-        </tr>
-        <tr>
-            <td>普通</td>
-            <td>112</td>
-            <td>255.255.255.255</td>
-            <td>255.255.255.255</td>
-            <td>eth0</td>
-            <td>Sep 2 12:31:12</td>
-            <td>No</td>
-            <td>++++</td>
-            <td>----</td>
-        </tr>
-        <tr>
-            <td>透明</td>
-            <td>113</td>
-            <td>255.255.255.255</td>
-            <td>255.255.255.255</td>
-            <td>eth0</td>
-            <td>Sep 2 00:36:19</td>
-            <td>Yes</td>
-            <td>++++</td>
-            <td>----</td>
-        </tr>
-        <tr>
-            <td>普通</td>
-            <td>114</td>
-            <td>255.255.255.255</td>
-            <td>255.255.255.255</td>
-            <td>eth0</td>
-            <td>Sep 2 12:31:12</td>
-            <td>No</td>
-            <td>++++</td>
-            <td>----</td>
-        </tr>
-        <tr>
-            <td>透明</td>
-            <td>115</td>
-            <td>255.255.255.255</td>
-            <td>255.255.255.255</td>
-            <td>eth0</td>
-            <td>Sep 2 00:36:19</td>
-            <td>Yes</td>
-            <td>++++</td>
-            <td>----</td>
-        </tr>
-        <tr>
-            <td>普通</td>
-            <td>116</td>
-            <td>255.255.255.255</td>
-            <td>255.255.255.255</td>
-            <td>eth0</td>
-            <td>Sep 2 12:31:12</td>
-            <td>No</td>
-            <td>++++</td>
-            <td>----</td>
+            <td>administrator</td>
+            <td><span class="red">超级管理员</span>+配置管理员+任务管理员+日志审计员</td>
+            <td><a href="#" class="edit" onclick="edituser()">编辑</a>&nbsp;&nbsp;&nbsp;<a href="#" class="delete" onclick="deluser()">删除</a></td>
         </tr>
     </table>
-    <ol class="pagination floatRight">
-        <li><a href="#?page=1" rel="prev">Prev</a></li>
-        <li><a href="#?page=1" rel="prev">1</a></li>
-        <li class="selected">2</li>
-        <li><a href="#?page=3">3</a></li>
-        <li><a href="#?page=4">4</a></li>
-        <li><a href="#?page=5">5</a></li>
-        <li><a href="#?page=3" rel="next">Next</a></li>
-    </ol>
     <button class="floatLeft" type="submit" onClick="openDialog()" id="add">添加</button>
 
 <div class="hide" id="dialogForm">
@@ -162,5 +104,8 @@
     </fieldset>
 </div>
 <script type="text/javascript">
+$(document).ready(function() {
     $("#add").button();
+});
 </script>
+<script type="text/javascript" src="Public/js/systemManagement/conf/cert.js"></script>
