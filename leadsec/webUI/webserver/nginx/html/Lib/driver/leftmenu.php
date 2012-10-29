@@ -91,9 +91,10 @@
             $bc      = join($flag, $this->breadCrumbs);
             if ($tabs != NULL) {
 	            foreach ($tabs as $tab) {
+                    $note = isset($tab['title']) ? $tab['title'] : '';
 	                $tabinfo[] = array(
 	                    'breadCrumbs' => $bc . $flag . $tab['name'],
-	                    'note'        => $tab['title']);
+	                    'note'        => $note);
 	            }
             }
             return $tabinfo;

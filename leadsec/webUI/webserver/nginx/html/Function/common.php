@@ -71,7 +71,7 @@
         }
     }
     //logout
-    function logout(){
+    function logout() {
     	@$_SESSION=NULL;
     	@session_unset();
 		@session_destroy();
@@ -81,16 +81,15 @@
 	 * time 超时时间,单位:秒
 	 * @param $timeout
 	 */
-	function chklogin($timeout){
+	function chklogin($timeout) {
 		$now=time();
-		if(!isset($_SESSION['account'])){//检测是否通过登录过来，排除直接输入地此进入
+		if (!isset($_SESSION['account'])) {//检测是否通过登录过来，排除直接输入地此进入
 			login();
 		}
-		if(isset($_SESSION['session_time'])){//超时管理
-			if(($now-$_SESSION['session_time'])> $timeout) 
-			{
+		if (isset($_SESSION['session_time'])) {//超时管理
+			if (($now-$_SESSION['session_time']) > $timeout) {
 			   logout();
-			}else{ 
+			} else {
 			    //还没超时. 
 			    $_SESSION['session_time']=time(); 
 			} 
