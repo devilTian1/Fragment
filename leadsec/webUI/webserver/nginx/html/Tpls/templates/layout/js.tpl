@@ -36,14 +36,14 @@
 
 
         // slide leftmenu div
-        var slideWidth = $('#leftmenu').width(),
-        	arrowImg = $("#ImgArrow"),
-			arrowImgFlag=1;//open，close flag 1:open,0:close
-            leftArrow = {
+        var slideWidth = $('#leftmenu').width();
+        var arrowImg = $("#ImgArrow");
+		var arrowImgFlag=1;//open，close flag 1:open,0:close
+        var leftArrow = {
             src : "<{$smarty.const.THEME_PATH}>/images/switch_left.gif",
             title : "隐藏左侧导航栏"
-        },
-          rightArrow = {
+        };
+        var rightArrow = {
             src : "<{$smarty.const.THEME_PATH}>/images/switch_right.gif",
             title : "显示左侧导航栏"
         };
@@ -82,9 +82,6 @@
             return false;
         });
 		$(window).resize(function(){
-			if($(this).width()<1000){
-				
-			}
 			$("#mainZone").width($("#content").width()-$("#content>.secondary").width());
 			mainZoneWidth = $("#mainZone").width();
 			if( arrowImgFlag==0 ) { // close leftmenu
@@ -92,12 +89,7 @@
             } else if(arrowImgFlag==1){ // open leftmenu
                 var mzWidth = mainZoneWidth + "px";
             }
-			//alert($(this).width());
-			$("#mainZone").animate({"width" : mzWidth},0);
-			
-			//alert($("#content").width());
-			 //refreshLayout();
- 			// alert("Stop it!");
+			$("#mainZone").width(mzWidth);
 		});
     });
 </script>
