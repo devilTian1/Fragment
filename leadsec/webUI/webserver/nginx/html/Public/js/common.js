@@ -20,7 +20,8 @@ function StandardUiFactory() {
             buttons  : buttons,
             modal    : true,
             width    : 450,
-            height   : 500
+            height   : 500,
+            position : "center middle"
         });
         
         /**
@@ -216,8 +217,8 @@ function showDialogByAjax(url, data, title, dialogParams, ajaxParams,
 function ajaxSubmitForm(formEle, title, successCallback, errorCallback) {
     var dialog = loadingScreen(title);
     dialog.setOptions({
-        width : 300,
-        height: 200
+        width : 200,
+        height: 100
     });
     if (!successCallback) {
         successCallback = function(result, textStatus) {

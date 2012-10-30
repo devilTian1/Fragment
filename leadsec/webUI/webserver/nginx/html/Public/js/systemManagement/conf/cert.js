@@ -7,8 +7,7 @@ function openImportCertDialog() {
 
     var buttons = {};
     buttons['Import'] = function() {
-        importCert();
-        updateCertTable();
+        importCACert();
         $(this).remove();
     }
     buttons['Close']  = function() {
@@ -21,9 +20,8 @@ function openImportCertDialog() {
     }
     showDialogByAjax(url, data, title, dialogParams);
 }
-
-function importCert() {
-    ajaxSubmitForm($('#certForm'), '结果');
+function importCACert() {
+    ajaxSubmitForm($('#CACertForm'), '结果');
 }
 
 function updateCertTable() {

@@ -9,7 +9,7 @@ legend {
     font-weight: bold;
 }
 
-label {
+fieldset label {
     float: left;
     text-align: left;
     width: 10em;
