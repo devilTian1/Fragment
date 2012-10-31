@@ -5,12 +5,16 @@
   <tbody>
     <tr>
       <td class="tdheader">管理员登录超时时间:</td>
-      <td class="tdbody"><input name="" type="text" />秒  &nbsp;&nbsp;<span class="red">注意</span>：不能小于60秒或超过86400秒（24小时）</td>
+      <td class="tdbody"><input type="text" value="<{$smarty.const.EXPIRED_TIME}>"
+          id='expTimeText'/>
+          秒  &nbsp;&nbsp;<span class="red">注意</span>
+          ：不能小于60秒或超过86400秒（24小时）</td>
     </tr>
     <tr>
       <td></td>
       <td class="tdbody">
-          <input type="button" value="确定" width="50" id="submitbtn" class="inputbtn" />
+          <input class="inputbtn" type="button" value="确定" width="50" id="setExpTimeBtn"
+              onClick="setExpiredTime($('#expTimeText').val())"/>
        </td>
     </tr>
    </tbody>
@@ -31,7 +35,7 @@
             <td><a href="#" class="edit" onclick="edituser()">编辑</a>&nbsp;&nbsp;&nbsp;<a href="#" class="delete" onclick="deluser()">删除</a></td>
         </tr>
     </table>
-    <button class="floatLeft" type="submit" onClick="openDialog()" id="add">添加</button>
+    <button class="floatLeft button" type="submit" onClick="openDialog()" id="add">添加</button>
 
 <div class="hide" id="dialogForm">
     <fieldset>
@@ -105,7 +109,7 @@
 </div>
 <script type="text/javascript">
 $(document).ready(function() {
-    $("#add").button();
+    $("#add, .inputbtn").button();
 });
 </script>
-<script type="text/javascript" src="Public/js/systemManagement/conf/cert.js"></script>
+<script type="text/javascript" src="Public/js/systemManagement/conf/account.js"></script>
