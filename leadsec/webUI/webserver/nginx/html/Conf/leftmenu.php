@@ -78,10 +78,10 @@
         array('pid' => 12, 'name' => '管理方式',   'link' => 'mode', 'title' => ''),//46
 
         //level3 systemManagement/maintain
-        array('pid' => 13, 'name' => '系统更新',   'link' => '#'),//47
-        array('pid' => 13, 'name' => '备份与恢复', 'link' => '#'),//48
-        array('pid' => 13, 'name' => '许可证管理', 'link' => '#'),//49
-        array('pid' => 13, 'name' => '批处理工具', 'link' => '#'),//50
+        array('pid' => 13, 'name' => '系统更新',   'link' => 'upgrade'),//47
+        array('pid' => 13, 'name' => '备份与恢复', 'link' => 'backupAndRecovery'),//48
+        array('pid' => 13, 'name' => '许可证管理', 'link' => 'license'),//49
+        array('pid' => 13, 'name' => '批处理工具', 'link' => 'batchTool'),//50
 
         //level3 networkManagement/interface
         array('pid' => 14, 'name' => '物理设备', 'link' => '#'),//51
