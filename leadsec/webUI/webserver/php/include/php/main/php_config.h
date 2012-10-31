@@ -1171,7 +1171,7 @@
 #define HAVE_NANOSLEEP 1
 
 /*   */
-#define HAVE_LIBRT 1
+/* #undef HAVE_LIBRT */
 
 /* Define if you have the getaddrinfo function */
 #define HAVE_GETADDRINFO 1
@@ -2923,7 +2923,7 @@
 /* #undef PTHREADS */
 
 /* PHP build date */
-#define PHP_BUILD_DATE "2012-09-04"
+#define PHP_BUILD_DATE "2012-10-30"
 
 /* hardcode for each of the cross compiler host */
 #define PHP_OS "Linux"

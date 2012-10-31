@@ -1,4 +1,5 @@
 <?php
+    @session_start();
     // Load Config File
     require_once(dirname(__FILE__) . '/../Conf/global.php');
 
@@ -18,14 +19,9 @@
     require_once(WEB_PATH . '/Lib/driver/cli.php');
 	// function
     require_once(WEB_PATH . '/Lib/driver/function.php');
+    
     //用户操作操时处理
-	//chklogin(600);
-
-
-    // i am tester~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // $cli = new cli();
-    // echo $cli->run('ls -al');
-    // i am tester~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    chklogin(EXPIRED_TIME);
 
     // boot web UI
     function bootstrap() {
@@ -75,6 +71,8 @@
     	@$_SESSION=NULL;
     	@session_unset();
 		@session_destroy();
+        V::getInstance()->clearAllAssign();
+        V::getInstance()->clearAllCache();
     }
     /**
 	 * 检测用户与是否操作超时
@@ -82,13 +80,14 @@
 	 * @param $timeout
 	 */
 	function chklogin($timeout) {
-		$now=time();
+		$now = time();
 		if (!isset($_SESSION['account'])) {//检测是否通过登录过来，排除直接输入地此进入
-			login();
+            login();
 		}
 		if (isset($_SESSION['session_time'])) {//超时管理
 			if (($now-$_SESSION['session_time']) > $timeout) {
-			   logout();
+			    logout();
+                exit('timeOut'); 
 			} else {
 			    //还没超时. 
 			    $_SESSION['session_time']=time(); 

@@ -90,6 +90,9 @@ function loadAjax(url, data, params) {
     }
     var s = ajaxParams.success;
     ajaxParams.success = function(result) {
+        if (!checkTimeOut(result)) {
+            return false;
+        } 
         if (status != undefined && Number(status) != 0) {
             showErrorDialog(result.msg);
             return;
@@ -126,6 +129,26 @@ function loadingScreen(title) {
 function loadingHtmlText(elementDom) {
     var loadHtml = '<label>' + getMessage("loading") + '... ...' + '</label>';
     elementDom.html(loadHtml);
+}
+
+function checkTimeOut(result) {
+    if (result === 'timeOut') {
+        var dialog = StandardUiFactory.createDialog('超时退出');
+        var buttons = {};
+        buttons['确定'] = function() {
+            location.href = "index.php";
+        };
+        var dialogParams = {
+            buttons : buttons,
+            width   : 250,
+            height  : 170
+        };
+        dialog.setOptions(dialogParams);
+        dialog.setContent('<p>请您重新登录.</p>');
+        dialog.open();
+        return false;
+    }
+    return true;
 }
 
 /**
@@ -220,10 +243,21 @@ function ajaxSubmitForm(formEle, title, successCallback, errorCallback) {
         width : 200,
         height: 100
     });
+ 
     if (!successCallback) {
         successCallback = function(result, textStatus) {
+            if (!checkTimeOut(result)) {
+                return false;
+            } 
             dialog.setContent($('<p>' + result + '</p>'));
         }
+    }
+    var s = successCallback;
+    successCallback = function(result) {
+        if (!checkTimeOut(result)) {
+            return false;
+        } 
+        s(result);
     }
     if (!errorCallback) {
         errorCallback = function(XMLHttpRequest, textStatus, errorThrown) {
@@ -283,5 +317,15 @@ function tipAutoHide(i,info,time){
 	if(!time) time=2;
 	time=1000*time;
 	ZENG.msgbox.show(tip, i, time);
+    // overlay
+    var overlayDom = $("<div class='ui-widget-overlay'></div>");
+    overlayDom.height($('body').height());
+    overlayDom.width('100%');
+    $("body").append(overlayDom);
+    
+    // hide overlay
+    setTimeout(function() {
+        overlayDom.hide();
+    }, time);
 }
 StandardUiFactory();

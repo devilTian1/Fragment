@@ -15,3 +15,6 @@
 .zeng_msgbox_layer .gtl_ico_hits{background-position:-6px -54px;position:absolute;left:-45px;top:0;width:45px}
 .zeng_msgbox_layer .gtl_ico_clear{background-position:-6px 0;left:-5px;width:5px;position:absolute;top:0}
 .zeng_msgbox_layer .gtl_ico_loading{ width:16px;height:16px;border:0;background-image:url(loading.gif);float:left;margin:19px 10px 0 5px}
+
+.ui-widget-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+.ui-widget-overlay { background: #b7bcbd url(images/ui-bg_flat_30_b7bcbd_40x100.png) 50% 50% repeat-x; opacity: .70;filter:Alpha(Opacity=70); }

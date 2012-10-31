@@ -17,7 +17,7 @@
             $result = array();
             $cmd = escapeshellcmd($cmd);
             try {
-                echo exec($cmd, $result, $status);
+                exec($cmd, $result, $status);
             } catch(Exception $e) {
                 $msg = 'cmd error: [' . $e->getMessage() . ']';
                 throw new ExecCmdException($msg);

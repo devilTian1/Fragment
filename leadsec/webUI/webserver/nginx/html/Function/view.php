@@ -1,8 +1,7 @@
 <?php
     require_once('common.php');
-    if (empty($_POST['func'])) {
-        echo '没有这个功能 ... ...';
-        return ;
+    if (empty($_POST['func']) || $_SESSION === NULL) {
+        return 'building... ...';
     } else {
         $func = $_POST['func'];
         $tpl  = str_replace('.php', '.tpl', $func);
