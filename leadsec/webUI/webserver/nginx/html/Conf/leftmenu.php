@@ -18,9 +18,9 @@
         array('pid' => 1,  'name' => '维护',       'link' => 'maintain'),//13
 
         //level2 netManage
-        array('pid' => 2,  'name' => '网络接口', 'link' => '#'),//14
-        array('pid' => 2,  'name' => '基本配置', 'link' => '#'),//15
-        array('pid' => 2,  'name' => '高可用性', 'link' => '#'),//16
+        array('pid' => 2,  'name' => '网络接口', 'link' => 'interface'),//14
+        array('pid' => 2,  'name' => '基本配置', 'link' => 'basic'),//15
+        array('pid' => 2,  'name' => '高可用性', 'link' => 'HA'),//16
 
         //level2 resConf
         array('pid' => 3,  'name' => '地址',     'link' => '#'),//17
@@ -84,17 +84,17 @@
         array('pid' => 13, 'name' => '批处理工具', 'link' => 'batchTool'),//50
 
         //level3 networkManagement/interface
-        array('pid' => 14, 'name' => '物理设备', 'link' => '#'),//51
-        array('pid' => 14, 'name' => '别名设备', 'link' => '#'),//52
-        array('pid' => 14, 'name' => '冗余设备', 'link' => '#'),//53
+        array('pid' => 14, 'name' => '物理设备', 'link' => 'physical'),//51
+        array('pid' => 14, 'name' => '别名设备', 'link' => 'alias'),//52
+        array('pid' => 14, 'name' => '冗余设备', 'link' => 'redundance'),//53
 
         //level3 networkManagement/basic
-        array('pid' => 15, 'name' => '域名服务器', 'link' => '#'),//54
-        array('pid' => 15, 'name' => '静态路由',   'link' => '#'),//55
+        array('pid' => 15, 'name' => '域名服务器', 'link' => 'dns'),//54
+        array('pid' => 15, 'name' => '静态路由',   'link' => 'staticRoute'),//55
 
         //level3 networkManagement/HA
-        array('pid' => 16, 'name' => '双击热备', 'link' => '#'),//56
-        array('pid' => 16, 'name' => '负载均衡', 'link' => '#'),//57
+        array('pid' => 16, 'name' => '双击热备', 'link' => 'ha'),//56
+        array('pid' => 16, 'name' => '负载均衡', 'link' => 'lvs'),//57
         
         //level3  appS/ips
         array('pid' => 31, 'name' => '基本配置',     'link' => '#'),//58
