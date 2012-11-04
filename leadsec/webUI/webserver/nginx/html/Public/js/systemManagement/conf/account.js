@@ -11,7 +11,7 @@ function setExpiredTime(time) {
     var dialogParams = {
         buttons : buttons,
         width   : 250,
-        height  : 170
+        height  : 170,
     }
     showDialogByAjax(url, data, title, dialogParams);
 }

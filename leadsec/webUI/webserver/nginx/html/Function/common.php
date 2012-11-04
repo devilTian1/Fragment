@@ -6,6 +6,12 @@
     // debug
     DEBUG && error_reporting(E_ALL);
 
+    // set exception handler
+    function exceptionHandler($e) {
+        echo json_encode(array('status' => -1, 'msg' => $e->getMessage()));
+    }
+    set_exception_handler('exceptionHandler');
+
     // Include common driver
     // Exception driver
     require_once(WEB_PATH . '/Lib/driver/exception.php');

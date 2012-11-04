@@ -3,14 +3,14 @@
     
     class DBException extends sisException {
         public function __construct($message, $code = 0) {
-	    $message = "Database Error: $message";
+	    $message = "Error Database: $message";
             parent::__construct($message, $code);
         }
     }
 
     class ExecCmdException extends sisException {
         public function __construct($message, $code = 0) {
-	    $message = "CMD Error: $message";
+	    $message = "Error Cmd: $message";
             parent::__construct($message, $code);
         }
     }

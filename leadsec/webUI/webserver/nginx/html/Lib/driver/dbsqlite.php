@@ -15,7 +15,7 @@
                     $this->dsn = "sqlite:$path";
                     self::$db = new PDO($this->dsn);
                     self::$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                } catch (DBException $e) {
+                } catch (Exception $e) {
                     throw new DBException($e->getMessage(), $e->getCode());
                 } 
             }
@@ -28,7 +28,7 @@
             try {
                 $this->queryResult = self::$db->query($sql);
                 return $this;
-            } catch (DBException $e) {
+            } catch (Exception $e) {
                 throw new DBException('Database problem: ' . $e->getMessage());
             } 
         }
@@ -49,7 +49,7 @@
                     $rowCount = self::$db->exec($sql);
                 }
                 return $rowCount;
-            } catch (DBException $e) {
+            } catch (Exception $e) {
                 throw new DBException('Database problem: ' . $e->getMessage());
             }
         }
@@ -63,7 +63,7 @@
                 }
                 self::$db->commit();
                 return $result;
-            } catch (DBException $e) {
+            } catch (Exception $e) {
                 self::$db->rollback();
                 throw new DBException('Database problem: ' . $e->getMessage());
             }
@@ -72,7 +72,7 @@
         public function getAllData($type = PDO::FETCH_BOTH) {
             try {
                 return $this->queryResult->fetchAll($type);
-            } catch (DBExcetion $e) {
+            } catch (Exception $e) {
                 throw new DBException('Database problem: ' . $e->getMessage());
             }
         }
@@ -80,7 +80,7 @@
         public function getFirstData($type = PDO::FETCH_BOTH) {
             try {
                 return $this->queryResult->fetch($type);
-            } catch (DBExcetion $e) {
+            } catch (Exception $e) {
                 throw new DBException('Database problem: ' . $e->getMessage());
             }
         }
@@ -88,7 +88,7 @@
         public function getCount() {
             try {
                 return count($this->getAllData());   
-            } catch (DBExcetion $e) {
+            } catch (Exception $e) {
                 throw new DBException('Database problem: ' . $e->getMessage());
             }
         }

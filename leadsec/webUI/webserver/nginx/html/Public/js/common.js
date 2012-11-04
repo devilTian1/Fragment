@@ -211,7 +211,7 @@ function showDialogByAjax(url, data, title, dialogParams, ajaxParams,
     var dialog = loadingScreen(title);
     if (!successCallback) {
         successCallback = function(result, textStatus) {
-            dialog.setContent(result);
+            dialog.setContent('<p>' + result.msg + '</p>');
             dialog.setOptions(dialogParams)
         }
     }
@@ -224,9 +224,10 @@ function showDialogByAjax(url, data, title, dialogParams, ajaxParams,
         }
     }
     var params = {
-        type    : 'POST',
-        success : successCallback,
-        error   : errorCallback
+        type     : 'POST',
+	dataType : 'json', 
+        success  : successCallback,
+        error    : errorCallback
     };
     
     for (var i in ajaxParams) {

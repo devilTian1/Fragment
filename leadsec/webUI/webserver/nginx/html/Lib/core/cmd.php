@@ -16,13 +16,13 @@
             $status = 0;
             $result = array();
             $cmd = escapeshellcmd($cmd);
-            try {
-                exec($cmd, $result, $status);
-            } catch(Exception $e) {
-                $msg = 'cmd error: [' . $e->getMessage() . ']';
-                throw new ExecCmdException($msg);
-            }
-            return array($status, $result);
+
+	    exec($cmd, $result, $status);
+	    if ($status != 0) {
+		$errMsg = "[$cmd]" . join(', ', $result);
+	        throw new ExecCmdException($errMsg);
+	    }
+            return $result;
         }
     }
 ?>

@@ -16,12 +16,7 @@
     $cmd = "admcert add cacert \"{$_FILES['CAcert']['name']}\" " .
         "ngcert \"{$_FILES['SIScert']['name']}\" " .
         "ngkey \"{$_FILES['SISkey']['name']}\"";
-    try {
-        $cli = new cli();
-        $cli->run($cmd);
-    } catch (Exception $e) {
-        echo json_encode(array('status' => -1, 'msg' => $e->getMessage()));
-	return false;
-    }
+    $cli = new cli();
+    $cli->run($cmd);
     echo json_encode(array('status' => $status, 'msg' => '导入成功'));
 ?>
