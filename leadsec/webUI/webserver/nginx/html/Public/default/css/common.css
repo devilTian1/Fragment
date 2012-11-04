@@ -130,6 +130,9 @@ div {
 .column_95 {
     width: 95%;
 }
+.column_100 {
+    width: 100%;
+}
 
 .floatLeft {
     float: left;   
@@ -434,3 +437,4 @@ div {
 .edit{background: url(../images/icon/edit.gif) no-repeat left; padding-left:20px;}
 .delete{background: url(../images/icon/delete.png) no-repeat left; padding-left:20px;}
 .margintop3{ margin-top:3px;}
+.w200{ width:200px;}
