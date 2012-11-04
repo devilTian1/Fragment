@@ -1,25 +1,25 @@
+<form action="" method="post" name="form1" id="form1">
 <table class="column_95">
  <caption>
   集中管理
   </caption>
-  <form action="jzgl.html" method="post">
   <tbody>
     <tr>
       <td width="250" class="tdheader">集中管理主机 IP: </td>
-      <td class="tdbody"><input name="input" type="text" class="inputtext"  /></td>
+      <td class="tdbody"><input name="serverip" type="text" id="serverip" class="inputtext"  /></td>
     </tr>
     <tr>
-      <td class="tdheader"><input type="button" name="button" id="button" value="&gt;&gt;" />
+      <td class="tdheader"><input type="button" name="button" id="addip" value="&gt;&gt;" />
         <br/>
         <br/>
-        <input type="button" name="button" id="button" value="&lt;&lt;" /></td>
-      <td class="tdbody"><label>
-        <select name="select" id="select" size="6" style="width:160px" >
+        <input type="button" name="button" id="delip" value="&lt;&lt;" /></td>
+      <td class="tdbody">
+        <select name="iplist" size="6" multiple="multiple" id="serveriplist" style="width:160px" >
         </select>
-      </label></td>
+      </td>
     </tr>
     <tr>
-      <td class="tdheader"><span class="red">*</span>安全隔离网闸名称:</td>
+      <td class="tdheader">安全隔离网闸名称:</td>
       <td class="tdbody">NetGap</td>
     </tr>
     <tr>
@@ -28,27 +28,27 @@
         ( 20 个以内字符 ) </td>
     </tr>
     <tr>
-      <td class="tdheader"><span class="red">*</span>负责人姓名: </td>
+      <td class="tdheader">负责人姓名: </td>
       <td class="tdbody"><input name="input2" type="text" class="inputtext"  />
         ( 20 个以内字符 ) </td>
     </tr>
     <tr>
-      <td class="tdheader"><span class="red">*</span>负责人电话:</td>
+      <td class="tdheader">负责人电话:</td>
       <td class="tdbody"><input name="input4" type="text" class="inputtext"  />
         ( 20 个以内字符 ) </td>
     </tr>
     <tr>
-      <td class="tdheader"><span class="red">*</span>CPU 利用率阈值: </td>
+      <td class="tdheader">CPU 利用率阈值: </td>
       <td class="tdbody"><input name="input5" type="text" class="inputtext" value="85" size="10"  />
         % ( 1-100 ) </td>
     </tr>
     <tr>
-      <td class="tdheader"><span class="red">*</span>内存利用率阈值:</td>
+      <td class="tdheader">内存利用率阈值:</td>
       <td class="tdbody"><input name="input5" type="text" class="inputtext" value="85" size="10"  />
         % ( 1-100 ) </td>
     </tr>
     <tr>
-      <td class="tdheader"><span class="red">*</span>磁盘利用率阈值: </td>
+      <td class="tdheader">磁盘利用率阈值: </td>
       <td class="tdbody"><input name="input" type="text" class="inputtext" value="85" size="10"  />
         % ( 1-100 ) </td>
     </tr>
@@ -124,5 +124,47 @@
   	  </td>
     </tr>
    </tbody>
-  </form>
 </table>
+</form>
+<script type="text/javascript">
+$(document).ready(function() {
+	$(":button, :submit").button();
+	$("#addip").click(function(){
+		var serverip=$("#serverip").val(),
+			flag=0;
+		$("#serveriplist option").each(function(){
+			if($(this).val()==serverip){
+				flag=1;
+			}
+		});	
+		if(flag==0&&serverip!=''){
+			var option = "<option value='"+serverip+"'>"+serverip+"</option>";                   
+        	$("#serveriplist").append(option);  
+		}
+	})
+	
+	$("#serveriplist").dblclick(function(){  
+		$("#serveriplist option:selected").each(function(){ 
+			$(this).remove();  
+		});  
+     });
+	$("#delip").click(function(){
+		$("#serveriplist option:selected").each(function(){
+			$(this).remove();  
+		});					   
+	})
+
+ 	/*$.formValidator.initConfig({formID:"form1",theme:"126",
+			ajaxForm:{
+				type : "POST",
+				url: "index.php?chkusr=ok",
+				success:function(data){
+					
+				}
+			},
+			submitAfterAjaxPrompt : '身份正在验证中，请稍等...'
+	});*/
+		/*$("#netname").formValidator({tipID:"netnameTip",onShow:"( 1-20 个ASCII字符 )",onShowText:"( 1-20 个ASCII字符 )",onFocus:"名称不能为空",onCorrect:""}).inputValidator({min:1,max:20,onError:"名称非法"})*/
+ 
+});
+</script>
