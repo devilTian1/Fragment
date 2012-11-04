@@ -9,7 +9,7 @@ define('DB_PATH', '/usr/local/conf');
 // Expired Time, second
 define('EXPIRED_TIME', 96400);
 
-define('DEBUG', true);
+define('DEBUG', false);
 
 define('THEME_PATH', 'Public/default');
 
