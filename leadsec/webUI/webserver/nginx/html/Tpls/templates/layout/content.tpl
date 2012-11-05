@@ -5,7 +5,7 @@
             <th class="column_70">内容</th>
         </tr>
         <tr>
-            <th>安全隔离网闸序列号</th>
+            <th><{$smarty.const.PRODUCT_NAME}>序列号</th>
             <td>d6757df2b05c23cb</td>
         </tr>
         <tr>
@@ -17,7 +17,7 @@
             <td>1.0.200.31</td>
         </tr>
         <tr>
-            <th>安全隔离网闸名称</th>
+            <th><{$smarty.const.PRODUCT_NAME}>名称</th>
             <td>NetGap</td>
         </tr>
     </table>

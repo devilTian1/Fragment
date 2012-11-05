@@ -1,18 +1,18 @@
 <form action="" method="post" name="form1" id="form1">
 <table class="column_95">
-  <caption>
-  安全隔离网闸名称
-  </caption>
-  <tbody>
+    <caption>
+    <{$smarty.const.PRODUCT_NAME}>
+    </caption>
+    <tbody>
     <tr>
-      <td width="250" class="tdheader">安全隔离网闸名称:</td>
-      <td class="tdbody"><input name="netname" value="napname" type="text" id="netname" style="float:left" /><span id="netnameTip" style="width:280px; float:left"></span></td>
+        <td width="250" class="tdheader"><{$smarty.const.PRODUCT_NAME}>:</td>
+        <td class="tdbody"><input name="netname" value="napname" type="text" id="netname" style="float:left" /><span id="netnameTip" style="width:280px; float:left"></span></td>
     </tr>
     <tr>
-      <td></td>
-      <td class="tdbody">
-          <input type="submit" value="确定" width="50" id="submitbtn" class="inputbtn" />
-       </td>
+        <td></td>
+        <td class="tdbody">
+            <input type="submit" value="确定" width="50" id="submitbtn" class="inputbtn" />
+        </td>
     </tr>
    </tbody>
 </table>

@@ -3,7 +3,7 @@
     <table class="column_95 tablesorter">
         <tr>
             <td class="textCenter" colspan="2">
-                <input class="button" type="button" value="Leadsec网御 CA中心"/>
+                <input class="button" type="button" value="CA中心"/>
             </td>
         </tr>
         <tr>
@@ -29,7 +29,8 @@
         <tr>
             <td>
                 <label class="floatRight" for="SIScert">
-                    安全隔离网闸证书<em class="required">*</em>
+                    证书
+                    <em class="required">*</em>
                 </label>
             </td>
             <td>
@@ -38,7 +39,8 @@
         </tr>
         <tr>
             <td>
-                <label class="floatRight" for="SISkey">安全隔离网闸密钥
+                <label class="floatRight" for="SISkey">
+                    密钥
                     <em class="required">*</em>
                 </label>
             </td>

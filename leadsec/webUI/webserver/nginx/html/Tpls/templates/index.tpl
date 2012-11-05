@@ -39,7 +39,7 @@
             <div class="clearFloat"></div>
             <!-- FOOTER -->
             <div class="footer">
-                <div class="bottom">@ 2010-2020 北京网御星云信息技术有限公司版权所有</div>
+                <div class="bottom">@ 2010-2020 <{$smarty.const.COMPANY_NAME}>版权所有</div>
             </div>
         </div>
     </body>

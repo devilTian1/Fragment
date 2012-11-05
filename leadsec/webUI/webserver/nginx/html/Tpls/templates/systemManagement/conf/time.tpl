@@ -4,7 +4,7 @@
   </caption>
   <tbody>
     <tr>
-      <td width="250" class="tdheader">安全隔离网闸当前时间:</td>
+      <td width="250" class="tdheader"><{$smarty.const.PRODUCT_NAME}>当前时间:</td>
       <td class="tdbody">2012/09/02 09:49:19</td>
     </tr>
     <tr>

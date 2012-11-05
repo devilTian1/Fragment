@@ -19,7 +19,7 @@
       </td>
     </tr>
     <tr>
-      <td class="tdheader">安全隔离网闸名称:</td>
+      <td class="tdheader"><{$smarty.const.PRODUCT_NAME}>名称:</td>
       <td class="tdbody">NetGap</td>
     </tr>
     <tr>

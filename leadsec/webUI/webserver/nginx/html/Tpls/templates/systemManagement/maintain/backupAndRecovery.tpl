@@ -1,7 +1,7 @@
 <table  class="column_95">
-   <caption>
-  安全隔离网闸名称
-  </caption>
+    <caption>
+    <{$smarty.const.PRODUCT_NAME}>名称
+    </caption>
     <tr>
       <td  width="250" class="tdheader"><label class="red">导出成加密格式<input name="" type="checkbox" value="" class="checkbox" /></label>
       

@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>LeadSec网御 安全隔离网闸</title>
+<title><{$smarty.const.COMPANY_NAME}> <{$smarty.const.PRODUCT_NAME}></title>
 <link href="<{$smarty.const.THEME_PATH}>/css/login.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -38,7 +38,7 @@
 		      <div id="down_left">
 			      <div id="inf">
                        <span class="inf_text">版权信息</span>
-					   <span class="copyright">@ 2010-2020 北京网御星云信息技术有限公司版权所有</span>
+					   <span class="copyright">@ 2010-2020 <{$smarty.const.COMPANY_NAME}>版权所有</span>
 			      </div>
 			  </div>
 			  <div id="down_center">

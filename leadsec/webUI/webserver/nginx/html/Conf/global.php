@@ -1,4 +1,8 @@
 <?php
+define('COMPANY_NAME', '北京网御星云信息技术有限公司');
+
+define('PRODUCT_NAME', 'SIS安全隔离网闸');
+
 // install path of sis webui
 define('WEB_PATH', '/usr/local/webserver/nginx/html');
 

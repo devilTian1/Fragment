@@ -27,14 +27,14 @@
     <tr>
       <td>1</td>
       <td>1.0.200.31</td>
-      <td>网御安全隔离网闸</td>
+      <td><{$smarty.const.PRODUCT_NAME}></td>
       <td>2012-08-27 16:06:52</td>
     </tr>
     <tr>
       <td colspan="4">
       	<input name="" type="button" value="导出升级历史" class="inputbtn" />
         <input name="" type="button" value="检查最新升级包" class="inputbtn" />
-        <input name="" type="button" value="重启安全隔离网闸" class="inputbtn" />
+        <input name="" type="button" value="重启<{$smarty.const.PRODUCT_NAME}>" class="inputbtn" />
       </td>
      </tr>
   </table>

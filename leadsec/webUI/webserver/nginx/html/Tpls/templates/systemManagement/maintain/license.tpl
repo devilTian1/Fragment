@@ -1,10 +1,10 @@
 <table class="column_95">
-   <caption>
-  安全隔离网闸名称
-  </caption>
+    <caption>
+    <{$smarty.const.PRODUCT_NAME}>名称
+    </caption>
     <tr>
-      <td width="250" class="tdheader">产品许可证:</td>
-      <td class="tdbody">
+        <td width="250" class="tdheader">产品许可证:</td>
+        <td class="tdbody">
     <input name="upload" type="file" >
     <input name="" type="button" value="导入许可证" class="inputbtn" /></td>
     </tr>
