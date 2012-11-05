@@ -35,7 +35,7 @@
             <td><a href="#" class="edit" onclick="edituser()">编辑</a>&nbsp;&nbsp;&nbsp;<a href="#" class="delete" onclick="deluser()">删除</a></td>
         </tr>
     </table>
-    <button class="floatLeft button" type="submit" onClick="openDialog()" id="add">添加</button>
+    <button class="floatLeft button" type="submit" onClick="showNewAccountDialog()" id="add">添加</button>
 
 <div class="hide" id="dialogForm">
     <fieldset>
@@ -112,4 +112,4 @@ $(document).ready(function() {
     $("#add, .inputbtn").button();
 });
 </script>
-<script type="text/javascript" src="Public/js/systemManagement/conf/account.js"></script>
+<script type="text/javascript" src="Public/js/systemManagement/admin/account.js"></script>

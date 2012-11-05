@@ -122,4 +122,4 @@ $(document).ready(function() {
     $(".button").button();
 });
 </script>
-<script type="text/javascript" src="Public/js/systemManagement/conf/cert.js"></script>
+<script type="text/javascript" src="Public/js/systemManagement/admin/cert.js"></script>

@@ -225,7 +225,7 @@ function showDialogByAjax(url, data, title, dialogParams, ajaxParams,
     }
     var params = {
         type     : 'POST',
-	dataType : 'json', 
+        dataType : 'json',
         success  : successCallback,
         error    : errorCallback
     };
