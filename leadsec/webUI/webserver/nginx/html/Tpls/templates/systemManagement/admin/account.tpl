@@ -1,41 +1,70 @@
-  <table class="column_95">
-  <caption>
-  管理员帐号
-  </caption>
-  <tbody>
-    <tr>
-      <td class="tdheader">管理员登录超时时间:</td>
-      <td class="tdbody"><input type="text" value="<{$smarty.const.EXPIRED_TIME}>"
-          id='expTimeText'/>
-          秒  &nbsp;&nbsp;<span class="red">注意</span>
-          ：不能小于60秒或超过86400秒（24小时）</td>
-    </tr>
-    <tr>
-      <td></td>
-      <td class="tdbody">
-          <input class="inputbtn" type="button" value="确定" width="50" id="setExpTimeBtn"
-              onClick="setExpiredTime($('#expTimeText').val())"/>
-       </td>
-    </tr>
-   </tbody>
-</table>
-
-    <table class="column_95 textMid tablesorter" id="clientTcp">
+<form action="Function/systemManagement/admin/account.php" method="POST" id="expTimeForm"
+onSubmit="return false;">
+<table class="column_95">
     <caption>
-            管理员帐号列表
-        </caption>
-        <thead><tr>
+    管理员帐号
+    </caption>
+    <tbody>
+        <tr>
+            <td class="tdheader">管理员登录超时时间:</td>
+            <td class="tdbody">
+                <input type="text" name="expTime" value="<{$smarty.const.EXPIRED_TIME}>"
+                id="expTimeText"/>秒
+		<div style="width: 200px">
+	        <span class="formTip" id="expTimeTextTip"></span>
+		</div>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td class="tdbody">
+                <input class="inputbtn" type="submit" value="确定" width="50" id="setExpTimeBtn"
+                onClick="setExpiredTime()"/>
+            </td>
+        </tr>
+    </tbody>
+</table>
+</form>
+
+<table class="column_95 textMid tablesorter" id="clientTcp">
+    <caption>管理员帐号列表</caption>
+    <thead>
+        <tr>
             <th class="column_20">账号</th>
             <th class="column_60">账号类型</th>
             <th class="column_20">操作</th>
-        </tr></thead>
-        <tr>
-            <td>administrator</td>
-            <td><span class="red">超级管理员</span>+配置管理员+任务管理员+日志审计员</td>
-            <td><a href="#" class="edit" onclick="edituser()">编辑</a>&nbsp;&nbsp;&nbsp;<a href="#" class="delete" onclick="deluser()">删除</a></td>
         </tr>
-    </table>
-    <button class="floatLeft button" type="submit" onClick="showNewAccountDialog()" id="add">添加</button>
+    </thead>
+    <{foreach $accounts as $value }>
+        <tr>
+            <td><{$value['account']}></td>
+	    <td>
+	    <{if ($value.super == '1')}>
+	        <span class="red">超级管理员</span>+
+	    <{/if}>
+	    <{if ($value.manager == '1')}>
+	        配置管理员+
+	    <{/if}>
+	    <{if ($value.policyer == '1')}>
+	        策略管理员+
+	    <{/if}>
+	    <{if ($value.auditor == '1')}>
+	        审计管理员
+	    <{/if}>
+	    </td>
+            <td>
+		<{if ($value.super == '0')}>
+	        <a href="#" class="edit" onclick="edituser()">编辑</a>
+		<{/if}>
+		&nbsp;&nbsp;&nbsp;
+		<a href="#" class="delete" onclick="deluser()">删除</a>
+	    </td>
+        </tr>
+    <{foreachelse}>
+        <p>No Accounts</p>
+    <{/foreach}>
+</table>
+<button class="floatLeft button" type="submit" onClick="showNewAccountDialog()" id="add">添加</button>
 
 <div class="hide" id="dialogForm">
     <fieldset>
@@ -110,6 +139,12 @@
 <script type="text/javascript">
 $(document).ready(function() {
     $("#add, .inputbtn").button();
+	$.formValidator.initConfig({
+	    formID:"expTimeForm",
+	    theme:"Default"
+	});
+	$("#expTimeText").formValidator({onShow:"不能小于60秒或超过86400秒（24小时）",onfocus:"例如：172.16.201.18",onCorrect:""}).regexValidator({regExp:"ip4",dataType:"enum",onError:"格式不正确"});
+
 });
 </script>
 <script type="text/javascript" src="Public/js/systemManagement/admin/account.js"></script>
