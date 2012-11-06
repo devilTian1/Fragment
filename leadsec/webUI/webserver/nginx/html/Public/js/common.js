@@ -241,9 +241,14 @@ function showDialogByAjax(url, data, title, dialogParams, ajaxParams,
 function ajaxSubmitForm(formEle, title, successCallback, errorCallback) {
     var dialog = loadingScreen(title);
     dialog.dialog('moveToTop');
+    var buttons = {};
+    buttons['Ok'] = function() {
+        dialog.close();
+    }
     dialog.setOptions({
         width : 250,
-        height: 150
+        height: 170,
+        buttons: buttons
     });
  
     if (!successCallback) {
