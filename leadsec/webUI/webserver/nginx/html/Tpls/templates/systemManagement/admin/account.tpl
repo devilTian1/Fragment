@@ -40,13 +40,13 @@ onSubmit="return false;">
             <td><{$value['account']}></td>
 	    <td>
 	    <{if ($value.super == '1')}>
-	        <span class="red">超级管理员</span>+
+	        <span class="red">超级管理员</span>&nbsp;
 	    <{/if}>
 	    <{if ($value.manager == '1')}>
-	        配置管理员+
+	        配置管理员&nbsp;
 	    <{/if}>
 	    <{if ($value.policyer == '1')}>
-	        策略管理员+
+	        策略管理员&nbsp;
 	    <{/if}>
 	    <{if ($value.auditor == '1')}>
 	        审计管理员
@@ -54,10 +54,10 @@ onSubmit="return false;">
 	    </td>
             <td>
 		<{if ($value.super == '0')}>
-	        <a href="#" class="edit" onclick="edituser()">编辑</a>
+	            <a href="#" class="edit" onclick="openEditUserDialog('<{$value["account"]}>')">编辑</a>
+		    &nbsp;&nbsp;&nbsp;
 		<{/if}>
-		&nbsp;&nbsp;&nbsp;
-		<a href="#" class="delete" onclick="deluser()">删除</a>
+		    <a href="#" class="delete" onclick="openDelUserDialog('<{$value["account"]}>')">删除</a>
 	    </td>
         </tr>
     <{foreachelse}>
