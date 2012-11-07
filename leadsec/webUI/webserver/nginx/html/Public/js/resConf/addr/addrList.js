@@ -8,7 +8,6 @@ function openEditAddrListDialog(id) {
     var buttons = {};
     buttons['确定'] = function() {
         if ($('#editAddrListForm').valid()) {
-            countUnchecked($('.roles'));
             ajaxSubmitForm($('#editAddrListForm'), '结果');
             freshTableAndPage();
             $(this).remove();
