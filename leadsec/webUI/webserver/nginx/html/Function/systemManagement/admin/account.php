@@ -46,7 +46,7 @@
             ->assign('isPolicyer', $result['policyer'] === '1' ? 'checked="checked"' : '')
             ->assign('isLoger',  $result['auditor'] === '1' ? 'checked="checked"' : '')
             ->assign('type', 'edit')->fetch($tpl);
-        echo json_encode(array('msg' => '修改成功'));
+        echo json_encode(array('msg' => $result));
     } else if ($_POST['type'] === 'add') {
         // add a new account
         list($account, $passwd, $isManager, $isPolicyer, $isAuditor) =
@@ -77,10 +77,17 @@
         $cli = new cli();
         $cli->run($cmd);
         echo json_encode(array('msg' => '修改成功'));
+    } else if (!empty($_POST['freshAccountList'])) {
+        $tpl = 'systemManagement/admin/accountTable.tpl';
+        $db  = new dbsqlite(DB_PATH . '/configs.db');
+        $result = $db->query('SELECT * FROM accounts')
+            ->getAllData(PDO::FETCH_ASSOC);
+        echo V::getInstance()->assign('accounts', $result)->fetch($tpl);
     } else {
         // init page data
-        $db = new dbsqlite(DB_PATH . '/configs.db');
-        $result = $db->query('SELECT * FROM accounts')->getAllData(PDO::FETCH_ASSOC);
+        $db  = new dbsqlite(DB_PATH . '/configs.db');
+        $result = $db->query('SELECT * FROM accounts')
+            ->getAllData(PDO::FETCH_ASSOC);
         V::getInstance()->assign('accounts', $result);
     }
 ?>

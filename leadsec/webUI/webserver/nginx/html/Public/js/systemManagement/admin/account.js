@@ -18,16 +18,17 @@ function openNewAccountDialog() {
     var title   = '添加管理员帐号';
     var buttons = {};
     buttons['添加下一条'] = function() {
-        alert($('#editAccountForm').valid());
         if ($('#editAccountForm').valid()) {
             openNewAccountDialog();
             ajaxSubmitForm($('#editAccountForm'), '结果');
+            freshAccountList();
             $(this).remove();
         }
     };
     buttons['确定'] = function() {
         if ($('#editAccountForm').valid()) {
             ajaxSubmitForm($('#editAccountForm'), '结果');
+            freshAccountList();
             $(this).remove();
         }
     };
@@ -52,8 +53,8 @@ function openEditUserDialog(user) {
     var buttons = {};
     buttons['确定'] = function() {
         if ($('#editAccountForm').valid()) {
-            countUnchecked($('.roles'));
             ajaxSubmitForm($('#editAccountForm'), '结果');
+            freshAccountList();
             $(this).remove();
         }
     };
@@ -74,6 +75,7 @@ function delUser(user) {
     var title  = 'Delete User';
     var buttons = {};
     buttons['Ok'] = function() {
+        freshAccountList();
         $(this).remove();
     };
     var dialogParams = {
@@ -146,4 +148,10 @@ function multiAdm(switchDom) {
     } else {
         switchMultiAdm('off');
     }
+}
+
+function freshAccountList() {
+    var url  = 'Function/systemManagement/admin/account.php';
+    var data = {freshAccountList: true};
+    loadEmbedPage(url, data, $('#accountTable>tbody'));
 }
