@@ -118,6 +118,10 @@ var validRules = {
         required: true,
         addrName: true
     },
+    addrGrpName: {
+        required: true,
+        addrName: true
+    },
     netname: {
         required: true,
         maxlength: 20
@@ -146,6 +150,9 @@ var validMsg = {
     comment: '您最多能够输入250个字符.',
     addrName: {
         required: '请填写地址名称.'
+    },
+    addrGrpName: {
+        required: '请填写地址组名称.'
     },
     ipAddr_r: {
         required: '请输入反IP地址.'

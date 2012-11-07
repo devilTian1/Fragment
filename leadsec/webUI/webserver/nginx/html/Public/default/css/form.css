@@ -28,6 +28,10 @@ fieldset .tip {
     width: 200px;
 }
 
+fieldset .multiSelect {
+    width: 10em;
+}
+
 fieldset select, fieldset b, fieldset textarea {
     float: left;
 }
