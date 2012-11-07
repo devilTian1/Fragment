@@ -10,10 +10,16 @@
                      ->getAllData(PDO::FETCH_ASSOC);
         iconv_comment($result);
 	$result = $result[0];
+        if (preg_match("/^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\.|$)){4}/",
+            $result['ip'])) {
+            $ipChecked = 'ipv4';
+        } else {
+            $ipChecked = 'ipv6';
+        }
         $result = V::getInstance()->assign('ip',   $result['ip'])
-            ->assign('netmask',  $result['netmask'])
-            ->assign('comment', $result['comment'])
-            ->assign('ipChecked', 'ipv6')
+            ->assign('netmask',   $result['netmask'])
+            ->assign('comment',   $result['comment'])
+            ->assign('ipChecked', $ipChecked)
             ->assign('type', 'edit')->fetch($tpl);
         echo json_encode(array('msg' => $result));
     } else {
