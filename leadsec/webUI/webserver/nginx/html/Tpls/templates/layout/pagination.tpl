@@ -48,7 +48,7 @@
             } else {
                 $(this).addClass('selected').html($(this).text());
             }
-            resortTable('Function/resConf/addr/addrList.php', $('#addrTable'));
+            resortTable('<{$func}>', <{$tableDom|default: "$('.tablesorter')"}>);
         });
     });
 </script>

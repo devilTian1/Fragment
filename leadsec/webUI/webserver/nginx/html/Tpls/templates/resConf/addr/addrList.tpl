@@ -23,7 +23,7 @@
     id="addAddr">添加
 </button>
 <div class="pager floatRight">
-    <{include file='layout/pagination.tpl'}>
+    <{include file='layout/pagination.tpl' func='Function/resConf/addr/addrList.php'}>
 </div>
 <script type="text/javascript" src="Public/js/resConf/addr/addrList.js"></script>
 <script type="text/javascript"> 
