@@ -1,15 +1,6 @@
 <?php
     require_once($_SERVER['DOCUMENT_ROOT'] . '/Function/common.php');
 
-    function iconv_comment(&$result) {
-        // Performs a character 
-        // set conversion on the string from GB2312 to UTF-8
-        foreach ($result as $key => $value) {
-            $result[$key]['comment'] =
-                iconv("GB2312", "UTF-8", $result[$key]['comment']);
-        }
-    }
-
     function getHostData() {
         return array($_POST['ip'], $_POST['netmask'], $_POST['comment']);
     }
@@ -26,9 +17,7 @@
         $tpl    = $_POST['tpl'];
         $db = new dbsqlite(DB_PATH . '/configs.db');
         $result = $db->query("SELECT * FROM adminips WHERE id = '$hostId'")
-                     ->getAllData(PDO::FETCH_ASSOC);
-        iconv_comment($result);
-	    $result = $result[0];
+                     ->getFirstData(PDO::FETCH_ASSOC);
         if (preg_match("/^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\.|$)){4}/",
             $result['ip'])) {
             $ipChecked = 'ipv4';
@@ -66,7 +55,6 @@
         $db  = new dbsqlite(DB_PATH . '/configs.db');
         $result = $db->query('SELECT * FROM adminips')
             ->getAllData(PDO::FETCH_ASSOC);
-        iconv_comment($result);
         echo V::getInstance()->assign('hosts', $result)->fetch($tpl);
     } else {
         // init page data

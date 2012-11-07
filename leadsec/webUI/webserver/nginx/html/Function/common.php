@@ -1,6 +1,6 @@
 <?php
     @session_start();
-    //setlocale(LC_CTYPE, 'zh_CN.utf8');
+    setlocale(LC_CTYPE, 'zh_CN.utf8');
     // Load Config File
     require_once(dirname(__FILE__) . '/../Conf/global.php');
 
