@@ -53,14 +53,17 @@ function resortTable(url, tableDom) {
 }
 
 
-function freshPagination(displayDom, pageCount, clickedPageNo) {
-    if (!clickedPageNo) {
-        clickedPageNo = 1;
-    }
+function freshPaginationByRowsCount(displayDom) {
+    var dataCount = $('#dataCount').val();
+    var rowsCount = $('#rowsCount>option:selected').val();
+    var pageNum   = $('ol.pagination>li.selected').text();
+
     var url  = 'Function/layout/showPagination.php';
     var data = {
-        pageCount: pageCount,
-        clickedPageNo: clickedPageNo
+	dataCount: dataCount,
+	rowsCount: rowsCount,
+	clickedPageNo: pageNum,
+        pageCount: Math.ceil(Number(dataCount)/Number(rowsCount))
     };
     loadEmbedPage(url, data, displayDom);
 }

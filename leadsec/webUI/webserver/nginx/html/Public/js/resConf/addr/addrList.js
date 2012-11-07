@@ -87,12 +87,7 @@ function freshAddrTable() {
 }
 
 function modifyRowsCount() {
-    var pageCount = 1;
-    var rowsCount = $('#rowsCount option:selected').val();
-    if (rowsCount !== 'all') {
-        pageCount = Math.ceil(Number($('#dataCount').val())/Number(rowsCount));
-    }
-    freshPagination($('#test'), pageCount);
     resortTable('Function/resConf/addr/addrList.php', $('#addrTable'));
+    freshPaginationByRowsCount($('.pager'));
 }
 

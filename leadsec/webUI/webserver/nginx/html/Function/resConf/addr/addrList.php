@@ -84,6 +84,8 @@
         $result = $db->query($sql)->getCount();
         V::getInstance()->assign('dataCount', $result)
             ->assign('pageCount', ceil($result/10))
-            ->assign('clickedPageNo', 1);
+            ->assign('clickedPageNo', 1)
+	    ->assign('prev', 1)
+	    ->assign('next', 2);
     }
 ?>

@@ -22,8 +22,9 @@
     onclick="openNewAddrListDialog()"
     id="addAddr">添加
 </button>
-<div id='test'></div>
-<{include file='layout/pagination.tpl'}>
+<div class="pager floatRight">
+    <{include file='layout/pagination.tpl'}>
+</div>
 <script type="text/javascript" src="Public/js/resConf/addr/addrList.js"></script>
 <script type="text/javascript"> 
     $(document).ready(function() {
