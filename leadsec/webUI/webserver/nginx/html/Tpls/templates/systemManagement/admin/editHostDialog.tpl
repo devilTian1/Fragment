@@ -5,16 +5,9 @@
         <legend>添加管理主机</legend>
         <div class="row">
             <label for="type">IP类型:<em class="required">*</em></label>
-            <label>
-                <input class="radio" type="radio" name="ipType" value="ipv4"
-                    onClick="changeIpType('ipv4')" checked="checked" />
-                IPV4
-            </label>
-            <label>
-                <input class="radio" type="radio" name="ipType" value="ipv6"
-                    onClick="changeIpType('ipv6')"/>
-                IPV6
-            </label>
+            <{html_radios class="radio" name=ipType values=array('ipv4', 'ipv6') output=array('IPV4', 'IPV6')
+              selected=$ipChecked|default: 'ipv4' onClick="changeIpType()"
+            }>
         </div>
         <br class="clearFloat"/>
         <div class="row">
