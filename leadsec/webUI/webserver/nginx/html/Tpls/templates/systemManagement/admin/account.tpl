@@ -55,7 +55,7 @@ onSubmit="return false;">
 	        审计管理员
 	    <{/if}>
 	    </td>
-        <td>
+            <td>
 	        <a href="#" class="edit" onclick="openEditUserDialog('<{$value["account"]}>')">编辑</a>
 		<{if ($value.super === '0')}>
 		    &nbsp;&nbsp;&nbsp;

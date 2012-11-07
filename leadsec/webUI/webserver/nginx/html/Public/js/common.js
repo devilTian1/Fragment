@@ -21,7 +21,11 @@ function StandardUiFactory() {
             modal    : true,
             width    : 450,
             height   : 500,
-            position : "center middle"
+            position : "center center",
+            close: function(event, ui) {
+                $(this).dialog('destroy');
+                $(this).remove();
+            }
         });
         
         /**

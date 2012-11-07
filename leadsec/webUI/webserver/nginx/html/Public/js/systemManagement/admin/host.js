@@ -41,3 +41,8 @@ function openDelHostDialog(hostId) {
 function openSnmpDialog() {
 
 }
+
+
+function changeIpType(type) {
+    $('#ip').attr('name', type);
+}

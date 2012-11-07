@@ -4,9 +4,10 @@
     <fieldset>
         <legend>添加管理主机</legend>
         <div class="row">
+            <label for="type">IP类型:<em class="required">*</em></label>
             <label>
                 <input class="radio" type="radio" name="ipType" value="ipv4"
-                    onClick="changeIpType('ipv4')"/>
+                    onClick="changeIpType('ipv4')" checked="checked" />
                 IPV4
             </label>
             <label>
@@ -38,7 +39,4 @@
     $(document).ready(function(){
         validateForm($("#editHostForm"));
     });
-    function changeIpType(type) {
-        $('#ip').attr('name', type);
-    }
 </script>

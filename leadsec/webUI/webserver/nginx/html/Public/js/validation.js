@@ -1,21 +1,51 @@
-// Method
-jQuery.validator.addMethod("letters",
-    function(value, element, params) {
-        var regexp = new RegExp("^[a-zA-Z]{" + params[0] + "," + params[1] + "}$");
-        return this.optional(element) || regexp.test(value);
-    },
-    jQuery.format("{0}至{1}位英文字母")
-);
-jQuery.validator.addMethod("passwd",
-    function(value, element, params) {
-        var regexp = new RegExp("^[a-zA-Z0-9]{" + params[0] + "," + params[1] + "}$");
-        return this.optional(element) || regexp.test(value);
-    },
-    jQuery.format("{0}至{1}位字母或数字")
-);
+// Custom Validation Method
+function addValidMethod(params) {
+    jQuery.validator.addMethod(params.name, params.validMethod, params.msg);
+}
 
 function countUnchecked(doms) {
     return doms.filter(':unchecked').length;
+}
+
+// Custom Validation Method Params
+var validMethodParams = {
+    letterValidParam: {
+        name: 'letters',
+        validMethod: function(value, element, params) {
+            var regexp = new RegExp("^[a-zA-Z]{" + 
+                params[0] + "," + params[1] + "}$");
+           return this.optional(element) || regexp.test(value);
+        },
+        msg: jQuery.format("{0}至{1}位英文字母")
+    },
+    passwdValidParam: {
+        name: 'passwd',
+        validMethod: function(value, element, params) {
+            var regexp =
+	    new RegExp("^[a-zA-Z0-9]{" + params[0] + "," + params[1] + "}$");
+            return this.optional(element) || regexp.test(value);
+        },
+        msg: jQuery.format("{0}至{1}位字母或数字")
+    },
+    ipv4ValidParam: {
+        name: 'ipv4',
+        validMethod: function(value, element, params) {
+            return this.optional(element) ||
+            /^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\.|$)){4}/.test(value);
+        },
+        msg: 'IPV4格式错误.'
+    },
+    ipv6ValidParam: {
+        name: 'ipv6',
+        validMethod: function(value, element, params) {
+            return this.optional(element) ||
+            /^\w{1}$/.test(value);
+        },
+        msg: 'IPV6格式错误.'
+    }
+};
+for (var i in validMethodParams) {
+    addValidMethod(validMethodParams[i]);
 }
 
 // rule
@@ -44,9 +74,11 @@ var validRules = {
     },
     ipv4: {
         required: true,
+	ipv4: true
     },
     ipv6: {
         required: true,
+	ipv6: true
     },
     netmask: {
         required: true,
@@ -67,8 +99,6 @@ var validMsg = {
     },
     passwd_again: '两次密码不一致.',
     logAdmin: '请至少选择一个帐号类型.',
-    ipv4: 'IPV4格式错误.',
-    ipv6: 'IPV6格式错误.',
     netmask: '子网掩码格式错误',
     comment: '您最多能够输入250个字符.'
 };
