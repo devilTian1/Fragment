@@ -39,18 +39,8 @@
       </td>
     </tr>
     </tbody>
-    <tr>
-      <td></td>
-      <td class="tdbody">
-        <input type="button" name="button" id="addValue" value="添加" class="inputbtn" onclick="addRedun()" />
-      </td>
-    </tr>
-     <tr>
-      <td>
-      </td>
-    </tr>
   </table>
-  
+  <input type="button" name="button" id="addValue" value="添加" class="inputbtn" onclick="addRedun()" />
 <div id="editRedunHtml" style="display:none">
  <table class="column_100">
   <tbody>
@@ -157,7 +147,7 @@
 </div>
 <script type="text/javascript"> 
 $(document).ready(function() {
-   
+     $('.inputbtn').button();
 });
 function addRedun(){
 	var dialog = StandardUiFactory.createDialog('编辑');

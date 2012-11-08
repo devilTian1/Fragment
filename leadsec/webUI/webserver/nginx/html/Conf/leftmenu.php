@@ -101,8 +101,12 @@
         array('pid' => 17,  'name' => '地址组',   'link' => 'addrGroup'),//18
         array('pid' => 17,  'name' => '域名地址', 'link' => 'realmAddr'),//19
         
-        array('pid' => 18,  'name' => '时间',     'link' => 'time'),//18
-        array('pid' => 19,  'name' => '用户',     'link' => 'user'),//19
+        array('pid' => 18,  'name' => '时间列表',     'link' => 'timeList'),//18
+        array('pid' => 18,  'name' => '时间组',     'link' => 'timeGroup'),//18
+        
+        array('pid' => 19,  'name' => '用户列表',     'link' => 'userList'),//19
+        array('pid' => 19,  'name' => '用户组',     'link' => 'userGroup'),//19
+        
         array('pid' => 20,  'name' => '过滤配置', 'link' => 'addrBind'),//20
         
         //level3  appS/ips

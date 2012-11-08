@@ -22,20 +22,8 @@
           <a href="#" class="delete" onclick="delRedundance()">删除</a> 
       </td>
     </tr>
-    <tr>
-      <td>&nbsp;</td>
-      <td class="tdbody">
-        <input type="button" name="button" id="addValue" value="添加" class="inputbtn" onclick="addRedun()" />
-      </td>
-    </tr>
-    <tr>
-      <td colspan="5" align="right">
-      <div id="Pagination" class="pagination"><!-- 这里显示分页 --></div>
-<div id="Searchresult">分页初始化完成后这里的内容会被替换。</div>
-      </td>
-    </tr>
   </table>
-  
+  <input type="button" name="button" id="addValue" value="添加" class="inputbtn" onclick="addRedun()" />
 <div id="editRedunHtml" style="display:none">
 <table class="column_100">
   <form action="xtcs.html" method="POST">
@@ -88,7 +76,7 @@
 </div>
 <script type="text/javascript"> 
 $(document).ready(function() {
-   
+     $('.inputbtn').button();
 });
 function addRedun(){
 	var dialog = StandardUiFactory.createDialog('编辑');
