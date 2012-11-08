@@ -44,10 +44,14 @@ fieldset input {
     width: 10em;
     float: left;
 }
+fieldset .checkboxLabel {
+    width: auto;
+    margin-right: 2em;
+}
 fieldset .checkbox, fieldset .radio {
     width: 1em;
 }
-fieldset span {
+fieldset>span {
     float: left;
     margin-right: 1em;
 }

@@ -24,6 +24,7 @@
                 <button class="standard floatLeft" onClick="addStaticAddr()">添加</button>
 	    </div>
         </div>
+        <br class="clearFloat"/>
 	<div class="row">
             <label for="staticAddrList">静态IP列表:<em class="required">*</em></label>
 	    <div class="column column_30">
@@ -36,18 +37,22 @@
                 <br/><br/>
                 <button class="standard floatLeft" onClick="cleanAllStaticAddr()">清空</button>
 	    </div>
+            <br class="clearFloat"/>
 	</div>
         <br class="clearFloat"/>
 	<div class="row">
             <label for="autoParse">自动解析:<em class="required">*</em></label>
-            <input class="checkbox" type="checkbox" name="autoParse" id="autoParse" />
+            <input class="checkbox" type="checkbox" name="autoParse" id="autoParse"/>
 	</div>
         <br class="clearFloat"/>
 	<div class="row">
             <label>解析记录:<em class="required">*</em></label>
-            <label><input class="checkbox" type="checkbox" name="" id=""/>A</label>
-	    <br/>
-            <label><input class="checkbox" type="checkbox" name="" id="" />MX<label>
+	    <div class="column column_30">
+		<input class="checkbox" type="checkbox"/>
+                <label class="checkboxLabel">A</label>
+                <input class="checkbox" type="checkbox"/>
+                <label class="checkboxLabel">MX</label>
+	    </div>
 	</div>
         <br class="clearFloat"/>
 	<div class="row">
@@ -87,6 +92,7 @@
             <label for="comment">备注:</label>
             <textarea rows="10" cols="30" name="comment" id="comment"><{$realmAddr.comment}></textarea>
         </div>
+        <br class="clearFloat"/>
     </fieldset>
 </form>
 <script type="text/javascript">
