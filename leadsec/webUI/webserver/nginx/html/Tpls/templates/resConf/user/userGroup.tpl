@@ -4,12 +4,12 @@
   </caption>
    <thead>
     <tr>
-      <td class="column_10">序号</td>
-      <td class="column_20">用户组</td>
-      <td class="column_20">组成员列表</td>
-      <td class="column_10">分配时间</td>
-      <td class="column_20">分配流量</td>
-      <td class="column_20">操作</td>
+      <th class="column_10">序号</th>
+      <th class="column_20">用户组</th>
+      <th class="column_20">组成员列表</th>
+      <th class="column_10">分配时间</th>
+      <th class="column_20">分配流量</th>
+      <th class="column_20">操作</th>
     </tr>
   </thead>
   <tbody>
@@ -104,11 +104,11 @@
   </caption>
     <thead>
     <tr>
-      <td class="column_20">软件名</td>
-      <td class="column_20">进程名</td>
-      <td class="column_20">提示信息</td>
-      <td class="column_20">URL</td>
-      <td class="column_20">操作</td>
+      <th class="column_20">软件名</th>
+      <th class="column_20">进程名</th>
+      <th class="column_20">提示信息</th>
+      <th class="column_20">URL</th>
+      <th class="column_20">操作</th>
     </tr>
     </thead>
     <tbody>

@@ -4,11 +4,11 @@
    </caption>
    <thead>
     <tr>
-      <td class="column_10">序号</td>
-      <td class="column_10">名称</td>
-      <td class="column_40">成员</td>
-      <td class="column_20">备注</td>
-      <td class="column_20">操作</td>
+      <th class="column_10">序号</th>
+      <th class="column_10">名称</th>
+      <th class="column_40">成员</th>
+      <th class="column_20">备注</th>
+      <th class="column_20">操作</th>
     </tr>
     </thead>
     <tbody>
