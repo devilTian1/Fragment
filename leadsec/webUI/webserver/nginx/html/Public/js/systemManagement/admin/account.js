@@ -1,4 +1,8 @@
 function setExpiredTime(time) {
+    var isValid = validateForm($("#expTimeForm"));
+    if (!isValid) {
+        return false;
+    }
     ajaxSubmitForm($('#expTimeForm'), '设置超时时间');
 }
 
@@ -28,7 +32,11 @@ function openNewAccountDialog() {
     };
     showDialogByAjax(url, data, title, dialogParams);
 }
-
+    function checkRoles() {
+        if (!$('#confAdmin').attr('checked') && !$('#confAdmin').attr('checked') && !$('#confAdmin').attr('checked')) {
+            alert('check!');
+        }
+    }
 function openEditUserDialog(user) {
     var url  = 'Function/systemManagement/admin/account.php';
     var data = {

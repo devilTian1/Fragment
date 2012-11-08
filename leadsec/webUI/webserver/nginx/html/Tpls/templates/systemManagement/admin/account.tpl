@@ -6,13 +6,10 @@ onSubmit="return false;">
     </caption>
     <tbody>
         <tr>
-            <td class="tdheader">管理员登录超时时间:</td>
+            <td class="tdheader column_40">管理员登录超时时间(单位: 秒):</td>
             <td class="tdbody">
                 <input type="text" name="expTime" value="<{$smarty.const.EXPIRED_TIME}>"
-                id="expTimeText"/>秒
-		<div style="width: 200px">
-	        <span class="formTip" id="expTimeTextTip"></span>
-		</div>
+                id="expTimeText"/>
             </td>
         </tr>
         <tr>
@@ -73,12 +70,8 @@ onSubmit="return false;">
 <script type="text/javascript">
 $(document).ready(function() {
     $("#add, .inputbtn").button();
-	$.formValidator.initConfig({
-	    formID:"expTimeForm",
-	    theme:"Default"
-	});
-	$("#expTimeText").formValidator({onShow:"不能小于60秒或超过86400秒（24小时）",onfocus:"例如：172.16.201.18",onCorrect:""}).regexValidator({regExp:"ip4",dataType:"enum",onError:"格式不正确"});
-
+    validateForm($("#expTimeForm"))
 });
+
 </script>
 <script type="text/javascript" src="Public/js/systemManagement/admin/account.js"></script>

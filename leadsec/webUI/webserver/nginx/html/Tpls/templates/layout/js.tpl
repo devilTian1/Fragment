@@ -4,6 +4,7 @@
 <script type="text/javascript" src="Public/js/jquery/jquery.form.js"></script>
 <script type="text/javascript" src="Public/js/formvalidator/formValidator-4.1.3.min.js"></script>
 <script type="text/javascript" src="Public/js/formvalidator/formValidatorRegex.js"></script>
+<script type="text/javascript" src="Public/js/jquery/jquery.validate.min.js"></script>
 <script type="text/javascript" src="Public/js/tip/msgbox.js"></script>
 <script type="text/javascript" src="Public/js/common.js"></script>
 <script type="text/javascript" src="Public/js/tabs.js"></script>
