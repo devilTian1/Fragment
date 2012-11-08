@@ -2,7 +2,7 @@
     require_once($_SERVER['DOCUMENT_ROOT'] . '/Function/common.php');
 
     if ($_FILES['CAcert2']['error'] === 4) { // no cacert2 file
-	unset($_FILES['CAcert2']);
+        unset($_FILES['CAcert2']);
     }
     // upload cert file
     $fs = new fileUpload($_FILES);
@@ -10,7 +10,7 @@
     if ($status !== 0) {
         echo json_encode(array('status' => $status,
 	    'msg' => $msg));
-	return false;
+	    return false;
     }
 
     $cmd = "admcert add cacert \"{$_FILES['CAcert']['name']}\" " .

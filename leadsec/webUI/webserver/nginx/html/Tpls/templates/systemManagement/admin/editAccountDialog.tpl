@@ -1,4 +1,5 @@
-<form action="" method="POST" id="accountForm">
+<form action="Function/systemManagement/admin/account.php" method="POST" id="editAccountForm" onSubmit="return false;">
+    <input type="hidden" name="type" value="<{$type|default: 'add'}>"/>
     <fieldset>
         <legend>管理员帐号维护</legend>
         <div class="row">
@@ -9,32 +10,35 @@
         <br class="clearFloat"/>
         <div class="row">
             <label for="passwd">口令:<em class="required">*</em></label>
-            <input type="password" name="passwd" maxlength="15" id="passwd"/>
+            <input type="password" name="passwd" maxlength="15" value="<{$passwd}>" id="passwd"/>
             <span class="tip" id="passwdTip">(8-15位字母和数字的组合)</span>
         </div>
         <br class="clearFloat"/>
         <div class="row">
             <label for="passwd_c">确认口令:<em class="required">*</em></label>
-            <input type="password" name="passwd_c" maxlength="15" id="passwd_c"/>
+            <input type="password" maxlength="15" value="<{$passwd}>" id="passwd_c"/>
             <span class="tip" id="paswd_cTip"></span>
         </div>
         <br class="clearFloat"/>
         <div class="row">
-            <label for="passwd_c">帐号类型:</label>
-            <input class="checkbox" type="checkbox" name="confAdmin"/>
-            <label for="confAdmin">配置管理员</label>
+            <label>帐号类型:</label>
+            <label for="confAdmin">配置管理员
+                <input class="checkbox" type="checkbox" name="confAdmin" <{$isConf}> id="confAdmin"/>
+            </label>
         </div>
         <br class="clearFloat"/>
         <div class="row">
             <label>&nbsp;</label>
-            <input class="checkbox" type="checkbox" name="policyAdmin"/>
-            <label for="policyAdmin">策略管理员</label>
+            <label for="policyAdmin">策略管理员
+                <input class="checkbox" type="checkbox" name="policyAdmin" <{$isPolicyer}> id="policyAdmin"/>
+            </label>
         </div>
         <br class="clearFloat"/>
         <div class="row">
             <label>&nbsp;</label>
-            <input class="checkbox" type="checkbox" name="logAdmin"/>
-            <label for="logAdmin">日志审计员</label>
+            <label for="logAdmin">日志审计员
+                <input class="checkbox" type="checkbox" name="logAdmin" <{$isLoger}> id="logAdmin"/>
+            </label>
         </div>
         <br class="clearFloat"/>
     </fieldset>
@@ -42,7 +46,7 @@
 
 <script type="text/javascript">
     $(document).ready(function(){
-        $.formValidator.initConfig({formID:"accountForm",theme:"Default",
+        $.formValidator.initConfig({formID:"editAccountForm",theme:"Default",
 		    ajaxForm:{
 			    type : "POST",
 				url  : "index.php",

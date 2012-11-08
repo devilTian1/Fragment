@@ -240,6 +240,7 @@ function showDialogByAjax(url, data, title, dialogParams, ajaxParams,
 
 function ajaxSubmitForm(formEle, title, successCallback, errorCallback) {
     var dialog = loadingScreen(title);
+    dialog.dialog('moveToTop');
     dialog.setOptions({
         width : 250,
         height: 150
@@ -247,10 +248,10 @@ function ajaxSubmitForm(formEle, title, successCallback, errorCallback) {
  
     if (!successCallback) {
         successCallback = function(result, textStatus) {
-	    var content = result.msg;
-	    if ($.isArray(content)) {
-	        content = content.join('<br/>');	
-	    }
+	        var content = result.msg;
+	        if ($.isArray(content)) {
+	            content = content.join('<br/>');	
+	        }
             dialog.setContent($('<p>' + content + '</p>'));
         }
     }
@@ -269,11 +270,13 @@ function ajaxSubmitForm(formEle, title, successCallback, errorCallback) {
             dialog.setContent($('<p>' + result + '</p>'));
         }
     }
-    formEle.ajaxSubmit({
-	dataType : 'json',
+    var options = {
+	    dataType : 'json',
         success  : successCallback,
         error    : errorCallback
-    });
+    };
+    formEle.ajaxSubmit(options);
+    return dialog;
 }
 
 function showTabByAjax(path) {
