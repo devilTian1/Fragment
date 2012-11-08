@@ -69,7 +69,7 @@
 </form>
 <script type="text/javascript">
    	$(document).ready(function(){
-			$.formValidator.initConfig({formID:"form",theme:"Default",
+	    $.formValidator.initConfig({formID:"form",theme:"Default",
 			 ajaxForm:{
 				type : "POST",
 				url: "index.php",
@@ -101,9 +101,5 @@
 		
 		$("#ip6").formValidator({empty:true,onShow:"请输入主机ip，可以为空",onfocus:"例如：172.16.201.18",onCorrect:""}).regexValidator({regExp:"ip4",dataType:"enum",onError:"格式不正确"});
 		$("#netmask6").formValidator({empty:true,onShow:"请输入子网掩码，可以为空",onfocus:"例如：255.255.255.0",onCorrect:""}).regexValidator({regExp:"ip4",dataType:"enum",onError:"格式不正确"});
-		
-		
-		
-				
 	});
-   </script>
+</script>

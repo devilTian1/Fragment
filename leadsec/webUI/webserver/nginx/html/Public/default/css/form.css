@@ -19,9 +19,13 @@ fieldset label {
     cursor: pointer;
 }
 
-fieldset div {
+fieldset .row {
     padding: 5px 0px;
     clear: left;
+}
+
+fieldset .tip {
+    width: 200px;
 }
 
 fieldset select {
@@ -31,6 +35,9 @@ fieldset select {
 fieldset input {
     width: 10em;
     float: left;
+}
+fieldset .checkbox {
+    width: 1em;
 }
 fieldset span {
     float: left;

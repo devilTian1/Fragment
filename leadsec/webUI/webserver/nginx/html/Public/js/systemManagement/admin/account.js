@@ -9,12 +9,14 @@ function showNewAccountDialog() {
     };
     var title   = '添加管理员帐号';
     var buttons = {};
-    buttons['next'] = function() {};
+    buttons['添加下一条'] = function() {};
     buttons['确定'] = function() {};
-    buttons['取消'] = function() {};
+    buttons['取消'] = function() {
+        $(this).remove();
+    };
     var dialogParams = {
-        width   : 520,
-        height  : 410,
+        width   : 540,
+        height  : 380,
         buttons : buttons
     };
     showDialogByAjax(url, data, title, dialogParams);
