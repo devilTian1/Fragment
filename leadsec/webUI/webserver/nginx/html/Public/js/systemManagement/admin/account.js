@@ -1,9 +1,7 @@
 function setExpiredTime(time) {
-    var isValid = validateForm($("#expTimeForm"));
-    if (!isValid) {
-        return false;
+    if ($('#expTimeForm').valid()) {
+        ajaxSubmitForm($('#expTimeForm'), '设置超时时间');
     }
-    ajaxSubmitForm($('#expTimeForm'), '设置超时时间');
 }
 
 function openNewAccountDialog() {
@@ -14,13 +12,17 @@ function openNewAccountDialog() {
     var title   = '添加管理员帐号';
     var buttons = {};
     buttons['添加下一条'] = function() {
-        openNewAccountDialog();
-        ajaxSubmitForm($('#editAccountForm'), '结果');
-        $(this).remove();
+        if ($('#editAccountForm').valid()) {
+            openNewAccountDialog();
+            ajaxSubmitForm($('#editAccountForm'), '结果');
+            $(this).remove();
+        }
     };
     buttons['确定'] = function() {
-        ajaxSubmitForm($('#editAccountForm'), '结果');
-        $(this).remove();
+        if ($('#editAccountForm').valid()) {
+            ajaxSubmitForm($('#editAccountForm'), '结果');
+            $(this).remove();
+        }
     };
     buttons['取消'] = function() {
         $(this).remove();
@@ -46,8 +48,11 @@ function openEditUserDialog(user) {
     var title   = '修改管理员帐号';
     var buttons = {};
     buttons['确定'] = function() {
-        ajaxSubmitForm($('#editAccountForm'), '结果');
-        $(this).remove();
+        if ($('#editAccountForm').valid()) {
+            countUnchecked($('.roles'));
+            ajaxSubmitForm($('#editAccountForm'), '结果');
+            $(this).remove();
+        }
     };
     buttons['取消'] = function() {
         $(this).remove();

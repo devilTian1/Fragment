@@ -20,21 +20,21 @@
         <div class="row">
             <label>帐号类型:</label>
             <label for="confAdmin">配置管理员
-                <input class="checkbox" type="checkbox" name="confAdmin" <{$isConf}> id="confAdmin"/>
+                <input class="checkbox roles" type="checkbox" name="confAdmin" <{$isConf}> id="confAdmin"/>
             </label>
         </div>
         <br class="clearFloat"/>
         <div class="row">
             <label>&nbsp;</label>
             <label for="policyAdmin">策略管理员
-                <input class="checkbox" type="checkbox" name="policyAdmin" <{$isPolicyer}> id="policyAdmin"/>
+                <input class="checkbox roles" type="checkbox" name="policyAdmin" <{$isPolicyer}> id="policyAdmin"/>
             </label>
         </div>
         <br class="clearFloat"/>
         <div class="row">
             <label>&nbsp;</label>
-            <label for="logAdmin">日志审计员
-                <input class="checkbox" type="checkbox" name="logAdmin" <{$isLoger}> id="logAdmin"/>
+            <label for="logAdmin" name="roleTip">日志审计员
+                <input class="checkbox roles" type="checkbox" name="logAdmin" <{$isLoger}> id="logAdmin"/>
             </label>
         </div>
         <br class="clearFloat"/>
