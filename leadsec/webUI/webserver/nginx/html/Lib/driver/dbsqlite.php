@@ -1,6 +1,5 @@
 <?php
     require_once(WEB_PATH . '/Lib/core/db.php');
-
     /**
      *
      */

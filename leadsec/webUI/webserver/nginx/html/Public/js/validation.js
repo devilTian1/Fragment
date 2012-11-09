@@ -41,6 +41,18 @@ var validRules = {
         required: function() {
             return (countUnchecked($('.roles')) === 3);
         },
+    },
+    ipv4: {
+        required: true,
+    },
+    ipv6: {
+        required: true,
+    },
+    netmask: {
+        required: true,
+    },
+    comment: {
+        maxlength: 250
     }
 };
 
@@ -53,8 +65,12 @@ var validMsg = {
     passwd: {
         required: '请填写密码.'
     },
-    passwd_again: '两次密码不一致',
-    logAdmin: '请至少选择一个帐号类型'
+    passwd_again: '两次密码不一致.',
+    logAdmin: '请至少选择一个帐号类型.',
+    ipv4: 'IPV4格式错误.',
+    ipv6: 'IPV6格式错误.',
+    netmask: '子网掩码格式错误',
+    comment: '您最多能够输入250个字符.'
 };
 
 function validateForm(form) {

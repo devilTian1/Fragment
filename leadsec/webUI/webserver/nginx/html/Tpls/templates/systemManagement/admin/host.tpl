@@ -5,43 +5,32 @@
             <th class="column_10">序号</th>
             <th class="column_20">管理主机IP</th>
             <th class="column_20">子网掩码</th>
-            <th class="column_50">说明</th>
+            <th class="column_30">说明</th>
+            <th class="column_20">操作</th>
         </tr>
     </thead>
-    <{foreach $hosts as $value }>
+    <{foreach $hosts as $host }>
         <tr>
-            <td><{$value['account']}></td>
-	    <td>
-	    <{if ($value.super == '1')}>
-	        <span class="red">超级管理员</span>&nbsp;
-	    <{/if}>
-	    <{if ($value.manager == '1')}>
-	        配置管理员&nbsp;
-	    <{/if}>
-	    <{if ($value.policyer == '1')}>
-	        策略管理员&nbsp;
-	    <{/if}>
-	    <{if ($value.auditor == '1')}>
-	        审计管理员
-	    <{/if}>
-	    </td>
+            <td><{$host.id}></td>
+            <td><{$host.ip}></td>
+            <td><{$host.netmask}></td>
+            <td><{$host.comment}></td>
         <td>
-	        <a href="#" class="edit" onclick="openEditUserDialog('<{$value["account"]}>')">编辑</a>
-		<{if ($value.super === '0')}>
+	        <a href="#" class="edit" onclick="openEditHostDialog('<{$host.id}>')">编辑</a>
 		    &nbsp;&nbsp;&nbsp;
-		    <a href="#" class="delete" onclick="openDelUserDialog('<{$value["account"]}>')">删除</a>
-		<{/if}>
+		    <a href="#" class="delete" onclick="openDelHostDialog('<{$host.id}>')">删除</a>
 	    </td>
         </tr>
     <{foreachelse}>
         <tr><td colspan='4'>No Host</td></tr>
     <{/foreach}>
 </table>
-<button class="floatLeft button" type="submit" onClick="openNewHostDialog()" id="add">添加</button>
-<button class="floatLeft button" type="submit" id="add">集中管理主机</button>
+<button class="floatLeft standard" type="button" onClick="openNewHostDialog()" id="add">添加</button>
+<button class="floatLeft standard" type="button" onClick="openSnmpDialog()" id="add">集中管理主机</button>
 
+<script type="text/javascript" src="Public/js/systemManagement/admin/host.js"></script>
 <script type="text/javascript">
    	$(document).ready(function(){
-
+        renderStandardUi();
     });
 </script>

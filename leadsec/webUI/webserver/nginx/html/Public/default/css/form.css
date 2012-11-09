@@ -28,7 +28,7 @@ fieldset .tip {
     width: 200px;
 }
 
-fieldset select {
+fieldset select, fieldset textarea {
     float: left;
 }
 
@@ -36,7 +36,7 @@ fieldset input {
     width: 10em;
     float: left;
 }
-fieldset .checkbox {
+fieldset .checkbox, fieldset .radio {
     width: 1em;
 }
 fieldset span {
