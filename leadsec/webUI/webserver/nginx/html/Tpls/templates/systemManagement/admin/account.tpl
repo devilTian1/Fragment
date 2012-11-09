@@ -15,8 +15,10 @@ onSubmit="return false;">
         <tr>
             <td></td>
             <td class="tdbody">
-                <input class="inputbtn" type="submit" value="确定" width="50" id="setExpTimeBtn"
-                onClick="setExpiredTime()"/>
+                <button class="inputbtn standard" type="submit" id="setExpTimeBtn"
+                    onClick="setExpiredTime()">
+                确定
+                </button>
             </td>
         </tr>
     </tbody>
@@ -27,7 +29,7 @@ onSubmit="return false;">
     <input type="checkbox" onClick="multiAdm($(this))"/>
     允许多个管理员同时管理
 </label>
-<table class="column_95 textMid tablesorter" id="clientTcp">
+<table class="column_95 textMid tablesorter" id="accountTable">
     <caption>管理员帐号列表</caption>
     <thead>
         <tr>
@@ -62,16 +64,16 @@ onSubmit="return false;">
 	    </td>
         </tr>
     <{foreachelse}>
-        <p>No Accounts</p>
+        <tr><td colspan='3'>No Accounts</td></tr>
     <{/foreach}>
 </table>
-<button class="floatLeft button" type="submit" onClick="openNewAccountDialog()" id="add">添加</button>
+<button class="floatLeft standard" type="submit" onClick="openNewAccountDialog()" id="add">添加</button>
 
+<script type="text/javascript" src="Public/js/systemManagement/admin/account.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
-    $("#add, .inputbtn").button();
+    renderStandardUi();
     validateForm($("#expTimeForm"))
 });
 
 </script>
-<script type="text/javascript" src="Public/js/systemManagement/admin/account.js"></script>

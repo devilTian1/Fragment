@@ -1,5 +1,6 @@
 <script type="text/javascript" src="Public/js/jquery/jquery-1.8.1.min.js"></script>
 <script type="text/javascript" src="Public/js/jquery/jquery-ui-1.8.23.custom.min.js"></script>
+<script type="text/javascript" src="Public/js/ui.standard.js"></script>
 <script type="text/javascript" src="Public/js/jquery/jquery.tablesorter.min.js"></script>
 <script type="text/javascript" src="Public/js/jquery/jquery.form.js"></script>
 <script type="text/javascript" src="Public/js/formvalidator/formValidator-4.1.3.min.js"></script>
