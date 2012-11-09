@@ -11,7 +11,7 @@ define('WEB_PATH', '/usr/local/webserver/nginx/html');
 define('DB_PATH', '/usr/local/conf');
 
 // Expired Time, second
-define('EXPIRED_TIME', 96400);
+define('EXPIRED_TIME', 86400);
 
 define('DEBUG', false);
 
