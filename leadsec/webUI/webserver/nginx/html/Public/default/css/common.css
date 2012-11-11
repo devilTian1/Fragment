@@ -438,3 +438,18 @@ div {
 .reflesh{background: url(../images/icon/reflesh.png) no-repeat left; padding-left:20px;}
 .margintop3{ margin-top:3px;}
 .w200{ width:200px;}
+.pl50{ padding-left:50px;}
+
+#stepTabDiv{ width:700px; height:36px;}
+.stepTabDivImg4_1{ background:url(../images/steptab4.jpg) no-repeat left 0px;}
+.stepTabDivImg4_2{ background:url(../images/steptab4.jpg) no-repeat left -36px;}
+.stepTabDivImg4_3{ background:url(../images/steptab4.jpg) no-repeat left -72px;}
+.stepTabDivImg4_4{ background:url(../images/steptab4.jpg) no-repeat left -108px;}
+.stepTabDivImg3_1{ background:url(../images/steptab3.jpg) no-repeat left 0px;}
+.stepTabDivImg3_2{ background:url(../images/steptab3.jpg) no-repeat left -36px;}
+.stepTabDivImg3_3{ background:url(../images/steptab3.jpg) no-repeat left -72px;}
+.stepTabDivImg2_1{ background:url(../images/steptab2.jpg) no-repeat left 0px;}
+.stepTabDivImg2_2{ background:url(../images/steptab2.jpg) no-repeat left -36px;}
+#stepTabDiv ul{ list-style:none; padding-left:40px;}
+#stepTabDiv ul li{ float:left; width:120px; margin-right:30px;}
+#stepTabDiv ul li a{font:14px; font-weight:bold; color:#FFF; line-height:30px;}

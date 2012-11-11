@@ -107,7 +107,12 @@
         array('pid' => 19,  'name' => '用户列表',     'link' => 'userList'),//19
         array('pid' => 19,  'name' => '用户组',     'link' => 'userGroup'),//19
         
-        array('pid' => 20,  'name' => '过滤配置', 'link' => 'addrBind'),//20
+        array('pid' => 20,  'name' => '安全浏览', 'link' => 'safeBrowse'),//20
+        array('pid' => 20,  'name' => '文件交换', 'link' => 'fielExchange'),//20
+        array('pid' => 20,  'name' => 'FTP访问', 'link' => 'ftpVisit'),//20
+        array('pid' => 20,  'name' => '邮件访问', 'link' => 'emailVisit'),//20
+        array('pid' => 20,  'name' => '数据库访问', 'link' => 'dataVisit'),//20
+        array('pid' => 20,  'name' => '消息传递', 'link' => 'msgPass'),//20
         
         //level3  appS/ips
         array('pid' => 40, 'name' => '基本配置',     'link' => 'conf'),//67

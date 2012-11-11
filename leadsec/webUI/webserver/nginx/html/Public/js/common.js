@@ -295,6 +295,14 @@ function showPageByAjax(url) {
     loadEmbedPage('Function/view.php', data, $("#mainContent"));
 }
 
+function showStepPageByAjax(funcUrl,steptpl) {
+	var data = {
+				func : funcUrl,
+				steptpl	 : steptpl
+			   };
+	loadEmbedPage('Function/viewstep.php', data, $("#stepDivContent"));
+}
+
 function refreshLayout() {
     var contentH  = $("#mainContent").outerHeight();
     var leftmenuH = $("#leftmenu").outerHeight();
