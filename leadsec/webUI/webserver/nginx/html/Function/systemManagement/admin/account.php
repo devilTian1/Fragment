@@ -57,7 +57,7 @@
         // edit account
         list($account, $passwd, $isManager, $isPolicyer, $isAuditor) =
             getUserData();
-        delSpecifiedUser($name);
+        delSpecifiedUser($account);
         $cmd = "admacct add name \"$account\" password \"$passwd\"".
             " manager $isManager policyer $isPolicyer auditor $isAuditor";
         $cli        = new cli();
