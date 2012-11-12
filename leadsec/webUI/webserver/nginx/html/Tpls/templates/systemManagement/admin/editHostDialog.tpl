@@ -12,7 +12,7 @@
         <br class="clearFloat"/>
         <div class="row">
             <label for="ip">管理主机IP:<em class="required">*</em></label>
-            <input type="text" name="ip" value="<{$ip}>" id="ip"/>
+            <input type="text" name="<{$ipChecked|default: 'ipv4'}>" value="<{$ip}>" id="ip"/>
         </div>
         <br class="clearFloat"/>
         <div class="row">
@@ -22,7 +22,7 @@
         <br class="clearFloat"/>
         <div class="row">
             <label for="comment">说明:</label>
-            <textarea rows="10" cols="30" name="comment" value="<{$comment}>" id="comment"/>
+            <textarea rows="10" cols="30" name="comment" id="comment"><{$comment}></textarea>
         </div>
         <br class="clearFloat"/>
     </fieldset>
@@ -31,5 +31,6 @@
 <script type="text/javascript">
     $(document).ready(function(){
         validateForm($("#editHostForm"));
+        changeIpType();
     });
 </script>

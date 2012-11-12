@@ -17,8 +17,8 @@
             <td><{$host.comment}></td>
             <td>
 	        <a href="#" class="edit" onclick="openEditHostDialog('<{$host.id}>')">编辑</a>
-		&nbsp;&nbsp;&nbsp;
-		<a href="#" class="delete" onclick="openDelHostDialog('<{$host.id}>')">删除</a>
+		    &nbsp;&nbsp;&nbsp;
+		    <a href="#" class="delete" onclick="openDelHostDialog('<{$host.ip}>', '<{$host.netmask}>')">删除</a>
 	    </td>
         </tr>
     <{foreachelse}>

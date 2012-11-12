@@ -39,10 +39,18 @@ var validMethodParams = {
         name: 'ipv6',
         validMethod: function(value, element, params) {
             return this.optional(element) ||
-            /^\w{1}$/.test(value);
+            /^(([A-F0-9]){4}(\:|\/\d{1,3}$)){8}/.test(value);
         },
         msg: 'IPV6格式错误.'
-    }
+    },
+    netmaskValidParam: {
+        name: 'netmask',
+        validMethod: function(value, element, params) {
+            return this.optional(element) ||
+            /^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\.|$)){4}/.test(value);
+        },
+        msg: '子网掩码格式错误.'
+    },
 };
 for (var i in validMethodParams) {
     addValidMethod(validMethodParams[i]);
@@ -74,14 +82,15 @@ var validRules = {
     },
     ipv4: {
         required: true,
-	ipv4: true
+	    ipv4: true
     },
     ipv6: {
         required: true,
-	ipv6: true
+        ipv6: true
     },
     netmask: {
         required: true,
+        netmask: true
     },
     comment: {
         maxlength: 250
@@ -99,12 +108,20 @@ var validMsg = {
     },
     passwd_again: '两次密码不一致.',
     logAdmin: '请至少选择一个帐号类型.',
-    netmask: '子网掩码格式错误',
+    ipv4: {
+        required: '请填写IPV4地址.'
+    },
+    ipv6: {
+        required: '请填写IPV6地址.'
+    },
+    netmask: {
+        required: '请填写子网掩码.',
+    },
     comment: '您最多能够输入250个字符.'
 };
 
 function validateForm(form) {
-    form.validate({
+    return form.validate({
         rules:    validRules ,
         messages: validMsg
     });
