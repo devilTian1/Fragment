@@ -21,7 +21,7 @@ function StandardUiFactory() {
             modal    : true,
             width    : 450,
             height   : 500,
-            position : "center center",
+            position : ['center', 'center'],
             close: function(event, ui) {
                 $(this).dialog('destroy');
                 $(this).remove();
@@ -315,26 +315,32 @@ function refreshLayout() {
     refreshTabs();
 }
 
-function tipAutoHide(i,info,time){
-	if(!info) tip='';
-	switch(i){
+function tipAutoHide(info, time){
+    var tip = '';
+	switch(info){
 		case 1:
 			tip = "服务器繁忙，请稍后再试。";
-		break;
+	    	break;
 		case 2:
 			tip = "设置成功！";
-		break;
+    		break;
 		case 3:
 			tip = "数据拉取失败";
-		break;
+		    break;
 		case 4:
 			tip = "正在加载中，请稍后...";
-		break;
+	    	break;
+        case 5:
+            tip = "数据正在处理，请稍后";
+            break;
+        default:
+            tip = '请稍候';
 	}
-	tip=info;
-	if(!time) time=2;
-	time=1000*time;
-	ZENG.msgbox.show(tip, i, time);
+	if (!time) {
+        time=2;
+    }
+	time = 1000*time;
+	ZENG.msgbox.show(tip, info, time);
     // overlay
     var overlayDom = $("<div class='ui-widget-overlay'></div>");
     overlayDom.height($('body').height());
@@ -346,4 +352,5 @@ function tipAutoHide(i,info,time){
         overlayDom.hide();
     }, time);
 }
+
 StandardUiFactory();

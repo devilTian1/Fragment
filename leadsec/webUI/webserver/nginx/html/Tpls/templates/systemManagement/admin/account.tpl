@@ -25,6 +25,40 @@ onSubmit="return false;">
 </table>
 </form>
 <br/>
+<form action="Function/systemManagement/admin/account.php" method="POST" id="limitErrForm"
+onSubmit="return false;">
+<table class="column_95">
+    <caption>
+    登录错误次数限制
+    </caption>
+    <tbody>
+        <tr>
+            <td class="tdheader column_40">限制次数:</td>
+            <td class="tdbody">
+                <input type="text" name="limitErrNum" value="<{$smarty.const.LIMITERR_NUM}>"
+                id="limitErrNum"/>
+            </td>
+        </tr>
+        <tr>
+            <td class="tdheader column_40">间隔时间(单位:秒):</td>
+            <td class="tdbody">
+                <input type="text" name="limitErrTime" value="<{$smarty.const.LIMITERR_TIME}>"
+                id="limitErrTime"/>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td class="tdbody">
+                <button class="inputbtn standard" type="submit" id="setLimitErrTimeBtn"
+                    onClick="setLimitErrTime()">
+                确定
+                </button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+</form>
+<br/>
 <label>
     <input type="checkbox" onClick="multiAdm($(this))"/>
     允许多个管理员同时管理
@@ -74,6 +108,7 @@ onSubmit="return false;">
 $(document).ready(function() {
     renderStandardUi();
     validateForm($("#expTimeForm"))
+    validateForm($("#limitErrForm"))
 });
 
 </script>

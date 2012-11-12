@@ -66,7 +66,7 @@ function openDelHostDialog(ip, netmask) {
     };
     var dialogParams = {
         width: 300,
-        height: 200,
+        height: 160,
         buttons: buttons
     };
     dialog.setContent("<p>确定要删除管理主机[" + ip + "]?</p>");

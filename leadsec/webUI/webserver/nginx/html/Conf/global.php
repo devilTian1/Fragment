@@ -13,6 +13,11 @@ define('DB_PATH', '/usr/local/conf');
 // Expired Time, second
 define('EXPIRED_TIME', 86400);
 
+// Limited Error Login Num
+define('LIMITERR_NUM', 3);
+// Limited Error Login Time, second
+define('LIMITERR_TIME', 10);
+
 define('DEBUG', false);
 
 define('THEME_PATH', 'Public/default');

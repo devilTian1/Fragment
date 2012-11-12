@@ -1,23 +1,29 @@
 <?php
     // login page
     function login() {
-    	if(@$_GET['chkusr']!='ok'){
+    	if (@$_GET['chkusr']!='ok'){
     		V::getInstance()->display('login/login.tpl');
     		exit();
     	}
         $account = @$_POST['account'];
         $passwd  = @$_POST['passwd'];
-        $db  = new dbsqlite(DB_PATH . '/configs.db');
-        $client_ip=get_client_ip();
-        $sql_ip="select ip from adminips where ip='$client_ip'";    //管理主机ip检测
-        $resultall= $db->query($sql_ip)->getFirstData();
-        if($resultall===false){
+        if (DEBUG || @$_SESSION[$account] >= LIMITERR_NUM && !chkLimitErrTime($account)) {
+            $_SESSION['limitErrTime'] = time();
+            exit('错误登录次数超过' . LIMITERR_NUM . '次<br/>请等待' . LIMITERR_TIME . '秒');
+        }
+        //管理主机ip检测
+        $db        = new dbsqlite(DB_PATH . '/configs.db');
+        $client_ip = get_client_ip();
+        $sql_ip    = "select ip from adminips where ip='$client_ip'";
+        $resultall = $db->query($sql_ip)->getFirstData();
+        if ($resultall === false) {
             DEBUG || exit('管理主机限制登录');
         }
         $sql = "select * from accounts
             where account = '$account' and passwd='$passwd'";
         $result = $db->query($sql)->getFirstData();
         if ($result === false) {
+            $_SESSION[$account]++;
             exit('用户名与密码错误!');
         } else {
             // login successful
@@ -58,4 +64,15 @@
 			} 
 		}
 	}
+
+    function chkLimitErrTime($account) {
+        $limitErrTime = @$_SESSION['limitErrTime'];
+        if (!empty($limitErrTime) && (time() - $limitErrTime > LIMITERR_TIME)) {
+            $_SESSION[$account] = NULL;
+            $_SESSION['limitErrTime'] = NULL;
+            return true;
+        } else {
+            return false;       
+        }
+    }
 ?>

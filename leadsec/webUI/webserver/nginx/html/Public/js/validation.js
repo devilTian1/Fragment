@@ -63,6 +63,16 @@ var validRules = {
         min: 60,
         max: 86400
     },
+    limitErrNum: {
+        required: true,
+        min: 1,
+        max: 10
+    },
+    limitErrTime: {
+        required: true,
+        min: 10,
+        max: 86400
+    },
     account: {
         required: true,
         letters: [1, 15]
@@ -100,6 +110,8 @@ var validRules = {
 // message
 var validMsg = {
     expTime: '不能小于60秒或超过86400秒(24小时)',
+    limitErrNum: '登录错误次数不能小于1次或超过10次',
+    limitErrTime: '间隔时间不能小于10秒或超过86400秒(24小时)',
     account: {
         required: '请填写帐号名.'
     },

@@ -1,11 +1,11 @@
 <?php
     require_once($_SERVER['DOCUMENT_ROOT'] . '/Function/common.php');
 
-    function setExpiredTime($expTime) {
+    function setConf($name, $val) {
         $file = $_SERVER['DOCUMENT_ROOT'] . '/Conf/global.php';
         $contents = file_get_contents($file);
-        $contents = preg_replace("@\('EXPIRED_TIME',\s?(.*)\)@",
-            "('EXPIRED_TIME',$expTime)", $contents);
+        $contents = preg_replace("@\('$name',\s?(.*)\)@",
+            "('$name',$val)", $contents);
         file_put_contents($file, $contents);
     }
 
@@ -27,9 +27,13 @@
 
     if (!empty($_POST['expTime'])) {
         // modify expired time
-        @$expTime = $_POST['expTime'];
-        setExpiredTime($expTime);
-        echo json_encode(array('msg' => '修改成功', 'status' => 0));
+        setConf('EXPIRED_TIME', $_POST['expTime']);
+        echo json_encode(array('msg' => '修改成功'));
+    } else if (!empty($_POST['limitErrNum']) || !empty($_POST['limitErrTime'])){
+        // modify limit error login num and time
+        setConf('LIMITERR_NUM',  $_POST['limitErrNum']);
+        setConf('LIMITERR_TIME', $_POST['limitErrTime']);
+        echo json_encode(array('msg' => '修改成功'));
     } else if (!empty($_POST['editUser'])) {
         // get specified account data
         $tpl  = $_POST['tpl'];

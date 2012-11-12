@@ -4,6 +4,12 @@ function setExpiredTime(time) {
     }
 }
 
+function setLimitErrTime() {
+    if ($("#limitErrForm").valid()) {
+        ajaxSubmitForm($("#limitErrForm"), '设置限制登录错误次数');
+    }
+}
+
 function openNewAccountDialog() {
     var url   = 'Function/layout/showDialog.php';
     var data  = {
@@ -34,11 +40,7 @@ function openNewAccountDialog() {
     };
     showDialogByAjax(url, data, title, dialogParams);
 }
-    function checkRoles() {
-        if (!$('#confAdmin').attr('checked') && !$('#confAdmin').attr('checked') && !$('#confAdmin').attr('checked')) {
-            alert('check!');
-        }
-    }
+
 function openEditUserDialog(user) {
     var url  = 'Function/systemManagement/admin/account.php';
     var data = {
