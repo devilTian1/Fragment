@@ -315,11 +315,6 @@ function refreshLayout() {
     refreshTabs();
 }
 
-function toggleDom(dom) {
-    $("div[name='toggleDiv']").addClass('hide');
-    dom.removeClass('hide');
-}
-
 function tipAutoHide(i,info,time){
 	if(!info) tip='';
 	switch(i){
