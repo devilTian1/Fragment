@@ -1,11 +1,10 @@
-<form action="Function/resConf/addr/addrList.php" method="POST"
-    id="editAddrListForm" onSubmit="return false;">
+<form action="Function/resConf/addr/addrList.php" method="POST" id="editAddrListForm" onSubmit="return false;">
     <input type="hidden" name="type" value="<{$type|default: 'add'}>"/>
     <fieldset>
         <legend>地址列表维护</legend>
         <div class="row">
             <label for="addrName">名称:<em class="required">*</em></label>
-            <input type="text" name="addrName" maxlength="15" value="<{$addrName}>" id="addrName"/>
+            <input type="text" name="addrName" maxlength="15" value="<{$addr.name}>" id="addrName"/>
         </div>
         <br class="clearFloat"/>
         <div class="row">
@@ -18,23 +17,23 @@
         <div class="row">
             <label>地址:<em class="required">*</em></label>
             <div class="floatLeft" id="addrDiv">
-                <input type="text" name="ipAddr" value="<{$ipAddr}>"/><b>/</b>
+                <input type="text" name="ipAddr" value="<{$addr.ip}>"/><b>/</b>
                 <{html_options name=netmask_default options=array('255.255.255.0','255.255.0.0','255.0.0.0','255.255.255.255') selected=2 }>
                 <br class="clearFloat"/>
             </div>
             <div class="floatLeft" id="addr_rDiv">
-               <b>!</b><input type="text" name="ipAddr_r" value="<{$ipAddr_r}>"/><b>/</b>
+               <b>!</b><input type="text" name="ipAddr_r" value="<{$addr.ip}>"/><b>/</b>
                 <{html_options name=netmask_r options=array('255.255.255.0','255.255.0.0','255.0.0.0','255.255.255.255') selected=2 }>
             </div>
             <div class="floatLeft" id="rangeDiv">
-                <input type="text" name="range_s" value="<{$range_s}>"/><b> - </b>
-                <input type="text" name="range_e" value="<{$range_e}>"/>
+                <input type="text" name="range_s" value="<{$addr.ip}>"/><b> - </b>
+                <input type="text" name="range_e" value="<{$addr.ip}>"/>
             </div>
         </div>
         <br class="clearFloat"/>
         <div class="row">
             <label for="comment">备注:</label>
-            <textarea rows="10" cols="30" name="comment" id="comment"><{$comment}></textarea>
+            <textarea rows="10" cols="30" name="comment" id="comment"><{$addr.comment}></textarea>
         </div>
         <br class="clearFloat"/>
     </fieldset>

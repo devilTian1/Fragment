@@ -20,7 +20,7 @@
             <td><{$addr.ip}>/<{$addr.mask}></td>
             <td><{$addr.comment}></td>
             <td class="no_search">
-                <a href="#" class="edit" onclick="editRedundance()">编辑</a>
+                <a href="#" class="edit" onclick="openEditAddrListDialog('<{$addr.id}>')">编辑</a>
                 <a href="#" class="delete" onclick="delRedundance()">
                     删除</a> 
             </td>

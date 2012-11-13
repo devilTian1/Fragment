@@ -1,20 +1,15 @@
-function openNewAddrListDialog() {
-    var url   = 'Function/layout/showDialog.php';
-    var data  = {
-        tpl : 'resConf/addr/editAddrDialog.tpl'
+function openEditAddrListDialog(id) {
+    var url  = 'Function/resConf/addr/addrList.php';
+    var data = {
+        tpl : 'resConf/addr/editAddrDialog.tpl',
+        id  : id   
     };
-    var title   = '定义地址';
+    var title   = '修改地址';
     var buttons = {};
-    buttons['添加下一条'] = function() {
-        if ($('#editAccountForm').valid()) {
-            openNewAccountDialog();
-            ajaxSubmitForm($('#editAccountForm'), '结果');
-            $(this).remove();
-        }
-    };
     buttons['确定'] = function() {
-        if ($('#editAccountForm').valid()) {
-            ajaxSubmitForm($('#editAccountForm'), '结果');
+        if ($('#editAddrListForm').valid()) {
+            countUnchecked($('.roles'));
+            ajaxSubmitForm($('#editAddrListForm'), '结果');
             $(this).remove();
         }
     };
@@ -23,7 +18,38 @@ function openNewAddrListDialog() {
     };
     var dialogParams = {
         width   : 620,
-        height  : 380,
+        height  : 500,
+        buttons : buttons
+    };
+    showDialogByAjax(url, data, title, dialogParams);
+}
+
+function openNewAddrListDialog() {
+    var url   = 'Function/layout/showDialog.php';
+    var data  = {
+        tpl : 'resConf/addr/editAddrDialog.tpl'
+    };
+    var title   = '定义地址';
+    var buttons = {};
+    buttons['添加下一条'] = function() {
+        if ($('#editAddrListForm').valid()) {
+            openNewAccountDialog();
+            ajaxSubmitForm($('#editAddrListForm'), '结果');
+            $(this).remove();
+        }
+    };
+    buttons['确定'] = function() {
+        if ($('#editAddrListForm').valid()) {
+            ajaxSubmitForm($('#editAddrListForm'), '结果');
+            $(this).remove();
+        }
+    };
+    buttons['取消'] = function() {
+        $(this).remove();
+    };
+    var dialogParams = {
+        width   : 620,
+        height  : 500,
         buttons : buttons
     };
     showDialogByAjax(url, data, title, dialogParams);
