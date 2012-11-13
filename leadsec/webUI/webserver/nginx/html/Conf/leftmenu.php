@@ -108,7 +108,8 @@
         array('pid' => 19,  'name' => '用户组',     'link' => 'userGroup'),//19
         
         array('pid' => 20,  'name' => '安全浏览', 'link' => 'safeBrowse'),//20
-        array('pid' => 20,  'name' => '文件交换', 'link' => 'fielExchange'),//20
+        array('pid' => 20,  'name' => '文件同步', 'link' => 'fileSyn'),//20
+        array('pid' => 20,  'name' => '文件交换', 'link' => 'fileExchange'),//20
         array('pid' => 20,  'name' => 'FTP访问', 'link' => 'ftpVisit'),//20
         array('pid' => 20,  'name' => '邮件访问', 'link' => 'emailVisit'),//20
         array('pid' => 20,  'name' => '数据库访问', 'link' => 'dataVisit'),//20
