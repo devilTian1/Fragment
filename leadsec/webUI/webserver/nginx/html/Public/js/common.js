@@ -215,7 +215,7 @@ function showDialogByAjax(url, data, title, dialogParams, ajaxParams,
     var dialog = loadingScreen(title);
     if (!successCallback) {
         successCallback = function(result, textStatus) {
-            dialog.setContent('<p>' + result.msg + '</p>');
+            dialog.setContent(result.msg);
             dialog.setOptions(dialogParams)
         }
     }

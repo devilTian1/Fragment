@@ -32,6 +32,11 @@ a:hover {
     font-weight: bold;
 }
 
+.search {
+    float: right;
+    margin-right: 4%;
+}
+
 img {
     border-width: 0px;
 	display: inline;

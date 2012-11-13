@@ -10,6 +10,7 @@
 <script type="text/javascript" src="Public/js/tip/msgbox.js"></script>
 <script type="text/javascript" src="Public/js/common.js"></script>
 <script type="text/javascript" src="Public/js/tabs.js"></script>
+<script type="text/javascript" src="Public/js/search.js"></script>
 <script>
     $(document).ready(function() {
         // init layout

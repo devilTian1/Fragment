@@ -28,8 +28,12 @@ fieldset .tip {
     width: 200px;
 }
 
-fieldset select, fieldset textarea {
+fieldset select, fieldset b, fieldset textarea {
     float: left;
+}
+
+fieldset b {
+    margin: 0 1em;
 }
 
 fieldset input {
@@ -50,4 +54,8 @@ fieldset .radio {
 
 fieldset .remark {
     width: 20em;
+}
+
+fieldset label.error {
+   width: 200px;
 }

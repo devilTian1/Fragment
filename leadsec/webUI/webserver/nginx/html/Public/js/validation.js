@@ -14,7 +14,7 @@ var validMethodParams = {
         validMethod: function(value, element, params) {
             var regexp = new RegExp("^[a-zA-Z]{" + 
                 params[0] + "," + params[1] + "}$");
-           return this.optional(element) || regexp.test(value);
+            return this.optional(element) || regexp.test(value);
         },
         msg: jQuery.format("{0}至{1}位英文字母")
     },
@@ -22,7 +22,7 @@ var validMethodParams = {
         name: 'passwd',
         validMethod: function(value, element, params) {
             var regexp =
-	    new RegExp("^[a-zA-Z0-9]{" + params[0] + "," + params[1] + "}$");
+	        new RegExp("^[a-zA-Z0-9]{" + params[0] + "," + params[1] + "}$");
             return this.optional(element) || regexp.test(value);
         },
         msg: jQuery.format("{0}至{1}位字母或数字")
@@ -50,6 +50,14 @@ var validMethodParams = {
             /^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\.|$)){4}/.test(value);
         },
         msg: '子网掩码格式错误.'
+    },
+    addrNameValidParam: {
+        name: 'addrName',
+        validMethod: function(value, element, params) {
+            return this.optional(element) ||
+            /^[a-zA-Z0-9\-_\.]{1,15}$/.test(value);
+        },
+        msg: '1-15 字母、数字、减号、下划线、点的组合.'
     },
 };
 for (var i in validMethodParams) {
@@ -88,7 +96,7 @@ var validRules = {
     logAdmin: {
         required: function() {
             return (countUnchecked($('.roles')) === 3);
-        },
+        }
     },
     ipv4: {
         required: true,
@@ -104,6 +112,10 @@ var validRules = {
     },
     comment: {
         maxlength: 250
+    },
+    addrName: {
+        required: true,
+        addrName: true
     }
 };
 
@@ -129,7 +141,10 @@ var validMsg = {
     netmask: {
         required: '请填写子网掩码.',
     },
-    comment: '您最多能够输入250个字符.'
+    comment: '您最多能够输入250个字符.',
+    addrName: {
+        required: '请填写地址名称.'
+    },
 };
 
 function validateForm(form) {
