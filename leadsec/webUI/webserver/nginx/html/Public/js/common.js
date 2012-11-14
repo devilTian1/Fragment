@@ -21,6 +21,7 @@ function StandardUiFactory() {
             modal    : true,
             width    : 450,
             height   : 500,
+            bgiframe : true,
             position : ['center', 'center'],
             close: function(event, ui) {
                 $(this).dialog('destroy');

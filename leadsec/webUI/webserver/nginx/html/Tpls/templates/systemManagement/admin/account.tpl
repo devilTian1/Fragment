@@ -15,7 +15,7 @@ onSubmit="return false;">
         <tr>
             <td></td>
             <td class="tdbody">
-                <button class="inputbtn standard" type="submit" id="setExpTimeBtn"
+                <button class="inputbtn standard" id="setExpTimeBtn"
                     onClick="setExpiredTime()">
                 确定
                 </button>
@@ -49,7 +49,8 @@ onSubmit="return false;">
         <tr>
             <td></td>
             <td class="tdbody">
-                <button class="inputbtn standard" type="submit" id="setLimitErrTimeBtn"
+                <button class="inputbtn standard"
+                    id="setLimitErrTimeBtn"
                     onClick="setLimitErrTime()">
                 确定
                 </button>
@@ -101,7 +102,9 @@ onSubmit="return false;">
         <tr><td colspan='3'>No Accounts</td></tr>
     <{/foreach}>
 </table>
-<button class="floatLeft standard" type="submit" onClick="openNewAccountDialog()" id="add">添加</button>
+<button class="floatLeft standard"
+    onClick="openNewAccountDialog()" id="add">
+添加</button>
 
 <script type="text/javascript" src="Public/js/systemManagement/admin/account.js"></script>
 <script type="text/javascript">
@@ -110,5 +113,4 @@ $(document).ready(function() {
     validateForm($("#expTimeForm"))
     validateForm($("#limitErrForm"))
 });
-
 </script>

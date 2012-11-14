@@ -58,7 +58,7 @@ var validMethodParams = {
             /^[a-zA-Z0-9\-_\.]{1,15}$/.test(value);
         },
         msg: '1-15 字母、数字、减号、下划线、点的组合.'
-    },
+    }
 };
 for (var i in validMethodParams) {
     addValidMethod(validMethodParams[i]);
@@ -139,17 +139,17 @@ var validMsg = {
         required: '请填写IPV6地址.'
     },
     netmask: {
-        required: '请填写子网掩码.',
+        required: '请填写子网掩码.'
     },
     comment: '您最多能够输入250个字符.',
     addrName: {
         required: '请填写地址名称.'
-    },
+    }
 };
 
 function validateForm(form) {
     return form.validate({
-        rules:    validRules ,
+        rules:    validRules,
         messages: validMsg
     });
 }

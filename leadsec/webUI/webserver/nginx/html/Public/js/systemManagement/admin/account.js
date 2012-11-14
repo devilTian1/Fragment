@@ -18,6 +18,7 @@ function openNewAccountDialog() {
     var title   = '添加管理员帐号';
     var buttons = {};
     buttons['添加下一条'] = function() {
+        alert($('#editAccountForm').valid());
         if ($('#editAccountForm').valid()) {
             openNewAccountDialog();
             ajaxSubmitForm($('#editAccountForm'), '结果');
