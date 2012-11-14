@@ -30,6 +30,15 @@
     <{/foreach}>
     </tbody>
 </table>
+<ol class="pagination floatRight">
+    <li><a href="#?page=1" rel="prev">Prev</a></li>
+    <li><a href="#?page=1" rel="prev">1</a></li>
+    <li class="selected">2</li>
+    <li><a href="#?page=3">3</a></li>
+    <li><a href="#?page=4">4</a></li>
+    <li><a href="#?page=5">5</a></li>
+    <li><a href="#?page=3" prev="next">Next</a></li>
+</ol>
 <button class="standard" onclick="openNewAddrListDialog()"
     id="addValue">添加
 </button>

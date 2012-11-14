@@ -23,6 +23,8 @@
         return $cli->run($cmd);
     }
 
+    $addrTypeArr = array('', 'default', 'range', 'reverse');
+
     if (!empty($_POST['id'])) {
         // get specified admin host data
         $id  = $_POST['id'];
@@ -32,6 +34,7 @@
         $result = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
         iconv_data($result);
         $result = $result[0];
+        $result['type'] = $addrTypeArr[$result['type']];
         $result = V::getInstance()->assign('addr', $result)->assign('type', 'edit')->fetch($tpl);
         echo json_encode(array('msg' => $result));
     } else {

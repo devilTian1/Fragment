@@ -10,7 +10,8 @@
         <div class="row">
             <label for="addrType">定义地址的方式:</label>
             <{html_radios class="radio" name=addrType values=array('default', 'reverse', 'range')
-              output=array('IP地址/掩码', '反IP地址/掩码', '地址范围IP1-IP2') selected=$addrChecked|default: 'default' onClick="changeAddrType()"
+              output=array('IP地址/掩码', '反IP地址/掩码', '地址范围IP1-IP2')
+              selected=$addr.type|default: 'default' onClick="changeAddrType()"
             }>
         </div>
         <br class="clearFloat"/>
@@ -18,16 +19,16 @@
             <label>地址:<em class="required">*</em></label>
             <div class="floatLeft" id="addrDiv">
                 <input type="text" name="ipAddr" value="<{$addr.ip}>"/><b>/</b>
-                <{html_options name=netmask_default options=array('255.255.255.0','255.255.0.0','255.0.0.0','255.255.255.255') selected=2 }>
+                <{html_options name=netmask_default options=array('255.255.255.0','255.255.0.0','255.0.0.0','255.255.255.255') selected=$addr.mask }>
                 <br class="clearFloat"/>
             </div>
             <div class="floatLeft" id="addr_rDiv">
                <b>!</b><input type="text" name="ipAddr_r" value="<{$addr.ip}>"/><b>/</b>
-                <{html_options name=netmask_r options=array('255.255.255.0','255.255.0.0','255.0.0.0','255.255.255.255') selected=2 }>
+                <{html_options name=netmask_r options=array('255.255.255.0','255.255.0.0','255.0.0.0','255.255.255.255') selected=$addr.mask }>
             </div>
             <div class="floatLeft" id="rangeDiv">
                 <input type="text" name="range_s" value="<{$addr.ip}>"/><b> - </b>
-                <input type="text" name="range_e" value="<{$addr.ip}>"/>
+                <input type="text" name="range_e" value="<{$addr.mask}>"/>
             </div>
         </div>
         <br class="clearFloat"/>
