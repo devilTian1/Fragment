@@ -1,5 +1,5 @@
 <{include file='layout/search.tpl' tableId='addrTable'}>
-<table class="column_95 textMid tablesorter searchTable" id="addrTable">
+<table class="column_95 textMid tablesorter" id="addrTable">
     <caption>
   	地址列表
     </caption>
@@ -30,15 +30,7 @@
     <{/foreach}>
     </tbody>
 </table>
-<ol class="pagination floatRight">
-    <li><a href="#?page=1" rel="prev">Prev</a></li>
-    <li><a href="#?page=1" rel="prev">1</a></li>
-    <li class="selected">2</li>
-    <li><a href="#?page=3">3</a></li>
-    <li><a href="#?page=4">4</a></li>
-    <li><a href="#?page=5">5</a></li>
-    <li><a href="#?page=3" prev="next">Next</a></li>
-</ol>
+<{include file='layout/pagination.tpl'}>
 <button class="standard" onclick="openNewAddrListDialog()"
     id="addValue">添加
 </button>
@@ -46,5 +38,8 @@
 <script type="text/javascript"> 
     $(document).ready(function() {
         renderStandardUi();
+        $('#addrTable').tablesorter({
+            sortList: [[0,0]],
+        }).tablesorterPager({container: $("#pager")}); 
     });
 </script>

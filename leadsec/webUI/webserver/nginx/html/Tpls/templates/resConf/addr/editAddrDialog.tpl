@@ -9,8 +9,8 @@
         <br class="clearFloat"/>
         <div class="row">
             <label for="addrType">定义地址的方式:</label>
-            <{html_radios class="radio" name=addrType values=array('default', 'reverse', 'range')
-              output=array('IP地址/掩码', '反IP地址/掩码', '地址范围IP1-IP2')
+            <{html_radios class="radio" name=addrType label_ids=true values=array('default', 'reverse', 'range')
+              output=array('IP地址/掩码', '反IP地址/掩码', '地址范围')
               selected=$addr.type|default: 'default' onClick="changeAddrType()"
             }>
         </div>
