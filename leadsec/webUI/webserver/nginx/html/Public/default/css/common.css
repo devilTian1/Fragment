@@ -37,6 +37,10 @@ a:hover {
     margin-right: 4%;
 }
 
+.pager {
+    width: 450px;
+}
+
 img {
     border-width: 0px;
 	display: inline;

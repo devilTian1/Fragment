@@ -30,16 +30,15 @@
     <{/foreach}>
     </tbody>
 </table>
-<{include file='layout/pagination.tpl'}>
-<button class="standard" onclick="openNewAddrListDialog()"
+<button class="standard floatLeft" style="position: static"
+    onclick="openNewAddrListDialog()"
     id="addValue">添加
 </button>
+<{include file='layout/pagination.tpl'}>
 <script type="text/javascript" src="Public/js/resConf/addr/addrList.js"></script>
 <script type="text/javascript"> 
     $(document).ready(function() {
         renderStandardUi();
-        $('#addrTable').tablesorter({
-            sortList: [[0,0]],
-        }).tablesorterPager({container: $("#pager")}); 
+        sortTable($('#addrTable'), {4: {sorter: false}}, [[1,0]]);
     });
 </script>

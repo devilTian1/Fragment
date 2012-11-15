@@ -1,5 +1,5 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title></title>
+<title><{$smarty.const.COMPANY_NAME}> <{$smarty.const.PRODUCT_NAME}></title>
 <link rel="stylesheet" href="<{$smarty.const.THEME_PATH}>/css/common.css" type="text/css" />
 <link rel="stylesheet" href="<{$smarty.const.THEME_PATH}>/css/table.css" type="text/css" />
 <link rel="stylesheet" href="<{$smarty.const.THEME_PATH}>/css/pagination.css" type="text/css" />

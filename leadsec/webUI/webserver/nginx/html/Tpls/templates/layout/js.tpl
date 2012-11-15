@@ -1,17 +1,21 @@
+<!-- Put 3rd party js libraries first -->
 <script type="text/javascript" src="Public/js/jquery/jquery-1.8.1.min.js"></script>
 <script type="text/javascript" src="Public/js/jquery/jquery-ui-1.8.23.custom.min.js"></script>
-<script type="text/javascript" src="Public/js/ui.standard.js"></script>
-<script type="text/javascript" src="Public/js/jquery/jquery.tablesorter.min.js"></script>
-<script type="text/javascript" src="Public/js/jquery/jquery.tablesorter.pager.js"></script>
+<script type="text/javascript" src="Public/js/jquery/jquery.tablesorter.js"></script>
 <script type="text/javascript" src="Public/js/jquery/jquery.form.js"></script>
+<script type="text/javascript" src="Public/js/jquery/jquery.validate.min.js"></script>
+<script type="text/javascript" src="Public/js/tip/msgbox.js"></script>
+<!-- TODO  need to rm -->
 <script type="text/javascript" src="Public/js/formvalidator/formValidator-4.1.3.min.js"></script>
 <script type="text/javascript" src="Public/js/formvalidator/formValidatorRegex.js"></script>
-<script type="text/javascript" src="Public/js/jquery/jquery.validate.min.js"></script>
-<script type="text/javascript" src="Public/js/validation.js"></script>
-<script type="text/javascript" src="Public/js/tip/msgbox.js"></script>
+<!-- TODO  need to rm -->
+ <!-- Put our libraries next -->
 <script type="text/javascript" src="Public/js/common.js"></script>
+<script type="text/javascript" src="Public/js/ui.standard.js"></script>
+<script type="text/javascript" src="Public/js/validation.js"></script>
 <script type="text/javascript" src="Public/js/tabs.js"></script>
 <script type="text/javascript" src="Public/js/search.js"></script>
+<script type="text/javascript" src="Public/js/table.js"></script>
 <script>
     $(document).ready(function() {
         // init layout
