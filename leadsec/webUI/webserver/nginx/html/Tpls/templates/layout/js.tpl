@@ -15,7 +15,7 @@
 <script type="text/javascript" src="Public/js/validation.js"></script>
 <script type="text/javascript" src="Public/js/tabs.js"></script>
 <script type="text/javascript" src="Public/js/search.js"></script>
-<script type="text/javascript" src="Public/js/table.js"></script>
+<script type="text/javascript" src="Public/js/sort.js"></script>
 <script>
     $(document).ready(function() {
         // init layout

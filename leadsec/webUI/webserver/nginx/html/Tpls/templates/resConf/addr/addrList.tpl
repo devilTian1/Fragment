@@ -39,6 +39,6 @@
 <script type="text/javascript"> 
     $(document).ready(function() {
         renderStandardUi();
-        sortTable($('#addrTable'), {4: {sorter: false}}, [[1,0]]);
+        sortTable($('#addrTable'), {4: {sorter: false}}, [[0,0]]);
     });
 </script>

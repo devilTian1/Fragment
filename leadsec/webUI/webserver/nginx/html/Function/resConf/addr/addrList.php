@@ -40,7 +40,7 @@
     } else {
         // init page data
         $db = new dbsqlite(DB_PATH . '/rule.db');
-        $sql = 'SELECT * FROM address';
+        $sql = 'SELECT * FROM address ORDER BY id ASC LIMIT 10';
         $result = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
         iconv_data($result);
         V::getInstance()->assign('addrList', $result);
