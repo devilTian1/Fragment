@@ -62,7 +62,8 @@ onSubmit="return false;">
 <br/>
 <label>
     <label for="isMultiAdm">
-    <input type="checkbox" onClick="multiAdm($(this))" id="isMultiAdm"/>
+    <input type="checkbox" onClick="multiAdm($(this))" id="isMultiAdm"
+        <{$isMultiAdm}>/>
     允许多个管理员同时管理
     </label>
 </label>

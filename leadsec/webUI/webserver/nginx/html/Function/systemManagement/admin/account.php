@@ -12,6 +12,7 @@
     function delSpecifiedUser($username) {
         $cmd = "admacct del name \"$username\"";
         $cli = new cli();
+        $cli->run($cmd);
     }
 
     function getUserData() {
@@ -60,7 +61,7 @@
         // edit account
         list($account, $passwd, $isManager, $isPolicyer, $isAuditor) =
             getUserData();
-        delSpecifiedUser($account);
+        delSpecifiedUser($_POST['oldAccount']);
         $cmd = "admacct add name \"$account\" password \"$passwd\"".
             " manager $isManager policyer $isPolicyer auditor $isAuditor";
         $cli = new cli();
@@ -86,8 +87,12 @@
     } else {
         // init page data
         $db  = new dbsqlite(DB_PATH . '/configs.db');
-        $result = $db->query('SELECT * FROM accounts')
+        $accounts = $db->query('SELECT * FROM accounts')
             ->getAllData(PDO::FETCH_ASSOC);
-        V::getInstance()->assign('accounts', $result);
+        $multiAdm = $db->query('SELECT allow FROM allow_multiple')
+            ->getFirstData(PDO::FETCH_ASSOC);
+        $isMultiAdm = $multiAdm['allow'] === '0' ? '' : 'checked="checked"';
+        V::getInstance()->assign('accounts', $accounts)
+                        ->assign('isMultiAdm', $isMultiAdm);
     }
 ?>

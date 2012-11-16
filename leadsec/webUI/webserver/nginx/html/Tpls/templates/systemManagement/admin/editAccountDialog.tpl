@@ -5,6 +5,7 @@
         <div class="row">
             <label for="account">帐号:<em class="required">*</em></label>
             <input type="text" name="account" maxlength="15" value="<{$account}>" id="account"/>
+            <input type="hidden" name="oldAccount" value="<{$account}>"/>
         </div>
         <br class="clearFloat"/>
         <div class="row">
