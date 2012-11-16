@@ -15,9 +15,9 @@
     }
 
     function delSpecifiedHost($ip, $netmask) {
-        $cmd    = "admhost del ip $ip netmask $netmask";
-        $cli    = new cli();
-        return $cli->run($cmd);
+        $cmd = "admhost del ip $ip netmask $netmask";
+        $cli = new cli();
+        $cli->run($cmd);
     }
 
     if (!empty($_POST['editHostId'])) {
@@ -45,22 +45,22 @@
         list($ip, $netmask, $comment) = getHostData();
         $cmd = "admhost add ip $ip netmask $netmask comment \"$comment\"";
         $cli = new cli();
-        $result = $cli->run($cmd);
-        echo json_encode(array('msg' => $result));
+        $cli->run($cmd);
+        echo json_encode(array('msg' => "[$ip]添加成功."));
     } else if ('edit' === $_POST['type']) {
         // edit specified host
         list($ip, $netmask, $comment) = getHostData();
         delSpecifiedHost($_POST['oldIp'], $_POST['oldNetmask']);
         $cmd = "admhost add ip $ip netmask $netmask comment \"$comment\"";
         $cli = new cli();
-        $result = $cli->run($cmd);
-        echo json_encode(array('msg' => $result));
+        $cli->run($cmd);
+        echo json_encode(array('msg' => "[{$_POST['oldIp']}]修改成功."));
     } else if (!empty($_POST['delHostIp'])) {
         // delete a specified host id
         $ip      = $_POST['delHostIp'];
         $netmask = $_POST['delHostNetmask'];
-        $msg     = delSpecifiedHost($ip, $netmask);
-        echo json_encode(array('msg' => $msg));
+        delSpecifiedHost($ip, $netmask);
+        echo json_encode(array('msg' => "[$ip]删除成功."));
     } else if (!empty($_POST['freshHostList'])) {
         $tpl = 'systemManagement/admin/hostTable.tpl';
         $db  = new dbsqlite(DB_PATH . '/configs.db');
