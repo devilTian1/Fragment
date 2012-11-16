@@ -15,8 +15,8 @@ onSubmit="return false;">
         <tr>
             <td></td>
             <td class="tdbody">
-                <button class="inputbtn standard" id="setExpTimeBtn"
-                    onClick="setExpiredTime()">
+                <button class="inputbtn standard" type="button"
+                    id="setExpTimeBtn" onClick="setExpiredTime()">
                 确定
                 </button>
             </td>
@@ -49,9 +49,8 @@ onSubmit="return false;">
         <tr>
             <td></td>
             <td class="tdbody">
-                <button class="inputbtn standard"
-                    id="setLimitErrTimeBtn"
-                    onClick="setLimitErrTime()">
+                <button class="inputbtn standard" type="button"
+                    id="setLimitErrTimeBtn" onClick="setLimitErrTime()">
                 确定
                 </button>
             </td>
@@ -80,7 +79,7 @@ onSubmit="return false;">
         <tr><td colspan='4'>Loading ...</td></tr>
     </tbody>
 </table>
-<button class="floatLeft standard"
+<button class="floatLeft standard" type="button"
     onClick="openNewAccountDialog()" id="add">
 添加</button>
 
