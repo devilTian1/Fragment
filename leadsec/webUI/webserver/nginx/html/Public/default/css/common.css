@@ -37,6 +37,10 @@ a:hover {
     margin-right: 4%;
 }
 
+#ip {
+    width: 350px;
+}
+
 .pager {
     width: 450px;
 }

@@ -27,21 +27,14 @@ var validMethodParams = {
         },
         msg: jQuery.format("{0}至{1}位字母或数字")
     },
-    ipv4ValidParam: {
-        name: 'ipv4',
+    ipValidParam: {
+        name: 'ip',
         validMethod: function(value, element, params) {
             return this.optional(element) ||
-            /^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\.|$)){4}/.test(value);
+            /^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(value) ||
+            /^(([A-F0-9]){4}:){7}([A-F0-9]){4}$/.test(value)
         },
-        msg: 'IPV4格式错误.'
-    },
-    ipv6ValidParam: {
-        name: 'ipv6',
-        validMethod: function(value, element, params) {
-            return this.optional(element) ||
-            /^(([A-F0-9]){4}(\:|\/\d{1,3}$)){8}/.test(value);
-        },
-        msg: 'IPV6格式错误.'
+        msg: 'IP格式错误.'
     },
     netmaskValidParam: {
         name: 'netmask',
@@ -98,13 +91,9 @@ var validRules = {
             return (countUnchecked($('.roles')) === 3);
         }
     },
-    ipv4: {
+    ip: {
         required: true,
-	    ipv4: true
-    },
-    ipv6: {
-        required: true,
-        ipv6: true
+	    ip: true
     },
     netmask: {
         required: true,
@@ -132,11 +121,8 @@ var validMsg = {
     },
     passwd_again: '两次密码不一致.',
     logAdmin: '请至少选择一个帐号类型.',
-    ipv4: {
-        required: '请填写IPV4地址.'
-    },
-    ipv6: {
-        required: '请填写IPV6地址.'
+    ip: {
+        required: '请填写IP地址.'
     },
     netmask: {
         required: '请填写子网掩码.'

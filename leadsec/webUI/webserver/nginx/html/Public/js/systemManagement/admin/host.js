@@ -17,7 +17,7 @@ function openEditHostDialog(hostId) {
         $(this).remove();
     };
     var dialogParams = {
-        width   : 590,
+        width   : 650,
         height  : 460,
         buttons : buttons
     };
@@ -50,7 +50,7 @@ function openNewHostDialog() {
         $(this).remove();
     };
     var dialogParams = {
-        width   : 590,
+        width   : 650,
         height  : 460,
         buttons : buttons
     };
@@ -98,16 +98,6 @@ function delHost(ip, netmask) {
 
 function openSnmpDialog() {
 
-}
-
-function changeIpType() {
-    var type = $(":radio[name='ipType']:checked").val();
-    $('#ip').attr('name', type);
-    if (type === "ipv6") {
-        $('#netmask').attr('disabled', 'disabled');
-    } else {
-        $('#netmask').removeAttr('disabled');
-    }
 }
 
 function freshHostList() {

@@ -11,8 +11,7 @@
     }
 
     function getHostData() {
-        return array($_POST[$_POST['ipType']], $_POST['netmask'], $_POST['comment'],
-            $_POST['ipType']);
+        return array($_POST['ip'], $_POST['netmask'], $_POST['comment']);
     }
 
     function delSpecifiedHost($ip, $netmask) {
@@ -39,20 +38,19 @@
         $result = V::getInstance()->assign('ip',   $result['ip'])
             ->assign('netmask',   $result['netmask'])
             ->assign('comment',   $result['comment'])
-            ->assign('ipChecked', $ipChecked)
             ->assign('type', 'edit')->fetch($tpl);
         echo json_encode(array('msg' => $result));
     } else if ('add' === $_POST['type']) {
         // add a specified host
-        list($ip, $netmask, $comment, $ipType) = getHostData();
+        list($ip, $netmask, $comment) = getHostData();
         $cmd = "admhost add ip $ip netmask $netmask comment \"$comment\"";
         $cli = new cli();
         $result = $cli->run($cmd);
         echo json_encode(array('msg' => $result));
     } else if ('edit' === $_POST['type']) {
         // edit specified host
-        list($ip, $netmask, $comment, $ipType) = getHostData();
-        delSpecifiedHost($ip, $netmask);
+        list($ip, $netmask, $comment) = getHostData();
+        delSpecifiedHost($_POST['oldIp'], $_POST['oldNetmask']);
         $cmd = "admhost add ip $ip netmask $netmask comment \"$comment\"";
         $cli = new cli();
         $result = $cli->run($cmd);

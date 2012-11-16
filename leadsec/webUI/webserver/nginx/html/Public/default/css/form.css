@@ -57,6 +57,6 @@ fieldset .remark {
 }
 
 fieldset label.error {
-    width: 200px;
+    width: auto;
     float: right;
 }

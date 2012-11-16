@@ -1,23 +1,19 @@
-<form action="Function/systemManagement/admin/host.php" method="POST" id="editHostForm"
-    onSubmit="return false;">
+<form action="Function/systemManagement/admin/host.php" method="POST"
+    id="editHostForm" onSubmit="return false;">
     <input type="hidden" name="type" value="<{$type|default: 'add'}>"/>
     <fieldset>
         <legend>添加管理主机</legend>
         <div class="row">
-            <label for="type">IP类型:<em class="required">*</em></label>
-            <{html_radios class="radio" name=ipType values=array('ipv4', 'ipv6') output=array('IPV4', 'IPV6')
-              selected=$ipChecked|default: 'ipv4' onClick="changeIpType()"
-            }>
-        </div>
-        <br class="clearFloat"/>
-        <div class="row">
             <label for="ip">管理主机IP:<em class="required">*</em></label>
-            <input type="text" name="<{$ipChecked|default: 'ipv4'}>" value="<{$ip}>" id="ip"/>
+            <input type="text" name="ip" value="<{$ip}>" id="ip"/>
+            <input type="hidden" name="oldIp" value="<{$ip}>"/>
         </div>
         <br class="clearFloat"/>
         <div class="row">
             <label for="netmask">子网掩码:<em class="required">*</em></label>
-            <input type="text" name="netmask" value="<{$netmask}>" id="netmask"/>
+            <input type="text" name="netmask" value="<{$netmask}>"
+                id="netmask"/>
+            <input type="hidden" name="oldNetmask" value="<{$netmask}>"/>
         </div>
         <br class="clearFloat"/>
         <div class="row">
