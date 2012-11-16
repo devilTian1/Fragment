@@ -63,6 +63,13 @@
         $netmask = $_POST['delHostNetmask'];
         $msg     = delSpecifiedHost($ip, $netmask);
         echo json_encode(array('msg' => $msg));
+    } else if (!empty($_POST['freshHostList'])) {
+        $tpl = 'systemManagement/admin/hostTable.tpl';
+        $db  = new dbsqlite(DB_PATH . '/configs.db');
+        $result = $db->query('SELECT * FROM adminips')
+            ->getAllData(PDO::FETCH_ASSOC);
+        iconv_comment($result);
+        echo V::getInstance()->assign('hosts', $result)->fetch($tpl);
     } else {
         // init page data
         $db = new dbsqlite(DB_PATH . '/configs.db');

@@ -74,7 +74,7 @@ onSubmit="return false;">
         </tr>
     </thead>
     <tbody>
-	Loading...
+        <tr><td colspan='4'>Loading ...</td></tr>
     </tbody>
 </table>
 <button class="floatLeft standard"

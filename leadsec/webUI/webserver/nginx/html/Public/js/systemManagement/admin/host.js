@@ -9,6 +9,7 @@ function openEditHostDialog(hostId) {
     buttons['确定'] = function() {
         if ($('#editHostForm').valid()) {
             ajaxSubmitForm($('#editHostForm'), '结果');
+            freshHostList();
             $(this).remove();
         }
     };
@@ -34,12 +35,14 @@ function openNewHostDialog() {
         if ($('#editHostForm').valid()) {
             openNewHostDialog();
             ajaxSubmitForm($('#editHostForm'), '结果');
+            freshHostList();
             $(this).remove();
         }
     };
     buttons['确定'] = function() {
         if ($('#editHostForm').valid()) {
             ajaxSubmitForm($('#editHostForm'), '结果');
+            freshHostList();
             $(this).remove();
         }
     };
@@ -82,6 +85,7 @@ function delHost(ip, netmask) {
     var title  = '删除主机';
     var buttons = {};
     buttons['Ok'] = function() {
+        freshHostList();
         $(this).remove();
     };
     var dialogParams = {
@@ -96,7 +100,6 @@ function openSnmpDialog() {
 
 }
 
-
 function changeIpType() {
     var type = $(":radio[name='ipType']:checked").val();
     $('#ip').attr('name', type);
@@ -105,4 +108,12 @@ function changeIpType() {
     } else {
         $('#netmask').removeAttr('disabled');
     }
+}
+
+function freshHostList() {
+    var url  = 'Function/systemManagement/admin/host.php';
+    var data = {
+        freshHostList: true
+    };
+    loadEmbedPage(url, data, $('#hostTable>tbody'));
 }
