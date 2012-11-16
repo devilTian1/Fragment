@@ -1,5 +1,4 @@
 <?php
-    // login page
     function login() {
     	if (@$_GET['chkusr']!='ok'){
     		V::getInstance()->display('login/login.tpl');
@@ -7,9 +6,12 @@
     	}
         $account = @$_POST['account'];
         $passwd  = @$_POST['passwd'];
-        if (DEBUG || @$_SESSION[$account] >= LIMITERR_NUM && !chkLimitErrTime($account)) {
+        // check limit the number of login error
+        if (DEBUG || @$_SESSION[$account] >= LIMITERR_NUM &&
+            !chkLimitErrTime($account)) {
             $_SESSION['limitErrTime'] = time();
-            exit('错误登录次数超过' . LIMITERR_NUM . '次<br/>请等待' . LIMITERR_TIME . '秒');
+            exit('错误登录次数超过' . LIMITERR_NUM .
+                '次<br/>请等待' . LIMITERR_TIME . '秒');
         }
         //管理主机ip检测
         $db        = new dbsqlite(DB_PATH . '/configs.db');
@@ -19,6 +21,14 @@
         if ($resultall === false) {
             DEBUG || exit('管理主机限制登录');
         }
+        // check allow to serveral admins to login or not
+        $sql = "SELECT allow FROM allow_multiple";
+        $result = $db->query($sql)->getFirstData();
+        $isMultiAdm = $result['allow'] === '1' ? true : false;
+        if ($isMultiAdm === false && false !== isUserOnline($account)) {
+            exit('禁止多管理员同时登录');
+        }
+        //check user/passwd
         $sql = "select * from accounts
             where account = '$account' and passwd='$passwd'";
         $result = $db->query($sql)->getFirstData();
@@ -27,17 +37,12 @@
             exit('用户名与密码错误!');
         } else {
             // login successful
-            @$_SESSION['account']  = $result['account'];
-            @$_SESSION['super']    = $result['super'];
-            @$_SESSION['manager']  = $result['manager'];
-            @$_SESSION['policyer'] = $result['policyer'];
-            @$_SESSION['auditor']  = $result['auditor'];
-            @$_SESSION['session_time']=time();
-          	exit('sucess');
+            saveUserInfo($result);
         }
     }
-    //logout
+
     function logout() {
+        delOnlineUser($_SESSION['account']);
     	@$_SESSION=NULL;
     	@session_unset();
 		@session_destroy();
@@ -51,7 +56,8 @@
 	 */
 	function chklogin($timeout) {
 		$now = time();
-		if (!isset($_SESSION['account'])) {//检测是否通过登录过来，排除直接输入地此进入
+        //检测是否通过登录过来，排除直接输入地此进入
+		if (!isset($_SESSION['account'])) {
             login();
 		}
 		if (isset($_SESSION['session_time'])) {//超时管理
@@ -74,5 +80,40 @@
         } else {
             return false;       
         }
+    }
+
+    function addOnlineUsers($account) {
+        $filePath  = 'Logs/onlineUsers';
+        $client_ip = get_client_ip();
+        $contents  = file_get_contents($filePath);
+        $newUser   = "$account/$client_ip";
+        if (strpos($contents, $newUser) === false) {
+            $contents .= "$newUser\n";
+            file_put_contents($filePath, $contents);
+        }
+    }
+    function delOnlineUser($account) {
+        $filePath  = 'Logs/onlineUsers';
+        $client_ip = get_client_ip();
+        $contents  = file_get_contents($filePath);
+        $newUser   = "$account/$client_ip";
+        file_put_contents($filePath, str_replace("$newUser\n", '', $contents));
+    }
+
+    function isUserOnline($account) {
+        $filePath  = 'Logs/onlineUsers';
+        $contents  = file_get_contents($filePath);
+        return strpos($contents, "$account/");
+    }
+
+    function saveUserInfo($userData) {
+        addOnlineUsers($userData['account']);
+        @$_SESSION['account']      = $userData['account'];
+        @$_SESSION['super']        = $userData['super'];
+        @$_SESSION['manager']      = $userData['manager'];
+        @$_SESSION['policyer']     = $userData['policyer'];
+        @$_SESSION['auditor']      = $userData['auditor'];
+        @$_SESSION['session_time'] = time();
+        exit('sucess');
     }
 ?>
