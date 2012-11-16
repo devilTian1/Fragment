@@ -61,8 +61,10 @@ onSubmit="return false;">
 </form>
 <br/>
 <label>
-    <input type="checkbox" onClick="multiAdm($(this))"/>
+    <label for="isMultiAdm">
+    <input type="checkbox" onClick="multiAdm($(this))" id="isMultiAdm"/>
     允许多个管理员同时管理
+    </label>
 </label>
 <table class="column_95 textMid tablesorter" id="accountTable">
     <caption>管理员帐号列表</caption>
