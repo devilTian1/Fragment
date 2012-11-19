@@ -70,10 +70,5 @@
         echo V::getInstance()->assign('hosts', $result)->fetch($tpl);
     } else {
         // init page data
-        $db = new dbsqlite(DB_PATH . '/configs.db');
-        $sql = 'SELECT * FROM adminips';
-        $result = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
-        iconv_comment($result);
-        V::getInstance()->assign('hosts', $result);
     }
 ?>

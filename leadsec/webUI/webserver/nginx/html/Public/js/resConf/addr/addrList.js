@@ -71,3 +71,28 @@ function changeAddrType() {
         addrDiv.show();
     }
 }
+
+function freshAddrTable() {
+    var url  = 'Function/resConf/addr/addrList.php';
+    var data = {
+        freshAddrList: true
+    };
+    var params = {
+        success : function(result, textStatus) {
+            $('#addrTable>tbody').html(result);
+            $('#addrTable').trigger("update", [true]);
+        }
+    };
+    loadEmbedPage(url, data, $('#addrTable>tbody'), params);
+}
+
+function modifyRowsCount() {
+    var pageCount = 1;
+    var rowsCount = $('#rowsCount option:selected').val();
+    if (rowsCount !== 'all') {
+        pageCount = Math.ceil(Number($('#dataCount').val())/Number(rowsCount));
+    }
+    freshPagination($('#test'), pageCount);
+    resortTable('Function/resConf/addr/addrList.php', $('#addrTable'));
+}
+

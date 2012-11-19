@@ -87,12 +87,9 @@
     } else {
         // init page data
         $db  = new dbsqlite(DB_PATH . '/configs.db');
-        $accounts = $db->query('SELECT * FROM accounts')
-            ->getAllData(PDO::FETCH_ASSOC);
         $multiAdm = $db->query('SELECT allow FROM allow_multiple')
             ->getFirstData(PDO::FETCH_ASSOC);
         $isMultiAdm = $multiAdm['allow'] === '0' ? '' : 'checked="checked"';
-        V::getInstance()->assign('accounts', $accounts)
-                        ->assign('isMultiAdm', $isMultiAdm);
+        V::getInstance()->assign('isMultiAdm', $isMultiAdm);
     }
 ?>
