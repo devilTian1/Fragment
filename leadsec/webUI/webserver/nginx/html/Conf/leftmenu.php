@@ -115,6 +115,31 @@
         array('pid' => 20,  'name' => '数据库访问', 'link' => 'dataVisit'),//20
         array('pid' => 20,  'name' => '消息传递', 'link' => 'msgPass'),//20
         
+        
+        //levev3 client
+        array('pid' => 21,  'name' => '文件交换',  'link' => 'fileEx'),//
+        array('pid' => 22,  'name' => '数据库同步','link' => 'dbSync'),//
+        
+        array('pid' => 23,  'name' => '透明访问',  'link' => 'transVisit'),//
+        array('pid' => 23,  'name' => '普通访问',  'link' => 'generalVisit'),//
+        
+        array('pid' => 24,  'name' => '透明访问',   'link' => 'transVisit'),//
+        array('pid' => 24,  'name' => '普通访问',   'link' => 'generalVisit'),//
+        
+        array('pid' => 25,  'name' => 'SMTP访问',  'link' => 'smtpVisit'),//
+        array('pid' => 25,  'name' => 'POP3访问',  'link' => 'pop3Visit'),//
+        
+        array('pid' => 26,  'name' => '透明访问','link' => 'transVisit'),//
+        array('pid' => 26,  'name' => '普通访问','link' => 'generalVisit'),//
+        
+        array('pid' => 27,  'name' => 'TCP透明访问',  'link' => 'tcpTransVisit'),//
+        array('pid' => 27,  'name' => 'TCP普通访问',  'link' => 'tcpGeneralVisit'),//
+        array('pid' => 27,  'name' => 'UDP透明访问',  'link' => 'udpTransVisit'),//
+        array('pid' => 27,  'name' => 'UDP普通访问',  'link' => 'udpGeneralVisit'),//
+        
+        array('pid' => 28,  'name' => '安全通道',  'link' => 'safePass'),//
+        array('pid' => 29,  'name' => '消息传输',  'link' => 'msgTrans'),//
+        
         //level3  appS/ips
         array('pid' => 40, 'name' => '基本配置',     'link' => 'conf'),//67
         array('pid' => 40, 'name' => '策略配置',     'link' => 'policy'),//68
