@@ -27,6 +27,5 @@
 <script type="text/javascript">
     $(document).ready(function(){
         validateForm($("#editHostForm"));
-        changeIpType();
     });
 </script>
