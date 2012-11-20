@@ -140,6 +140,25 @@
         array('pid' => 28,  'name' => '安全通道',  'link' => 'safePass'),//
         array('pid' => 29,  'name' => '消息传输',  'link' => 'msgTrans'),//
         
+        
+        //levev3 server
+        array('pid' => 30,  'name' => '文件交换',  'link' => 'fileEx'),//30
+        array('pid' => 31,  'name' => '数据库同步','link' => 'dbSync'),//31
+        array('pid' => 32,  'name' => '安全浏览',  'link' => 'safeBrowse'),//32
+        array('pid' => 33,  'name' => 'FTP访问',   'link' => 'ftp'),//33
+        
+        array('pid' => 34,  'name' => 'SMTP访问',  'link' => 'smtpMail'),//34
+        array('pid' => 34,  'name' => 'POP3访问',  'link' => 'pop3Mail'),//34
+        
+        array('pid' => 35,  'name' => '数据库访问','link' => 'db'),//35
+        
+        array('pid' => 36,  'name' => 'TCP访问',  'link' => 'tcpCustomized'),//36
+        array('pid' => 36,  'name' => 'UDP访问',  'link' => 'udpCustomized'),//36
+        
+        array('pid' => 37,  'name' => '安全通道',  'link' => 'safePass'),//37
+        array('pid' => 38,  'name' => '消息传输',  'link' => 'msgTrans'),//38
+        
+        
         //level3  appS/ips
         array('pid' => 40, 'name' => '基本配置',     'link' => 'conf'),//67
         array('pid' => 40, 'name' => '策略配置',     'link' => 'policy'),//68
