@@ -56,7 +56,7 @@ function resortTable(url, tableDom) {
 }
 
 
-function freshPaginationByRowsCount(displayDom) {
+function freshPagination(displayDom) {
     var url  = 'Function/layout/showPagination.php';
     var data = getOrderRules();
     loadEmbedPage(url, data, displayDom);

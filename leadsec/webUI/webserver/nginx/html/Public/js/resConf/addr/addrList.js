@@ -10,6 +10,7 @@ function openEditAddrListDialog(id) {
         if ($('#editAddrListForm').valid()) {
             countUnchecked($('.roles'));
             ajaxSubmitForm($('#editAddrListForm'), '结果');
+            freshTableAndPage();
             $(this).remove();
         }
     };
@@ -35,12 +36,14 @@ function openNewAddrListDialog() {
         if ($('#editAddrListForm').valid()) {
             openNewAccountDialog();
             ajaxSubmitForm($('#editAddrListForm'), '结果');
+            freshTableAndPage();
             $(this).remove();
         }
     };
     buttons['确定'] = function() {
         if ($('#editAddrListForm').valid()) {
             ajaxSubmitForm($('#editAddrListForm'), '结果');
+            freshTableAndPage();
             $(this).remove();
         }
     };
@@ -53,6 +56,44 @@ function openNewAddrListDialog() {
         buttons : buttons
     };
     showDialogByAjax(url, data, title, dialogParams);
+}
+
+function delAddr(name) {
+    var url  = 'Function/resConf/addr/addrList.php';
+    var data = {
+        delName: name
+    };
+    var title  = '删除地址';
+    var buttons = {};
+    buttons['Ok'] = function() {
+        freshTableAndPage();
+        $(this).remove();
+    };
+    var dialogParams = {
+        width   : 250,
+        height  : 170,
+        buttons : buttons
+    };
+    showDialogByAjax(url, data, title, dialogParams);
+}
+
+function openDelAddrDialog(name) {
+    var dialog  = loadingScreen('删除地址');
+    var buttons = {};
+    buttons['Confirm'] = function() {
+        delAddr(name);
+        $(this).remove();
+    };
+    buttons['Cancel']  = function() {
+        $(this).remove();
+    };
+    var dialogParams = {
+        width: 300,
+        height: 160,
+        buttons: buttons
+    };
+    dialog.setContent("<p>确定要删除名称为" + name + "的地址吗?</p>");
+    dialog.setOptions(dialogParams);   
 }
 
 function changeAddrType() {
@@ -86,8 +127,8 @@ function freshAddrTable() {
     loadEmbedPage(url, data, $('#addrTable>tbody'), params);
 }
 
-function modifyRowsCount() {
+function freshTableAndPage() {
     resortTable('Function/resConf/addr/addrList.php', $('#addrTable'));
-    freshPaginationByRowsCount($('.pager'));
+    freshPagination($('.pager'));
 }
 

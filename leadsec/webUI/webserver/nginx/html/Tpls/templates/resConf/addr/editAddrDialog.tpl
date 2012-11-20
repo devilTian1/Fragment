@@ -18,13 +18,13 @@
         <div class="row">
             <label>地址:<em class="required">*</em></label>
             <div class="floatLeft" id="addrDiv">
-                <input type="text" name="ipAddr" value="<{$addr.ip}>"/><b>/</b>
-                <{html_options name=netmask_default options=array('255.255.255.0','255.255.0.0','255.0.0.0','255.255.255.255') selected=$addr.mask }>
+                <input type="text" name="ip" value="<{$addr.ip}>"/><b>/</b>
+                <{html_options name=netmask_default output=array('255.255.255.0','255.255.0.0','255.0.0.0','255.255.255.255') values=array('255.255.255.0','255.255.0.0','255.0.0.0','255.255.255.255') selected=$addr.mask|default: '255.255.255.0' }>
                 <br class="clearFloat"/>
             </div>
             <div class="floatLeft" id="addr_rDiv">
                <b>!</b><input type="text" name="ipAddr_r" value="<{$addr.ip}>"/><b>/</b>
-                <{html_options name=netmask_r options=array('255.255.255.0','255.255.0.0','255.0.0.0','255.255.255.255') selected=$addr.mask }>
+                <{html_options name=netmask_r output=array('255.255.255.0','255.255.0.0','255.0.0.0','255.255.255.255') values=array('255.255.255.0','255.255.0.0','255.0.0.0','255.255.255.255') selected=$addr.mask|default: '255.255.255.0' }>
             </div>
             <div class="floatLeft" id="rangeDiv">
                 <input type="text" name="range_s" value="<{$addr.ip}>"/><b> - </b>

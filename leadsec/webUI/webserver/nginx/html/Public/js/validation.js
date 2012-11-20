@@ -99,6 +99,18 @@ var validRules = {
         required: true,
         netmask: true
     },
+    ipAddr_r: {
+        required: true,
+	    ip: true
+    },
+    range_s: {
+        required: true,
+	    ip: true
+    },
+    range_e: {
+        required: true,
+	    ip: true
+    },
     comment: {
         maxlength: 250
     },
@@ -130,6 +142,15 @@ var validMsg = {
     comment: '您最多能够输入250个字符.',
     addrName: {
         required: '请填写地址名称.'
+    },
+    ipAddr_r: {
+        required: '请输入反IP地址.'
+    },
+    range_s: {
+        required: '请输入起始地址.'
+    },
+    range_e: {
+        required: '请输入结束地址'
     }
 };
 
