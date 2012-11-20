@@ -29,10 +29,13 @@ function getOrderRules() {
             //no need to sort
         }
     });
+    var pageCount = Math.ceil(Number(dataCount)/Number(rowsCount));
     return {
         pageNum:   pageNum,
         sortData:  sortData,
-        rowsCount: rowsCount
+        rowsCount: rowsCount,
+        dataCount: dataCount,
+        pageCount: pageCount
     }
 }
 
@@ -41,7 +44,7 @@ function resortTable(url, tableDom) {
     var data = {
         pageNum:   orderRules.pageNum,
         sortData:  orderRules.sortData,
-        rowsCount: orderRules.rowsCount,
+        rowsCount: orderRules.rowsCount
     };
     var params = {
         success : function(result, textStatus) {
@@ -54,16 +57,7 @@ function resortTable(url, tableDom) {
 
 
 function freshPaginationByRowsCount(displayDom) {
-    var dataCount = $('#dataCount').val();
-    var rowsCount = $('#rowsCount>option:selected').val();
-    var pageNum   = $('ol.pagination>li.selected').text();
-
     var url  = 'Function/layout/showPagination.php';
-    var data = {
-	dataCount: dataCount,
-	rowsCount: rowsCount,
-	clickedPageNo: pageNum,
-        pageCount: Math.ceil(Number(dataCount)/Number(rowsCount))
-    };
+    var data = getOrderRules();
     loadEmbedPage(url, data, displayDom);
 }

@@ -6,17 +6,49 @@
     行&nbsp;&nbsp;&nbsp;
     </label>
     <ol class="pagination floatLeft">
-        <li><a href="#" rel="first" onClick="freshTableByPageNo('1')">首页</a></li>
-        <li><a href="#" onClick="freshTableByPageNo('<{$prev}>')" rel="prev">上一页</a></li>
+        <li><a href="#page=1" rel="first">首页</a></li>
+        <li><a href="#page=<{$prev}>" rel="prev">上一页</a></li>
         <{for $pageNo=1 to $pageCount }>
             <{if $clickedPageNo == $pageNo}>
                 <li class="selected"><{$pageNo}></li>
             <{else}>
-                <li><a href="#" onClick="freshTableByPageNo('<{$pageNo}>')"><{$pageNo}></a></li>
+                <li><a href="#page=<{$pageNo}>"><{$pageNo}></a></li>
             <{/if}>
         <{forelse}>
             <li class="selected">1</li>
         <{/for}>
-        <li><a href="#" onClick="freshTableByPageNo('<{$next}>')" rel="next">下一页</a></li>
-        <li><a href="#" rel="last" onClick="freshTableByPageNo('<{$pageCount}>')">尾页</a></li>
+        <li><a href="#page=<{$next}>" rel="next">下一页</a></li>
+        <li><a href="#page=<{$pageCount}>" rel="last">尾页</a></li>
     </ol>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('ol.pagination>li').click(function() {
+            // remove class 'selected'
+            var liSelected = $('ol.pagination>li.selected');
+            var liSelectedText = liSelected.text();
+            var prevDom  = $('ol.pagination>li').eq(1);
+            var nextDom  = $('ol.pagination>li').last().prev();
+
+            var rel = $(this).children('a').attr('rel');
+            liSelected.removeClass('selected');
+            liSelected.html('<a href="#page=' + liSelectedText +
+                '">' + liSelectedText + '</a>');
+            if (rel === 'first') {
+                var firstPageDom = $('ol.pagination>li').eq(2);
+                firstPageDom.addClass('selected').html(firstPageDom.text());
+            } else if (rel === 'prev') {
+                var prevPageDom = liSelected.prev();
+                prevPageDom.addClass('selected').html(prevPageDom.text());
+            } else if (rel === 'next') {
+                var nextPageDom = liSelected.next();
+                nextPageDom.addClass('selected').html(nextPageDom.text());
+            } else if (rel === 'last') {
+                var lastPageDom = $('ol.pagination>li').last().prev().prev();
+                lastPageDom.addClass('selected').html(lastPageDom.text());
+            } else {
+                $(this).addClass('selected').html($(this).text());
+            }
+            resortTable('Function/resConf/addr/addrList.php', $('#addrTable'));
+        });
+    });
+</script>
