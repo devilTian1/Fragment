@@ -117,6 +117,10 @@ var validRules = {
     addrName: {
         required: true,
         addrName: true
+    },
+    netname: {
+        required: true,
+        maxlength: 20
     }
 };
 
@@ -150,8 +154,9 @@ var validMsg = {
         required: '请输入起始地址.'
     },
     range_e: {
-        required: '请输入结束地址'
-    }
+        required: '请输入结束地址.'
+    },
+    netname: '1-20 个ASCII字符.'
 };
 
 function validateForm(form) {

@@ -1,4 +1,5 @@
-<form action="" method="post" name="form1" id="form1">
+<form action="Function/systemManagement/conf/params.php" method="POST" id="setParamsForm"
+onSubmit="return false;">
 <table class="column_95">
     <caption>
     <{$smarty.const.PRODUCT_NAME}>
@@ -6,31 +7,27 @@
     <tbody>
     <tr>
         <td width="250" class="tdheader"><{$smarty.const.PRODUCT_NAME}>:</td>
-        <td class="tdbody"><input name="netname" value="napname" type="text" id="netname" style="float:left" /><span id="netnameTip" style="width:280px; float:left"></span></td>
+        <td class="tdbody">
+            <input class="floatLeft" type="text" name="netname"
+                value="napname" id="netname"/>
+        </td>
     </tr>
     <tr>
         <td></td>
         <td class="tdbody">
-            <input type="submit" value="确定" width="50" id="submitbtn" class="inputbtn" />
+            <button class="inputbtn standard" type="button"
+                id="setParams" onClick="setSysParams()">
+            确定
+            </button>
         </td>
     </tr>
    </tbody>
 </table>
 </form>
+<script type="text/javascript" src="Public/js/systemManagement/conf/params.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
-	$("#submitbtn").button();
- 	$.formValidator.initConfig({formID:"form1",theme:"126",
-			ajaxForm:{
-				type : "POST",
-				url: "index.php?chkusr=ok",
-				success:function(data){
-					
-				}
-			},
-			submitAfterAjaxPrompt : '身份正在验证中，请稍等...'
-		});
-		$("#netname").formValidator({tipID:"netnameTip",onShow:"( 1-20 个ASCII字符 )",onShowText:"( 1-20 个ASCII字符 )",onFocus:"名称不能为空",onCorrect:""}).inputValidator({min:1,max:20,onError:"名称非法"})
- 
+    renderStandardUi();
+    validateForm($("#setParamsForm"));
 });
 </script>

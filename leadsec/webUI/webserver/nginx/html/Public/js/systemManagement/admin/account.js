@@ -1,4 +1,4 @@
-function setExpiredTime(time) {
+function setExpiredTime() {
     if ($('#expTimeForm').valid()) {
         ajaxSubmitForm($('#expTimeForm'), '设置超时时间');
     }
