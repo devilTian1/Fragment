@@ -9,7 +9,7 @@ onSubmit="return false;">
         <td width="250" class="tdheader"><{$smarty.const.PRODUCT_NAME}>:</td>
         <td class="tdbody">
             <input class="floatLeft" type="text" name="netname"
-                value="napname" id="netname"/>
+                value="<{$netname}>" id="netname"/>
         </td>
     </tr>
     <tr>
