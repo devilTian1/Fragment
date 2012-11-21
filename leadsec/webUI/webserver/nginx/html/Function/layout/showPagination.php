@@ -1,7 +1,13 @@
 <?php
     require_once('../common.php');
 
-    $dataCount = $_POST['dataCount'];
+    // fresh data count of pagination
+    if (!empty($_POST['dataCountFunc'])) {
+        require_once($_SERVER['DOCUMENT_ROOT'] . "/{$_POST['dataCountFunc']}");
+        $dataCount = getDataCount();
+    } else {
+        $dataCount = $_POST['dataCount'];
+    }
     $rowsCount = $_POST['rowsCount'];
     $pageCount = $_POST['pageCount'];
     $clickedPageNo = $_POST['pageNum'];

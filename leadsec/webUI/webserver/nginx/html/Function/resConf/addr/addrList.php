@@ -1,17 +1,6 @@
 <?php
     require_once($_SERVER['DOCUMENT_ROOT'] . '/Function/common.php');
 
-    function getHostData() {
-        return array($_POST[$_POST['ipType']], $_POST['netmask'], $_POST['comment'],
-            $_POST['ipType']);
-    }
-
-    function delSpecifiedHost($ip, $netmask) {
-        $cmd    = "admhost del ip $ip netmask $netmask";
-        $cli    = new cli();
-        return $cli->run($cmd);
-    }
-
     function freshAddrList($where) {
         $tpl =  'resConf/addr/addrTable.tpl';
         $db  = new dbsqlite(DB_PATH . '/rule.db');
@@ -22,7 +11,7 @@
             ->fetch($tpl);
     }
 
-    function compostIp() {
+    function composeIp() {
         $ipType  = $_POST['addrType'];
         if ($ipType === 'reverse') {
             $ip = $_POST['ipAddr_r'] . '~' . $_POST['netmask_r'];
@@ -52,6 +41,12 @@
         return $where;
     }
 
+    function getDataCount() {
+        $sql = "SELECT id FROM address";
+        $db  = new dbsqlite(DB_PATH . '/rule.db');
+        return $db->query($sql)->getCount();
+    }
+
     $addrTypeArr = array('', 'default', 'range', 'reverse');
 
     if (!empty($_POST['id'])) {
@@ -68,29 +63,29 @@
     } else if ('add' === $_POST['type']) {
         // Add new ipAddr
         $name    = $_POST['addrName'];
-        $ip      = compostIp();
+        $ip      = composeIp();
         $comment = $_POST['comment'];
-        $cmd = "address add name \"$name\" ip $ip comment \"$comment\"";
+        $cmd     = "address add name \"$name\" ip $ip comment \"$comment\"";
         $cli    = new cli();
         $cli->run($cmd);
         echo json_encode(array('msg' => "[$ip]添加成功."));
     } else if ('edit' === $_POST['type']) {
         // Edit the specified ipAddr
         $name    = $_POST['addrName'];
-        $ip      = compostIp();
+        $ip      = composeIp();
         $comment = $_POST['comment'];
         $cmd = "address set name \"$name\" ip $ip comment \"$comment\"";
         $cli    = new cli();
         $cli->run($cmd);
         echo json_encode(array('msg' => "[$ip]修改成功."));
     } else if (!empty($_POST['delName'])) {
-        //delete the specified ipAddr
+        // Delete the specified ipAddr
         $name = $_POST['delName'];
         $cmd  = "address delete name \"$name\"";
         $cli  = new cli();
         $cli->run($cmd);
         echo json_encode(array('msg' => "[$name]删除成功."));
-    } else if (!empty($_POST['pageNum'])) {
+    } else if (!empty($_POST['isResortTable'])) {
         // resort addr-list
         $pageNum   = $_POST['pageNum'];
         $sortData  = $_POST['sortData'];
@@ -102,13 +97,11 @@
         freshAddrList('ORDER BY id ASC LIMIT 10');
     } else {
         // init page data
-        $sql = "SELECT * FROM address $where";
-        $db  = new dbsqlite(DB_PATH . '/rule.db');
-        $result = $db->query($sql)->getCount();
+        $result = getDataCount();
         V::getInstance()->assign('dataCount', $result)
             ->assign('pageCount', ceil($result/10))
             ->assign('clickedPageNo', 1)
-	    ->assign('prev', 1)
-	    ->assign('next', 2);
+	        ->assign('prev', 1)
+	        ->assign('next', 2);
     }
 ?>

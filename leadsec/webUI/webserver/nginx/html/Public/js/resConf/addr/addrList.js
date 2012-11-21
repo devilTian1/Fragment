@@ -26,14 +26,14 @@ function openEditAddrListDialog(id) {
 
 function openNewAddrListDialog() {
     var url   = 'Function/layout/showDialog.php';
+    var title   = '定义地址';
     var data  = {
         tpl : 'resConf/addr/editAddrDialog.tpl'
     };
-    var title   = '定义地址';
     var buttons = {};
     buttons['添加下一条'] = function() {
         if ($('#editAddrListForm').valid()) {
-            openNewAccountDialog();
+            openNewAddrListDialog();
             ajaxSubmitForm($('#editAddrListForm'), '结果');
             freshTableAndPage();
             $(this).remove();
@@ -82,6 +82,7 @@ function openDelAddrDialog(name) {
     buttons['Confirm'] = function() {
         delAddr(name);
         $(this).remove();
+        freshTableAndPage();
     };
     buttons['Cancel']  = function() {
         $(this).remove();
@@ -127,7 +128,8 @@ function freshAddrTable() {
 }
 
 function freshTableAndPage() {
-    resortTable('Function/resConf/addr/addrList.php', $('#addrTable'));
-    freshPagination($('.pager'));
+    var url = 'Function/resConf/addr/addrList.php';
+    resortTable(url, $('#addrTable'));
+    freshPagination(url, $('.pager'));
 }
 

@@ -44,7 +44,8 @@ function resortTable(url, tableDom) {
     var data = {
         pageNum:   orderRules.pageNum,
         sortData:  orderRules.sortData,
-        rowsCount: orderRules.rowsCount
+        rowsCount: orderRules.rowsCount,
+        isResortTable: true
     };
     var params = {
         success : function(result, textStatus) {
@@ -56,8 +57,9 @@ function resortTable(url, tableDom) {
 }
 
 
-function freshPagination(displayDom) {
+function freshPagination(funcUrl, displayDom) {
     var url  = 'Function/layout/showPagination.php';
     var data = getOrderRules();
+    data['dataCountFunc'] = funcUrl;
     loadEmbedPage(url, data, displayDom);
 }
