@@ -12,5 +12,4 @@ if (!isset($_SESSION['account'])) {
 } else { 
 	bootstrap();
 }
-
 ?>
