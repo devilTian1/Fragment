@@ -16,7 +16,7 @@
         if ($ipType === 'reverse') {
             $ip = $_POST['ipAddr_r'] . '~' . $_POST['netmask_r'];
         } else if ($ipType === 'range') {
-            $ip = $_POST['range_s'] . ':' . $_POST['range_e'];
+            $ip = $_POST['range_s'] . '-' . $_POST['range_e'];
         } else { //default
             $ip = $_POST['ip'] . '/' . $_POST['netmask_default'];
         }
@@ -81,7 +81,7 @@
     } else if (!empty($_POST['delName'])) {
         // Delete the specified ipAddr
         $name = $_POST['delName'];
-        $cmd  = "address delete name \"$name\"";
+        $cmd  = "address del name \"$name\"";
         $cli  = new cli();
         $cli->run($cmd);
         echo json_encode(array('msg' => "[$name]删除成功."));
