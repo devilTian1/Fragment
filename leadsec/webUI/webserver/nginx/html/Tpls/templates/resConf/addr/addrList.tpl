@@ -29,7 +29,7 @@
 <script type="text/javascript"> 
     $(document).ready(function() {
         renderStandardUi();
-        freshAddrTable();
+        appendAddrList();
         sortTableInit($('#addrTable'), {4: {sorter: false}}, [[0,0]]);
     });
 </script>

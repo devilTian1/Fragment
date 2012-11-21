@@ -113,7 +113,7 @@ function changeAddrType() {
     }
 }
 
-function freshAddrTable() {
+function appendAddrList() {
     var url  = 'Function/resConf/addr/addrList.php';
     var data = {
         freshAddrList: true
@@ -132,4 +132,3 @@ function freshTableAndPage() {
     resortTable(url, $('#addrTable'));
     freshPagination(url, $('.pager'));
 }
-
