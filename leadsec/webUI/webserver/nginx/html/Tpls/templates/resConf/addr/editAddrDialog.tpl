@@ -4,7 +4,8 @@
         <legend>地址列表维护</legend>
         <div class="row">
             <label for="addrName">名称:<em class="required">*</em></label>
-            <input type="text" name="addrName" maxlength="15" value="<{$addr.name}>" id="addrName"/>
+            <input type="text" name="addrName" maxlength="15" value="<{$addr.name}>"
+            <{if $type === 'edit'}>disabled="disabled"<{/if}> id="addrName"/>
         </div>
         <br class="clearFloat"/>
         <div class="row">
