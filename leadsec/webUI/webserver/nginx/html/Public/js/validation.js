@@ -124,7 +124,7 @@ var validRules = {
     },
     'addrGrpMember[]': {
         required: function() {
-            return $('select[name="addrGrpMember"] option').length === 0;
+            return $('select[name="addrGrpMember[]"] option').length === 0;
         }
     },
     netname: {

@@ -5,7 +5,7 @@
         <div class="row">
             <label for="addrGrpName">名称:<em class="required">*</em></label>
             <input type="text" name="addrGrpName" maxlength="15" value="<{$addrGroup.name}>"
-                <{if $type === 'edit'}>disabled="disabled"<{/if}> id="addrGrpName"/>
+                <{if $type === 'edit'}>readonly="readonly"<{/if}> id="addrGrpName"/>
         </div>
         <br class="clearFloat"/>
         <div class="row">
@@ -27,7 +27,7 @@
 		<label for="addrGrpMember">地址组成员</label>
             <{html_options class='multiSelect' size="5" multiple="multiple"
                 name="addrGrpMember[]" id="addrGrpMember"
-                output=$addrGrpMemberArr values=$addrGrpMemberArr }>
+                output=$addrGrpMemberArr values=$addrGrpMemberArr}>
 	    </div>
         </div>
         <br class="clearFloat"/>

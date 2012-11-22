@@ -93,7 +93,7 @@
         list($name, $comment, $addmbr) = getAddOrEditData();
         $cmd1 = "addrgrp set name \"$name\" comment \"$comment\"";
         $cmd2 = "addrgrp set name \"$name\" delallmbr";
-        $cmd3 = "addrgrp set name \"$name\" addmbr $addmbr";
+        $cmd3 = "addrgrp set name \"$name\" addmbr \"$addmbr\"";
         $cli  = new cli();
         $cli->run($cmd1);
         $cli->run($cmd2);
