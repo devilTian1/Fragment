@@ -158,6 +158,7 @@
         array('pid' => 37,  'name' => '安全通道',  'link' => 'safePass'),//37
         array('pid' => 38,  'name' => '消息传输',  'link' => 'msgTrans'),//38
         
+        array('pid' => 39, 'name' => '病毒库升级', 'link' => 'virusUpgrade'),//39
         
         //level3  appS/ips
         array('pid' => 40, 'name' => '基本配置',     'link' => 'conf'),//67
@@ -166,6 +167,9 @@
         array('pid' => 40, 'name' => '扫描检测配置', 'link' => 'scanConf'),//70
         array('pid' => 40, 'name' => '自动响应配置', 'link' => 'autoConf'),//71
         array('pid' => 40, 'name' => '检测结果',     'link' => 'testResult'),//72
+        
+        //level3  appS/addrBind
+        array('pid' => 41, 'name' => '地址绑定', 'link' => 'addrBind'),//41
         
         //level3 log/conf
         array('pid' => 47, 'name' => '日志服务器', 'link' => 'server'),//73
