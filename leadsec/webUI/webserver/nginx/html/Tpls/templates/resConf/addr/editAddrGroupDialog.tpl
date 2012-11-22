@@ -5,36 +5,29 @@
         <div class="row">
             <label for="addrGrpName">名称:<em class="required">*</em></label>
             <input type="text" name="addrGrpName" maxlength="15" value="<{$addrGroup.name}>"
-                id="addrGrpName"/>
+                <{if $type === 'edit'}>disabled="disabled"<{/if}> id="addrGrpName"/>
         </div>
         <br class="clearFloat"/>
         <div class="row">
             <label>地址组添加元素表:</label>
 	    <div class="column column_25">
 		<label for="addrList">地址列表</label>
-	        <select class="multiSelect" multiple="multiple" name="addrList" id="addrList">
-		    <option>1</option>
-    		    <option>2</option>
-    		    <option>3</option>
-		    <option>4</option>
-	        </select>
+            <{html_options class='multiSelect' size="5" name="addrList" multiple="multiple" id="addrList"
+                output=$addrListArr values=$addrListArr}>
 	    </div>
 	    <div class="column column_15">
-		<br/>
-                <button class="standard floatLeft" onClick="moveToAddrGrpMember()"> >>
-                </button>
-		<br/>
-                <button class="standard floatLeft" onClick="moveToAddrList()"> <<
-                </button>
+	    	<br/>
+            <button class="standard floatLeft" onClick="moveToAddrGrpMember()"> &gt;&gt;
+            </button>
+		    <br/><br/>
+            <button class="standard floatLeft" onClick="moveToAddrList()"> &lt;&lt;
+            </button>
             </div>
 	    <div class="column column_25">
 		<label for="addrGrpMember">地址组成员</label>
-	        <select class="multiSelect" multiple="multiple" name="addrGrpMember" id="addrGrpMember">
-		    <option>1</option>
-    		    <option>2</option>
-    		    <option>3</option>
-		    <option>4</option>
-	        </select>
+            <{html_options class='multiSelect' size="5" multiple="multiple"
+                name="addrGrpMember[]" id="addrGrpMember"
+                output=$addrGrpMemberArr values=$addrGrpMemberArr }>
 	    </div>
         </div>
         <br class="clearFloat"/>

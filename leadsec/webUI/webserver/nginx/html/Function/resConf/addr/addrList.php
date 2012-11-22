@@ -50,7 +50,7 @@
     $addrTypeArr = array('', 'default', 'range', 'reverse');
 
     if (!empty($_POST['id'])) {
-        // Get specified admin host data
+        // Get specified addrlist data
         $id  = $_POST['id'];
         $tpl = $_POST['tpl'];
         $db  = new dbsqlite(DB_PATH . '/rule.db');

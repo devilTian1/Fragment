@@ -7,7 +7,7 @@
 
         public function run($cmd) {
             $result =  $this->exec($cmd);
-	    return join(' ', $result);
+	        return join(' ', $result);
         }
     }
 ?>

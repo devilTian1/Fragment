@@ -118,9 +118,14 @@ var validRules = {
         required: true,
         addrName: true
     },
-    addrGrpName: {
+    addrGrpName : {
         required: true,
         addrName: true
+    },
+    'addrGrpMember[]': {
+        required: function() {
+            return $('select[name="addrGrpMember"] option').length === 0;
+        }
     },
     netname: {
         required: true,
@@ -154,6 +159,7 @@ var validMsg = {
     addrGrpName: {
         required: '请填写地址组名称.'
     },
+    'addrGrpMember[]': '请至少选择一个地址组成员.',
     ipAddr_r: {
         required: '请输入反IP地址.'
     },
