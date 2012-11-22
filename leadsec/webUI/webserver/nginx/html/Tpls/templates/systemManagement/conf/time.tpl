@@ -9,7 +9,7 @@
     </tr>
     <tr>
       <td class="tdheader">管理主机当前时间:</td>
-      <td class="tdbody">2012/08/17 12:46:35
+      <td class="tdbody"><label id="client"></label>
       <input name="input" type="button" value="时间同步" class="button" id="setsame1" /></td>
     </tr>
    </tbody>
@@ -47,8 +47,10 @@
     </tr>
    </tbody>
 </table>
+<script type="text/javascript" src="Public/js/systemManagement/conf/time.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
+    displayTime($("#client"));
     $(".button").button();
 	//$("#serverip").tooltip();
 /*	$.formValidator.initConfig({formID:"form1",mode:'SingleTip',onError:function(){alert("校验没有通过，具体错误请看错误提示")}});
