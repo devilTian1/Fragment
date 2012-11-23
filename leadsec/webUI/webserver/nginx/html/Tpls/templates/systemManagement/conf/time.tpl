@@ -50,9 +50,8 @@
 <script type="text/javascript" src="Public/js/systemManagement/conf/time.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
-    var tmp = <{$smarty.now*1000}>;
+    displayTime($("#server"), <{$smarty.now*1000}>);
     displayTime($("#client"));
-    displayTime($("#server"),tmp);
     $(".button").button();
 	//$("#serverip").tooltip();
 /*	$.formValidator.initConfig({formID:"form1",mode:'SingleTip',onError:function(){alert("校验没有通过，具体错误请看错误提示")}});
