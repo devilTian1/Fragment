@@ -1,6 +1,6 @@
 <?php
     abstract class DB {
-        protected $dsn;
+        static protected $dsn;
 
         static protected $db;
 

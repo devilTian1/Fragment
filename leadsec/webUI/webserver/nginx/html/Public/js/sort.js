@@ -1,7 +1,7 @@
 function sortTableInit(tableDom, headers, sortList, forceList) {
     tableDom.tablesorter({
         headers: headers,
-        sortList: sortList,
+        sortList: sortList?sortList:[[0,0]],
         sortMultiSortKey: 'ctrlKey',
         widgets: ['zebra'],
         sortInitialOrder : "asc",

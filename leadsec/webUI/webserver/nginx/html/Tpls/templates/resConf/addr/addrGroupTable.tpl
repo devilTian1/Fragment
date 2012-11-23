@@ -1,4 +1,4 @@
-<{foreach $addrGroup as $id => $ag }>
+<{foreach $addrGroup as $k => $ag }>
     <tr>
         <td><{$ag.id}></td>
         <td><{$ag.name}></td>

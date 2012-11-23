@@ -1,24 +1,6 @@
 <?php
     require_once($_SERVER['DOCUMENT_ROOT'] . '/Function/common.php');
 
-    function getWhereStatement($pageNum, $sortData, $rowsCount) {
-        $where  = '';
-        $orders = array();
-        foreach ($sortData as $k => $v) {
-            $orders[] = "$k $v";
-        }
-        if (count($orders) === 0) {
-            $where .= 'ORDER BY id ';
-        } else {
-            $where .= 'ORDER BY ' . join(',', $orders) . ' ';
-        }
-        if ($rowsCount !== 'all') {
-            $where .= "LIMIT $rowsCount ";
-            $where .= 'OFFSET ' . ($rowsCount * ($pageNum-1));
-        }
-        return $where;
-    }
-
     function getAllAddrList() {
         $addrListArr = array();
         $sql = "SELECT name FROM address";

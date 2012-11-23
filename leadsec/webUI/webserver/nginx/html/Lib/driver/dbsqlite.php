@@ -9,10 +9,10 @@
             if (!file_exists($path)) {
                 throw new DBException('No dsn');
             }
-            if (empty(self::$db)) {
+            if (empty(self::$db) || self::$dsn != "sqlite:$path") {
                 try {
-                    $this->dsn = "sqlite:$path";
-                    self::$db = new PDO($this->dsn);
+                    self::$dsn = "sqlite:$path";
+                    self::$db = new PDO(self::$dsn);
                     self::$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                 } catch (Exception $e) {
                     throw new DBException($e->getMessage(), $e->getCode());
