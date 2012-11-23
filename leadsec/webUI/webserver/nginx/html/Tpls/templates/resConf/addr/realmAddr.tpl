@@ -20,9 +20,9 @@
             <th class="column_10" name="name">名称</th>
             <th class="column_10" name="domain">域名</th>
             <th class="column_15">DNS服务器</th>
-            <th class="column_20">静态IP列表</th>
-            <th class="column_20">动态IP列表</th>
-            <th class="column_15">操作</th>
+            <th class="column_15">静态IP列表</th>
+            <th class="column_15">动态IP列表</th>
+            <th class="column_20">操作</th>
         </tr>
     </thead>
     <tbody>
