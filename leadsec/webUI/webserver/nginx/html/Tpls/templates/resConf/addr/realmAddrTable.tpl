@@ -14,7 +14,7 @@
             <{$ra.dynamicIpList}>
         </td>
         <td class="no_search">
-            <a href="#" class="edit" onclick="openEditRealmAddrDialog()">
+            <a href="#" class="edit" onclick="openEditRealmAddrDialog('<{$ra.id}>')">
                 编辑</a>
             <a href="#" class="delete" onclick="openDelRealmAddrDialog()">
                 删除</a> 

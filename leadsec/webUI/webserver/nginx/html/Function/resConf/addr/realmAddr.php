@@ -62,29 +62,12 @@
         $tpl = $_POST['tpl'];
         $id  = $_POST['editId'];
         $db  = new dbsqlite(DB_PATH . '/rule.db');
-	    $sql = "SELECT name, domain, auto_resolve, primary_dns, slave_dns, ".
-            " FROM domain_property WHERE id = '$id'";
-        $result = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
-
-
-
-        $r   = getSpecAddrListName($id);
-        $addrGrpMemberArr = array();
-        foreach ($r as $row) {
-            $addrGrpMemberArr[] = $row['name'];
-        }
-        $addrListArr = getAllAddrList();
-        $addrListArr = array_diff($addrListArr, $addrGrpMemberArr);
-
-        $db  = new dbsqlite(DB_PATH . '/rule.db');
-	    $sql = "SELECT name, comment FROM addrgrp WHERE id = $id";
-        $addrGroup = $db->query($sql)->getFirstData(PDO::FETCH_ASSOC);
-        $result = V::getInstance()->assign('addrListArr', $addrListArr)
-            ->assign('addrGrpMemberArr', $addrGrpMemberArr)
-            ->assign('addrGroup', $addrGroup)
+	    $sql = "SELECT * FROM domain_property
+            WHERE id = '$id'";
+        $result = $db->query($sql)->getFirstData(PDO::FETCH_ASSOC);
+        $result = V::getInstance()->assign('realmAddr', $result)
             ->assign('type', 'edit')->fetch($tpl);
         echo json_encode(array('msg' => $result));
-
     } else if (!empty($_POST['freshRealmAddr'])) {
         // auto-append realmAddr data
         appendRealmAddrData('ORDER BY id ASC LIMIT 10');

@@ -11,7 +11,7 @@
         <br class="clearFloat"/>
         <div class="row">
             <label for="domainName">域名:<em class="required">*</em></label>
-            <input type="text" name="domainName" value="<{$realmAddr.domainName}>"
+            <input type="text" name="domainName" value="<{$realmAddr.domain}>"
             	id="domainName"/>
         </div>
         <br class="clearFloat"/>
@@ -41,8 +41,9 @@
 	</div>
         <br class="clearFloat"/>
 	<div class="row">
-            <label for="autoParse">自动解析:<em class="required">*</em></label>
-            <input class="checkbox" type="checkbox" name="autoParse" id="autoParse"/>
+            <label for="auto_resolve">自动解析:<em class="required">*</em></label>
+            <input class="checkbox" type="checkbox" name="auto_resolve" id="auto_resolve"
+                <{if $realmAddr.auto_resolve == 1}>checked="checked"<{/if}>/>
 	</div>
         <br class="clearFloat"/>
 	<div class="row">
@@ -56,29 +57,35 @@
 	</div>
         <br class="clearFloat"/>
 	<div class="row">
-            <label for="maxRecordNum">最大记录数:<em class="required">*</em></label>
-            <input type="text" name="maxRecordNum" id="maxRecordNum" value="64"/>
+            <label for="max_record">最大记录数:<em class="required">*</em></label>
+            <input type="text" name="max_record" id="max_record"
+                value="<{$realmAddr.max_record}>"/>
 	</div>
-        <br class="clearFloat"/>
+    <br class="clearFloat"/>
 	<div class="row">
-            <label for="autoParseInterval">自动解析间隔(单位:分钟):<em class="required">*</em></label>
-	    <input type="text" name="autoParseInterval" id="autoParseInterval" value="30"/>
+        <label for="interval">自动解析间隔(单位:分钟):
+            <em class="required">*</em></label>
+	    <input type="text" name="interval" id="interval"
+            value="<{$realmAddr.interval}>"/>
 	</div>
         <br class="clearFloat"/>
 	<div class="row">
             <label for="autoParseErrInterval">自动解析记录失效间隔:<em class="required">*</em></label>
-	    <input type="text" name="autoParseErrInterval" id="autoParseErrInterval" value="2"/>
+	    <input type="text" name="autoParseErrInterval" id="autoParseErrInterval"
+            value="<{$realmAddr.expire}>"/>
 	    （是自动解析间隔的多少倍）
 	</div>
         <br class="clearFloat"/>
 	<div class="row">
-            <label for="primaryDns">主DNS服务器:<em class="required">*</em></label>
-	    <input type="text" name="primaryDns" id="primaryDns" value=""/>
+        <label for="primaryDns">主DNS服务器:<em class="required">*</em></label>
+	    <input type="text" name="primaryDns" id="primaryDns"
+            value="<{$realmAddr.primary_dns}>"/>
 	</div>
         <br class="clearFloat"/>
 	<div class="row">
-            <label for="secondaryDns">次DNS服务器:<em class="required">*</em></label>
-	    <input type="text" name="secondaryDns" id="secondaryDns" value=""/>
+        <label for="secondaryDns">次DNS服务器:<em class="required">*</em></label>
+	    <input type="text" name="secondaryDns" id="secondaryDns"
+            value="<{$realmAddr.slave_dns}>"/>
 	</div>
         <br class="clearFloat"/>
 	<div class="row">

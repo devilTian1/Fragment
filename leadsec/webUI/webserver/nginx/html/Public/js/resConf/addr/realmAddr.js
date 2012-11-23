@@ -35,7 +35,7 @@ function openAddRealmAddrDialog() {
 function openEditRealmAddrDialog(id) {
     var url  = 'Function/resConf/addr/realmAddr.php';
     var data = {
-        tpl    : 'resConf/addr/editRealAddrDialog.tpl',
+        tpl    : 'resConf/addr/editRealmAddrDialog.tpl',
         editId : id
     };
     var title   = '域名地址维护';
