@@ -5,7 +5,7 @@
   <tbody>
     <tr>
       <td width="250" class="tdheader"><{$smarty.const.PRODUCT_NAME}>当前时间:</td>
-      <td class="tdbody">2012/09/02 09:49:19</td>
+      <td class="tdbody"><label id="server"></label>
     </tr>
     <tr>
       <td class="tdheader">管理主机当前时间:</td>
@@ -50,7 +50,9 @@
 <script type="text/javascript" src="Public/js/systemManagement/conf/time.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
+    var tmp = <{$smarty.now*1000}>;
     displayTime($("#client"));
+    displayTime($("#server"),tmp);
     $(".button").button();
 	//$("#serverip").tooltip();
 /*	$.formValidator.initConfig({formID:"form1",mode:'SingleTip',onError:function(){alert("校验没有通过，具体错误请看错误提示")}});
