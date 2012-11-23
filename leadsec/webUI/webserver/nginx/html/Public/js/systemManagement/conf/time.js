@@ -33,6 +33,7 @@ function currentTime(timestamp) {
 }
 
 function displayTime(dom,timestamp){
+    dom.html(currentTime(timestamp));
     setInterval(function() {
         timestamp += 1000;
         dom.html(currentTime(timestamp));
