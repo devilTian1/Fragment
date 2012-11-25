@@ -34,10 +34,10 @@
                 $pid = $node['pid'];
                 if ( $pid !== 0 ) {
                     // add array for storing child nodes
-                    if ( !isset($this->menu[$pid-1]['children']) ) {
-                        $this->menu[$pid-1]['children'] = array();   
+                    if ( !isset($this->menu[$pid]['children']) ) {
+                        $this->menu[$pid]['children'] = array();   
                     }
-                    array_push($this->menu[$pid-1]['children'], &$this->menu[$key]);
+                    array_push($this->menu[$pid]['children'], &$this->menu[$key]);
                 }
             }
             // romote non-root node
