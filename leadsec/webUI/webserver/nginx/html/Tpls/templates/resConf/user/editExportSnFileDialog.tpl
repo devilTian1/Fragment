@@ -4,7 +4,7 @@
         <div class="row">
             <label>导入SN文件:</label>
             <input class="uploadFile" type="file" name="sn" id="sn"/>
-            <input type="hidden" name="name" value="<{$name}>"/>
+            <input type="hidden" name="snName" value="<{$name}>"/>
         </div>
         <br class="clearFloat"/>
     </fieldset>

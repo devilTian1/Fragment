@@ -160,7 +160,7 @@ function openImportSnFileDialog(name) {
     var url   = 'Function/resConf/user/userList.php';
     var title   = '导出SN文件';
     var data  = {
-        snName : name
+        showImportSnFileName: name
     };
     var buttons = {};
     buttons['确定'] = function() {
@@ -186,7 +186,7 @@ function openActiveSpecUserDialog(name) {
     var url   = 'Function/resConf/user/userList.php';
     var title   = '动态密码同步';
     var data  = {
-        activeUser : name
+        showActiveUserName: name
     };
     var buttons = {};
     buttons['确定'] = function() {

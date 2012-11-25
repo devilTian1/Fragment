@@ -234,7 +234,24 @@
             ->assign('name', $name)
             ->fetch($tpl);
         echo json_encode(array('msg' => $result));
-    
+    } else if ($name = $_POST['activeName'] && $pwd = $_POST['activePwd']) {
+        // set import sn file of specified user
+    } else if ($name = $_POST['showImportSnFileName']) {
+        // Show import sn file dialog
+        $tpl  = 'resConf/user/editImportSnFileDialog.tpl';
+        $result = V::getInstance()
+            ->assign('name', $name)
+            ->fetch($tpl);
+        echo json_encode(array('msg' => $result));
+    } else if ($name = $_POST['snName'] && !empty($_FILES['sn'])) {
+        // set import sn file of specified user
+    } else if ($name = $_POST['showActiveUserName']) {
+        // Show active specified name dialog
+        $tpl  = 'resConf/user/editActiveUserDialog.tpl';
+        $result = V::getInstance()
+            ->assign('name', $name)
+            ->fetch($tpl);
+        echo json_encode(array('msg' => $result));
     } else if ($order = $_POST['orderStatement']) { 
         // Fresh and resort user list Table
         freshUserList($order);

@@ -5,7 +5,7 @@
             <label for="activePwd">动态密码:</label>
             <input type="text" name="activePwd" id="activePwd"
                 value=""/>
-            <input type="hidden" name="name" value="<{$name}>"/>
+            <input type="hidden" name="activeName" value="<{$name}>"/>
         </div>
     </fieldset>
 </form>
