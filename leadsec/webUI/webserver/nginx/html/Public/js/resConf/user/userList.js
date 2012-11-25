@@ -157,11 +157,55 @@ function openDelSpecUserDialog(name) {
 }
 
 function openImportSnFileDialog(name) {
-    alert(name);
+    var url   = 'Function/resConf/user/userList.php';
+    var title   = '导出SN文件';
+    var data  = {
+        snName : name
+    };
+    var buttons = {};
+    buttons['确定'] = function() {
+        if ($('#editImportSnFileForm').valid()) {
+            ajaxSubmitForm($('#editImportSnFileForm'), '结果');
+            freshTableAndPage();
+            $(this).remove();
+        }
+    };
+    buttons['取消'] = function() {
+        freshTableAndPage();
+        $(this).remove();
+    };
+    var dialogParams = {
+        width   : 420,
+        height  : 260,
+        buttons : buttons
+    };
+    showDialogByAjax(url, data, title, dialogParams);
 }
 
 function openActiveSpecUserDialog(name) {
-    alert(name);
+    var url   = 'Function/resConf/user/userList.php';
+    var title   = '动态密码同步';
+    var data  = {
+        activeUser : name
+    };
+    var buttons = {};
+    buttons['确定'] = function() {
+        if ($('#editActiveUserForm').valid()) {
+            ajaxSubmitForm($('#editActiveUserForm'), '结果');
+            freshTableAndPage();
+            $(this).remove();
+        }
+    };
+    buttons['取消'] = function() {
+        freshTableAndPage();
+        $(this).remove();
+    };
+    var dialogParams = {
+        width   : 420,
+        height  : 260,
+        buttons : buttons
+    };
+    showDialogByAjax(url, data, title, dialogParams);
 }
 
 function delSpecUsers(users) {
