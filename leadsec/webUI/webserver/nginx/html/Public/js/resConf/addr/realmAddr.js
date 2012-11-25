@@ -64,20 +64,6 @@ function openDelRealmAddrDialog() {
 
 function freshTableAndPage() {
     var url = 'Function/resConf/addr/realmAddr.php';
-    resortTable(url, $('#realmAddrTable'));
+    freshTable(url, $('#realmAddrTable'));
     freshPagination(url, $('.pager'));
-}
-
-function appendRealmAddrData() {
-    var url  = 'Function/resConf/addr/realmAddr.php';
-    var data = {
-        freshRealmAddr: true
-    };
-    var params = {
-        success : function(result, textStatus) {
-            $('#realmAddrTable>tbody').html(result);
-            $('#realmAddrTable').trigger("update", [true]);
-        }
-    };
-    loadEmbedPage(url, data, $('#realmAddrTable>tbody'), params);
 }

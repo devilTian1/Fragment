@@ -39,13 +39,31 @@ function getOrderRules() {
     }
 }
 
-function resortTable(url, tableDom) {
+function getOrderStatement() {
+    var result = '';
     var orderRules = getOrderRules();
+    if (orderRules.length === 0) {
+        result += 'ORDER BY id';    
+    } else {
+        result += 'ORDER BY ';    
+        for (var i in orderRules.sortData) {
+            result += i + ' ' + orderRules.sortData[i] + ', ';
+        }
+        result = result.slice(0, -2);
+    }
+    if (orderRules.rowsCount !== 'all') {
+        result += ' LIMIT ' + orderRules.rowsCount + ' OFFSET ' +
+            (orderRules.rowsCount * (orderRules.pageNum-1))
+    }
+    return result;
+}
+
+function freshTable(url, tableDom, orderStatement) {
+    if (!orderStatement) {
+        var orderStatement = getOrderStatement();
+    }
     var data = {
-        pageNum:   orderRules.pageNum,
-        sortData:  orderRules.sortData,
-        rowsCount: orderRules.rowsCount,
-        isResortTable: true
+        orderStatement: orderStatement
     };
     var params = {
         success : function(result, textStatus) {
@@ -55,7 +73,6 @@ function resortTable(url, tableDom) {
     };
     loadEmbedPage(url, data, tableDom.children('tbody'), params);
 }
-
 
 function freshPagination(funcUrl, displayDom) {
     var url  = 'Function/layout/showPagination.php';

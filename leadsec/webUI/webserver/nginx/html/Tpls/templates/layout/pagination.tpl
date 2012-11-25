@@ -48,7 +48,7 @@
             } else {
                 $(this).addClass('selected').html($(this).text());
             }
-            resortTable('<{$func}>', <{$tableDom|default: "$('.tablesorter')"}>);
+            freshTable('<{$func}>', <{$tableDom|default: "$('.tablesorter')"}>);
         });
     });
 </script>

@@ -1,24 +1,6 @@
 <?php
     require_once($_SERVER['DOCUMENT_ROOT'] . '/Function/common.php');
 
-    function getWhereStatement($pageNum, $sortData, $rowsCount) {
-        $where  = '';
-        $orders = array();
-        foreach ($sortData as $k => $v) {
-            $orders[] = "$k $v";
-        }
-        if (count($orders) === 0) {
-            $where .= 'ORDER BY id ';
-        } else {
-            $where .= 'ORDER BY ' . join(',', $orders) . ' ';
-        }
-        if ($rowsCount !== 'all') {
-            $where .= "LIMIT $rowsCount ";
-            $where .= 'OFFSET ' . ($rowsCount * ($pageNum-1));
-        }
-        return $where;
-    }
-
     function getIpList($name) {
         $db  = new dbsqlite(DB_PATH . '/domain.db');
         $sql = "SELECT dynamic, ip FROM domain_ip WHERE name = '$name'";
@@ -68,16 +50,9 @@
         $result = V::getInstance()->assign('realmAddr', $result)
             ->assign('type', 'edit')->fetch($tpl);
         echo json_encode(array('msg' => $result));
-    } else if (!empty($_POST['freshRealmAddr'])) {
-        // auto-append realmAddr data
-        appendRealmAddrData('ORDER BY id ASC LIMIT 10');
-    } else if (!empty($_POST['isResortTable'])) {
-        // resort realm addr list
-        $pageNum   = $_POST['pageNum'];
-        $sortData  = $_POST['sortData'];
-        $rowsCount = $_POST['rowsCount'];
-        $where = getWhereStatement($pageNum, $sortData, $rowsCount);
-        appendRealmAddrData($where);
+    } else if ($orderStatement = $_POST['isResortTable']) {
+        // fresh and resort realm addr table
+        appendRealmAddrData($orderStatement);
     } else {
         // init page data
         $result = getDataCount();

@@ -23,24 +23,6 @@
         return $ip;
     }
 
-    function getWhereStatement($pageNum, $sortData, $rowsCount) {
-        $where  = '';
-        $orders = array();
-        foreach ($sortData as $k => $v) {
-            $orders[] = "$k $v";
-        }
-        if (count($orders) === 0) {
-            $where .= 'ORDER BY id ';
-        } else {
-            $where .= 'ORDER BY ' . join(',', $orders) . ' ';
-        }
-        if ($rowsCount !== 'all') {
-            $where .= "LIMIT $rowsCount ";
-            $where .= 'OFFSET ' . ($rowsCount * ($pageNum-1));
-        }
-        return $where;
-    }
-
     function getDataCount() {
         $sql = "SELECT id FROM address";
         $db  = new dbsqlite(DB_PATH . '/rule.db');
@@ -85,16 +67,9 @@
         $cli  = new cli();
         $cli->run($cmd);
         echo json_encode(array('msg' => "[$name]删除成功."));
-    } else if (!empty($_POST['isResortTable'])) {
-        // resort addr-list
-        $pageNum   = $_POST['pageNum'];
-        $sortData  = $_POST['sortData'];
-        $rowsCount = $_POST['rowsCount'];
-        $where = getWhereStatement($pageNum, $sortData, $rowsCount);
-        freshAddrList($where);
-    } else if (!empty($_POST['freshAddrList'])) {
-        // auto-load addrlist
-        freshAddrList('ORDER BY id ASC LIMIT 10');
+    } else if ($orderStatement = $_POST['orderStatement']) {
+        // fresh and resort addrlist Table
+        freshAddrList($orderStatement);
     } else {
         // init page data
         $result = getDataCount();

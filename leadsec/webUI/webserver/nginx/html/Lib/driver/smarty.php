@@ -1,28 +1,32 @@
 <?php
 require_once(WEB_PATH.'/Lib/thirdParty/Smarty/Smarty.class.php');
 
-class V extends Smarty {
+class V {
     static public $instance;
 
-    public function __construct() {
-        parent::__construct();
+    private function __construct() {
+        $smarty = new Smarty();
 
-        $this->setTemplateDir(WEB_PATH.'/Tpls/templates/');
-        $this->setCompileDir(WEB_PATH.'/Tpls/templates_c/');
-        $this->setConfigDir(WEB_PATH.'/Tpls/config/');
-        $this->setCacheDir(WEB_PATH.'/Tpls/cache/');
+        $smarty->setTemplateDir(WEB_PATH.'/Tpls/templates/');
+        $smarty->setCompileDir(WEB_PATH.'/Tpls/templates_c/');
+        $smarty->setConfigDir(WEB_PATH.'/Tpls/config/');
+        $smarty->setCacheDir(WEB_PATH.'/Tpls/cache/');
         
-        $this->debugging = DEBUG;
-        $this->caching = Smarty::CACHING_OFF;
-        //$this->caching   = Smarty::CACHING_LIFETIME_CURRENT;
-        $this->cache_lifetime = 60*60*24;
+        $smarty->debugging = DEBUG;
+        $smarty->caching = Smarty::CACHING_OFF;
+        //$smarty->caching   = Smarty::CACHING_LIFETIME_CURRENT;
+        $smarty->cache_lifetime = 60*60*24;
 
-        $this->left_delimiter = '<{';
-        $this->right_delimiter = '}>';
+        $smarty->left_delimiter = '<{';
+        $smarty->right_delimiter = '}>';
+	self::$instance = $smarty;
     }
+
+    private function __clone() {}
+
     public function getInstance() {
         if (!isset(self::$instance)) {
-            self::$instance = new self();
+            new self();
         }
         return self::$instance;
     }

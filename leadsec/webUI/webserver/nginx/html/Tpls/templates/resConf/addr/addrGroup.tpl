@@ -29,7 +29,7 @@
 <script type="text/javascript"> 
     $(document).ready(function() {
         renderStandardUi();
-        appendAddrGroupData();
+        freshTable('Function/resConf/addr/addrGroup.php', $('#addrGroupTable'), 'ORDER BY id ASC LIMIT 10');
         sortTableInit($('#addrGroupTable'), {2: {sorter: false}, 4: {sorter: false}}, [[0,0]]);
     });
 </script>
