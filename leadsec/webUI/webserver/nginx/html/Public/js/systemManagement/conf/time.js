@@ -49,6 +49,27 @@ function displayTime(dom, timestamp) {
 }
 
 function setServerTime() {
-    ajaxSubmitForm($('#setServerTimeForm'), '设置产品名称');
+    if ($('#setServerTimeForm').valid()) {
+        ajaxSubmitForm($('#setServerTimeForm'), '设置产品名称');
+    }
 }
 
+function setNTPServer() {
+    if ($('#syncTimeForm').valid()) {
+        ajaxSubmitForm($('#syncTimeForm'), '结果');
+    }
+}
+
+function syncTime() {
+    var buttons = {};
+    buttons['Ok'] = function() {
+        $(this).remove();
+    }
+    var dialogOptions = {
+        width : 250,
+        height: 170,
+        buttons: buttons
+    };
+    showDialogByAjax('Function/systemManagement/conf/time.php',
+        {syncTime: true}, '结果', dialogOptions);
+}

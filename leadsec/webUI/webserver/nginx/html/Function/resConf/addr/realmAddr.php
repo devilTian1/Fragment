@@ -32,6 +32,31 @@
             ->fetch($tpl);
     }
 
+    function getAddOrEditCmd() {
+        $name        = $_POST['addrName'];
+        $domain      = $_POST['domainName'];
+        $autoResolve = $_POST['auto_resolve'] === 'on' : 'off';
+        $primaryDns  = $_POST['primaryDns'];
+        $slaveDns    = $_POST['slaveDns'];
+        $recordType  = 'a';
+        if ($_POST['record_type_a'] === 'A') {
+            if ($_POST['record_type_mx'] === 'MX') {
+                $recordType = 'all';
+            }
+        } else if ($_POST['record_type_mx'] === 'MX') {
+            $recordType = 'mx';
+        } else {
+            $recordType = '';
+        }
+        $maxRecord = $_POST['max_record'];
+        $interval  = $_POST['interval'];
+        $expire = $_POST['autoParseErrInterval'];
+        $ipType = ''; //static/dynamic
+        $ipAddr = $_POST['staticAddrList'];
+        $ip = join(', ' $ipAddr);
+        $comment = $_POST['comment'];
+    }
+
     function getDataCount() {
         $sql = "SELECT id FROM domain_property";
         $db  = new dbsqlite(DB_PATH . '/rule.db');
@@ -61,6 +86,22 @@
         $result = V::getInstance()->assign('realmAddr', $result)
             ->assign('type', 'edit')->fetch($tpl);
         echo json_encode(array('msg' => $result));
+    } else if ('add' === $_POST['type']) {
+        // Add new realm addr
+        $cmd = getAddOrEditCmd();
+        $cmd = "address add name \"$name\" ip $ip comment \"$comment\"";
+        $cli = new cli();
+        $cli->run($cmd);
+    } else if ('edit' === $_POST['type']) {
+        // Edit specified realm addr
+        $cmd = "address add name \"$name\" ip $ip comment \"$comment\"";
+        $cli = new cli();
+        $cli->run($cmd);
+    } else if ($delName = $_POST['delName']) {
+        // Delete specified realm addr
+        $cmd = "address add name \"$name\" ip $ip comment \"$comment\"";
+        $cli = new cli();
+        $cli->run($cmd);
     } else if ($orderStatement = $_POST['orderStatement']) {
         // fresh and resort realm addr table
         appendRealmAddrData($orderStatement);

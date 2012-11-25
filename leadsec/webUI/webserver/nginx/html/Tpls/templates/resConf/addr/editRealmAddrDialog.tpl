@@ -86,7 +86,7 @@
         <br class="clearFloat"/>
         <div class="row">
             <label for="secondaryDns">次DNS服务器:</label>
-            <input type="text" name="secondaryDns" id="secondaryDns"
+            <input type="text" name="slaveDns" id="slaveDns"
                 value="<{$realmAddr.slave_dns}>"/>
         </div>
         <br class="clearFloat"/>

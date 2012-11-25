@@ -138,6 +138,11 @@ var validRules = {
     },
     addStaticAddr: {
         ip: true
+    },
+    ntpSyncInterval: {
+        required: true,
+        min: 1,
+        max: 65535
     }
 };
 
@@ -179,7 +184,8 @@ var validMsg = {
     },
     netname: '1-20 个ASCII字符.',
     record_type_mx: '请至少选择一个帐号类型.',
-    addStaticAddr: '请填写IP地址.'
+    addStaticAddr: '请填写IP地址.',
+    ntpSyncInterval: '不能小于1分钟或超过65535分钟'
 };
 
 function validateForm(form) {
