@@ -81,20 +81,21 @@
         array('pid' => 13, 'name' => '系统更新',   'link' => 'upgrade'),//56
         array('pid' => 13, 'name' => '备份与恢复', 'link' => 'backupAndRecovery'),//57
         array('pid' => 13, 'name' => '许可证管理', 'link' => 'license'),//58
-        array('pid' => 13, 'name' => '批处理工具', 'link' => 'batchTool'),//59
+        array('pid' => 13, 'name' => '生产',       'link' => 'manufacture'),//59
+        array('pid' => 13, 'name' => '批处理工具', 'link' => 'batchTool'),//60
 
         //level3 networkManagement/interface
-        array('pid' => 14, 'name' => '物理设备', 'link' => 'physical'),//60
-        array('pid' => 14, 'name' => '别名设备', 'link' => 'alias'),//61
-        array('pid' => 14, 'name' => '冗余设备', 'link' => 'redundance'),//62
+        array('pid' => 14, 'name' => '物理设备', 'link' => 'physical'),//61
+        array('pid' => 14, 'name' => '别名设备', 'link' => 'alias'),//62
+        array('pid' => 14, 'name' => '冗余设备', 'link' => 'redundance'),//63
 
         //level3 networkManagement/basic
-        array('pid' => 15, 'name' => '域名服务器', 'link' => 'dns'),//63
-        array('pid' => 15, 'name' => '静态路由',   'link' => 'staticRoute'),//64
+        array('pid' => 15, 'name' => '域名服务器', 'link' => 'dns'),//64
+        array('pid' => 15, 'name' => '静态路由',   'link' => 'staticRoute'),//65
 
         //level3 networkManagement/HA
-        array('pid' => 16, 'name' => '双机热备', 'link' => 'ha'),//65
-        array('pid' => 16, 'name' => '负载均衡', 'link' => 'lvs'),//66
+        array('pid' => 16, 'name' => '双机热备', 'link' => 'ha'),//66
+        array('pid' => 16, 'name' => '负载均衡', 'link' => 'lvs'),//67
         
         //level3 resConf
         array('pid' => 17,  'name' => '地址列表', 'link' => 'addrList'),//17

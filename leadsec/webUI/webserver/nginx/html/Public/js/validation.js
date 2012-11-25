@@ -346,6 +346,9 @@ var validRules = {
         required: function() {
             return $('#addrMember option').length === 0;
         }
+    },
+    manuFile: {
+        required: true
     }
 };
 
@@ -461,6 +464,7 @@ var validMsg = {
     },
     mtu: '千兆设备的范围是64-16128',
     'addrMember[]': '请至少选择一个绑定设备.',
+    manuFile: '请选择要上传的配置文件'
 };
 
 function validateForm(form) {
