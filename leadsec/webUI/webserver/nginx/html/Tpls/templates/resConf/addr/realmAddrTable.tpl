@@ -16,7 +16,7 @@
         <td class="no_search">
             <a href="#" class="edit" onclick="openEditRealmAddrDialog('<{$ra.id}>')">
                 编辑</a>
-            <a href="#" class="delete" onclick="openDelRealmAddrDialog()">
+            <a href="#" class="delete" onclick="openDelRealmAddrDialog('<{$ra.name}>')">
                 删除</a> 
             <a href="#" class="reflesh" onclick="delRedundance()">刷新</a>
         </td>

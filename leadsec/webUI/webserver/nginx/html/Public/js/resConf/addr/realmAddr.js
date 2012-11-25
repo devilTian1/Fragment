@@ -65,8 +65,43 @@ function openEditRealmAddrDialog(id) {
     showDialogByAjax(url, data, title, dialogParams);
 }
 
-function openDelRealmAddrDialog() {
+function delRealmAddr(name) {
+    var url  = 'Function/resConf/addr/realmAddr.php';
+    var data = {
+        delName: name
+    };
+    var title  = '删除域名地址';
+    var buttons = {};
+    buttons['Ok'] = function() {
+        freshTableAndPage();
+        $(this).remove();
+    };
+    var dialogParams = {
+        width   : 250,
+        height  : 170,
+        buttons : buttons
+    };
+    showDialogByAjax(url, data, title, dialogParams);
+}
 
+function openDelRealmAddrDialog(name) {
+    var dialog  = loadingScreen('删除域名地址');
+    var buttons = {};
+    buttons['Confirm'] = function() {
+        delRealmAddr(name);
+        $(this).remove();
+        freshTableAndPage();
+    };
+    buttons['Cancel']  = function() {
+        $(this).remove();
+    };
+    var dialogParams = {
+        width: 300,
+        height: 160,
+        buttons: buttons
+    };
+    dialog.setContent("<p>确定要删除名称为" + name + "的域名地址吗?</p>");
+    dialog.setOptions(dialogParams);   
 }
 
 function addStaticAddrList() {

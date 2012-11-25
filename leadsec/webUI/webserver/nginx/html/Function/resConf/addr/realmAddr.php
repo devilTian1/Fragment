@@ -32,12 +32,12 @@
             ->fetch($tpl);
     }
 
-    function getAddOrEditCmd() {
+    function getAddOrEditCmd($type) {
         $name        = $_POST['addrName'];
         $domain      = $_POST['domainName'];
-        $autoResolve = $_POST['auto_resolve'] === 'on' : 'off';
-        $primaryDns  = $_POST['primaryDns'];
-        $slaveDns    = $_POST['slaveDns'];
+        $autoResolve = $_POST['auto_resolve'] === 'on' ? 'on' : 'off';
+        $primaryDns  = $_POST['primaryDns'] === '' ? 'none' : $_POST['primaryDns'];
+        $slaveDns    = $_POST['slaveDns'] === '' ? 'none' : $_POST['slaveDns'];
         $recordType  = 'a';
         if ($_POST['record_type_a'] === 'A') {
             if ($_POST['record_type_mx'] === 'MX') {
@@ -55,6 +55,14 @@
         $ipAddr = $_POST['staticAddrList'];
         $ip = join(', ' $ipAddr);
         $comment = $_POST['comment'];
+    
+        if ($type === 'add') {
+
+        } else if ($type === 'edit') {
+
+        } else {
+
+        }
     }
 
     function getDataCount() {
@@ -88,20 +96,22 @@
         echo json_encode(array('msg' => $result));
     } else if ('add' === $_POST['type']) {
         // Add new realm addr
-        $cmd = getAddOrEditCmd();
-        $cmd = "address add name \"$name\" ip $ip comment \"$comment\"";
+        $cmd = getAddOrEditCmd('add');
         $cli = new cli();
         $cli->run($cmd);
+        echo json_encode(array('msg' => "添加成功."));
     } else if ('edit' === $_POST['type']) {
         // Edit specified realm addr
-        $cmd = "address add name \"$name\" ip $ip comment \"$comment\"";
+        $cmd = getAddOrEditCmd('edit');
         $cli = new cli();
         $cli->run($cmd);
+        echo json_encode(array('msg' => "修改成功."));
     } else if ($delName = $_POST['delName']) {
         // Delete specified realm addr
-        $cmd = "address add name \"$name\" ip $ip comment \"$comment\"";
+        $cmd = "domain del name $delName";
         $cli = new cli();
         $cli->run($cmd);
+        echo json_encode(array('msg' => "[$delName]已经删除"));
     } else if ($orderStatement = $_POST['orderStatement']) {
         // fresh and resort realm addr table
         appendRealmAddrData($orderStatement);
