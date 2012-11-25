@@ -113,22 +113,8 @@ function changeAddrType() {
     }
 }
 
-function appendAddrList() {
-    var url  = 'Function/resConf/addr/addrList.php';
-    var data = {
-        freshAddrList: true
-    };
-    var params = {
-        success : function(result, textStatus) {
-            $('#addrTable>tbody').html(result);
-            $('#addrTable').trigger("update", [true]);
-        }
-    };
-    loadEmbedPage(url, data, $('#addrTable>tbody'), params);
-}
-
 function freshTableAndPage() {
     var url = 'Function/resConf/addr/addrList.php';
-    resortTable(url, $('#addrTable'));
+    freshTable(url, $('#addrTable'));
     freshPagination(url, $('.pager'));
 }

@@ -105,16 +105,9 @@
             ->assign('addrGrpMemberArr', array())
             ->assign('type', 'add')->fetch($tpl);
         echo json_encode(array('msg' => $result));
-    } else if (!empty($_POST['freshAddrGroup'])) {
-        // auto-append addrGroup data
-        appendAddrGroupData('ORDER BY id ASC LIMIT 10');
-    } else if (!empty($_POST['isResortTable'])) {
-        // resort addr-group list
-        $pageNum   = $_POST['pageNum'];
-        $sortData  = $_POST['sortData'];
-        $rowsCount = $_POST['rowsCount'];
-        $where = getWhereStatement($pageNum, $sortData, $rowsCount);
-        appendAddrGroupData($where);
+    } else if ($orderStatement = $_POST['orderStatement']) {
+        // fresh and resort addr-group list
+        appendAddrGroupData($orderStatement);
     } else {
         // init page data
         $result = getDataCount();

@@ -29,7 +29,7 @@
 <script type="text/javascript"> 
     $(document).ready(function() {
         renderStandardUi();
-        appendAddrList();
+        freshTable('Function/resConf/addr/addrList.php', $('#addrTable'), 'ORDER BY id ASC LIMIT 10');
         sortTableInit($('#addrTable'), {4: {sorter: false}}, [[0,0]]);
     });
 </script>

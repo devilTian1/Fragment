@@ -42,7 +42,7 @@
 <script type="text/javascript"> 
     $(document).ready(function() {
         renderStandardUi();
-        appendRealmAddrData();
+        freshTable('Function/resConf/addr/realmAddr.php', $('#realmAddrTable'), 'ORDER BY id ASC LIMIT 10');
         sortTableInit($('#realmAddrTable'),
             {3: {sorter: false},4: {sorter: false},5: {sorter: false},6: {sorter: false}});
     });

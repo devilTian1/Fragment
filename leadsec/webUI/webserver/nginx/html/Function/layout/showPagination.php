@@ -26,8 +26,8 @@
         ->assign('rowsCount', $rowsCount)
         ->assign('pageCount', $pageCount)
         ->assign('clickedPageNo', $clickedPageNo)
-	->assign('prev', $prev)
-	->assign('next',$next)
-	->assign('func', $_POST['dataCountFunc'])
-	->fetch('layout/pagination.tpl');
+	    ->assign('prev', $prev)
+    	->assign('next',$next)
+	    ->assign('func', $_POST['dataCountFunc'])
+	    ->fetch('layout/pagination.tpl');
 ?>
