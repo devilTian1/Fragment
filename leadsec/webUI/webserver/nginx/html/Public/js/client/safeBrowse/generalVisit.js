@@ -3,7 +3,7 @@ function openGeneralVisitDialog() {
     var data  = {
         tpl : 'client/safeBrowse/generalVisit_editDialog.tpl'
     };
-    var title   = '安全浏览,信息添加';
+    var title   = '信息添加';
     var buttons = {};
     buttons['添加下一条'] = function() {
         if ($('#editForm').valid()) {
@@ -22,7 +22,7 @@ function openGeneralVisitDialog() {
         $(this).remove();
     };
     var dialogParams = {
-        width   : 600,
+        width   : 620,
         height  : 400,
         buttons : buttons
     };
@@ -48,8 +48,8 @@ function openEditDVUserDialog(user) {
         $(this).remove();
     };
     var dialogParams = {
-        width   : 540,
-        height  : 380,
+        width   : 600,
+        height  : 440,
         buttons : buttons
     };
     showDialogByAjax(url, data, title, dialogParams);
