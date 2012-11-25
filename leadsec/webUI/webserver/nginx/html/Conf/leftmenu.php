@@ -171,6 +171,13 @@
         //level3  appS/addrBind
         array('pid' => 41, 'name' => '地址绑定', 'link' => 'addrBind'),//41
         
+        //level3  statMonitor
+        array('pid' => 42, 'name' => '资源状态', 'link' => 'res'),//42
+        array('pid' => 43, 'name' => '网络状态', 'link' => 'network'),//43
+        array('pid' => 44, 'name' => '用户状态', 'link' => 'user'),//44
+        array('pid' => 45, 'name' => '服务状态', 'link' => 'service'),//45
+        array('pid' => 46, 'name' => '网络测试', 'link' => 'test'),//46
+        
         //level3 log/conf
         array('pid' => 47, 'name' => '日志服务器', 'link' => 'server'),//73
 
