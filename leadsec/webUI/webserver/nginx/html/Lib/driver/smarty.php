@@ -19,7 +19,7 @@ class V {
 
         $smarty->left_delimiter = '<{';
         $smarty->right_delimiter = '}>';
-	self::$instance = $smarty;
+        self::$instance = $smarty;
     }
 
     private function __clone() {}

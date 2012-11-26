@@ -130,6 +130,14 @@ var validRules = {
     netname: {
         required: true,
         maxlength: 20
+    },
+    record_type_mx: {
+        required: function() {
+            return (countUnchecked($(".record_type")) === 2);
+        }
+    },
+    addStaticAddr: {
+        ip: true
     }
 };
 
@@ -169,7 +177,9 @@ var validMsg = {
     range_e: {
         required: '请输入结束地址.'
     },
-    netname: '1-20 个ASCII字符.'
+    netname: '1-20 个ASCII字符.',
+    record_type_mx: '请至少选择一个帐号类型.',
+    addStaticAddr: '请填写IP地址.'
 };
 
 function validateForm(form) {
