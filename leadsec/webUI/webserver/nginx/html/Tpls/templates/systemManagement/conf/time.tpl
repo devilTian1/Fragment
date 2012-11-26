@@ -1,3 +1,5 @@
+<form action="Function/systemManagement/conf/time.php" method="POST" id="setServerTimeForm"
+onSubmit="return false;">
   <table class="column_95">
   <caption>
   日期时间
@@ -10,11 +12,15 @@
     <tr>
       <td class="tdheader">管理主机当前时间:</td>
       <td class="tdbody"><label id="client"></label>
-      <input name="input" type="button" value="时间同步" class="button" id="setsame1" /></td>
+      <input type = "hidden" name = "localTime" id ="localTime" value = ""/>
+      <button class="inputbtn standard" type="button" id="setServerTimeBtn" onClick="setServerTime()">
+      时间同步
+      </button>
+      </td>
     </tr>
    </tbody>
 </table>
-
+</form>
 <table class="column_95">
   <caption>
   时钟服务器
@@ -50,8 +56,10 @@
 <script type="text/javascript" src="Public/js/systemManagement/conf/time.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
+    renderStandardUi();
     displayTime($("#server"), <{$smarty.now*1000}>);
     displayTime($("#client"));
+    displayTime($("#localTime"));
     $(".button").button();
 	//$("#serverip").tooltip();
 /*	$.formValidator.initConfig({formID:"form1",mode:'SingleTip',onError:function(){alert("校验没有通过，具体错误请看错误提示")}});
