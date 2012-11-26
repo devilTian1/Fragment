@@ -1,6 +1,7 @@
 <!-- Put 3rd party js libraries first -->
 <script type="text/javascript" src="Public/js/jquery/jquery-1.8.1.min.js"></script>
 <script type="text/javascript" src="Public/js/jquery/jquery-ui-1.8.23.custom.min.js"></script>
+<script type="text/javascript" src="Public/js/jquery/jquery.bgiframe.min.js"></script>
 <script type="text/javascript" src="Public/js/jquery/jquery.tablesorter.js"></script>
 <script type="text/javascript" src="Public/js/jquery/jquery.form.js"></script>
 <script type="text/javascript" src="Public/js/jquery/jquery.validate.min.js"></script>

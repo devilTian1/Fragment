@@ -1,14 +1,3 @@
-<table class="column_95">
-    <tbody>
-    <tr>
-      <td colspan="7">
-      自动域名解析服务:
-        <input type="button" name="button" id="button" value="启动" class="inputbtn" />&nbsp;
-      </td>
-      </tr>
-    </tbody>
-</table>
-  
 <{include file='layout/search.tpl' tableId='realmAddrTable'}>
 <table class="column_95 textMid tablesorter" id="realmAddrTable">
     <caption>

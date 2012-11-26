@@ -17,12 +17,12 @@
             $r = getIpList($v['name']);
             foreach ($r as $dip) {
                 if ($dip['dynamic'] === '1') {
-                    $result[$k]['dynamicIpList'] .= $dip['ip'] . '<br/>';
+                    $result[$k]['dynamicIpList'] = $dip['ip'] . '<br/>';
                 } else if ($dip['dynamic'] === '0') {
-                    $result[$k]['staticIpList'] .= $dip['ip'] . '<br/>';
+                    $result[$k]['staticIpList'] = $dip['ip'] . '<br/>';
                 } else {
-                    $result[$k]['dynamicIpList'] = 'Empty';
-                    $result[$k]['staticIpList']  = 'Empty';
+                    $result[$k]['dynamicIpList'] = 'empty';
+                    $result[$k]['staticIpList']  = 'empty';
                     break 2;
                 }
             }
@@ -39,18 +39,29 @@
         return $result;
     }
 
-    if (!empty($_POST['editId'])) {
+    if ($id = $_POST['specId']) {
         // Get specified realmAddr data
         $tpl = $_POST['tpl'];
-        $id  = $_POST['editId'];
         $db  = new dbsqlite(DB_PATH . '/rule.db');
 	    $sql = "SELECT * FROM domain_property
             WHERE id = '$id'";
         $result = $db->query($sql)->getFirstData(PDO::FETCH_ASSOC);
+        $result['dynamicIpList'] = array();
+        $result['dynamicIpList'] = array();
+        $r = getIpList($result['name']);
+        foreach ($r as $dip) {
+            if ($dip['dynamic'] === '1') {
+                $result['dynamicIpList'][] = $dip['ip'];
+            } else if ($dip['dynamic'] === '0') {
+                $result['staticIpList'][] = $dip['ip'];
+            } else {
+                break 2;
+            }
+        }
         $result = V::getInstance()->assign('realmAddr', $result)
             ->assign('type', 'edit')->fetch($tpl);
         echo json_encode(array('msg' => $result));
-    } else if ($orderStatement = $_POST['isResortTable']) {
+    } else if ($orderStatement = $_POST['orderStatement']) {
         // fresh and resort realm addr table
         appendRealmAddrData($orderStatement);
     } else {
@@ -61,6 +72,5 @@
             ->assign('clickedPageNo', 1)
             ->assign('prev', 1)
             ->assign('next', 2);
-
     }
 ?>

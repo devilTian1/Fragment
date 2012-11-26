@@ -19,7 +19,7 @@
         $sql_ip    = "select ip from adminips where ip='$client_ip'";
         $resultall = $db->query($sql_ip)->getFirstData();
         if ($resultall === false) {
-            DEBUG || exit('管理主机限制登录');
+           DEBUG || exit('管理主机限制登录');
         }
         // check allow to serveral admins to login or not
         $sql = "SELECT allow FROM allow_multiple";
