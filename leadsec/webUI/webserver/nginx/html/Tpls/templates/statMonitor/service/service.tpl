@@ -65,6 +65,10 @@
       <td class="tdheader">消息传递：</td>
       <td class="tdbody">停止</td>
     </tr>
+    <tr>
+      <td class="tdheader">自动域名解析服务：</td>
+      <td class="tdbody">启动</td>
+    </tr>
    </tbody>
 </table>
 <script type="text/javascript">
