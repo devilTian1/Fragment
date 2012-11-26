@@ -15,15 +15,15 @@
 		 <div id="center">
 		      <div id="center_left"></div>
 			  <div id="center_middle">
-       	       <form action="index.php" method="post" id="loginform">
+       	       <form action="index.php" method="post" id="loginform" onsubmit="return false">
 			       <div id="user">账 号
-			         <input type="text" name="account" id="account" />
-                     <div id="user_error">帐号不能为空</div>
+			         <input type="text" name="account" id="account" /><br/>
+                     <div id="user_error"></div>
 			       </div>
                    
 				   <div id="password">密   码
-				     <input type="password" name="passwd" id="passwd" />
-                      <div id="passwd_error">帐号不能为空</div>
+				     <input type="password" name="passwd" id="passwd" /><br/>
+                      <div id="passwd_error"></div>
 				   </div>
 				   <div id="btn">
                    	<input name="提交" type="submit" id="submitbtn" value="登录" />
@@ -50,37 +50,30 @@
 
 </body>
 </html>
-<script type="text/javascript">
-if(window.self!=window.top){
-		alert('sdf');
-		window.top=window.self;
-}
-</script>
 <script type="text/javascript" src="Public/js/jquery/jquery-1.8.1.min.js"></script>
-<script type="text/javascript" src="Public/js/formvalidator/formValidator-4.1.3.min.js"></script>
 <script type="text/javascript">
 	if(window.self!=window.top){
-			window.top.location.href=window.self.location.href;
+		 window.top.location.href=window.self.location.href;
 	 }
      $(document).ready(function() {
-	    $.formValidator.initConfig({formID:"loginform",theme:"Default",
-			ajaxForm:{
-				type : "POST",
-				url: "index.php?chkusr=ok",
-				success:function(data){
+		$('#submitbtn').click(function(){
+			if($("#account").val()==""){
+				$('#user_error').html("用户名不能为空").show();
+				$('#user_error').fadeOut(3000);
+			}else if($("#passwd").val()==""){
+				$('#passwd_error').html("密码不能为空").show();
+				$('#passwd_error').fadeOut(3000);
+			}else{
+				$.post("index.php?chkusr=ok", $("#loginform").serialize(),
+				   function(data){
 					if(data==='sucess'){
-						location.href='index.php';
-					}else{
-						$('#login_error').html(data).show();
-						$('#login_error').fadeOut(3000);
-					}
-				}
-			},
-			submitAfterAjaxPrompt : '身份正在验证中，请稍等...'
-		});
-		$("#account").formValidator({tipID:"user_error",onShowText:"请输入账号",onShow:"请输入账号",onFocus:"账号不能为空",onCorrect:""}).inputValidator({min:5,max:15,onError:"账号非法"});
-	
-		$("#passwd").formValidator({tipID:"passwd_error",onShow:"请输入密码",onFocus:"至少1个长度",onCorrect:""}).inputValidator({min:1,empty:{leftEmpty:false,rightEmpty:false,emptyError:"密码两边不能有空符号"},onError:"密码不能为空"});
-								
+							location.href='index.php';
+						}else{
+							$('#login_error').html(data).show();
+							$('#login_error').fadeOut(3000);
+						}
+					});	
+			}
+		})						
 	}); 
 </script>
