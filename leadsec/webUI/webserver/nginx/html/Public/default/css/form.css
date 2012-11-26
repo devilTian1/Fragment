@@ -68,3 +68,7 @@ fieldset label.error {
     width: auto;
     float: right;
 }
+
+fieldset button.addBtn {
+    margin-left: 2em;
+}

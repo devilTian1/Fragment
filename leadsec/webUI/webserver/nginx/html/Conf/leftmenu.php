@@ -13,9 +13,9 @@
         //level2 sysManage
         array('pid' => 1,  'name' => '系统概览',   'link' => 'overview'),//9
         array('pid' => 1,  'name' => '快捷配置',   'link' => 'quick'),//10
-        array('pid' => 1,  'name' => '配置',       'link' => 'conf'),//11
+        array('pid' => 1,  'name' => '系统配置',       'link' => 'conf'),//11
         array('pid' => 1,  'name' => '管理员设置', 'link' => 'admin'),//12
-        array('pid' => 1,  'name' => '维护',       'link' => 'maintain'),//13
+        array('pid' => 1,  'name' => '系统维护',       'link' => 'maintain'),//13
 
         //level2 netManage
         array('pid' => 2,  'name' => '网络接口', 'link' => 'interface'),//14

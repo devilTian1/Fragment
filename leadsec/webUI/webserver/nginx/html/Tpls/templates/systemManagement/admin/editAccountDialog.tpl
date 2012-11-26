@@ -36,7 +36,7 @@
             <label>&nbsp;</label>
             <input class="checkbox roles" type="checkbox" name="logAdmin" 
                 <{$isLoger}> id="logAdmin"/>
-            <label for="logAdmin" name="roleTip">日志审计员</label>
+            <label for="logAdmin">日志审计员</label>
         </div>
         <br class="clearFloat"/>
     </fieldset>
