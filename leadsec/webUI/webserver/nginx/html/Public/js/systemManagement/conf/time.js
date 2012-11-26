@@ -32,19 +32,19 @@ function currentTime(timestamp) {
     return result;
 }
 
-function displayTime(dom,timestamp, propName){
+function modifyDom(dom, timestamp) {
     if (dom.attr('id') == 'localTime') {
         dom.val(currentTime(timestamp));
     } else {
         dom.html(currentTime(timestamp));
     }
+}
+
+function displayTime(dom, timestamp) {
+    modifyDom(dom, timestamp);
     setInterval(function() {
         timestamp += 1000;
-        if (dom.attr('id') == 'localTime') {
-            dom.val(currentTime(timestamp));
-        } else {
-            dom.html(currentTime(timestamp));
-        }
+        modifyDom(dom, timestamp);
     },1000);
 }
 
