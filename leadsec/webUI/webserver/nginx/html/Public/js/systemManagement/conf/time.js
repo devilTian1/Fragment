@@ -51,3 +51,4 @@ function displayTime(dom, timestamp) {
 function setServerTime() {
     ajaxSubmitForm($('#setServerTimeForm'), '设置产品名称');
 }
+
