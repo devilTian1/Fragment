@@ -18,7 +18,7 @@
                 编辑</a>
             <a href="#" class="delete" onclick="openDelRealmAddrDialog('<{$ra.name}>')">
                 删除</a> 
-            <a href="#" class="reflesh" onclick="delRedundance()">刷新</a>
+            <a href="#" class="reflesh" onclick="refreshRealmAddr('<{$ra.name}>')">刷新</a>
         </td>
     </tr>
 <{foreachelse}>

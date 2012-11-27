@@ -104,6 +104,25 @@ function openDelRealmAddrDialog(name) {
     dialog.setOptions(dialogParams);   
 }
 
+function refreshRealmAddr(name) {
+    var url  = 'Function/resConf/addr/realmAddr.php';
+    var data = {
+        refreshName: name
+    };
+    var title  = '刷新域名地址';
+    var buttons = {};
+    buttons['Ok'] = function() {
+        freshTableAndPage();
+        $(this).remove();
+    };
+    var dialogParams = {
+        width   : 250,
+        height  : 170,
+        buttons : buttons
+    };
+    showDialogByAjax(url, data, title, dialogParams);
+}
+
 function addStaticAddrList() {
     var newStaticAddrDom = $('#addStaticAddr');
     if ($("#editRealmAddrForm").validate().element(newStaticAddrDom) === true) {

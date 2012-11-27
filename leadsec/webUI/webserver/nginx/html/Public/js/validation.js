@@ -143,6 +143,21 @@ var validRules = {
         required: true,
         min: 1,
         max: 65535
+    },
+    max_record: {
+        required: true,
+        min: 1,
+        max: 65535
+    },
+    interval: {
+        required: true,
+        min: 1,
+        max: 65535
+    },
+    autoParseErrInterval: {
+        required: true,
+        min: 1,
+        max: 65535
     }
 };
 
@@ -185,7 +200,10 @@ var validMsg = {
     netname: '1-20 个ASCII字符.',
     record_type_mx: '请至少选择一个帐号类型.',
     addStaticAddr: '请填写IP地址.',
-    ntpSyncInterval: '不能小于1分钟或超过65535分钟'
+    ntpSyncInterval: '不能小于1分钟或超过65535分钟.',
+    max_record: '请填写最大记录数.',
+    interval: '请填写自动解析间隔.',
+    autoParseErrInterval: '请填写自动解析记录失效间隔.'
 };
 
 function validateForm(form) {

@@ -34,7 +34,7 @@
 
     function getAddOrEditCmd($type) {
         $name        = $_POST['addrName'];
-        $domain      = $_POST['domainName'];
+        $domain      = $_POST['domainName'] === '' ? 'none' : $_POST['domainName'];
         $autoResolve = $_POST['auto_resolve'] === 'on' ? 'on' : 'off';
         $primaryDns  = $_POST['primaryDns'] === '' ? 'none' : $_POST['primaryDns'];
         $slaveDns    = $_POST['slaveDns'] === '' ? 'none' : $_POST['slaveDns'];
@@ -50,19 +50,19 @@
         }
         $maxRecord = $_POST['max_record'];
         $interval  = $_POST['interval'];
-        $expire = $_POST['autoParseErrInterval'];
-        $ipType = ''; //static/dynamic
-        $ipAddr = $_POST['staticAddrList'];
-        $ip = join(', ' $ipAddr);
-        $comment = $_POST['comment'];
-    
-        if ($type === 'add') {
-
-        } else if ($type === 'edit') {
-
-        } else {
-
+        $expire    = $_POST['autoParseErrInterval'];
+        $ipType    = ''; //static/dynamic
+        $ip        = 'none';
+        if (!empty($_POST['staticAddrList'])) {
+            $ipAddr =  $_POST['staticAddrList'];
+            $ip     = '"' . join('", "', $ipAddr) . '"';
         }
+        $comment = $_POST['comment'] === '' ? 'none' : $_POST['comment'];
+    
+        return "domain $type name $name domain $domain ip $ip ".
+            "auto_resolve $autoResolve record_type $recordType ".
+            "max_record $maxRecord interval $interval expire $expire ".
+            "primary_dns $primaryDns slave_dns $slaveDns comment $comment";
     }
 
     function getDataCount() {
@@ -102,7 +102,7 @@
         echo json_encode(array('msg' => "添加成功."));
     } else if ('edit' === $_POST['type']) {
         // Edit specified realm addr
-        $cmd = getAddOrEditCmd('edit');
+        $cmd = getAddOrEditCmd('set');
         $cli = new cli();
         $cli->run($cmd);
         echo json_encode(array('msg' => "修改成功."));
@@ -111,7 +111,13 @@
         $cmd = "domain del name $delName";
         $cli = new cli();
         $cli->run($cmd);
-        echo json_encode(array('msg' => "[$delName]已经删除"));
+        echo json_encode(array('msg' => "[$delName]已经删除."));
+    } else if ($name = $_POST['refreshName']) {
+        // refresh specified realm addr
+        $cmd = "domain refresh name $name";
+        $cli = new cli();
+        $cli->run($cmd);
+        echo json_encode(array('msg' => "[$name]已刷新."));
     } else if ($orderStatement = $_POST['orderStatement']) {
         // fresh and resort realm addr table
         appendRealmAddrData($orderStatement);
