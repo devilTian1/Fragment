@@ -18,7 +18,7 @@
         <div class="row">
             <label for="addStaticAddr">添加静态IP:</label>
             <div class="column column_65">
-                <input type="text" id="addStaticAddr"/>
+                <input type="text" name="addStaticAddr" id="addStaticAddr"/>
                 <button class="standard floatLeft addBtn" onClick="addStaticAddrList()">
                     添加</button>
             </div>

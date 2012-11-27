@@ -127,7 +127,10 @@ function addStaticAddrList() {
     var newStaticAddrDom = $('#addStaticAddr');
     if ($("#editRealmAddrForm").validate().element(newStaticAddrDom) === true) {
         var isDuplicated = false;
-        var ip           = newStaticAddrDom.val()
+        var ip           = newStaticAddrDom.val();
+        if (ip === '') {
+            return false;
+        }
         var appendToDom  = $('#staticAddrList');
         newStaticAddrDom.val('');
         appendToDom.children('option').each(function() {
