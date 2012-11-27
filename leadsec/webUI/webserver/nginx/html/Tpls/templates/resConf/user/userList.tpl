@@ -1,16 +1,15 @@
-<table class="column_95 textMid tablesorter" id="clientTcp">
-   <caption>
-  	用户地址
-   </caption>
-   <thead>
+<{include file='layout/search.tpl' tableId='userListTable'}>
+<table class="column_95 textMid tablesorter" id="userListTable">
+    <caption>用户地址</caption>
+    <thead>
     <tr>
-      <th class="column_10">序号</th>
-      <th class="column_10">用户名</th>
-      <th class="column_20">是否允许登录</th>
-      <th class="column_10">创建时间</th>
-      <th class="column_10">生存时间</th>
-      <th class="column_20">用户认证配置导出</th>
-      <th class="column_20">操作</th>
+        <th class="column_10">序号</th>
+        <th class="column_10">用户名</th>
+        <th class="column_20">是否允许登录</th>
+        <th class="column_10">创建时间</th>
+        <th class="column_10">生存时间</th>
+        <th class="column_20">用户认证配置导出</th>
+        <th class="column_20">操作</th>
     </tr>
     </thead>
     <tbody>

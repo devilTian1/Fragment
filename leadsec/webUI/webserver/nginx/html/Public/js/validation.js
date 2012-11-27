@@ -51,6 +51,22 @@ var validMethodParams = {
             /^[a-zA-Z0-9\-_\.]{1,15}$/.test(value);
         },
         msg: '1-15 字母、数字、减号、下划线、点的组合.'
+    },
+    dateTimeValidParam: {
+        name: 'dateTime',
+        validMethod: function(value, element, params) {
+            var regexpStr =
+                '(0?[0-9]|1[0-9]|2[0-3]):(0?[0-9]|[1-5][0-9])';
+            if (params[0] === 'YYYY/MM/DD hh:mm(:ss)') {
+                regexpStr = '^[0-9]{4}/(0?[1-9]|1[0-2])/(0?[0-9]|[12][0-9]|3[01]) ' +
+                    regexpStr + "(:(0?[0-9]|[1-5][0-9]))?";
+            } else if(params[0] === 'hh:mm(:ss)') {
+                regexpStr += '(:(0?[0-9]|[1-5][0-9]))?';
+            } else {}
+            var regexp = new RegExp(regexpStr + '$');
+            return this.optional(element) || regexp.test(value);
+        },
+        msg: jQuery.format("格式为{0}")
     }
 };
 for (var i in validMethodParams) {
@@ -158,6 +174,18 @@ var validRules = {
         required: true,
         min: 1,
         max: 65535
+    },
+    timeListName: {
+        required: true,
+        addrName: true
+    },
+    startTime: {
+        required: true,
+        dateTime: ['YYYY/MM/DD hh:mm(:ss)']
+    },
+    endTime: {
+        required: true,
+        dateTime: ['YYYY/MM/DD hh:mm(:ss)']
     }
 };
 
@@ -203,7 +231,16 @@ var validMsg = {
     ntpSyncInterval: '不能小于1分钟或超过65535分钟.',
     max_record: '请填写最大记录数.',
     interval: '请填写自动解析间隔.',
-    autoParseErrInterval: '请填写自动解析记录失效间隔.'
+    autoParseErrInterval: '请填写自动解析记录失效间隔.',
+    timeListName: {
+        required: '请填写时间列表名称.'
+    },
+    startTime: {
+        required: '请填写起始时间'
+    },
+    endTime: {
+        required: '请填写终止时间'
+    }
 };
 
 function validateForm(form) {

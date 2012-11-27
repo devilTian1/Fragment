@@ -21,7 +21,7 @@
     </tbody>
 </table>
 <button class="standard floatLeft" style="position: static"
-    onclick="openAddRealmAddrDialog()"
+    onclick="openNewRealmAddrDialog()"
     id="addRealmAddr">添加
 </button>
 <div class="pager floatRight">

@@ -10,18 +10,18 @@
         <br class="clearFloat"/>
         <div class="row">
             <label>地址组添加元素表:</label>
-	    <div class="column column_25">
-		<label for="addrList">地址列表</label>
-            <{html_options class='multiSelect' size="5" name="addrList" multiple="multiple" id="addrList"
-                output=$addrListArr values=$addrListArr}>
-	    </div>
-	    <div class="column column_15">
-	    	<br/>
-            <button class="standard floatLeft" onClick="moveToAddrGrpMember()"> &gt;&gt;
-            </button>
-		    <br/><br/>
-            <button class="standard floatLeft" onClick="moveToAddrList()"> &lt;&lt;
-            </button>
+            <div class="column column_25">
+            <label for="addrList">地址列表</label>
+                <{html_options class='multiSelect' size="5" name="addrList" multiple="multiple" id="addrList"
+                    output=$addrListArr values=$addrListArr}>
+            </div>
+            <div class="column column_15">
+                <br/>
+                <button class="standard floatLeft" onClick="moveToAddrGrpMember()"> &gt;&gt;
+                </button>
+                <br/><br/>
+                <button class="standard floatLeft" onClick="moveToAddrList()"> &lt;&lt;
+                </button>
             </div>
 	    <div class="column column_25">
 		<label for="addrGrpMember">地址组成员</label>

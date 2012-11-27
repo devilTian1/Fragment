@@ -3,7 +3,7 @@ function selectedOption() {
     $('#staticAddrList option').attr('selected', 'selected');
 }
 
-function openAddRealmAddrDialog() {
+function openNewRealmAddrDialog() {
     var url   = 'Function/layout/showDialog.php';
     var title = '域名地址维护';
     var data  = {
@@ -13,7 +13,7 @@ function openAddRealmAddrDialog() {
     buttons['添加下一条'] = function() {
         if ($('#editRealmAddrForm').valid()) {
             selectedOption();
-            openAddRealmAddrDialog();
+            openNewRealmAddrDialog();
             ajaxSubmitForm($('#editRealmAddrForm'), '结果');
             freshTableAndPage();
             $(this).remove();
