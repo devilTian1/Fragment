@@ -19,7 +19,7 @@
 
 	    exec($cmd, $result, $status);
 	    if ($status != 0) {
-		$errMsg = "[$cmd]" . join(', ', $result);
+		    $errMsg = "[$cmd]" . join(', ', $result);
 	        throw new ExecCmdException($errMsg);
 	    }
             return $result;

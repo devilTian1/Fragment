@@ -67,6 +67,27 @@ var validMethodParams = {
             return this.optional(element) || regexp.test(value);
         },
         msg: jQuery.format("格式为{0}")
+    },
+    startOrEndTimeValidParam: {
+        name: 'time_s_or_e',
+        validMethod: function(value, element, params) {
+            var sv = $(params[0]).val();
+            var ev = $(params[1]).val();
+            if (sv == '' && ev == '') {
+                return true;
+            }
+            var st = new Date(sv);
+            var et = new Date(ev);
+            return Date.parse(sv) < Date.parse(ev);
+        },
+        msg: "起始时间应小于终止时间"
+    },
+    filledValidParam: {
+        name: 'isFilled',
+        validMethod: function(value, element, params) {
+            return $(params[0] + ':filled').length > 0;
+        },
+        msg: jQuery.format("{1}")
     }
 };
 for (var i in validMethodParams) {
@@ -77,18 +98,15 @@ for (var i in validMethodParams) {
 var validRules = {
     expTime: {
         required: true,
-        min: 60,
-        max: 86400
+        range: [60, 86400]
     },
     limitErrNum: {
         required: true,
-        min: 1,
-        max: 10
+        range: [1, 10]
     },
     limitErrTime: {
         required: true,
-        min: 10,
-        max: 86400
+        range: [60, 86400]
     },
     account: {
         required: true,
@@ -157,35 +175,96 @@ var validRules = {
     },
     ntpSyncInterval: {
         required: true,
-        min: 1,
-        max: 65535
+        range: [1, 65535]
     },
     max_record: {
         required: true,
-        min: 1,
-        max: 65535
+        range: [1, 65535]
     },
     interval: {
         required: true,
-        min: 1,
-        max: 65535
+        range: [1, 65535]
     },
     autoParseErrInterval: {
         required: true,
-        min: 1,
-        max: 65535
+        range: [1, 65535]
     },
     timeListName: {
         required: true,
         addrName: true
     },
-    startTime: {
+    startTime_f: {
         required: true,
         dateTime: ['YYYY/MM/DD hh:mm(:ss)']
     },
-    endTime: {
+    endTime_f: {
         required: true,
-        dateTime: ['YYYY/MM/DD hh:mm(:ss)']
+        dateTime: ['YYYY/MM/DD hh:mm(:ss)'],
+        time_s_or_e: ['#startTime_f', '#endTime_f']
+    },
+    startTime_mon: {
+        required: '#endTime_mon:filled',
+        dateTime: ['hh:mm(:ss)']
+    },
+    endTime_mon: {
+        required: '#startTime_mon:filled',
+        dateTime: ['hh:mm(:ss)'],
+        time_s_or_e: ['#startTime_mon', '#endTime_mon']
+    },
+    startTime_tue: {
+        required: '#endTime_tue:filled',
+        dateTime: ['hh:mm(:ss)']
+    },
+    endTime_tue: {
+        required: '#startTime_tue:filled',
+        dateTime: ['hh:mm(:ss)'],
+        time_s_or_e: ['#startTime_tue', '#endTime_tue']
+    },
+    startTime_wed: {
+        required: '#endTime_wed:filled',
+        dateTime: ['hh:mm(:ss)']
+    },
+    endTime_wed: {
+        required: '#startTime_wed:filled',
+        dateTime: ['hh:mm(:ss)'],
+        time_s_or_e: ['#startTime_wed', '#endTime_wed']
+    },
+    startTime_thur: {
+        required: '#endTime_thur:filled',
+        dateTime: ['hh:mm(:ss)']
+    },
+    endTime_thur: {
+        required: '#startTime_thur:filled',
+        dateTime: ['hh:mm(:ss)'],
+        time_s_or_e: ['#startTime_thur', '#endTime_thur']
+    },
+    startTime_fri: {
+        required: '#endTime_fri:filled',
+        dateTime: ['hh:mm(:ss)']
+    },
+    endTime_fri: {
+        required: '#startTime_fre:filled',
+        dateTime: ['hh:mm(:ss)'],
+        time_s_or_e: ['#startTime_fri', '#endTime_fri']
+    },
+    startTime_sat: {
+        required: '#endTime_sat:filled',
+        dateTime: ['hh:mm(:ss)']
+    },
+    endTime_sat: {
+        required: '#startTime_sat:filled',
+        dateTime: ['hh:mm(:ss)'],
+        time_s_or_e: ['#startTime_sat', '#endTime_sat']
+    },
+    startTime_sun: {
+        required: '#endTime_sun:filled',
+        dateTime: ['hh:mm(:ss)']
+    },
+    endTime_sun: {
+        required: '#startTime_sun:filled',
+        isFilled: ['.weekDiv :text', '请至少输入一天的起始时间.'],
+        time_s_or_e: ['#startTime_sun', '#endTime_sun'],
+        dateTime: ['hh:mm(:ss)']
     }
 };
 
@@ -235,11 +314,53 @@ var validMsg = {
     timeListName: {
         required: '请填写时间列表名称.'
     },
-    startTime: {
-        required: '请填写起始时间'
+    startTime_f: {
+        required: '请填写起始时间.'
     },
-    endTime: {
-        required: '请填写终止时间'
+    endTime_f: {
+        required: '请填写终止时间.'
+    },
+    startTime_mon: {
+        required: '请填写星期一的起始时间.',
+    },
+    endTime_mon: {
+        required: '请填写星期一的终止时间.',
+    },
+    startTime_tue: {
+        required: '请填写星期二的起始时间.',
+    },
+    endTime_tue: {
+        required: '请填写星期二的终止时间.',
+    },
+    startTime_wed: {
+        required: '请填写星期三的起始时间.',
+    },
+    endTime_wed: {
+        required: '请填写星期三的终止时间.',
+    },
+    startTime_thur: {
+        required: '请填写星期四的起始时间.',
+    },
+    endTime_thur: {
+        required: '请填写星期四的终止时间.',
+    },
+    startTime_fri: {
+        required: '请填写星期五的起始时间.',
+    },
+    endTime_fri: {
+        required: '请填写星期五的终止时间.',
+    },
+    startTime_sat: {
+        required: '请填写星期六的起始时间.',
+    },
+    endTime_sat: {
+        required: '请填写星期六的终止时间.',
+    },
+    startTime_sun: {
+        required: '请填写星期日的起始时间.',
+    },
+    endTime_sun: {
+        required: '请填写星期日的终止时间.',
     }
 };
 

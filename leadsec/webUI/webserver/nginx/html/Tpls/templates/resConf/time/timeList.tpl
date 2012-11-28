@@ -26,7 +26,7 @@
 <script type="text/javascript"> 
     $(document).ready(function() {
         renderStandardUi();
-        freshTable('Function/resConf/time/timeList.php', $('#timeListTable'), 'ORDER BY id ASC LIMIT 10');
-        sortTableInit($('#addrTable'), {3: {sorter: false}}, [[0,0]]);
+        freshTable('Function/resConf/time/timeList.php', $('#timeListTable'), 'ORDER BY name ASC LIMIT 10');
+        sortTableInit($('#timeListTable'), {0: {sorter: false}, 2: {sorter: false}, 3: {sorter: false}}, [[0,0]]);
     });
 </script>

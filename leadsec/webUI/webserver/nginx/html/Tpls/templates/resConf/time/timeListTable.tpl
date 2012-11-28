@@ -1,10 +1,10 @@
-<{foreach $timeList as $t }>
+<{foreach $timeList as $name => $t }>
     <tr>
-        <td><{$t.id}></td>
+        <td><{$t@index+1}></td>
         <td><{$t.name}></td>
         <td><{$t.comment}></td>
         <td class="no_search">
-            <a href="#" class="edit" onclick="openEditTimeListDialog('<{$t.id}>')">编辑</a>
+            <a href="#" class="edit" onclick="openEditTimeListDialog('<{$t.name}>')">编辑</a>
             <a href="#" class="delete" onclick="openDelTimeListDialog('<{$t.name}>')">删除</a> 
         </td>
     </tr>

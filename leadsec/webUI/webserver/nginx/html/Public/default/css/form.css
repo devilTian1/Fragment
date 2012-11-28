@@ -56,7 +56,7 @@ fieldset>span {
     margin-right: 1em;
 }
 
-fieldset .radio {
+fieldset .radio, fieldset .note {
     width: auto;
 }
 

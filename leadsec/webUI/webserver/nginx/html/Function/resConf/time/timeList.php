@@ -1,49 +1,110 @@
 <?php
     require_once($_SERVER['DOCUMENT_ROOT'] . '/Function/common.php');
 
-    function freshAddrList($where) {
-        $tpl =  'resConf/addr/addrTable.tpl';
-        $db  = new dbsqlite(DB_PATH . '/rule.db');
-        $sql = "SELECT * FROM address $where";
-        $result = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
-        echo V::getInstance()->assign('addrList', $result)
+    function freshTimeList($where) {
+        $tpl  = 'resConf/time/timeListTable.tpl';
+        $db   = new dbsqlite('/usr/local/tss/conf/db_hss_tss');
+        $sql  = "SELECT name, comment FROM time_span";
+        $data = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
+        $result = array();
+        $weekName = array('mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun');
+        foreach ($data as $v) {
+            $pos = strrpos($v['name'], '_');
+            if ($pos !== false) {
+                $nameSuffix = substr($v['name'], $pos+1);
+                if (false !== array_search($nameSuffix, $weekName)) {
+                    $v['name'] = substr($v['name'], 0, -($pos-1));
+                    $sql  = "SELECT comment FROM grp_comment WHERE name = '{$v['name']}'";
+                    $comments = $db->query($sql)->getFirstData(PDO::FETCH_ASSOC);
+                    $v['comment'] = $comments['comment'];
+                    $result[$v['name']] = $v;
+                } else {
+                    $result[$v['name']] = $v;
+                }
+            } else {
+                $result[$v['name']] = $v;
+            }
+        }
+        echo V::getInstance()->assign('timeList', $result)
             ->assign('pageCount', 10)
             ->fetch($tpl);
     }
 
-    function composeIp() {
-        $ipType  = $_POST['addrType'];
-        if ($ipType === 'reverse') {
-            $ip = $_POST['ipAddr_r'] . '~' . $_POST['netmask_r'];
-        } else if ($ipType === 'range') {
-            $ip = $_POST['range_s'] . '-' . $_POST['range_e'];
-        } else { //default
-            $ip = $_POST['ip'] . '/' . $_POST['netmask_default'];
-        }
-        return $ip;
-    }
-
     function getDataCount() {
-        $sql = "SELECT id FROM address";
-        $db  = new dbsqlite(DB_PATH . '/rule.db');
+        $sql = "SELECT name FROM time_span";
+        $db  = new dbsqlite('/usr/local/tss/conf/db_hss_tss');
         return $db->query($sql)->getCount();
     }
+    
+    function getDateFormat($str) {
+        return substr($str, 0, 4) . '/' . substr($str, 4, 2) . '/' .
+            substr($str, 6, 2) . ' ' . substr($str, 8, 2) . ':' .
+            substr($str, 10, 2) . ':' . substr($str, 12, 2);
+    }
 
-    $addrTypeArr = array('', 'default', 'range', 'reverse');
-
-    if (!empty($_POST['id'])) {
-        // Get specified addrlist data
-        $id  = $_POST['id'];
+    if ($name = $_POST['name']) {
+        // Get specified timelist data
         $tpl = $_POST['tpl'];
-        $db  = new dbsqlite(DB_PATH . '/rule.db');
-        $sql = "SELECT * FROM address WHERE id = '$id'";
-        $result = $db->query($sql)->getFirstData(PDO::FETCH_ASSOC);
-        $result['type'] = $addrTypeArr[$result['type']];
-        $result = V::getInstance()->assign('addr', $result)
+        $db  = new dbsqlite('/usr/local/tss/conf/db_hss_tss');
+        $sql = "SELECT * FROM time_span WHERE name = '$name' or name like '{$name}\_%' ESCAPE '\'";
+        $data = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
+        $result = array();
+        $dataCount = count($data);
+        if ($dataCount === 1) {
+            $result['scheduleType'] = 'oneTime';
+            $result['startTime_f']  = getDateFormat($data[0]['starttime']);
+            $result['endTime_f']    = getDateFormat($data[0]['endtime']);
+            $result['comment']      = $data[0]['comment']; 
+        } else {
+            $result['scheduleType']  = 'week';
+            $sql  = "SELECT comment FROM grp_comment WHERE name = '$name'";
+            $comments = $db->query($sql)->getFirstData(PDO::FETCH_ASSOC);
+            $result['comment'] = $comments['comment'];
+            foreach ($data as $v) {
+                $nullTime = '00000000000000';
+                if ($v['starttime'] === $nullTime || $v['endtime'] === $nullTime ) {
+                    continue;
+                }
+                switch ($v['name']) {
+                    case $name . '_mon' :
+                        $result['startTime_mon'] = getDateFormat($v['starttime']);
+                        $result['endTime_mon'] = getDateFormat($v['endtime']);
+                        break 1;
+                    case $name . '_tue' :
+                        $result['startTime_tue'] = getDateFormat($v['starttime']);
+                        $result['endTime_tue'] = getDateFormat($v['endtime']);
+                        break 1;
+                    case $name . '_wed' :
+                        $result['startTime_wed'] = getDateFormat($v['starttime']);
+                        $result['endTime_wed'] = getDateFormat($v['endtime']);
+                        break 1;
+                    case $name . '_thu' :
+                        $result['startTime_thu'] = getDateFormat($v['starttime']);
+                        $result['endTime_thu'] = getDateFormat($v['endtime']);
+                        break 1;
+                    case $name . '_fri' :
+                        $result['startTime_fri'] = getDateFormat($v['starttime']);
+                        $result['endTime_fri'] = getDateFormat($v['endtime']);
+                        break 1;
+                    case $name . '_sat' :
+                        $result['startTime_sat'] = getDateFormat($v['starttime']);
+                        $result['endTime_sat'] = getDateFormat($v['endtime']);
+                        break 1;
+                    case $name . '_sun' :
+                        $result['startTime_sun'] = getDateFormat($v['starttime']);
+                        $result['endTime_sun'] = getDateFormat($v['endtime']);
+                        break 1;
+                    default : 
+                        throw new Exception('wrong sql: '.$sql);
+                }
+            }
+        }
+        $result['name'] = $name;
+        $result = V::getInstance()->assign('timeList', $result)
             ->assign('type', 'edit')->fetch($tpl);
         echo json_encode(array('msg' => $result));
     } else if ('add' === $_POST['type']) {
-        // Add new ipAddr
+        // Add new time data
         $name    = $_POST['addrName'];
         $ip      = composeIp();
         $comment = $_POST['comment'];
@@ -52,7 +113,7 @@
         $cli->run($cmd);
         echo json_encode(array('msg' => "[$ip]添加成功."));
     } else if ('edit' === $_POST['type']) {
-        // Edit the specified ipAddr
+        // Edit the specified time data
         $name    = $_POST['addrName'];
         $ip      = composeIp();
         $comment = $_POST['comment'];
@@ -60,16 +121,15 @@
         $cli    = new cli();
         $cli->run($cmd);
         echo json_encode(array('msg' => "[$ip]修改成功."));
-    } else if (!empty($_POST['delName'])) {
-        // Delete the specified ipAddr
-        $name = $_POST['delName'];
-        $cmd  = "address del name \"$name\"";
+    } else if ($name = $_POST['delName']) {
+        // Delete the specified time data
+        $cmd  = "time del name \"$name\"";
         $cli  = new cli();
         $cli->run($cmd);
         echo json_encode(array('msg' => "[$name]删除成功."));
     } else if ($orderStatement = $_POST['orderStatement']) {
-        // fresh and resort addrlist Table
-        freshAddrList($orderStatement);
+        // fresh and resort timelist Table
+        freshTimeList($orderStatement);
     } else {
         // init page data
         $result = getDataCount();
