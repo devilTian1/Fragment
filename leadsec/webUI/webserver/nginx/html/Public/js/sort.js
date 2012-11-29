@@ -18,6 +18,7 @@ function getOrderRules() {
     // get sort key and order
     var dataCount = $('#dataCount').val();
     var sortData  = {};
+    var firstSortRowName = '';
     $('.tablesorter-headerRow>th').each(function() {
         var key       = $(this).attr('name');
         var className = $(this).attr('class');
@@ -26,9 +27,15 @@ function getOrderRules() {
         } else if (className.indexOf('SortDown') !== -1) {
             sortData[key] = 'ASC';
         } else {
-            //no need to sort
+            // sort-false
         }
+        if (className.indexOf('sorter-false') === -1) {
+            firstSortRowName = firstSortRowName === '' ? key : firstSortRowName;
+        } 
     });
+    if (sortData.length === 0 && firstSortRowName !== '') {
+        sortData[firstSortRowName] = 'ASC';
+    }
     var pageCount = Math.ceil(Number(dataCount)/Number(rowsCount));
     return {
         pageNum:   pageNum,
@@ -42,15 +49,12 @@ function getOrderRules() {
 function getOrderStatement() {
     var result = '';
     var orderRules = getOrderRules();
-    if (orderRules.length === 0) {
-        result += 'ORDER BY id';    
-    } else {
-        result += 'ORDER BY ';    
-        for (var i in orderRules.sortData) {
-            result += i + ' ' + orderRules.sortData[i] + ', ';
-        }
-        result = result.slice(0, -2);
+    result += 'ORDER BY ';    
+    for (var i in orderRules.sortData) {
+        result += i + ' ' + orderRules.sortData[i] + ', ';
     }
+    result = result.slice(0, -2);
+
     if (orderRules.rowsCount !== 'all') {
         result += ' LIMIT ' + orderRules.rowsCount + ' OFFSET ' +
             (orderRules.rowsCount * (orderRules.pageNum-1))

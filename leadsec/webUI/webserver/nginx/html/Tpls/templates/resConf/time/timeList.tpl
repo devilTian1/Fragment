@@ -4,7 +4,7 @@
     <thead>
     <tr>
         <th class="column_10">序号</th>
-        <th class="column_30">名称</th>
+        <th class="column_30" name="name">名称</th>
         <th class="column_40">备注</th>
         <th class="column_20">操作</th>
     </tr>
@@ -27,6 +27,6 @@
     $(document).ready(function() {
         renderStandardUi();
         freshTable('Function/resConf/time/timeList.php', $('#timeListTable'), 'ORDER BY name ASC LIMIT 10');
-        sortTableInit($('#timeListTable'), {0: {sorter: false}, 2: {sorter: false}, 3: {sorter: false}}, [[0,0]]);
+        sortTableInit($('#timeListTable'), {0: {sorter: false}, 2: {sorter: false}, 3: {sorter: false}}, [[1,0]]);
     });
 </script>
