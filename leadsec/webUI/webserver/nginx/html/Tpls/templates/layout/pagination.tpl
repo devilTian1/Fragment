@@ -37,10 +37,17 @@
                 var firstPageDom = $('ol.pagination>li').eq(2);
                 firstPageDom.addClass('selected').html(firstPageDom.text());
             } else if (rel === 'prev') {
-                var prevPageDom = liSelected.prev();
+				var prevPageDom = liSelected.prev();
+				if(liSelected.text()==1){
+					prevPageDom=liSelected;
+				}
                 prevPageDom.addClass('selected').html(prevPageDom.text());
+				
             } else if (rel === 'next') {
                 var nextPageDom = liSelected.next();
+				if(liSelected.text()==<{$pageCount}>){
+					nextPageDom=liSelected;
+				}
                 nextPageDom.addClass('selected').html(nextPageDom.text());
             } else if (rel === 'last') {
                 var lastPageDom = $('ol.pagination>li').last().prev().prev();
