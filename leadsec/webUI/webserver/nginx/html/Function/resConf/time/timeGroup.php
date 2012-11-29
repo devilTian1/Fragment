@@ -90,7 +90,7 @@
         $cmd = "timegrp add name \"$name\" comment \"$comment\"";
         $cli->run($cmd);
         foreach ($addmbr as $m) {
-            $cmd = "timegrp set name \"$name\" addmbr \"$addmbr\"";
+            $cmd = "timegrp set name \"$name\" addmbr \"$m\"";
             $cli->run($cmd);
         }
         echo json_encode(array('msg' => '添加成功.'));
@@ -102,11 +102,11 @@
 
         $cli = new cli();
         $cmd = "timegrp set name \"$name\" delallmbr";
-        $cli->run($cmd1);
+        $cli->run($cmd);
         $cmd = "timegrp set name \"$name\" comment \"$comment\"";
         $cli->run($cmd);
         foreach ($addmbr as $m) {
-            $cmd = "timegrp set name \"$name\" addmbr \"$addmbr\"";
+            $cmd = "timegrp set name \"$name\" addmbr \"$m\"";
             $cli->run($cmd);
         }
         echo json_encode(array('msg' => '修改成功.'));
