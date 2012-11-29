@@ -68,8 +68,8 @@ var validMethodParams = {
         },
         msg: jQuery.format("格式为{0}")
     },
-    startOrEndTimeValidParam: {
-        name: 'time_s_or_e',
+    startOrEndFullDateValidParam: {
+        name: 'fullDate_s_or_e',
         validMethod: function(value, element, params) {
             var sv = $(params[0]).val();
             var ev = $(params[1]).val();
@@ -79,6 +79,38 @@ var validMethodParams = {
             var st = new Date(sv);
             var et = new Date(ev);
             return Date.parse(sv) < Date.parse(ev);
+        },
+        msg: "起始时间应小于终止时间"
+    },
+    startOrEndTimeValidParam: {
+        name: 'time_s_or_e',
+        validMethod: function(value, element, params) {
+            var sv = $(params[0]).val();
+            var ev = $(params[1]).val();
+            if (sv == '' && ev == '') {
+                return true;
+            }
+            var hms_s = sv.split(':');
+            var hms_e = ev.split(':');
+            if (hms_s[0] < hms_e[0]) {
+                return true;
+            } else if (hms_s[0] == hms_e[0]) {
+                if (hms_s[1] < hms_e[1]) {
+                    return true;
+                } else if (hms_s[1] == hms_e[1]) {
+                    var s_s = hms_s[2] === undefined ? 0 : hms_s[2];
+                    var s_e = hms_e[2] === undefined ? 0 : hms_e[2];
+                    if (s_s < s_e) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
         },
         msg: "起始时间应小于终止时间"
     },
@@ -200,7 +232,7 @@ var validRules = {
     endTime_f: {
         required: true,
         dateTime: ['YYYY/MM/DD hh:mm(:ss)'],
-        time_s_or_e: ['#startTime_f', '#endTime_f']
+        fullDate_s_or_e: ['#startTime_f', '#endTime_f']
     },
     startTime_mon: {
         required: '#endTime_mon:filled',

@@ -6,7 +6,7 @@ function openNewTimeListDialog() {
     };
     var buttons = {};
     buttons['添加下一条'] = function() {
-        if ($('#editAddrListForm').valid()) {
+        if ($('#editTimeListForm').valid()) {
             openNewTimeListDialog();
             ajaxSubmitForm($('#editTimeListForm'), '结果');
             freshTableAndPage();
@@ -107,4 +107,10 @@ function changeScheduleType() {
         $('.oneTimeDiv').hide();
         $('.weekDiv').show();
     }
+}
+
+function freshTableAndPage() {
+    var url = 'Function/resConf/time/timeList.php';
+    freshTable(url, $('#timeListTable'));
+    freshPagination(url, $('.pager'));
 }

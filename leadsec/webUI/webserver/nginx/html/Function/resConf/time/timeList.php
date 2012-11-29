@@ -42,6 +42,60 @@
             substr($str, 10, 2) . ':' . substr($str, 12, 2);
     }
 
+    function getAddWeekStr() {
+        $result = array();
+        if ($_POST['startTime_sun'] !== '') {
+            $result[] = 'sun ' . $_POST['startTime_sun'] . '-' .
+                $_POST['endTime_sun'];
+        }
+        if ($_POST['startTime_mon'] !== '') {
+            $result[] = 'mon ' . $_POST['startTime_mon'] . '-' .
+                $_POST['endTime_mon'];
+        }
+        if ($_POST['startTime_tue'] !== '') {
+
+            $result[] = 'tue ' . $_POST['startTime_tue'] . '-' .
+                $_POST['endTime_tue'];
+        }
+        if ($_POST['startTime_wed'] !== '') {
+            $result[] = 'wed ' . $_POST['startTime_wed'] . '-' .
+                $_POST['endTime_wed'];
+        }
+        if ($_POST['startTime_thur'] !== '') {
+            $result[] = 'thu ' . $_POST['startTime_thur'] . '-' .
+                $_POST['endTime_thur'];
+        }
+        if ($_POST['startTime_fri'] !== '') {
+            $result[] = 'fri ' . $_POST['startTime_fri'] . '-' .
+                $_POST['endTime_fri'] . ' ';
+        }
+        if ($_POST['startTime_sat'] !== '') {
+            $result[] = 'sat ' . $_POST['startTime_sat'] . '-' .
+                $_POST['endTime_sat'];
+        }
+        return join(' ', $result);
+    }
+
+    function getAddOrEditTimeCmd($type) {
+        $name    = $_POST['timeListName'];
+        $comment = $_POST['comment'];
+
+        if ($_POST['scheduleType'] === 'oneTime') {
+            $stime = $_POST['startTime_f'];
+            $etime = $_POST['endTime_f'];
+            $cmd   = "time $type name \"$name\" type once start $stime ".
+                "stop $etime comment \"$comment\"";
+            return $cmd;
+        } else if ($_POST['scheduleType'] === 'week') {
+            $str = getAddWeekStr();
+            $cmd   = "time $type name \"$name\" type week $str ".
+                "comment \"$comment\"";
+            return $cmd;
+        } else {
+            throw new Exception('wrong schedule type.'); 
+        }
+    }
+
     if ($name = $_POST['name']) {
         // Get specified timelist data
         $tpl = $_POST['tpl'];
@@ -105,22 +159,16 @@
         echo json_encode(array('msg' => $result));
     } else if ('add' === $_POST['type']) {
         // Add new time data
-        $name    = $_POST['addrName'];
-        $ip      = composeIp();
-        $comment = $_POST['comment'];
-        $cmd     = "address add name \"$name\" ip $ip comment \"$comment\"";
-        $cli    = new cli();
+        $cmd = getAddOrEditTimeCmd('add');
+        $cli = new cli();
         $cli->run($cmd);
-        echo json_encode(array('msg' => "[$ip]添加成功."));
+        echo json_encode(array('msg' => '添加成功.'));
     } else if ('edit' === $_POST['type']) {
         // Edit the specified time data
-        $name    = $_POST['addrName'];
-        $ip      = composeIp();
-        $comment = $_POST['comment'];
-        $cmd = "address set name \"$name\" ip $ip comment \"$comment\"";
-        $cli    = new cli();
+        $cmd = getAddOrEditTimeCmd('set');
+        $cli = new cli();
         $cli->run($cmd);
-        echo json_encode(array('msg' => "[$ip]修改成功."));
+        echo json_encode(array('msg' => '修改成功.'));
     } else if ($name = $_POST['delName']) {
         // Delete the specified time data
         $cmd  = "time del name \"$name\"";
