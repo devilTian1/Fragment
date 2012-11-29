@@ -297,6 +297,15 @@ var validRules = {
         isFilled: ['.weekDiv :text', '请至少输入一天的起始时间.'],
         time_s_or_e: ['#startTime_sun', '#endTime_sun'],
         dateTime: ['hh:mm(:ss)']
+    },
+    'timeGrpMember[]': {
+        required: function() {
+            return $('select[name="timeGrpMember[]"] option').length === 0;
+        }
+    },
+    timeGroupName: {
+        required: true,
+        addrName: true
     }
 };
 
@@ -393,6 +402,10 @@ var validMsg = {
     },
     endTime_sun: {
         required: '请填写星期日的终止时间.',
+    },
+    'timeGrpMember[]': '请至少选择一个时间组成员.',
+    timeGroupName: {
+        required: '请填写时间组名称.'
     }
 };
 

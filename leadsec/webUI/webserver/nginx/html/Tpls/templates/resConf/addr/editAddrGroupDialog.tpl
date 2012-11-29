@@ -23,12 +23,12 @@
                 <button class="standard floatLeft" onClick="moveToAddrList()"> &lt;&lt;
                 </button>
             </div>
-	    <div class="column column_25">
-		<label for="addrGrpMember">地址组成员</label>
-            <{html_options class='multiSelect' size="5" multiple="multiple"
-                name="addrGrpMember[]" id="addrGrpMember"
-                output=$addrGrpMemberArr values=$addrGrpMemberArr}>
-	    </div>
+            <div class="column column_25">
+                <label for="addrGrpMember">地址组成员</label>
+                <{html_options class='multiSelect' size="5" multiple="multiple"
+                    name="addrGrpMember[]" id="addrGrpMember"
+                    output=$addrGrpMemberArr values=$addrGrpMemberArr}>
+	        </div>
         </div>
         <br class="clearFloat"/>
         <div class="row">

@@ -8,7 +8,7 @@ function openEditAddrGroupDialog(id) {
     var buttons = {};
     buttons['确定'] = function() {
         if ($('#editAddrGroupForm').valid()) {
-            $('#addGrpMember option').attr('selected', 'selected');
+            $('#addrGrpMember option').attr('selected', 'selected');
             ajaxSubmitForm($('#editAddrGroupForm'), '结果');
             freshTableAndPage();
             $(this).remove();
@@ -36,7 +36,7 @@ function openNewAddrGroupDialog() {
     buttons['添加下一条'] = function() {
         if ($('#editAddrGroupForm').valid()) {
             openNewAddrGroupDialog();
-            $('#addGrpMember option').attr('selected', 'selected');
+            $('#addrGrpMember option').attr('selected', 'selected');
             ajaxSubmitForm($('#editAddrGroupForm'), '结果');
             freshTableAndPage();
             $(this).remove();
@@ -44,7 +44,7 @@ function openNewAddrGroupDialog() {
     };
     buttons['确定'] = function() {
         if ($('#editAddrGroupForm').valid()) {
-            $('#addGrpMember option').attr('selected', 'selected');
+            $('#addrGrpMember option').attr('selected', 'selected');
             ajaxSubmitForm($('#editAddrGroupForm'), '结果');
             freshTableAndPage();
             $(this).remove();

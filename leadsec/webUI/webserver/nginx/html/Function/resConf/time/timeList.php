@@ -36,10 +36,15 @@
         return $db->query($sql)->getCount();
     }
     
-    function getDateFormat($str) {
-        return substr($str, 0, 4) . '/' . substr($str, 4, 2) . '/' .
-            substr($str, 6, 2) . ' ' . substr($str, 8, 2) . ':' .
-            substr($str, 10, 2) . ':' . substr($str, 12, 2);
+    function getDateFormat($str, $type='fullDate') {
+        if ($type === 'time') {
+            return substr($str, 8, 2) . ':' .
+                substr($str, 10, 2) . ':' . substr($str, 12, 2);
+        } else {
+            return substr($str, 0, 4) . '/' . substr($str, 4, 2) . '/' .
+                substr($str, 6, 2) . ' ' . substr($str, 8, 2) . ':' .
+                substr($str, 10, 2) . ':' . substr($str, 12, 2);
+        }
     }
 
     function getAddWeekStr() {
@@ -83,12 +88,12 @@
         if ($_POST['scheduleType'] === 'oneTime') {
             $stime = $_POST['startTime_f'];
             $etime = $_POST['endTime_f'];
-            $cmd   = "time $type name \"$name\" type once start $stime ".
+            $cmd   = "/usr/local/bin/time $type name \"$name\" type once start $stime ".
                 "stop $etime comment \"$comment\"";
             return $cmd;
         } else if ($_POST['scheduleType'] === 'week') {
             $str = getAddWeekStr();
-            $cmd   = "time $type name \"$name\" type week $str ".
+            $cmd   = "/usr/local/bin/time $type name \"$name\" type week $str ".
                 "comment \"$comment\"";
             return $cmd;
         } else {
@@ -115,38 +120,38 @@
             $comments = $db->query($sql)->getFirstData(PDO::FETCH_ASSOC);
             $result['comment'] = $comments['comment'];
             foreach ($data as $v) {
-                $nullTime = '00000000000000';
-                if ($v['starttime'] === $nullTime || $v['endtime'] === $nullTime ) {
+                $nullTime = array('0', '00000000000000');
+                if (array_search($v['starttime'], $nullTime) !== false || array_search($v['endtime'], $nullTime) !== false) {
                     continue;
                 }
                 switch ($v['name']) {
                     case $name . '_mon' :
-                        $result['startTime_mon'] = getDateFormat($v['starttime']);
-                        $result['endTime_mon'] = getDateFormat($v['endtime']);
+                        $result['startTime_mon'] = getDateFormat($v['starttime'], 'time');
+                        $result['endTime_mon'] = getDateFormat($v['endtime'], 'time');
                         break 1;
                     case $name . '_tue' :
-                        $result['startTime_tue'] = getDateFormat($v['starttime']);
-                        $result['endTime_tue'] = getDateFormat($v['endtime']);
+                        $result['startTime_tue'] = getDateFormat($v['starttime'], 'time');
+                        $result['endTime_tue'] = getDateFormat($v['endtime'], 'time');
                         break 1;
                     case $name . '_wed' :
-                        $result['startTime_wed'] = getDateFormat($v['starttime']);
-                        $result['endTime_wed'] = getDateFormat($v['endtime']);
+                        $result['startTime_wed'] = getDateFormat($v['starttime'], 'time');
+                        $result['endTime_wed'] = getDateFormat($v['endtime'], 'time');
                         break 1;
                     case $name . '_thu' :
-                        $result['startTime_thu'] = getDateFormat($v['starttime']);
-                        $result['endTime_thu'] = getDateFormat($v['endtime']);
+                        $result['startTime_thu'] = getDateFormat($v['starttime'], 'time');
+                        $result['endTime_thu'] = getDateFormat($v['endtime'], 'time');
                         break 1;
                     case $name . '_fri' :
-                        $result['startTime_fri'] = getDateFormat($v['starttime']);
-                        $result['endTime_fri'] = getDateFormat($v['endtime']);
+                        $result['startTime_fri'] = getDateFormat($v['starttime'], 'time');
+                        $result['endTime_fri'] = getDateFormat($v['endtime'], 'time');
                         break 1;
                     case $name . '_sat' :
-                        $result['startTime_sat'] = getDateFormat($v['starttime']);
-                        $result['endTime_sat'] = getDateFormat($v['endtime']);
+                        $result['startTime_sat'] = getDateFormat($v['starttime'], 'time');
+                        $result['endTime_sat'] = getDateFormat($v['endtime'], 'time');
                         break 1;
                     case $name . '_sun' :
-                        $result['startTime_sun'] = getDateFormat($v['starttime']);
-                        $result['endTime_sun'] = getDateFormat($v['endtime']);
+                        $result['startTime_sun'] = getDateFormat($v['starttime'], 'time');
+                        $result['endTime_sun'] = getDateFormat($v['endtime'], 'time');
                         break 1;
                     default : 
                         throw new Exception('wrong sql: '.$sql);
@@ -171,7 +176,7 @@
         echo json_encode(array('msg' => '修改成功.'));
     } else if ($name = $_POST['delName']) {
         // Delete the specified time data
-        $cmd  = "time del name \"$name\"";
+        $cmd  = "/usr/local/bin/time del name \"$name\"";
         $cli  = new cli();
         $cli->run($cmd);
         echo json_encode(array('msg' => "[$name]删除成功."));
