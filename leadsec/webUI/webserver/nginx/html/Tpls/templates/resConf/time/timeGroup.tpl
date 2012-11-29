@@ -1,3 +1,4 @@
+<{include file='layout/search.tpl' tableId='timeGroupTable'}>
 <table class="column_95 textMid tablesorter" id="timeGroupTable">
     <caption>时间组</caption>
     <thead>
