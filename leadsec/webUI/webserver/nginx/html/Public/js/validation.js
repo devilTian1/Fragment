@@ -221,6 +221,12 @@ var validRules = {
         required: true,
         range: [1, 65535]
     },
+    primaryDns: {
+        ip: true
+    },
+    slaveDns: {
+        ip: true
+    },
     timeListName: {
         required: true,
         addrName: true
@@ -362,46 +368,46 @@ var validMsg = {
         required: '请填写终止时间.'
     },
     startTime_mon: {
-        required: '请填写星期一的起始时间.',
+        required: '请填写星期一的起始时间.'
     },
     endTime_mon: {
-        required: '请填写星期一的终止时间.',
+        required: '请填写星期一的终止时间.'
     },
     startTime_tue: {
-        required: '请填写星期二的起始时间.',
+        required: '请填写星期二的起始时间.'
     },
     endTime_tue: {
-        required: '请填写星期二的终止时间.',
+        required: '请填写星期二的终止时间.'
     },
     startTime_wed: {
-        required: '请填写星期三的起始时间.',
+        required: '请填写星期三的起始时间.'
     },
     endTime_wed: {
-        required: '请填写星期三的终止时间.',
+        required: '请填写星期三的终止时间.'
     },
     startTime_thur: {
-        required: '请填写星期四的起始时间.',
+        required: '请填写星期四的起始时间.'
     },
     endTime_thur: {
-        required: '请填写星期四的终止时间.',
+        required: '请填写星期四的终止时间.'
     },
     startTime_fri: {
-        required: '请填写星期五的起始时间.',
+        required: '请填写星期五的起始时间.'
     },
     endTime_fri: {
-        required: '请填写星期五的终止时间.',
+        required: '请填写星期五的终止时间.'
     },
     startTime_sat: {
-        required: '请填写星期六的起始时间.',
+        required: '请填写星期六的起始时间.'
     },
     endTime_sat: {
-        required: '请填写星期六的终止时间.',
+        required: '请填写星期六的终止时间.'
     },
     startTime_sun: {
-        required: '请填写星期日的起始时间.',
+        required: '请填写星期日的起始时间.'
     },
     endTime_sun: {
-        required: '请填写星期日的终止时间.',
+        required: '请填写星期日的终止时间.'
     },
     'timeGrpMember[]': '请至少选择一个时间组成员.',
     timeGroupName: {

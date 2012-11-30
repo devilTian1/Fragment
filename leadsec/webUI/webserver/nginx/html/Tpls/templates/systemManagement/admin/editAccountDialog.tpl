@@ -1,4 +1,4 @@
-<form action="Function/systemManagement/admin/account.php" method="POST" id="editAccountForm">
+<form action="Function/systemManagement/admin/account.php" method="POST" id="editAccountForm" onSubmit='return false;'>
     <input type="hidden" name="type" value="<{$type|default: 'add'}>"/>
     <fieldset>
         <legend>管理员帐号维护</legend>

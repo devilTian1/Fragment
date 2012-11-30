@@ -1,5 +1,4 @@
-<form action="Function/systemManagement/admin/account.php" method="POST" id="expTimeForm"
-onSubmit="return false;">
+<form action="Function/systemManagement/admin/account.php" method="POST" id="expTimeForm">
 <table class="column_95">
     <caption>
     管理员帐号

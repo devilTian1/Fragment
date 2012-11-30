@@ -5,7 +5,6 @@
     </head>
     <body>
         <div class="wrapper">
-            <!-- HEADER -->
             <div id="header">
             <{include file='layout/header.tpl'}>
             </div>

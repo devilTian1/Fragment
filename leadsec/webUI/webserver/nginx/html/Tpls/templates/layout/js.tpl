@@ -6,11 +6,7 @@
 <script type="text/javascript" src="Public/js/jquery/jquery.form.js"></script>
 <script type="text/javascript" src="Public/js/jquery/jquery.validate.min.js"></script>
 <script type="text/javascript" src="Public/js/tip/msgbox.js"></script>
-<!-- TODO  need to rm -->
-<script type="text/javascript" src="Public/js/formvalidator/formValidator-4.1.3.min.js"></script>
-<script type="text/javascript" src="Public/js/formvalidator/formValidatorRegex.js"></script>
-<!-- TODO  need to rm -->
- <!-- Put our libraries next -->
+<!-- Put our libraries next -->
 <script type="text/javascript" src="Public/js/common.js"></script>
 <script type="text/javascript" src="Public/js/ui.standard.js"></script>
 <script type="text/javascript" src="Public/js/validation.js"></script>
@@ -20,12 +16,11 @@
 <script>
     $(document).ready(function() {
         // init layout
-        var mainZoneWidth;
         // load content div
         refreshTabs();
         //set height/width of content_inner
         $("#mainZone").width($("#content").width()-$("#content>.secondary").width());
-        mainZoneWidth = $("#mainZone").width();
+        var mainZoneWidth = $("#mainZone").width();
         // end init layout
 
         $("#leftmenu").outerHeight($("#mainContent").outerHeight());

@@ -1,4 +1,3 @@
-<!-- logo -->
 <div class="logo">
     <img src="<{$smarty.const.THEME_PATH}>/images/man_logo.jpg" alt="leadsec" />
 </div>
