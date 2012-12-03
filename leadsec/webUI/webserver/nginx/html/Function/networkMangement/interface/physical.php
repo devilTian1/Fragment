@@ -1,10 +1,11 @@
 <?php
     require_once($_SERVER['DOCUMENT_ROOT'] . '/Function/common.php');
  	
-    $propertyArr = array('未指定', 'HA接口', '管理接口', '网络接口','网络扩展口');
-    $ipaddrArr=array('未指定','静态制定','无效','DHCP获取');
     function freshPhysical($where) {
-    	global $propertyArr,$ipaddrArr;
+        $propertyArr = array('未指定',  'HA接口', '管理接口',
+                             '网络接口','网络扩展口');
+        $ipaddrArr = array('未指定', '静态制定',
+                           '无效',   'DHCP获取');
         $tpl =  'networkMangement/interface/physicalTable.tpl';
         $db  = new dbsqlite(DB_PATH . '/configs.db');
         $sql = "SELECT * FROM interface $where";
@@ -20,29 +21,42 @@
         $db  = new dbsqlite(DB_PATH . '/configs.db');
         return $db->query($sql)->getCount();
     }
-    $addrTypeArr = array('', 'default', 'range', 'reverse');
 
-    if (!empty($_POST['external_name'])) {
+    if (!empty($_POST['name'])) {
         // Get specified Physical data
-        $external_name  = $_POST['external_name'];
+        $external_name  = $_POST['name'];
         $tpl = $_POST['tpl'];
         $db  = new dbsqlite(DB_PATH . '/configs.db');
         $sql = "SELECT * FROM interface WHERE external_name = '$external_name'";
         $result = $db->query($sql)->getFirstData(PDO::FETCH_ASSOC);
         $result = V::getInstance()->assign('res', $result)
             ->assign('type', 'edit')->fetch($tpl);
-        $result = V::getInstance()
-            ->assign('type', 'edit')->fetch($tpl);
         echo json_encode(array('msg' => $result));
+    } else if ($action = $_POST['action']) {
+        // switch specified physical device
+        $name = $_POST['switch_name'];
+        $cli = new cli();
+        if ($action === 'disable') {
+            $cmd = "interface set phy if $name active off";
+            $cli->run($cmd);
+            echo json_encode(array('msg' => "[$name]已关闭."));
+        } else if ($action === 'enable') {
+            $cmd = "interface set phy if $name active on";
+            $cli->run($cmd);
+            echo json_encode(array('msg' => "[$name]已启动."));
+        } else {
+            echo json_encode(array('status' => -1, 'msg' => '执行动作错误.'));
+        }
+    } else if ('add' === $_POST['type']) {
+
     } else if ('edit' === $_POST['type']) {
-        // Edit the specified 
-        $external_name    = $_POST['external_name'];
-        $ip=$_POST['ip'];
-        $netmask=$_POST['netmask'];
-        
-        $cmd = "interface set phy if \"$external_name\" ip \"$ip\" netmask \"$netmask\"";
-        
-        $cli    = new cli();
+        // Edit the specified physical dev
+        $external_name = $_POST['external_name'];
+        $ip            = $_POST['ip'];
+        $netmask       = $_POST['netmask'];
+        $cmd = "interface set phy if \"$external_name\" ip \"$ip\" ".
+            "netmask \"$netmask\"";
+        $cli = new cli();
         $cli->run($cmd);
         echo json_encode(array('msg' => "[$ip]修改成功."));
     } else if ($orderStatement = $_POST['orderStatement']) {

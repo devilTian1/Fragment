@@ -1,7 +1,7 @@
 <form action="Function/networkMangement/interface/physical.php" method="POST" id="editPhysicalForm" onSubmit="return false;">
-  <!--  <input type="hidden" name="type" value="<{$type|default: 'add'}>"/>-->
+    <input type="hidden" name="type" value="<{$type|default: 'add'}>"/>
     <fieldset>
-       <!-- <legend>物理设备修改</legend>-->
+       <legend>物理设备修改</legend>
         <div class="row">
         	 <label for="external_name">名称:<em class="required">*</em></label>
              <input type="text" name="external_name" value="<{$res.external_name}>" readonly="readonly"/>(不能修改)
