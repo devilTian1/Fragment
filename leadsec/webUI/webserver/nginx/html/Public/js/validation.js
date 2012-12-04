@@ -312,6 +312,20 @@ var validRules = {
     timeGroupName: {
         required: true,
         addrName: true
+    },
+	dnssrv: {
+        ip: true
+    },
+	dnssrv2: {
+        ip: true
+    },
+	destip: {
+        required: true,
+	    ip: true
+    },
+	nexthopip: {
+        required: true,
+	    ip: true
     }
 };
 
@@ -412,7 +426,20 @@ var validMsg = {
     'timeGrpMember[]': '请至少选择一个时间组成员.',
     timeGroupName: {
         required: '请填写时间组名称.'
+    },
+	dnssrv: {
+        required: 'ip地址错误.'
+    },
+	dnssrv2: {
+        required: 'ip地址错误.'
+    },
+	destip: {
+        required: '目的地此不能为空'
+    },
+	nexthopip: {
+        required: '下一跳地此不能为空'
     }
+	
 };
 
 function validateForm(form) {

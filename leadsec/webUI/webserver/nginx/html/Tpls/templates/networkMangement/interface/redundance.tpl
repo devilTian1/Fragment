@@ -16,6 +16,7 @@
     <tbody>
     <tr>
       <td colspan="7">
+      Loading
       </td>
     </tr>
     </tbody>
