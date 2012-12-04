@@ -36,6 +36,14 @@ var validMethodParams = {
         },
         msg: 'IP格式错误.'
     },
+    macValidParam: {
+        name: 'mac',
+        validMethod: function(value, element) {
+            return this.optional(element) ||
+            /^(([A-Fa-f0-9]){2}:){5}([A-Fa-f0-9]){2}$/.test(value);
+        },
+        msg: 'MAC地址格式错误.'
+    },
     netmaskValidParam: {
         name: 'netmask',
         validMethod: function(value, element, params) {
@@ -326,7 +334,15 @@ var validRules = {
 	nexthopip: {
         required: true,
 	    ip: true
+    },
+    mac_address: {
+        mac: true
+    },
+    mtu: {
+        required: true,
+        range: [64, 16128]
     }
+
 };
 
 // message
@@ -438,8 +454,8 @@ var validMsg = {
     },
 	nexthopip: {
         required: '下一跳地此不能为空'
-    }
-	
+    },
+    mtu: '千兆设备的范围是64-16128'
 };
 
 function validateForm(form) {

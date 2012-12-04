@@ -16,6 +16,57 @@
         	->assign('pageCount', 10)
             ->fetch($tpl);
     }
+
+    function getSetPhysicalDevCmd() {
+        $if     = $_POST['external_name'];
+        $active = $_POST['active'] === '1' ? 'on' : 'off';
+        $mac    = $_POST['mac_address'];
+        if ($_POST['linkmode'] === '0') {
+            $linkmode = 'auto';
+        } else if ($_POST['linkmode'] === '1') {
+            $linkmode = 'full';
+        } else { //2
+            $linkmode = 'half';
+        }
+        $speed = $_POST['speed'];
+        if ($_POST['workmode'] === '1') {
+            $mtu = $_POST['mtu'];
+            $workmode = "mtu $mtu workmode route";
+        } else if ($_POST['workmode'] === '2') {
+            $workmode = 'workmode trans';
+        } else if ($_POST['workmode'] === '3') {
+            $mtu = $_POST['mtu'];
+            $workmode = "mtu $mtu workmode rd";
+        } else { //0
+            $workmode = '';
+        }
+        if ($_POST['ipaddr_type'] === '1') {
+            $ip     = $_POST['ip'];
+            $mask   = strtoupper($_POST['netmask']);
+            $ipType = "ipaddr_type static ip $ip netmask $mask";
+        } else if ($_POST['ipaddr_type'] === '2') {
+            $ipType = 'ipaddr_type invalid';//TODO
+        } else if ($_POST['ipaddr_type'] === '3') {
+            $ipType = 'ipaddr_type dhcp';
+        } else {//0
+            $ipType = '';
+        }
+        $ipmac_check        = $_POST['ipmac_check'] === 'on' ? 'on' : 'off';
+        $ipmac_check_policy =
+            $_POST['ipmac_check_policy'] === 'on' ? 'on' : 'off';
+        $antispoof          = $_POST['antispoof'] === 'on' ? 'on' : 'off';
+        $ping               = $_POST['ping'] === 'on' ? 'on' : 'off';
+        $traceroute         = $_POST['traceroute'] === 'on' ? 'on' : 'off';
+        $qos_enable         = $_POST['enable'] === 'on' ? 'on' : 'off';
+
+        $result = "interface set phy if $if active $active mac $mac linkmode " .
+            "$linkmode speed $speed $workmode $ipType " .
+            "ipmac_check $ipmac_check ipmac_check_policy $ipmac_check_policy ".
+            "antispoof $antispoof ping $ping traceroute $traceroute ".
+            "qos_enable $qos_enable";
+        return $result;
+    }
+
     function getDataCount() {
         $sql = "SELECT external_name FROM interface";
         $db  = new dbsqlite(DB_PATH . '/configs.db');
@@ -29,11 +80,10 @@
         $db  = new dbsqlite(DB_PATH . '/configs.db');
         $sql = "SELECT * FROM interface WHERE external_name = '$external_name'";
         $result = $db->query($sql)->getFirstData(PDO::FETCH_ASSOC);
-        $result = V::getInstance()->assign('res', $result)
-            ->assign('type', 'edit')->fetch($tpl);
+        $result = V::getInstance()->assign('res', $result)->fetch($tpl);
         echo json_encode(array('msg' => $result));
     } else if ($action = $_POST['action']) {
-        // switch specified physical device
+        // Switch specified physical device
         $name = $_POST['switch_name'];
         $cli = new cli();
         if ($action === 'disable') {
@@ -47,15 +97,9 @@
         } else {
             echo json_encode(array('status' => -1, 'msg' => '执行动作错误.'));
         }
-    } else if ('add' === $_POST['type']) {
-
     } else if ('edit' === $_POST['type']) {
         // Edit the specified physical dev
-        $external_name = $_POST['external_name'];
-        $ip            = $_POST['ip'];
-        $netmask       = $_POST['netmask'];
-        $cmd = "interface set phy if \"$external_name\" ip \"$ip\" ".
-            "netmask \"$netmask\"";
+        $cmd = getSetPhysicalDevCmd();
         $cli = new cli();
         $cli->run($cmd);
         echo json_encode(array('msg' => "[$ip]修改成功."));

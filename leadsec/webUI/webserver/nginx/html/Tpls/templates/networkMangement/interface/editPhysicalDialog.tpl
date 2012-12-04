@@ -1,9 +1,10 @@
 <form action="Function/networkMangement/interface/physical.php" method="POST" id="editPhysicalForm" onSubmit="return false;">
-    <input type="hidden" name="type" value="<{$type|default: 'add'}>"/>
+    <input type="hidden" name="type" value="edit"/>
+    <input type="hidden" name="active" value="<{$res.enable}>"/>
     <fieldset>
-       <legend>物理设备修改</legend>
+       <legend>修改物理设备</legend>
         <div class="row">
-        	 <label for="external_name">名称:<em class="required">*</em></label>
+        	 <label for="external_name">名称:</label>
              <input type="text" name="external_name" value="<{$res.external_name}>" readonly="readonly"/>(不能修改)
 		</div>
         
@@ -12,39 +13,40 @@
         </div>
        
         <div class="row"><label for="linkmode">链路工作模式:</label>
-          <select name="linkmode" id="linkmode" class="select">
-          	<{html_options output=array('自适应','全双工','半双工') values=array(0,1,2) selected=$res.linkmode}>
-          </select>
-           
+            <{html_options name="linkmode" id="linkmode" class="select"
+                output=array('自适应','全双工','半双工') values=array(0,1,2)
+                selected=$res.linkmode}>
         </div>
         
         <div class="row"><label for="speed">链路速度:</label>
-          <select name="speed" id="speed" class="select">
-          	<{html_options output=array('10','100','1000') values=array(10,100,1000) selected=$res.speed }>
-          </select>
+            <{html_options name="speed" id="speed" class="select"
+                output=array('10','100','1000') values=array(10,100,1000)
+                selected=$res.speed }>
         </div>
         
-        <div class="row"><label for="mtu">MTU:</label>
-          <input type="text" name="mtu" value="<{$res.mtu}>" />
+        <div class="row" id="workmode_div" <{if $res.workmode eq 2}> style="display:none" <{/if}>>
+            <label for="mtu">MTU:</label>
+            <input type="text" name="mtu" value="<{$res.mtu}>" />
         </div>
         
-        <div class="row"><label for="workmode">工作模式:</label>
-          <select name="workmode" id="workmode" class="select">
-          	<{html_options output=array('未指定','路由模式','透明模式','冗余模式') values=array(0,1,2,3) selected=$res.workmode }>
-          </select>
+        <div class="row">
+            <label for="workmode">工作模式:</label>
+            <{html_options name="workmode" id="workmode" class="select"
+            output=array('未指定','路由模式','透明模式','冗余模式') values=array(0,1,2,3)
+            selected=$res.workmode }>
         </div>
         
         <div class="row"><label for="ipaddr_type">IP地址获取:</label>
-          <select name="ipaddr_type" id="ipaddr_type" class="select">
-          	 <{html_options output=array('未指定','静态IP地址','无效','DHCP获得') values=array(0,1,2,3) selected=$res.ipaddr_type }>
-          </select>
+          	<{html_options name="ipaddr_type" id="ipaddr_type" class="select"
+            output=array('未指定','静态IP地址','无效','DHCP获得') values=array(0,1,2,3)
+            selected=$res.ipaddr_type }>
         </div>
         <div id="ipaddr_type_div" <{if $res.ipaddr_type neq 1}> style="display:none" <{/if}>>
         <div class="row"><label for="ip">IP地此：</label>
           <input type="text" name="ip" value="<{$res.ip}>" />
         </div>
-         <div class="row"><label for="mask">掩码:</label>
-          <input type="text" name="mask" value="<{$res.mask}>" />
+         <div class="row"><label for="netmask">掩码:</label>
+          <input type="text" name="netmask" value="<{$res.mask}>" />
         </div>
         </div>
         
@@ -84,15 +86,22 @@
 </style>
 <script type="text/javascript">
     $(document).ready(function(){
-        validateForm($("#editAddrListForm"));
+        validateForm($("#editPhysicalForm"));
 		$("#ipaddr_type").change(function(){
-							var val=this.value;
-							if(val==1){
-								$('#ipaddr_type_div').show();
-							}else{
-								$('#ipaddr_type_div').hide();
-							}
-										  
-						})
+            var val = this.value;
+            if (val == 1) {
+                $('#ipaddr_type_div').show();
+            } else {
+                $('#ipaddr_type_div').hide();
+            }
+        });
+		$("#workmode").change(function(){
+            var val = this.value;
+            if (val == 2 || val == 0) {
+                $('#workmode_div').hide();
+            } else {
+                $('#workmode_div').show();
+            }
+        });
     });
 </script>
