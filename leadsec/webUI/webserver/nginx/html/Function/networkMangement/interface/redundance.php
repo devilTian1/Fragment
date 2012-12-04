@@ -1,13 +1,12 @@
 <?php
     require_once($_SERVER['DOCUMENT_ROOT'] . '/Function/common.php');
  	
-    $propertyArr = array('未指定', 'HA接口', '管理接口', '网络接口','网络扩展口');
-    $ipaddrArr=array('未指定','静态制定','无效','DHCP获取');
     function freshRedundance($where) {
-    	global $propertyArr,$ipaddrArr;
+        $propertyArr = array('未指定', 'HA接口', '管理接口', '网络接口','网络扩展口');
+        $ipaddrArr   = array('未指定','静态制定','无效','DHCP获取');
         $tpl =  'networkMangement/interface/aliasTable.tpl';
         $db  = new dbsqlite(DB_PATH . '/configs.db');
-        $sql = "SELECT * FROM interface where alias_id!=-1 $where";
+        $sql = "SELECT external_name, ip, mask, workmode, ipaddr_type FROM interface where device_type = 6 $where";
         $result = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
         echo V::getInstance()->assign('list', $result)
         	->assign('propertyArr',$propertyArr)
@@ -16,7 +15,7 @@
             ->fetch($tpl);
     }
     function getDataCount() {
-        $sql = "SELECT external_name FROM interface where alias_id!=-1";
+        $sql = "SELECT external_name FROM interface where device_type = 6";
         $db  = new dbsqlite(DB_PATH . '/configs.db');
         return $db->query($sql)->getCount();
     }
@@ -27,7 +26,7 @@
         $external_name  = $_POST['external_name'];
         $tpl = $_POST['tpl'];
         $db  = new dbsqlite(DB_PATH . '/configs.db');
-        $sql = "SELECT * FROM interface WHERE external_name = '$external_name'";
+        $sql = "SELECT * FROM interface WHERE device_type = 6 AND external_name = '$external_name'";
         $result = $db->query($sql)->getFirstData(PDO::FETCH_ASSOC);
         $result = V::getInstance()->assign('res', $result)
             ->assign('type', 'edit')->fetch($tpl);

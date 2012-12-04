@@ -30,10 +30,9 @@
 </div>
 <script type="text/javascript" src="Public/js/networkMangement/interface/redundance.js"></script>
 <script type="text/javascript">
-$(document).ready(function() {
-   renderStandardUi();
-   $("#addRedundance").button();
-   freshTable('Function/networkMangement/interface/redundance.php', $('#redundanceTable'), 'ORDER BY external_name ASC LIMIT 10');
-   sortTableInit($('#redundanceTable'), {6: {sorter: false}});
-});
+    $(document).ready(function() {
+        renderStandardUi();
+        freshTable('Function/networkMangement/interface/redundance.php', $('#redundanceTable'), 'ORDER BY external_name ASC LIMIT 10');
+        sortTableInit($('#redundanceTable'), {6: {sorter: false}});
+    });
 </script>
