@@ -1,5 +1,6 @@
 <form action="Function/networkMangement/basic/staticRoute.php" method="POST" id="editStaticRouteForm" onSubmit="return false;">
     <input type="hidden" name="type" value="<{$type|default: 'add'}>"/>
+    <input type="hidden" name="id" value="<{$res.id}>"/>
     <fieldset>
         <!--<legend>别名设备</legend>-->
 		<div class="row">
@@ -20,7 +21,7 @@
         
         <div class="row"><label for="interface">网络接口:<em class="required">*</em></label>
           <select name="interface" id="interface" class="select">
-          	<{html_options output=array('自适应','全双工','半双工') values=array(0,1,2) selected=$res.interface}>
+          	 <{html_options output=$interface values=$interface selected=$res.interface }>
           </select>
         </div>
   </fieldset>
