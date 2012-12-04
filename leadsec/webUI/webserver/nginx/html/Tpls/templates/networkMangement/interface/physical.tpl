@@ -24,8 +24,8 @@
 <script type="text/javascript" src="Public/js/networkMangement/interface/physical.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
-   renderStandardUi();
-   freshTable('Function/networkMangement/interface/physical.php', $('#physicalTable'), 'ORDER BY external_name ASC LIMIT 10');
-   sortTableInit($('#physicalTable'), {5: {sorter: false}});
+    renderStandardUi();
+    freshTable('Function/networkMangement/interface/physical.php', $('#physicalTable'), 'ORDER BY external_name ASC LIMIT 10');
+    sortTableInit($('#physicalTable'), {5: {sorter: false}});
 });
 </script>
