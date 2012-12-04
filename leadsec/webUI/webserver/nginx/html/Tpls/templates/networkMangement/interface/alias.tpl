@@ -5,10 +5,10 @@
    </caption>
    <thead>
     <tr>
-      <th class="column_10">设备名称</th>
-      <th class="column_30">地址/掩码</th>
-      <th class="column_20">绑定设备</th>
-      <th class="column_10">别名ID</th>
+      <th class="column_10" name="external_name">设备名称</th>
+      <th class="column_30" name="ip">地址/掩码</th>
+      <th class="column_20" name="phy_device">绑定设备</th>
+      <th class="column_10" name="alias_id">别名ID</th>
       <th class="column_10">是否启用</th>
       <th class="column_20">操作</th>
     </tr>
@@ -29,10 +29,9 @@
 
 <script type="text/javascript" src="Public/js/networkMangement/interface/alias.js"></script>
 <script type="text/javascript">
-$(document).ready(function() {
-   renderStandardUi();
-   $("#addAlias").button();
-   freshTable('Function/networkMangement/interface/alias.php', $('#aliasTable'), 'ORDER BY external_name ASC LIMIT 10');
-   sortTableInit($('#aliasTable'), {5: {sorter: false}});
-});
+    $(document).ready(function() {
+        renderStandardUi();
+        freshTable('Function/networkMangement/interface/alias.php', $('#aliasTable'), 'ORDER BY external_name ASC LIMIT 10');
+        sortTableInit($('#aliasTable'), {4: {sorter: false}, 5: {sorter: false}});
+    });
 </script>

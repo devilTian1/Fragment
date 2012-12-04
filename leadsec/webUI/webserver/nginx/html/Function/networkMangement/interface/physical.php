@@ -8,7 +8,7 @@
                            '无效',   'DHCP获取');
         $tpl =  'networkMangement/interface/physicalTable.tpl';
         $db  = new dbsqlite(DB_PATH . '/configs.db');
-        $sql = "SELECT * FROM interface $where";
+        $sql = "SELECT * FROM interface WHERE alias_id == -1 $where";
         $result = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
         echo V::getInstance()->assign('list', $result)
         	->assign('propertyArr',$propertyArr)
@@ -68,7 +68,7 @@
     }
 
     function getDataCount() {
-        $sql = "SELECT external_name FROM interface";
+        $sql = "SELECT external_name FROM interface WHERE alias_id == -1";
         $db  = new dbsqlite(DB_PATH . '/configs.db');
         return $db->query($sql)->getCount();
     }
@@ -78,7 +78,7 @@
         $external_name  = $_POST['name'];
         $tpl = $_POST['tpl'];
         $db  = new dbsqlite(DB_PATH . '/configs.db');
-        $sql = "SELECT * FROM interface WHERE external_name = '$external_name'";
+        $sql = "SELECT * FROM interface WHERE alias_id == -1 AND external_name = '$external_name'";
         $result = $db->query($sql)->getFirstData(PDO::FETCH_ASSOC);
         $result = V::getInstance()->assign('res', $result)->fetch($tpl);
         echo json_encode(array('msg' => $result));
@@ -102,7 +102,7 @@
         $cmd = getSetPhysicalDevCmd();
         $cli = new cli();
         $cli->run($cmd);
-        echo json_encode(array('msg' => "[$ip]修改成功."));
+        echo json_encode(array('msg' => '修改成功.'));
     } else if ($orderStatement = $_POST['orderStatement']) {
         // fresh and resort phycial Table
         freshPhysical($orderStatement);

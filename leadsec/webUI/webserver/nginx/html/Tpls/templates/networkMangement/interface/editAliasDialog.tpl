@@ -1,27 +1,35 @@
 <form action="Function/networkMangement/interface/alias.php" method="POST" id="editAliasForm" onSubmit="return false;">
-  <!--  <input type="hidden" name="type" value="<{$type|default: 'add'}>"/>-->
+    <input type="hidden" name="type" value="<{$type|default: 'add'}>"/>
     <fieldset>
-        <!--<legend>别名设备</legend>-->
+        <legend>定义别名设备</legend>
 		<div class="row"><label for="external_name">选择绑定设备:<em class="required">*</em></label>
-          <select name="linkmode" id="external_name" class="select">
-          	<{html_options output=array('自适应','全双工','半双工') values=array(0,1,2) selected=$res.external_name}>
-          </select>
-           
+            <select name="external_name" id="external_name" class="select"
+                <{if $res.phy_device}>disabled="disabled"<{/if}>>
+            <{html_options output=$res.bindDev values=$res.bindDev selected=$res.phy_device}>
+            </select>
         </div>
         
-        <div class="row"><label for="speed">选择别名ID:<em class="required">*</em></label>
-          <select name="speed" id="speed" class="select">
-         	
-          </select>
+        <div class="row"><label for="aliasId">选择别名ID:<em class="required">*</em></label>
+            <select name="aliasId" id="aliasId" class="select">
+                <{for $i=0 to 252}>
+                    <{if $res.alias_id eq $i}>
+                    <option value="<{$i}>" selected="selected"><{$i}></option>
+                    <{else}>
+                    <option value="<{$i}>"><{$i}></option>
+                    <{/if}>
+                <{/for}>
+            </select>
         </div>
         
-        <div class="row"><label for="ip ">地址:<em class="required">*</em></label>
-          <input type="text" name="ip " value="<{$res.ip }>" />
+        <div class="row"><label for="ip">地址:<em class="required">*</em></label>
+          <input type="text" name="ip" value="<{$res.ip }>" />
         </div>
         
         <div class="row"><label for="mask">掩码:<em class="required">*</em></label>
           <select name="mask" id="mask" class="select">
-          	<{html_options output=array('255.255.255.0','255.255.0.0','255.0.0.0','255.255.255.255') values=array('255.255.255.0','255.255.0.0','255.0.0.0','255.255.255.255') selected=$addr.mask|default: '255.255.255.0' }>
+          	<{html_options output=array('255.255.255.0','255.255.0.0','255.0.0.0','255.255.255.255')
+                values=array('255.255.255.0','255.255.0.0','255.0.0.0','255.255.255.255')
+                selected=$addr.mask|default: '255.255.255.0'}>
           </select>
         </div>
       

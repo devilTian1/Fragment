@@ -63,7 +63,7 @@
         </div>
          
         <div class="row"><label for="admin">用于管理:</label>
-          <input type="checkbox" name="admin" class="checkbox" <{if $res.admin eq 1}> checked="checked" <{/if}> />
+          <input type="checkbox" name="admin" class="checkbox" disabled='disabled' <{if $res.admin eq 1}> checked="checked" <{/if}> />
         </div>
          
         <div class="row"><label for="ping">允许 PING:</label>
