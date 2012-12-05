@@ -103,7 +103,7 @@ function switchAliasDev(name, action, formId) {
     var dialog  = loadingScreen(title);
     var buttons = {};
     buttons['确定'] = function() {
-        ajaxSubmitForm($('#switchAliasDevForm' + '_' + formId), '结果');
+        ajaxSubmitForm($('#switchAliasDevForm_' + formId), '结果');
         freshTableAndPage();
         $(this).remove();
     };

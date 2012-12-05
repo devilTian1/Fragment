@@ -3,7 +3,7 @@
  	
     function freshPhysical($where) {
         $propertyArr = array('未指定',  'HA接口', '管理接口',
-                             '网络接口','网络扩展口');
+                            '网络接口', '网络扩展口');
         $ipaddrArr = array('未指定', '静态制定',
                            '无效',   'DHCP获取');
         $tpl =  'networkMangement/interface/physicalTable.tpl';

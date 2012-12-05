@@ -1,13 +1,14 @@
-function openEditRedundanceDialog(external_name) {
+function openEditRedundanceDevDialog(external_name) {
     var url  = 'Function/networkMangement/interface/redundance.php';
     var data = {
-        tpl    : 'networkMangement/interface/editRedundanceDialog.tpl',
-        external_name : external_name
+        tpl  : 'networkMangement/interface/editRedundanceDialog.tpl',
+        name : external_name
     };
     var title   = '修改冗余设备';
     var buttons = {};
     buttons['确定'] = function() {
         if ($('#editRedundanceForm').valid()) {
+            $('#addrMember option').attr('selected', 'selected');
             ajaxSubmitForm($('#editRedundanceForm'), '结果');
             freshTableAndPage();
             $(this).remove();
@@ -24,23 +25,26 @@ function openEditRedundanceDialog(external_name) {
     showDialogByAjax(url, data, title, dialogParams);
 }
 
-function openNewRedundanceDialog() {
-    var url   = 'Function/layout/showDialog.php';
-    var title   = '添加冗余设备';
+function openNewRedundanceDevDialog() {
+    var url   = 'Function/networkMangement/interface/redundance.php';
+    var title = '添加冗余设备';
     var data  = {
-        tpl : 'networkMangement/interface/editRedundanceDialog.tpl'
+        tpl : 'networkMangement/interface/editRedundanceDialog.tpl',
+        openNewRedundanceDevDialog : true
     };
     var buttons = {};
     buttons['添加下一条'] = function() {
         if ($('#editRedundanceForm').valid()) {
-            openNewAliasDialog();
+            $('#addrMember option').attr('selected', 'selected');
+            openNewRedundanceDevDialog();
             ajaxSubmitForm($('#editRedundanceForm'), '结果');
             freshTableAndPage();
             $(this).remove();
         }
     };
     buttons['确定'] = function() {
-        if ($('#editrRedundanceForm').valid()) {
+        if ($('#editRedundanceForm').valid()) {
+            $('#addrMember option').attr('selected', 'selected');
             ajaxSubmitForm($('#editRedundanceForm'), '结果');
             freshTableAndPage();
             $(this).remove();
@@ -57,7 +61,7 @@ function openNewRedundanceDialog() {
     showDialogByAjax(url, data, title, dialogParams);
 }
 
-function delAlias(name) {
+function delRedundanceDev(name) {
     var url  = 'Function/networkMangement/interface/redundance.php';
     var data = {
         delName: name
@@ -76,11 +80,11 @@ function delAlias(name) {
     showDialogByAjax(url, data, title, dialogParams);
 }
 
-function openDelAliasDialog(name) {
+function openDelRedundanceDevDialog(name) {
     var dialog  = loadingScreen('删除冗余设备');
     var buttons = {};
     buttons['Confirm'] = function() {
-        delAddr(name);
+        delRedundanceDev(name);
         $(this).remove();
         freshTableAndPage();
     };
@@ -94,6 +98,36 @@ function openDelAliasDialog(name) {
     };
     dialog.setContent("<p>确定要删除名称为" + name + "的冗余设备吗?</p>");
     dialog.setOptions(dialogParams);   
+}
+
+function switchRedundanceDev(name, action, formId) {
+    var title   = '启动/停止冗余设备';
+    var dialog  = loadingScreen(title);
+    var buttons = {};
+    buttons['确定'] = function() {
+        ajaxSubmitForm($('#switchRedundanceDevForm_' + formId), '结果');
+        freshTableAndPage();
+        $(this).remove();
+    };
+    buttons['取消'] = function() {
+        $(this).remove();
+    };
+    var dialogParams = {
+        width: 300,
+        height: 160,
+        buttons: buttons
+    };
+    var str = action === 'disable' ? '停止' : '启动';
+    dialog.setContent('<p>确定' + str + '冗余设备[' + name  + ']吗?</p>');
+    dialog.setOptions(dialogParams);
+}
+
+function moveToAddrMember() {
+    $('#addrList option:selected').appendTo($('#addrMember'));
+}
+
+function moveToAddrList() {
+    $('#addrMember option:selected').appendTo($('#addrList'));
 }
 
 function freshTableAndPage() {
