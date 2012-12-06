@@ -10,12 +10,14 @@
         $cmd = 'manufact produce ' . $_FILES['manuFile']['name'];
         $cli = new cli();
         //$cli->run($cmd);
-        $result = V::getInstance()->assign('msg', '成功.')
+        $result = V::getInstance()->assign('msg', '生产成功.')
             ->fetch('systemManagement/maintain/manuResult.tpl');
         echo json_encode(array('msg' => $result));
-    } else if ('export' === $_GET['action']) {
+    } else if (!empty($_POST['download'])) {
         // Export manufact result
-        echo 'lalla';
+        header('Content-Type:download-force');
+        header("Content-Disposition: attachment; filename=manufact_result.txt");
+        readfile('/tmp/manufact_result');
     } else {
         // init page data
         $db = new dbsqlite(DB_PATH . '/private.db');

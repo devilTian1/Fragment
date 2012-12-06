@@ -262,9 +262,7 @@ function ajaxSubmitForm(formEle, title, successCallback, errorCallback) {
 	        if ($.isArray(content)) {
 	            content = content.join('<br/>');	
 	        }
-            //dialog.setContent($('<p>' + content + '</p>'));
-            alert(result.msg);
-            dialog.html(result.msg);
+            dialog.setContent($('<p>' + content + '</p>'));
         }
     }
     var s = successCallback;
