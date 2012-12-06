@@ -1,6 +1,7 @@
 function updata() {
-    if ($('#updataForm').valid()) {
-        ajaxSubmitForm($('#updataForm'), '结果');
+    var form = $('#upgradeForm');
+    if (form.valid()) {
+        ajaxSubmitForm(form, '结果');
     }
 }
 
