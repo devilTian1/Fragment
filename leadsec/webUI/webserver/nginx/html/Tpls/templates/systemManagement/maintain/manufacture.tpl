@@ -9,7 +9,7 @@
                 <span class="red">*</span>配置文件:
             </td>
             <td class="tdbody">
-                <form action="Function/systemManagement/maintain/manufacture.php"
+                <form class="inline" action="Function/systemManagement/maintain/manufacture.php"
                     method="POST" id="uploadManuFileForm" onSubmit='return false'>
                     <input type="file" name="manuFile"/>
                 </form>

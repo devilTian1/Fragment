@@ -156,6 +156,10 @@ div {
     clear: both;
 }
 
+.inline {
+    display: inline;
+}
+
 .hide {
     display: none;
 }

@@ -7,7 +7,7 @@
         &lt;tr>
             &lt;td class='tdheader column_40'>生产结果报告&lt;/td>
             &lt;td class='tdbody'>
-                &lt;form action='Function/systemManagement/maintain/manufacture.php'
+                &lt;form class="inline" action='Function/systemManagement/maintain/manufacture.php'
                     method='POST' id='uploadManuFileForm'>
                         &lt;input type="hidden" name="download" value="1"/>
                         &lt;button class='standard' type='submit'

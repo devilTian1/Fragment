@@ -4,7 +4,7 @@ function openManuDialog() {
         var dialog = ajaxSubmitForm(form, '生产结果报告');
         dialog.setOptions({
             width : 320,
-            height: 220
+            height: 210
         });
     }
 }
