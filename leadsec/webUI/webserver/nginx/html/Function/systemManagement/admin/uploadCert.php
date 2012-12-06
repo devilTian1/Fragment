@@ -6,17 +6,11 @@
     }
     // upload cert file
     $fs = new fileUpload($_FILES);
-    list($status, $msg) = $fs->upload();
-    if ($status !== 0) {
-        echo json_encode(array('status' => $status,
-	    'msg' => $msg));
-	    return false;
-    }
-
+    $fs->upload();
     $cmd = "admcert add cacert \"{$_FILES['CAcert']['name']}\" " .
         "ngcert \"{$_FILES['SIScert']['name']}\" " .
         "ngkey \"{$_FILES['SISkey']['name']}\"";
     $cli = new cli();
     $cli->run($cmd);
-    echo json_encode(array('status' => $status, 'msg' => '导入成功'));
+    echo json_encode(array('msg' => '导入成功'));
 ?>

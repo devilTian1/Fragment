@@ -29,7 +29,7 @@ function switchPhysicalDev(name, action, formId) {
     var dialog  = loadingScreen(title);
     var buttons = {};
     buttons['确定'] = function() {
-        ajaxSubmitForm($('#switchPhyDevForm' + '_' + formId), '结果');
+        ajaxSubmitForm($('#switchPhyDevForm_' + formId), '结果');
         freshTableAndPage();
         $(this).remove();
     };

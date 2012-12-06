@@ -26,11 +26,11 @@
         </div>
         
         <div class="row"><label for="mask">掩码:<em class="required">*</em></label>
-          <select name="mask" id="mask" class="select">
+            <select name="mask" id="mask" class="select">
           	<{html_options output=array('255.255.255.0','255.255.0.0','255.0.0.0','255.255.255.255')
                 values=array('255.255.255.0','255.255.0.0','255.0.0.0','255.255.255.255')
                 selected=$addr.mask|default: '255.255.255.0'}>
-          </select>
+            </select>
         </div>
       
         <div class="row"><label for="admin">用于管理:</label>

@@ -31,3 +31,25 @@ function redirect_once($url)
 	echo "<meta http-equiv='refresh' content='0;url=$url'>";
 }
 
+
+function get_client_os()
+{
+    $agent = $_SERVER['HTTP_USER_AGENT'];
+    $os = false;
+     if (eregi('win', $agent) && eregi('nt 5.1', $agent)){
+        $os = 'Windows XP';
+    }
+    else if (eregi('linux', $agent)){
+        $os = 'Linux';
+    }
+    else if (eregi('unix', $agent)){
+        $os = 'Unix';
+    }
+    else {
+        $os = 'Unknown';
+    }
+    return $os;
+}
+
+
+
