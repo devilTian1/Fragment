@@ -66,6 +66,8 @@
         array('pid' => 8, 'name' => '日志配置', 'link' => 'conf'),//47
         array('pid' => 8, 'name' => '日志访问', 'link' => 'view'),//48
 
+        array('pid' => 9,  'name' => '系统概览',   'link' => 'overview'),//9
+        
         //level3  systemManagement/conf
         array('pid' => 11, 'name' => '日期时间', 'link' => 'time', 'title' => ''),//49
         array('pid' => 11, 'name' => '系统参数', 'link' => 'params', 'title' => ''),//50
