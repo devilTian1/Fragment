@@ -14,21 +14,17 @@
               
     if(!empty($_FILES)) {
         $uploadfs = new fileUpload($_FILES);
-        list($status, $msg) = $uploadfs->upload();
-        if ($status !== 0) {
-            echo json_encode(array('status' => $status, 'msg' => $msg));
-            return false ;
-        } 
+        $uploadfs->upload();
         $cmd = "upgrade package \"{$_FILES['upload']['name']}\" " ;
         $cli = new cli();
         $cli->run($cmd);
-        echo json_encode(array('status' => $status, 'msg' => '升级成功'));
-    } else if (!empty($_GET['reboot'])){
+        echo json_encode(array('msg' => '升级成功'));
+    } else if (!empty($_GET['reboot'])) {
         $cmd = "Config rest" ;
         $cli = new cli();
         $cli->run($cmd);
         echo json_encode(array('status' => $status, 'msg' => '重启成功'));
-   }  else if (!empty($_POST['downloadUpgradeHistory'])) {
+    } else if (!empty($_POST['downloadUpgradeHistory'])) {
         header('Content-Type:download-force');
         header("Content-Disposition: attachment; filename=upgrade_history.txt");
         $db = new dbsqlite(DB_PATH . '/private.db');
@@ -41,31 +37,29 @@
         $os = get_client_os();
         //for linux 
         if ($os ==='Linux') {
-                 echo $downtimestr . "\n";
-                 echo $downlist . "\n";
-                 foreach($result_list as $val){
-                     $id         = str_pad(substr($val['id'], 0, 7), 7, ' ');
-                     $up_version = str_pad(substr($val['up_version'], 0, 15), 15, ' ');
-                     $up_time    = str_pad(substr($val['up_time'], 0 , 22), 22, ' ');
-                     $del_bugs   = str_pad(substr($val['del_bugs'], 0 ,30), 30, ' ');
-                     echo  "$id$up_version$up_time$del_bugs\n" ;
+            echo $downtimestr . "\n";
+            echo $downlist . "\n";
+            foreach($result_list as $val){
+                $id         = str_pad(substr($val['id'], 0, 7), 7, ' ');
+                $up_version = str_pad(substr($val['up_version'], 0, 15), 15, ' ');
+                $up_time    = str_pad(substr($val['up_time'], 0 , 22), 22, ' ');
+                $del_bugs   = str_pad(substr($val['del_bugs'], 0 ,30), 30, ' ');
+                echo  "$id$up_version$up_time$del_bugs\n" ;
             }
         } else if ($os === 'Windows XP') {
-                // for windows
-                 echo $downtimestr . "\r\n";
-                 echo $downlist . "\r\n";
-                 foreach($result_list as $val){
-                     $id         = str_pad(substr($val['id'], 0, 8), 8, ' ');
-                     $up_version = str_pad(substr($val['up_version'], 0, 17), 17, ' ');
-                     $up_time    = str_pad(substr($val['up_time'], 0 , 24), 24, ' ');
-                     $del_bugs   = str_pad(substr($val['del_bugs'], 0 ,30), 30, ' ');
-                     echo  "$id$up_version$up_time$del_bugs\r\n" ;  
-             }
-    }
-} 
-    else {
+            // for windows
+            echo $downtimestr . "\r\n";
+            echo $downlist . "\r\n";
+            foreach($result_list as $val){
+                $id         = str_pad(substr($val['id'], 0, 8), 8, ' ');
+                $up_version = str_pad(substr($val['up_version'], 0, 17), 17, ' ');
+                $up_time    = str_pad(substr($val['up_time'], 0 , 24), 24, ' ');
+                $del_bugs   = str_pad(substr($val['del_bugs'], 0 ,30), 30, ' ');
+                echo  "$id$up_version$up_time$del_bugs\r\n" ;  
+            }
+       }
+    } else {
          GetResult() ;
-  }  
-
+    }  
     
 ?>
