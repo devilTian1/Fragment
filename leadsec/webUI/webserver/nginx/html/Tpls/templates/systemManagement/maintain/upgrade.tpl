@@ -46,11 +46,12 @@ onSubmit="return false">
             </button>
             <input type="hidden" name="downloadUpgradeHistory" value='1'/>
         </form>
+
         <button  type="button"  class="inputbtn standard"  onclick="window.open('http://www.leadsec.com.cn')" >
         检查最新升级包
         </button>
-         <form action="Function/systemManagement/maintain/upgrade.php?reboot=22" method="POST"  id = "rebootForm"
-onSubmit="return false">
+
+         <form action="Function/systemManagement/maintain/upgrade.php?reboot=22" method="POST" style="display:inline"         id = "rebootForm"onSubmit="return false">
         <button type = "button" class = "inputbtn standard" onclick = "reboot()" >
         重启<{$smarty.const.PRODUCT_NAME}>
         </button>
