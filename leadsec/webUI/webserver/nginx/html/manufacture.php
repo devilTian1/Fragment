@@ -26,7 +26,7 @@
         $fs    = new fileUpload($_FILES, $dPath);
         $fs->upload();
         // run cli
-        $cmd = 'manufact produce ' . $_FILES['manuFile']['name'];
+        $cmd = '/usr/local/sbin/manufact produce ' . $_FILES['manuFile']['name'];
         $cli = new cli();
         //$cli->run($cmd);
         $msg = 'success';
