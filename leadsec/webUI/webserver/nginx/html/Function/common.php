@@ -42,7 +42,15 @@
         // get array of leftmenu which has sorted.
         $menuArr = leftmenu::instance()->sort()->getMenu();
 
+        // Check this device is in host or out host
+        $db = new dbsqlite(DB_PATH . '/netgap_system.db');
+        $result = $db->query("SELECT host FROM system")
+                     ->getFirstData(PDO::FETCH_ASSOC);
+        $hostStatus = $result['host'] === 'I' ? '内网' : '外网';
+
         // generate smarty instance
-        V::getInstance()->assign('menuArr', $menuArr)->display('index.tpl');
+        V::getInstance()->assign('menuArr', $menuArr)
+                        ->assign('hostStatus', $hostStatus)
+                        ->display('index.tpl');
     }
 ?>
