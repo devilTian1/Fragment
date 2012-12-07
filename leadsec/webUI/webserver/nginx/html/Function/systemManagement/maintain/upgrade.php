@@ -8,11 +8,12 @@
             ->getFirstData(PDO::FETCH_ASSOC);
         $result_list = $db->query("SELECT * FROM upgrade_history ORDER BY up_time DESC")
             ->getAllData(PDO::FETCH_ASSOC);
-        V::getInstance() ->assign('lastestVersion', $result['up_version']);
-        V::getInstance() ->assign('result_list', $result_list);
+        V::getInstance()->assign('lastestVersion', $result['up_version'])
+            ->assign('result_list', $result_list);
      }
               
     if (!empty($_FILES)) {
+        // Upgrade System
         $uploadfs = new fileUpload($_FILES);
         $uploadfs->upload();
         $cmd = "upgrade package \"{$_FILES['upload']['name']}\" " ;
@@ -20,22 +21,21 @@
         $cli->run($cmd);
         echo json_encode(array('msg' => '升级成功'));
     } else if (!empty($_GET['reboot'])) {
-        $cmd = "Config rest" ;
+        // Reboot system
+        $cmd = 'Config rest';
         $cli = new cli();
         $cli->run($cmd);
-        echo json_encode(array('status' => $status, 'msg' => '重启成功'));
+        echo json_encode(array('msg' => '重启成功'));
     } else if (!empty($_POST['downloadUpgradeHistory'])) {
+        // Export upgrade history data
         header('Content-Type:download-force');
         header("Content-Disposition: attachment; filename=upgrade_history.txt");
         $db = new dbsqlite(DB_PATH . '/private.db');
-        $result_list = $db->query("SELECT * FROM  upgrade_history ORDER by up_time DESC ")
-                     ->getAllData(PDO::FETCH_ASSOC);
-        $data = '下载时间:';
-        $downtime = date('Y-n-d H:i:s',time());
-        $downtimestr = $data.$downtime ;
+        $result_list = $db->query("SELECT * FROM  upgrade_history ORDER BY up_time DESC ")
+            ->getAllData(PDO::FETCH_ASSOC);
+        $downtimestr = '下载时间:' . date('Y-n-d H:i:s',time());
         $downlist = '序号    升级以后版本号   升级时间                更新描述';
         $os = get_client_os();
-        //for linux 
         if ($os ==='Linux') {
             echo $downtimestr . "\n";
             echo $downlist . "\n";
@@ -47,7 +47,6 @@
                 echo  "$id$up_version$up_time$del_bugs\n" ;
             }
         } else if ($os === 'Windows XP') {
-            // for windows
             echo $downtimestr . "\r\n";
             echo $downlist . "\r\n";
             foreach($result_list as $val){

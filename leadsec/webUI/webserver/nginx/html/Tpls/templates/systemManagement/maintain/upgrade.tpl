@@ -1,16 +1,21 @@
-<form action="Function/systemManagement/maintain/upgrade.php" method="POST" id="updataForm" 
+<form action="Function/systemManagement/maintain/upgrade.php" method="POST" id="upgradeForm" 
     onSubmit="return false">
     <table class="column_95">
         <tbody>
             <tr>
-                <td  width="250" class="tdheader">系统当前软件版本 :</td>
-                <td  class="tdbody"><{$lastestVersion}></td>
+                <td class="tdheader column_40">系统当前软件版本 :</td>
+                <td class="tdbody"><{$lastestVersion|default:'没有任何版本信息'}></td>
             </tr>
             <tr>
                 <td class="tdheader"><span class="red">*</span> 升级文件:</td>
                 <td class="tdbody">
-                    <input name="upload" type="file" id="file" />
-                    <button class="inputbtn standard" type="button" onClick="updata()">
+                    <input name="upgradeFile" type="file" id="file" />
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <button class="inputbtn standard" type="button" onClick="upgradeSystem()">
                         升级</button>
                 </td>
             </tr>
@@ -47,9 +52,9 @@
             </form>
             <button  type="button"  class="inputbtn standard" onclick="window.open('http://www.leadsec.com.cn')">
                 检查最新升级包</button>
-            <form class="inline" action="Function/systemManagement/maintain/upgrade.php?reboot=22" method="POST"
-                id="rebootForm"onSubmit="return false">
-                <button type = "button" class = "inputbtn standard" onclick = "reboot()" >
+            <form class="inline" action="Function/systemManagement/maintain/upgrade.php?reboot=22" method="GET"
+                id="rebootForm" onSubmit="return false">
+                <button type="button" class="inputbtn standard" onclick="reboot()">
                     重启<{$smarty.const.PRODUCT_NAME}></button>
             </form>
         </td>
@@ -59,5 +64,6 @@
 <script type="text/javascript">
     $(document).ready(function() {
         renderStandardUi();
+        validateForm($("#upgradeForm"));
     });
 </script>

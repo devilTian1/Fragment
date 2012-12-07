@@ -1,14 +1,13 @@
-function updata() {
-    var form = $('#upgradeForm');
+function submitForm(form) {
     if (form.valid()) {
         ajaxSubmitForm(form, '结果');
     }
 }
 
-function reboot() {
-    if ($('#rebootForm').valid()) {
-        ajaxSubmitForm($('#rebootForm'), '结果');
-    }
+function upgradeSystem() {
+    submitForm($('#upgradeForm'));
 }
 
-
+function reboot() {
+    submitForm($('#rebootForm'));
+}
