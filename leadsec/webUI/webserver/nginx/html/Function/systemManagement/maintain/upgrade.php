@@ -1,18 +1,18 @@
 <?php
     require_once($_SERVER['DOCUMENT_ROOT'] . '/Function/common.php');
 
-   //Upgrade list information   
-    function GetResult() {
-         $db = new dbsqlite(DB_PATH . '/private.db');
-         $result = $db->query("SELECT up_version FROM upgrade_history ORDER  by up_time DESC ")
-                     ->getFirstData(PDO::FETCH_ASSOC);
-         $result_list = $db->query("SELECT * FROM upgrade_history ORDER by up_time DESC ")
-                     ->getAllData(PDO::FETCH_ASSOC);
-         V::getInstance() ->assign('lastestVersion', $result['up_version']);
-         V::getInstance() ->assign('result_list', $result_list);
+    //Upgrade list information   
+    function getResult() {
+        $db = new dbsqlite(DB_PATH . '/private.db');
+        $result = $db->query("SELECT up_version FROM upgrade_history ORDER BY up_time DESC")
+            ->getFirstData(PDO::FETCH_ASSOC);
+        $result_list = $db->query("SELECT * FROM upgrade_history ORDER BY up_time DESC")
+            ->getAllData(PDO::FETCH_ASSOC);
+        V::getInstance() ->assign('lastestVersion', $result['up_version']);
+        V::getInstance() ->assign('result_list', $result_list);
      }
               
-    if(!empty($_FILES)) {
+    if (!empty($_FILES)) {
         $uploadfs = new fileUpload($_FILES);
         $uploadfs->upload();
         $cmd = "upgrade package \"{$_FILES['upload']['name']}\" " ;
