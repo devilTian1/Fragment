@@ -3,12 +3,12 @@
 prefixPath='/usr/local'
 
 # dependant module
-cp -rf depLib/lib/*              $prefixPath/lib/
-cp -rf depLib/bin/*              $prefixPath/bin/
-cp -rf depLib/include depLib/ssl $prefixPath/
+cp -rfn depLib/lib/*              $prefixPath/lib/
+cp -rfn depLib/bin/*              $prefixPath/bin/
+cp -rfn depLib/include depLib/ssl $prefixPath/
 
 # nginx and php
-cp -rf webserver $prefixPath/
+cp -rfn webserver $prefixPath/
 
 # add new user 'nobody', for nginx worker process
 adduser nobody -DH
