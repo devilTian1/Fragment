@@ -96,6 +96,7 @@
         array('pid' => 15, 'name' => '静态路由',   'link' => 'staticRoute'),//65
 
         //level3 networkManagement/HA
+        array('pid' => 16, 'name' => '虚拟地址', 'link' => 'viraddr'),//66
         array('pid' => 16, 'name' => '双机热备', 'link' => 'ha'),//66
         array('pid' => 16, 'name' => '负载均衡', 'link' => 'lvs'),//67
         
