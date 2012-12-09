@@ -68,6 +68,7 @@
 
         array('pid' => 9,  'name' => '系统概览',   'link' => 'overview'),//9
         
+        array('pid' => 10,  'name' => '快捷配置',   'link' => 'quick'),//10
         //level3  systemManagement/conf
         array('pid' => 11, 'name' => '日期时间', 'link' => 'time', 'title' => ''),//49
         array('pid' => 11, 'name' => '系统参数', 'link' => 'params', 'title' => ''),//50
