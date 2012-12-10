@@ -111,6 +111,7 @@ function addIcon(data){
 
 <div id="desktopPanel">
 <div id="desktopInnerPanel">
+
 <ul class="deskIcon currDesktop">
   <li class="desktop_icon" id="leshiwang"> <span class="icon"><img src="Public/js/jquery/desktop/icon/icon4.png"/></span> <div class="text">乐视网<s></s></div> </li>
   <li class="desktop_icon" id="Pixlr"> <span class="icon"><img src="Public/js/jquery/desktop/icon/icon6.png"/></span> <div class="text">Pixlr<s></s></div> </li>
@@ -141,11 +142,12 @@ function addIcon(data){
 </ul>
 
 
-<ul class="deskIcon">
-  <li class="desktop_icon" id="win38"> <span class="icon"><img src="Public/js/jquery/desktop/icon/icon20.png"/></span> <div class="text">火影忍者漫画动画<s></s></div> </li>
-  <li class="desktop_icon" id="win39"> <span class="icon"><img src="Public/js/jquery/desktop/icon/icon21.png"/></span> <div class="text">潇湘书院 <s></s></div> </li>
-  <li class="desktop_icon add_icon" id="addIcon3"> <span class="icon"><img src="Public/js/jquery/desktop/themes/default/images/add_icon.png"/></span> <div class="text">添加 <s></s></div> </li>
-</ul>
+  <ul class="deskIcon">
+    <li class="desktop_icon" id="win38"> <span class="icon"><img src="Public/js/jquery/desktop/icon/icon20.png"/></span> <div class="text">火影忍者漫画动画<s></s></div> </li>
+    <li class="desktop_icon" id="win39"> <span class="icon"><img src="Public/js/jquery/desktop/icon/icon21.png"/></span> <div class="text">潇湘书院 <s></s></div> </li>
+    <li class="desktop_icon add_icon" id="addIcon3"> <span class="icon"><img src="Public/js/jquery/desktop/themes/default/images/add_icon.png"/></span> <div class="text">添加 <s></s></div> </li>
+  </ul>
+  
 </div>
 </div>
 <script type="text/javascript" src="Public/js/systemManagement/quick/quick.js"></script>

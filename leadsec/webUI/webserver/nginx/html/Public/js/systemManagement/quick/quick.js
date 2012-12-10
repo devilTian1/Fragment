@@ -10,7 +10,7 @@ function openNewQuickDialog() {
     };
     var dialogParams = {
         width   : 700,
-        height  : 400,
+        height  : 500,
         buttons : buttons
     };
     showDialogByAjax(url, data, title, dialogParams);

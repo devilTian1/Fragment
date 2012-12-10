@@ -64,13 +64,16 @@ ul{
 -->
 </style></head>
 <body>
+
 <ul class="listIcon">
   <li><a href="#" class="img"><img src="Public/js/jquery/desktop/icon/icon7.png" alt="" /></a><span>豆瓣音乐</span><a href="#" class="add" id="123" title="豆瓣音乐">添加应用</a></li>
     <li><a href="#" class="img"><img src="Public/js/jquery/desktop/icon/icon7.png" alt="" /></a><span>豆瓣音乐</span><a href="#" class="add" id="23" title="豆瓣音乐">添加应用</a></li>
   <li><a href="#" class="img"><img src="Public/js/jquery/desktop/icon/icon7.png" alt="" /></a><span>豆瓣音乐</span><a href="#" class="add" id="345" title="豆瓣音乐">添加应用</a></li>
   <li><a href="#" class="img"><img src="Public/js/jquery/desktop/icon/icon7.png" alt="" /></a><span>豆瓣音乐</span><a href="#" class="add" id="56" title="豆瓣音乐">添加应用</a></li>
   <li><a href="#" class="img"><img src="Public/js/jquery/desktop/icon/icon7.png" alt="" /></a><span>豆瓣音乐</span><a href="#" class="add" id="567" title="豆瓣音乐">添加应用</a></li>
- </ul>
+</ul>
+ 
+ 
 <script type="text/javascript">
 var $listIcon=$("ul.listIcon");
 $listIcon.find("a.add")
