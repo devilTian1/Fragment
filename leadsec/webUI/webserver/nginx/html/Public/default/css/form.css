@@ -44,7 +44,7 @@ fieldset input {
     width: 10em;
     float: left;
 }
-fieldset .checkboxLabel {
+fieldset .checkboxLabel, fieldset .radioLabel {
     width: auto;
     margin-right: 2em;
 }
@@ -56,7 +56,7 @@ fieldset>span {
     margin-right: 1em;
 }
 
-fieldset .radio, fieldset .note {
+fieldset .note {
     width: auto;
 }
 
@@ -71,4 +71,20 @@ fieldset label.error {
 
 fieldset button.addBtn {
     margin-left: 2em;
+}
+
+fieldset div.twofa {
+    margin-left: 10%;
+}
+
+fieldset label.longLabel {
+    width: 250px;
+}
+
+hr {
+    border: 1px dashed #e9e9e9
+}
+
+.uploadFile {
+    width: 300px
 }

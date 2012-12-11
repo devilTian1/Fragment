@@ -1,4 +1,5 @@
 <?php
+    header('Content-type: text/html; charset=utf-8');
     setlocale(LC_CTYPE, 'zh_CN.utf8');
     // set exception handler
     function exceptionHandler($e) {

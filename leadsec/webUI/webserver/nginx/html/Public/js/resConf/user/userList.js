@@ -27,7 +27,7 @@ function openNewUserListDialog() {
     };
     var dialogParams = {
         width   : 620,
-        height  : 500,
+        height  : 600,
         buttons : buttons
     };
     showDialogByAjax(url, data, title, dialogParams);
@@ -55,6 +55,14 @@ function openLockSpecUserDialog() {
 
 function openResetSpecUserPwdDialog() {
 
+}
+
+function moveToSpecRole() {
+    $('#allRoles option:selected').appendTo($('#rolesMember'));
+}
+
+function moveToAllRoles() {
+    $('#rolesMember option:selected').appendTo($('#allRoles'));
 }
 
 function checkAllUser() {

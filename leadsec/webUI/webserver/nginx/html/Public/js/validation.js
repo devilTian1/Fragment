@@ -27,6 +27,14 @@ var validMethodParams = {
         },
         msg: jQuery.format("{0}至{1}位字母或数字")
     },
+    UserPasswdValidParam: {
+        name: 'passwd_user',
+        validMethod: function(value, element) {
+            return this.optional(element) ||
+                /^([0-9]{10,20}|[a-zA-Z\W]{9,20}|.{12,20})$/.test(value);
+        },
+        msg: jQuery.format('9-20个英文字母或非字母字符<br/>10个基本数字<br/>口令达到12个字符长度')
+    },   
     ipValidParam: {
         name: 'ip',
         validMethod: function(value, element, params) {
@@ -58,7 +66,15 @@ var validMethodParams = {
             return this.optional(element) ||
             /^[a-zA-Z0-9\-_\.]{1,15}$/.test(value);
         },
-        msg: '1-15 字母、数字、减号、下划线、点的组合.'
+        msg: '1-15个字母、数字、减号、下划线、点的组合.'
+    },
+    realNameValidParam: {
+        name: 'realName',
+        validMethod: function(value, element, params) {
+            return this.optional(element) ||
+            /^[a-zA-Z0-9\-_]{1,15}$/.test(value);
+        },
+        msg: '1-15个字母、数字、减号、下划线的组合.'
     },
     dateTimeValidParam: {
         name: 'dateTime',
@@ -350,8 +366,31 @@ var validRules = {
     manuFile: {
         required: true
     },
-    upgradeFile:{
+    upgradeFile: {
         required: true
+    },
+    realName: {
+        realName: true
+    },
+    bindIp: {
+        ip: true
+    },
+    bindMac: {
+        mac: true
+    },
+    validTime: {
+        range: [0, 3650]
+    },
+    validTime_pwd: {
+        range: [0, 3650]
+    },
+    passwd_user: {
+        required: true,
+        passwd_user: true
+    },
+    passwd_user_again: {
+        required: true,
+        equalTo: "#passwd_user"
     }
 };
 
@@ -468,7 +507,13 @@ var validMsg = {
     mtu: '千兆设备的范围是64-16128',
     'addrMember[]': '请至少选择一个绑定设备.',
     manuFile: '请选择要上传的配置文件',
-    upgradeFile:'请选择要升级的文件'
+    upgradeFile:'请选择要升级的文件',
+    validTime: '0表示永久生效, 要求在0到3650之间',
+    validTime_pwd: '0表示永久生效, 要求在0到3650之间',
+    passwd_user: {
+        required: '请填写密码.'
+    },
+    passwd_user_again: '两次密码不一致.'
 };
 
 function validateForm(form) {
