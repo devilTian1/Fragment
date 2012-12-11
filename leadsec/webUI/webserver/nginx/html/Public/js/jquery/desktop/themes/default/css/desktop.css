@@ -1,0 +1,215 @@
+@charset "utf-8";
+/*页面基础样式*/
+#mainContent{
+	overflow:hidden
+}
+a {
+	font-size: 12px;
+}
+a:link {
+	text-decoration: none;
+	color:#FFF;
+}
+a:visited {
+	text-decoration: none;
+	color:#FFF;
+}
+a:hover {
+	text-decoration: none;
+	color:#FFF;
+}
+a:active {
+	text-decoration: none;
+	color:#FFF;
+}
+.corner {
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	-moz-box-shadow: 1px 3px 6px #666;
+	-webkit-box-shadow:1px 3px 6px #666;
+	box-shadow:1px 3px 6px #666;
+}
+.loading {
+	background:url(../images/loading.gif) no-repeat center center
+}
+
+/*桌面导航按钮*/
+#navBar{
+	width:140px;
+	height:32px;
+	line-height:32px;
+	position:absolute;
+	left:50%;
+	margin-left:-100px;
+	top:0px;
+	background:url(../images/navBg0.png) no-repeat center center;
+	text-align:center;
+	z-index:99;
+	}
+#navBar a{
+	display:inline-block;
+	width:24px;
+	height:24px;
+	background:url(../images/navbg.png) no-repeat left top;
+	margin:4px 3px 0 0;
+	outline:none
+	}
+ 
+#navBar a:hover{
+	background-position: -48px top;
+	}
+#navBar a.currTab{
+	background-position:-24px top;
+	}
+.smart_menu_box .smart_menu_a{ color:#333}
+.smart_menu_box .smart_menu_li_separate{border-bottom:1px solid #d6d5d5;}
+/*窗口样式*/
+.windows {
+	width:340px;
+	height:300px;
+	position:absolute;
+	display:none;
+	background-color:#CCC;
+	border:1px solid #999;
+}
+.win_title {
+	width:100%;
+	height:26px;
+	line-height:26px;
+	background:#E0E0E0 url(../images/titlebar_bg_cur.png) repeat-x left center;
+	-moz-border-top-right-radius: 5px;
+	-webkit-border-top-right-radius: 5px;
+	border-top-right-radius: 5px;
+	-moz-border-top-left-radius: 5px;
+	-webkit-border-top-left-radius: 5px;
+	border-top-left-radius: 5px;
+}
+.win_title b {
+	color:#333;
+	margin-left:10px;
+	outline:none;
+	-moz-user-select:none;
+	float:left
+}
+.win_title .win_btnblock {
+	width:auto;
+	padding:0 5px;
+	float:right;
+	height:17px;
+	margin:4px 3px 0 0;
+}
+.win_title .win_btnblock a {
+	display:inline-block;
+	width:26px;
+	height:17px;
+	background-image:url(../images/windowBtn.png);
+	background-repeat:no-repeat;
+	float:left;
+	margin:0 1px;
+	outline:none;
+}
+.winMaximize {
+	background-position:right bottom;
+}
+.winMaximize:hover {
+	background-position:right top;
+}
+.winHyimize {
+	background-position:-26px bottom;
+}
+.winHyimize:hover {
+	background-position:-26px top;
+}
+.winClose {
+	background-position:-52px top;
+}
+.winClose:hover {
+	background-position:-52px bottom;
+}
+.winMinimize {
+	background-position:left bottom;
+}
+.winMinimize:hover {
+	background-position:left top;
+}
+.winframe {
+	width:100%;
+	height:auto;
+	margin:0;
+	padding:0;
+	display:none
+}
+#wallpapers{
+	position: absolute;
+	left:0;
+	top:0;
+	z-index:-100;
+	width:100%;
+	height:100%;
+	overflow:hidden;
+	}
+/*桌面图标*/	
+#desktopPanel{
+	width:100%;
+	height:auto;
+	position:relative;
+	z-index:70;
+	}
+#desktopInnerPanel{
+	position:relative;
+	background:url(../images/bg.png) repeat;
+	}	
+.deskIcon {
+	width:100%;
+	height:auto;
+	position:relative;
+	float:left;
+}
+.desktop_icon {
+	width:86px;
+	height:88px;
+	cursor:pointer;
+	margin-left:-1000px;
+	text-align:center;
+}
+.desktop_icon span {
+	display:block;
+}
+.desktop_icon .icon {
+	width:50px;
+	height:50px;
+	margin:5px auto;
+	outline:none;
+	-moz-user-select:none;
+}
+.desktop_icon .icon img{
+	width:50px;
+	height:50px;
+	}
+.desktop_icon .text {
+	display:inline-block;
+	width:auto;
+	height:22px;
+	line-height:22px;
+	text-align:center;
+	color:#fff;
+	background:url(../images/iconTextbg.png) no-repeat left center;
+	position:relative;
+	padding-left:10px;
+	margin-right:10px;
+	outline:none;
+	-moz-user-select:none;
+}
+.desktop_icon s{
+	display:inline-block;
+	width:10px;
+	height:22px;
+	position:absolute;
+	right:-10px;
+	top:0;
+	background:url(../images/iconTextbg_right.png) left center no-repeat;
+	}
+.desktop_icon_over {
+	background:url(../images/icon_over.png) no-repeat center center;
+}

@@ -64,7 +64,68 @@
             <th class="column_60 textCenter">描述</th>
         </tr>
         <tr>
-            <td>文件交换</th>
+            <th>文件交换</th>
+            <td class="textCenter">
+            	<img src="<{$smarty.const.THEME_PATH}>/images/icon/select.png" width="16" height="16" />
+            	<!--<img src="<{$smarty.const.THEME_PATH}>/images/icon/stop.png" width="16" height="16" />-->
+            </th>
+            <td class="textCenter">&nbsp;</td>
+        </tr>
+        <tr>
+            <th>数据库同步</th>
+            <td class="textCenter">
+            	<img src="<{$smarty.const.THEME_PATH}>/images/icon/select.png" width="16" height="16" />
+            	<!--<img src="<{$smarty.const.THEME_PATH}>/images/icon/stop.png" width="16" height="16" />-->
+            </th>
+            <td class="textCenter">&nbsp;</td>
+        </tr>
+        <tr>
+            <th>安全浏览</th>
+            <td class="textCenter">
+            	<img src="<{$smarty.const.THEME_PATH}>/images/icon/stop.png" width="16" height="16" />
+            </th>
+            <td class="textCenter">&nbsp;</td>
+        </tr>
+        <tr>
+            <th>FTP访问</th>
+            <td class="textCenter">
+            	<img src="<{$smarty.const.THEME_PATH}>/images/icon/stop.png" width="16" height="16" />
+            </th>
+            <td class="textCenter">&nbsp;</td>
+        </tr>
+        <tr>
+            <th>邮件访问</th>
+            <td class="textCenter">
+            	<img src="<{$smarty.const.THEME_PATH}>/images/icon/select.png" width="16" height="16" />
+            	<!--<img src="<{$smarty.const.THEME_PATH}>/images/icon/stop.png" width="16" height="16" />-->
+            </th>
+            <td class="textCenter">&nbsp;</td>
+        </tr>
+        <tr>
+            <th>数据库访问</th>
+            <td class="textCenter">
+            	<img src="<{$smarty.const.THEME_PATH}>/images/icon/stop.png" width="16" height="16" />
+            </th>
+            <td class="textCenter">&nbsp;</td>
+        </tr>
+        <tr>
+            <th>定制访问</th>
+            <td class="textCenter">
+            	<img src="<{$smarty.const.THEME_PATH}>/images/icon/select.png" width="16" height="16" />
+            	<!--<img src="<{$smarty.const.THEME_PATH}>/images/icon/stop.png" width="16" height="16" />-->
+            </th>
+            <td class="textCenter">&nbsp;</td>
+        </tr>
+        <tr>
+            <th>安全通道</th>
+            <td class="textCenter">
+            	<img src="<{$smarty.const.THEME_PATH}>/images/icon/select.png" width="16" height="16" />
+            	<!--<img src="<{$smarty.const.THEME_PATH}>/images/icon/stop.png" width="16" height="16" />-->
+            </th>
+            <td class="textCenter">&nbsp;</td>
+        </tr>
+        <tr>
+            <th>消息传输</th>
             <td class="textCenter">
             	<img src="<{$smarty.const.THEME_PATH}>/images/icon/select.png" width="16" height="16" />
             	<!--<img src="<{$smarty.const.THEME_PATH}>/images/icon/stop.png" width="16" height="16" />-->
