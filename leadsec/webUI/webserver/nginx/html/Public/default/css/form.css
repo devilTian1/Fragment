@@ -74,7 +74,11 @@ fieldset button.addBtn {
 }
 
 fieldset div.twofa {
-    margin-left: 10%;
+    margin-left: 5%;
+}
+
+fieldset label.midLabel {
+    width: 150px;
 }
 
 fieldset label.longLabel {

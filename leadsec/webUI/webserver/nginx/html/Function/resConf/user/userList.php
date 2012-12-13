@@ -1,6 +1,17 @@
 <?php
     require_once($_SERVER['DOCUMENT_ROOT'] . '/Function/common.php');
 
+    function getConnectRule() {
+        $db  = new dbsqlite(DB_PATH . '/uma_auth.db');
+        $sql = "SELECT rule_name FROM connect_rule";
+        $data = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
+        $result = array();
+        foreach ($data as $d) {
+            $result[] = $d['rule_name'];
+        }
+        return $result;
+    }
+
     function getAllRoles() {
         $db  = new dbsqlite(DB_PATH . '/uma_auth.db');
         $sql = "SELECT role_name FROM role";
@@ -16,13 +27,20 @@
         $db  = new dbsqlite(DB_PATH . '/uma_auth.db');
         $sql = 'SELECT role_name FROM user, user_role_map, role WHERE'.
             ' user.user_id = user_role_map.User_id AND '.
-            "user_role_map.Role_id = role.role_id AND user.user_name = $name";
+            "user_role_map.Role_id = role.role_id AND user.user_name = '$name'";
         $data = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
         $result = array();
         foreach ($data as $d) {
             $result[] = $d['role_name'];
         }
         return $result;
+    }
+
+    function getUserDataByName($name) {
+        $db     = new dbsqlite(DB_PATH . '/uma_auth.db');
+        $sql    = "SELECT * FROM user WHERE user_name = '$name'";
+        $result = $db->query($sql)->getFirstData(PDO::FETCH_ASSOC);
+        return $result;       
     }
 
     function getDataCount() {
@@ -42,41 +60,105 @@
             ->fetch($tpl);
     }
 
-    function getAddOrEditCmd() {
+    function getAddOrEditCmd($action) {
         $active = $_POST['active'] === 'on' ? 'on' : 'off';
         if ('twofa' === $_POST['authType']) {
             $authType = $_POST['twofaType'];
         } else {
             $authType = $_POST['authType'];
         }
-        $_POST['bindIp'];
-        $_POST['comment'];
+        $ip      = $_POST['bindIp'];
         $firstChangePwd = $_POST['firstChangePwd'] === 'on' ? 'on' : 'off';
-        $modifyPwdAlliw = $_POST['modifyPwdAllow'] === 'on' ? 'on' : 'off';
-        $pwd = $_POST['passwd_user'];
-        $_POST['realName'];
-        $_POST['rolesMember'];
-        $name = $_POST['userListName'];
-        $_POST['validTime'];
-        $_POST['validTime_pwd'];
-        $result = "user add username \"$name\" ".
-            "auth-type $authType pwd '$pwd' role ";
+        $modifyPwdAllow = $_POST['modifyPwdAllow'] === 'on' ? 'on' : 'off';
+        $pwd      = $_POST['passwd_user'];
+        $realName = $_POST['realName'];
+        $name     = $_POST['userListName'];
+        $ap       = $_POST['validTime'];
+        $pap      = $_POST['validTime_pwd'];
+        $comment  = $_POST['comment'];
+        $result   = "user $action username \"$name\" ".
+            "auth-type $authType";
+        if (!empty($pwd)) {
+            $result .= " pwd '$pwd'";
+        }
+        if (!empty($_POST['rolesMember'])) {
+            $roles   = join(',', $_POST['rolesMember']);
+            $result .= " role \"$roles\"";
+        }
+        if ($realName !== '') {
+            $result .= " true-name \"$realName\"";
+        }
+        if ($ip !== '') {
+            $result .= " bind-ip4 \"$ip\"";
+        }
+        $result .= " active $active modify-pwd-allow $modifyPwdAllow ".
+            "first-change-pwd $firstChangePwd ".
+            "available-period $ap pwd-available-period $pap";
+        if ($comment !== '')
+            $result .= " comment '$comment'";
+        return $result;
     }
 
     if ($_POST['addNewUser'] === 'true') {
         // Open add new user dialog
-        $tpl = $_POST['tpl'];
+        $tpl = 'resConf/user/editUserListDialog.tpl';
         $result = V::getInstance()->assign('allRolesArr', getAllRoles())
             ->assign('mpa_on',    'checked="checked"')
             ->assign('fcp_off',   'checked="checked"')
             ->assign('active_on', 'checked="checked"')
+            ->assign('connectRuleArr', getConnectRule())
             ->fetch($tpl);
         echo json_encode(array('msg' => $result));
     } else if ('add' === $_POST['type']) {
-        $cmd = getAddOrEditCmd();
+        // Open new user dialog
+        $cmd = getAddOrEditCmd('add');
         $cli = new cli();
         $cli->run($cmd);
         echo json_encode(array('msg' => '添加成功.'));
+    } else if ($specUser=$_POST['editUser']) {
+        // Open user dialog of specified user
+        $userList = getUserDataByName($specUser);
+        $mpa = $userList['modify_pwd_allow'] === '1' ? 'mpa_on' : 'mpa_off';
+        $fcp = $userList['first_change_pwd'] === '1' ? 'fcp_on' : 'fcp_off';
+        $active = $userList['active'] === '1' ? 'active_on' : 'active_off';
+        switch ($userList['auth_type']) {
+            case '0':
+                $at = 'vip';
+                break;
+            case '1':
+                $at = 'localPwd';
+                break;
+            case '2':
+                $at = 'localCert';
+                break;
+            case '4':
+                $at = 'certPwd';
+                break;
+            case '5':
+                $at = 'dynPwd';
+                break;
+            default: 
+                throw New Exception('error: Auth Type.'. $userList['auth_type']);
+        }
+        $rolesMemberArr = getSpecRolesByUserName($specUser);
+        $result = V::getInstance()
+            ->assign('userList', $userList)
+            ->assign('allRolsArr', array_diff(getAllRoles(), $rolesMemberArr))
+            ->assign('rolesMemberArr', $rolesMemberArr)
+            ->assign($mpa, 'checked="checked"')
+            ->assign($fcp, 'checked="checked"')
+            ->assign($active, 'checked="checked"')
+            ->assign($at, 'checked="checked"')
+            ->assign('connectRuleArr', getConnectRule())
+            ->assign('type', 'edit')
+            ->fetch('resConf/user/editUserListDialog.tpl');
+        echo json_encode(array('msg' => $result));
+    } else if ('edit' === $_POST['type']) {
+        // Edit a specified user data
+        $cmd = getAddOrEditCmd('set');
+        $cli = new cli();
+        $cli->run($cmd);
+        echo json_encode(array('msg' => '修改成功.'));
     } else if ($order = $_POST['orderStatement']) { 
         // Fresh and resort user list Table
         freshUserList($order);

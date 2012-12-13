@@ -10,8 +10,8 @@
         <td class="no_search"><a href="#">同步</a></td>
         <td><{$u.dyn_sn}></td>
         <td class="no_search">
-            <a href="#" class="edit" onclick="openActiveSpecUserDialog('<{$u.user_id}>')" title="更改状态"></a>
-            <a href="#" class="delete" onclick="openDelSpecUserDialog('<{$u.user_id}>')" title="删除"></a>&nbsp;&nbsp;
+            <a href="#" class="edit" onclick="openEditSpecUserDialog('<{$u.user_name}>')" title="更改状态">&nbsp;</a>
+            <a href="#" class="delete" onclick="openDelSpecUserDialog('<{$u.user_id}>')" title="删除">&nbsp;</a>&nbsp;&nbsp;
             <button class="standard" style="position: static"
                 onclick="openLockSpecUserDialog()"
                 id="lockUserBtn">

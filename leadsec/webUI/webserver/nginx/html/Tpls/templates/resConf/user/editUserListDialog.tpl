@@ -4,32 +4,32 @@
         <legend>用户列表维护</legend>
         <div class="row">
             <label for="userListName">用户名称:<em class="required">*</em></label>
-            <input type="text" name="userListName" maxlength="15" value="<{$userList.name}>"
+            <input type="text" name="userListName" maxlength="15" value="<{$userList.user_name}>"
             <{if $type === 'edit'}>readonly="readonly"<{/if}> id="userListName"/>
         </div>
         <br class="clearFloat"/>
         <hr/>
         <div class="row">
             <label for="authType">认证方式:<em class="required">*</em></label>
-            <div class="column column_65">
-                <input class="radio" type="radio" name="authType" value="local-pwd" id="localPwd"/>
+            <div class="column column_75">
+                <input class="radio" type="radio" name="authType" value="local-pwd" id="localPwd" <{$localPwd}>/>
                 <label for="localPwd">本地密码认证</label>
                 <br/>
-                <input class="radio" type="radio" name="authType" value="local-cert" id="localCert"/>
+                <input class="radio" type="radio" name="authType" value="local-cert" id="localCert" <{$localCwd}>/>
                 <label for="localCert">本地证书认证</label>
                 <br/>
-                <input class="radio" type="radio" name="authType" value="twofa" id="twofa"/>
+                <input class="radio" type="radio" name="authType" value="twofa" id="twofa" <{$twofa}>/>
                 <label for="twofa">双因子认证</label>
                 <br class="clearFloat"/>
                 <div class="hide twofa">
-                    <input class="radio" type="radio" name="twofaType" value="cert-pwd" id="certpwd"/>
-                    <label for="certpwd" class="longLabel">本地证书 + 本地密码</label>
+                    <input class="radio" type="radio" name="twofaType" value="cert-pwd" id="certpwd" <{$certPwd}>/>
+                    <label for="certpwd" class="midLabel">本地证书 + 本地密码</label>
                     <br/>
-                    <input class="radio" type="radio" name="twofaType" value="dyn-pwd" id="dynpwd"/>
+                    <input class="radio" type="radio" name="twofaType" value="dyn-pwd" id="dynpwd" <{$dynPwd}>/>
                     <label for="dynpwd" class="longLabel">动态密码 + 本地密码(SN文件可选)</label>
                     <br class="clearFloat"/>
                 </div>
-                <input class="radio" type="radio" name="authType" value="vip" id="vip"/>
+                <input class="radio" type="radio" name="authType" value="vip" id="vip" <{$vip}>/>
                 <label for="vip" class="longLabel">免认证(必须绑定IP, MAC中的一项!)</label>
             </div>
         </div>
@@ -37,12 +37,14 @@
         <hr/>
         <div class="row">
             <label for="passwd">登录密码:</label>
-            <input type="password" name="passwd_user" id="passwd_user"/>
+            <input type="password" name="passwd_user" id="passwd_user"
+                value="<{$userList.passwd}>"/>
         </div>
         <br class="clearFloat"/>
         <div class="row">
             <label for="passwd_again">重复密码:</label>
-            <input type="password" name="passwd_user_again" id="passwd_user_again"/>
+            <input type="password" name="passwd_user_again"
+                id="passwd_user_again" value="<{$userList.passwd}>"/>
         </div>
         <br class="clearFloat"/>
         <div class="row">
@@ -78,17 +80,20 @@
         <hr/>
         <div class="row">
             <label for="realName">真实名称:</label>
-            <input type="text" name="realName" id="realName"/>
+            <input type="text" name="realName" id="realName"
+                value="<{$userList.true_name}>"/>
         </div>
         <br class="clearFloat"/>
         <div class="row">
             <label for="bindIp">绑定IP:</label>
-            <input type="text" name="bindIp" id="bindIp"/>
+            <input type="text" name="bindIp" id="bindIp"
+                value="<{$userList.bind_ip4}>"/>
         </div>
         <br class="clearFloat"/>
         <div class="row">
             <label for="bindMac">绑定MAC:</label>
-            <input type="text" name="bindMac" id="bindMac"/>
+            <input type="text" name="bindMac" id="bindMac"
+                value="<{$userList.bind_mac}>"/>
         </div>
         <br class="clearFloat"/>
         <div class="row">
@@ -109,25 +114,28 @@
         <br class="clearFloat"/>
         <div class="row">
             <label for="validTime">用户有效时间(单位:天):</label>
-            <input type="text" name="validTime" id="validTime" value="0"/>
+            <input type="text" name="validTime" id="validTime"
+                value="<{$userList.validtime|default: '0'}>"/>
         </div>
         <br class="clearFloat"/>
         <div class="row">
             <label for="validTime_pwd">密码有效时间(单位:天):</label>
-            <input type="text" name="validTime_pwd" id="validTime_pwd" value="0"/>
+            <input type="text" name="validTime_pwd" id="validTime_pwd"
+                value="<{$userList.passvaliddate|default: '0'}>"/>
         </div>
         <br class="clearFloat"/>
         <div class="row">
             <label for="connectRule">接入控制:</label>
             <{html_options id="connectRule" name="connectRule"
-                output=$connectRuleArr values=$connectRuleArr}>
+                output=$connectRuleArr values=$connectRuleArr selected=$rolesMemberArr}>
         </div>
         <br class="clearFloat"/>
         <div class="row">
             <label>状态:</label>
             <input class="radio" type="radio" name="active" id="active_on" <{$active_on}>/>
             <label class="radioLabel" for="active_on">启动</label>
-            <input class="radio" type="radio" name="active" id="active_off" <{$active_on}>/>
+            <input class="radio" type="radio" name="active" id="active_off" <{$active_off}>/>
+
             <label class="radioLabel" for="active_off">不启用</label>
         </div>
        
@@ -147,35 +155,4 @@ $(document).ready(function() {
         changeAuthType();
     });
 });
-
-function changeAuthType() {
-    var authType = $(':radio[name="authType"]:checked').val();
-    if ('twofa' === authType) {
-        $('.twofa').show();
-        $('#passwd_user').removeAttr('disabled');
-        $('#passwd_user_again').removeAttr('disabled');
-        $('#sn').removeAttr('disabled');
-        if ('cert-pwd' === $(':radio[name="twofaType"]:checked').val()) {
-            $('#sn').attr('disabled', 'disabled');
-        } else { //dynpwd
-            $('#sn').removeAttr('disabled');
-        }
-    } else if ('local-pwd' === authType) {
-        $('.twofa').hide();
-        $('#passwd_user').removeAttr('disabled');
-        $('#passwd_user_again').removeAttr('disabled');
-        $('#sn').attr('disabled', 'disabled');
-    } else if ('local-cert' === authType) {
-        $('.twofa').hide();
-        $('#passwd_user').attr('disabled', 'disabled');
-        $('#passwd_user_again').attr('disabled', 'disabled');
-        $('#sn').attr('disabled', 'disabled');
-    } else if ('vip' === authType) {
-        $('.twofa').hide();
-        $('#passwd_user').attr('disabled', 'disabled');
-        $('#passwd_user_again').attr('disabled', 'disabled');
-        $('#sn').attr('disabled', 'disabled');
-    } else {
-    }
-}
 </script>

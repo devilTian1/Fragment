@@ -389,8 +389,17 @@ var validRules = {
         passwd_user: true
     },
     passwd_user_again: {
-        required: true,
         equalTo: "#passwd_user"
+    },
+    userListName: {
+        required: true,
+        realName: true
+    },
+    authType: {
+        required: true
+    },
+    twofaType: {
+        required: true
     }
 };
 
@@ -513,7 +522,16 @@ var validMsg = {
     passwd_user: {
         required: '请填写密码.'
     },
-    passwd_user_again: '两次密码不一致.'
+    passwd_user_again: '两次密码不一致.',
+    userListName: {
+        required: '用户名称不允许问空.'
+    },
+    authType: {
+        required: '选择任意一种认证方式.'
+    },
+    twofaType: {
+        required: '选择任意一种认证方式.'
+    }
 };
 
 function validateForm(form) {
