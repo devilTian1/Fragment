@@ -300,12 +300,9 @@ function showPageByAjax(url) {
     loadEmbedPage('Function/view.php', data, $("#mainContent"));
 }
 
-function showStepPageByAjax(funcUrl,steptpl) {
-	var data = {
-				func : funcUrl,
-				steptpl	 : steptpl
-			   };
-	loadEmbedPage('Function/viewstep.php', data, $("#stepDivContent"));
+function showStepPageByAjax(url) {
+	var data = {func : url};
+	loadEmbedPage('Function/view.php', data, $("#stepDivContent"));
 }
 
 function refreshLayout() {
