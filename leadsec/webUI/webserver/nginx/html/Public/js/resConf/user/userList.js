@@ -78,8 +78,44 @@ function openEditSpecUserDialog(name) {
 }
 
 function openDelAllUserListDialog() {
-
+    var dialog  = loadingScreen('删除用户列表');
+    var buttons = {};
+    buttons['Confirm'] = function() {
+        delAllUsers();
+        freshTableAndPage();
+        $(this).remove();
+    };
+    buttons['Cancel']  = function() {
+        $(this).remove();
+    };
+    var dialogParams = {
+        width: 300,
+        height: 160,
+        buttons: buttons
+    };
+    dialog.setContent("<p>确定要删除所有用户数据吗?</p>");
+    dialog.setOptions(dialogParams);   
 }
+
+function delAllUsers() {
+    var url  = 'Function/resConf/user/userList.php';
+    var data = {
+        delAllUsers : true
+    };
+    var title  = '删除用户列表';
+    var buttons = {};
+    buttons['Ok'] = function() {
+        freshTableAndPage();
+        $(this).remove();
+    };
+    var dialogParams = {
+        width   : 250,
+        height  : 170,
+        buttons : buttons
+    };
+    showDialogByAjax(url, data, title, dialogParams);
+}
+
 
 function delUser(name) {
     var url  = 'Function/resConf/user/userList.php';
@@ -117,15 +153,67 @@ function openDelSpecUserDialog(name) {
         buttons: buttons
     };
     dialog.setContent("<p>确定要删除名称为" + name + "的用户数据吗?</p>");
-    dialog.setOptions(dialogParams);   
+    dialog.setOptions(dialogParams);
 }
 
 function openActiveSpecUserDialog(userId) {
 
 }
 
-function openDelUserDialog(userId) {
+function delSpecUsers(users) {
+    var url  = 'Function/resConf/user/userList.php';
+    if ($('#checkAllUser').attr('checked') === 'checked') {
+        var data = {
+            delAllUsers: true
+        };
+    } else {
+        var data = {
+            delSpecUsers: users
+        };
+    }
+    var title  = '删除用户列表';
+    var buttons = {};
+    buttons['Ok'] = function() {
+        freshTableAndPage();
+        $(this).remove();
+    };
+    var dialogParams = {
+        width   : 250,
+        height  : 170,
+        buttons : buttons
+    };
+    showDialogByAjax(url, data, title, dialogParams);
+}
 
+function openDelSpecUserListDialog() {
+    var users = [];
+    $('input:checkbox[name="checkSpecUser"]:checked').each(function(i) {
+        users[i] = $(this).parent().next().next().html();
+    });
+    var dialog  = loadingScreen('删除已选用户');
+    var buttons = {};
+    if (users.length === 0) {
+        dialog.setContent("<p>没有选择任何用户?</p>");
+        buttons['Close']  = function() {
+            $(this).remove();
+        };
+    } else {
+        dialog.setContent("<p>确定要删除已选的用户数据吗?</p>");
+        buttons['Confirm'] = function() {
+            delSpecUsers(users);
+            freshTableAndPage();
+            $(this).remove();
+        };
+        buttons['Cancel']  = function() {
+            $(this).remove();
+        };
+    }
+    var dialogParams = {
+        width: 300,
+        height: 160,
+        buttons: buttons
+    };
+    dialog.setOptions(dialogParams);
 }
 
 function openLockSpecUserDialog(name) {
@@ -188,6 +276,13 @@ function moveToAllRoles() {
     $('#rolesMember option:selected').appendTo($('#allRoles'));
 }
 
+function dynCheckbox() {
+    if ($('input:checkbox[name="checkSpecUser"]:unchecked').length === 0) {
+        $('#checkAllUser').attr('checked', 'checked');
+    } else {
+        $('#checkAllUser').removeAttr('checked');
+    }
+}
 function checkAllUser() {
     if ($('#checkAllUser').attr('checked')) {
         $('input:checkbox[name="checkSpecUser"]').attr('checked', 'checked');

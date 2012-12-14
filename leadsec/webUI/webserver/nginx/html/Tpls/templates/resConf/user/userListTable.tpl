@@ -30,5 +30,8 @@
 <script type="text/javascript"> 
     $(document).ready(function() {
         renderStandardUi();
+        $("input:checkbox[name='checkSpecUser']").click(function() {
+            dynCheckbox();
+        });
     });
 </script>

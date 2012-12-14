@@ -27,11 +27,11 @@
 </button>
 <button class="standard floatLeft" style="position: static"
     onclick="openDelAllUserListDialog()"
-    id="DelAllUserListBtn">清空
+    id="DelAllUserListBtn">删除所有用户
 </button>
 <button class="standard floatLeft" style="position: static"
     onclick="openDelSpecUserListDialog()"
-    id="DelSpecUserListBtn">删除
+    id="DelSpecUserListBtn">删除已选用户
 </button>
 <div class="pager floatRight">
     <{include file='layout/pagination.tpl' func='Function/resConf/user/userList.php'}>

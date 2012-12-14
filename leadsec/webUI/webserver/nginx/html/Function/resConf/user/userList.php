@@ -146,6 +146,18 @@
         $cli = new cli();
         $cli->run($cmd);
         echo json_encode(array('msg' => '添加成功.'));
+    } else if ($names = $_POST['delSpecUsers']) {
+        // Delete Specified Users Data
+        $cli = new cli();
+        foreach ($names as $name) {
+            $cli->run("user del username \"$name\"");
+        }
+        echo json_encode(array('msg' => '删除成功.'));
+    } else if (!empty($_POST['delAllUsers'])) {
+        // Delete All User Data
+        $cli = new cli();
+        $cli->run('user del all');
+        echo json_encode(array('msg' => '删除成功.'));
     } else if ($name = $_POST['delName']) {
         // Delete specified user data
         $cli = new cli();
@@ -222,6 +234,7 @@
             ->assign('name', $name)
             ->fetch($tpl);
         echo json_encode(array('msg' => $result));
+    
     } else if ($order = $_POST['orderStatement']) { 
         // Fresh and resort user list Table
         freshUserList($order);
