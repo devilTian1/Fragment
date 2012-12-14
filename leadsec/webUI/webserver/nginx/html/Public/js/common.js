@@ -122,6 +122,10 @@ function loadingScreen(title) {
     var loadHtml = '<label>' + getMessage("loading") + '... ...' + '</label>';
     var dialog = StandardUiFactory.createDialog(title);
     dialog.setContent(loadHtml);
+    dialog.setOptions({
+        width : 250,
+        height: 200
+    });
     dialog.open();
     return dialog;
 }
