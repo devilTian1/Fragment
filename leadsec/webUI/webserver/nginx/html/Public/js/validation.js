@@ -400,7 +400,11 @@ var validRules = {
     },
     twofaType: {
         required: true
+    },
+    importFile:{
+        required: true
     }
+    
 };
 
 // message
@@ -531,7 +535,8 @@ var validMsg = {
     },
     twofaType: {
         required: '选择任意一种认证方式.'
-    }
+    },
+    importFile:'请选择文件'
 };
 
 function validateForm(form) {
