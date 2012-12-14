@@ -400,6 +400,10 @@ var validRules = {
     },
     twofaType: {
         required: true
+    },
+    lockTime: {
+        required: true,
+        range: [0, 3650]
     }
 };
 
@@ -531,6 +535,10 @@ var validMsg = {
     },
     twofaType: {
         required: '选择任意一种认证方式.'
+    },
+    lockTime: {
+        required: '请输入锁定时间.',
+        range: '0到3650分钟,0表示永久锁定.'
     }
 };
 

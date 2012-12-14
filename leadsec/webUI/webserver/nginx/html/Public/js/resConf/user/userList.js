@@ -30,6 +30,7 @@ function openNewUserListDialog() {
     var dialogParams = {
         width   : 620,
         height  : 600,
+        position : ['center', 'top'],
         buttons : buttons
     };
     showDialogByAjax(url, data, title, dialogParams);
@@ -57,6 +58,7 @@ function openEditSpecUserDialog(name) {
     var dialogParams = {
         width   : 620,
         height  : 600,
+        position : ['center', 'top'],
         buttons : buttons
     };
     var successCallback = function(result, textStatus) {
@@ -79,8 +81,43 @@ function openDelAllUserListDialog() {
 
 }
 
-function openDelSpecUserListDialog() {
+function delUser(name) {
+    var url  = 'Function/resConf/user/userList.php';
+    var data = {
+        delName: name
+    };
+    var title  = '删除用户列表';
+    var buttons = {};
+    buttons['Ok'] = function() {
+        freshTableAndPage();
+        $(this).remove();
+    };
+    var dialogParams = {
+        width   : 250,
+        height  : 170,
+        buttons : buttons
+    };
+    showDialogByAjax(url, data, title, dialogParams);
+}
 
+function openDelSpecUserDialog(name) {
+    var dialog  = loadingScreen('删除用户列表');
+    var buttons = {};
+    buttons['Confirm'] = function() {
+        delUser(name);
+        freshTableAndPage();
+        $(this).remove();
+    };
+    buttons['Cancel']  = function() {
+        $(this).remove();
+    };
+    var dialogParams = {
+        width: 300,
+        height: 160,
+        buttons: buttons
+    };
+    dialog.setContent("<p>确定要删除名称为" + name + "的用户数据吗?</p>");
+    dialog.setOptions(dialogParams);   
 }
 
 function openActiveSpecUserDialog(userId) {
@@ -91,12 +128,56 @@ function openDelUserDialog(userId) {
 
 }
 
-function openLockSpecUserDialog() {
-
+function openLockSpecUserDialog(name) {
+    var url   = 'Function/resConf/user/userList.php';
+    var title   = '锁定用户';
+    var data  = {
+        lockUser : name
+    };
+    var buttons = {};
+    buttons['确定'] = function() {
+        if ($('#editLockTimeForm').valid()) {
+            ajaxSubmitForm($('#editLockTimeForm'), '结果');
+            freshTableAndPage();
+            $(this).remove();
+        }
+    };
+    buttons['取消'] = function() {
+        freshTableAndPage();
+        $(this).remove();
+    };
+    var dialogParams = {
+        width   : 420,
+        height  : 260,
+        buttons : buttons
+    };
+    showDialogByAjax(url, data, title, dialogParams);
 }
 
-function openResetSpecUserPwdDialog() {
-
+function openResetSpecUserPwdDialog(name) {
+    var url   = 'Function/resConf/user/userList.php';
+    var title   = '重置密码';
+    var data  = {
+        resetPwdUser : name
+    };
+    var buttons = {};
+    buttons['确定'] = function() {
+        if ($('#editResetPwdForm').valid()) {
+            ajaxSubmitForm($('#editResetPwdForm'), '结果');
+            freshTableAndPage();
+            $(this).remove();
+        }
+    };
+    buttons['取消'] = function() {
+        freshTableAndPage();
+        $(this).remove();
+    };
+    var dialogParams = {
+        width   : 550,
+        height  : 320,
+        buttons : buttons
+    };
+    showDialogByAjax(url, data, title, dialogParams);
 }
 
 function moveToSpecRole() {

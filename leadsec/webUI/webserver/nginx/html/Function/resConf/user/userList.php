@@ -60,6 +60,13 @@
             ->fetch($tpl);
     }
 
+    function getLockTimeByName($name) {
+        $db     = new dbsqlite(DB_PATH . '/uma_auth.db');
+        $sql    = "SELECT unlock_time FROM user WHERE user_name = '$name'";
+        $result = $db->query($sql)->getFirstData(PDO::FETCH_ASSOC);
+        return $result['unlock_time'];       
+    }
+
     function getAddOrEditCmd($action) {
         $ip     = $_POST['bindIp'];
         $mac    = $_POST['bindMac'];
@@ -83,8 +90,8 @@
             "auth-type $authType";
         if ($authType === 'local-pwd' || $authType === 'dyn-pwd') {
             $result .= " pwd '$pwd'";
-            if ($authType === 'dyn-pwd') {
-                $result .= " sn {$_FILES['sn']['name']}"
+            if ($authType === 'dyn-pwd' && !empty($_FILES['sn'])) {
+                $result .= " sn {$_FILES['sn']['name']}";
             }
         }
         if (!empty($_POST['rolesMember'])) {
@@ -139,7 +146,12 @@
         $cli = new cli();
         $cli->run($cmd);
         echo json_encode(array('msg' => '添加成功.'));
-    } else if ($specUser=$_POST['editUser']) {
+    } else if ($name = $_POST['delName']) {
+        // Delete specified user data
+        $cli = new cli();
+        $cli->run("user del username \"$name\"");
+        echo json_encode(array('msg' => '删除成功.'));
+    } else if ($specUser = $_POST['editUser']) {
         // Open user dialog of specified user
         $userList = getUserDataByName($specUser);
         $mpa = $userList['modify_pwd_allow'] === '1' ? 'mpa_on' : 'mpa_off';
@@ -183,6 +195,33 @@
         $cli = new cli();
         $cli->run($cmd);
         echo json_encode(array('msg' => '修改成功.'));
+    } else if ($time = $_POST['lockTime']) {
+        // Set lock time for specified user
+        $name = $_POST['name'];
+        $cli  = new cli();
+        $cli->run("user lock username \"$name\" time \"$time\"");
+        echo json_encode(array('msg' => '修改成功.'));
+    } else if ($name = $_POST['lockUser']) {
+        // Get Lock Data of specified user
+        $time = getLockTimeByName($name);
+        $tpl  = 'resConf/user/editLockUserDialog.tpl';
+        $result = V::getInstance()
+            ->assign('name', $name)
+            ->assign('lockTime', $time)
+            ->fetch($tpl);
+        echo json_encode(array('msg' => $result));
+    } else if ($name = $_POST['resetPwdName'] && $pwd = $_POST['passwd_user']) {
+        // Set lock time for specified user
+        $cli  = new cli();
+        $cli->run("user reset username \"$name\" password '$pwd'");
+        echo json_encode(array('msg' => '修改成功.'));
+    } else if ($name = $_POST['resetPwdUser']) {
+        // Get specified user`s pwd data
+        $tpl  = 'resConf/user/editResetPwdDialog.tpl';
+        $result = V::getInstance()
+            ->assign('name', $name)
+            ->fetch($tpl);
+        echo json_encode(array('msg' => $result));
     } else if ($order = $_POST['orderStatement']) { 
         // Fresh and resort user list Table
         freshUserList($order);

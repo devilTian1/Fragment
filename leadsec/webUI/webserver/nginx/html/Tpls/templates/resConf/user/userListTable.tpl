@@ -11,14 +11,14 @@
         <td><{$u.dyn_sn}></td>
         <td class="no_search">
             <a href="#" class="edit" onclick="openEditSpecUserDialog('<{$u.user_name}>')" title="更改状态">&nbsp;</a>
-            <a href="#" class="delete" onclick="openDelSpecUserDialog('<{$u.user_id}>')" title="删除">&nbsp;</a>&nbsp;&nbsp;
-            <button class="standard" style="position: static"
-                onclick="openLockSpecUserDialog()"
+            <a href="#" class="delete" onclick="openDelSpecUserDialog('<{$u.user_name}>')" title="删除">&nbsp;</a>&nbsp;&nbsp;
+            <button class="standard" style="position: static" type="button"
+                onclick="openLockSpecUserDialog('<{$u.user_name}>')"
                 id="lockUserBtn">
             锁定用户
             </button>
-            <button class="standard" style="position: static"
-                onclick="openResetSpecUserPwdDialog()"
+            <button class="standard" style="position: static" type="button"
+                onclick="openResetSpecUserPwdDialog('<{$u.user_name}>')"
                 id="resetPwdBtn">
             重置密码
             </button>
