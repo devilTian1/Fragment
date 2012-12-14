@@ -5,7 +5,6 @@
         onClick="searchKeyData('<{$tableId}>')"
         id="searchBtn">查找</button>
 </div>
-<div class="clearFloat"></div>
 <script type="text/javascript">
 $(document).ready(function() {
     renderStandardUi();
