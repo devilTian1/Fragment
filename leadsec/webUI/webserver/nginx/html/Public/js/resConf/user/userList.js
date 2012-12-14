@@ -156,8 +156,12 @@ function openDelSpecUserDialog(name) {
     dialog.setOptions(dialogParams);
 }
 
-function openActiveSpecUserDialog(userId) {
+function openImportSnFileDialog(name) {
+    alert(name);
+}
 
+function openActiveSpecUserDialog(name) {
+    alert(name);
 }
 
 function delSpecUsers(users) {

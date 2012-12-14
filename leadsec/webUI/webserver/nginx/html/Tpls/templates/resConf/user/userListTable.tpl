@@ -6,8 +6,8 @@
         <td><{$u.true_name}></td>
         <td><{if $u.active === 1}>Y<{else}>N<{/if}></td>
         <td><{$u.validtime}></td>
-        <td class="no_search"><a href="#">导入</a></td>
-        <td class="no_search"><a href="#">同步</a></td>
+        <td class="no_search"><a href="#" onClick="openImportSnFileDialog('<{$u.user_name}>')">导入</a></td>
+        <td class="no_search"><a href="#" onClick="openActiveSpecUserDialog('<{$u.user_name}>')">同步</a></td>
         <td><{$u.dyn_sn}></td>
         <td class="no_search">
             <a href="#" class="edit" onclick="openEditSpecUserDialog('<{$u.user_name}>')" title="更改状态">&nbsp;</a>
