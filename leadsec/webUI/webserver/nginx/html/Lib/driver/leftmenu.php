@@ -1,5 +1,5 @@
 <?php
-
+    @session_start();
     require_once(WEB_PATH . '/Lib/core/menu.php');
     /**
      *
@@ -28,11 +28,32 @@
             require_once(WEB_PATH . '/Conf/leftmenu.php');
             $this->menu = $leftmenuArr;
         }
-
+        
+        private function getCurUserRoles() {
+            if (empty($_SESSION)) {
+                throw new Exception('Error: invalid user. Please login.');
+            }
+            return $_SESSION['roles'];
+        }
+    
         public function sort() {
+            $curUserRoles = $this->getCurUserRoles();
             foreach ( $this->menu as $key => $node ) {
                 $pid = $node['pid'];
                 if ( $pid !== 0 ) {
+                    // hide this item for specified ban role
+                    $banRolesStr = $this->menu[$key]['ban'];
+                    if (!empty($banRolesStr)) {
+                        $banRolesArr = array();
+                        $banRolesTmp = explode(',', $banRolesStr);
+                        foreach ($banRolesTmp as $r) {
+                            $banRolesArr[] = trim($r);
+                        }
+                        $t = count(array_intersect($curUserRoles, $banRolesArr));
+                        if ($t > 0) {
+                            continue;
+                        }
+                    }
                     // add array for storing child nodes
                     if ( !isset($this->menu[$pid]['children']) ) {
                         $this->menu[$pid]['children'] = array();   

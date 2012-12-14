@@ -108,11 +108,21 @@
 
     function saveUserInfo($userData) {
         addOnlineUsers($userData['account']);
+        $roles = array();
+        if ($userData['super'] === '1') {
+            $roles[] = 'super';
+        }
+        if ($userData['manager'] === '1') {
+            $roles[] = 'manager';
+        }
+        if ($userData['policyer'] === '1') {
+            $roles[] = 'policyer';
+        }
+        if ($userData['auditor'] === '1') {
+            $roles[] = 'auditor';
+        }
+        @$_SESSION['roles']        = $roles;
         @$_SESSION['account']      = $userData['account'];
-        @$_SESSION['super']        = $userData['super'];
-        @$_SESSION['manager']      = $userData['manager'];
-        @$_SESSION['policyer']     = $userData['policyer'];
-        @$_SESSION['auditor']      = $userData['auditor'];
         @$_SESSION['session_time'] = time();
         exit('sucess');
     }
