@@ -152,12 +152,12 @@
         validateForm($('#uploadManuFileForm'));
     });
     function uploadConfFile() {
-        var dialog = loadingScreen('');
         if ($('#uploadManuFileForm').valid() === false) {
             $('#uploadManuFileForm').submit(function() {
                 return false
             });
         } else {
+            var dialog = loadingScreen('');
             $('#uploadManuFileForm').submit();
         }
     }
