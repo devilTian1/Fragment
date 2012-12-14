@@ -61,13 +61,14 @@
     }
 
     function getAddOrEditCmd($action) {
+        $ip     = $_POST['bindIp'];
+        $mac    = $_POST['bindMac'];
         $active = $_POST['active'] === 'on' ? 'on' : 'off';
         if ('twofa' === $_POST['authType']) {
             $authType = $_POST['twofaType'];
         } else {
             $authType = $_POST['authType'];
         }
-        $ip      = $_POST['bindIp'];
         $firstChangePwd = $_POST['firstChangePwd'] === 'on' ? 'on' : 'off';
         $modifyPwdAllow = $_POST['modifyPwdAllow'] === 'on' ? 'on' : 'off';
         $pwd      = $_POST['passwd_user'];
@@ -75,11 +76,16 @@
         $name     = $_POST['userListName'];
         $ap       = $_POST['validTime'];
         $pap      = $_POST['validTime_pwd'];
+        $cRule     = $_POST['connectRule'];
         $comment  = $_POST['comment'];
-        $result   = "user $action username \"$name\" ".
+
+        $result = "user $action username \"$name\" ".
             "auth-type $authType";
-        if (!empty($pwd)) {
+        if ($authType === 'local-pwd' || $authType === 'dyn-pwd') {
             $result .= " pwd '$pwd'";
+            if ($authType === 'dyn-pwd') {
+                $result .= " sn {$_FILES['sn']['name']}"
+            }
         }
         if (!empty($_POST['rolesMember'])) {
             $roles   = join(',', $_POST['rolesMember']);
@@ -91,9 +97,27 @@
         if ($ip !== '') {
             $result .= " bind-ip4 \"$ip\"";
         }
-        $result .= " active $active modify-pwd-allow $modifyPwdAllow ".
-            "first-change-pwd $firstChangePwd ".
-            "available-period $ap pwd-available-period $pap";
+        if ($mac !== '') {
+            $result .= " bind-mac \"$mac\"";
+        }
+        if ($active !== '') {
+            $result .= " active $active";
+        }
+        if (!empty($modifyPwdAllow)) {
+            $result .= " modify-pwd-allow $modifyPwdAllow";
+        }
+        if (!empty($firstChangePwd)) {
+            $result .= " first-change-pwd $firstChangePwd";
+        }
+        if (!empty($ap)) {
+            $result .= " available-period $ap";
+        }
+        if (!empty($pap)) {
+            $result .= " pwd-available-period $pap";
+        }
+        if (!empty($cRule)) {
+            $result .= " connect-rule $cRule";
+        }
         if ($comment !== '')
             $result .= " comment '$comment'";
         return $result;
