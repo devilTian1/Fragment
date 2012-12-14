@@ -94,9 +94,9 @@
     'nm_b_s' => array('pid' => 'nm_b', 'name' => '静态路由', 'link' => 'staticRoute'),
 
     //level3 networkManagement/HA
-    'nm_ha_v' => array('pid' => 'nm_ha', 'name' => '虚拟地址', 'link' => 'viraddr'),
-    'nm_ha_h' => array('pid' => 'nm_ha', 'name' => '双机热备', 'link' => 'ha'),
-    'nm_ha_l' => array('pid' => 'nm_ha', 'name' => '负载均衡', 'link' => 'lvs'),
+    'nm_h_v' => array('pid' => 'nm_h', 'name' => '虚拟地址', 'link' => 'viraddr'),
+    'nm_h_h' => array('pid' => 'nm_h', 'name' => '双机热备', 'link' => 'ha'),
+    'nm_h_l' => array('pid' => 'nm_h', 'name' => '负载均衡', 'link' => 'lvs'),
     
     //level3 resConf/addr
     'rc_a_a' => array('pid' => 'rc_a', 'name' => '地址列表', 'link' => 'addrList'),
@@ -121,20 +121,20 @@
     'rc_ab_m' => array('pid' => 'rc_ab', 'name' => '消息传递', 'link' => 'msgPass'),
     
     //levev3 client/safeBrowse
-    'c_d_t' => array('pid' => 'c_d', 'name' => '透明访问', 'link' => 'transVisit'),
-    'c_d_g' => array('pid' => 'c_d', 'name' => '普通访问', 'link' => 'generalVisit'),
+    'c_s_t' => array('pid' => 'c_s', 'name' => '透明访问', 'link' => 'transVisit'),
+    'c_s_g' => array('pid' => 'c_s', 'name' => '普通访问', 'link' => 'generalVisit'),
     
     //levev3 client/ftp
-    'c_s_t' => array('pid' => 'c_s', 'name' => '透明访问',  'link' => 'transVisit'),
-    'c_s_g' => array('pid' => 'c_s', 'name' => '普通访问',  'link' => 'generalVisit'),
+    'c_f_t' => array('pid' => 'c_f', 'name' => '透明访问',  'link' => 'transVisit'),
+    'c_f_g' => array('pid' => 'c_f', 'name' => '普通访问',  'link' => 'generalVisit'),
     
     //levev3 client/mail
-    'c_f_s' => array('pid' => 'c_f', 'name' => 'SMTP访问', 'link' => 'smtpVisit'),
-    'c_f_p' => array('pid' => 'c_f', 'name' => 'POP3访问', 'link' => 'pop3Visit'),
+    'c_m_s' => array('pid' => 'c_m', 'name' => 'SMTP访问', 'link' => 'smtpVisit'),
+    'c_m_p' => array('pid' => 'c_m', 'name' => 'POP3访问', 'link' => 'pop3Visit'),
     
     //levev3 client/db
-    'c_m_t' => array('pid' => 'c_m', 'name' => '透明访问','link' => 'transVisit'),
-    'c_m_g' => array('pid' => 'c_m', 'name' => '普通访问','link' => 'generalVisit'),
+    'c_db_t' => array('pid' => 'c_db', 'name' => '透明访问','link' => 'transVisit'),
+    'c_db_g' => array('pid' => 'c_db', 'name' => '普通访问','link' => 'generalVisit'),
     
     //levev3 client/custome
     'c_c_tt' => array('pid' => 'c_c', 'name' => 'TCP透明访问', 'link' => 'tcpTransVisit'),
@@ -147,8 +147,8 @@
     's_f_f' => array('pid' => 's_f', 'name' => '普通访问',  'link' => 'ftp'),
     
     //levev3 server/mail
-    's_f_s' => array('pid' => 's_f', 'name' => 'SMTP访问', 'link' => 'smtpMail'),
-    's_f_p' => array('pid' => 's_f', 'name' => 'POP3访问', 'link' => 'pop3Mail'),
+    's_m_s' => array('pid' => 's_m', 'name' => 'SMTP访问', 'link' => 'smtpMail'),
+    's_m_p' => array('pid' => 's_m', 'name' => 'POP3访问', 'link' => 'pop3Mail'),
     
     //levev3 server/db
     's_db_d' => array('pid' => 's_db', 'name' => '数据库访问','link' => 'db'),
