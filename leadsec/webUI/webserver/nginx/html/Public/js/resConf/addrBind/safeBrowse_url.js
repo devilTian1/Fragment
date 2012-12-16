@@ -4,7 +4,7 @@ function openEditDialog(id) {
         tpl    : 'resConf/addrBind/safeBrowse_url_editDialog.tpl',
         editId : id
     };
-    var title   = '修改地址组';
+    var title   = '修改URL过滤';
     var buttons = {};
     buttons['确定'] = function() {
         if ($('#editForm').valid()) {
@@ -26,7 +26,7 @@ function openEditDialog(id) {
 
 function openNewDialog() {
     var url   = 'Function/resConf/addrBind/safeBrowse_url.php';
-    var title = '定义地址组';
+    var title = '添加URL过滤';
     var data  = {
         tpl : 'resConf/addrBind/safeBrowse_url_editDialog.tpl',
 		openDialog: true
@@ -51,8 +51,8 @@ function openNewDialog() {
         $(this).remove();
     };
     var dialogParams = {
-        width   : 620,
-        height  : 550,
+        width   : 600,
+        height  : 460,
         buttons : buttons
     };
     showDialogByAjax(url, data, title, dialogParams);
@@ -63,7 +63,7 @@ function del(name) {
     var data = {
         delName: name
     };
-    var title  = '删除地址组';
+    var title  = '删除URL过滤';
     var buttons = {};
     buttons['Ok'] = function() {
         freshTableAndPage();
@@ -78,7 +78,7 @@ function del(name) {
 }
 
 function openDelDialog(name) {
-    var dialog  = loadingScreen('删除地址组');
+    var dialog  = loadingScreen('删除URL过滤');
     var buttons = {};
     buttons['Confirm'] = function() {
         del(name);
@@ -93,7 +93,7 @@ function openDelDialog(name) {
         height: 160,
         buttons: buttons
     };
-    dialog.setContent("<p>确定要删除名称为" + name + "的地址组吗?</p>");
+    dialog.setContent("<p>确定要删除名称为" + name + "的URL过滤吗?</p>");
     dialog.setOptions(dialogParams);   
 }
 

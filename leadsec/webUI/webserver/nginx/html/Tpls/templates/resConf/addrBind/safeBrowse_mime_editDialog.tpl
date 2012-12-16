@@ -1,110 +1,158 @@
 <style type="text/css">
 	.sectionDiv hr{ color:#09F;}
 	.sectionDiv label{ width:120px; float:left; display:block;}
+	.sectionDiv label input[type="checkbox"]{ width:10px;}
+	.floatLeft input[type="radio"]{ width:10px;}
 </style>
-<form action="xtcs.html" method="POST" id="editForm" onSubmit="return false;">
-<table class="column_95">
-   	<tbody>
-      <tr>
-        <td class="tdheader"><span class="red">*</span>名称: <br /></td>
-        <td width="77%"><div class="rowElem">
-          <input type="text" name="inputtext2" class="inputtext"/>
-          &nbsp;(1-19个合法字符)</div></td>
-      </tr>
-      <tr>
-        <td class="tdheader"> 应用程序:</td>
-        <td class="tdbody"><div class="rowElem">
-          <label>
-            <input type="radio" name="app" value="all" checked="checked" />
-          </label>
-          全选
-          <label>
-            <input type="radio" name="app" value="part" />
-          </label>
-          部分选择
-          <label>
-            <input type="radio" name="app" value="not" />
-          </label>
-          不选择 </div>
-          <div id="appsection" class="sectionDiv hide">
-          	<hr />
-          	<label><input name="mp4" type="checkbox" value="" />mp4</label>
-            <label><input name="mp4" type="checkbox" value="" />mp4</label>
-            <label><input name="mp4" type="checkbox" value="" />mp4</label>
-            <label><input name="mp4" type="checkbox" value="" />mp4</label>
-            <label><input name="mp4" type="checkbox" value="" />mp4</label>
-            <label><input name="mp4" type="checkbox" value="" />mp4</label>
-            <label><input name="mp4" type="checkbox" value="" />mp4</label>
-            <label><input name="mp4" type="checkbox" value="" />mp4</label>
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td class="tdheader"> 视频类:</td>
-        <td class="tdbody"><div class="rowElem">
-          <label>
-            <input name="radio1" type="radio" id="radio12" value="radio" checked="checked" />
-          </label>
-          全选
-          <label>
-            <input type="radio" name="radio1" id="radio13" value="radio" />
-          </label>
-          部分选择
-          <label>
-            <input type="radio" name="radio1" id="radio14" value="radio" />
-          </label>
-          不选择 </div></td>
-      </tr>
-      <tr>
-        <td class="tdheader"> 音频类:</td>
-        <td class="tdbody"><div class="rowElem">
-          <label>
-            <input name="radio2" type="radio" id="radio15" value="radio" checked="checked" />
-          </label>
-          全选
-          <label>
-            <input type="radio" name="radio2" id="radio16" value="radio" />
-          </label>
-          部分选择
-          <label>
-            <input type="radio" name="radio2" id="radio17" value="radio" />
-          </label>
-          不选择 </div></td>
-      </tr>
-      <tr>
-        <td class="tdheader">图像类: </td>
-        <td class="tdbody"><div class="rowElem">
-          <label>
-            <input name="radio3" type="radio" id="radio18" value="radio" checked="checked" />
-          </label>
-          全选
-          <label>
-            <input type="radio" name="radio3" id="radio19" value="radio" />
-          </label>
-          部分选择
-          <label>
-            <input type="radio" name="radio3" id="radio20" value="radio" />
-          </label>
-          不选择 </div></td>
-      </tr>
-      <tr>
-        <td class="tdheader">文本类:</td>
-        <td class="tdbody"><div class="rowElem">
-          <label>
-            <input name="radio4" type="radio" id="radio" value="radio" checked="checked" />
-          </label>
-          全选
-          <label>
-            <input type="radio" name="radio4" id="radio2" value="radio" />
-          </label>
-          部分选择
-          <label>
-            <input type="radio" name="radio4" id="radio8" value="radio" />
-          </label>
-          不选择 </div></td>
-      </tr>
-      </tbody>
-  </table>
+<form action="Function/resConf/addrBind/safeBrowse_mime.php" method="POST" id="editForm" onSubmit="return false;">
+    <input type="hidden" name="type" value="<{$type|default: 'add'}>"/>
+    <input type="hidden" name="id" value="<{$res.id}>"/>
+     <fieldset>
+        <!--<legend></legend>-->
+        <div class="row">
+          <label for="destip">名称:<em class="required">*</em></label>
+          <input type="text" name="destip" value="<{$res.destip}>" />( 1-19合法字符，9个中文汉字)
+        </div>
+        
+        <div class="row">
+            <label>应用程序:<em class="required">*</em></label>
+            <div class="floatLeft">
+               <input type="radio" name="app" value="all"/>全选
+            </div>
+            <div class="floatLeft">
+               <input type="radio" name="app" value="part"/>部分选择
+            </div>
+            <div class="floatLeft">
+                <input type="radio" name="app" value="not"/>不选择
+            </div>
+        </div>
+        <div class="row">
+         <div id="appsection" class="sectionDiv hide">
+              <hr />
+              <label><input name="mp4" type="checkbox" value="" />mp4</label>
+              <label><input name="mp4" type="checkbox" value="" />mp4</label>
+              <label><input name="mp4" type="checkbox" value="" />mp4</label>
+              <label><input name="mp4" type="checkbox" value="" />mp4</label>
+              <label><input name="mp4" type="checkbox" value="" />mp4</label>
+              <label><input name="mp4" type="checkbox" value="" />mp4</label>
+              <label><input name="mp4" type="checkbox" value="" />mp4</label>
+              <label><input name="mp4" type="checkbox" value="" />mp4</label>
+              <br class="clearFloat"/>
+             <hr />
+         </div>
+       </div>
+       <div class="row">
+            <label>视频类:<em class="required">*</em></label>
+            <div class="floatLeft">
+               <input type="radio" name="video" value="all"/>全选
+            </div>
+            <div class="floatLeft">
+               <input type="radio" name="video" value="part"/>部分选择
+            </div>
+            <div class="floatLeft">
+                <input type="radio" name="video" value="not"/>不选择
+            </div>
+        </div>
+        <div class="row">
+         <div id="videosection" class="sectionDiv hide">
+              <hr />
+              <label><input name="mp4" type="checkbox" value="" />mp4</label>
+              <label><input name="mp4" type="checkbox" value="" />mp4</label>
+              <label><input name="mp4" type="checkbox" value="" />mp4</label>
+              <label><input name="mp4" type="checkbox" value="" />mp4</label>
+              <label><input name="mp4" type="checkbox" value="" />mp4</label>
+              <label><input name="mp4" type="checkbox" value="" />mp4</label>
+              <label><input name="mp4" type="checkbox" value="" />mp4</label>
+              <label><input name="mp4" type="checkbox" value="" />mp4</label>
+              <br class="clearFloat"/>
+             <hr />
+         </div>
+        </div>
+        
+        <div class="row">
+            <label>音频类:<em class="required">*</em></label>
+            <div class="floatLeft">
+               <input type="radio" name="audio" value="all"/>全选
+            </div>
+            <div class="floatLeft">
+               <input type="radio" name="audio" value="part"/>部分选择
+            </div>
+            <div class="floatLeft">
+                <input type="radio" name="audio" value="not"/>不选择
+            </div>
+        </div>
+        <div class="row">
+         <div id="audiosection" class="sectionDiv hide">
+              <hr />
+              <label><input name="mp4" type="checkbox" value="" />mp4</label>
+              <label><input name="mp4" type="checkbox" value="" />mp4</label>
+              <label><input name="mp4" type="checkbox" value="" />mp4</label>
+              <label><input name="mp4" type="checkbox" value="" />mp4</label>
+              <label><input name="mp4" type="checkbox" value="" />mp4</label>
+              <label><input name="mp4" type="checkbox" value="" />mp4</label>
+              <label><input name="mp4" type="checkbox" value="" />mp4</label>
+              <label><input name="mp4" type="checkbox" value="" />mp4</label>
+              <br class="clearFloat"/>
+             <hr />
+         </div>
+        </div>
+        
+        <div class="row">
+            <label>图像类:<em class="required">*</em></label>
+            <div class="floatLeft">
+               <input type="radio" name="image" value="all"/>全选
+            </div>
+            <div class="floatLeft">
+               <input type="radio" name="image" value="part"/>部分选择
+            </div>
+            <div class="floatLeft">
+                <input type="radio" name="image" value="not"/>不选择
+            </div>
+        </div>
+        <div class="row">
+         <div id="imagesection" class="sectionDiv hide">
+              <hr />
+              <label><input name="mp4" type="checkbox" value="" />mp4</label>
+              <label><input name="mp4" type="checkbox" value="" />mp4</label>
+              <label><input name="mp4" type="checkbox" value="" />mp4</label>
+              <label><input name="mp4" type="checkbox" value="" />mp4</label>
+              <label><input name="mp4" type="checkbox" value="" />mp4</label>
+              <label><input name="mp4" type="checkbox" value="" />mp4</label>
+              <label><input name="mp4" type="checkbox" value="" />mp4</label>
+              <label><input name="mp4" type="checkbox" value="" />mp4</label>
+              <br class="clearFloat"/>
+             <hr />
+         </div>
+        </div>
+        
+         <div class="row">
+            <label>文本类:<em class="required">*</em></label>
+            <div class="floatLeft">
+               <input type="radio" name="txt" value="all"/>全选
+            </div>
+            <div class="floatLeft">
+               <input type="radio" name="txt" value="part"/>部分选择
+            </div>
+            <div class="floatLeft">
+                <input type="radio" name="txt" value="not"/>不选择
+            </div>
+        </div>
+        <div class="row">
+         <div id="txtsection" class="sectionDiv hide">
+              <hr />
+              <label><input name="mp4" type="checkbox" value="" />mp4</label>
+              <label><input name="mp4" type="checkbox" value="" />mp4</label>
+              <label><input name="mp4" type="checkbox" value="" />mp4</label>
+              <label><input name="mp4" type="checkbox" value="" />mp4</label>
+              <label><input name="mp4" type="checkbox" value="" />mp4</label>
+              <label><input name="mp4" type="checkbox" value="" />mp4</label>
+              <label><input name="mp4" type="checkbox" value="" />mp4</label>
+              <label><input name="mp4" type="checkbox" value="" />mp4</label>
+              <br class="clearFloat"/>
+             <hr />
+         </div>
+        </div>
+  </fieldset>
 </form>
 
 <script type="text/javascript">
@@ -115,6 +163,34 @@ $(document).ready(function() {
 		}else{
 			$("#appsection").hide();			
 		}				  
-	})					   
+	})
+	$("input[name='video']").click(function(){
+		if($(this).val()=="part"){
+			$("#videosection").show();
+		}else{
+			$("#videosection").hide();			
+		}				  
+	})	
+	$("input[name='image']").click(function(){
+		if($(this).val()=="part"){
+			$("#imagesection").show();
+		}else{
+			$("#imagesection").hide();			
+		}				  
+	})	
+	$("input[name='audio']").click(function(){
+		if($(this).val()=="part"){
+			$("#audiosection").show();
+		}else{
+			$("#audiosection").hide();			
+		}				  
+	})	
+	$("input[name='txt']").click(function(){
+		if($(this).val()=="part"){
+			$("#txtsection").show();
+		}else{
+			$("#txtsection").hide();			
+		}				  
+	})	
 });
 </script>

@@ -1,4 +1,5 @@
-<table class="column_95 textMid tablesorter" id="clientTcp">
+<{include file='layout/search.tpl' tableId='safeBrowse_optionsTable'}>
+<table class="column_95 textMid tablesorter" id="safeBrowse_optionsTable">
     <caption>
            过滤选项集
     </caption>
@@ -16,24 +17,21 @@
     </tr>
     </thead>
     <tr>
-     <tr>
-      <td>序号</td>
-      <td>名称</td>
-      <td>URL过滤</td>
-      <td>MIME类型过滤</td>
-      <td>文件扩展名过滤</td>
-      <td>文件病毒扫描</td>
-      <td>流病毒扫描</td>
-      <td>备注</td>
-      <td>
-      		<a href="#" class="edit" onclick="edituser()">编辑</a>
-            <a href="#" class="delete" onclick="deluser()">删除</a>
-      </td>
+      <tr>
+      <td colspan="9">Loading……</td>
     </tr>
   </table>
-<button class="floatLeft button" type="submit" onClick="openNewSFOptionsDialog()" id="add">添加</button>
-<script type="text/javascript">
-$(document).ready(function() {
-    $("#add, .inputbtn").button();
-});
+<button class="standard floatLeft" style="position: static"
+    onclick="openNewDialog()">添加
+</button>
+<div class="pager floatRight">
+    <{include file='layout/pagination.tpl' func='Function/resConf/addrBind/safeBrowse_options.php'}>
+</div>
+<script type="text/javascript" src="Public/js/resConf/addrBind/safeBrowse_options.js"></script>
+<script type="text/javascript"> 
+    $(document).ready(function() {
+        renderStandardUi();
+        freshTable('Function/resConf/addrBind/safeBrowse_options.php', $('#safeBrowse_optionsTable'), 'ORDER BY id ASC LIMIT 10');
+        sortTableInit($('#safeBrowse_optionsTable'), {8: {sorter: false}}, [[0,0]]);
+    });
 </script>

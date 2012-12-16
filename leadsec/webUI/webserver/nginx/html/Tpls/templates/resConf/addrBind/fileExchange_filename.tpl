@@ -1,4 +1,5 @@
-<table class="column_95 textMid tablesorter" id="clientTcp">
+<{include file='layout/search.tpl' tableId='fileExchange_filenameTable'}>
+<table class="column_95 textMid tablesorter" id="fileExchange_filenameTable">
  <caption>
    文件名控制
  </caption>
@@ -13,20 +14,21 @@
 </thead>
 <tbody>
     <tr>
-      <td>序号</td>
-      <td>名称</td>
-      <td>url列表</td>
-      <td>&nbsp;</td>
-      <td>
-      	<a href="#" class="edit" onclick="edituser()">编辑</a>
-        <a href="#" class="delete" onclick="deluser()">删除</a>
-      </td>
+      <td colspan="5">Loading……</td>
     </tr>
 </tbody>
 </table>
-<button class="floatLeft button" type="submit" onClick="openNewFEFilenameDialog()" id="add">添加</button>
-<script type="text/javascript">
-$(document).ready(function() {
-    $("#add, .inputbtn").button();
-});
+<button class="standard floatLeft" style="position: static"
+    onclick="openNewDialog()">添加
+</button>
+<div class="pager floatRight">
+    <{include file='layout/pagination.tpl' func='Function/resConf/addrBind/fileExchange_filename.php'}>
+</div>
+<script type="text/javascript" src="Public/js/resConf/addrBind/fileExchange_filename.js"></script>
+<script type="text/javascript"> 
+    $(document).ready(function() {
+        renderStandardUi();
+        freshTable('Function/resConf/addrBind/fileExchange_filename.php', $('#fileExchange_filenameTable'), 'ORDER BY id ASC LIMIT 10');
+        sortTableInit($('#fileExchange_filenameTable'), {4: {sorter: false}}, [[0,0]]);
+    });
 </script>

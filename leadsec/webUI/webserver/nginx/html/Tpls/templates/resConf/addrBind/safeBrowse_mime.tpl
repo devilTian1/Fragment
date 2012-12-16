@@ -1,4 +1,5 @@
-<table class="column_95 textMid tablesorter" id="clientTcp">
+<{include file='layout/search.tpl' tableId='safeBrowse_mimeTable'}>
+<table class="column_95 textMid tablesorter" id="safeBrowse_mimeTable">
     <caption>
         MIME过滤
     </caption>
@@ -15,24 +16,22 @@
     </tr>
     </thead>
     <tbody>
-    <tr>
-      <td>序号</td>
-      <td>名称</td>
-      <td>应用程序类</td>
-      <td>视频类</td>
-      <td>音频类</td>
-      <td>图像类</td>
-      <td>文本类</td>
-      <td>
-      		<a href="#" class="edit" onclick="edituser()">编辑</a>
-            <a href="#" class="delete" onclick="deluser()">删除</a>
-      </td>
+     <tr>
+      <td colspan="8">Loading……</td>
     </tr>
     </tbody>
   </table>
-<button class="floatLeft button" type="submit" onClick="openNewSFMimeDialog()" id="add">添加</button>
-<script type="text/javascript">
-$(document).ready(function() {
-   $("#add, .inputbtn").button();
-});
+<button class="standard floatLeft" style="position: static"
+    onclick="openNewDialog()">添加
+</button>
+<div class="pager floatRight">
+    <{include file='layout/pagination.tpl' func='Function/resConf/addrBind/safeBrowse_mime.php'}>
+</div>
+<script type="text/javascript" src="Public/js/resConf/addrBind/safeBrowse_mime.js"></script>
+<script type="text/javascript"> 
+    $(document).ready(function() {
+        renderStandardUi();
+        freshTable('Function/resConf/addrBind/safeBrowse_mime.php', $('#safeBrowse_mimeTable'), 'ORDER BY id ASC LIMIT 10');
+        sortTableInit($('#safeBrowse_mimeTable'), {7: {sorter: false}}, [[0,0]]);
+    });
 </script>

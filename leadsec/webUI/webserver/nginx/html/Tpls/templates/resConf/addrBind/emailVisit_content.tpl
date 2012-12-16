@@ -1,4 +1,5 @@
-<table class="column_95 textMid tablesorter" id="clientTcp">
+<{include file='layout/search.tpl' tableId='emailVisit_contentTable'}>
+<table class="column_95 textMid tablesorter" id="emailVisit_contentTable">
  <caption>
    内容关键字
  </caption>
@@ -13,22 +14,22 @@
     </tr>
 </thead>
 <tbody>
-    <tr>
-      <td>序号</td>
-      <td>名称</td>
-      <td>内容关键字</td>
-      <td>备注</td>
-      <td>&nbsp;</td>
-      <td>
-      	<a href="#" class="edit" onclick="edituser()">编辑</a>
-        <a href="#" class="delete" onclick="deluser()">删除</a>
-      </td>
+     <tr>
+      <td colspan="6">Loading……</td>
     </tr>
 </tbody>
 </table>
-<button class="floatLeft button" type="submit" onClick="openNewEVContentDialog()" id="add">添加</button>
-<script type="text/javascript">
-$(document).ready(function() {
-    $("#add, .inputbtn").button();
-});
+<button class="standard floatLeft" style="position: static"
+    onclick="openNewDialog()">添加
+</button>
+<div class="pager floatRight">
+    <{include file='layout/pagination.tpl' func='Function/resConf/addrBind/emailVisit_content.php'}>
+</div>
+<script type="text/javascript" src="Public/js/resConf/addrBind/emailVisit_content.js"></script>
+<script type="text/javascript"> 
+    $(document).ready(function() {
+        renderStandardUi();
+        freshTable('Function/resConf/addrBind/emailVisit_content.php', $('#emailVisit_contentTable'), 'ORDER BY id ASC LIMIT 10');
+        sortTableInit($('#emailVisit_contentTable'), {5: {sorter: false}}, [[0,0]]);
+    });
 </script>

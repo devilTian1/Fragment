@@ -17,4 +17,3 @@ function changeTabClass(num){
 	$("#stepTabDiv").removeClass().addClass("stepTabDivImg3_"+num);
 }
 </script>
-<script type="text/javascript" src="Public/js/resConf/addrBind/msgPass.js"></script>

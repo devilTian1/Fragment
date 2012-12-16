@@ -1,43 +1,44 @@
-<form action="xtcs.html" method="POST" id="editForm" onSubmit="return false;">
-<table class="column_95">
-  <tbody>
-      <td class="tdheader" width="120"><span class="red">*</span> 名称:</td>
-      <td class="tdbody">
-        <input type="text" name="inputtext3" class="inputtext"/>
-        &nbsp;( 1-15 字母、数字、减号、下划线、点的组合 ) </div></td>
-    </tr>  <tr>
-        <td class="tdheader">允许的文件名:</td>
-        <td class="tdbody"><input type="text" name="inputtext"  class="inputtext"/></td>
-      </tr>
-    <tr>
-      <td class="tdheader">&nbsp;</td>
-      <td class="tdbody">文件名中可以使用通配符*和? 但不能包含以下字符% \ / : &quot; &lt; &gt; | '</td>
-    </tr>
-    <tr>
-      <td class="tdheader">
-        <input type="button" name="button" id="button" value="&gt;&gt;" class="inputbtn" />
-        <br />
-        <br />
-        <input type="button" name="button2" id="button2" value="&lt;&lt;" class="inputbtn" />
-        <br /></td>
-      <td class="tdbody">
-        <label>
-          <select name="select" size="7" class="w200" id="select">
-          </select>
-        </label>
-      </td>
-    </tr>
-    <tr>
-      <td class="tdheader"><span class="red"></span>备注:</td>
-      <td class="tdbody">
-        <input type="text" name="inputtext3"  class="inputtext"/>
-      </td>
-    </tr>
-    </tbody>
-  </table>
+<form action="Function/resConf/addrBind/fileExchange_filename.php" method="POST" id="editForm" onSubmit="return false;">
+    <input type="hidden" name="type" value="<{$type|default: 'add'}>"/>
+    <input type="hidden" name="id" value="<{$res.id}>"/>
+     <fieldset>
+        <!--<legend></legend>-->
+        <div class="row">
+          <label for="destip">名称:<em class="required">*</em></label>
+          <input type="text" name="destip" value="<{$res.destip}>" />(1-15 字母、数字、减号、下划线、点的组合)
+        </div>
+        <div class="row">
+          <label for="destip">允许的文件名:<em class="required">*</em></label>
+          <input type="text" name="destip" value="<{$res.destip}>" />( 1-19合法字符，9个中文汉字)
+        </div>
+        <div class="row">
+                 说明:
+                <div class="pl50">文件名中可以使用通配符*和? 但不能包含以下字符% \ / : &quot; &lt; &gt; | '</div>
+        </div>
+        
+        <div class="row">
+        	<div class="column column_25">
+                <button class="standard floatLeft" type="button" onClick="addto()"> &gt;&gt;
+                </button>
+                <br/><br/><br/>
+                <button class="standard floatLeft" type="button" onClick="moveto()"> &lt;&lt;
+                </button>
+            </div>
+            <div class="column column_35">
+                <{html_options class='multiSelect' size="5" multiple="multiple"
+                    name="addrMember[]" id="addrMember"
+                    output=$addrMemberArr values=$addrMemberArr}>
+	        </div>
+        </div>
+        
+        <div class="row">
+          <label for="destip">备注:</label>
+          <input type="text" name="destip" value="<{$res.destip}>" />( 0-253字符. )
+        </div>
+        </fieldset>
 </form>
 <script type="text/javascript">
 $(document).ready(function() {
-	 $("#add, .inputbtn").button();					   
+	$(".standard").button();	   
 });
 </script>

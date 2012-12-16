@@ -1,4 +1,5 @@
-<table class="column_95 textMid tablesorter" id="clientTcp">
+<{include file='layout/search.tpl' tableId='ftpVisitTable'}>
+<table class="column_95 textMid tablesorter" id="ftpVisitTable">
  <caption>
     FTP过滤选项
  </caption>
@@ -13,23 +14,22 @@
         </tr>
     </thead>
 	<tbody>
-     <tr>
-          <td>序号</td>
-          <td>用户控制</td>
-          <td>命令控制</td>
-          <td>文件病毒扫描</td>
-          <td>备注</td>
-          <td>
-          		<a href="#" class="edit" onclick="edituser()">编辑</a>
-       			<a href="#" class="delete" onclick="deluser()">删除</a>
-          </td>
-       </tr>
+      <tr>
+      <td colspan="6">Loading……</td>
+    </tr>
       </tbody>
   </table>
-<button class="floatLeft button" type="submit" onClick="openNewDialog()" id="add">添加</button>
-<script type="text/javascript">
-$(document).ready(function() {
-    $("#add, .inputbtn").button();
-});
-</script>
+<button class="standard floatLeft" style="position: static"
+    onclick="openNewDialog()">添加
+</button>
+<div class="pager floatRight">
+    <{include file='layout/pagination.tpl' func='Function/resConf/addrBind/ftpVisit.php'}>
+</div>
 <script type="text/javascript" src="Public/js/resConf/addrBind/ftpVisit.js"></script>
+<script type="text/javascript"> 
+    $(document).ready(function() {
+        renderStandardUi();
+        freshTable('Function/resConf/addrBind/ftpVisit.php', $('#ftpVisitTable'), 'ORDER BY id ASC LIMIT 10');
+        sortTableInit($('#ftpVisitTable'), {5: {sorter: false}}, [[0,0]]);
+    });
+</script>

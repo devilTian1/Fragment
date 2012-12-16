@@ -7,7 +7,8 @@
       </td>
     </tr>
 </table>
-<table class="column_95 textMid tablesorter" id="clientTcp">
+<{include file='layout/search.tpl' tableId='msgPass_blacklistTable'}>
+<table class="column_95 textMid tablesorter" id="msgPass_blacklistTable">
 <caption>
       内容黑名单
    </caption>
@@ -20,18 +21,21 @@
     </thead>
     <tbody>
     <tr>
-      <td>序号</td>
-      <td></td>
-      <td>
-      	<a href="#" class="edit" onclick="edituser()">编辑</a>
-        <a href="#" class="delete" onclick="deluser()">删除</a>
-      </td>
+      <td colspan="3">Loading……</td>
     </tr>
     </tbody>
   </table>
-    <button class="floatLeft button" type="submit" onClick="openMPBlacklistDialog()" id="add">添加</button>
-<script type="text/javascript">
-$(document).ready(function() {
-    $("#add, .inputbtn").button();
-});
+<button class="standard floatLeft" style="position: static"
+    onclick="openNewDialog()">添加
+</button>
+<div class="pager floatRight">
+    <{include file='layout/pagination.tpl' func='Function/resConf/addrBind/msgPass_blacklist.php'}>
+</div>
+<script type="text/javascript" src="Public/js/resConf/addrBind/msgPass_blacklist.js"></script>
+<script type="text/javascript"> 
+    $(document).ready(function() {
+        renderStandardUi();
+        freshTable('Function/resConf/addrBind/msgPass_blacklist.php', $('#msgPass_blacklistTable'), 'ORDER BY id ASC LIMIT 10');
+        sortTableInit($('#msgPass_blacklistTable'), {2: {sorter: false}}, [[0,0]]);
+    });
 </script>
