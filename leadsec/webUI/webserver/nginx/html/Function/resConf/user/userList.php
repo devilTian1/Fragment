@@ -163,6 +163,11 @@
         $cli = new cli();
         $cli->run("user del username \"$name\"");
         echo json_encode(array('msg' => '删除成功.'));
+    } else if (!empty($_FILES['importFile']) && $name = $_POST['snName']) {
+        // Import sn file for specified user
+        echo json_encode(array('msg' => '成功.'));
+    } else if (false) {
+        //
     } else if ($specUser = $_POST['editUser']) {
         // Open user dialog of specified user
         $userList = getUserDataByName($specUser);

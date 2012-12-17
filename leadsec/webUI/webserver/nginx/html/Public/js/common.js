@@ -285,7 +285,8 @@ function ajaxSubmitForm(formEle, title, successCallback, errorCallback) {
         }
     }
     var options = {
-	    dataType : 'json',
+        forceSync: true,
+        dataType : 'json',
         success  : successCallback,
         error    : errorCallback
     };
