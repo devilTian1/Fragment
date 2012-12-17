@@ -175,7 +175,7 @@ function openImportSnFileDialog(name) {
         $(this).remove();
     };
     var dialogParams = {
-        width   : 420,
+        width   : 430,
         height  : 260,
         buttons : buttons
     };
