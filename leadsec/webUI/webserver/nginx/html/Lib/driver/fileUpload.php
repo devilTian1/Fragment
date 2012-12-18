@@ -20,6 +20,9 @@ class FileUpload extends UPLOAD {
 	    } else {
 	        $this->dPath = $dPath;
 	    }
+        if (!file_exists($this->dPath)) {
+            throw new Exception("Error: don`t exist upload file path.");
+        }
 	}
 
     private function getUploadFileErrInfo($err) {
