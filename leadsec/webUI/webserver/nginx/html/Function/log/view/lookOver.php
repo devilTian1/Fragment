@@ -4,22 +4,30 @@
     $deviceArr = array('Firewall', 'IDS', 'VPN', 'NetGap'); 
     $priArr    = array('all', 'emergency' , 'critical', 'error', 'warning', 'notice', 'information', 'debug');
 
-    $test = 'asdasd devid=' . LOG_DEVID . ' date="2012/12/12 10:00:00" dname=themis logtype=9 pri=5 mod=ada sss=xxx';
-
-    function getRegexBySearchParams() {
-        /*
+    function checkTime($date) {
+        $cts = strtotime($date);
         if (!empty($_POST['startTime_log'])) {
-            $searchArr['sTime'] = $_POST['startTime_log'];
+            $sts = strtotime($_POST['startTime_log']);
+            if ($sts > $cts) {
+                return false;
+            }
         }
         if (!empty($_POST['endTime_log'])) {
-            $searchArr['eTime'] = $_POST['endTime_log'];
+            $ets = strtotime($_POST['endTime_log']);
+            if ($cts > $ets) {
+                return false;
+            }
         }
+        return true;
+    }
+    function getRegexBySearchParams() {
+        /*
         if ('on' === $_POST['userTrace']) {
             $searchArr['userTrace'] = $_POST['userTrace'];
         }
         */
         $regexpArr = array();
-        $regexpArr[] = 'devid=' . LOG_DEVID;
+        $regexpArr[] = 'devid=' . LOG_DEVID . ' date="(.*)"';
 
         if ('all' !== $_POST['logType']) {
             $regexpArr[] = "logtype={$_POST['logType']}";
@@ -39,18 +47,24 @@
         if (!empty($_POST['dport'])) {
             $regexpArr[] = "dport={$_POST['dport']}";
         }
-        return '/.*' . join('.*', $regexpArr) . '.*/';
+        return '/.*' . join('(,|\s)(.*)?', $regexpArr) . '(,|\s)(.*)?/';
     }
+
+    function includeFunc($buffer) {
+        return preg_match(getRegexBySearchParams(), $buffer, $match) && 
+            checkTime($match[1]);
+    }
+
     /*
      * Get an array that represents lines of file
      * @param regex $include. Include paths that matches this regex
      */
-    function fileLinesToArr($path, $include = NULL) {
+    function fileLinesToArr($path, $includeFunc = NULL) {
         $result = array();
         $fp     = @fopen($path, 'r');
         if ($fp) {
             while (false !== ($buffer = fgets($fp, 4096))) {
-                if ($include === null || preg_match($include, $buffer)) {
+                if ($includeFunc === null || $includeFunc($buffer)) {
                     $result[] = $buffer;
                 }
             }
@@ -64,7 +78,7 @@
 
     if ('1' === $_GET['search']) {
         // Search specified log info
-        $logFileLines = fileLinesToArr(LOG_PATH, getRegexBySearchParams());
+        $logFileLines = fileLinesToArr(LOG_PATH, 'includeFunc');
         $result    = '';
 
         echo json_encode(array('msg' => $logFileLines[0]. getRegexBySearchParams()));
