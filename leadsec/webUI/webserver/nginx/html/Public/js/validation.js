@@ -407,6 +407,9 @@ var validRules = {
     },
     importFile:{
         required: true
+    },
+    licenseFile:{
+        required:true
     }
     
 };
@@ -544,7 +547,8 @@ var validMsg = {
         required: '请输入锁定时间.',
         range: '0到3650分钟,0表示永久锁定.'
     },
-    importFile:'请选择文件'
+    importFile:'请选择文件',
+    licenseFile:'请选择证书'
 };
 
 function validateForm(form) {
