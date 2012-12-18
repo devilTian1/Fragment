@@ -45,7 +45,8 @@
     <{/foreach}>
     <tr>
         <td colspan="4">
-            <form class="inline" action="Function/systemManagement/maintain/upgrade_d.php" method="POST">
+            <form class="inline" action="Function/systemManagement/maintain/upgrade.php" method="POST">
+                <input type="hidden" name="action" value="exportUpgradeHistory"/>
                 <button class="inputbtn standard" type="submit">
                     导出升级历史</button>
                 <input type="hidden" name="downloadUpgradeHistory" value='1'/>
