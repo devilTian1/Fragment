@@ -3,40 +3,37 @@
     <legend>用户组列表维护</legend>
     <div class="row">
             <label for="userListName">用户名称:<em class="required">*</em></label>
-            <input type="text" name="userListName" maxlength="15" value="<{$userList.user_name}>"
-            <{if $type === 'edit'}>readonly="readonly"<{/if}> id="userListName"/>
+            <input type="text" name="userListName" id="userListName" value=""/>
     </div>
     <br class="clearFloat"/>
     <hr/>
     <div class="row">
-        <label for="passwd">分配流量:</label>
-        <input type="password" name="passwd_user" id="passwd_user"
-        value="<{$userList.passwd}>"/>
+        <label for="FlowDistriBution">分配流量:</label>
+        <input type="txt" name="FlowDistriBution" id="FlowDistriBution" value=""/>
     </div>
     <br class="clearFloat"/>
     <hr/>
     <div class="row">
-        <label for="passwd">分配时间:</label>
-        <input type="password" name="passwd_user" id="passwd_user"
-        value="<{$userList.passwd}>"/>
+        <label for="AllocationTime">分配时间:</label>
+        <input type="text" name="AllocationTime" id="AllocationTime" value=""/>
     </div>
     <br class="clearFloat"/>
     <hr/>
     <div class="row">
         <label>进程检查:</label>
-        <input class="radio" type="radio" name="modifyPwdAllow" id="mpa_on" <{$mpa_on}>/>
+        <input class="radio" type="radio" name="modifyProcess" id="mp_on" />
         <label class="radioLabel" for="mpa_on">检查</label>
-        <input class="radio" type="radio" name="modifyPwdAllow" id="mpa_off" <{$mpa_off}>/>
+        <input class="radio" type="radio" name="modifyProcess" id="mp_off" />
         <label class="radioLabel" for="mpa_off">不检查</label>
     </div>
     <br class="clearFloat"/>
     <hr/>
     <div class="row">
         <label>进程策略:</label>
-        <input class="radio" type="radio" name="modifyPwdAllow" id="mpa_on" <{$mpa_on}>/>
-        <label class="radioLabel" for="mpa_on">开启进程策略</label>
-        <input class="radio" type="radio" name="modifyPwdAllow" id="mpa_off" <{$mpa_off}>/>
-        <label class="radioLabel" for="mpa_off">不开启进程策略</label>
+        <input class="radio" type="radio" name="modifyProcessStrategy" id="mps_on"/>
+        <label class="radioLabel" for="mps_on">开启进程策略</label>
+        <input class="radio" type="radio" name="modifyProcessStrategy" id="mps_off" />
+        <label class="radioLabel" for="mps_off">不开启进程策略</label>
     </div>
     <br class="clearFloat"/>
     <hr/>
@@ -66,9 +63,9 @@
     <br class="clearFloat"/>
     <hr/>
     <div class="row">
-        <label for="passwd">进程管理:</label>
+        <label for="ProcessManagement">进程管理:</label>
         <button class="standard floatLeft" type="position: static" name="process" id="process"
-        onclick="addProcess()">
+        onclick="checkProcess()">
         查看进程
         </button>
     </div>

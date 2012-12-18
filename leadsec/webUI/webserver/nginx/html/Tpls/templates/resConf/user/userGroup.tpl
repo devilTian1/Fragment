@@ -28,7 +28,7 @@
   </tbody>
 </table>
 <button class="standard floatLeft" style="position: static"
-    onclick="addRedun()"
+    onclick="addUserGroup()"
     id="addUserListBtn">添加
 </button>
 <script type="text/javascript" src="Public/js/resConf/user/userGroup.js"></script>
