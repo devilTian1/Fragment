@@ -42,7 +42,7 @@ class FileUpload extends UPLOAD {
             case UPLOAD_ERR_CANT_WRITE :
                 return 'Can not write to disk.';
             default :
-                return 'Unknown upload error.'; 
+                return "[$err] Unknown upload error."; 
 	    }
 	}
 
@@ -67,7 +67,7 @@ class FileUpload extends UPLOAD {
             }
 	    }
 	    if (count($errMsg) != 0) {
-            throw new Exception('Upload Error: <br/>' . join('<br/>'. $errMsg));
+            throw new Exception('Upload Error: <br/>' . join('<br/>', $errMsg));
 	    }
 	}
 }
