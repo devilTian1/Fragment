@@ -1,7 +1,8 @@
 function openNewQuickDialog() {
-    var url   = 'Function/layout/showDialog.php';
+    var url   = 'Function/systemManagement/quick/quick.php';
     var data  = {
-        tpl : 'systemManagement/quick/editQuick.tpl'
+        tpl : 'systemManagement/quick/editQuick.tpl',
+		show: 'yes'
     };
     var title   = '';
     var buttons = {};
@@ -72,9 +73,51 @@ if(diff==0)clearInterval(me.only);
 
 function initdbhooo(){
 	new dhooo({
+	btns:UIs.call(UI('myTab_btns0'),'LI')
+	,className:'hot'
+	,contentID:'main0'
+	,len:760
+	});
+	new dhooo({
 	btns:UIs.call(UI('myTab_btns1'),'LI')
 	,className:'hot'
 	,contentID:'main1'
+	,len:760
+	});
+	new dhooo({
+	btns:UIs.call(UI('myTab_btns2'),'LI')
+	,className:'hot'
+	,contentID:'main2'
+	,len:760
+	});
+	new dhooo({
+	btns:UIs.call(UI('myTab_btns3'),'LI')
+	,className:'hot'
+	,contentID:'main3'
+	,len:760
+	});
+	new dhooo({
+	btns:UIs.call(UI('myTab_btns4'),'LI')
+	,className:'hot'
+	,contentID:'main4'
+	,len:760
+	});
+	new dhooo({
+	btns:UIs.call(UI('myTab_btns5'),'LI')
+	,className:'hot'
+	,contentID:'main5'
+	,len:760
+	});
+	new dhooo({
+	btns:UIs.call(UI('myTab_btns6'),'LI')
+	,className:'hot'
+	,contentID:'main6'
+	,len:760
+	});
+	new dhooo({
+	btns:UIs.call(UI('myTab_btns7'),'LI')
+	,className:'hot'
+	,contentID:'main7'
 	,len:760
 	});
 }

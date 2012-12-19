@@ -307,7 +307,7 @@ myLib.desktop.navBar={
 				.find("span")
 				.addClass("icon"); 
                 myLib.desktop.deskIcon.init();
-				myLib.desktop.lrBar.init();
+				//myLib.desktop.lrBar.init();
 					}
 			 })
 			 .click(function(event){
@@ -439,7 +439,7 @@ myLib.desktop.deskIcon={
 				.find("span")
 				.addClass("icon"); 
                 _this.init();
-				myLib.desktop.lrBar.init();
+				//myLib.desktop.lrBar.init();
 					}
 					});
 								 });
@@ -592,7 +592,7 @@ myLib.desktop.deskIcon={
 				.find("span")
 				.addClass("icon"); 
                 _this.init();
-				myLib.desktop.lrBar.init();
+				//myLib.desktop.lrBar.init();
 					}
            });
 		 
@@ -611,6 +611,7 @@ myLib.desktop.deskIcon={
 					  func:function(){
 						  myLib.desktop.deskIcon.delIcon($(this));
 						  var id=$(this).attr('id');
+	 					  $.post("Function/systemManagement/quick/quick.php", {type:'del',id:id});
 						 // alert("根据"+id+"来改变服务器数据");
 						} 
 					  }]
