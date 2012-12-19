@@ -21,32 +21,32 @@
     </table>
 </form>
   
-<table class="column_95 textMid tablesorter">
+<table class="column_95 textMid tablesorter" id="licenseTable">
     <caption> License启用信息</caption>
     <thead>
         <tr>
-            <td class="column_10">序号</td>
-            <td class="column_30">模块名</td>
-            <td class="column_40">截止时间</td>
-            <td class="column_20">状态</td>
+            <th class="column_10">序号</th>
+            <th class="column_30">模块名</th>
+            <th class="column_40">截止时间</th>
+            <th class="column_20">状态</th>
         </tr>
     </thead>
-    <{foreach $licenseInformation   as $k => $val }>
+    <tbody>
         <tr>
-            <td><{$val.id}></td>
-            <td><{$val.application}></td>
-            <td><{$val.stop_time}></td>
-            <td><{$val.type}></td>
+            <td colspan='6'>Loading ... ...</td>
         </tr>
-    <{foreachelse}>   
-        <tr><td colspan='4'>No Data</td></tr>
-    <{/foreach}>
-
+    </tbody>
 </table>
+
+<div class="pager floatRight">
+    <{include file='layout/pagination.tpl' func='Function/systemManagement/maintain/license.php'}>
+</div>
+
 <script type="text/javascript" src="Public/js/systemManagement/maintain/license.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
     renderStandardUi();
     validateForm($("#licenseForm"));
+    freshTable('Function/systemManagement/maintain/license.php', $('#licenseTable'));
 });
 </script>

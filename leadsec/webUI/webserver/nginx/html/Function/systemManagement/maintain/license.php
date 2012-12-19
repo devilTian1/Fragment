@@ -1,24 +1,30 @@
 <?php
     require_once($_SERVER['DOCUMENT_ROOT'] . '/Function/common.php');
     //get LicenseInformation  list
-    function GetLicenseInformation() {
-        $num = 1 ;
+    function getLicenseInformation() {
+        $tpl =  'systemManagement/maintain/licenseTable.tpl';
         $db = new dbsqlite(DB_PATH . '/private.db');
-        $result = $db->query("SELECT * FROM license")->getAllData(PDO::FETCH_ASSOC);
+        $data = $db->query("SELECT * FROM license")->getAllData(PDO::FETCH_ASSOC);
         //向数组里面追加键值对,同时判断value的字段值是否为1，
         //若为1则表示该模块的状态为启用，为0则表示停止
         //将截止时间戳转化为日期格式
-        foreach($result as $key => $val) {
-            if ($result[$key]['value']>0) {
-                $result[$key]['type']='启用';
-            } else {
-                $result[$key]['type']='停止';
-            }
-                $result[$key]['id'] = $num;
-                $result[$key]['stop_time']=date('Y-m-d',$result[$key]['stop_time']);
-                $num++ ;
+        $result = array();
+        foreach($data as $key => $val) {
+            $result[$key]['function'] = $val['function'];
+            $result[$key]['status']   =
+                $result[$key]['value'] === '0' ? '停止' : '启用';
+            $result[$key]['stopTime'] = date('Y-m-d', $val['stop_time']);
         }
-        V::getInstance()->assign('licenseInformation', $result) ;
+        echo V::getInstance()->assign('licenseInformation', $result)
+        	->assign('pageCount', 10)
+            ->fetch($tpl);
+    }
+
+    //获取查询的记录数
+    function getDataCount() {
+        $sql = "SELECT * FROM license";
+        $db  = new dbsqlite(DB_PATH . '/private.db');
+        return $db->query($sql)->getCount();
     }
 
     if (!empty($_FILES)) {
@@ -31,8 +37,16 @@
         $cli = new cli();
         $cli->run($cmd);
         echo json_encode(array('msg' => '升级成功'));
+    } else if ($_POST['orderStatement'] === '') {
+        getLicenseInformation();
     } else {
-        GetLicenseInformation() ;
+        //页面初始化
+        $result = getDataCount();
+        V::getInstance()->assign('dataCount', $result)
+            ->assign('pageCount', ceil($result/10))
+            ->assign('clickedPageNo', 1)
+            ->assign('prev', 1)
+            ->assign('next', 2);
     }
 ?>
 

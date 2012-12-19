@@ -8,3 +8,9 @@ function importLicense() {
     submitForm($('#licenseForm'));
 }
 
+function freshTableAndPage() {
+    var url = 'Function/systemManagement/maintain/license.php';
+    freshTable(url, $('#licenseTable'));
+    freshPagination(url, $('.pager'));
+}
+

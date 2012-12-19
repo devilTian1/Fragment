@@ -49,12 +49,14 @@ function getOrderRules() {
 function getOrderStatement() {
     var result = '';
     var orderRules = getOrderRules();
+    if (orderRules.sortData.length === undefined) {
+        return '';
+    }
     result += 'ORDER BY ';    
     for (var i in orderRules.sortData) {
         result += i + ' ' + orderRules.sortData[i] + ', ';
     }
     result = result.slice(0, -2);
-
     if (orderRules.rowsCount !== 'all') {
         result += ' LIMIT ' + orderRules.rowsCount + ' OFFSET ' +
             (orderRules.rowsCount * (orderRules.pageNum-1))
