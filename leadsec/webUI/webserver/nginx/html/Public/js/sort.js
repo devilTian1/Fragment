@@ -17,7 +17,7 @@ function getOrderRules() {
     var pageNum   = $('ol.pagination>li.selected').text();
     // get sort key and order
     var dataCount = $('#dataCount').val();
-    var sortData  = {};
+    var sortData  = new Array();
     var firstSortRowName = '';
     $('.tablesorter-headerRow>th').each(function() {
         var key       = $(this).attr('name');
@@ -49,14 +49,13 @@ function getOrderRules() {
 function getOrderStatement() {
     var result = '';
     var orderRules = getOrderRules();
-    if (orderRules.sortData.length === undefined) {
-        return '';
+    if (orderRules.sortData.length > 0) {
+        result += 'ORDER BY ';    
+        for (var i in orderRules.sortData) {
+            result += i + ' ' + orderRules.sortData[i] + ', ';
+        }
+        result = result.slice(0, -2);
     }
-    result += 'ORDER BY ';    
-    for (var i in orderRules.sortData) {
-        result += i + ' ' + orderRules.sortData[i] + ', ';
-    }
-    result = result.slice(0, -2);
     if (orderRules.rowsCount !== 'all') {
         result += ' LIMIT ' + orderRules.rowsCount + ' OFFSET ' +
             (orderRules.rowsCount * (orderRules.pageNum-1))
