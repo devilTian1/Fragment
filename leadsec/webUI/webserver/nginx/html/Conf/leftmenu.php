@@ -81,7 +81,6 @@
     'sm_m_u' => array('pid' => 'sm_m', 'name' => '系统更新', 'link' => 'upgrade'),
     'sm_m_br' => array('pid' => 'sm_m', 'name' => '备份与恢复', 'link' => 'backupAndRecovery'),
     'sm_m_l' => array('pid' => 'sm_m', 'name' => '许可证管理', 'link' => 'license'),
-    'sm_m_m' => array('pid' => 'sm_m', 'name' => '生产', 'link' => 'manufacture'),
     'sm_m_b' => array('pid' => 'sm_m', 'name' => '批处理工具', 'link' => 'batchTool'),
 
     //level3 networkManagement/interface
