@@ -95,7 +95,7 @@
 
 
     function getEncryptStr($result) {
-        return md5($result);
+        return base64_encode($result);
     }
 
     $cli = new cli();

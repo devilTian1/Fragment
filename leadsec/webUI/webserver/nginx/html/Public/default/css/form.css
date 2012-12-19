@@ -85,6 +85,25 @@ fieldset label.longLabel {
     width: 250px;
 }
 
+/* Log */
+fieldset label.logLabel {
+    width: auto;
+    margin-left: 5em;
+}
+
+fieldset a.advSearch {
+    margin-right: 10em;
+    display: inline;
+}
+
+fieldset a.fold {
+    margin-right: 10em;
+}
+
+fieldset div.searchParamRow {
+    display: inline;
+}
+
 hr {
     border: 1px dashed #e9e9e9;
 }
