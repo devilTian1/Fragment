@@ -37,6 +37,7 @@
             exit('用户名与密码错误!');
         } else {
             // login successful
+            session_regenerate_id();
             saveUserInfo($result);
         }
     }
