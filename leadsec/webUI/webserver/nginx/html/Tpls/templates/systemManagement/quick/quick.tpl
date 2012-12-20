@@ -14,8 +14,7 @@ $(function(){
 					   'title':'乐视网',
 					   'url':'systemManagement/overview/overview.php'
 						},
-			  };*/	
-			  
+			  };*/
 		  var deskIconData={
 			  <{foreach from=$resall item=res_all name=res_all}>
 				'<{$res_all.id}>':{
@@ -32,9 +31,6 @@ $(function(){
  		   
 		   //初始化桌面背景
 		   myLib.desktop.wallpaper.init("");
-		   
-		   //初始化任务栏
-		   myLib.desktop.taskBar.init();
 		   
 		   //初始化桌面图标
 		   myLib.desktop.deskIcon.init(deskIconData);
@@ -57,7 +53,6 @@ function addIcon(data){
 
 <div id="desktopPanel">
 <div id="desktopInnerPanel">
-
 <!--<li class="desktop_icon" id="leshiwang"> <span class="icon"><img src="Public/js/jquery/desktop/icon/icon4.png"/></span> <div class="text">乐视网<s></s></div> </li>-->
   
 <ul class="deskIcon currDesktop">

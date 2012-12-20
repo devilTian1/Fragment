@@ -13,26 +13,13 @@ myLib.desktop={
 	desktopPanel:function(){
 		$('body')
 		.data('panel',{
-					   'taskBar':{
-					   '_this':$('#taskBar'),
-					   'task_lb':$('#task_lb')
-										},
 					   'navBar':$('#navBar'),
 					   'wallpaper':$('#wallpapers'),
-					   'lrBar':{
-					   '_this':$('#lr_bar'),	   
-					   'default_app':$('#default_app'),
-				       'start_block':$('#start_block'),
-				       'start_btn':$('#start_btn'),
-					   'start_item':$('#start_item'),
-					   'default_tools':$('#default_tools')
-							},		
 					   'desktopPanel':{
 							'_this':$('#desktopPanel'),
 							'innerPanel':$('#desktopInnerPanel'),
 							'deskIcon':$('ul.deskIcon')
-							},
-						'powered_by':$('a.powered_by')
+							}
 						});
 		},
 	iconDataInit:function(data){
@@ -78,201 +65,6 @@ myLib.desktop={
 						  });
 		}	
 	}
-/*----------------------------------------------------------------------------------	
-//声明任务栏空间，任务栏相关js操作
-----------------------------------------------------------------------------------*/
-myLib.NS("desktop.taskBar");
-myLib.desktop.taskBar={
-	timer:function(obj){
-		 var curDaytime=new Date().toLocaleString().split(" ");
-		 obj.innerHTML=curDaytime[1];
-		 obj.title=curDaytime[0];
-		 setInterval(function(){obj.innerHTML=new Date().toLocaleString().split(" ")[1];},1000);
-		},
-	upTaskWidth:function(){
-		var myData=myLib.desktop.getMydata()
-		    ,$task_bar=myData.panel.taskBar['_this'];
-		var maxHdTabNum=Math.floor($(window).width()/100);
-		    //计算任务栏宽度
-		    $task_bar.width(maxHdTabNum*100);	
-			//存储活动任务栏tab默认组数
-			$('body').data("maxHdTabNum",maxHdTabNum-2);
-		},	
-	init:function(){
-		//读取元素对象数据
-		var myData=myLib.desktop.getMydata();
- 		var $task_lb=myData.panel.taskBar['task_lb']
-		    ,$task_bar=myData.panel.taskBar['_this']
-			,wh=myData.winWh;
- 
-		 var _this=this;
-		 _this.upTaskWidth();
-		 //当改变浏览器窗口大小时，重新计算任务栏宽度
-		 $(window).wresize(function(){
-						_this.upTaskWidth();   
-								   });
-  		 
- 		},
-	contextMenu:function(tab,id){
-		var _this=this;
-		 //初始化任务栏Tab右键菜单
-		 var data=[
-					[{
-					text:"最大化",
-					func:function(){
- 						$("#myWin_"+tab.data('win')).find('a.winMaximize').trigger('click');
-						}
-					  },{
-					text:"最小化",
-					func:function(){
-						myLib.desktop.win.minimize($("#myWin_"+tab.data('win')));
-						}
-						  }]
-					,[{
-					  text:"关闭",
-					  func:function(){
-						  $("#smartMenu_taskTab_menu"+id).remove();
- 						  myLib.desktop.win.closeWin($("#myWin_"+tab.data('win')));
-						  } 
-					  }]
-					];
-		 myLib.desktop.contextMenu(tab,data,"taskTab_menu"+id,10);
-		},
-	addWinTab:function(text,id){
-		var myData=myLib.desktop.getMydata();
- 		var $task_lb=myData.panel.taskBar['task_lb']
-		    ,$task_bar=myData.panel.taskBar['_this']
-			,$navBar=myData.panel.navBar
- 			,$navTab=$navBar.find("a")
-		    ,tid="myWinTab_"+id
-			,allTab=$task_lb.find('a')
-			,curTabNum=allTab.size()
-		    ,docHtml="<a href='#' id='"+tid+"'>"+text+"</a>";
-			
-			//添加新的tab
-		    $task_lb.append($(docHtml));
-			var $newTab=$("#"+tid);
-			//右键菜单
-			this.contextMenu($newTab,id);
-			
-			$task_lb
-			.find('a.selectTab')
-			.removeClass('selectTab')
-			.addClass('defaultTab');
-			 
-			$newTab
-			.data('win',id)
-			.addClass('selectTab')
-			.click(function(){
-					var win=$("#myWin_"+$(this).data('win')),
-					    tabId=this.id,
-						iconId=tabId.split("_")[1],
-						desk=$("#"+iconId).parent(),
- 						i=desk.index("ul.deskIcon");	//判断窗口在那个桌面区域
- 				    
-					if(i<0){
-						i=$("#"+iconId).data("currPanel");
-						}
-						
- 					//如果是当前桌面
-					if(desk.is(".currDesktop")){
-						if(win.is(".hideWin")){
-						//win.show();
-						win.css({"left":win.position().left+10000,"visibility":"visible"}).removeClass("hideWin");
-						
- 						$(this).removeClass('defaultTab').addClass('selectTab');//当只有一个窗口时
-						myLib.desktop.win.switchZindex(win);
-  						}else{
-							if($(this).hasClass('selectTab')){
-							myLib.desktop.win.minimize(win);
-  							}else{
-								myLib.desktop.win.switchZindex(win);
-								} 
-							  }
-							  
-				    //如果不在当前窗口			  
-				    }else{
-					 if(win.is(".hideWin")){
-						//win.show();
-						win.css({"left":win.position().left+10000,"visibility":"visible"}).removeClass("hideWin");
-						
- 						$(this).removeClass('defaultTab').addClass('selectTab');//当只有一个窗口时
-						myLib.desktop.win.switchZindex(win);
-  						}	
-					 $navTab.eq(i).trigger("click");
-							}
- 							  
- 							});
-			
-			$('body').data("topWinTab",$newTab);
-			
-			//当任务栏活动窗口数超出时
-			if(curTabNum>myData.maxHdTabNum-1){
-				var LeftBtn=$('#leftBtn')
-				    ,rightBtn=$('#rightBtn')
-					,bH;
-				
-                LeftBtn
-				.show()
-				.find("a")
-				.click(function(){
-							        var pos=$task_lb.position();
-									if(pos.top<0){
-										$task_lb.animate({
-                                                  "top":pos.top+40
-                                                      }, 50);
-										}
-									 });
-				
-				rightBtn
-				.show()
-				.find("a")
-				.click(function(){
-									var pos=$task_lb.position(),h=$task_lb.height(),row=h/40;
-									if(pos.top>(row-1)*(-40)){
-									$task_lb.animate({
-                                                  "top": pos.top-40
-                                                      }, 50); 
-									}
-									   });
-				
-				$task_lb.parent().css("margin","0 100");
-				}
-	 
-		},
-	delWinTab:function(wObj){
-		var myData=myLib.desktop.getMydata()
- 		    ,$task_lb=myData.panel.taskBar['task_lb']
-			,$task_bar=myData.panel.taskBar['_this']
-			,LeftBtn=$('#leftBtn')
-			,rightBtn=$('#rightBtn')
-		    ,pos=$task_lb.position();
-			
-		this.findWinTab(wObj).remove();
-		
-		var newH=$task_lb.height();
-		if(Math.abs(pos.top)==newH){
-			LeftBtn.find('a').trigger("click");
-			}
-		if(newH==40){
-			LeftBtn.hide();
-			rightBtn.hide();
-			$task_lb.parent().css("margin",0);
-			}	
-		},
-	findWinTab:function(wObj){
-		var myData=myLib.desktop.getMydata(),
-		    $task_lb=myData.panel.taskBar['task_lb'],
-		    objTab;
-		    $task_lb.find('a').each(function(index){
-								var id="#myWin_"+$(this).data("win");		 
-								if($(id).is(wObj)){
-									objTab=$(this);
-									}		 
- 										 });
-		    return objTab;
-		}	
-	}
 //navbar
 myLib.NS("desktop.navBar");
 myLib.desktop.navBar={
@@ -283,7 +75,7 @@ myLib.desktop.navBar={
 			 ,$navTab=$navBar.find("a")
 			 ,$deskIcon=myData.panel.desktopPanel['deskIcon']
 			 ,desktopWidth=$deskIcon.width()
-			 ,lBarWidth=myData.panel.lrBar["_this"].outerWidth();
+			 ,lBarWidth=0;//
 			 
 			 $navBar
 			 .draggable({
@@ -296,8 +88,6 @@ myLib.desktop.navBar={
 				over:function(event,ui){
 					$(this).trigger("click");
 					var i=$navTab.index($(this));
-					//ui.draggable
-					//.css({left:event.pageX+$deskIcon.width()*i});
  					},
                 drop: function(event,ui) {
 				var i=$navTab.index($(this));	
@@ -307,7 +97,6 @@ myLib.desktop.navBar={
 				.find("span")
 				.addClass("icon"); 
                 myLib.desktop.deskIcon.init();
-				//myLib.desktop.lrBar.init();
 					}
 			 })
 			 .click(function(event){
@@ -472,7 +261,7 @@ myLib.desktop.deskIcon={
 			,$navBar=myData.panel.navBar
 			,navBarHeight=$navBar.outerHeight()
 			,$navTab=$navBar.find("a")
-			,lBarWidth=myData.panel.lrBar["_this"].outerWidth()
+			,lBarWidth=0 //可以删除，xiaozl
 			,_this=this;
   		 
 		 _this.upDesktop($deskIcon,$deskIconBlock,$innerPanel,$deskIconNum,navBarHeight,lBarWidth);
@@ -537,23 +326,6 @@ myLib.desktop.deskIcon={
 		 .click(function(){
 						   var screenNum=$deskIcon.size(),id=this.id;
 						   openNewQuickDialog();
-						   /*for(var i=0;i<screenNum;i++){
-							   var w=$("#myWin_addIcon"+i);
-							    
-							   if(w.size() && id!=="addIcon"+i){
-								   myLib.desktop.win.closeWin(w);
-								   }
-							   }
-						   
-						   var data=$(this).data("iconData"),id=this.id;
-							myLib.desktop.win.newWin({
-													 WindowTitle:data.title,
-													 iframSrc:data.url,
-													 WindowsId:id,
-													 WindowAnimation:'none', 
-													 WindowWidth:data.winWidth,
-													 WindowHeight:data.winHeight
- 													 });*/
 						 });
 		 
 		 //图标鼠标经过效果
@@ -617,6 +389,5 @@ myLib.desktop.deskIcon={
 					  }]
 					];
 		 myLib.desktop.contextMenu($deskIcon.find("li.desktop_icon").not("li.add_icon"),data,"body",10);
-		// myLib.desktop.contextMenu($(document.body),data,"body",10);
 		}
 	}
