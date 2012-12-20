@@ -1,10 +1,10 @@
 <?php
     require_once($_SERVER['DOCUMENT_ROOT'] . '/Function/common.php');
     //get LicenseInformation  list
-    function getLicenseInformation() {
+    function getLicenseInformation($orderStatement) {
         $tpl =  'systemManagement/maintain/licenseTable.tpl';
         $db = new dbsqlite(DB_PATH . '/private.db');
-        $data = $db->query("SELECT * FROM license")->getAllData(PDO::FETCH_ASSOC);
+        $data = $db->query("SELECT * FROM license $orderStatement")->getAllData(PDO::FETCH_ASSOC);
         //向数组里面追加键值对,同时判断value的字段值是否为1，
         //若为1则表示该模块的状态为启用，为0则表示停止
         //将截止时间戳转化为日期格式
@@ -37,8 +37,8 @@
         $cli = new cli();
         $cli->run($cmd);
         echo json_encode(array('msg' => '升级成功'));
-    } else if ($_POST['orderStatement'] === '') {
-        getLicenseInformation();
+    } else if ($orderStatement = $_POST['orderStatement']) {
+        getLicenseInformation($orderStatement);
     } else {
         //页面初始化
         $result = getDataCount();
