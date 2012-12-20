@@ -2,7 +2,7 @@
     onSubmit="return false">
     <fieldset class="searchFieldset">
         <legend>查询条件</legend>
-        <div class="row hide" id="summary">
+        <div class="hide" id="summary">
         </div>
         <div class="row">
             <label class="logLabel" for="type">级别:</label>
