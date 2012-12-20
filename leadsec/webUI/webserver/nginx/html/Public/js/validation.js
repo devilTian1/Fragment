@@ -426,6 +426,18 @@ var validRules = {
     endTime_log: {
         required: '#startTime_log:filled',
         dateTime: ['YYYY/MM/DD hh:mm']
+    },
+    sAddr: {
+        ip: true   
+    }, 
+    dAddr: {
+        ip: true   
+    },
+    sport: {
+        range: [1, 65535]
+    },
+    dport: {
+        range: [1, 65535]
     }
 };
 
@@ -569,7 +581,15 @@ var validMsg = {
     },
     endTime_log: {
         required: '请填写截至时间.'
-    }
+    },
+    sAddr: {
+        ip: '源地址格式错误.'
+    },
+    dAddr: {
+        ip: '目的地址格式错误.'
+    },
+    sport: '源端口范围1 - 65535',
+    dport: '目的端口1 - 65535'
 };
 
 function validateForm(form, displayId) {

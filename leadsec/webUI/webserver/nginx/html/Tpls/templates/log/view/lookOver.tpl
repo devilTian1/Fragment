@@ -30,10 +30,10 @@
             <hr/>
             <a class="fold floatRight" href="#" onClick="hideAdvSearchDiv()" id="foldLink"> 收 起 </a>
             <div class="row">
-                <label class="logLabel" for="saddr">源地址:</label>
-                <input name="saddr" id="saddr" value=""/>
-                <label class="logLabel" for="daddr">目的地址:</label>
-                <input name="daddr" id="daddr" value=""/>
+                <label class="logLabel" for="sAddr">源地址:</label>
+                <input name="sAddr" id="sAddr" value=""/>
+                <label class="logLabel" for="dAddr">目的地址:</label>
+                <input name="dAddr" id="dAddr" value=""/>
                 <br class="clearFloat"/>
             </div>
             <div class="row">
