@@ -21,10 +21,10 @@
             <div class="column column_75">
                 <label class="note">有效时间格式 YYYY/MM/DD hh:mm 或 YYYY/MM/DD hh:mm:ss</label>
                 <br/><br/>
-                <label class="radio" for="startTime_f">起始时间:&nbsp;</label>
+                <label class="radioLabel" for="startTime_f">起始时间:&nbsp;</label>
                 <input type="text" name="startTime_f" id="startTime_f" value="<{$timeList.startTime_f}>"/>
                 <br/><br/>
-                <label class="radio" for="endTime_f">终止时间:&nbsp;</label>
+                <label class="radioLabel" for="endTime_f">终止时间:&nbsp;</label>
                 <input type="text" name="endTime_f" id="endTime_f" value="<{$timeList.endTime_f}>"/>
             </div>
             <br class="clearFloat"/>
@@ -38,10 +38,10 @@
                 <{foreach $weekLabel as $k=>$v}>
                     <label><{$v}></label>
                     <br class="clearFloat"/>
-                    <label class="radio" for="startTime_<{$k}>">起始时间:&nbsp;</label>
+                    <label class="radioLabel" for="startTime_<{$k}>">起始时间:&nbsp;</label>
                     <input type="text" name="startTime_<{$k}>" id="startTime_<{$k}>" value="<{$timeList['startTime_'|cat:$k]}>"/>
                     <br class="clearFloat"/>
-                    <label class="radio" for="endTime_<{$k}>">终止时间:&nbsp;</label>
+                    <label class="radioLabel" for="endTime_<{$k}>">终止时间:&nbsp;</label>
                     <input type="text" name="endTime_<{$k}>" id="endTime_<{$k}>" value="<{$timeList['endTime_'|cat:$k]}>"/>
                     <br class="clearFloat"/><br/>
                 <{/foreach}>
