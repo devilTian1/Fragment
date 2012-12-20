@@ -368,7 +368,7 @@ div {
     overflow: auto;
 }
 #mainContent button {
-    margin: 5px;
+    margin: auto 5px;
 }
 
 /* TAB & CONTENT */

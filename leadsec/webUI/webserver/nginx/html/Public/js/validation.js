@@ -79,18 +79,26 @@ var validMethodParams = {
     dateTimeValidParam: {
         name: 'dateTime',
         validMethod: function(value, element, params) {
-            var regexpStr =
-                '(0?[0-9]|1[0-9]|2[0-3]):(0?[0-9]|[1-5][0-9])';
+            var regexpStr = '';
+
+            var yyyymmdd  = 
+                '[0-9]{4}/(0?[1-9]|1[0-2])/(0?[0-9]|[12][0-9]|3[01])';
+            var hhmm      = '(0?[0-9]|1[0-9]|2[0-3]):(0?[0-9]|[1-5][0-9])';
+            var hhmm_ss   = hhmm + '(:(0?[0-9]|[1-5][0-9]))?';
+
             if (params[0] === 'YYYY/MM/DD hh:mm(:ss)') {
-                regexpStr = '^[0-9]{4}/(0?[1-9]|1[0-2])/(0?[0-9]|[12][0-9]|3[01]) ' +
-                    regexpStr + "(:(0?[0-9]|[1-5][0-9]))?";
-            } else if(params[0] === 'hh:mm(:ss)') {
-                regexpStr += '(:(0?[0-9]|[1-5][0-9]))?';
-            } else {}
-            var regexp = new RegExp(regexpStr + '$');
+                regexpStr = yyyymmdd + ' ' + hhmm_ss;
+            } else if (params[0] === 'YYYY/MM/DD hh:mm') {
+                regexpStr = yyyymmdd + ' ' + hhmm;
+            } else if (params[0] === 'hh:mm(:ss)') {
+                regexpStr = hhmm_ss;
+            } else {
+                regexpStr = yyyymmdd + ' ' + hhmm_ss;
+            }
+            var regexp = new RegExp('^' + regexpStr + '$');
             return this.optional(element) || regexp.test(value);
         },
-        msg: jQuery.format("格式为{0}")
+        msg: jQuery.format("格式为{0}. ")
     },
     startOrEndFullDateValidParam: {
         name: 'fullDate_s_or_e',
@@ -104,7 +112,7 @@ var validMethodParams = {
             var et = new Date(ev);
             return Date.parse(sv) < Date.parse(ev);
         },
-        msg: "起始时间应小于终止时间"
+        msg: "起始时间应小于终止时间."
     },
     startOrEndTimeValidParam: {
         name: 'time_s_or_e',
@@ -405,13 +413,20 @@ var validRules = {
         required: true,
         range: [0, 3650]
     },
-    importFile:{
+    importFile: {
         required: true
     },
-    licenseFile:{
+    licenseFile: {
         required:true
+    },
+    startTime_log: {
+        required: '#endTime_log:filled',
+        dateTime: ['YYYY/MM/DD hh:mm']
+    },
+    endTime_log: {
+        required: '#startTime_log:filled',
+        dateTime: ['YYYY/MM/DD hh:mm']
     }
-    
 };
 
 // message
@@ -547,13 +562,29 @@ var validMsg = {
         required: '请输入锁定时间.',
         range: '0到3650分钟,0表示永久锁定.'
     },
-    importFile:'请选择文件',
-    licenseFile:'请选择证书'
+    importFile: '请选择文件',
+    licenseFile: '请选择证书',
+    startTime_log: {
+        required: '请填写起始时间.'
+    },
+    endTime_log: {
+        required: '请填写截至时间.'
+    }
 };
 
-function validateForm(form) {
-    return form.validate({
+function validateForm(form, displayId) {
+    var options = {
         rules:    validRules,
         messages: validMsg
-    });
+    };
+
+    if (displayId !== undefined) {
+        options['wrapper']             = 'li';
+        options['errorClass']          = 'errorContainer';
+        options['errorLabelContainer'] = '#' + displayId;
+    } else {
+        options['errorClass']          = 'errorLabel';
+    }
+    
+    return form.validate(options);
 }

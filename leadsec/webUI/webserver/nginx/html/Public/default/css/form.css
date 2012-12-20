@@ -1,12 +1,11 @@
 fieldset {
     margin: 1em 0px;
     padding: 1em;
-    border: 1px solid #CCC;
-    background: #F8F8F8;
 }
 
 legend {
     font-weight: bold;
+    color: #000000;
 }
 
 fieldset label {
@@ -14,7 +13,6 @@ fieldset label {
     text-align: left;
     width: 10em;
     color: #73938e;
-    background-color: #f3f8f7;
     font-weight: bold;
     cursor: pointer;
 }
@@ -64,11 +62,6 @@ fieldset .remark {
     width: 20em;
 }
 
-fieldset label.error {
-    width: auto;
-    float: right;
-}
-
 fieldset button.addBtn {
     margin-left: 2em;
 }
@@ -85,10 +78,30 @@ fieldset label.longLabel {
     width: 250px;
 }
 
-/* Log */
+hr {
+    border: 1px dashed #e9e9e9;
+}
+
+/* LOG */
+fieldset.searchFieldset {
+    position: relative;
+    width: 95%;
+    margin: 5px;
+}
+
 fieldset label.logLabel {
     width: auto;
     margin-left: 5em;
+}
+
+fieldset label.s_time {
+    width: auto;
+    margin-left: 5em;
+}
+
+fieldset label.e_time {
+    width: auto;
+    margin-left: 0em;
 }
 
 fieldset a.advSearch {
@@ -100,12 +113,34 @@ fieldset a.fold {
     margin-right: 10em;
 }
 
-fieldset div.searchParamRow {
-    display: inline;
+fieldset .userTraceLabel {
+    width: auto;
+    margin: 0 0 0 5em;
 }
 
-hr {
-    border: 1px dashed #e9e9e9;
+#searchBtn, #advSearchBtn {
+    position: absolute;
+    left: 800px;
+}
+
+/* Error Msg */
+fieldset label.errorContainer {
+    float: none;
+    width: auto;
+    color: red;
+    font-weight: bold;
+}
+
+fieldset input.errorContainer {
+    color: red;
+    font-weight: bold;
+}
+
+fieldset label.errorLabel {
+    width: auto;
+    color: red;
+    float: right;
+    font-weight: bold;
 }
 
 /*TODO for ~ie6*/

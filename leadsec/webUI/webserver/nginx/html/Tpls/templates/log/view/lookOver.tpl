@@ -1,8 +1,10 @@
-<form action="Function/systemManagement/maintain/upgrade.php" method="POST" id="upgradeForm" 
+<form action="Function/log/view/lookOver.php" method="POST" id="logSearchParamsForm" 
     onSubmit="return false">
-    <fieldset>
+    <fieldset class="searchFieldset">
         <legend>查询条件</legend>
-        <div class="searchParamRow">
+        <div class="row hide" id="summary">
+        </div>
+        <div class="row">
             <label class="logLabel" for="type">级别:</label>
             <{html_options name="type" id="type" class="select"
                 output=array('所有', '紧急', '警报', '临界', '出错', '预警', '提示', '通知', '调试')
@@ -12,29 +14,38 @@
             <{html_options name="model" id="model" class="select"
                 output=$modelArr values=$modelArr}>
 
-            <label class="logLabel" for="startTime">起始时间:</label>
-            <input name="startTime" id="startTime" value=""/>
-            <label class="logLabel" for="endTime">终止时间:</label>
-            <input name="endTime" id="endTime" value=""/>
+            <label class="s_time" for="startTime_log">时间:  从</label>
+            <input name="startTime_log" id="startTime_log" value=""/>
+            <label class="e_time" for="endTime_log">至</label>
+            <input name="endTime_log" id="endTime_log" value=""/>
 
-            <a class="advSearch floatRight" href="#" onClick="showAdvSearchDiv()">高级搜索</a>
+            <button type="button" class="standard floatLeft" onclick="search()" id="searchBtn">
+                查询
+            </button>
+
+            <a class="advSearch floatRight" href="#" onClick="showAdvSearchDiv()" id="advSearchLink">高级搜索</a>
         </div>
         <br class="clearFloat"/>
-        <div class="hide" id="advSearchDiv">
+        <div class="hide row" id="advSearchDiv">
             <hr/>
-            <a class="fold floatRight" href="#" onClick="hideAdvSearchDiv()">^收起^</a>
-            <div class="searchParamRow">
+            <a class="fold floatRight" href="#" onClick="hideAdvSearchDiv()" id="foldLink"> 收 起 </a>
+            <div class="row">
                 <label class="logLabel" for="saddr">源地址:</label>
                 <input name="saddr" id="saddr" value=""/>
                 <label class="logLabel" for="daddr">目的地址:</label>
                 <input name="daddr" id="daddr" value=""/>
                 <br class="clearFloat"/>
             </div>
-            <div class="searchParamRow">
+            <div class="row">
                 <label class="logLabel" for="sport">源端口:</label>
                 <input name="sport" id="sport" value=""/>
                 <label class="logLabel" for="dport">目的端口:</label>
                 <input name="dport" id="dport" value=""/>
+                <br class="clearFloat"/>
+            </div>
+            <div class="row">
+                <label class="userTraceLabel checkboxLabel" for="userTrace">用户操作跟踪:</label>
+                <input class="checkbox" type="checkbox" name="userTrace" id="userTrace"/>
                 <br class="clearFloat"/>
             </div>
         </div>
@@ -72,13 +83,10 @@
         </td>
     </tr>
 </table>
+<script type="text/javascript" src="Public/js/log/view/lookOver.js"></script>
 <script type="text/javascript">
-    function showAdvSearchDiv() {
-        $('#advSearchDiv').slideDown('slow');
-    }
-    function hideAdvSearchDiv() {
-        $('#advSearchDiv').slideUp('slow');
-    }
     $(document).ready(function() {
+        renderStandardUi();
+        validateForm($("#logSearchParamsForm"), 'summary');
     });
 </script>
