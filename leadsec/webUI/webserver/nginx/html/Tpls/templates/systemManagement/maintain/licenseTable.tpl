@@ -1,6 +1,6 @@
-<{foreach $licenseInformation   as $k => $val }>
+<{foreach $licenseInformation as $k => $val }>
     <tr>
-        <td><{$val@index}></td>
+        <td><{$val@index+1}></td>
         <td><{$val.function}></td>
         <td><{$val.stopTime}></td>
         <td><{$val.status}></td>
