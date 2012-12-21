@@ -1,4 +1,4 @@
-<form action="Function/log/view/lookOver.php" method="POST" id="logSearchParamsForm" 
+<form action="Function/log/view/lookOver.php?search=1" method="POST" id="logSearchParamsForm" 
     onSubmit="return false">
     <fieldset class="searchFieldset">
         <legend>查询条件</legend>
@@ -8,11 +8,11 @@
             <label class="logLabel" for="type">级别:</label>
             <{html_options name="type" id="type" class="select"
                 output=array('所有', '紧急', '警报', '临界', '出错', '预警', '提示', '通知', '调试')
-                values=array('all', 'emergency' , 'critical', 'error', 'warning', 'notice', 'information', 'debug')}>
+                values=array('all', '0', '1', '2', '3', '4', '5', '6', '7')}>
 
-            <label class="logLabel" for="model">模块:</label>
-            <{html_options name="model" id="model" class="select"
-                output=$modelArr values=$modelArr}>
+            <label class="logLabel" for="logType">日志类型:</label>
+            <{html_options name="logType" id="logType" class="select"
+                output=$logTypeArr values=$logTypeVal}>
 
             <label class="s_time" for="startTime_log">时间:  从</label>
             <input name="startTime_log" id="startTime_log" value=""/>
@@ -53,35 +53,19 @@
 </form>
 
 <table class="column_95 textMid tablesorter">
-    <caption>版本日志信息</caption>
+    <caption>日志</caption>
     <thead>
         <tr>
-            <th class="column_10">生效</th>
-            <th class="column_15">文件名</th>
-            <th class="column_55">详细信息</th>
-            <th class="column_20">操作</th>
+            <th class="column_10">时间</th>
+            <th class="column_10">主机</th>
+            <th class="column_10">进程</th>
+            <th class="column_70">操作</th>
         </tr>
-    </thead>
-    <{foreach $result_list as $k => $val}>
+        <tbody>
         <tr>
-            <td><{$val.id}></td>
-            <td><{$val.up_version}></td>
-            <td><{$val.del_bugs}></td>
-            <td><{$val.up_time}></td>
+            <td colspan='4'>Loading ... ...</td>
         </tr>
-    <{foreachelse}>
-        <tr><td colspan='4'>No Upgrade History Data</td></tr>
-    <{/foreach}>
-    <tr>
-        <td colspan="4">
-            <form class="inline" action="Function/systemManagement/maintain/upgrade.php" method="POST">
-                <input type="hidden" name="action" value="exportUpgradeHistory"/>
-                <button class="inputbtn standard" type="submit">
-                    asd
-                </button>
-            </form>
-        </td>
-    </tr>
+        </tbody>
 </table>
 <script type="text/javascript" src="Public/js/log/view/lookOver.js"></script>
 <script type="text/javascript">

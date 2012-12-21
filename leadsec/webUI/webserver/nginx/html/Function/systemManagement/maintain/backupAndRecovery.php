@@ -16,6 +16,7 @@
             $result = array();
             while (false !== ($file = readdir($handle))) {
                 preg_match("/(^(([\.]){1,2})$|(\.(svn|git|md))|(Thumbs\.db|\.DS_STORE))$/i", $file, $skip);
+                $skipByExclude = false;
                 if ($exclude) {
                     preg_match($exclude, $file, $skipByExclude);
                 }

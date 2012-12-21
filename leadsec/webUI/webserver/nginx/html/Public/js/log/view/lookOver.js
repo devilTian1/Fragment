@@ -1,6 +1,11 @@
 function search() {
-    if ($('#logSearchParamsForm').valid()) {
-
+    var paramsForm = $('#logSearchParamsForm');
+    if (paramsForm.valid()) {
+        var successCallback = function(result, textStatus) {
+            $('#test').html(result.msg);
+        }
+        var dialog = ajaxSubmitForm(paramsForm, '结果', successCallback);
+        dialog.close();
     }
 }
 

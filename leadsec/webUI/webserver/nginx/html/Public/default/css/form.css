@@ -120,7 +120,7 @@ fieldset .userTraceLabel {
 
 #searchBtn, #advSearchBtn {
     position: absolute;
-    left: 800px;
+    right: 20em;
 }
 
 /* Error Msg */

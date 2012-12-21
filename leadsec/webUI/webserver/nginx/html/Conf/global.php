@@ -25,4 +25,8 @@ define('THEME_PATH', 'Public/default');
 define('CLI_PATH', '/usr/local/bin');
 
 define('UPLOAD_PATH', '/tmp/upload');
+
+// Val 0：Firewall，1：IDS、2：VPN、 3：NetGap
+define('LOG_DEVID', 3); 
+define('LOG_PATH', '/var/log/fw.log')
 ?>
