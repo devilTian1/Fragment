@@ -7,7 +7,7 @@
     $test = 'asdasd devid=' . LOG_DEVID . ' date="2012/12/12 10:00:00" dname=themis logtype=9 pri=5 mod=ada sss=xxx';
 
     function getRegexBySearchParams() {
-
+        /*
         if (!empty($_POST['startTime_log'])) {
             $searchArr['sTime'] = $_POST['startTime_log'];
         }
@@ -17,30 +17,29 @@
         if ('on' === $_POST['userTrace']) {
             $searchArr['userTrace'] = $_POST['userTrace'];
         }
-
-        $regexArr   = array();
-        $regexArr[] = 'devid=' . LOG_DEVID;
+        */
+        $regexpArr = array();
+        $regexpArr[] = 'devid=' . LOG_DEVID;
 
         if ('all' !== $_POST['logType']) {
-            $regexArr[] = "logType={$_POST['logType']}";
+            $regexpArr[] = "logtype={$_POST['logType']}";
         }
         if ('all' !== $_POST['type']) {
-            $regexArr[] = "pri={$_POST['type']}";
+            $regexpArr[] = "pri={$_POST['type']}";
         }
-
         if (!empty($_POST['sAddr'])) {
-            $regexArr[] = "sa={$_POST['sAddr']}";
-        }
-        if (!empty($_POST['dAddr'])) {
-            $regexArr[] = "da={$_POST['dAddr']}";
+            $regexpArr[] = "sa={$_POST['sAddr']}";
         }
         if (!empty($_POST['sport'])) {
-            $regexArr[] = "sport={$_POST['sport']}";
+            $regexpArr[] = "sport={$_POST['sport']}";
+        }
+        if (!empty($_POST['dAddr'])) {
+            $regexpArr[] = "da={$_POST['dAddr']}";
         }
         if (!empty($_POST['dport'])) {
-            $regexArr[] = "dport={$_POST['dport']}";
+            $regexpArr[] = "dport={$_POST['dport']}";
         }
-        return '[' . join('|', $regexArr) . ']';
+        return '/.*' . join('.*', $regexpArr) . '.*/';
     }
     /*
      * Get an array that represents lines of file
@@ -65,10 +64,10 @@
 
     if ('1' === $_GET['search']) {
         // Search specified log info
-        $logFileLines = fileLinesToArr(LOG_PATH, '/(devid=3)(mod=ssh)/');
+        $logFileLines = fileLinesToArr(LOG_PATH, getRegexBySearchParams());
         $result    = '';
 
-        echo json_encode(array('msg' => $logFileLines[0]));
+        echo json_encode(array('msg' => $logFileLines[0]. getRegexBySearchParams()));
     } else {
         // init page
         $logTypeArr = array('所有',       '入侵检测', '集中管理', '设备管理',

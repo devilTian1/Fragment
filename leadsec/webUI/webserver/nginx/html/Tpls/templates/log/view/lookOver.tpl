@@ -56,14 +56,24 @@
     <caption>日志</caption>
     <thead>
         <tr>
-            <th class="column_10">时间</th>
+            <th class="column_20">时间</th>
             <th class="column_10">主机</th>
             <th class="column_10">进程</th>
-            <th class="column_70">操作</th>
+            <th class="column_10">设备</th>
+            <th class="column_10">日志类型</th>
+            <th class="column_10">级别</th>
+            <th class="column_30">私有域</th>
         </tr>
         <tbody>
         <tr>
-            <td colspan='4'>Loading ... ...</td>
+            <!--<td colspan='7'>Loading ... ...</td>-->
+            <td>2012/12/12 22:11:33</td>
+            <td>server-side</td>
+            <td>webui</td>
+            <td>NetGap</td>
+            <td>入侵检测</td>
+            <td>报警</td>
+            <td>xxx</td>
         </tr>
         </tbody>
 </table>
