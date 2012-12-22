@@ -51,7 +51,7 @@ function addIcon(data){
 <div id="wallpapers"></div>
 <div id="navBar"><a href="#" class="currTab" title="桌面1"></a><a href="#"  title="桌面2"></a><a href="#"  title="桌面3"></a><a href="#"  title="桌面4"></a></div>
 
-<div id="desktopPanel">
+<div id="desktopPanel" style="overflow:hidden;">
 <div id="desktopInnerPanel">
 <!--<li class="desktop_icon" id="leshiwang"> <span class="icon"><img src="Public/js/jquery/desktop/icon/icon4.png"/></span> <div class="text">乐视网<s></s></div> </li>-->
   

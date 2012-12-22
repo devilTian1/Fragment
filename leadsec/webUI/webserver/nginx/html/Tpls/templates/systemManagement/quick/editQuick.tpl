@@ -30,33 +30,31 @@ a:active {
 }
 ul{
 	list-style:none;
-	}
-
-.listIcon{
+}
+.shell ul.listIcon{
 	width:90%;
 	overflow:hidden;
 	zoom:-1;
 	margin:10px auto;
 	}
-.listIcon li{
+.shell ul.listIcon li{
 	height:110px;
 	width:64px;
 	float:left;
 	margin:5px 10px;
 	}
-.listIcon li a.img{
+.shell ul.listIcon li a.img{
 	display:block;
-	width:64px;
 	height:64px;
 	}	
-.listIcon li a.add{
+.shell ul.listIcon li a.add{
 	display:block;
 	height:25px;
 	background-color:#F0F0F0;
 	text-align:center;
 	line-height:25px;
 	}	
-.listIcon li span{
+.shell ul.listIcon li span{
 	height:30px;
 	line-height:30px;
 	text-align:center;

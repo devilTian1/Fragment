@@ -1,15 +1,5 @@
 li,ul{margin:0;padding:0;list-style-type:0}
 li img{vertical-align:bottom;border:0px}
-.dhooo_tab{width:100%; margin:0;background:#fff url(../images/main_bg.gif) repeat-x 0 100%; border:1px solid #aaa;position:relative; float:left;}
-.tab_btn li{float:left; width:66px}
-.tab_btn li {font-size:12px;display:block; padding:10px 0 10px 10px;margin-right:5px; zoom:1;text-decoration:none; color:#fff;line-height:50%; cursor:pointer;}
-.tab_btn li.hot {background:#fff;color:#333;font-weight:bold;cursor:pointer;}
-.tab_btn{overflow:hidden;height:28px; padding-left:20px; padding-top:5px; background:url(../images/tabbar.gif) repeat-x ; }
-.shell{width:99999px; height:100%; }
-.shell li{float:left; width:760px; height:100%; list-style:none}
-.main{width:760px;height:350px; overflow:hidden;  margin:10px auto; text-align:left;font-size:12px;}
-
-
 
 #con {
 	FONT-SIZE: 12px; MARGIN: 0px auto; WIDTH: 800px
@@ -41,3 +31,13 @@ li img{vertical-align:bottom;border:0px}
 #tagContent div.selectTag {
 	DISPLAY: block
 }
+
+
+.dhooo_tab{width:100%; margin:0;background:#fff url(../images/main_bg.gif) repeat-x 0 100%; border:1px solid #aaa;position:relative; float:left;}
+.tab_btn li{float:left; width:66px}
+.tab_btn li {font-size:12px;display:block; padding:10px 0 10px 10px;margin-right:5px; zoom:1;text-decoration:none; color:#fff;line-height:50%; cursor:pointer;}
+.tab_btn li.hot {background:#fff;color:#333;font-weight:bold;cursor:pointer;}
+.tab_btn{overflow:hidden;height:28px; padding-left:20px; padding-top:5px; background:url(../images/tabbar.gif) repeat-x ; }
+.shell{width:99999px; height:100%; }
+.shell li{float:left; width:760px; height:100%; list-style:none}
+.main{width:760px;height:350px; overflow:hidden;  margin:10px auto; text-align:left;font-size:12px;}

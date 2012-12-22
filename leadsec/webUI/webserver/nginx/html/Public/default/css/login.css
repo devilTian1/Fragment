@@ -14,11 +14,11 @@ body{margin:0; padding:0; font-size:9pt;}
 .inf_text{display:block; width:100px; height:20px; font-size:16px; font-weight:bolder; color:#fff; margin-left:17px; margin-top:12px; float:left;}
 .copyright{display:block; float:left; margin-left:17px; margin-top:15px;}
 
-#user{ margin-left:40px; margin-top:45px; height:25px;}
-#user_error{ margin:3px 0 0 50px; color:#F00; width:160px;}
-#password{margin-left:40px; margin-top:25px; height:25px;}
-#passwd_error{ margin:3px 0 0 50px; color:#F00; width:160px;}
+#user{ margin-left:40px; margin-top:45px; }
+#user_error{ margin:3px 0 0 50px; color:#F00}
+#password{margin-left:40px; margin-top:25px;}
+#passwd_error{ margin:3px 0 0 50px; color:#F00;}
 #login_error{color:#F00; text-align:center}
 input{width:120px; height:18px; border:solid 1px #aca7a7; font-size:9pt;}
-#btn{margin-left:20px; margin-top:40px;height:25px; margin-right:28px; text-align:center;}
-#btn input{display:block; cursor:pointer; height:25px; line-height:25px; background: url(../images/bt_bg.gif); border: solid 1px #b6b6b6; width:65px; float:left; margin-left:15px; text-decoration:none; color:#000;}
+#btn{ margin:40px 28px 0 20px;}
+#btn input{ cursor:pointer; height:25px; line-height:25px; background: url(../images/bt_bg.gif); border: solid 1px #b6b6b6; width:65px; margin-left:15px; text-decoration:none; color:#000;}
