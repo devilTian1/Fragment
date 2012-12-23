@@ -52,7 +52,7 @@ function openNewDialog() {
     };
     var dialogParams = {
         width   : 600,
-        height  : 460,
+        height  : 300,
         buttons : buttons
     };
     showDialogByAjax(url, data, title, dialogParams);

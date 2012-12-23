@@ -1,31 +1,21 @@
-<form action="xtcs.html" method="POST" id="editForm" onSubmit="return false;">
-<table class="column_95">
-  <tbody>
-    <tr>
-      <td class="tdheader" width="120"><span class="red">*</span>允许的内容:</td>
-      <td class="tdbody">
-        <input type="text" name="inputtext2" class="inputtext"/>
-      </td>
-    </tr>
-    <tr>
-      <td class="tdheader"></td>
-      <td>
-        支持的通配符:
-        <div class="pl50">*代表任意字符，包括空格</div>
-        <div class="pl50">？代表任意单个字符</div>
-        <div class="pl50">\\代表单个\</div>
-        <div class="pl50">\*代表单个*</div>
-        <div class="pl50">\?代表单个?</div>
-      </td>
-    </tr>
-    <tr>
-      <td class="tdheader">备注: </td>
-      <td>
-        <input type="text" name="inputtext" class="inputtext"/>
-      </td>
-    </tr>
-	</tbody>
-</table>
+<form action="Function/resConf/addrBind/msgPass_whitelist.php" method="POST" id="editForm" onSubmit="return false;">
+    <input type="hidden" name="type" value="<{$type|default: 'add'}>"/>
+    <input type="hidden" name="id" value="<{$res.id}>"/>
+     <fieldset>
+        <!--<legend></legend>-->
+        <div class="row">
+          <label for="destip">允许的内容:<em class="required">*</em></label>
+          <input type="text" name="destip" value="<{$res.destip}>" />(1-19个合法安符)
+        </div>
+         <div class="row">
+                 说明:
+                <div class="pl50">*代表任意字符，包括空格</div>
+                <div class="pl50">？代表任意单个字符</div>
+                <div class="pl50">\\代表单个\</div>
+                <div class="pl50">\*代表单个*</div>
+                <div class="pl50">\?代表单个?</div>
+        </div>
+     </fieldset>
 </form>
 <script type="text/javascript">
 $(document).ready(function() {

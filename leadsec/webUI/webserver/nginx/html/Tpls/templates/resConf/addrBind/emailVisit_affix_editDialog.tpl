@@ -1,42 +1,40 @@
-<form action="xtcs.html" method="POST" id="editForm" onSubmit="return false;">
-<table class="column_95">
-  <tbody>
-      <td class="tdheader"><span class="red">*</span> 名称:</td>
-      <td class="tdbody">
-        <input type="text" name="inputtext2" class="inputtext"/>
-        &nbsp;( 1-15 字母、数字、减号、下划线、点的组合 )</td>
-    </tr>
-    <tr>
-      <td class="tdheader">扩展名:</td>
-      <td class="tdbody">
-        <input type="text" name="inputtext"  class="inputtext"/>
-        &nbsp;( 如.exe)</td>
-    </tr>
-    <tr>
-      <td class="tdheader">
-        <input type="button" name="button3" id="button3" value="&gt;&gt;" class="inputbtn" />
-        <br />
-        <br />
-        <input type="button" name="button3" id="button4" value="&lt;&lt;" class="inputbtn" />
-        <br /></td>
-      <td class="tdbody">
-        <label>
-          <select name="select2" size="7" class="w200" id="select2">
-          </select>
-        </label>
-      </td>
-    </tr>
-    <tr>
-      <td class="tdheader"><span class="red"></span>备注:</td>
-      <td class="tdbody">
-        <input type="text" name="inputtext"  class="inputtext"/>
-      </td>
-    </tr>
-   </tbody>
-</table>
+<form action="Function/resConf/addrBind/emailVisit_affix.php" method="POST" id="editForm" onSubmit="return false;">
+    <input type="hidden" name="type" value="<{$type|default: 'add'}>"/>
+    <input type="hidden" name="id" value="<{$res.id}>"/>
+     <fieldset>
+        <!--<legend></legend>-->
+        <div class="row">
+          <label for="destip">名称:<em class="required">*</em></label>
+          <input type="text" name="destip" value="<{$res.destip}>" />(1-15 字母、数字、减号、下划线、点的组合)
+        </div>
+         <div class="row">
+          <label for="destip">扩展名:<em class="required">*</em></label>
+          <input type="text" name="destip" value="<{$res.destip}>" />(如.exe)
+        </div>
+        
+        <div class="row">
+        	<div class="column column_25">
+                <button class="standard floatLeft" type="button" onClick="addto()"> &gt;&gt;
+                </button>
+                <br/><br/><br/>
+                <button class="standard floatLeft" type="button" onClick="moveto()"> &lt;&lt;
+                </button>
+            </div>
+            <div class="column column_35">
+                <{html_options class='multiSelect' size="5" multiple="multiple"
+                    name="addrMember[]" id="addrMember"
+                    output=$addrMemberArr values=$addrMemberArr}>
+	        </div>
+        </div>
+        
+        <div class="row">
+          <label for="destip">备注:<em class="required">*</em></label>
+          <input type="text" name="destip" value="<{$res.destip}>" />
+        </div>
+   </fieldset>
 </form>
 <script type="text/javascript">
 $(document).ready(function() {
-	 $("#add, .inputbtn").button();					   
+	$(".standard").button();	   
 });
 </script>

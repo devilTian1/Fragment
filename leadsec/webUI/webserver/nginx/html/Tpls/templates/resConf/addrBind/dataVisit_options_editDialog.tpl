@@ -1,46 +1,33 @@
-<form action="xtcs.html" method="POST" id="editForm" onSubmit="return false;"> 
-<table class="column_95">
-  <tbody>
-    <tr>
-      <td class="tdheader"><span class="red">*</span>名称:</td>
-      <td class="tdbody">
-        <input type="text" name="inputtext2" class="inputtext"/>
-        &nbsp;( 1-19个合法安符)</td>
-    </tr>
-    <tr>
-      <td class="tdheader">用户名过滤组:</td>
-      <td class="tdbody">
-        <label>
-          <select name="select" class="w200" id="select">
-          </select>
-        </label>
-      </td>
-    </tr>
-    <tr>
-      <td class="tdheader">SQL语句过滤组:</td>
-      <td class="tdbody">
-        <label>
-          <select name="select" class="w200" id="select">
-          </select>
-        </label>
-      </td>
-    </tr>
-    <tr>
-      <td class="tdheader">流病毒扫描:</td>
-      <td class="tdbody">
-        <label>
+<form action="Function/resConf/addrBind/dataVisit_options.php" method="POST" id="editForm" onSubmit="return false;">
+    <input type="hidden" name="type" value="<{$type|default: 'add'}>"/>
+    <input type="hidden" name="id" value="<{$res.id}>"/>
+     <fieldset>
+        <!--<legend></legend>-->
+        <div class="row">
+          <label for="destip">名称:<em class="required">*</em></label>
+          <input type="text" name="destip" value="<{$res.destip}>" />(1-19个合法安符)
+        </div>
+        
+        <div class="row">
+          <label for="destip">用户名过滤组:</label>
+           <select name="select" class="w200" id="select"></select>
+        </div>
+        
+        <div class="row">
+          <label for="destip">SQL语句过滤组:</label>
+           <select name="select" class="w200" id="select"></select>
+        </div>
+        
+        <div class="row">
+          <label for="destip">流病毒扫描:</label>
           <input type="checkbox" name="checkbox" id="checkbox" />
-        </label>
-	</td>
-    </tr>
-    <tr>
-      <td class="tdheader">备注:</td>
-      <td class="tdbody">
-        <input type="text" name="inputtext"  class="inputtext"/>
-      </td>
-    </tr>
-    </tbody>
-  </table>
+        </div>
+        
+         <div class="row">
+          <label for="destip">备注:</label>
+          <input type="text" name="destip" value="<{$res.destip}>" />( 0-253字符. )
+        </div>
+   </fieldset>
 </form>
 <script type="text/javascript">
 $(document).ready(function() {

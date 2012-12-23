@@ -18,7 +18,7 @@ function openEditDialog(id) {
     };
     var dialogParams = {
         width   : 620,
-        height  : 550,
+        height  : 500,
         buttons : buttons
     };
     showDialogByAjax(url, data, title, dialogParams);
@@ -51,8 +51,8 @@ function openNewDialog() {
         $(this).remove();
     };
     var dialogParams = {
-        width   : 600,
-        height  : 460,
+        width   : 620,
+        height  : 500,
         buttons : buttons
     };
     showDialogByAjax(url, data, title, dialogParams);

@@ -1,53 +1,53 @@
-<form action="xtcs.html" method="POST" id="editForm" onSubmit="return false;">
-<table class="column_95">
-  <tbody>
-      <td class="tdheader" width="120"><span class="red">*</span> 名称:</td>
-      <td class="tdbody">
-        <input type="text" name="inputtext3" class="inputtext"/>
-        &nbsp;( 1-15 字母、数字、减号、下划线、点的组合 ) </div></td>
-    </tr>
-    <tr>
-      <td class="tdheader">邮件地此:</td>
-      <td class="tdbody">
-        <input type="text" name="inputtext3"  class="inputtext"/>
-        &nbsp;( 如test@sina.com.cn)</td>
-    </tr>
-    <tr>
-      <td class="tdheader">
-        <input type="button" name="button" id="button" value="&gt;&gt;" class="inputbtn" />
-        <br />
-        <br />
-        <input type="button" name="button2" id="button2" value="&lt;&lt;" class="inputbtn" />
-        <br /></td>
-      <td class="tdbody">
-        <label>
-          <select name="select" size="7" class="w200" id="select">
-          </select>
-        </label>
-      </td>
-    </tr>
-    <tr>
-      <td class="tdheader"><span class="red">*</span>类别:</td>
-      <td class="tdbody">
-        <label>
-          <input name="radio" type="radio" id="radio" value="radio" checked="checked" /> 收件人
-        </label>
-        <label>
-          <input type="radio" name="radio" id="radio2" value="radio" />发件人
-        </label>
-        </td>
-    </tr>
-    <tr>
-      <td class="tdheader"><span class="red"></span>备注:</td>
-      <td class="tdbody">
-        <input type="text" name="inputtext3"  class="inputtext"/>
-      </td>
-    </tr>
-    </tbody>
-  </table>
+<style type="text/css">
+	.floatLeft input[type="radio"]{ width:10px;}
+</style>
+<form action="Function/resConf/addrBind/emailVisit_addr.php" method="POST" id="editForm" onSubmit="return false;">
+    <input type="hidden" name="type" value="<{$type|default: 'add'}>"/>
+    <input type="hidden" name="id" value="<{$res.id}>"/>
+     <fieldset>
+        <!--<legend></legend>-->
+        <div class="row">
+          <label for="destip">名称:<em class="required">*</em></label>
+          <input type="text" name="destip" value="<{$res.destip}>" />(1-15 字母、数字、减号、下划线、点的组合)
+        </div>
+         <div class="row">
+          <label for="destip">邮件地此:<em class="required">*</em></label>
+          <input type="text" name="destip" value="<{$res.destip}>" />( 如test@sina.com.cn)
+        </div>
+        
+        <div class="row">
+        	<div class="column column_25">
+                <button class="standard floatLeft" type="button" onClick="addto()"> &gt;&gt;
+                </button>
+                <br/><br/><br/>
+                <button class="standard floatLeft" type="button" onClick="moveto()"> &lt;&lt;
+                </button>
+            </div>
+            <div class="column column_35">
+                <{html_options class='multiSelect' size="5" multiple="multiple"
+                    name="addrMember[]" id="addrMember"
+                    output=$addrMemberArr values=$addrMemberArr}>
+	        </div>
+        </div>
+        
+        <div class="row">
+            <label>类别:</label>
+            <div class="floatLeft">
+               <input name="http" type="radio" value="all" checked="checked"/>收件人
+            </div>
+            <div class="floatLeft">
+               <input type="radio" name="http" value="part"/>发件人
+            </div>
+        </div>
+        
+        <div class="row">
+          <label for="destip">备注:<em class="required">*</em></label>
+          <input type="text" name="destip" value="<{$res.destip}>" />
+        </div>
+   </fieldset>
 </form>
 <script type="text/javascript">
 $(document).ready(function() {
-	 $("#add, .inputbtn").button();					   
+	$(".standard").button();	   
 });
 </script>
