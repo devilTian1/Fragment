@@ -6,20 +6,21 @@
                             '网络接口', '网络扩展口');
         $ipaddrArr = array('未指定', '静态制定',
                            '无效',   'DHCP获取');
-        $tpl =  'networkMangement/interface/physicalTable.tpl';
+        $tpl = 'networkMangement/interface/physicalTable.tpl';
         $db  = new dbsqlite(DB_PATH . '/configs.db');
-        $sql = "SELECT * FROM interface WHERE alias_id == -1 $where";
+        $sql = "SELECT external_name, ip, mask, ipv6, ipv6_mask, if_property,
+            ipaddr_type, enable FROM interface WHERE device_type = 1 $where";
         $result = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
         echo V::getInstance()->assign('list', $result)
-        	->assign('propertyArr',$propertyArr)
-        	->assign('ipaddrArr',$ipaddrArr)
+        	->assign('propertyArr', $propertyArr)
+        	->assign('ipaddrArr', $ipaddrArr)
         	->assign('pageCount', 10)
             ->fetch($tpl);
     }
 
     function getSetPhysicalDevCmd() {
         $if     = $_POST['external_name'];
-        $active = $_POST['active'] === '1' ? 'on' : 'off';
+        $enable = $_POST['enable'] === 'on' ? 'on' : 'off';
         $mac    = $_POST['mac_address'];
         if ($_POST['linkmode'] === '0') {
             $linkmode = 'auto';
@@ -40,12 +41,23 @@
         } else { //0
             $workmode = '';
         }
-        if ($_POST['ipaddr_type'] === '1') {
-            $ip     = $_POST['ip'];
-            $mask   = strtoupper($_POST['netmask']);
-            $ipType = "ipaddr_type static ip $ip netmask $mask";
-        } else if ($_POST['ipaddr_type'] === '2') {
-            $ipType = 'ipaddr_type invalid';//TODO
+        if ($_POST['ipaddr_type'] === '1' && $_POST['workmode'] !== '3') {
+            $ipv4     = $_POST['ipv4'];
+            $ipv4Mask = conventToIpv4Mask($_POST['ipv4Netmask']);
+            $ipv6     = $_POST['ipv6'];
+            $ipv6Mask = $_POST['ipv6Netmask'];
+            $ipType   = 'ipaddr_type static ';
+            if (!empty($ipv4)) {
+                $ipType .= "ip $ipv4 netmask $ipv4Mask";
+            }
+            if (!empty($ipv4) && !empty($ipv6)) {
+                $ipType .= ' ';
+            }
+            if (!empty($ipv6)) {
+                $ipType .= "ipv6 $ipv6 ipv6_mask $ipv6Mask";
+            }
+        //} else if ($_POST['ipaddr_type'] === '2') {
+        //    $ipType = 'ipaddr_type invalid';//TODO
         } else if ($_POST['ipaddr_type'] === '3') {
             $ipType = 'ipaddr_type dhcp';
         } else {//0
@@ -57,18 +69,33 @@
         $antispoof          = $_POST['antispoof'] === 'on' ? 'on' : 'off';
         $ping               = $_POST['ping'] === 'on' ? 'on' : 'off';
         $traceroute         = $_POST['traceroute'] === 'on' ? 'on' : 'off';
-        $qos_enable         = $_POST['enable'] === 'on' ? 'on' : 'off';
 
-        $result = "interface set phy if $if active $active mac $mac linkmode " .
+        $result = "interface set phy if $if active $enable mac $mac linkmode " .
             "$linkmode speed $speed $workmode $ipType " .
             "ipmac_check $ipmac_check ipmac_check_policy $ipmac_check_policy ".
             "antispoof $antispoof ping $ping traceroute $traceroute ".
-            "qos_enable $qos_enable";
+            "qos_enable off";
         return $result;
     }
 
+    function getAliasDevNamesByPhyName($name) {
+        $db     = new dbsqlite(DB_PATH . '/configs.db');
+        $sql    = 'SELECT external_name FROM interface ' .
+            "WHERE phy_device='$name' AND enable=1";
+        $data   = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
+        $result = array();
+        if (count($data) === 0) {
+            return false;
+        } else {
+            foreach ($data as $v) {
+                $result[] = $v['external_name'];
+            }
+            return $result;
+        }
+    }
+
     function getDataCount() {
-        $sql = "SELECT external_name FROM interface WHERE alias_id == -1";
+        $sql = "SELECT external_name FROM interface WHERE device_type = 1";
         $db  = new dbsqlite(DB_PATH . '/configs.db');
         return $db->query($sql)->getCount();
     }
@@ -78,7 +105,8 @@
         $external_name  = $_POST['name'];
         $tpl = $_POST['tpl'];
         $db  = new dbsqlite(DB_PATH . '/configs.db');
-        $sql = "SELECT * FROM interface WHERE alias_id == -1 AND external_name = '$external_name'";
+        $sql = 'SELECT * FROM interface WHERE device_type = 1 AND external_name'.
+            " = '$external_name'";
         $result = $db->query($sql)->getFirstData(PDO::FETCH_ASSOC);
         $result = V::getInstance()->assign('res', $result)->fetch($tpl);
         echo json_encode(array('msg' => $result));
@@ -87,6 +115,12 @@
         $name = $_POST['switch_name'];
         $cli = new cli();
         if ($action === 'disable') {
+            if ($nameArr = getAliasDevNamesByPhyName($name)) {
+                $msg = '请先将别名设备[' . join(', ', $nameArr) .
+                    ']关闭后, 再关闭[' . $name . ']设备.';
+                echo json_encode(array('msg' => $msg));
+                return false;
+            }
             $cmd = "interface set phy if $name active off";
             $cli->run($cmd);
             echo json_encode(array('msg' => "[$name]已关闭."));

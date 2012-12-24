@@ -8,6 +8,7 @@ function openEditRedundanceDevDialog(external_name) {
     var buttons = {};
     buttons['确定'] = function() {
         if ($('#editRedundanceForm').valid()) {
+            $('#external_name').removeAttr('disabled');
             $('#addrMember option').attr('selected', 'selected');
             ajaxSubmitForm($('#editRedundanceForm'), '结果');
             freshTableAndPage();
@@ -20,7 +21,8 @@ function openEditRedundanceDevDialog(external_name) {
     var dialogParams = {
         width   : 780,
         height  : 550,
-        buttons : buttons
+        buttons : buttons,
+        position : ['center', 'top']
     };
     showDialogByAjax(url, data, title, dialogParams);
 }
@@ -56,7 +58,8 @@ function openNewRedundanceDevDialog() {
     var dialogParams = {
         width   : 700,
         height  : 520,
-        buttons : buttons
+        buttons : buttons,
+        position : ['center', 'top']
     };
     showDialogByAjax(url, data, title, dialogParams);
 }

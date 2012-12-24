@@ -4,7 +4,7 @@
     <fieldset>
         <!--<legend>别名设备</legend>-->
 		<div class="row">
-          <label for="destip">目的地此:<em class="required">*</em></label>
+          <label for="destip">目的地址:<em class="required">*</em></label>
           <input type="text" name="destip" value="<{$res.destip}>" />
         </div>
         
@@ -15,7 +15,7 @@
         </div>
         
         <div class="row">
-          <label for="nexthopip">下一跳地此:<em class="required">*</em></label>
+          <label for="nexthopip">下一跳地址:<em class="required">*</em></label>
           <input type="text" name="nexthopip" value="<{$res.nexthopip}>" />
         </div>
         

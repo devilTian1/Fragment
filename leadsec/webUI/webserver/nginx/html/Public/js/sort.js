@@ -94,9 +94,13 @@ function freshTable(url, tableDom, orderStatement, pageDom) {
     loadEmbedPage(url, data, tableDom.children('tbody'), params);
 }
 
-function freshPagination(funcUrl, displayDom) {
+function freshPagination(funcUrl, displayDom, tableDom) {
     var url  = 'Function/layout/showPagination.php';
-    var data = getOrderRules();
+    var data = getOrderRules(displayDom);
     data['dataCountFunc'] = funcUrl;
+    if (tableDom !== undefined) {
+        data['tableDom'] = "$('" + tableDom.selector + "')";
+    }
+    data['pageDom'] = "$('" + displayDom.selector + "')";
     loadEmbedPage(url, data, displayDom);
 }

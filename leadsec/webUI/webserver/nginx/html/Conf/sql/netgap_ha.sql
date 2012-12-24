@@ -7,10 +7,18 @@ create table basic_configure
 	mode			CHAR(1),  --'P':preempt mode 'N':nonpreempt mode
 	ifcfg			CHAR(1),  --'D':disable physical net work device 'E':not disable
 	peer_ha_ip		CHAR(15), --peer gap ha ip address
-	peer_ha_port	INT		  --peer gap ha port number
+	peer_ha_port	INT,		  --peer gap ha port number
+    interval        INT
 );
 
 insert into basic_configure (role, mode, ifcfg, peer_ha_ip, peer_ha_port) values ('M', 'P', 'E', '0.0.0.0',8000);
+
+create table lvs_basic
+(
+	role			CHAR(1)  --'D':director 'N':node
+);
+
+insert into lvs_basic (role) values ('D');
 
 create table haif 
 (

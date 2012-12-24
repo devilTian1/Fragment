@@ -1,8 +1,9 @@
 <form action="Function/networkMangement/interface/physical.php" method="POST" id="editPhysicalForm" onSubmit="return false;">
     <input type="hidden" name="type" value="edit"/>
-    <input type="hidden" name="active" value="<{$res.enable}>"/>
     <fieldset>
        <legend>修改物理设备</legend>
+        <div class="hide" id="summary">
+        </div>
         <div class="row">
         	 <label for="external_name">名称:</label>
              <input type="text" name="external_name" value="<{$res.external_name}>" readonly="readonly"/>(不能修改)
@@ -24,7 +25,7 @@
                 selected=$res.speed }>
         </div>
         
-        <div class="row" id="workmode_div" <{if $res.workmode eq 2}> style="display:none" <{/if}>>
+        <div class="row" id="workmode_div" <{if $res.workmode eq 2}> class="hide" <{/if}>>
             <label for="mtu">MTU:</label>
             <input type="text" name="mtu" value="<{$res.mtu}>" />
         </div>
@@ -35,19 +36,23 @@
             output=array('未指定','路由模式','透明模式','冗余模式') values=array(0,1,2,3)
             selected=$res.workmode }>
         </div>
-        
-        <div class="row"><label for="ipaddr_type">IP地址获取:</label>
-          	<{html_options name="ipaddr_type" id="ipaddr_type" class="select"
-            output=array('未指定','静态IP地址','无效','DHCP获得') values=array(0,1,2,3)
-            selected=$res.ipaddr_type }>
-        </div>
-        <div id="ipaddr_type_div" <{if $res.ipaddr_type neq 1}> style="display:none" <{/if}>>
-        <div class="row"><label for="ip">IP地此：</label>
-          <input type="text" name="ip" value="<{$res.ip}>" />
-        </div>
-         <div class="row"><label for="netmask">掩码:</label>
-          <input type="text" name="netmask" value="<{$res.mask}>" />
-        </div>
+
+        <div id="unRedundanceDiv" <{if $res.workmode eq 3}> class="hide" <{/if}>>
+            <div class="row"><label for="ipaddr_type">IP地址获取:</label>
+                <{html_options name="ipaddr_type" id="ipaddr_type" class="select"
+                output=array('未指定','静态IP地址','无效','DHCP获得') values=array(0,1,2,3)
+                selected=$res.ipaddr_type }>
+            </div>
+            <div id="ipaddr_type_div" <{if $res.ipaddr_type neq 1}> class="hide" <{/if}>>
+                <div class="row"><label for="ipv4">IPV4地此：</label>
+                  <input type="text" name="ipv4" id="ipv4" value="<{$res.ip}>"/><label class="maskLabel">/</label>
+                  <input class="ipv4Netmask" type="text" name="ipv4Netmask" value="<{$res.mask}>"/>
+                </div>
+                <div class="row"><label for="ipv6">IPV6地此：</label>
+                  <input type="text" name="ipv6" id="ipv6" value="<{$res.ipv6}>"/><label class="maskLabel">/</label>
+                  <input class="ipv6Netmask" type="text" name="ipv6Netmask" value="<{$res.ipv6_mask}>" />
+                </div>
+            </div>
         </div>
         
         <div class="row"><label for="ipmac_check">开启IPMAC地址绑定:</label>
@@ -86,7 +91,7 @@
 </style>
 <script type="text/javascript">
     $(document).ready(function(){
-        validateForm($("#editPhysicalForm"));
+        validateForm($("#editPhysicalForm"), 'summary');
 		$("#ipaddr_type").change(function(){
             var val = this.value;
             if (val == 1) {
@@ -99,9 +104,14 @@
             var val = this.value;
             if (val == 2 || val == 0) {
                 $('#workmode_div').hide();
+                $('#unRedundanceDiv').show();
+            } else if (val == 3) {
+                $('#workmode_div').show();
+                $('#unRedundanceDiv').hide();
             } else {
                 $('#workmode_div').show();
-            }
+                $('#unRedundanceDiv').show();
+            } 
         });
     });
 </script>

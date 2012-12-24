@@ -30,6 +30,7 @@ create table ftp_comm_client_acl
 	time		CHAR(50),				--
 	filter      CHAR(15),               
 	active      CHAR(1),
+        ip_ver      CHAR(10),
 	comment		VARCHAR(255)			--
 );
 
@@ -39,6 +40,7 @@ create table ftp_comm_server_acl
 	serverip	CHAR(50),				--
 	sport		INT,					--
 	active		CHAR(1),
+        ip_ver      CHAR(10),
 	comment		VARCHAR(255)			--
 );
 
@@ -60,6 +62,7 @@ create table options
 	keepalive	CHAR(1),
 	banner_on	CHAR(1),
 	banner		VARCHAR(256),
+	keyword		VARCHAR(256),
 	comment		VARCHAR(256)
 );
 

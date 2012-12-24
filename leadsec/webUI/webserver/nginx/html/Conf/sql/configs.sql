@@ -67,23 +67,25 @@ create table interface
 	ipmac_check		  INT,				--MAC地址绑定检查 0：不检查（默认）， 1：检查
 	ipmac_check_policy INT,				--未绑定地址的策略 0：不通过， 1：通过（默认）
 	antispoof		  INT,				--地址欺骗检查 0：不检查（默认） 1：检查
-    if_property       INT 				--设备属性: 0:未指定  1:HA接口  2:管理接口  3:网络接口  4:网络扩展口
+    if_property       INT ,				--设备属性: 0:未指定  1:HA接口  2:管理接口  3:网络接口  4:网络扩展口
+    ipv6              CHAR(50),         --IPv6
+    ipv6_mask         CHAR(15)         --IPv6
 );
-insert into interface values('fe1','eth0','',0,1500,0,1,1,"","",-1,-1,1,0,0,0,0,0,"","",0,0,0,1,0,0,"",1,0,100,"",0,1,0,1);
-insert into interface values('fe2','eth1','',0,1500,0,1,1,"","",-1,-1,1,0,0,0,0,1,"10.0.0.1","255.255.255.0",1,1,1,1,0,0,"",0,1,100,"",0,1,0,2);
-insert into interface values('fe3','eth2','',0,1500,0,1,1,"","",-1,-1,1,0,0,0,0,0,"","",0,0,0,1,0,0,"",0,0,100,"",0,1,0,3);
-insert into interface values('fe4','eth3','',0,1500,0,1,1,"","",-1,-1,1,0,0,0,0,0,"","",0,0,0,1,0,0,"",0,0,100,"",0,1,0,4);
-insert into interface values('fe5','eth4','',0,1500,0,1,1,"","",-1,-1,1,0,0,0,0,0,"","",0,0,0,1,0,0,"",0,0,0,"",0,1,0,4);
-insert into interface values('fe6','eth5','',0,1500,0,1,1,"","",-1,-1,1,0,0,0,0,0,"","",0,0,0,1,0,0,"",0,0,0,"",0,1,0,4);
-insert into interface values('fe7','eth6','',0,1500,0,1,1,"","",-1,-1,1,0,0,0,0,0,"","",0,0,0,1,0,0,"",0,0,0,"",0,1,0,4);
-insert into interface values('fe8','eth7','',0,1500,0,1,1,"","",-1,-1,1,0,0,0,0,0,"","",0,0,0,1,0,0,"",0,0,0,"",0,1,0,4);
-insert into interface values('fe9','eth8','',0,1500,0,1,1,"","",-1,-1,1,0,0,0,0,0,"","",0,0,0,1,0,0,"",0,0,0,"",0,1,0,4);
-insert into interface values('fe10','eth9','',0,1500,0,1,1,"","",-1,-1,1,0,0,0,0,0,"","",0,0,0,1,0,0,"",0,0,0,"",0,1,0,4);
-insert into interface values('fe11','eth10','',0,1500,0,1,1,"","",-1,-1,1,0,0,0,0,0,"","",0,0,0,1,0,0,"",0,0,0,"",0,1,0,4);
-insert into interface values('fe12','eth11','',0,1500,0,1,1,"","",-1,-1,1,0,0,0,0,0,"","",0,0,0,1,0,0,"",0,0,0,"",0,1,0,4);
-insert into interface values('fe13','eth12','',0,1500,0,1,1,"","",-1,-1,1,0,0,0,0,0,"","",0,0,0,1,0,0,"",0,0,0,"",0,1,0,4);
-insert into interface values('fe14','eth13','',0,1500,0,1,1,"","",-1,-1,1,0,0,0,0,0,"","",0,0,0,1,0,0,"",0,0,0,"",0,1,0,4);
-insert into interface values('fe15','eth14','',0,1500,0,1,1,"","",-1,-1,1,0,0,0,0,0,"","",0,0,0,1,0,0,"",0,0,0,"",0,1,0,4);
+insert into interface values('fe1','eth0','',0,1500,0,1,1,"","",-1,-1,1,0,0,0,0,0,"","",0,0,0,1,0,0,"",1,1,100,"",0,1,0,1,"","");
+insert into interface values('fe2','eth1','',0,1500,0,1,1,"","",-1,-1,1,0,0,0,0,1,"10.0.0.1","255.255.255.0",1,1,1,1,0,0,"",0,1,100,"",0,1,0,2,"","");
+insert into interface values('fe3','eth2','',0,1500,0,1,1,"","",-1,-1,1,0,0,0,0,1,"10.0.1.1","255.255.255.0",0,0,0,1,0,0,"",0,1,100,"",0,1,0,3,"","");
+insert into interface values('fe4','eth3','',0,1500,0,1,1,"","",-1,-1,1,0,0,0,0,0,"","",0,0,0,1,0,0,"",0,1,100,"",0,1,0,4,"","");
+insert into interface values('fe5','eth4','',0,1500,0,1,1,"","",-1,-1,1,0,0,0,0,0,"","",0,0,0,1,0,0,"",0,1,100,"",0,1,0,4,"","");
+insert into interface values('fe6','eth5','',0,1500,0,1,1,"","",-1,-1,1,0,0,0,0,1,"10.0.2.1","255.255.255.0",0,0,0,1,0,0,"",0,1,100,"",0,1,0,4,"","");
+insert into interface values('fe7','eth6','',0,1500,0,1,1,"","",-1,-1,1,0,0,0,0,0,"","",0,0,0,1,0,0,"",0,1,100,"",0,1,0,4,"","");
+insert into interface values('fe8','eth7','',0,1500,0,1,1,"","",-1,-1,1,0,0,0,0,0,"","",0,0,0,1,0,0,"",0,0,0,"",0,1,0,4,"","");
+insert into interface values('fe9','eth8','',0,1500,0,1,1,"","",-1,-1,1,0,0,0,0,0,"","",0,0,0,1,0,0,"",0,0,0,"",0,1,0,4,"","");
+insert into interface values('fe10','eth9','',0,1500,0,1,1,"","",-1,-1,1,0,0,0,0,0,"","",0,0,0,1,0,0,"",0,0,0,"",0,1,0,4,"","");
+insert into interface values('fe11','eth10','',0,1500,0,1,1,"","",-1,-1,1,0,0,0,0,0,"","",0,0,0,1,0,0,"",0,0,0,"",0,1,0,4,"","");
+insert into interface values('fe12','eth11','',0,1500,0,1,1,"","",-1,-1,1,0,0,0,0,0,"","",0,0,0,1,0,0,"",0,0,0,"",0,1,0,4,"","");
+insert into interface values('fe13','eth12','',0,1500,0,1,1,"","",-1,-1,1,0,0,0,0,0,"","",0,0,0,1,0,0,"",0,0,0,"",0,1,0,4,"","");
+insert into interface values('fe14','eth13','',0,1500,0,1,1,"","",-1,-1,1,0,0,0,0,0,"","",0,0,0,1,0,0,"",0,0,0,"",0,1,0,4,"","");
+insert into interface values('fe15','eth14','',0,1500,0,1,1,"","",-1,-1,1,0,0,0,0,0,"","",0,0,0,1,0,0,"",0,0,0,"",0,1,0,4,"","");
 --insert into interface values('brg0','brg0',0,'',0,1500,0,3,1,"","",-1,-1,1,0,0,0,1,1,"10.1.5.254","255.255.255.0",1,1,1,1,0,0,"",0,1,0,"",0,1,0);
 --insert into interface values('ipsec0','ipsec0',0,'',0,1500,0,4,1,"","",-1,-1,1,0,0,0,0,0,"","",0,0,0,1,0,0,"",0,1,0,"",0,1,0);
 --insert into interface values('dial0','ppp0',0,'',0,1500,0,7,1,"","",-1,-1,1,0,0,0,0,0,"","",0,0,0,1,0,0,"",0,1,10,"",0,1,0);
@@ -139,7 +141,7 @@ create table upnp_rule
 (
     id			  INTEGER PRIMARY KEY, --ID  sequence
     name			CHAR(20),            --名称
-    ip              CHAR(15),            --IP
+    ip              CHAR(45),            --IP
     mask            CHAR(15),                 --掩码
     comment         VARCHAR(255)            --本机备注    
 );
@@ -147,7 +149,7 @@ create table upnp_rule
 create table arp_static
 (
 	id              INTEGER PRIMARY KEY,    --ID号
-	ip              CHAR(15),               --地址
+	ip              CHAR(45),               --地址
 	mac             CHAR(17),               --MAC地址
 	interface       CHAR(20),               --添加时写入，设备的外部名称
 	active          INT                     --是否启用1：启用 0：不启用
@@ -165,9 +167,9 @@ insert into defaultroute values ("");
 create table route_static
 (
     id              INTEGER PRIMARY KEY,    --ID号, 默认路由放置在第一条记录 id = 1, 永不删除  
-    destip          CHAR(15),               --目的地址   
+    destip          CHAR(45),               --目的地址   
     destmask        CHAR(15),               --目的地址掩码         
-    nexthopip       CHAR(15),               --下一跳地址
+    nexthopip       CHAR(45),               --下一跳地址
     interface		CHAR(20),               --添加时写入，从interface表中得来，同时是接口表中的接口内部名称用作修改和删除。
     active 			INT 					--是否启用1：启用 0：不启用
 );
@@ -176,11 +178,11 @@ create table route_static
 create table route_policy
 (
     id              INTEGER PRIMARY KEY,    --ID号, 默认路由放置在第一条记录 id = 1, 永不删除
-    sourceip        CHAR(15),               --源地址
-    destip          CHAR(15),               --目的地址
+    sourceip        CHAR(45),               --源地址
+    destip          CHAR(45),               --目的地址
     sourcemask      CHAR(15),               --源地址掩码
     destmask        CHAR(15),               --目的地址掩码         
-    nexthopip       CHAR(15),               --下一跳地址
+    nexthopip       CHAR(45),               --下一跳地址
     interface		CHAR(20),               --添加时写入，从interface表中得来，同时是接口表中的接口内部名称用作修改和删除。
     active 			INT, 					--是否启用1：启用 0：不启用
 	tableid			INT,					--对应的表ID
@@ -233,11 +235,11 @@ INSERT INTO snmpusm (v3usm) VALUES('off');
 create table adminips
 (
     id              INTEGER PRIMARY KEY,    --序号
-    ip              CHAR(15),               --IP地址
+    ip              CHAR(45),               --IP地址
     netmask	    		CHAR(15),		    				--子网掩码	
     comment         VARCHAR(255)            --描述
 );
-INSERT INTO adminips VALUES(1,'10.0.0.200','255.255.255.255','管理主机1');
+INSERT INTO adminips VALUES(1,'0.0.0.0','0.0.0.0','管理主机1');
 
 -- 表名: 报警邮箱
 create table mailbox 
@@ -275,15 +277,43 @@ create table gwmail
 );
 INSERT INTO gwmail VALUES('','','','','',25,'','1','1','','','','');
 
+-- 表名: 日志服务基本配置   add by caixc 2012-11-22
+create table log_basic
+(
+    sendother  BOOL,    --是否发送日志到对端主机
+    tcp_enable     BOOL,    --是否开启rsyslogd的tcp监听端口
+    udp_enable     BOOL,    --是否开启rsyslogd的udp监听端口
+    sizelimit      INT      --日志文件的大小限制(单位M)
+);
+INSERT INTO log_basic VALUES(0,1,1,20);
+
 -- 表名: 日志服务器
 create table logsrv
 (
-    sourceip        CHAR(15),           --源地址（发送日志IP）
-    logsrv          CHAR(15),           --日志服务器IP地址    
-    protocol        INT    ,            --协议号    
-    port            INT                 --端口    
+    --sourceip        CHAR(45),           --源地址（发送日志IP）
+    logsrv          CHAR(45),           --日志服务器IP地址    
+    protocol        CHAR(5),            --协议号    
+    port            INT,                --端口    
+    comment         VARCHAR(255)        --描述
 );
-INSERT INTO logsrv VALUES('','',17,514);
+
+--表名: 设置将日志发送到设定的ftp服务器
+create table log_ftpsrv
+(
+    ftpsrv      CHAR(45),       --FTP服务器IP地址
+    user        CHAR(25),       --ftp用户名
+    pass        CHAR(25),       --ftp用户密码
+    passive     BOOL           --连接模式，1被动 0，主动
+);
+
+create table logupload
+(
+    minute      INT,            --设置每小时的多少分钟自动上传,0表示此项不生效；可用值1-59
+    hour        INT,            --设置每天的几点自动上传，0表示此项不生效；可用值1-23
+    day         INT,            --设置每月的哪天自动上传，0表示此项不生效；可用值1-31
+    enable      BOOL            --1开启日志自动上传功能，0关闭日志自动上传
+);
+INSERT INTO logupload VALUES(0,0,0,0);
 
 
 -- 表名: 管理方式
@@ -302,10 +332,11 @@ create table accounts
     manager     BOOL,                   --配置管理员权限
     policyer    BOOL,                   --策略管理员权限
     auditor     BOOL,                   --审计员权限
-    passwd      VARCHAR(255)            --密码
+    passwd      VARCHAR(255),           --密码
+    locktime   intergaer               --账号被锁时间
 );
-INSERT INTO accounts VALUES('administrator',1,1,1,1,'administrator');
-INSERT INTO accounts VALUES('admin',0,1,1,1,'admin123');
+INSERT INTO accounts VALUES('administrator',1,1,1,1,'administrator',0);
+INSERT INTO accounts VALUES('admin',0,1,1,1,'admin123',0);
 
 
 
@@ -316,13 +347,20 @@ create table allow_multiple
 );
 INSERT INTO allow_multiple VALUES(1);
 
+-- 表名：允许登录失败次数
+create table allow_failure
+(
+	times       interger,
+    expiration  interger
+);
+INSERT INTO allow_failure VALUES(3,5);
 
 
 -- 表名: 域名服务器
 create table dnssrv
 (
-    dnssrv      CHAR(15),       --域名服务器1 IP地址
-    dnssrv2     CHAR(15)       --域名服务器2 IP地址
+    dnssrv      CHAR(45),       --域名服务器1 IP地址
+    dnssrv2     CHAR(45)       --域名服务器2 IP地址
 );
 INSERT INTO dnssrv VALUES('','');
 
@@ -332,7 +370,7 @@ INSERT INTO dnssrv VALUES('','');
 create table timeserver
 (
     enable_time_server      BOOL,       --是否启动时间服务器
-    server_ip               CHAR(15),   --服务器IP地址
+    server_ip               CHAR(45),   --服务器IP地址
     syninterval             INT         --同步时间间隔
 );
 INSERT INTO timeserver VALUES(0,'',300);
@@ -458,7 +496,7 @@ create table dhcpserver_static
 	id		INTEGER PRIMARY KEY,
 	hostname	CHAR(64),
 	mac		CHAR(17),
-	ip		CHAR(15),
+	ip		CHAR(45),
 	comment		VARCHAR(255)
 );
 create table dhcpserver_startup

@@ -12,6 +12,7 @@ create table db_swap_client_acl
 	killvirus           CHAR(1),
 	active 		CHAR(1),			--当前任务启停开关：'1'-ON, '0'-OFF
 	commname		VARCHAR(255),			--对端证书共公名
+	ip_ver		CHAR(10),
 	comment		VARCHAR(255)
 );
 
@@ -24,6 +25,7 @@ create table db_swap_server_acl
 	ssl						CHAR(1),				--是否采用SSL加密: 'Y'/'N'
 	commname		VARCHAR(255),			--对端证书共公名
 	active 		CHAR(1),			--当前任务启停开关：'1'-ON, '0'-OFF
+	ip_ver		CHAR(10),
 	comment		VARCHAR(255)				--描述信息
 );
 

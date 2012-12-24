@@ -3,10 +3,14 @@
     <input type="hidden" name="type" value="<{$type|default: 'add'}>"/>
     <fieldset>
         <legend>冗余设备</legend>
+        <div class="hide" id="summary"></div>
 		<div class="row">
-            <label for="external_name">选择设备名称:<em class="required">*</em></label>
-            <input type="text" name="external_name" value="<{$res.external_name}>"
-                <{if $res.external_name}>readonly="readonly"<{/if}>/>
+            <label for="external_name">选择设备名称:</label>
+            <select name="external_name" id="external_name" class="select"
+                <{if $res.external_name}>disabled="disabled"<{/if}>>
+                <{html_options output=$rdNameArr values=$rdNameArr
+                    selected=$res.external_name|default: 'rd1'}>
+            </select>
         </div>
         <div class="row"><label for="workmode">工作模式:</label>
             <{html_options name="workmode" id="workmode" class="select"
@@ -17,16 +21,10 @@
           	 <{html_options output=array('未指定','静态IP地址','无效','DHCP获得') values=array(0,1,2,3) selected=$res.ipaddr_type }>
           </select>
         </div>
-        <div id="ipaddr_type_div" <{if $res.ipaddr_type neq 1}> style="display:none" <{/if}>>
-            <div class="row"><label for="ip">IP地此：</label>
-                <input type="text" name="ip" value="<{$res.ip}>" />
-            </div>
-            <div class="row"><label for="mask">掩码:</label>
-                <select name="mask" id="mask" class="select">
-                <{html_options output=array('255.255.255.0','255.255.0.0','255.0.0.0','255.255.255.255')
-                    values=array('255.255.255.0','255.255.0.0','255.0.0.0','255.255.255.255')
-                    selected=$res.mask|default: '255.255.255.0'}>
-                </select>
+        <div id="ipaddr_type_div" <{if $res.ipaddr_type neq 1}>class="hide"<{/if}>>
+            <div class="row"><label for="ipv4">IPV4地此：</label>
+                <input class="ipv4" type="text" name="ipv4" value="<{$res.ip}>" /><label class="maskLabel">/</label>
+                <input class="ipv4Netmask" type="text" name="ipv4Netmask" value="<{$res.mask}>"/>
             </div>
         </div>
         
@@ -45,7 +43,7 @@
         <div class="row">
             <label>绑定设备选择:</label>
             <div class="column column_25">
-            <label for="addrList">可选绑定设备列表</label>
+            <label class="simpleLabel" for="addrList">可选绑定设备列表</label>
                 <{html_options class='multiSelect' size="5" name="addrList"
                     multiple="multiple" id="addrList"
                     output=$addrListArr values=$addrListArr}>
@@ -87,7 +85,7 @@
 <script type="text/javascript">
     $(document).ready(function(){
         renderStandardUi();
-        validateForm($("#editRedundanceForm"));
+        validateForm($("#editRedundanceForm"), 'summary');
 		$("#ipaddr_type").change(function(){
             var val=this.value;
             if (val == 1) {

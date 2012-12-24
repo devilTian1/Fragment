@@ -21,6 +21,13 @@ create table upgrade_history
 );
 --INSERT INTO upgrade_history VALUES(1,'1.0.0.1','2008/01/01 01:01:01','');
 
+--表名：小版本号
+create table s_version
+(
+    version CHAR(20),                   --小版本号
+    svn_url CHAR(256)                   --svn代码路径
+);
+
 -- 表名: 硬件版本表
 create table hardware
 (

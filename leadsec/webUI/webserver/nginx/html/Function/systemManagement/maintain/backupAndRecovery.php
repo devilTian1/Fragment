@@ -1,61 +1,6 @@
 <?php
     require_once($_SERVER['DOCUMENT_ROOT'].'/Function/common.php');
 
-
-    /* Get an array that represents directory tree
-     * @param string $directory. Directory path
-     * @param bool $recursive.   Include sub directories
-     * @param bool $listDirs.    Include directories on listing
-     * @param bool $listFiles.   Include files on listing
-     * @param bool $dirStruct.   directory structure or not.
-     *  Multi-dimensional Arry or One-dimensional array.
-     * @param regex $exclude.    Exclude paths that matches this regex
-     */
-    function directoryToArray($dir, $rescursive = true, $listDirs = false, $listFiles = true, $dirStruct = false, $exclude = '') {
-        if ($handle = opendir($dir)) {
-            $result = array();
-            while (false !== ($file = readdir($handle))) {
-                preg_match("/(^(([\.]){1,2})$|(\.(svn|git|md))|(Thumbs\.db|\.DS_STORE))$/i", $file, $skip);
-                $skipByExclude = false;
-                if ($exclude) {
-                    preg_match($exclude, $file, $skipByExclude);
-                }
-                if (!$skip && !$skipByExclude) {
-                    $path = $dir . DIRECTORY_SEPARATOR . $file;
-                    if (is_dir($path)) {
-                        if ($rescursive) {
-                            if ($dirStruct) {
-                                $result[$file] = directoryToArray($path,
-                                    $rescursive, $listDirs, $listFiles,
-                                    $dirStruct, $exclude);
-                            } else {
-                                $result = array_merge($result,
-                                    directoryToArray($path, $rescursive,
-                                        $listDirs, $listFiles, $dirStruct,
-                                        $exclude));
-                            }
-                        }
-                        if ($listDirs) {
-                            if ($dirStruct) {
-                                $result[$file] = '';
-                            } else {
-                                $result[] = $path;
-                            }
-                        }
-                    } else {
-                        if ($listFiles) {
-                            $result[] = $path;
-                        }
-                    }
-                }
-            }
-            closedir($handle);
-            return $result;
-        } else {
-            throw new Exception("ERROR: 无法打开指定目录[$dir].");
-        }
-    }
-    
     /*
      * Get suffix of filename
      * @param $fileName.

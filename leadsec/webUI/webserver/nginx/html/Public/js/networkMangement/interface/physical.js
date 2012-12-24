@@ -19,7 +19,8 @@ function openEditPhysicalDialog(external_name) {
     var dialogParams = {
         width   : 620,
         height  : 550,
-        buttons : buttons
+        buttons : buttons,
+        position : ['center', 'top']
     };
     showDialogByAjax(url, data, title, dialogParams);
 }

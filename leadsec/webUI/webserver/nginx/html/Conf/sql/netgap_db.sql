@@ -28,6 +28,7 @@ create table db_comm_client_acl
 	time		CHAR(50),				--
 	filter		CHAR(20),				--协议过滤集名称
 	active 		CHAR(1),				--当前任务启停开关：'1'-ON, '0'-OFF
+        ip_ver           CHAR(10),
 	comment		VARCHAR(255)			--
 );
 --insert into db_comm_client_acl values(12,'oracle','any','10.0.0.1','1000','','','filter01','1','aaaaa');
@@ -41,6 +42,7 @@ create table db_comm_server_acl
 	serverip	CHAR(50),				--服务器（外部服务）地址对象
 	sport		INT,					--服务器（外部服务）端口
 	active 		CHAR(1),			--当前任务启停开关：'1'-ON, '0'-OFF
+        ip_ver           CHAR(10),
 	comment		VARCHAR(255)			--描述信息
 );
 --insert into db_comm_server_acl values(5,'oracle','10.1.1.1','1521','1','aaaaa');

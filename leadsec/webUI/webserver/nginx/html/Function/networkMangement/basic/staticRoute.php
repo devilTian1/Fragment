@@ -66,7 +66,7 @@
         $destmask=$_POST['destmask'];
         $nexthopip=$_POST['nexthopip'];
         $interface=$_POST['interface'];
-        $cmd = "route set static id \"$id\" dip \"$destip\/$destmask\" gateway \"$nexthopip\" interface \"$interface\"";
+        $cmd = "route set static id \"$id\" dip \"$destip/$destmask\" gateway \"$nexthopip\" interface \"$interface\"";
         $cli    = new cli();
         $cli->run($cmd);
         echo json_encode(array('msg' => "修改成功."));

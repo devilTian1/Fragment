@@ -1,7 +1,17 @@
 <{foreach $list as $value }>
     <tr>
         <td><{$value.external_name}></td>
-        <td><{$value.ip}>/<{$value.mask}></td>
+        <td>
+            <{if $value.ip != ''}>
+                <{$value.ip|cat: '/'|cat: $value.mask}>
+            <{/if}>
+            <{if $value.ip != '' AND $value.ipv6 != ''}>
+                <br/>
+            <{/if}>
+            <{if $value.ipv6 != ''}>
+                <{$value.ipv6|cat: '/'|cat: $value.ipv6_mask}>
+            <{/if}>
+        </td>
         <td><{$value.phy_device}></td>
         <td><{$value.alias_id}></td>
         <td>

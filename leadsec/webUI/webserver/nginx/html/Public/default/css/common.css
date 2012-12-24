@@ -77,17 +77,27 @@ div {
     text-align: right;
 }
 
-.error, .red {
-    font-weight: bold;
+/* Validation */
+.errorContainer {
     color: red;
+    font-weight: bold;
+    width: auto;
+}
+
+.errorLabel {
+    width: auto;
+    color: red;
+    font-weight: bold;
+    display: inline;
 }
 
 label.errorLabel {
-    width: auto;
-    color: red;
     float: right;
+}
+
+.error, .red {
     font-weight: bold;
-    display: inline;
+    color: red;
 }
 
 .column {
@@ -433,6 +443,11 @@ label.errorLabel {
 
 
 /* REST */
+.service_img {
+    border-width: 0px;
+	display: block;
+}
+
 .left_back{
 	background-image: url(../images/manage_r7_c2.jpg);
 	background-repeat: no-repeat;

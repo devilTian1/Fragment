@@ -14,11 +14,8 @@
                 '次<br/>请等待' . LIMITERR_TIME . '秒');
         }
         //管理主机ip检测
-        $db        = new dbsqlite(DB_PATH . '/configs.db');
-        $client_ip = get_client_ip();
-        $sql_ip    = "select ip from adminips where ip='$client_ip'";
-        $resultall = $db->query($sql_ip)->getFirstData();
-        if ($resultall === false) {
+        $db = new dbsqlite(DB_PATH . '/configs.db');
+        if (checkAdminIpv4s() === false) {
             DEBUG || exit('管理主机限制登录');
         }
         // check allow to serveral admins to login or not
@@ -126,5 +123,41 @@
         @$_SESSION['account']      = $userData['account'];
         @$_SESSION['session_time'] = time();
         exit('sucess');
+    }
+    
+    function checkAdminIpv4s() {
+        $db      = new dbsqlite(DB_PATH . '/configs.db');
+        $cIp     = get_client_ip();
+        if (strtolower($cIp) === 'localhost' || $cIp === '127.0.0.1') {
+            return true;
+        }
+        $cIpFrag = explode('.', trim($cIp));
+        $sql     =
+            "SELECT ip FROM adminips WHERE ip = '$cIp' OR ip = '0.0.0.0'";
+        $result  = $db->query($sql)->getCount();
+        if ($result > 0) {
+            return true;
+        } else {
+            $sql    = 'SELECT ip, netmask FROM adminips';
+            $result = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
+            foreach ($result as $value) {
+                $ip          = $value['ip'];
+                $mask        = conventToIpv4Mask($value['netmask']);
+                $ipFrag      = explode('.', trim($ip));
+                $maskFrag    = explode('.', trim($mask));
+                $domainFrag  = array();
+                $cDomainFrag = array();
+                for ($i = 0; $i < 4; $i++) {
+                    $domainFrag[]  =
+                        intval($ipFrag[$i]) & intval($maskFrag[$i]);
+                    $cDomainFrag[] =
+                        intval($cIpFrag[$i]) & intval($maskFrag[$i]);
+                }
+                if (join('.', $domainFrag) === join('.', $cDomainFrag)) {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 ?>

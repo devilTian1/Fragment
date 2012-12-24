@@ -1,100 +1,102 @@
-<form action="xtcs.html" method="POST" id="editForm" onSubmit="return false;">
-<table class="column_95">
-  <tbody>
-      <td class="tdheader"><span class="red">*</span> 任务号</td>
-      <td class="tdbody">
-        <input type="text" name="inputtext3" class="inputtext"/>(同一端的任务号必须唯一)</td>
-    </tr>  <tr>
-        <td class="tdheader">访问类型:</td>
-        <td class="tdbody"><input name="radio" type="radio" id="radio" value="radio" checked="checked" />
-          普通访问
-          <input type="radio" name="radio" id="radio2" value="radio" />
-         透明访问</td>
-      </tr>  
-      <tr>
-        <td class="tdheader">源地此:</td>
-        <td class="tdbody"><label>
+<style type="text/css">
+	.floatLeft input[type="radio"]{ width:10px;}
+	.floatLeft span{ float:left;}
+</style>
+<form action="Function/client/safePass/safePass.php" method="POST" id="editForm" onSubmit="return false;">
+    <input type="hidden" name="type" value="<{$type|default: 'add'}>"/>
+    <input type="hidden" name="id" value="<{$res.id}>"/>
+     <fieldset>
+        <!--<legend></legend>-->
+        <div class="row">
+          <label for="destip">任务号:<em class="required">*</em></label>
+          <input type="text" name="destip" value="<{$res.destip}>" />(同一端的任务号必须唯一)
+        </div>
+        
+        <div class="row">
+            <label>访问类型:</label>
+            <div class="floatLeft">
+               <input name="radio" type="radio" id="radio" value="radio" checked="checked" />普通访问
+            </div>
+            <div class="floatLeft">
+                <input type="radio" name="radio" id="radio2" value="radio" />透明访问
+            </div>
+        </div>
+        
+        <div class="row">
+          <label for="destip">源地此:</label>
           <select name="select" class="w200" id="select">
           </select>
-        </label>
-          </td>
-      </tr>
-      <tr>
-        <td class="tdheader">源端口:</td>
-        <td class="tdbody"><input type="text" name="inputtext4"  class="inputtext"/>
-(1-65535) （输入形如:1200或2000：3000）</td>
-      </tr>
-      <tr>
-        <td class="tdheader"><span class="red">*</span>目的地此:</td>
-        <td class="tdbody"><label>
-          <select name="select" class="w200" id="select3">
+        </div>
+        
+         <div class="row">
+          <label for="destip">源端口:</label>
+          <input type="text" name="destip" value="<{$res.destip}>" />(1-65535)(输入形如:1200或2000：3000)
+        </div>
+        
+        <div class="row">
+          <label for="destip">目的地此:</label>
+          <select name="select" class="w200" id="select">
           </select>
-        </label>
-          </td>
-      </tr>
-      <tr>
-        <td class="tdheader"><span class="red">*</span>目的端口:</td>
-        <td class="tdbody"><input type="text" name="inputtext2"  class="inputtext"/>
-(1-65535) （输入形如:1200或2000：3000）</td>
-      </tr>
-      <tr>
-        <td class="tdheader">服务类型:</td>
-        <td class="tdbody"><label>
-          <select name="select3" class="w200" id="select5">
+        </div>
+        
+        <div class="row">
+          <label for="destip">目的端口:</label>
+          <input type="text" name="destip" value="<{$res.destip}>" />(1-65535)(输入形如:1200或2000：3000)
+        </div>
+        
+        <div class="row">
+          <label for="destip">服务类型:</label>
+          <select name="select" class="w200" id="select">
           </select>
-        </label></td>
-      </tr>
-    <tr>
-      <td class="tdheader"><span class="red">*</span>是否启动： </td>
-      <td class="tdbody">
-        <input name="radio2" type="radio" id="radio5" value="radio" checked="checked" />
-        启动
-        <input type="radio" name="radio2" id="radio6" value="radio" />
-        停止</td>
-    </tr>
-    <tr>
-      <td class="tdheader">开启日志：</td>
-      <td class="tdbody"><input name="radio1" type="radio" id="radio3" value="radio" checked="checked" />
-        是
-          <label></label>
-        <input type="radio" name="radio1" id="radio4" value="radio" />
-        <label></label>
-        否
-        <label></label></td>
-    </tr>
-    <tr>
-      <td class="tdheader">抗攻击:</td>
-      <td class="tdbody">
-      	<div><input name="" type="checkbox" value="" />抗SYN Flood<input name="" type="text" />个/秒</div>
-        <div><input name="" type="checkbox" value="" />抗UDP Flood<input name="" type="text" />个/秒</div>
-        <div><input name="" type="checkbox" value="" />抗ICMP Flood<input name="" type="text" />个/秒</div>
-        <div><input name="" type="checkbox" value="" />抗Ping of Death</div>
-      
-      </td>
-    </tr>
-    <tr>
-      <td class="tdheader">认证用户组:</td>
-      <td class="tdbody"><label>
-        <select name="select4" class="w200" id="select4">
-        </select>
-      </label></td>
-    </tr>
-    <tr>
-      <td class="tdheader">生效时段:</td>
-      <td class="tdbody">
-        <label>
-          <select name="select2" class="w200" id="select2">
+        </div>
+        
+        <div class="row">
+            <label>是否启动:</label>
+            <div class="floatLeft">
+               <input name="radio" type="radio" id="radio" value="radio" checked="checked" />启动
+            </div>
+            <div class="floatLeft">
+                <input type="radio" name="radio" id="radio2" value="radio" />停止
+            </div>
+        </div>
+        
+        <div class="row">
+            <label>开启日志:</label>
+            <div class="floatLeft">
+               <input name="radio" type="radio" id="radio" value="radio" checked="checked" />是
+            </div>
+            <div class="floatLeft">
+                <input type="radio" name="radio" id="radio2" value="radio" />否
+            </div>
+        </div>
+        <hr class="clearFloat"/>
+        
+        <div class="row">
+            <label>抗攻击:</label><br/>
+              	<div class="floatLeft"><span><input name="" type="checkbox" value="" />抗SYN Flood</span><input name="" type="text" />个/秒</div>
+            	<div class="floatLeft"><span><input name="" type="checkbox" value="" />抗UDP Flood</span><input name="" type="text" />个/秒</div>
+            	<div class="floatLeft"><span><input name="" type="checkbox" value="" />抗ICMP Flood</span><input name="" type="text" />个/秒</div>
+            	<div class="floatLeft"><input name="" type="checkbox" value="" />抗Ping of Death</div>
+        </div>
+		<hr class="clearFloat"/>
+        
+        <div class="row">
+          <label for="destip">认证用户组:</label>
+          <select name="select" class="w200" id="select">
           </select>
-        </label></td>
-    </tr>
-    <tr>
-      <td class="tdheader"><span class="red"></span>备注：</td>
-      <td class="tdbody">
-        <input type="text" name="inputtext"  class="inputtext"/>
-       </td>
-    </tr>
-    </tbody>
-  </table>
+        </div>
+        
+        <div class="row">
+          <label for="destip">生效时段:</label>
+          <select name="select" class="w200" id="select">
+          </select>
+        </div>
+        
+        <div class="row">
+          <label for="destip">备注:</label>
+          <input type="text" name="destip" value="<{$res.destip}>" />
+        </div>
+    </fieldset>
 </form>
 <script type="text/javascript">
 $(document).ready(function() {

@@ -1,3 +1,5 @@
+var perlipv6regex = "^\s*((([0-9A-Fa-f]{1,4}:){7}([0-9A-Fa-f]{1,4}|:))|(([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}|((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){5}(((:[0-9A-Fa-f]{1,4}){1,2})|:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){4}(((:[0-9A-Fa-f]{1,4}){1,3})|((:[0-9A-Fa-f]{1,4})?:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){3}(((:[0-9A-Fa-f]{1,4}){1,4})|((:[0-9A-Fa-f]{1,4}){0,2}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){2}(((:[0-9A-Fa-f]{1,4}){1,5})|((:[0-9A-Fa-f]{1,4}){0,3}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){1}(((:[0-9A-Fa-f]{1,4}){1,6})|((:[0-9A-Fa-f]{1,4}){0,4}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(:(((:[0-9A-Fa-f]{1,4}){1,7})|((:[0-9A-Fa-f]{1,4}){0,5}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:)))(%.+)?\s*$";
+
 // Custom Validation Method
 function addValidMethod(params) {
     jQuery.validator.addMethod(params.name, params.validMethod, params.msg);
@@ -38,11 +40,30 @@ var validMethodParams = {
     ipValidParam: {
         name: 'ip',
         validMethod: function(value, element, params) {
+            var ipv6regex =
+            new RegExp(perlipv6regex);
             return this.optional(element) ||
             /^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(value) ||
-            /^(([A-F0-9]){4}:){7}([A-F0-9]){4}$/.test(value)
+            ipv6regex.test(value) || /^fe80/i.test(value)
         },
         msg: 'IP格式错误.'
+    },
+    ipv4ValidParam: {
+        name: 'ipv4',
+        validMethod: function(value, element, params) {
+            return this.optional(element) ||
+            /^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(value)
+        },
+        msg: 'IPV4格式错误.'
+    },
+    ipv6ValidParam: {
+        name: 'ipv6',
+        validMethod: function(value, element, params) {
+            var ipv6regex =
+            new RegExp(perlipv6regex);
+            return this.optional(element) || ipv6regex.test(value) || /^fe80/i.test(value)
+        },
+        msg: 'IPV6格式错误.'
     },
     macValidParam: {
         name: 'mac',
@@ -56,9 +77,26 @@ var validMethodParams = {
         name: 'netmask',
         validMethod: function(value, element, params) {
             return this.optional(element) ||
-            /^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\.|$)){4}/.test(value);
+            /^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\.|$)){4}/.test(value) ||
+            (value >=1 && value <= 128)
         },
         msg: '子网掩码格式错误.'
+    },
+    ipv4NetmaskValidParam: {
+        name: 'ipv4Netmask',
+        validMethod: function(value, element, params) {
+            return this.optional(element) ||
+            /^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\.|$)){4}/.test(value)
+            || (value >=1 && value <= 32)
+        },
+        msg: 'IPV4子网掩码格式错误.'
+    },
+    ipv6NetmaskValidParam: {
+        name: 'ipv6Netmask',
+        validMethod: function(value, element, params) {
+            return this.optional(element) || (value >=1 && value <= 128)
+        },
+        msg: 'ipv6子网掩码格式错误.'
     },
     addrNameValidParam: {
         name: 'addrName',
@@ -194,8 +232,24 @@ var validRules = {
 	    ip: true
     },
     netmask: {
-        required: true,
+        required: 'input[name="ip"]:filled',
         netmask: true
+    },
+    ipv4: {
+        required: 'input[name="ipv6"]:blank',
+	    ipv4: true
+    },
+    ipv4Netmask: {
+        required: 'input[name="ipv4"]:filled',
+        ipv4Netmask: true
+    },
+    ipv6: {
+        required: 'input[name="ipv4"]:blank',
+	    ipv6: true
+    },
+    ipv6Netmask: {
+        required: 'input[name="ipv6"]:filled',
+        ipv6Netmask: true
     },
     ipAddr_r: {
         required: true,
@@ -367,11 +421,6 @@ var validRules = {
         required: true,
         range: [64, 16128]
     },
-    "addrMember[]": {
-        required: function() {
-            return $('#addrMember option').length === 0;
-        }
-    },
     manuFile: {
         required: true
     },
@@ -446,6 +495,56 @@ var validRules = {
     },
     allocatedTime: {
         range: [0, 525600]
+    },
+	batchToolExportFile: {
+		required: true
+	},
+    hostComment: {
+    	maxlength: 20
+    },
+    managerName: {
+    	maxlength: 20
+    },
+    managerTel: {
+    	maxlength: 20
+    },
+    CPU: {
+    	range: [1,100]
+    },
+    memory: {
+    	range: [1,100]
+    },
+    disk: {
+    	range: [1,100]
+    },
+    trapStr: {
+    	maxlength: 32
+    },
+    readOnly: {
+    	maxlength: 32
+    },
+    writeAndReady: {
+    	maxlength: 32
+    },
+    v3Usrname: {
+    	required: '#snmpChk:checked',
+    	maxlength: 32
+    },
+    authPhrase: {
+    	required: '#snmpChk:checked',
+    	minlength: 8,
+    	maxlength: 32
+    },
+    privPhrase: {
+    	required: '#snmpChk:checked',
+    	minlength: 8,
+    	maxlength: 32
+    },
+    serverip: {
+    	ip: true
+    },
+    sport: {
+        range: [1, 65535]
     }
 };
 
@@ -554,7 +653,6 @@ var validMsg = {
         required: '下一跳地此不能为空'
     },
     mtu: '千兆设备的范围是64-16128',
-    'addrMember[]': '请至少选择一个绑定设备.',
     manuFile: '请选择要上传的配置文件',
     upgradeFile:'请选择要升级的文件',
     validTime: '0表示永久生效, 要求在0到3650之间',
@@ -596,22 +694,48 @@ var validMsg = {
         ip: '域名服务器IP1格式错误.',
         required: '域名服务器IP1不能为空.'
     },
-    dnssrv2: '域名服务器IP2格式错误.'
+    dnssrv2: '域名服务器IP2格式错误.',
+	batchToolExportFile: '请选择要上传的文件',
+    v3Usrname: '用户名称不能超过32个字符且不能为空',
+    hostComment: '本机备注不能超过20个字符',
+    managerName: '负责人姓名不能超过20个字符',
+    managerTel: '负责人电话不能超过20个字符',
+    CPU: 'CPU 利用率阈值范围1 - 100 %',
+    memory: '内存利用率阈值范围1 - 100 %',
+    disk: '磁盘利用率阈值范围1 - 100 %',
+    trapStr: 'Trap发送字符串不能超过32个字符',
+    readOnly: '只读团体字符串不能超过32个字符',
+    writeAndReady: '读写团体字符串不能超过32个字符',
+    authPhrase: '认证密码不能超过32个字符且不能少于8个字符',
+    privPhrase: '加秘密码不能超过32个字符且不能少于8个字符',
+    serverip: '管理主机 IP格式错误.',
+    ipv4: {
+        required: '请填写IPV4或者IPV6地址.'
+    },
+    ipv6: {
+        required: '请填写IPV4或者IPV6地址.'
+    },
+    ipv4Netmask : {
+        required: '请填写IPV4地址的子网掩码.'
+    },
+    ipv6Netmask : {
+        required: '请填写IPV6地址的子网掩码.'
+    },
+    sport: '无效的升级服务器端口.'
 };
 
 function validateForm(form, displayId) {
     var options = {
         rules:    validRules,
-        messages: validMsg
+        messages: validMsg,
+        errorClass: 'errorLabel'
     };
 
     if (displayId !== undefined) {
         options['wrapper']             = 'li';
-        options['errorClass']          = 'errorContainer';
         options['errorLabelContainer'] = '#' + displayId;
-    } else {
-        options['errorClass']          = 'errorLabel';
+        options['errorClass'] = 'errorContainer';
     }
-    
+
     return form.validate(options);
 }

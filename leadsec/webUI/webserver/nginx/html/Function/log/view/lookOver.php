@@ -109,37 +109,6 @@ $privateArea = str_replace('result=0', '结果正确', $privateArea);
         return $result;
     }
 
-    /*
-     * Get an array that represents lines of file.
-     * @param $path String. file path.
-     * @param $rowsCount Integer. The number of file line to be displayed.
-     * @param $includeFunc String. function name which used to validate
-     *   this line.
-     * @param $formatFunc String. function name which used to format return
-     *   result of $includeFunc()
-     */
-    function fileLinesToArr($path = LOG_PATH, $rowsNum = 10, $includeFunc = NULL,
-        $formatFunc = NULL) {
-        $result = array();
-        $fp     = @fopen($path, 'r');
-        $count  = 0;
-        if ($fp) {
-            while (false !== ($buffer = fgets($fp, 4096))) {
-                if ($count < $rowsNum &&
-                    ($includeFunc === NULL || $match = $includeFunc($buffer)) &&
-                    ($formatFunc === NULL || $r = $formatFunc($match))) {
-                    $result[] = $r;
-                    $count++;
-                }
-            }
-            if (!feof($fp)) {
-                throw new Exception("Error: unexpected fgets() fail.");
-            }
-            fclose($fp);
-        }
-        return $result;
-    }
-
     if (!empty($_POST['orderStatement'])) {
         $tpl = 'log/view/lookOverTable.tpl';
         $result = fileLinesToArr(LOG_PATH, 10, 'includeFunc',

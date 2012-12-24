@@ -3,7 +3,12 @@
 
     // fresh data count of pagination
     if (!empty($_POST['dataCountFunc'])) {
-        require_once($_SERVER['DOCUMENT_ROOT'] . "/{$_POST['dataCountFunc']}");
+        $func = $_POST['dataCountFunc'];
+        $pos  = strpos($func, '?');
+        if (false !== $pos) {
+            $func = substr($func, 0, $pos);
+        }
+        require_once($_SERVER['DOCUMENT_ROOT'] . "/$func");
         $dataCount = getDataCount();
     } else {
         $dataCount = $_POST['dataCount'];
@@ -29,5 +34,7 @@
 	    ->assign('prev', $prev)
     	->assign('next',$next)
 	    ->assign('func', $_POST['dataCountFunc'])
+        ->assign('tableDom', stripslashes($_POST['tableDom']))
+        ->assign('pageDom', stripslashes($_POST['pageDom']))
 	    ->fetch('layout/pagination.tpl');
 ?>

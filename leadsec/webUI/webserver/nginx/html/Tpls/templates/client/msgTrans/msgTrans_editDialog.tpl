@@ -1,83 +1,85 @@
-<form action="xtcs.html" method="POST" id="editForm" onSubmit="return false;">
-<table class="column_95">
-  <tbody>
-      <td class="tdheader"><span class="red">*</span> 任务号</td>
-      <td class="tdbody">
-        <input type="text" name="inputtext3" class="inputtext"/>(同一端的任务号必须唯一)</td>
-    </tr>  <tr>
-        <td class="tdheader">源地此:</td>
-        <td class="tdbody"><label>
+<style type="text/css">
+	.floatLeft input[type="radio"]{ width:10px;}
+	span.floatLeft{ padding-left:10px; font-weight:bold}
+</style>
+<form action="Function/client/msgTrans/msgTrans.php" method="POST" id="editForm" onSubmit="return false;">
+    <input type="hidden" name="type" value="<{$type|default: 'add'}>"/>
+    <input type="hidden" name="id" value="<{$res.id}>"/>
+     <fieldset>
+        <!--<legend></legend>-->
+        <div class="row">
+          <label for="destip">任务号:<em class="required">*</em></label>
+          <input type="text" name="destip" value="<{$res.destip}>" />(同一端的任务号必须唯一)
+        </div>
+        
+         <div class="row">
+          <label for="destip">源地此:</label>
           <select name="select" class="w200" id="select">
           </select>
-        </label>
-          </td>
-      </tr>
-      <tr>
-        <td class="tdheader"><span class="red">*</span>本机地此:</td>
-        <td class="tdbody"><label>
-          <select name="select" class="w200" id="select3">
+        </div>
+        
+        <div class="row">
+          <label for="destip">本机地此:<em class="required">*</em></label>
+          <select name="select" class="w200" id="select">
           </select>
-        </label>
-          </td>
-      </tr>
-      <tr>
-        <td class="tdheader"><span class="red">*</span>本机端口:</td>
-        <td class="tdbody"><input type="text" name="inputtext2"  class="inputtext"/>(1-65535)</td>
-      </tr>
-    <tr>
-      <td class="tdheader"><span class="red">*</span>身份认证及传输加密:</td>
-      <td class="tdbody">
-        <input name="radio" type="radio" id="radio" value="radio" checked="checked" />
-        是
-        <input type="radio" name="radio" id="radio2" value="radio" />
-        否
-      </td>
-    </tr>
-    <tr>
-      <td class="tdheader">病毒扫描：</td>
-      <td class="tdbody"><input name="radio1" type="radio" id="radio7" value="radio" checked="checked" />
-        是
-        <label></label>
-        <input type="radio" name="radio1" id="radio8" value="radio" />
-        <label></label>
-        否
-        <label></label></td>
-    </tr>
-    <tr>
-      <td class="tdheader">本机备份：</td>
-      <td class="tdbody">
-        <input name="radio3" type="radio" id="radio3" value="radio" checked="checked" />
-        是
-        <label></label>
-        <input type="radio" name="radio3" id="radio4" value="radio" />
-        <label></label>
-否
-<label></label></td>
-    </tr>
-    <tr>
-      <td class="tdheader"><span class="red">*</span>是否启动： </td>
-      <td class="tdbody">
-        <input name="radio2" type="radio" id="radio5" value="radio" checked="checked" />
-        启动
-        <input type="radio" name="radio2" id="radio6" value="radio" />
-        停止</td>
-    </tr>
-    <tr>
-      <td class="tdheader">生效时段:</td>
-      <td class="tdbody">
-        <label>
-          <select name="select2" class="w200" id="select2">
+        </div>
+        
+  		<div class="row">
+          <label for="destip">本机端口:<em class="required">*</em></label>
+          <input type="text" name="destip" value="<{$res.destip}>" />(1-65535)
+        </div>
+        
+         <div class="row">
+            <label>HTTP身份认证及传输加密:</label>
+            <div class="floatLeft">
+               <input name="radio" type="radio" id="radio" value="radio" checked="checked" />是
+            </div>
+            <div class="floatLeft">
+                <input type="radio" name="radio" id="radio2" value="radio" />否
+            </div>
+        </div>
+        
+        <div class="row">
+            <label>病毒扫描:</label>
+            <div class="floatLeft">
+               <input name="radio1" type="radio" id="radio" value="radio" checked="checked" />是
+            </div>
+            <div class="floatLeft">
+                <input type="radio" name="radio1" id="radio2" value="radio" />否
+            </div>
+        </div>
+        
+        <div class="row">
+            <label>本机备份:</label>
+            <div class="floatLeft">
+               <input name="radio1" type="radio" id="radio" value="radio" checked="checked" />是
+            </div>
+            <div class="floatLeft">
+                <input type="radio" name="radio1" id="radio2" value="radio" />否
+            </div>
+        </div>
+        
+        <div class="row">
+            <label>是否启动:</label>
+            <div class="floatLeft">
+               <input name="radio1" type="radio" id="radio" value="radio" checked="checked" />启动
+            </div>
+            <div class="floatLeft">
+                <input type="radio" name="radio1" id="radio2" value="radio" />停止
+            </div>
+        </div>
+        
+        <div class="row">
+          <label for="destip">生效时段:</label>
+          <select name="select" class="w200" id="select">
           </select>
-        </label></td>
-    </tr>
-    <tr>
-      <td class="tdheader"><span class="red"></span>备注：</td>
-      <td class="tdbody">
-        <input type="text" name="inputtext"  class="inputtext"/>
-       </td>
-    </tr>
-    </tbody>
-  </table>
+        </div>
+        
+        <div class="row">
+          <label for="destip">备注:</label>
+          <input type="text" name="destip" value="<{$res.destip}>" />
+        </div>
+    </fieldset>
 </form>
 <script type="text/javascript">
 $(document).ready(function() {

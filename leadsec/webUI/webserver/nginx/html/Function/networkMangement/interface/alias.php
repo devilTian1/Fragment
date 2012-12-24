@@ -4,7 +4,8 @@
     function freshAlias($where) {
         $tpl =  'networkMangement/interface/aliasTable.tpl';
         $db  = new dbsqlite(DB_PATH . '/configs.db');
-        $sql = "SELECT external_name, ip, mask, phy_device, alias_id, enable FROM interface WHERE alias_id != -1 $where";
+        $sql = 'SELECT external_name, ip, mask, ipv6, ipv6_mask, phy_device,' .
+            " alias_id, enable FROM interface WHERE alias_id != -1 $where";
         $result = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
         echo V::getInstance()->assign('list', $result)
         	->assign('pageCount', 10)
@@ -25,20 +26,33 @@
     function getCmd($action) {
         $name       = $_POST['external_name'];
         $id         = $_POST['aliasId'];
-        $ip         = $_POST['ip'];
-        $mask       = $_POST['mask'];
+        $ipv4       = $_POST['ipv4'];
+        $ipv4Mask   = conventToIpv4Mask($_POST['ipv4Netmask']);
+        $ipv6       = $_POST['ipv6'];
+        $ipv6Mask   = $_POST['ipv6Netmask'];
         $adm        = $_POST['admin'] === 'on' ? 'on' : 'off';
         $ping       = $_POST['ping'] === 'on' ? 'on' : 'off';
         $traceRoute = $_POST['traceroute'] === 'on' ? 'on' : 'off';
         $enable     = $_POST['enable'] === 'on' ? 'on' : 'off';
         
+        $ipParams   = '';
+        if (!empty($ipv4)) {
+            $ipParams .= "ip $ipv4 netmask $ipv4Mask";
+        }
+        if (!empty($ipv4) && !empty($ipv6)) {
+            $ipParams .= ' ';
+        }
+        if (!empty($ipv6)) {
+            $ipParams .= "ipv6 $ipv6 ipv6_mask $ipv6Mask";
+        }
+ 
         if ($action === 'add') {
             $alias = "bind_if $name alias_id $id";
         } else { //set
             $alias = "if {$name}_{$id}";
         } 
         $result = "interface $action alias $alias " .
-            "active $enable ip $ip netmask $mask admin $adm ping $ping " .
+            "active $enable $ipParams admin $adm ping $ping " .
             "traceroute $traceRoute";
         return $result;
     }
@@ -55,7 +69,8 @@
         $name   = $_POST['name'];
         $tpl = $_POST['tpl'];
         $db  = new dbsqlite(DB_PATH . '/configs.db');
-        $sql = "SELECT phy_device, alias_id, ip, mask, admin, ping, traceroute, enable " .
+        $sql = 'SELECT phy_device, alias_id, ip, mask, ipv6, ipv6_mask,' .
+            ' admin, ping, traceroute, enable ' .
             "FROM interface WHERE external_name = '$name'";
         $result = $db->query($sql)->getFirstData(PDO::FETCH_ASSOC);
         $result['bindDev'] = getBindDev();
@@ -97,7 +112,7 @@
             $cli->run($cmd);
             echo json_encode(array('msg' => "[$name]已关闭."));
         } else if ($action === 'enable') {
-            $cmd = "interface set phy if $name active on";
+            $cmd = "interface set alias if $name active on";
             $cli->run($cmd);
             echo json_encode(array('msg' => "[$name]已启动."));
         } else {

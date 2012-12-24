@@ -13,6 +13,8 @@ create table sync_file_client
 	commname		VARCHAR(255),			--对端证书共公名
 	killvirus			CHAR(1),								--是否采扫描病毒: 'Y'/'N'
 	time					CHAR(50),								--时间对象
+        ip_ver                      CHAR(10),
+	seclevel			INT,
 	comment				VARCHAR(255)
 );
 
@@ -25,6 +27,7 @@ create table sync_file_server
 	mode					CHAR(1),								--处理模式：Q:快速转发、B:本地备份
 	ssl						CHAR(1),								--是否采用SSL加密: 'Y'/'N'   
 	commname		VARCHAR(255),			--对端证书共公名
+        ip_ver                      CHAR(10),
 	comment				VARCHAR(255)						--描述信息
 );
 

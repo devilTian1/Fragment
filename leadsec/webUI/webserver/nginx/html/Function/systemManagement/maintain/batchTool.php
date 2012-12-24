@@ -2,25 +2,25 @@
     require_once($_SERVER['DOCUMENT_ROOT'] . '/Function/common.php');
 
 	/**
-	* ÔÚÖ¸¶¨Î»ÖÃ²åÈëÖ¸¶¨×Ö·û´®
-	* @param type $str Ô¤×¼±¸×Ö·û´®
-	* @param type $offset    Î»ÖÃÆ«ÒÆÁ¿
-	* @param type $input    ²åÈëµÄ×Ö·û´®
-	* @return type        ·µ»ØĞÂµÄ×Ö·û´®
+	* åœ¨æŒ‡å®šä½ç½®æ’å…¥æŒ‡å®šå­—ç¬¦ä¸²
+	* @param type $str é¢„å‡†å¤‡å­—ç¬¦ä¸²
+	* @param type $offset    ä½ç½®åç§»é‡
+	* @param type $input    æ’å…¥çš„å­—ç¬¦ä¸²
+	* @return type        è¿”å›æ–°çš„å­—ç¬¦ä¸²
 	*/
 	function insert_str($str, $offset, $input)
 	{
 		$newstr = '';
 		for ($i = 0; $i < strlen($str); $i++)
 		{
-			if (is_array($offset)) //Èç¹û²åÈëÊÇ¶à¸öÎ»ÖÃ
+			if (is_array($offset)) //å¦‚æœæ’å…¥æ˜¯å¤šä¸ªä½ç½®
 			{
 				foreach ($offset as $v)
 				{
 					if ($i == $v) $newstr.=$input;
 				}
 			}
-			else    //Ö±½ÓÊÇÒ»¸öÎ»ÖÃÆ«ÒÆÁ¿
+			else    //ç›´æ¥æ˜¯ä¸€ä¸ªä½ç½®åç§»é‡
 			{
 				if ($i == $offset) $newstr.=$input;
 			}
@@ -29,21 +29,62 @@
 		return $newstr;
 	}
 
-	if ('getStr' === $_POST['action']) {
+	function show() {
+		//å°†å‘½ä»¤è¡Œæ˜¾ç¤ºåˆ°æ–‡æœ¬è¾“å…¥æ¡†ä¸­
 		if(file_exists('/tmp/webui.cmd.log')) {
 			$arr   = file('/tmp/webui.cmd.log');
+			//å€’æ’æ•°ç»„ï¼Œå°†æœ€æ–°çš„å‘½ä»¤æ˜¾ç¤ºåœ¨ç¬¬ä¸€æ¡
 			krsort($arr);
 			$arr_s = array('CGI_COSYS:',':command=/usr/local/bin/','2>/dev/null');
 			$str   = '';
 			$result = array();
 			foreach($arr as $key => $val) {
+				// æ›¿æ¢æŒ‡å®šçš„å­—ç¬¦ä¸²
 				$new_str = str_replace($arr_s,$str,$arr[$key]);
-				$result[]= insert_str(insert_str($new_str,0,'#'),34,"\n");
+				$new_str = str_replace("\n","\r\n",$new_str);
+				$result[] = insert_str(insert_str($new_str,0,'#'),34,"\r\n");
 			}
 		}			
+			echo json_encode(array('status' => true,'msg' =>$result));	
+	}
+
+	if ('getStr' === $_POST['action']) {
+		show();
+	} else if ('empty' === $_POST['action']) {
+		//æ¸…é™¤æ–‡æœ¬æ¡†ä¸­çš„å†…å®¹
+		if(file_exists('/tmp/webui.cmd.log')) {
+			file_put_contents('/tmp/webui.cmd.log','');
+			$result   = file('/tmp/webui.cmd.log');
 			echo json_encode(array('status' => true,'msg' =>$result));
+		}
+	
+	} else if ('down' === $_POST['action']) {
+		//ä¸‹è½½æ–‡ä»¶
+		$filename = urlencode('webui_cmd_log.txt');
+        header("Content-Type: application/octet-stream; charset=utf-8;");
+        header("Content-Disposition: attachment; filename=\"$filename\";");
+        header('Pragma: no-cache;');
+        header('Cache-Control: must-revalidate, post-check=0, pre-check=0;');
+		if(file_exists('/tmp/webui.cmd.log')) {
+			$arr   = file('/tmp/webui.cmd.log');
+			echo "#hardware: SIS-3000-GE11   software: 1.0.201.89\r\n";
+			foreach ($arr as $key=>$val) {
+				echo $val . "\r\n";
+			}
+		}			
+	
+	} else if ('uploadBatchFile' === $_POST['action']) {
+		$dest = '/tmp/upload/';
+		$file_name = $dest . 'tmpbatcmd';
+		move_uploaded_file($_FILES['batchToolExportFile']['tmp_name'],$file_name);
+		$result = file_get_contents('/tmp/upload/' . $_FILES['batchToolExportFile']['name']);
+		echo json_encode(array('status' => true,'msg' => $result));
+			
+	} else if ($batchCmd = $_POST['batchCmd']) {
+			//echo
+			//echo json_encode(array('msg' => 'return'));
+
 	} else {
-		
 	
 	}
 	

@@ -1,7 +1,7 @@
 function openEditAliasDialog(external_name) {
     var url  = 'Function/networkMangement/interface/alias.php';
     var data = {
-        tpl    : 'networkMangement/interface/editAliasDialog.tpl',
+        tpl  : 'networkMangement/interface/editAliasDialog.tpl',
         name : external_name
     };
     var title   = '修改别名设备';
@@ -9,6 +9,7 @@ function openEditAliasDialog(external_name) {
     buttons['确定'] = function() {
         if ($('#editAliasForm').valid()) {
             $('#external_name').removeAttr('disabled');
+            $('#aliasId').removeAttr('disabled');
             ajaxSubmitForm($('#editAliasForm'), '结果');
             freshTableAndPage();
             $(this).remove();
@@ -20,7 +21,8 @@ function openEditAliasDialog(external_name) {
     var dialogParams = {
         width   : 620,
         height  : 390,
-        buttons : buttons
+        buttons : buttons,
+        position : ['center', 'top']
     };
     showDialogByAjax(url, data, title, dialogParams);
 }
@@ -54,7 +56,8 @@ function openNewAliasDialog() {
     var dialogParams = {
         width   : 600,
         height  : 440,
-        buttons : buttons
+        buttons : buttons,
+        position : ['center', 'top']
     };
     showDialogByAjax(url, data, title, dialogParams);
 }
@@ -119,7 +122,6 @@ function switchAliasDev(name, action, formId) {
     dialog.setContent('<p>确定' + str + '别名设备[' + name  + ']吗?</p>');
     dialog.setOptions(dialogParams);
 }
-
 
 function freshTableAndPage() {
     var url = 'Function/networkMangement/interface/alias.php';

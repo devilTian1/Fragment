@@ -206,4 +206,6 @@ create table soho_parameter
     webkey_num    int             --ÍøÒ³¹ıÂË¹Ø¼ü×ÖÊı  
 );
 
+insert into soho_parameter values(1,8,20,50,50,300,300,100,50,50,100,100,50,50,50,40,64,64);
+
 COMMIT;

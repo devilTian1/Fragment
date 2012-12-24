@@ -230,12 +230,16 @@ function checkAllRole() {
 
 function freshTableAndPage(tableDom, pageDom) {
     var url = 'Function/resConf/user/roleList.php';
+    var id  = $('#roleId').val();
+    if (id !== undefined) {
+        url += '?roleId=' + id;
+    }
     if (tableDom === undefined) {
         tableDom = $('#roleListTable');
     }
     if (pageDom === undefined) {
         pageDom = $('#rolePagerDiv');
     }
-    freshTable(url, tableDom);
-    freshPagination(url, pageDom);
+    freshTable(url, tableDom, false, pageDom);
+    freshPagination(url, pageDom, tableDom);
 }

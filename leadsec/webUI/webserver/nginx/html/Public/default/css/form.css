@@ -123,18 +123,19 @@ fieldset .userTraceLabel {
     right: 20em;
 }
 
-fieldset input.errorContainer {
-    color: red;
-    font-weight: bold;
-}
-
-label.errorLabel {
-    width: auto;
-    color: red;
-    font-weight: bold;
-}
-
 /*TODO for ~ie6*/
 .uploadFile { 
     width: 300px;
+}
+
+.ipv4, .ipv6, .ipv4Netmask {
+    width: 8em;
+}
+
+.ipv6Netmask {
+    width: 2em;
+}
+
+.simpleLabel , .maskLabel {
+    width: auto;
 }

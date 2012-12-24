@@ -35,6 +35,7 @@ create table smtp_comm_client_acl
 	time		CHAR(50),		--
 	filter	CHAR(12),		--协议过滤集名称
 	active CHAR(4),			--当前任务启停开关：'1'-ON, '0'-OFF
+        ip_ver          char(10),
 	comment		VARCHAR(255)		--
 );
 
@@ -48,6 +49,7 @@ create table smtp_comm_server_acl
 	serverip	CHAR(50),				--服务器（外部服务）地址对象
 	sport		INT,					--服务器（外部服务）端口
 	active CHAR(4),			--当前任务启停开关：'1'-ON, '0'-OFF
+        ip_ver          char(10),
 	comment		VARCHAR(255)			--描述信息
 );
 --insert into smtp_comm_server_acl values(1,"10.50.10.10",25,"ok","");
@@ -78,6 +80,7 @@ create table pop3_comm_client_acl
 	time		CHAR(50),				--
 	filter	CHAR(12),		--协议过滤集名称
 	active CHAR(4),			--当前任务启停开关：'1'-ON, '0'-OFF
+        ip_ver          char(10),
 	comment		VARCHAR(255)			--
 );
 
@@ -88,6 +91,7 @@ create table pop3_comm_server_acl
 	serverip	CHAR(50),				--服务器（外部服务）地址对象
 	sport		INT,					--服务器（外部服务）端口
 	active CHAR(4),			--当前任务启停开关：'1'-ON, '0'-OFF
+        ip_ver          char(10),
 	comment		VARCHAR(255)			--描述信息
 );
 

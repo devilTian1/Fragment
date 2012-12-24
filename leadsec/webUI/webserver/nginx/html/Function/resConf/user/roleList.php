@@ -26,7 +26,7 @@
             'FROM user, user_role_map, role ' .
             'WHERE user.user_id = user_role_map.User_id AND ' .
             'user_role_map.Role_id = role.role_id AND role.role_id = ' .
-            $_GET['id'] . " $where";
+            $_GET['roleId'] . " $where";
         $data = array();
         $data = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
 
@@ -154,7 +154,7 @@
             ->fetch('resConf/user/editUserListByRoleIdDialog.tpl');
         echo json_encode(array('msg' => $result));
     } else if ($order = $_POST['orderStatement']) { 
-        if (false !== strpos($order, 'userId')) {
+        if (!empty($_GET['roleId'])) {
             // Fresh and resort user list Table for spec role
             freshUserList($order);
         } else {

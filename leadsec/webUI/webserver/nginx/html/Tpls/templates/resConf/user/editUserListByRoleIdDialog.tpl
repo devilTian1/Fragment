@@ -19,13 +19,14 @@
     </tbody>
 </table>
 <div class="pager floatRight" id="userPageDiv">
-    <{include file='layout/pagination.tpl' func='Function/resConf/user/roleList.php?id='|cat: $roleId
+    <{include file='layout/pagination.tpl' func='Function/resConf/user/roleList.php?roleId='|cat: $roleId
         tableDom='$("#userListTable")' pageDom='$("#userPageDiv")'}>
 </div>
+<input type="hidden" id="roleId" value="<{$roleId}>">
 <script type="text/javascript"> 
     $(document).ready(function() {
         renderStandardUi();
-        freshTable('Function/resConf/user/roleList.php?id=<{$roleId}>', $('#userListTable'),
+        freshTable('Function/resConf/user/roleList.php?roleId=<{$roleId}>', $('#userListTable'),
             'ORDER BY userId ASC LIMIT 10', $('#userPageDiv'));
         sortTableInit($('#userListTable'),
             {4: {sorter: false}, 5: {sorter: false}, 6: {sorter: false},

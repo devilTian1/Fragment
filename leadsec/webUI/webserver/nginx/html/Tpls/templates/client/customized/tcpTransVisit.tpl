@@ -1,4 +1,5 @@
-<table class="column_95 textMid tablesorter" id="clientTcp">
+<{include file='layout/search.tpl' tableId='tcpTransVisitTable'}>
+<table class="column_95 textMid tablesorter" id="tcpTransVisitTable">
     <caption>
            信息列表
     </caption>
@@ -14,25 +15,23 @@
       <th class="column_20">操作</th>
     </tr>
     </thead>
+    <tbody>
     <tr>
-     <tr>
-      <td>序号</td>
-      <td>名称</td>
-      <td>备注</td>
-      <td></td>
-      <td>流病毒扫描</td>
-      <td>流病毒扫描</td>
-      <td>备注</td>
-      <td>
-      		<a href="#" class="edit" onclick="edituser()">编辑</a>
-            <a href="#" class="delete" onclick="deluser()">删除</a>
-      </td>
+      <td colspan="8">Loading……</td>
     </tr>
+    </tbody>
   </table>
-<button class="floatLeft button" type="submit" onClick="openTransVisitDialog()" id="add">添加</button>
+  <button class="standard floatLeft" style="position: static"
+    onclick="openNewDialog()">添加
+</button>
+<div class="pager floatRight">
+    <{include file='layout/pagination.tpl' func='Function/client/customized/tcpTransVisit.php'}>
+</div>
 <script type="text/javascript" src="Public/js/client/customized/tcpTransVisit.js"></script>
-<script type="text/javascript">
-$(document).ready(function() {
-    $("#add, .inputbtn").button();
-});
+<script type="text/javascript"> 
+    $(document).ready(function() {
+        renderStandardUi();
+        freshTable('Function/client/customized/tcpTransVisit.php', $('#tcpTransVisitTable'), 'ORDER BY id ASC LIMIT 10');
+        sortTableInit($('#tcpTransVisitTable'), {4: {sorter: false}}, [[0,0]]);
+    });
 </script>
