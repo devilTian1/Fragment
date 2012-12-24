@@ -19,4 +19,3 @@ function hideAdvSearchDiv() {
     $('#advSearchDiv').slideUp('slow');
     $("#searchBtn").insertAfter('#endTime_log');
 }
-

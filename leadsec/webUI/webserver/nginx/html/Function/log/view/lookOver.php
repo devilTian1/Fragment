@@ -4,6 +4,15 @@
     $deviceArr = array('Firewall', 'IDS', 'VPN', 'NetGap'); 
     $priArr    = array('all', 'emergency' , 'critical', 'error', 'warning', 'notice', 'information', 'debug');
 
+    $actArr    =
+        array('set'     => '设置', 'add'    => '增加', 'del'    => '删除',
+              'show'    => '显示', 'start'  => '启动', 'stop'   => '停止',
+              'restart' => '重启', 'off'    => '关闭', 'on'     => '激活',
+              'auth'    => '认证', 'ignore' => '忽略', 'block'  => '阻断',
+              'login'   => '登录', 'logout' => '退出', 'log'    => '日志',
+              'auth'    => '认证', 'audit'  => '审计', 'permit' => '允许',
+              'deny'    => '禁止', 'import' => '导入', 'export' => '导出');
+
     function checkTime($date) {
         $cts = strtotime($date);
         if (!empty($_POST['startTime_log'])) {
@@ -20,6 +29,7 @@
         }
         return true;
     }
+
     function getRegexBySearchParams() {
         /*
         if ('on' === $_POST['userTrace']) {
@@ -27,14 +37,12 @@
         }
         */
         $regexpArr = array();
-        $regexpArr[] = 'devid=' . LOG_DEVID . ' date="(.*)"';
+        $logTypeRegexStr = 
+            $_POST['logType'] === 'all' ? '\d+' : $_POST['logType'];
+        $priRegexStr     = $_POST['type'] === 'all' ? '\d+' : $_POST['type'];
+        $regexpArr[] = 'devid=' . LOG_DEVID . ' date="(.*)" dname=(\S+) '.
+            'logtype=(' . $logTypeRegexStr . ') pri=(' . $priRegexStr. ')';
 
-        if ('all' !== $_POST['logType']) {
-            $regexpArr[] = "logtype={$_POST['logType']}";
-        }
-        if ('all' !== $_POST['type']) {
-            $regexpArr[] = "pri={$_POST['type']}";
-        }
         if (!empty($_POST['sAddr'])) {
             $regexpArr[] = "sa={$_POST['sAddr']}";
         }
@@ -47,12 +55,16 @@
         if (!empty($_POST['dport'])) {
             $regexpArr[] = "dport={$_POST['dport']}";
         }
-        return '/.*' . join('(,|\s)(.*)?', $regexpArr) . '(,|\s)(.*)?/';
+        return '/^.*' . join('[,|\s|,\s].*?', $regexpArr) . '(?:[,|\s|,\s].*)?$/';
     }
 
     function includeFunc($buffer) {
-        return preg_match(getRegexBySearchParams(), $buffer, $match) && 
-            checkTime($match[1]);
+        if (preg_match(getRegexBySearchParams(), $buffer, $match) && 
+            checkTime($match[1])) {
+            return $match;
+        } else {
+            return false;
+        }
     }
 
     /*
@@ -64,7 +76,8 @@
         $fp     = @fopen($path, 'r');
         if ($fp) {
             while (false !== ($buffer = fgets($fp, 4096))) {
-                if ($includeFunc === null || $includeFunc($buffer)) {
+                if ($includeFunc === null || $match = $includeFunc($buffer)) {
+                    var_dump($match);
                     $result[] = $buffer;
                 }
             }

@@ -60,8 +60,6 @@
             <th class="column_10">主机</th>
             <th class="column_10">进程</th>
             <th class="column_10">设备</th>
-            <th class="column_10">日志类型</th>
-            <th class="column_10">级别</th>
             <th class="column_30">私有域</th>
         </tr>
         <tbody>
@@ -71,8 +69,6 @@
             <td>server-side</td>
             <td>webui</td>
             <td>NetGap</td>
-            <td>入侵检测</td>
-            <td>报警</td>
             <td>xxx</td>
         </tr>
         </tbody>
