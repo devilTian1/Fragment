@@ -4,6 +4,13 @@
 <script type="text/javascript" src="Public/js/jquery/desktop/jsLib/jquery.winResize.js"></script>
 <script type="text/javascript" src="Public/js/jquery/desktop/jsLib/jquery-smartMenu/js/mini/jquery-smartMenu-min.js"></script>
 <script type="text/javascript" src="Public/js/jquery/desktop/jsLib/desktop.js"></script>
+<!--[if IE 6]>
+<script type="text/javascript" src="Public/js/jquery/desktop/jsLib/DD_belatedPNG_0.0.8a.js" ></script>
+<script type="text/javascript">
+	DD_belatedPNG.fix('#navBar,.icon img,.desktop_icon .text,.desktop_icon .text s');
+    //.listIcon img
+</script>
+<![endif]-->
 <script type="text/javascript">
 $(function(){
 		   //myLib.progressBar();
@@ -49,7 +56,7 @@ function addIcon(data){
 }
 </script>
 <div id="wallpapers"></div>
-<div id="navBar"><a href="#" class="currTab" title="桌面1"></a><a href="#"  title="桌面2"></a><a href="#"  title="桌面3"></a><a href="#"  title="桌面4"></a></div>
+<div id="navBar"><a href="#" class="currTab" title="桌面1"></a><a href="#" title="桌面2"></a><a href="#" title="桌面3"></a><a href="#" title="桌面4"></a></div>
 
 <div id="desktopPanel" style="overflow:hidden;">
 <div id="desktopInnerPanel">
@@ -72,7 +79,7 @@ function addIcon(data){
 
 <ul class="deskIcon">
 <{foreach from=$res3 item=res_3 name=res_3}>
-  <li class="desktop_icon" id="<{$res_3.id}>"> <span class="icon"><img src="Public/js/jquery/desktop/icon/<{$res_3.img}>.png"/></span> <div class="text"><{$res_3.title}><s></s></div> </li>
+  <li class="desktop_icon" id="<{$res_3.id}>"><span class="icon"><img src="Public/js/jquery/desktop/icon/<{$res_3.img}>.png"/></span> <div class="text"><{$res_3.title}><s></s></div> </li>
 <{/foreach}>
   <li class="desktop_icon add_icon" id="addIcon2"> <span class="icon"><img src="Public/js/jquery/desktop/themes/default/images/add_icon.png"/></span> <div class="text">添加 <s></s></div> </li>
 </ul>

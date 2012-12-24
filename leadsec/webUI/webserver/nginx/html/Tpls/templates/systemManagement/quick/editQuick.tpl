@@ -15,17 +15,17 @@ body,td,th {
 	color: #333;
 	background-color:#FFF
 }
-a {
+.shell ul.listIcon li a.add {
 	font-size: 12px;
-	color: #666;
+	color:#F00;
 }
-a:visited {
-	color: #666;
+.shell ul.listIcon li a.add:visited {
+	color:#F00;
 }
-a:hover {
-	color: #666;
+.shell ul.listIcon li a.add:hover {
+	color:#30F;
 }
-a:active {
+.shell ul.listIcon li a.add:active {
 	color: #666;
 }
 ul{
@@ -38,30 +38,34 @@ ul{
 	margin:10px auto;
 	}
 .shell ul.listIcon li{
-	height:110px;
+	height:120px;
 	width:64px;
 	float:left;
 	margin:5px 10px;
 	}
-.shell ul.listIcon li a.img{
+.shell ul.listIcon li img{
 	display:block;
-	height:64px;
-	}	
+	height:60px;
+}	
 .shell ul.listIcon li a.add{
 	display:block;
 	height:25px;
-	background-color:#F0F0F0;
+	background:#eee;
+	border:1px solid #CCC;
 	text-align:center;
 	line-height:25px;
 	}	
 .shell ul.listIcon li span{
-	height:30px;
-	line-height:30px;
+	font-size:10px;
+	height:25px;
+	line-height:25px;
 	text-align:center;
 	display:block
 	}	
 -->
-</style></head>
+</style>
+
+</head>
 <body>
 <div id="con">
     <UL id="tags">
@@ -87,7 +91,7 @@ ul{
                              <li>
                                 <ul class="listIcon">
                                 <{foreach from=$subitem.children item=childitem}>
-                                      <li><a href="#" class="img"><img src="Public/js/jquery/desktop/icon/<{$childitem.img}>.png" alt="" /></a><span><{$childitem.title}></span><a href="#" class="add" id="<{$childitem.id}>" rev="<{$childitem.url}>" rel="<{$childitem.img}>" title="<{$childitem.title}>">添加应用</a></li>
+                                      <li><img src="Public/js/jquery/desktop/icon/<{$childitem.img}>.png" alt="" /><span><{$childitem.title}></span><a href="#" class="add" id="<{$childitem.id}>" rev="<{$childitem.url}>" rel="<{$childitem.img}>" title="<{$childitem.title}>">添加应用</a></li>
                                 <{/foreach}>
                                 </ul>
                              </li>

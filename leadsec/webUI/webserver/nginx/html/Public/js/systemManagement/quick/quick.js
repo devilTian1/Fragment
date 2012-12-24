@@ -6,9 +6,12 @@ function openNewQuickDialog() {
     };
     var title   = '';
     var buttons = {};
+	buttons['关闭'] = function() {
+        $(this).remove();
+    };
     var dialogParams = {
-        width   : 825,
-        height  : 500,
+        width   : 840,
+        height  : 560,
         buttons : buttons
     };
     showDialogByAjax(url, data, title, dialogParams);
