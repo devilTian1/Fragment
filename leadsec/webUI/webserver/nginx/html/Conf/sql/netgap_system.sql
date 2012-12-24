@@ -14,6 +14,7 @@ create table system
 	sync_status		CHAR(1),
 	multicast_status       CHAR(1),
 	ha_status		CHAR(1),
+    ha_sync_status  CHAR(1),
 	lvs_status              CHAR(1),
 	db_swap_status CHAR(1), --数据库同步服务状态
 	fastpass_status		CHAR(1),	--0:off 1:on, 定制访问模块快速通过开关(内部使用)
@@ -27,6 +28,6 @@ create table system
  	mcudp_status		CHAR(1)
 );
 
-insert into system values ( "O","0", "0", "0", "0","0", "0","0", "0", "0", "0", "0", "0", "0", "0", "1", "127.1.0.1", "127.1.0.2", "eth6", "0", "0", "0","0");
+insert into system values ( "O","0", "0", "0", "0","0", "0","0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "127.1.0.1", "127.1.0.2", "eth6", "0", "0", "0","0");
  
 COMMIT;

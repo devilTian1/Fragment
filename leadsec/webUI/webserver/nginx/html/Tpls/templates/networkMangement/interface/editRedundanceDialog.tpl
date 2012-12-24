@@ -22,7 +22,7 @@
           </select>
         </div>
         <div id="ipaddr_type_div" <{if $res.ipaddr_type neq 1}>class="hide"<{/if}>>
-            <div class="row"><label for="ipv4">IPV4地此：</label>
+            <div class="row"><label for="ipv4">IPV4地址：</label>
                 <input class="ipv4" type="text" name="ipv4" value="<{$res.ip}>" /><label class="maskLabel">/</label>
                 <input class="ipv4Netmask" type="text" name="ipv4Netmask" value="<{$res.mask}>"/>
             </div>

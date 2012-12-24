@@ -50,7 +50,7 @@ function displayTime(dom, timestamp) {
 
 function setServerTime() {
     if ($('#setServerTimeForm').valid()) {
-        ajaxSubmitForm($('#setServerTimeForm'), '设置产品名称');
+        ajaxSubmitForm($('#setServerTimeForm'), '时间同步');
     }
 }
 

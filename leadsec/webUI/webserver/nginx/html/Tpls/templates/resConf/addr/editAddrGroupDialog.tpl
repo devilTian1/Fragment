@@ -17,10 +17,10 @@
             </div>
             <div class="column column_15">
                 <br/>
-                <button class="standard floatLeft" onClick="moveToAddrGrpMember()"> &gt;&gt;
+                <button type="button" class="standard floatLeft" onClick="moveToAddrGrpMember()"> &gt;&gt;
                 </button>
                 <br/><br/>
-                <button class="standard floatLeft" onClick="moveToAddrList()"> &lt;&lt;
+                <button type="button" class="standard floatLeft" onClick="moveToAddrList()"> &lt;&lt;
                 </button>
             </div>
             <div class="column column_25">

@@ -1,3 +1,8 @@
+function defaultGatewayData() {
+    if($('#defaultRouteForm').valid()){
+        ajaxSubmitForm($('#defaultRouteForm'), '添加默认网关 ');
+    }
+}
 function openEditStaticRouteDialog(sid) {
     var url  = 'Function/networkMangement/basic/staticRoute.php';
     var data = {

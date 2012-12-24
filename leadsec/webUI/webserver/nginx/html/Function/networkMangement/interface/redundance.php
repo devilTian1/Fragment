@@ -41,11 +41,14 @@
         } else { // 0
             $ipAddrTypeParam = '';
         }
-        $ip   = $_POST['ipv4'];
-        $mask = conventToIpv4Mask($_POST['ipv4Netmask']);
-        $ipC  = $_POST['ipmac_check'] === 'on' ? 'on' : 'off';
-        $ipCP = $_POST['ipmac_check_policy'] === 'on' ? 'on' : 'off';
-        $as   = $_POST['antispoof'] === 'on' ? 'on' : 'off';
+        $ip            = $_POST['ipv4'];
+        $ipv4Mask      = $_POST['ipv4Netmask'];
+        if (!empty($ipv4Mask)) {
+            $ipv4Mask = convertToIpv4Mask($ipv4Mask);
+        }
+        $ipC           = $_POST['ipmac_check'] === 'on' ? 'on' : 'off';
+        $ipCP          = $_POST['ipmac_check_policy'] === 'on' ? 'on' : 'off';
+        $as            = $_POST['antispoof'] === 'on' ? 'on' : 'off';
         $addrMember    = $_POST['addrMember'];
         $addrListStr   = count($addrMember) > 0 ? join(',', $addrMember) : '';
         $addrListParam = '';
@@ -57,9 +60,25 @@
         $enable     = $_POST['enable'] === 'on' ? 'on' : 'off';
 
         return "interface $action rd if $name active $enable ip $ip " .
-            "netmask $mask workmode route $addrListParam " .
+            "netmask $ipv4Mask workmode route $addrListParam " .
             "$ipAddrTypeParam ping $ping traceroute $traceroute " .
             "ipmac_check $ipC ipmac_check_policy $ipCP antispoof $as";
+    }
+
+    function getDisablePhyDevByRdName($name) {
+        $sql    = 'SELECT interface_list FROM interface WHERE external_name' .
+            " = '$name'";
+        $db     = new dbsqlite(DB_PATH . '/configs.db');
+        $data   = $db->query($sql)->getFirstData(PDO::FETCH_ASSOC);
+        $result = array();
+        foreach (explode(',', $data['interface_list']) as $if) {
+            $sql  = "SELECT enable FROM interface WHERE external_name = '$if'";
+            $d    = $db->query($sql)->getFirstData(PDO::FETCH_ASSOC);
+            if ($d['enable'] === '0') {
+                $result[] = $if;
+            }
+        }
+        return $result;
     }
 
     function getDataCount() {
@@ -108,10 +127,16 @@
         echo json_encode(array('msg' => '添加成功.'));
     } else if ('edit' === $_POST['type']) {
         // Edit the specified Redundance Device
-        $cmd = getCmd('set');
-        $cli = new cli();
+        $cmd  = getCmd('set');
+        $cli  = new cli();
         $cli->run($cmd);
-        echo json_encode(array('msg' => '修改成功.'));
+
+        $msg  = '';
+        if ($nameArr = getDisablePhyDevByRdName($_POST['external_name'])) {
+            $msg = "提醒: 绑定设备[" . join(', ', $nameArr) .
+                "]未开启.<br/>";
+        }
+        echo json_encode(array('msg' => $msg . '修改成功.'));
     } else if (!empty($_POST['openNewRedundanceDevDialog'])) {
         // Open New Redundance Dev Dialog
         $tpl    = $_POST['tpl'];
@@ -135,7 +160,14 @@
         } else if ($action === 'enable') {
             $cmd = "interface set rd if $name active on";
             $cli->run($cmd);
-            echo json_encode(array('msg' => "[$name]已启动."));
+
+            $msg  = '';
+            $name = $_POST['switch_name']; 
+            if ($nameArr = getDisablePhyDevByRdName($name)) {
+                $msg = "提醒: 绑定设备[" . join(', ', $nameArr) .
+                    "]未开启.<br/>";
+            }
+            echo json_encode(array('msg' => "{$msg}[$name]已启动."));
         } else {
             echo json_encode(array('status' => -1, 'msg' => '执行动作错误.'));
         }

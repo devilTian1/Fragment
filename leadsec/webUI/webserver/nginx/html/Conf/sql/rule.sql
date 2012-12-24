@@ -505,6 +505,9 @@ create table policyinfo
     dport	INT,     --for netgap
     toport	INT,     --for netgap
     proto	INT,     --for netgap
+	proto_type INT,
+	saname VARCHAR(30), --for netgap
+	daname VARCHAR(30), --for netgap
     comment	VARCHAR(255),					--注释
 
 	POLICY_W            INT,                        -- 1 in filter          
@@ -535,6 +538,109 @@ create table rule_count
 );
 INSERT INTO rule_count VALUES(0);
 
+--2005/1/13	zhuxp	增加域名地址
+----表名: 安全规则
+create table policyinfo6
+(
+    id              INT,                    --序号，规则序号，表示顺序，唯一，非自动增长，由程序控制增长
+    name            CHAR(20),               --规则名 
+    type            INT,                    --类型，1为permit，2为deny，3为proxy，4为nat，5为portmap，6为ipmap, 7为auth, 8为masquerade,9为vpn,10 nataccept,11 portaccept 12 ipaccept
+    saddrtype       INT,                    --源地址类型, 1为IP地址/掩码, 2为地址定义，3为地址组定义，(4服务器地址,但在这里不出现的),7为any,8为域名地址
+    saddrid         INT,                    --源地址ID
+    saddrip         CHAR(128),               --源地址IP
+    saddrmask       CHAR(128),               --源地址MASK
+    sattype         INT,                    --源地址转换类型, 1为IP地址/掩码, 2为地址定义，3为地址组定义，(4服务器地址,但在这里不出现的) 5为地址池，6为防火墙地址， 11/12为网闸隔离卡IP(127.1.0.1/127.1.0.2)(zhouxj-2007-12-03)
+    satid           INT,                    --源地址转换ID
+    satip           CHAR(15),               --源地址转换IP  //如果sattype=6，该项存放接口外部名称
+    satmask         CHAR(17),               --源地址转换MASK
+    sport           CHAR(128),              --源端口
+    smac            CHAR(17),               --源MAC
+    satport         CHAR(128),              --源端口转换
+    daddrtype       INT,                    --目的地址类型, 1为IP地址/掩码, 2为地址定义，3为地址组定义，(4服务器地址,但在这里不出现的),7为any,8为域名地址
+    daddrid         INT,                    --目的地址ID
+    daddrip         CHAR(128),               --目的地址IP
+    daddrmask       CHAR(128),               --目的地址MASK
+    pubtype         INT,                    --公开地址类型     2为地址定义,6为防火墙地址，21/22/23为网闸隔离卡IP（127.1.0.1/127.1.0.2,127.1.0.0/24）(zhouxj 2007-12-03)
+    pubid           CHAR(15),               --公开地址ID       (对应interface里的外部地址)
+    innertype       INT,                    --内部服务器地址类型, (1为IP地址/掩码,在这里不出现), (2为地址定义, 不出现)，(3为地址组定义, 不出现)，4服务器地址
+    innerid         INT,                    --内部服务器地址ID
+    innerip         CHAR(15),               --内部地址IP(现在不用，防止以后要加上该项功能,只支持一个内部服务器)
+    ethin           CHAR(20),                --流入网卡, "any"表示任意网络接口
+    ethout          CHAR(20),                --流出网卡, "any"表示任意网络接口
+    servicetype     INT,                    --服务类型,  --1为预定义服务，2为自定义服务（动态协议）3为自定义服务（ICMP协议）, 4为自定义服务（普通自定义服务）,--5为服务组, --6为any
+    serviceid       INT,                    --服务ID
+    pubservicetype  INT,                    --对外服务类型,  --1为预定义服务，2为自定义服务（动态协议）3为自定义服务（ICMP协议）, 4为自定义服务（普通自定义服务）,--5为服务组
+    pubserviceid    INT,                    --对外服务ID
+    innerservicetype    INT,                --内部服务类型,  --1为预定义服务，2为自定义服务（动态协议）3为自定义服务（ICMP协议）, 4为自定义服务（普通自定义服务）,--5为服务组
+    innerserviceid  INT,                    --内部服务ID
+    proxytype       INT,                    --代理类型, 1为固定代理，2为自定义代理
+    proxyid         INT,                    --代理ID，1为http，2为ftp,3为telnet,4为smtp,5为pop3,6为socks,7为dns,8为icmp,9为msn
+    timetype        INT,                    --时间类型, 1为时间定义，2为时间组(暂不使用该字段，为扩展做准备)
+    timeid          INT,                    --时间ID，(暂不使用该字段，为扩展做准备)
+    timename        CHAR(20),               --时间调度名称（现在的程序中用名称来联系）
+--    urlid           INT,                    --URL规则ID, 0表示无，1表示启用URL检查
+    longcon         INT,                   --是否支持长连接，0为禁用，>0为启用, 单位为秒
+    log             BOOL,                   --是否记录过滤日志，0为禁用，1为启用
+--    logurl          BOOL,                   --是否记录URL日志，0为禁用，1为启用
+    synflood        INT,                   --是否抗SYN Flood攻击，0为禁用，>0为启用, 单位为个/秒
+    udpflood        INT,                   --是否抗UDP Flood攻击，0为禁用，>0为启用, 单位为个/秒
+    icmpflood       INT,                   --是否抗ICMP Flood攻击，0为禁用，>0为启用, 单位为个/秒
+    pod             BOOL,                   --是否抗Ping of Death攻击，0为禁用，1为启用
+    active          BOOL,                    --是否启用(即是否生效)，0为禁用，1为启用
+--    keycheck        BOOL,                    --是否启用网页关键字检查，0表示无，1为启用   
+    hideinner		BOOL, 					--是否隐藏内部地址或端口，用于端口映射和ip映射
+--    logkey			BOOL					--是否纪录关键字检查日志
+-- added by hanhz, 2005/06/27, begin
+    dcf           INT DEFAULT 0,                      --深度过滤策略，0为禁用
+    bt							BOOL,											--是否启用bt，0为禁用，1为启用
+    edk							BOOL,											--是否启用edk，0为禁用，1为启用
+    btlog							BOOL,									--是否纪录bt,edk日志
+-- added by hanhz, 2005/06/27, end
+
+-- Added by zhouxj, 2008/04/11, for user auth at Kernel.
+	username	CHAR(20),				--用户组名
+	usergpid	INT,					--用户组id
+-- End
+
+    dport	INT,     --for netgap
+    toport	INT,     --for netgap
+    proto	INT,     --for netgap
+-- add by caoli 2013/01/08
+	proto_type INT,	--IP协议类型 4 、6
+	saname VARCHAR(30), --for netgap 源地址链名
+	daname VARCHAR(30), --for netgap 目的地址链名
+-- End
+    comment	VARCHAR(255),					--注释
+
+	POLICY_W            INT,                        -- 1 in filter          
+	PROXY_INPUT_W       INT,                        -- 2 in filter  
+	AUTH_SERVER_W       INT,                        -- 3 in filter  
+	AUTH_W              INT,                        -- 4 in filter  
+	IPMAP_W             INT,                        -- 5 in nat 
+	IPMAPNAT_W          INT,                        -- 6 in nat 
+	HIDEIPMAP_W         INT,                        -- 7 in nat 
+	PORTMAP_W           INT,                        -- 8 in nat 
+	PORTMAPNAT_W        INT,                        -- 9 in nat 
+	HIDEPORTMAP_W       INT,                        -- 10 in nat    
+	TRANS_PROXY_W       INT,                        -- 11 in nat    
+	POSTROUTINGNAT_W    INT,                        -- 12 in nat    
+	VPN_POSTROUTING_MANGLE_DROP_W       INT,                -- 13 in mangle 
+	APCPOLICY_W         INT,                        -- 14 in filter  tonglr 20081015    
+	URLPOLICY_W         INT,                        -- 15 in filter     tonglr 20081015
+	NETGAP_W            INT,
+	NETGAP_INPUT_W      INT
+    
+);
+
+
+----表名: 安全规则计数
+create table rule_count6
+(
+    count           INT                     --安全规则计数
+);
+INSERT INTO rule_count VALUES(0);
+
+----表名：带宽管理规则
 ----表名：带宽管理规则
 create table bandwidth_rule
 (

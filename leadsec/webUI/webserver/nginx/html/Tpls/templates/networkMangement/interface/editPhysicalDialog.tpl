@@ -33,7 +33,7 @@
         <div class="row">
             <label for="workmode">工作模式:</label>
             <{html_options name="workmode" id="workmode" class="select"
-            output=array('未指定','路由模式','透明模式','冗余模式') values=array(0,1,2,3)
+            output=array('未指定','路由模式','冗余模式') values=array(0,1,3)
             selected=$res.workmode }>
         </div>
 
@@ -44,13 +44,13 @@
                 selected=$res.ipaddr_type }>
             </div>
             <div id="ipaddr_type_div" <{if $res.ipaddr_type neq 1}> class="hide" <{/if}>>
-                <div class="row"><label for="ipv4">IPV4地此：</label>
-                  <input type="text" name="ipv4" id="ipv4" value="<{$res.ip}>"/><label class="maskLabel">/</label>
-                  <input class="ipv4Netmask" type="text" name="ipv4Netmask" value="<{$res.mask}>"/>
+                <div class="row"><label for="ipv4">IPV4地址：</label>
+                    <input type="text" name="ipv4" id="ipv4" value="<{$res.ip}>"/><label class="maskLabel">/</label>
+                    <input class="ipv4Netmask" type="text" name="ipv4Netmask" value="<{$res.mask}>"/>
                 </div>
-                <div class="row"><label for="ipv6">IPV6地此：</label>
-                  <input type="text" name="ipv6" id="ipv6" value="<{$res.ipv6}>"/><label class="maskLabel">/</label>
-                  <input class="ipv6Netmask" type="text" name="ipv6Netmask" value="<{$res.ipv6_mask}>" />
+                <div class="row"><label for="ipv6">IPV6地址：</label>
+                    <input type="text" name="ipv6" id="ipv6" value="<{$res.ipv6}>"/><label class="maskLabel">/</label>
+                    <input class="ipv6Netmask" type="text" name="ipv6Netmask" value="<{$res.ipv6_mask}>" />
                 </div>
             </div>
         </div>
@@ -102,7 +102,7 @@
         });
 		$("#workmode").change(function(){
             var val = this.value;
-            if (val == 2 || val == 0) {
+            if (val == 0) {
                 $('#workmode_div').hide();
                 $('#unRedundanceDiv').show();
             } else if (val == 3) {

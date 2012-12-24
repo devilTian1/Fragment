@@ -33,8 +33,6 @@
         if ($_POST['workmode'] === '1') {
             $mtu = $_POST['mtu'];
             $workmode = "mtu $mtu workmode route";
-        } else if ($_POST['workmode'] === '2') {
-            $workmode = 'workmode trans';
         } else if ($_POST['workmode'] === '3') {
             $mtu = $_POST['mtu'];
             $workmode = "mtu $mtu workmode rd";
@@ -43,7 +41,8 @@
         }
         if ($_POST['ipaddr_type'] === '1' && $_POST['workmode'] !== '3') {
             $ipv4     = $_POST['ipv4'];
-            $ipv4Mask = conventToIpv4Mask($_POST['ipv4Netmask']);
+            $ipv4Mask = $_POST['ipv4Netmask'];
+            $ipv4Mask = !empty($ipv4Mask) ? convertToIpv4Mask($ipv4Mask) : '';
             $ipv6     = $_POST['ipv6'];
             $ipv6Mask = $_POST['ipv6Netmask'];
             $ipType   = 'ipaddr_type static ';
@@ -78,15 +77,30 @@
         return $result;
     }
 
-    function getAliasDevNamesByPhyName($name) {
+    function getEnableRdDevNameByBindName($name) {
+        $db     = new dbsqlite(DB_PATH . '/configs.db');
+        $sql    = 'SELECT external_name, interface_list FROM interface ' .
+            'WHERE interface_list != ""';
+        $data   = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
+        $result = array();
+        foreach ($data as $v) {
+            $interfaceList = explode(',', $v['interface_list']);
+            if (false !== array_search($name, $interfaceList)) {
+                return $v['external_name'];
+            }
+        }
+        return false;
+    }
+
+    function getEnableAliasDevNamesByPhyName($name) {
         $db     = new dbsqlite(DB_PATH . '/configs.db');
         $sql    = 'SELECT external_name FROM interface ' .
             "WHERE phy_device='$name' AND enable=1";
         $data   = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
-        $result = array();
         if (count($data) === 0) {
             return false;
         } else {
+            $result = array();
             foreach ($data as $v) {
                 $result[] = $v['external_name'];
             }
@@ -103,7 +117,7 @@
     if (!empty($_POST['name'])) {
         // Get specified Physical data
         $external_name  = $_POST['name'];
-        $tpl = $_POST['tpl'];
+        $tpl = 'networkMangement/interface/editPhysicalDialog.tpl';
         $db  = new dbsqlite(DB_PATH . '/configs.db');
         $sql = 'SELECT * FROM interface WHERE device_type = 1 AND external_name'.
             " = '$external_name'";
@@ -115,7 +129,12 @@
         $name = $_POST['switch_name'];
         $cli = new cli();
         if ($action === 'disable') {
-            if ($nameArr = getAliasDevNamesByPhyName($name)) {
+            if ($rdName = getEnableRdDevNameByBindName($name)) {
+                $msg = "请先关闭冗余设备[$rdName]后, 再关闭[$name]设备.";
+                echo json_encode(array('msg' => $msg));
+                return false;
+            }
+            if ($nameArr = getEnableAliasDevNamesByPhyName($name)) {
                 $msg = '请先将别名设备[' . join(', ', $nameArr) .
                     ']关闭后, 再关闭[' . $name . ']设备.';
                 echo json_encode(array('msg' => $msg));
@@ -133,6 +152,25 @@
         }
     } else if ('edit' === $_POST['type']) {
         // Edit the specified physical dev
+        $name = $_POST['external_name'];
+        if (('on' !== $_POST['enable'] || '3' !== $_POST['workmode']) &&
+            $rdName = getEnableRdDevNameByBindName($name)) {
+            if ('on' !== $_POST['enable']) {
+                $msg = "请先关闭冗余设备[$rdName]后, 再关闭[$name]设备.";
+            }
+            if ('3' !== $_POST['workmode']) {
+                $msg = "此设备被冗余设备[$rdName]绑定.";
+            }
+            echo json_encode(array('msg' => $msg));
+            return false;
+        }
+        if (('on' !== $_POST['enable'] || '3' === $_POST['workmode']) &&
+            $nameArr = getEnableAliasDevNamesByPhyName($name)) {
+            $msg = '请先将别名设备[' . join(', ', $nameArr) .
+                ']关闭后, 再将[' . $name . ']设备设置成冗余设备.';
+            echo json_encode(array('msg' => $msg));
+            return false;
+        }
         $cmd = getSetPhysicalDevCmd();
         $cli = new cli();
         $cli->run($cmd);

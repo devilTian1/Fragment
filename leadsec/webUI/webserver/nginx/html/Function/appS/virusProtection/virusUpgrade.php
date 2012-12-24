@@ -1,36 +1,34 @@
 <?php
     require_once($_SERVER['DOCUMENT_ROOT'] . '/Function/common.php');
-
+    
     if($_POST['flgUpNow'] === '0')
     {
-    	$test = $_POST['flgUpNow'];
-    	echo json_encode(array('msg' => $test));
-    	if($_POST['autoUpEnable'] == 'on')
-    	// ÆôÓÃ×Ô¶¯Éý¼¶
+		if($_POST['autoUpEnable'] == 'on')
+    	// å¯ç”¨è‡ªåŠ¨å‡çº§
     	{
     		$upAddr = $_POST['upAddr'];
     		$upPort = $_POST['upPort'];
     		if($_POST['upType'] === '1')
-    		// ÊµÊ±Éý¼¶
+    		// å®žæ—¶å‡çº§
     		{
     			$upType = "real";
     		}
     		else {
-    			// ¶¨Ê±Éý¼¶
+    			// å®šæ—¶å‡çº§
     			$upType = "time";
     			if($_POST['upWay'] === '1')
-    			// °´Ê±¼ä³¤¶È£¬Ã¿NÐ¡Ê±Éý¼¶Ò»´Î
+    			// æŒ‰æ—¶é—´é•¿åº¦ï¼Œæ¯Nå°æ—¶å‡çº§ä¸€æ¬¡
     			{
     				$hour = $_POST['selectLengthList'];
     				$timeStr = "hour $hour";
     			}
     			else if($_POST['upWay'] === '2'){
-    				// °´¹Ì¶¨Ê±¼ä£¬Ã¿ÌìNµãÉý¼¶
+    				// æŒ‰å›ºå®šæ—¶é—´ï¼Œæ¯å¤©Nç‚¹å‡çº§
     				$day = $_POST['selectTimeList'];
     				$timeStr = "day $day";
     			}
     			else if($_POST['upWay'] === '3'){
-    				// °´Ã¿ÖÜÊ±¼ä£¬Ã¿ÖÜÐÇÆÚM£¬NµãÉý¼¶
+    				// æŒ‰æ¯å‘¨æ—¶é—´ï¼Œæ¯å‘¨æ˜ŸæœŸMï¼ŒNç‚¹å‡çº§
     				$week = $_POST['selectDayList'];
     				$whour = $_POST['selectHourList'];
     				$timeStr = "week $week whour $whour";
@@ -41,29 +39,57 @@
     		$cmdStr = "upgrade autoup type $upType ip \"$upAddr\" port $upPort " . $timeStr;
     	}
     	else {
-    		// ²»ÆôÓÃ×Ô¶¯Éý¼¶
+    		// ä¸å¯ç”¨è‡ªåŠ¨å‡çº§
     		$cmdStr = "upgrade autoup off";
     	}
     	$cli = new cli();
         $cli->run($cmdStr);
-        echo json_encode(array('msg' => '×Ô¶¯Éý¼¶ÅäÖÃ³É¹¦!'));
-    }
-    else if($_POST['flgUpNow'] === '1'){
+        echo json_encode(array('msg' => 'è‡ªåŠ¨å‡çº§é…ç½®æˆåŠŸ!'));
+    } else if($_POST['flgUpNow'] === '1'){
+    	// ç«‹å³å‡çº§
     	$upAddr = $_POST['upAddr'];
     	$upPort = $_POST['upPort'];
     	$cmdStr = "upgrade autoupNow ip \"$upAddr\" port $upPort";
     	$cli = new cli();
         $cli->run($cmdStr);
-    	echo json_encode(array('msg' => 'Á¢¼´Éý¼¶ÉèÖÃ³É¹¦!µ±Ç°ÒÑ¾­ÊÇ×îÐÂÌØÕ÷¿â¡£'));
-    }    
-    else if (!empty($_GET['c'])) {
-        // set server time to localtime
-
+    	echo json_encode(array('msg' => 'ç«‹å³å‡çº§è®¾ç½®æˆåŠŸ!å½“å‰å·²ç»æ˜¯æœ€æ–°ç‰¹å¾åº“ã€‚'));
+    } else if (($_GET['c'] === '1') && !empty($_FILES)) {
+        // æ‰‹åŠ¨å‡çº§ï¼Œæ–‡ä»¶ä¸Šä¼ 
+		$uploadfs = new fileUpload($_FILES);
+        $uploadfs->upload();
+        $cmd = "upgrade avpackage \"{$_FILES['updateFile']['name']}\"";        
+        $cli = new cli();
+        $cli->run($cmd);
+        echo json_encode(array('msg' => 'å‡çº§æˆåŠŸ'));
+    } else if ('exportUpgradeHistory' === $_POST['action']) {
+        $db = new dbsqlite(DB_PATH . '/netgap_av.db');
+        $result_list = $db->query("SELECT * FROM  upgrade_history ORDER BY up_time DESC")
+            ->getAllData(PDO::FETCH_ASSOC);
+        $filename = urlencode('update_history.txt');
+        header("Content-Type: application/octet-stream; charset=utf-8;");
+        header("Content-Disposition: attachment; filename=\"$filename\";");
+        header('Pragma: no-cache;');
+        header('Cache-Control: must-revalidate, post-check=0, pre-check=0;');
+        if(!empty($result_list)) {
+            echo 'ä¸‹è½½æ—¶é—´: ' . date('Y-n-d H:i:s',time()) .  "\r\n";
+            echo "åºå·\tå‡çº§ä»¥åŽç‰ˆæœ¬å·\tå‡çº§æ—¶é—´ \t\tæ›´æ–°æè¿°\r\n";
+            foreach($result_list as $val){
+                echo str_pad(substr($val['id'], 0, 5), 5) . "\t" .
+                    str_pad(substr($val['up_version'], 0, 10), 10) . "\t" .
+                    $val['up_time'] . "\t" . $val['del_bugs'] . "\r\n";
+            }
+        } else {
+            echo "No Update History Data." ;
+        }
+        return true;
     } else {
-// init page data
+		// init page data		
         $db = new dbsqlite(DB_PATH . '/netgap_av.db');
         $result = $db->query('SELECT * FROM autoupNew')
                      ->getFirstData(PDO::FETCH_ASSOC);
-        V::getInstance()->assign('autoUpSet', $result);  
+        $uphistory = $db->query('SELECT * FROM upgrade_history ORDER BY up_time DESC')
+                     ->getAllData(PDO::FETCH_ASSOC);       
+        V::getInstance()->assign('autoUpSet', $result)
+        				->assign('uphistory', $uphistory); 
     }
 ?>

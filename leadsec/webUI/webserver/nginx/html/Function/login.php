@@ -142,7 +142,7 @@
             $result = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
             foreach ($result as $value) {
                 $ip          = $value['ip'];
-                $mask        = conventToIpv4Mask($value['netmask']);
+                $mask        = convertToIpv4Mask($value['netmask']);
                 $ipFrag      = explode('.', trim($ip));
                 $maskFrag    = explode('.', trim($mask));
                 $domainFrag  = array();

@@ -14,7 +14,8 @@
 
     function getBindDev() {
         $db  = new dbsqlite(DB_PATH . '/configs.db');
-        $sql = 'SELECT external_name FROM interface WHERE enable == 1 AND alias_id == -1';
+        $sql = 'SELECT external_name FROM interface WHERE enable = 1 AND ' .
+            'alias_id = -1 AND workmode <> 3';
         $d   = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
         $result = array();
         foreach ($d as $v) {
@@ -27,7 +28,8 @@
         $name       = $_POST['external_name'];
         $id         = $_POST['aliasId'];
         $ipv4       = $_POST['ipv4'];
-        $ipv4Mask   = conventToIpv4Mask($_POST['ipv4Netmask']);
+        $ipv4Mask   = $_POST['ipv4Netmask'];
+        $ipv4Mask   = !empty($ipv4Mask) ? convertToIpv4Mask($ipv4Mask) : '';
         $ipv6       = $_POST['ipv6'];
         $ipv6Mask   = $_POST['ipv6Netmask'];
         $adm        = $_POST['admin'] === 'on' ? 'on' : 'off';

@@ -1,7 +1,6 @@
 function openEditPhysicalDialog(external_name) {
     var url  = 'Function/networkMangement/interface/physical.php';
     var data = {
-        tpl  : 'networkMangement/interface/editPhysicalDialog.tpl',
         name : external_name
     };
     var title   = '修改物理设备';

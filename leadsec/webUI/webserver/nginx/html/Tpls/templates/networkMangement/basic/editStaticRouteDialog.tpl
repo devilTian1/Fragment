@@ -3,17 +3,13 @@
     <input type="hidden" name="id" value="<{$res.id}>"/>
     <fieldset>
         <!--<legend>别名设备</legend>-->
-		<div class="row">
-          <label for="destip">目的地址:<em class="required">*</em></label>
-          <input type="text" name="destip" value="<{$res.destip}>" />
+        <div class="hide" id="summary">
         </div>
-        
-        <div class="row"><label for="destmask">掩码:</label>
-          <select name="destmask" id="destmask" class="select">
-          	<{html_options output=array('255.255.255.0','255.255.0.0','255.0.0.0','255.255.255.255') values=array('255.255.255.0','255.255.0.0','255.0.0.0','255.255.255.255') selected=$res.destmask|default: '255.255.255.0' }>
-          </select>
+        <div class="row">
+          <label for="ip">目的地址:<em class="required">*</em></label>
+          <input type="text" name="ip" value="<{$res.destip}>" /><label class="maskLabel">/</label>
+          <input class="netmask" type="text" name="netmask" value="<{$res.destmask}>"/>
         </div>
-        
         <div class="row">
           <label for="nexthopip">下一跳地址:<em class="required">*</em></label>
           <input type="text" name="nexthopip" value="<{$res.nexthopip}>" />
@@ -24,7 +20,7 @@
           	 <{html_options output=$interface values=$interface selected=$res.interface }>
           </select>
         </div>
-  </fieldset>
+    </fieldset>
 </form>
 <style type="text/css">
 	fieldset label {
@@ -33,6 +29,6 @@
 </style>
 <script type="text/javascript">
     $(document).ready(function(){
-        validateForm($("#editStaticRouteForm"));
+        validateForm($("#editStaticRouteForm"), 'summary');
     });
 </script>

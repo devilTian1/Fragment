@@ -77,7 +77,9 @@ create table udp_comm_client_acl
 	comment		VARCHAR(255),	--
 	source		CHAR(1),			--是否绑定源地址	'1'-yes		'0'-no
 	s_mode		CHAR(1),				--源地址穿越模式	'1'-auto
-	ip_ver		CHAR(6)
+	ip_ver		CHAR(6),         --ip协议类型
+	mul_ip		CHAR(15),		--组播地址
+	mul_mode		CHAR(10)    --组播模式
 );
 --insert into udp_comm_client_acl values(3,'any','10.0.0.10',1234,'','','1','0','comment');
 --insert into udp_comm_client_acl values(4,'any','10.0.0.10',1230,'','','0','0','comment');

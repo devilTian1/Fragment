@@ -1,5 +1,7 @@
 var perlipv6regex = "^\s*((([0-9A-Fa-f]{1,4}:){7}([0-9A-Fa-f]{1,4}|:))|(([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}|((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){5}(((:[0-9A-Fa-f]{1,4}){1,2})|:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){4}(((:[0-9A-Fa-f]{1,4}){1,3})|((:[0-9A-Fa-f]{1,4})?:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){3}(((:[0-9A-Fa-f]{1,4}){1,4})|((:[0-9A-Fa-f]{1,4}){0,2}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){2}(((:[0-9A-Fa-f]{1,4}){1,5})|((:[0-9A-Fa-f]{1,4}){0,3}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){1}(((:[0-9A-Fa-f]{1,4}){1,6})|((:[0-9A-Fa-f]{1,4}){0,4}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(:(((:[0-9A-Fa-f]{1,4}){1,7})|((:[0-9A-Fa-f]{1,4}){0,5}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:)))(%.+)?\s*$";
 
+var perlipv4regex = '^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$';
+
 // Custom Validation Method
 function addValidMethod(params) {
     jQuery.validator.addMethod(params.name, params.validMethod, params.msg);
@@ -40,19 +42,19 @@ var validMethodParams = {
     ipValidParam: {
         name: 'ip',
         validMethod: function(value, element, params) {
-            var ipv6regex =
-            new RegExp(perlipv6regex);
-            return this.optional(element) ||
-            /^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(value) ||
-            ipv6regex.test(value) || /^fe80/i.test(value)
+            var ipv4regex = new RegExp(perlipv4regex);
+            var ipv6regex = new RegExp(perlipv6regex);
+            return this.optional(element) || ipv4regex.test(value) ||
+                ipv6regex.test(value) || /^fe80/i.test(value)
         },
         msg: 'IP格式错误.'
     },
     ipv4ValidParam: {
         name: 'ipv4',
         validMethod: function(value, element, params) {
+            var ipv4regex = new RegExp(perlipv4regex);
             return this.optional(element) ||
-            /^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(value)
+            ipv4regex.test(value)
         },
         msg: 'IPV4格式错误.'
     },
@@ -257,11 +259,11 @@ var validRules = {
     },
     range_s: {
         required: true,
-	    ip: true
+        ipv4: true
     },
     range_e: {
         required: true,
-	    ip: true
+        ipv4: true
     },
     comment: {
         maxlength: 250
@@ -415,7 +417,8 @@ var validRules = {
 	    ip: true
     },
     mac_address: {
-        mac: true
+        mac: true,
+        required: true
     },
     mtu: {
         required: true,
@@ -543,8 +546,48 @@ var validRules = {
     serverip: {
     	ip: true
     },
-    sport: {
+    upPort: {
+    	required: true,
         range: [1, 65535]
+    },
+    upAddr: {
+    	required: true
+    },
+    updateFile: {
+    	required: true
+    },
+    gateway: {
+        required: true,
+	    ip: true
+    },
+    customId: {
+        required: true,
+        digits: true,
+        remote: {
+            url: 'Function/client/customized/tcpTransVisit.php',
+            data: {
+                checkExistId: true
+            }
+        }
+    },
+    lportReq: {
+        required: true,
+        range: [1, 65535]
+    },
+    dportReq: {
+        required: true,
+        range: [1, 65535]
+    },
+    sportReq: {
+        required: true,
+        range: [1, 65535]
+    },
+    lip: {
+        required: true
+    },
+    serverIp: {
+        required: true,
+        ip: true
     }
 };
 
@@ -579,10 +622,12 @@ var validMsg = {
         required: '请输入反IP地址.'
     },
     range_s: {
-        required: '请输入起始地址.'
+        required: '请输入起始地址.',
+        ipv4: '起始地址只支持IPV4地址.'
     },
     range_e: {
-        required: '请输入结束地址.'
+        required: '请输入结束地址.',
+        ipv4: '结束地址只支持IPV4地址.'
     },
     netname: '1-20 个ASCII字符.',
     record_type_mx: '请至少选择一个帐号类型.',
@@ -652,6 +697,9 @@ var validMsg = {
 	nexthopip: {
         required: '下一跳地此不能为空'
     },
+    mac_address: {
+        required: '请填写MAC地址.'
+    },
     mtu: '千兆设备的范围是64-16128',
     manuFile: '请选择要上传的配置文件',
     upgradeFile:'请选择要升级的文件',
@@ -702,7 +750,7 @@ var validMsg = {
     managerTel: '负责人电话不能超过20个字符',
     CPU: 'CPU 利用率阈值范围1 - 100 %',
     memory: '内存利用率阈值范围1 - 100 %',
-    disk: '磁盘利用率阈值范围1 - 100 %',
+    disk: '磁盘利用率阈值本机地址不能为空.范围1 - 100 %',
     trapStr: 'Trap发送字符串不能超过32个字符',
     readOnly: '只读团体字符串不能超过32个字符',
     writeAndReady: '读写团体字符串不能超过32个字符',
@@ -721,7 +769,27 @@ var validMsg = {
     ipv6Netmask : {
         required: '请填写IPV6地址的子网掩码.'
     },
-    sport: '无效的升级服务器端口.'
+    upPort: {
+    	required: '请输入服务器端口.',
+    	range: '无效的升级服务器端口.'
+    },
+    upAddr: '请输入升级服务器地址.',
+    updateFile: '请选择要升级的文件',
+    gateway : {
+        required: '请填写IP地址.'
+    },
+    customId: {
+        required: '请输入任务号.',
+        digits: '请填写有效数字.',
+        remote: '任务号已存在.'
+    },
+    dportReq: '目的端口1 - 65535.',
+    lip: '本机地址不能为空.',
+    lportReq: '本机端口1 - 65535.',
+    sportReq: '服务器端口1 - 65535.',
+    serverIp: {
+        required: '请输入服务器地址.'
+    }
 };
 
 function validateForm(form, displayId) {

@@ -24,6 +24,8 @@
 
         abstract public function getCount();
         
+        abstract public function getLastInsertId();
+        
         /**
          * close database connection
          */

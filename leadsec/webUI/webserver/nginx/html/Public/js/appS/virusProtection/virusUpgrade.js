@@ -1,3 +1,18 @@
+function checkBoxCtrl(){
+	if($("#autoUpEnable").attr("checked") == "checked")
+	{
+		$("input[name='upType']").removeAttr("disabled");
+		$("#upAddr").removeAttr("disabled");
+		$("#upPort").removeAttr("disabled");
+	}
+	else{
+		$("input[name='upType']").attr("disabled",'disabled');
+		$("#upAddr").attr("disabled",'disabled');
+		$("#upPort").attr("disabled",'disabled');
+	}
+	upTypeCtrl();
+}
+
 function upTypeCtrl(){
 	if($("input[name='upType']").attr("disabled") == "disabled")
 	{
@@ -50,20 +65,40 @@ function upWayTimeCtrl(){
 		}
 	}
 }
-function submitUpForm(){
-	if($("#autoUpSetForm").valid())
+function submitUpForm(form){	
+	if(form.valid())
 	{
-		ajaxSubmitForm($('#autoUpSetForm'), '结果');
+		ajaxSubmitForm(form, '结果');
 	}
 }
 
 function upVirusForm(){
+	//$("#autoUpEnable").addClass("ignore");
 	$("#flgUpNow").attr("value",'0');
-	submitUpForm();
+	submitUpForm($("#autoUpSetForm"));
 }
 
 function upNowForm(){
-	$("#flgUpNow").attr("value",'1');
-	alert($("#flgUpNow").val());
-	submitUpForm();
+	//$("#autoUpEnable").removeClass("ignore");
+	if($("#autoUpEnable").attr("checked") != "checked")
+	{
+		var errorStr = "<li><label class=\"errorContainer\" for=\"autoUpEnable\" generated=\"true\" style=\"display: block;\">未启用自动升级.</label></li>";
+		if($("label[for='autoUpEnable']").html() == "未启用自动升级.")
+		{
+			$("label[for='autoUpEnable']").parent().attr("style",'display:list-item;');
+			$("label[for='autoUpEnable']").attr("style",'display:block');
+		}
+		else
+			$("#errDiv").append(errorStr);
+		$("#errDiv").attr("style",'display:block');
+	}
+	else
+	{
+		$("#flgUpNow").attr("value",'1');
+		submitUpForm($("#autoUpSetForm"));
+	}	
+}
+
+function updateManual(){
+	submitUpForm($('#updateManualForm'));
 }

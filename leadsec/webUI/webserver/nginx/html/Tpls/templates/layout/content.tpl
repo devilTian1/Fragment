@@ -4,10 +4,10 @@
            加载信息
 	</caption>
         <tr>
-            <th class="column_30">&nbsp;</th>
+            <td class="column_30">&nbsp;</td>
         </tr>
         <tr>
-            <th>正在加载，请稍后……</th>
+            <td>正在加载，请稍后……</td>
         </tr>
     </table>
 <br class="clearFloat"/>

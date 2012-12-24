@@ -7,13 +7,13 @@
 		<tbody>
 			<tr>
 				<td class="tdheader" width="200">
-					<label><input type="checkbox" name="autoUpEnable" id="autoUpEnable" />
+					<label><input type="checkbox" name="autoUpEnable" id="autoUpEnable" onclick="checkBoxCtrl()"/>
 					启用 </label>:
 				</td>
-      			<td class="tdbody">升级服务器地址：
+      			<td class="tdbody"><div id="errDiv"></div>升级服务器地址：
         			<input type="text" name="upAddr" id="upAddr" value="<{$autoUpSet.upaddr}>"/>
         			&nbsp;&nbsp;升级服务器端口：
-        			<input type="text" name="upPort" id="upPort" value="<{$autoUpSet.upport}>"/>
+        			<input type="text" name="upPort" id="upPort" value="<{$autoUpSet.upport}>" size="2"/>        			
       			</td>
 			</tr>
     		<tr>
@@ -61,7 +61,7 @@
           				每周
           				<label>
 				            <{html_options name="selectDayList" id="selectDayList"
-				            output=array('星期一','星期二','星期三','星期四','星期五','星期六','星期天')
+				            output=array('星期一','星期二','星期三','星期四','星期五','星期六','星期日')
 				          	values=array(1,2,3,4,5,6,0) 
 				          	selected=<{$autoUpSet.sweek|default:1}> }> 
 							天
@@ -75,8 +75,8 @@
       			</td>
     		</tr>
     		<tr>
-      			<td class="tdheader"></td>
-      			<td>
+      			<td></td>
+      			<td class="tdbody">
       				<input type="hidden" name="flgUpNow" id="flgUpNow" value="0"/>
 			        <button type="button" width="50" class="inputbtn standard " onclick="upVirusForm()">确定</button>
 			        <button type="button" width="50" class="inputbtn standard " onclick="upNowForm()" >立即升级</button>
@@ -87,7 +87,7 @@
   
 </form>
 <br/>
-<form action="Function/appS/virusProtection/virusUpgrade.php?c=1" method="POST" id="limitErrForm"
+<form action="Function/appS/virusProtection/virusUpgrade.php?c=1" method="POST" id="updateManualForm"
 onSubmit="return false;">
 	<table class="column_95">
 	    <caption>
@@ -101,14 +101,13 @@ onSubmit="return false;">
 	        <tr>
 	            <td class="tdheader"><span class="red">*</span>升级文件:</td>
 	            <td class="tdbody">
-	               <input name="" type="file" />
+	               <input name="updateFile" type="file" id="file" />
 	            </td>
 	        </tr>
         	<tr>
 	            <td></td>
 	            <td class="tdbody">
-	                <button class="inputbtn standard" type="button"
-	                    id="setLimitErrTimeBtn" onClick="setLimitErrTime()">
+	                <button class="inputbtn standard" type="button" onClick="updateManual()">
 	                	升级
 	                </button>
 	            </td>
@@ -117,50 +116,59 @@ onSubmit="return false;">
 	</table>
 </form>
 <br/>
-<table class="column_95 textMid tablesorter" id="accountTable">
+<table class="column_95 textMid tablesorter" id="vUpgradeHistory">
     <caption>导出升级历史</caption>
     <thead>
         <tr>
             <th class="column_20">序号</th>
-            <th class="column_30">更新版本</th>
-            <th class="column_30">当前时间</th>
-            <th class="column_20">时间</th>
+            <th class="column_30">升级以后版本号</th>
+            <th class="column_30">更新描述</th>
+            <th class="column_20">升级时间</th>
         </tr>
     </thead>
-    <tbody>
-        <tr><td colspan='4'>Loading ...</td></tr>
-    </tbody>
+    <{foreach $uphistory as $Array}>
+		<tr>
+			<td><{$Array.id}></td>
+			<td><{$Array.up_version}></td>
+			<td><{$Array.del_bugs}></td>
+			<td><{$Array.up_time}></td>
+		</tr>
+	<{foreachelse}>
+	    <tr><td colspan='4'>No Update Record</td></tr>
+	<{/foreach}>
+	<tr>
+        <td colspan="4">
+        	<form class="inline" action="Function/appS/virusProtection/virusUpgrade.php" method="POST">
+                <input type="hidden" name="action" value="exportUpgradeHistory"/>
+	        	<button class="standard inputbtn" type="submit">
+				导出升级历史</button>
+				 <input type="hidden" name="downloadUpgradeHistory" value='1'/>
+			</form>
+        </td>
+    </tr>
 </table>
-<button class="floatLeft inputbtn" type="button"
-    onClick="openNewAccountDialog()" id="add">
-导出升级历史</button>
+
 
 <script type="text/javascript" src="Public/js/appS/virusProtection/virusUpgrade.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
 	renderStandardUi();
-	validateForm($("#autoUpSetForm"));
+	validateForm($("#autoUpSetForm"),"errDiv");
+	validateForm($("#updateManualForm"));
 	initAutoUpSet();
-	$("#autoUpEnable").click(function(){
-		if($("#autoUpEnable").attr("checked") == "checked")
-		{
-			$("input[name='upType']").removeAttr("disabled");
-			$("#upAddr").removeAttr("disabled");
-			$("#upPort").removeAttr("disabled");
-		}
-		else{
-			$("input[name='upType']").attr("disabled",'disabled');
-			$("#upAddr").attr("disabled",'disabled');
-			$("#upPort").attr("disabled",'disabled');
-		}
-		upTypeCtrl();
-	});
 	$("input[name='upType']").click(function(){
 		upTypeCtrl();
 	});
 	$("input[name='upWay']").click(function(){
 		upWayTimeCtrl();
 	});
+	// 立即升级时，需要校验checkbox必选，如果选中，不显示errorMsg
+	$("#autoUpEnable").bind("click",function(){
+		if($("#autoUpEnable").attr("checked")=="checked")
+		{
+			$("label[for='autoUpEnable']").parent().attr("style",'display:none');
+		}
+	});	
 });
 
 function initAutoUpSet(){
@@ -168,8 +176,8 @@ function initAutoUpSet(){
 	{
 		$("#autoUpEnable").attr("checked",'checked');
 	}
-	$("input[name='upType']:eq(<{$autoUpSet.uptype}>)").attr("checked",'checked');
-	$("input[name='upWay']:eq(<{$autoUpSet.upway}>)").attr("checked",'checked');
+	$("input[name='upType'][value=<{$autoUpSet.uptype}>]").attr("checked",'checked');
+	$("input[name='upWay'][value=<{$autoUpSet.upway}>]").attr("checked",'checked');
 	// 逻辑控制
 	if($("#autoUpEnable").attr("checked") == "checked")
 	{

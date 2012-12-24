@@ -1,51 +1,24 @@
 <?php
     require_once($_SERVER['DOCUMENT_ROOT'] . '/Function/common.php');
 
-	/**
-	* 在指定位置插入指定字符串
-	* @param type $str 预准备字符串
-	* @param type $offset    位置偏移量
-	* @param type $input    插入的字符串
-	* @return type        返回新的字符串
-	*/
-	function insert_str($str, $offset, $input)
-	{
-		$newstr = '';
-		for ($i = 0; $i < strlen($str); $i++)
-		{
-			if (is_array($offset)) //如果插入是多个位置
-			{
-				foreach ($offset as $v)
-				{
-					if ($i == $v) $newstr.=$input;
-				}
-			}
-			else    //直接是一个位置偏移量
-			{
-				if ($i == $offset) $newstr.=$input;
-			}
-			$newstr.=$str{$i};
-		}
-		return $newstr;
-	}
-
 	function show() {
 		//将命令行显示到文本输入框中
 		if(file_exists('/tmp/webui.cmd.log')) {
-			$arr   = file('/tmp/webui.cmd.log');
-			//倒排数组，将最新的命令显示在第一条
-			krsort($arr);
-			$arr_s = array('CGI_COSYS:',':command=/usr/local/bin/','2>/dev/null');
-			$str   = '';
+			$arr = file('/tmp/webui.cmd.log');
 			$result = array();
-			foreach($arr as $key => $val) {
-				// 替换指定的字符串
-				$new_str = str_replace($arr_s,$str,$arr[$key]);
-				$new_str = str_replace("\n","\r\n",$new_str);
-				$result[] = insert_str(insert_str($new_str,0,'#'),34,"\r\n");
+			$result = array_reverse($arr);
+			$num =count($result);
+			$tmp =array();
+			for($i=0;$i<$num;$i++)
+			{
+				if($i%2==0) {
+					$tmp = $result[$i];
+					$result[$i] = $result[$i+1];
+					$result[$i+1] = $tmp ;
+				}
 			}
-		}			
-			echo json_encode(array('status' => true,'msg' =>$result));	
+			echo json_encode(array('status' => true,'msg' =>$result));
+		}
 	}
 
 	if ('getStr' === $_POST['action']) {
@@ -54,8 +27,8 @@
 		//清除文本框中的内容
 		if(file_exists('/tmp/webui.cmd.log')) {
 			file_put_contents('/tmp/webui.cmd.log','');
-			$result   = file('/tmp/webui.cmd.log');
-			echo json_encode(array('status' => true,'msg' =>$result));
+			$result   = file_get_contents('/tmp/webui.cmd.log');
+			echo json_encode(array('msg' =>$result));
 		}
 	
 	} else if ('down' === $_POST['action']) {
@@ -77,15 +50,46 @@
 		$dest = '/tmp/upload/';
 		$file_name = $dest . 'tmpbatcmd';
 		move_uploaded_file($_FILES['batchToolExportFile']['tmp_name'],$file_name);
-		$result = file_get_contents('/tmp/upload/' . $_FILES['batchToolExportFile']['name']);
+		$result = file_get_contents($file_name);
 		echo json_encode(array('status' => true,'msg' => $result));
 			
 	} else if ($batchCmd = $_POST['batchCmd']) {
-			//echo
-			//echo json_encode(array('msg' => 'return'));
+		//先清空文件里面的内容
+		file_put_contents('/tmp/upload/tmpbatcmd','');
+		//将文本框中的内容写入到文件中去
+		file_put_contents('/tmp/upload/tmpbatcmd',$batchCmd);
 
-	} else {
+	} else if ('performBatchProcessing' === $_POST['action']) {
+		//读取文件里面的内容，获取每行命令
+		$result = file('/tmp/upload/tmpbatcmd');
+		$result_new = array();
+		//如果返回的内容里面有空的则将此项
+		foreach ($result as $key => $value) {
+			if (strlen(trim($value))!==0) {
+				$result_new[] = $result[$key];
+			}
+		}
+		$num = count($result_new);
+		$num_array =array();
+		$num_array[] = $num ;
+		$cli = new cli();
+		$msg_result =array();
+		foreach ($result as $k => $v) {
+			$v = trim($v);
+			if (empty($v)) {
+				continue;
+			}
+			$cli_array = $cli->run($v);
+			$msg_result = array_merge($msg_result,$cli_array);
+		}
+		$msg_result = array_merge($num_array,$msg_result);
+		//批处理结束后再将文件里面的内容清空
+		file_put_contents('/tmp/upload/tmpbatcmd','');
+		echo json_encode(array('status' => true,'msg' =>$msg_result));
 	
+	} else {
+
+
 	}
 	
 ?>

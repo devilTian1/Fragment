@@ -1,37 +1,39 @@
 BEGIN TRANSACTION;
-
-
-create table basic_configure
+CREATE TABLE basic_configure
 (
-	role			CHAR(1),  --'M':master 'S':slave 'N':node
-	mode			CHAR(1),  --'P':preempt mode 'N':nonpreempt mode
-	ifcfg			CHAR(1),  --'D':disable physical net work device 'E':not disable
-	peer_ha_ip		CHAR(15), --peer gap ha ip address
-	peer_ha_port	INT,		  --peer gap ha port number
-    interval        INT
+    role                    CHAR(1),  --'M':master 'S':slave 'N':node
+    mode                    CHAR(1),  --'P':preempt mode 'N':nonpreempt mode
+    ifcfg                   CHAR(1),  --'D':disable physical net work device 'E':not disable
+    peer_ha_ip              CHAR(15), --peer gap ha ip address
+    peer_ha_port    INT               --peer gap ha port number
 );
-
-insert into basic_configure (role, mode, ifcfg, peer_ha_ip, peer_ha_port) values ('M', 'P', 'E', '0.0.0.0',8000);
-
-create table lvs_basic
+INSERT INTO "basic_configure" VALUES('M','P','E','0.0.0.0',8000);
+CREATE TABLE haif 
 (
-	role			CHAR(1)  --'D':director 'N':node
+    ifname                  CHAR(15),   --network interface alias name
+    pro                     CHAR(15)    --network proctol (ipv4 or ipv6)
+    --dev                   CHAR(20),
+    --ip                    CHAR(128),
+    --mask                  CHAR(20)
 );
-
-insert into lvs_basic (role) values ('D');
-
-create table haif 
+CREATE TABLE service 
 (
-	ifname	CHAR(15)	--network interface alias name
+    id              INT,
+    virtual_ip      CHAR(15),
+    virtual_port    INT,
+    real_ip         CHAR(15),
+    real_port       INT
 );
-
-create table service 
+CREATE TABLE sync_cfg_server
 (
-	id					INT,
-	virtual_ip	CHAR(15),
-	virtual_port	INT,
-	real_ip		CHAR(15),
-	real_port	INT
-);	
-
+    host        CHAR(15),
+    service     INT
+);
+INSERT INTO "sync_cfg_server" VALUES('0.0.0.0',8000);
+CREATE TABLE sync_cfg_client
+(
+    host        CHAR(15),
+    service     INT
+);
+INSERT INTO "sync_cfg_client" VALUES('0.0.0.0',8000);
 COMMIT;

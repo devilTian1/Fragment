@@ -34,7 +34,7 @@
 
         /**
          * Use for insert/update/delete cmd
-         *@return .Int. The number of modified rows.
+         * @return .Int. The number of modified rows.
          */
         public function exec($sql, $params = array()) {
             // check whether only one sql or multi-rows sql cmd
@@ -90,6 +90,10 @@
             } catch (Exception $e) {
                 throw new DBException('Database problem: ' . $e->getMessage());
             }
+        }
+
+        public function getLastInsertId() {
+            return self::$db->lastInsertId();
         }
 
         public function close() {

@@ -1,4 +1,14 @@
-<{include file='layout/search.tpl' tableId='staticRouteTable'}>
+<form action="Function/networkMangement/basic/staticRoute.php" method="POST" id="defaultRouteForm"
+    onSubmit="return false;">
+<div class="defaultGateway">
+    默认网关：
+    <input type="text" name="gateway" value="<{$route.defaultroute}>"/>&nbsp;          
+    <button type="button" class="standard" style="margin: auto 0; position: static"
+        onClick="defaultGatewayData()"
+        id="defaultGatewayBtn">确定</button>
+</div>  
+<div class="clearFloat"></div>
+</form>
 <table class="column_95 textMid tablesorter" id="staticRouteTable">
 	<caption>
        静态路由
@@ -25,9 +35,10 @@
 <script type="text/javascript" src="Public/js/networkMangement/basic/staticRoute.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
-   renderStandardUi();
-   $("#addStaticRouteTable").button();
-   freshTable('Function/networkMangement/basic/staticRoute.php', $('#staticRouteTable'), 'ORDER BY id ASC LIMIT 10');
-   sortTableInit($('#staticRouteTable'), {4: {sorter: false}});
+    renderStandardUi();
+    //$("#addStaticRouteTable").button();
+    validateForm($("#defaultRouteForm"));
+    freshTable('Function/networkMangement/basic/staticRoute.php', $('#staticRouteTable'), 'ORDER BY id ASC LIMIT 10');
+    sortTableInit($('#staticRouteTable'), {3: {sorter: false}, 4: {sorter: false}}, [[0,0]]);
 });
 </script>

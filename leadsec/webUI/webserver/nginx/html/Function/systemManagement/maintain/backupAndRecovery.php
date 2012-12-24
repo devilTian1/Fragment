@@ -61,7 +61,6 @@
                     $dbFiles[] = $v;
                 }
         }
-
         $filename = urlencode(ExportFile());
         header("Content-Type: application/octet-stream; charset=utf-8;");
         header("Content-Disposition: attachment; filename=\"$filename\";");
@@ -71,7 +70,7 @@
         $result .= 'Leadsec Secutiry Netgap' . date('Y-n-d H:i:s', time()) . "\r\n" . 
             '--------DO NOT edit this line' . "\r\n";
         foreach ($dbFiles as $dbFile) {
-            $tableStr = $cli->run("sqlite3 $dbFile '.table'");
+            $tableStr = join(' ',$cli->run("sqlite3 $dbFile '.table'"));
             $tableArr = preg_split('/\s+/', $tableStr);
             $db       = new dbsqlite($dbFile);
             foreach ($tableArr as $table) {

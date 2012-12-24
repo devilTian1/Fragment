@@ -26,7 +26,7 @@
     'rc_a' => array('pid' => 'rc', 'name' => '地址', 'link' => 'addr'),
     'rc_t' => array('pid' => 'rc', 'name' => '时间', 'link' => 'time'),
     'rc_u' => array('pid' => 'rc', 'name' => '用户', 'link' => 'user'),
-    'rc_ab' => array('pid' => 'rc', 'name' => '过滤配置', 'link' => 'addrBind'),
+    'rc_ab' => array('pid' => 'rc', 'name' => '过滤配置', 'link' => 'filterConf'),
 
     //levev2 client
     'c_fe' => array('pid' => 'c', 'name' => '文件交换', 'link' => 'fileEx'),
@@ -110,11 +110,11 @@
     'rc_u_u' => array('pid' => 'rc_u', 'name' => '用户列表', 'link' => 'userList'),
     'rc_u_rl' => array('pid' => 'rc_u', 'name' => '角色列表', 'link' => 'roleList'),
     
-    //level3 resConf/addrBind
+    //level3 resConf/filterConf
     'rc_ab_s' => array('pid' => 'rc_ab', 'name' => '安全浏览', 'link' => 'safeBrowse'),
     'rc_ab_fs' => array('pid' => 'rc_ab', 'name' => '文件同步', 'link' => 'fileSyn'),
     'rc_ab_fe' => array('pid' => 'rc_ab', 'name' => '文件交换', 'link' => 'fileExchange'),
-    'rc_ab_fv' => array('pid' => 'rc_ab', 'name' => 'FTP访问', 'link' => 'ftpVisit'),
+    'rc_ab_fv' => array('pid' => 'rc_ab', 'name' => 'FTP访问', 'link' => 'ftp'),
     'rc_ab_e' => array('pid' => 'rc_ab', 'name' => '邮件访问', 'link' => 'emailVisit'),
     'rc_ab_d' => array('pid' => 'rc_ab', 'name' => '数据库访问', 'link' => 'dataVisit'),
     'rc_ab_m' => array('pid' => 'rc_ab', 'name' => '消息传递', 'link' => 'msgPass'),
@@ -175,8 +175,8 @@
   	's_db_gl'=> array('pid' => 's_db', 'name' => '过滤配置',  'link' => 'filterGl'),
     
     //levev3 server/customized
-    's_c_t' => array('pid' => 's_c', 'name' => 'TCP访问', 'link' => 'tcpCustomized'),
-    's_c_u' => array('pid' => 's_c', 'name' => 'UDP访问', 'link' => 'udpCustomized'),
+    's_c_t' => array('pid' => 's_c', 'name' => 'TCP访问', 'link' => 'tcp'),
+    's_c_u' => array('pid' => 's_c', 'name' => 'UDP访问', 'link' => 'udp'),
     
   	//levev3 client/msgTrans
   	's_mt_mt' => array('pid' => 's_mt', 'name' => '消息传输', 'link' => 'msgTrans'),

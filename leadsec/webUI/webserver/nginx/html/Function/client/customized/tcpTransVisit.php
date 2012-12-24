@@ -1,112 +1,120 @@
 <?php
     require_once($_SERVER['DOCUMENT_ROOT'] . '/Function/common.php');
 
-    function getAllList() {
-        $addrListArr = array();
-        $sql = "SELECT name FROM address";
-        $db  = new dbsqlite(DB_PATH . '/rule.db');
+    function appendTcpTransClientAclData($where) {
+        $tpl =  'client/customized/tcpTransVisitTable.tpl';
+        $db  = new dbsqlite(DB_PATH . '/netgap_custom.db');
+        $sql = 'SELECT id, sa, da, dport, usergrp, time, active, killvirus, ' .
+            "comment FROM tcp_trans_client_acl $where";
         $result = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
-        foreach ($result as $k => $v) {
-            $addrListArr[] = $v['name'];
-        }
-        return $addrListArr;
-    }
-
-    function getSpecAddrListName($id) {
-        $db  = new dbsqlite(DB_PATH . '/rule.db');
-        $sql = "select address.name from addrmap INNER JOIN address ".
-            "ON addrmap.addrid == address.id where addrmap.addrgrpid=$id";
-        return $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
-    }
-
-    function appendAddrGroupData($where) {
-        $tpl =  'resConf/addr/addrGroupTable.tpl';
-        $db  = new dbsqlite(DB_PATH . '/rule.db');
-	    $sql = "SELECT id, name, comment FROM addrgrp $where";
-        $result = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
-        foreach ($result as $k => $v) {
-            $r = getSpecAddrListName($v['id']);
-            foreach ($r as $name) {
-                $result[$k]['addrNames'] .= $name['name'] . '&nbsp;';
-            }
-	    }
-        echo V::getInstance()->assign('addrGroup', $result)
+        echo V::getInstance()->assign('tcpTransClientAcl', $result)
             ->assign('pageCount', 10)
             ->fetch($tpl);
     }
 
     function getDataCount() {
-    	$sql = "SELECT id FROM addrgrp";
-        $db  = new dbsqlite(DB_PATH . '/rule.db');
+        $sql = 'SELECT id FROM tcp_trans_client_acl';
+        $db  = new dbsqlite(DB_PATH . '/netgap_custom.db');
         return $db->query($sql)->getCount();
     }
 
-    function getAddOrEditData() {
-        $name    = $_POST['addrGrpName'];
-        $comment = $_POST['comment'];
-        $mbrArr  = $_POST['addrGrpMember'];
-        $addmbr  = join('" "', $mbrArr);
-        return array($name, $comment, $addmbr);
+    // be called by other three php function file.
+    function checkExistId($id) {
+        $sql = "SELECT id FROM tcp_comm_client_acl WHERE id = $id
+            UNION SELECT id FROM tcp_trans_client_acl WHERE id = $id
+            UNION SELECT id FROM udp_comm_server_acl WHERE id = $id
+            UNION SELECT id FROM tcp_comm_server_acl WHERE id = $id
+            UNION SELECT id FROM udp_comm_client_acl WHERE id = $id
+            UNION SELECT id FROM udp_trans_client_acl WHERE id = $id";
+        $db  = new dbsqlite(DB_PATH . '/netgap_custom.db');
+        echo $db->query($sql)->getCount() > 0 ? 'false' : 'true';
     }
 
-    if (!empty($_POST['editId'])) {
-        // Get specified addrGroup data
-        $tpl = $_POST['tpl'];
-        $id  = $_POST['editId'];
-
-        $r   = getSpecAddrListName($id);
-        $addrGrpMemberArr = array();
-        foreach ($r as $row) {
-            $addrGrpMemberArr[] = $row['name'];
+    function getCmd() {
+        $type = $_POST['type'];
+        if ($type === 'add') {
+            $action = 'add';
+        } elseif ($type === 'edit' || !empty($_POST['action'])) {
+            $action = 'set';
+        } else {
+            throw new Exception('fatal action: [' . $type . '].');
         }
-        $addrListArr = getAllAddrList();
-        $addrListArr = array_diff($addrListArr, $addrGrpMemberArr);
+        $id        = $_POST['customId'];
+        $sa        = $_POST['sa'];
+        $da        = $_POST['da'];
+        $dport     = $_POST['dportReq'];
+        if (!empty($_POST['action'])) {
+            $active = $_POST['action'] === 'enable' ? 'on' : 'off';
+        } else {
+            $active = $_POST['active'] === 'Y' ? 'on' : 'off';
+        }
+        $killVirus = $_POST['killVirus'] === 'Y' ? 'yes' : 'no';
+        $usergrp   = $_POST['usergrp'];
+        $time      = $_POST['time'];
+        $comment   = $_POST['comment'];
 
-        $db  = new dbsqlite(DB_PATH . '/rule.db');
-	    $sql = "SELECT name, comment FROM addrgrp WHERE id = $id";
-        $addrGroup = $db->query($sql)->getFirstData(PDO::FETCH_ASSOC);
-        $result = V::getInstance()->assign('addrListArr', $addrListArr)
-            ->assign('addrGrpMemberArr', $addrGrpMemberArr)
-            ->assign('addrGroup', $addrGroup)
+        $result = "ctcpctl $action task type client mode trans id $id sa $sa " .
+            "da $da dport $dport killvirus $killVirus active $active ";
+        if (!empty($usergrp)) {
+            $result .= "auth $usergrp ";
+        }
+        if (!empty($time)) {
+            $result .= "time $time ";
+        }
+        $result .= "comment \"$comment\"";
+        return $result;
+    }
+
+    if ($id = $_POST['editId']) {
+        // Open dialog to show specified tcp trans client acl data
+        $sql = 'SELECT id, sa, da, dport, usergrp, time, active, killvirus, ' .
+            "comment FROM tcp_trans_client_acl WHERE id = '$id'";
+        $db  = new dbsqlite(DB_PATH . '/netgap_custom.db');
+        $result = $db->query($sql)->getFirstData(PDO::FETCH_ASSOC);
+        $tpl = 'client/customized/tcpTransVisit_editDialog.tpl';
+        $result = V::getInstance()
+            ->assign('addrOptions', netGapRes::getInstance()->getAddr())
+            ->assign('timeList', netGapRes::getInstance()->getTimeList())
+            ->assign('roleList', netGapRes::getInstance()->getRoleList())
+            ->assign('data', $result)
             ->assign('type', 'edit')->fetch($tpl);
         echo json_encode(array('msg' => $result));
-    } else if ('edit' === $_POST['type']) {
-        // Edit a specified addr group data
-        list($name, $comment, $addmbr) = getAddOrEditData();
-        $cmd1 = "addrgrp set name \"$name\" comment \"$comment\"";
-        $cmd2 = "addrgrp set name \"$name\" delallmbr";
-        $cmd3 = "addrgrp set name \"$name\" addmbr \"$addmbr\"";
-        $cli  = new cli();
-        $cli->run($cmd1);
-        $cli->run($cmd2);
-        $cli->run($cmd3);
-        echo json_encode(array('msg' => "[$name]修改成功."));
-    } else if ('add' === $_POST['type']) {
-        // Add a new addr group data
-        list($name, $comment, $addmbr) = getAddOrEditData();
-        $cmd1 = "addrgrp add name \"$name\" comment \"$comment\"";
-        $cmd2 = "addrgrp set name \"$name\" addmbr \"$addmbr\"";
-        $cli  = new cli();
-        $cli->run($cmd1);
-        $cli->run($cmd2);
-        echo json_encode(array('msg' => "[$name]添加成功."));
-    } else if (!empty($_POST['delName'])) {
-        // Delete the specified addrGroup data
-        $name = $_POST['delName'];
-        $cmd  = "addrgrp del name \"$name\"";
-        $cli  = new cli();
-        $cli->run($cmd);
-        echo json_encode(array('msg' => "[$name]删除成功."));
-    } else if (!empty($_POST['openDialog'])) {
-        // Display add addr group dialog
-        $tpl = $_POST['tpl'];
+    } else if (!empty($_POST['openAddDialog'])) {
+        // Open new tcp trans client dialog
+        $tpl         = 'client/customized/tcpTransVisit_editDialog.tpl';
         $result = V::getInstance()
-            ->assign('addrGrpMemberArr', array())
+            ->assign('addrOptions', netGapRes::getInstance()->getAddr())
+            ->assign('timeList', netGapRes::getInstance()->getTimeList())
+            ->assign('roleList', netGapRes::getInstance()->getRoleList())
             ->assign('type', 'add')->fetch($tpl);
         echo json_encode(array('msg' => $result));
+    } else if ('edit' === $_POST['type']) {
+        // Edit a specified tcp trans client data
+        $cli = new cli();
+        $cli->run(getCmd());
+        echo json_encode(array('msg' => '修改成功.'));
+    } else if (!empty($_GET['checkExistId'])) {
+        // Check the same id exist or not
+        checkExistId($_GET['customId']);
+    } else if ('add' === $_POST['type']) {
+        // Add a new tcp trans client data
+        $cli = new cli();
+        $cli->run(getCmd());
+        echo json_encode(array('msg' => '添加成功.'));
+    } else if ($id = $_POST['delId']) {
+        // Delete the specified Tcp Trans Client data
+        $cmd  = "ctcpctl del task type client mode trans id $id";
+        $cli  = new cli();
+        $cli->run($cmd);
+        echo json_encode(array('msg' => "删除成功."));
+    } else if ($action = $_POST['action']) {
+        // enable or disable specified acl
+        $cli = new cli();
+        $cli->run(getCmd());
+        echo json_encode(array('msg' => '成功.'));
     } else if ($orderStatement = $_POST['orderStatement']) {
-        // fresh and resort addr-group list
-        appendAddrGroupData($orderStatement);
+        // fresh and resort tcp_trans_client_acl table
+        appendTcpTransClientAclData($orderStatement);
     } else {
         // init page data
         $result = getDataCount();

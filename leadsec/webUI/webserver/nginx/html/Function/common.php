@@ -28,6 +28,8 @@
     require_once(WEB_PATH . '/Lib/driver/function.php');
     // upload driver
     require_once(WEB_PATH . '/Lib/driver/fileUpload.php');
+    // netgap resource
+    require_once(WEB_PATH . '/Lib/driver/netGapRes.php');
 
     // login function
     require_once(WEB_PATH . '/Function/login.php');

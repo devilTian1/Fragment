@@ -1,15 +1,13 @@
 function openEditAddrListDialog(id) {
     var url  = 'Function/resConf/addr/addrList.php';
     var data = {
-        tpl : 'resConf/addr/editAddrDialog.tpl',
-        id  : id   
+        addrId  : id   
     };
     var title   = '修改地址';
     var buttons = {};
     buttons['确定'] = function() {
         if ($('#editAddrListForm').valid()) {
-            ajaxSubmitForm($('#editAddrListForm'), '结果');
-            freshTableAndPage();
+            addOrEditAddrList('edit', title);
             $(this).remove();
         }
     };
@@ -19,9 +17,34 @@ function openEditAddrListDialog(id) {
     var dialogParams = {
         width   : 620,
         height  : 500,
-        buttons : buttons
+        buttons : buttons,
+        position: ['center', 'top']
     };
     showDialogByAjax(url, data, title, dialogParams);
+}
+
+function addOrEditAddrList(type, title) {
+    if (type === 'next') {
+        openNewAddrListDialog();
+    }
+    var resultDialog  = loadingScreen(title);
+    resultDialog.dialog('moveToTop');
+    var buttons = {};
+    buttons['Ok'] = function() {
+        resultDialog.close();
+    }
+    resultDialog.setOptions({
+        width : 250,
+        height: 170,
+        buttons: buttons
+    });
+    var successCallback = function(result, textStatus) {
+        resultDialog.setContent($('<p>' + result.msg + '</p>'));
+        freshTableAndPage();
+    }
+    var dialog = ajaxSubmitForm($('#editAddrListForm'), '结果',
+        successCallback);
+    dialog.close();
 }
 
 function openNewAddrListDialog() {
@@ -33,16 +56,13 @@ function openNewAddrListDialog() {
     var buttons = {};
     buttons['添加下一条'] = function() {
         if ($('#editAddrListForm').valid()) {
-            openNewAddrListDialog();
-            ajaxSubmitForm($('#editAddrListForm'), '结果');
-            freshTableAndPage();
+            addOrEditAddrList('next', title);
             $(this).remove();
         }
     };
     buttons['确定'] = function() {
         if ($('#editAddrListForm').valid()) {
-            ajaxSubmitForm($('#editAddrListForm'), '结果');
-            freshTableAndPage();
+            addOrEditAddrList('add', title);
             $(this).remove();
         }
     };
@@ -52,15 +72,17 @@ function openNewAddrListDialog() {
     var dialogParams = {
         width   : 620,
         height  : 500,
-        buttons : buttons
+        buttons : buttons,
+        position: ['center', 'top']
     };
     showDialogByAjax(url, data, title, dialogParams);
 }
 
-function delAddr(name) {
+function delAddr(name, id) {
     var url  = 'Function/resConf/addr/addrList.php';
     var data = {
-        delName: name
+        delName: name,
+        delId: id
     };
     var title  = '删除地址';
     var buttons = {};
@@ -76,15 +98,15 @@ function delAddr(name) {
     showDialogByAjax(url, data, title, dialogParams);
 }
 
-function openDelAddrDialog(name) {
+function openDelAddrDialog(name, id) {
     var dialog  = loadingScreen('删除地址');
     var buttons = {};
-    buttons['Confirm'] = function() {
-        delAddr(name);
+    buttons['确定'] = function() {
+        delAddr(name, id);
         $(this).remove();
         freshTableAndPage();
     };
-    buttons['Cancel']  = function() {
+    buttons['取消']  = function() {
         $(this).remove();
     };
     var dialogParams = {
@@ -97,19 +119,18 @@ function openDelAddrDialog(name) {
 }
 
 function changeAddrType() {
-    var type      = $(":radio[name='addrType']:checked").val();
-    var addrDiv   = $('#addrDiv');
-    var addr_rDiv = $('#addr_rDiv');
-    var rangeDiv  = $('#rangeDiv');
-    addrDiv.hide();
-    addr_rDiv.hide();
-    rangeDiv.hide();
-    if (type === 'reverse') {
-        addr_rDiv.show();
-    } else if (type === 'range') {
-        rangeDiv.show();
+    var checkedDom = $(":radio[name='addrType']:checked");
+    var type       = checkedDom.val();
+    var addrDiv    = $('#addrDiv, input[name="ip"], input[name="netmask"]');
+    var rangeDiv   = $('#rangeDiv, input[name^="range_"]');
+    addrDiv.addClass('hide');
+    rangeDiv.addClass('hide');
+    $("#editAddrListForm").validate().resetForm();
+    checkedDom.attr('checked', 'checked');
+    if (type === 'range') {
+        rangeDiv.removeClass('hide');
     } else { // default
-        addrDiv.show();
+        addrDiv.removeClass('hide');
     }
 }
 

@@ -42,7 +42,7 @@
 				<button class="inputbtn standard" id="rewrite" onclick="reWrite()">
 					重写
 				</button><br /><br />
-				<button class="inputbtn standard" id="upload" type="button" onClick="runBatchCmd()">
+				<button class="inputbtn standard" id="upload" onClick="runBatchCmd()">
 					提交
 				</button>
 			</td>
@@ -64,14 +64,13 @@
 		</tr> 
 		<tr>
 			<td colspan="2">
-				<button class="inputbtn standard" name="performBatchProcessing" 
-				id="performBatchProcessing">
+			<form class="inline" action="Function/systemManagement/maintain/batchTool.php" 
+				id="performBatchProcessingForm" method="POST" onSubmit="return false;">
+				<input type="hidden" name="action" value="performBatchProcessing">
+				<button class="inputbtn standard" id="performBat" onclick="performBatchProcessingForm()" >
 					执行批处理
 				</button>
-				<button class="inputbtn standard" name="cancelExecution" 
-				id="cancelExecution">
-					取消执行
-				</button>
+			</form>
 			</td>
 		</tr>
 </table>
