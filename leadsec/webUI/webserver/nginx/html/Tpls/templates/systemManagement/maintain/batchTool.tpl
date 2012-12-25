@@ -3,9 +3,9 @@
 		历史记录
   </caption>
 	<tr>
-		<td>
-			<textarea name="textarea" id="textarea" cols="45" rows="8" style=
-			"width:98%" readonly="readonly">
+		<td style="width:100%">
+			<textarea name="textarea" id="textarea" cols="45" rows="8" 
+			style="width:80%;background:#cccccc" readonly="readonly">
 			</textarea>
 		</td>
 		<td>
@@ -27,9 +27,9 @@
 	命令批处理
     </caption>
 		<tr>
-			<td>
+			<td style="width:100%">
 				<textarea name="textarea2" id="textarea2" cols="45" rows="5" 
-				style="width:98%">
+				style="width:80%">
 				</textarea>
 			</td>
 			<td>
@@ -42,7 +42,7 @@
 			</td>
 		</tr>
 		<tr>
-			<td colspan="2" width="250" class="tdbody">
+			<td colspan="2" width="100%" class="tdbody">
 				导入命令批处理文件
 				<input name="upload" type="file" >
        			<button class="inputbtn standard" name="import">
@@ -51,7 +51,7 @@
 			</td>
 		</tr> 
 		<tr>
-			<td colspan="2" align="center">
+			<td colspan="2" style="background:#cccccc">
 				<button class="inputbtn standard" name="performBatchProcessing" 
 				id="performBatchProcessing">
 					执行批处理
