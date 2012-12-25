@@ -25,8 +25,8 @@ function selectTag(showContent,selfObj){
 	}
 	selfObj.parentNode.className = "selectTag";
 	// 操作内容
-	for(i=0; j=document.getElementById("tagContent"+i); i++){
-		j.style.display = "none";
+	for(i=0; i<taglength; i++){
+		document.getElementById("tagContent"+i).style.display = "none";
 	}
 	document.getElementById(showContent).style.display = "block";
 }

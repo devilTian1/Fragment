@@ -1,9 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link rel="stylesheet" href="<{$smarty.const.THEME_PATH}>/css/quicktab.css" type="text/css" />
-<title></title>
 <style type="text/css">
 <!--
 *{
@@ -64,14 +59,11 @@ ul{
 	}	
 -->
 </style>
-
-</head>
-<body>
 <div id="con">
     <UL id="tags">
       <!--<li class="selectTag"><A onClick="selectTag('tagContent0',this)" href="javascript:void(0)">系统管理</A> </li> -->
        <{foreach from=$res key=key item=resitem name=restop}>
-      		<li <{if $smarty.foreach.restop.first}>class="selectTag"<{/if}>><A onClick="selectTag('tagContent<{$key}>',this)" href="javascript:void(0)"><{$resitem.toptitle}></A></li>
+      		<li <{if $smarty.foreach.restop.first}>class="selectTag"<{/if}>><a onClick="selectTag('tagContent<{$key}>',this)" href="#"><{$resitem.toptitle}></a></li>
       <{/foreach}>
       
     </UL>
@@ -107,9 +99,8 @@ ul{
 <script type="text/javascript" src="Public/js/systemManagement/quick/quick.js"></script>
 <script type="text/javascript">
  initdbhooo();
-var $listIcon=$("ul.listIcon");
-$listIcon.find("a.add")
-.click(function(){
+$(document).ready(function(){
+	$("ul.listIcon li").find("a.add").click(function(){
 				var id=this.id,title=this.title,img=this.rel,url=this.rev;
 				//这里的data本应该使用ajax方法从数据库获取，这里直接写到页面
 				var data={
@@ -119,7 +110,7 @@ $listIcon.find("a.add")
 					'url':url
 					}
 					parent.addIcon(data);
-				});
+					return false;
+				});							
+});
 </script>
-</body>
-</html>
