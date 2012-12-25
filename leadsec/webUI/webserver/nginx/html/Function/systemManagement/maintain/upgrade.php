@@ -47,6 +47,6 @@
         }
         return true;
     } else {
-         GetResult();
+        getResult();
     }
 ?>
