@@ -47,8 +47,8 @@
         $cli = new cli();
         $cli->run($cmd);
         echo json_encode(array('msg' => '升级成功'));
-    } else if ($orderStatement = $_POST['orderStatement']) {
-        getLicenseInformation($orderStatement);
+    } else if ($orderStatement =$_POST['orderStatement']) {
+        getLicenseInformation($o rderStatement);
     } else {
 	/*
 	 *页面初始化效果
