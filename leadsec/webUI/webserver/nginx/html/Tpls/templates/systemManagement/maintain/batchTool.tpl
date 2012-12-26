@@ -3,9 +3,9 @@
 		历史记录
   </caption>
 	<tr>
-		<td style="width:100%">
-			<textarea name="textarea" id="textarea" cols="45" rows="8" 
-			style="width:80%;background:#cccccc" readonly="readonly">
+		<td width="100%">
+			<textarea id="textareaA" cols="45" rows="8" 
+			 readonly="readonly">
 			</textarea>
 		</td>
 		<td>
@@ -27,9 +27,8 @@
 	命令批处理
     </caption>
 		<tr>
-			<td style="width:100%">
-				<textarea name="textarea2" id="textarea2" cols="45" rows="5" 
-				style="width:80%">
+			<td width="100%">
+				<textarea id="textareaB" cols="45" rows="5">
 				</textarea>
 			</td>
 			<td>
@@ -51,7 +50,7 @@
 			</td>
 		</tr> 
 		<tr>
-			<td colspan="2" style="background:#cccccc">
+			<td colspan="2">
 				<button class="inputbtn standard" name="performBatchProcessing" 
 				id="performBatchProcessing">
 					执行批处理

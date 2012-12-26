@@ -1,3 +1,12 @@
+#textareaA {
+	width:98%;
+	background:#cccccc
+}
+
+#textareaB{
+	width:98%;
+}
+
 table {
     margin: 5px;
     text-align: center;
