@@ -1,5 +1,5 @@
-<form action="Function/systemManagement/maintain/license.php" method="POST" id="licenseForm" 
-    onSubmit="return false">
+<form action="Function/systemManagement/maintain/license.php" method="POST" 
+id="licenseForm" onSubmit="return false">
     <table class="column_95">
         <caption>
             <{$smarty.const.PRODUCT_NAME}>名称
@@ -13,7 +13,8 @@
     <tr>
         <td></td>
         <td>
-            <button class="inputbtn standard" name="licenseFile" onclick="importLicense()">
+            <button class="inputbtn standard" name="licenseFile" 
+			onclick="importLicense()">
                 导入许可证
             </button>
         </td>
@@ -39,14 +40,17 @@
 </table>
 
 <div class="pager floatRight">
-    <{include file='layout/pagination.tpl' func='Function/systemManagement/maintain/license.php'}>
+    <{include file='layout/pagination.tpl' func='Function/systemManagement/
+	maintain/license.php'}>
 </div>
 
-<script type="text/javascript" src="Public/js/systemManagement/maintain/license.js"></script>
+<script type="text/javascript" src="Public/js/systemManagement/maintain/
+license.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
     renderStandardUi();
     validateForm($("#licenseForm"));
-    freshTable('Function/systemManagement/maintain/license.php', $('#licenseTable'));
+    freshTable('Function/systemManagement/maintain/license.php', 
+	$('#licenseTable'));
 });
 </script>
