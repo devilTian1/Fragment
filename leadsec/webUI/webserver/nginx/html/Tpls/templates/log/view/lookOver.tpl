@@ -52,7 +52,8 @@
     </fieldset>
 </form>
 
-<table class="column_95 textMid tablesorter">
+<{include file='layout/search.tpl' tableId='logTable'}>
+<table class="column_95 textMid tablesorter" id="logTable">
     <caption>日志</caption>
     <thead>
         <tr>
@@ -63,20 +64,19 @@
             <th class="column_30">私有域</th>
         </tr>
         <tbody>
-        <tr>
-            <!--<td colspan='7'>Loading ... ...</td>-->
-            <td>2012/12/12 22:11:33</td>
-            <td>server-side</td>
-            <td>webui</td>
-            <td>NetGap</td>
-            <td>xxx</td>
-        </tr>
+            <tr>
+                <td colspan='5'>Loading ... ...</td>
+            </tr>
         </tbody>
 </table>
+<div class="pager floatRight">
+    <{include file='layout/pagination.tpl' func='Function/log/view/lookOver.php'}>
+</div>
 <script type="text/javascript" src="Public/js/log/view/lookOver.js"></script>
 <script type="text/javascript">
     $(document).ready(function() {
         renderStandardUi();
+        freshTable('Function/log/view/lookOver.php', $('#logTable'), true);
         validateForm($("#logSearchParamsForm"), 'summary');
     });
 </script>

@@ -37,25 +37,30 @@
         }
         */
         $regexpArr = array();
-        $logTypeRegexStr = 
-            $_POST['logType'] === 'all' ? '\d+' : $_POST['logType'];
-        $priRegexStr     = $_POST['type'] === 'all' ? '\d+' : $_POST['type'];
-        $regexpArr[] = 'devid=' . LOG_DEVID . ' date="(.*)" dname=(\S+) '.
-            'logtype=(' . $logTypeRegexStr . ') pri=(' . $priRegexStr. ')';
+        if (!empty($_POST['orderStatement'])) {
+            $regexpArr[] = 'devid=' . LOG_DEVID . ' date="(.*)" dname=(\S+) ' .
+                'logtype=(\d+) pri=(\d+)';
+        } else {
+            $logTypeRegexStr = 
+                $_POST['logType'] === 'all' ? '\d+' : $_POST['logType'];
+            $priRegexStr = $_POST['type'] === 'all' ? '\d+' : $_POST['type'];
+            $regexpArr[] = 'devid=' . LOG_DEVID . ' date="(.*)" dname=(\S+) ' .
+                'logtype=(' . $logTypeRegexStr . ') pri=(' . $priRegexStr. ')';
 
-        if (!empty($_POST['sAddr'])) {
-            $regexpArr[] = "sa={$_POST['sAddr']}";
+            if (!empty($_POST['sAddr'])) {
+                $regexpArr[] = "sa={$_POST['sAddr']}";
+            }
+            if (!empty($_POST['sport'])) {
+                $regexpArr[] = "sport={$_POST['sport']}";
+            }
+            if (!empty($_POST['dAddr'])) {
+                $regexpArr[] = "da={$_POST['dAddr']}";
+            }
+            if (!empty($_POST['dport'])) {
+                $regexpArr[] = "dport={$_POST['dport']}";
+            }
         }
-        if (!empty($_POST['sport'])) {
-            $regexpArr[] = "sport={$_POST['sport']}";
-        }
-        if (!empty($_POST['dAddr'])) {
-            $regexpArr[] = "da={$_POST['dAddr']}";
-        }
-        if (!empty($_POST['dport'])) {
-            $regexpArr[] = "dport={$_POST['dport']}";
-        }
-        return '/^.*' . join('[,|\s|,\s].*?', $regexpArr) . '(?:[,|\s|,\s].*)?$/';
+        return '/^.*' . join('[,|\s|,\s].*?', $regexpArr) . '[,|\s|,\s](.*)$/';
     }
 
     function includeFunc($buffer) {
@@ -67,18 +72,64 @@
         }
     }
 
+    function formatFunc($match) {
+        $result = array();
+        $logtypearr = array('所有',       '入侵检测', '集中管理', '设备管理',
+                            '文件交换',   '安全浏览', 'ftp访问',  '邮件访问',
+                            '数据库访问', '定制访问', 'ha',       '系统管理',
+                            '数据库同步', '消息模块', '安全通道');
+        $logtypeval = array('all', '3',   '8',   '9',   '301', '302', '303',
+                            '304', '305', '306', '308', '309', '311', '312',
+                            '330');
+        $logtypeKey = array_search($match[3], $logtypeval);
+        $result['date']        = $match[1];
+        $result['dname']       = $match[2];
+        $result['logtype']     = $logtypearr[$logtypeKey];
+        $result['pri']         = $match[4];
+    $actArr_en  =
+        array('set', 'add', 'del', 'show', 'start', 'stop', 'restart', 'off', 'on', 'auth', 'ignore', 'block', 'login', 'logout', 'log', 'audit', 'permit', 'deny', 'import', 'export');    
+    $actArr_zh =
+        array('设置', '增加', '删除',
+              '显示', '启动', '停止',
+              '重启', '关闭', '激活',
+              '认证', '忽略', '阻断',
+              '登录', '退出', '日志',
+              '审计', '允许',
+              '禁止', '导入', '导出');
+$privateArea = str_replace($actArr_en, $actArr_zh, $match[5]);
+$privateArea = str_replace('mod=', '模块名称为[', $privateArea);
+$privateArea = str_replace(' act=', '], 动作为', $privateArea);
+$privateArea = str_replace(' name=', '], 名称为', $privateArea);
+$privateArea = str_replace(' policy=', '], 策略为', $privateArea);
+$privateArea = str_replace('result=0', '结果正确', $privateArea);
+
+
+        $result['privateArea'] = $privateArea;
+        
+        return $result;
+    }
+
     /*
-     * Get an array that represents lines of file
-     * @param regex $include. Include paths that matches this regex
+     * Get an array that represents lines of file.
+     * @param $path String. file path.
+     * @param $rowsCount Integer. The number of file line to be displayed.
+     * @param $includeFunc String. function name which used to validate
+     *   this line.
+     * @param $formatFunc String. function name which used to format return
+     *   result of $includeFunc()
      */
-    function fileLinesToArr($path, $includeFunc = NULL) {
+    function fileLinesToArr($path = LOG_PATH, $rowsNum = 10, $includeFunc = NULL,
+        $formatFunc = NULL) {
         $result = array();
         $fp     = @fopen($path, 'r');
+        $count  = 0;
         if ($fp) {
             while (false !== ($buffer = fgets($fp, 4096))) {
-                if ($includeFunc === null || $match = $includeFunc($buffer)) {
-                    var_dump($match);
-                    $result[] = $buffer;
+                if ($count < $rowsNum &&
+                    ($includeFunc === NULL || $match = $includeFunc($buffer)) &&
+                    ($formatFunc === NULL || $r = $formatFunc($match))) {
+                    $result[] = $r;
+                    $count++;
                 }
             }
             if (!feof($fp)) {
@@ -89,22 +140,35 @@
         return $result;
     }
 
-    if ('1' === $_GET['search']) {
+    if (!empty($_POST['orderStatement'])) {
+        $tpl = 'log/view/lookOverTable.tpl';
+        $result = fileLinesToArr(LOG_PATH, 10, 'includeFunc',
+            'formatFunc');
+        echo V::getInstance()->assign('result', $result)
+            ->fetch($tpl);
+    } else if ('1' === $_GET['search']) {
         // Search specified log info
-        $logFileLines = fileLinesToArr(LOG_PATH, 'includeFunc');
-        $result    = '';
-
-        echo json_encode(array('msg' => $logFileLines[0]. getRegexBySearchParams()));
+        $tpl = 'log/view/lookOverTable.tpl';
+        $result = fileLinesToArr(LOG_PATH, 10, 'includeFunc',
+            'formatFunc');
+        $html = V::getInstance()->assign('result', $result)
+            ->fetch($tpl);
+        echo json_encode(array('msg' => $html));
     } else {
         // init page
         $logTypeArr = array('所有',       '入侵检测', '集中管理', '设备管理',
-                            '文件交换',   '安全浏览', 'FTP访问',  '邮件访问',
-                            '数据库访问', '定制访问', 'HA',       '系统管理',
+                            '文件交换',   '安全浏览', 'ftp访问',  '邮件访问',
+                            '数据库访问', '定制访问', 'ha',       '系统管理',
                             '数据库同步', '消息模块', '安全通道');
         $logTypeVal = array('all', '3',   '8',   '9',   '301', '302', '303',
                             '304', '305', '306', '308', '309', '311', '312',
                             '330');
         V::getInstance()->assign('logTypeArr', $logTypeArr)
-            ->assign('logTypeVal', $logTypeVal);
+            ->assign('logTypeVal', $logTypeVal)
+            ->assign('dataCount', 10)
+            ->assign('pageCount', 1)
+            ->assign('clickedPageNo', 1)
+	        ->assign('prev', 1)
+	        ->assign('next', 2);
     }
 ?>
