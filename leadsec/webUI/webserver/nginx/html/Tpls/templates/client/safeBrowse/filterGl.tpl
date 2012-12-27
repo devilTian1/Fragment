@@ -1,0 +1,1 @@
+<{include file='resConf/addrBind/safeBrowse.tpl'}>

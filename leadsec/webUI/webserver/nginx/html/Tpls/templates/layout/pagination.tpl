@@ -45,7 +45,7 @@
 				
             } else if (rel === 'next') {
                 var nextPageDom = liSelected.next();
-				if(liSelected.text()==<{$pageCount}>){
+				if(liSelected.text()=='<{$pageCount}>'){
 					nextPageDom=liSelected;
 				}
                 nextPageDom.addClass('selected').html(nextPageDom.text());

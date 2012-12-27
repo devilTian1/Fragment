@@ -119,21 +119,29 @@
     'rc_ab_d' => array('pid' => 'rc_ab', 'name' => '数据库访问', 'link' => 'dataVisit'),
     'rc_ab_m' => array('pid' => 'rc_ab', 'name' => '消息传递', 'link' => 'msgPass'),
     
+  	//levev3 client/fileEx
+  	'c_fe_fe' => array('pid' => 'c_fe', 'name' => '文件交换', 'link' => 'fileEx'),
+  	'c_fe_gl' => array('pid' => 'c_fe', 'name' => '过滤配置', 'link' => 'filterGl'),
+  
     //levev3 client/safeBrowse
     'c_s_t' => array('pid' => 'c_s', 'name' => '透明访问', 'link' => 'transVisit'),
     'c_s_g' => array('pid' => 'c_s', 'name' => '普通访问', 'link' => 'generalVisit'),
+  	'c_s_gl' => array('pid' => 'c_s', 'name' => '过滤配置', 'link' => 'filterGl'),
     
     //levev3 client/ftp
     'c_f_t' => array('pid' => 'c_f', 'name' => '透明访问',  'link' => 'transVisit'),
     'c_f_g' => array('pid' => 'c_f', 'name' => '普通访问',  'link' => 'generalVisit'),
+  	'c_f_gl'=> array('pid' => 'c_f', 'name' => '过滤配置',  'link' => 'filterGl'),
     
     //levev3 client/mail
     'c_m_s' => array('pid' => 'c_m', 'name' => 'SMTP访问', 'link' => 'smtpVisit'),
     'c_m_p' => array('pid' => 'c_m', 'name' => 'POP3访问', 'link' => 'pop3Visit'),
+  	'c_m_gl'=> array('pid' => 'c_m', 'name' => '过滤配置',  'link' => 'filterGl'),
     
     //levev3 client/db
     'c_db_t' => array('pid' => 'c_db', 'name' => '透明访问','link' => 'transVisit'),
     'c_db_g' => array('pid' => 'c_db', 'name' => '普通访问','link' => 'generalVisit'),
+  	'c_db_gl'=> array('pid' => 'c_db', 'name' => '过滤配置',  'link' => 'filterGl'),
     
     //levev3 client/custome
     'c_c_tt' => array('pid' => 'c_c', 'name' => 'TCP透明访问', 'link' => 'tcpTransVisit'),
@@ -141,21 +149,39 @@
     'c_c_ut' => array('pid' => 'c_c', 'name' => 'UDP透明访问', 'link' => 'udpTransVisit'),
     'c_c_ug' => array('pid' => 'c_c', 'name' => 'UDP普通访问', 'link' => 'udpGeneralVisit'),
     
+  	//levev3 client/msgTrans
+  	'c_mt_mt' => array('pid' => 'c_mt', 'name' => '消息传输', 'link' => 'msgTrans'),
+  	'c_mt_gl'=> array('pid' => 'c_mt', 'name' => '过滤配置',  'link' => 'filterGl'),	
+  
+  	//levev3 server/fileEx
+  	's_fe_fe' => array('pid' => 's_fe', 'name' => '文件交换', 'link' => 'fileEx'),
+  	's_fe_gl' => array('pid' => 's_fe', 'name' => '过滤配置', 'link' => 'filterGl'),
+  
     //levev3 server/safeBrowse
     's_s_s' => array('pid' => 's_s', 'name' => '安全浏览', 'link' => 'safeBrowse'),
+  	's_s_gl' => array('pid' => 's_s', 'name' => '过滤配置', 'link' => 'filterGl'),
+  
+  	//levev3 server/ftp
     's_f_f' => array('pid' => 's_f', 'name' => '普通访问',  'link' => 'ftp'),
+  	's_f_gl'=> array('pid' => 's_f', 'name' => '过滤配置',  'link' => 'filterGl'),
     
     //levev3 server/mail
     's_m_s' => array('pid' => 's_m', 'name' => 'SMTP访问', 'link' => 'smtpMail'),
     's_m_p' => array('pid' => 's_m', 'name' => 'POP3访问', 'link' => 'pop3Mail'),
+  	's_m_gl'=> array('pid' => 's_m', 'name' => '过滤配置',  'link' => 'filterGl'),
     
     //levev3 server/db
     's_db_d' => array('pid' => 's_db', 'name' => '数据库访问','link' => 'db'),
+  	's_db_gl'=> array('pid' => 's_db', 'name' => '过滤配置',  'link' => 'filterGl'),
     
     //levev3 server/customized
     's_c_t' => array('pid' => 's_c', 'name' => 'TCP访问', 'link' => 'tcpCustomized'),
     's_c_u' => array('pid' => 's_c', 'name' => 'UDP访问', 'link' => 'udpCustomized'),
     
+  	//levev3 client/msgTrans
+  	's_mt_mt' => array('pid' => 's_mt', 'name' => '消息传输', 'link' => 'msgTrans'),
+  	's_mt_gl'=> array('pid' => 's_mt', 'name' => '过滤配置',  'link' => 'filterGl'),	
+  
     //level3 appS/ips
     'as_v_v' => array('pid' => 'as_v', 'name' => '病毒库升级', 'link' => 'virusUpgrade'),
     

@@ -1,0 +1,1 @@
+<{include file='resConf/addrBind/fileExchange.tpl'}>
