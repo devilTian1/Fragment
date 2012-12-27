@@ -40,8 +40,7 @@ id="licenseForm" onSubmit="return false">
 </table>
 
 <div class="pager floatRight">
-    <{include file='layout/pagination.tpl' func='Function/systemManagement/
-	maintain/license.php'}>
+    <{include file='layout/pagination.tpl' func='Function/systemManagement/maintain/license.php'}>
 </div>
 
 <script type="text/javascript" src="Public/js/systemManagement/maintain/
@@ -50,7 +49,6 @@ license.js"></script>
 $(document).ready(function() {
     renderStandardUi();
     validateForm($("#licenseForm"));
-    freshTable('Function/systemManagement/maintain/license.php', 
-	$('#licenseTable'));
+    freshTable('Function/systemManagement/maintain/license.php',$('#licenseTable'));
 });
 </script>
