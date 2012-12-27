@@ -108,7 +108,7 @@
     
     //level3 resConf/user
     'rc_u_u' => array('pid' => 'rc_u', 'name' => '用户列表', 'link' => 'userList'),
-    'rc_u_ug' => array('pid' => 'rc_u', 'name' => '用户组', 'link' => 'userGroup'),
+    'rc_u_rl' => array('pid' => 'rc_u', 'name' => '角色列表', 'link' => 'roleList'),
     
     //level3 resConf/addrBind
     'rc_ab_s' => array('pid' => 'rc_ab', 'name' => '安全浏览', 'link' => 'safeBrowse'),
