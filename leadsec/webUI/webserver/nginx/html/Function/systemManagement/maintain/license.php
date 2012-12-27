@@ -35,8 +35,8 @@
 		//Import license
         $uploadfs = new fileUpload($_FILES);
         $uploadfs->upload();
-        $cmd  = '/usr/local/license/bin/sls_upload' . ' ' . '/tmp/' 
-			. $_FILES['licenseFile']['name'];
+        $cmd  = '/usr/local/license/bin/sls_upload /tmp/' .
+			$_FILES['licenseFile']['name'];
         $cli  = new cli();
         $cli->run($cmd);
         echo json_encode(array('msg' => '升级成功'));
