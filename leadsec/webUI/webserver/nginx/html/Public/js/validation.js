@@ -438,6 +438,13 @@ var validRules = {
     },
     dport: {
         range: [1, 65535]
+    },
+    roleName: {
+        required: true,
+        realName: true
+    },
+    allocatedTime: {
+        range: [0, 525600]
     }
 };
 
@@ -562,7 +569,7 @@ var validMsg = {
     },
     passwd_user_again: '两次密码不一致.',
     userListName: {
-        required: '用户名称不允许问空.'
+        required: '用户名称不允许为空.'
     },
     authType: {
         required: '选择任意一种认证方式.'
@@ -589,7 +596,11 @@ var validMsg = {
         ip: '目的地址格式错误.'
     },
     sport: '源端口范围1 - 65535',
-    dport: '目的端口1 - 65535'
+    dport: '目的端口1 - 65535',
+    roleName: {
+        required: '角色名称不允许为空.'
+    },
+    allocatedTime: '0-525600分钟, 0表示不限制.'
 };
 
 function validateForm(form, displayId) {
