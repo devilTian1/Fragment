@@ -9,8 +9,9 @@
     function getLicenseInformation($orderStatement) {
         $tpl    = 'systemManagement/maintain/licenseTable.tpl';
         $db     = new dbsqlite(DB_PATH . '/private.db');
-        $data   = $db->query("SELECT function,value,stop_time FROM license 
-			$orderStatement")->getAllData(PDO::FETCH_ASSOC);
+		$sql    = "SELECT function, value, stop_time 
+			FROM license $orderStatement";
+        $data   = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
 		$result = array();
         foreach($data as $key => $val) {
             $result[$key]['function'] = $val['function'];
@@ -36,8 +37,8 @@
         $uploadfs = new fileUpload($_FILES);
         $uploadfs->upload();
         $path    = '/usr/local/license/bin/sls_upload';
-        $license = '/tmp/'.$_FILES['licenseFile']['name'] ;
-        $cmd     = $path.' '.$license ;
+        $license = '/tmp/' . $_FILES['licenseFile']['name'];
+        $cmd     = $path . ' ' . $license ;
         $cli     = new cli();
         $cli->run($cmd);
         echo json_encode(array('msg' => '升级成功'));
