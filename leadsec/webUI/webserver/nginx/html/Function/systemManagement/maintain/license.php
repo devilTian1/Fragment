@@ -26,7 +26,7 @@
 	 * Get the results of the query to the number from license table
 	 */
     function getDataCount() {
-        $sql = 'SELECT * FROM license';
+        $sql = 'SELECT value FROM license';
         $db  = new dbsqlite(DB_PATH . '/private.db');
         return $db->query($sql)->getCount();
     }
