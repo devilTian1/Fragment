@@ -5,7 +5,6 @@
 	 * @param string $orderStatement. query constraints
 	 * @param array $result. query results
 	 */
-
     function getLicenseInformation($orderStatement) {
         $tpl    = 'systemManagement/maintain/licenseTable.tpl';
         $db     = new dbsqlite(DB_PATH . '/private.db');
@@ -13,7 +12,7 @@
 			FROM license $orderStatement";
         $data   = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
 		$result = array();
-        foreach($data as $key => $val) {
+        foreach ($data as $key => $val) {
             $result[$key]['function'] = $val['function'];
             $result[$key]['status']   =
                 $result[$key]['value'] === '0' ? '停止' : '启用';
@@ -26,7 +25,6 @@
     /*
 	 * Get the results of the query to the number from license table
 	 */
-
     function getDataCount() {
         $sql = 'SELECT * FROM license';
         $db  = new dbsqlite(DB_PATH . '/private.db');
@@ -34,15 +32,16 @@
     }
 
     if (!empty($_FILES)) {
+		//Import license
         $uploadfs = new fileUpload($_FILES);
         $uploadfs->upload();
-        $path    = '/usr/local/license/bin/sls_upload';
-        $license = '/tmp/' . $_FILES['licenseFile']['name'];
-        $cmd     = $path . ' ' . $license ;
-        $cli     = new cli();
+        $cmd  = '/usr/local/license/bin/sls_upload' . ' ' . '/tmp/' 
+			. $_FILES['licenseFile']['name'];
+        $cli  = new cli();
         $cli->run($cmd);
         echo json_encode(array('msg' => '升级成功'));
     } else if ($orderStatement =$_POST['orderStatement']) {
+		//Call getLicenseInformation()
         getLicenseInformation($orderStatement);
     } else {
 		// init page
