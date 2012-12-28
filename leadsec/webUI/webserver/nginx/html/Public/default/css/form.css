@@ -136,13 +136,6 @@ fieldset input.errorContainer {
     font-weight: bold;
 }
 
-fieldset label.errorLabel {
-    width: auto;
-    color: red;
-    float: right;
-    font-weight: bold;
-}
-
 /*TODO for ~ie6*/
 .uploadFile { 
     width: 300px;

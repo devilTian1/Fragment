@@ -82,6 +82,13 @@ div {
     color: red;
 }
 
+label.errorLabel {
+    width: auto;
+    color: red;
+    float: right;
+    font-weight: bold;
+}
+
 .column {
     float: left;
 }
