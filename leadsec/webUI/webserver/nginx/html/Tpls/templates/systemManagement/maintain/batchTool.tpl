@@ -62,8 +62,10 @@
 			</td>
 		</tr>
 </table>
+<script type="text/javascript" src="Public/js/systemManagement/maintain/batchTool.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
 	renderStandardUi(); 
+
 });
 </script>
