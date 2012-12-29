@@ -27,7 +27,7 @@
     id="DelAllRoleListBtn">删除所有用户
 </button>
 <button class="standard floatLeft" style="position: static"
-    onclick="openDelSpecRoleListDialog()"
+    onclick="openBatchDelSpecRoleDialog()"
     id="DelSpecRoleListBtn">删除已选用户
 </button>
 <div class="pager floatRight">

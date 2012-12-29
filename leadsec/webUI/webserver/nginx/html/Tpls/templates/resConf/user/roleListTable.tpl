@@ -5,11 +5,13 @@
         <td><{$u.role_name}></td>
         <td><{$u.create_by}></td>
         <td><{$u.create_time}></td>
-        <td><{$u.time}></td>
+        <td>
+            <{if $u.time === '0'}>不限制<{else}><{$u.time}><{/if}>
+        </td>
         <td class="no_search">
-            <a href="#" class="edit" onclick="openEditSpecRoleDialog('<{$u.role_name}>')" title="编辑">&nbsp;</a>
+            <a href="#" class="edit" onclick="openEditSpecRoleDialog('<{$u.role_id}>')" title="编辑">&nbsp;</a>
             <a href="#" class="delete" onclick="openDelSpecRoleDialog('<{$u.role_name}>')" title="删除">&nbsp;</a>&nbsp;&nbsp;
-            <button class="standard" style="position: static" type="button" onClick="alert(123)">查看用户</button>
+            <button class="standard" style="position: static" type="button" onClick="showUsersDialog('<{$u.role_id}>')">查看用户</button>
         </td>
     </tr>
 <{foreachelse}>
