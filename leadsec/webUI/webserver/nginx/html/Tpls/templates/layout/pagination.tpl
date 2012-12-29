@@ -2,7 +2,7 @@
     <label class="floatLeft">每页显示
     <{html_options class="pagesize" name=rowsCount
         output=array(10,20,50,100,'全部') values=array(10,20,50,100,all)
-        selected=<{$rowsCount|default: 10}> onChange="freshTableAndPage()" id="rowsCount"}>
+        selected=<{$rowsCount|default: 10}> onChange="freshTableAndPage(<{$tableDom}>, <{$pageDom}>)" id="rowsCount"}>
     行&nbsp;&nbsp;&nbsp;
     </label>
     <ol class="pagination floatLeft">
@@ -22,7 +22,11 @@
     </ol>
 <script type="text/javascript">
     $(document).ready(function() {
-        var li = $('ol.pagination>li');
+        <{if $pageDom}>
+            var li = <{$pageDom}>.find('ol.pagination>li');
+        <{else}>
+            var li = $('ol.pagination>li');
+        <{/if}>
         li.click(function() {
             // remove class 'selected'
             var liSelected = li.filter('.selected');
@@ -43,7 +47,6 @@
 					prevPageDom=liSelected;
 				}
                 prevPageDom.addClass('selected').html(prevPageDom.text());
-				
             } else if (rel === 'next') {
                 var nextPageDom = liSelected.next();
 				if(liSelected.text()=='<{$pageCount}>'){

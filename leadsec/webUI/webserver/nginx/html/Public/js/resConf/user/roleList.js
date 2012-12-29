@@ -228,8 +228,14 @@ function checkAllRole() {
     }
 }
 
-function freshTableAndPage() {
+function freshTableAndPage(tableDom, pageDom) {
     var url = 'Function/resConf/user/roleList.php';
-    freshTable(url, $('#roleListTable'));
-    freshPagination(url, $('#rolePagerDiv'));
+    if (tableDom === undefined) {
+        tableDom = $('#roleListTable');
+    }
+    if (pageDom === undefined) {
+        pageDom = $('#rolePagerDiv');
+    }
+    freshTable(url, tableDom);
+    freshPagination(url, pageDom);
 }

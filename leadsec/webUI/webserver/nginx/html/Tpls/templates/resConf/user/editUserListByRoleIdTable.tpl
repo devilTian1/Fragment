@@ -20,6 +20,7 @@
 <{foreachelse}>
     <tr><td colspan='8'>无记录</td></tr>
 <{/foreach}>
+<input type="hidden" name="roleId" value="<{$roleId}>"/>
 <script type="text/javascript"> 
     $(document).ready(function() {
         renderStandardUi();

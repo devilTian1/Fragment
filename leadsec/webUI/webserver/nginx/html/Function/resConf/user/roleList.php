@@ -21,7 +21,7 @@
     function freshUserList($where) {
         $tpl = 'resConf/user/editUserListByRoleIdTable.tpl';
         $db  = new dbsqlite(DB_PATH . '/uma_auth.db');
-        $sql = 'SELECT user.user_id AS id, user.user_name AS name, ' .
+        $sql = 'SELECT user.user_id AS userId, user.user_name AS name, ' .
             'user.true_name AS realname, user.auth_type AS authType ' .
             'FROM user, user_role_map, role ' .
             'WHERE user.user_id = user_role_map.User_id AND ' .
@@ -37,7 +37,7 @@
 
         $result   = array();
         foreach ($data as $d) {
-            $userId = $d['id'];
+            $userId = $d['userId'];
             $roles = getRolesByUserId($userId);
             $result[] = array('user_id'   => $userId,
                               'user_name' => $d['name'],
@@ -47,6 +47,7 @@
             );
         }
         echo V::getInstance()->assign('userData', $result)
+            ->assign('roleId', $_GET['id'])
             ->assign('pageCount', 10)
             ->fetch($tpl);
     }
@@ -143,11 +144,17 @@
         echo json_encode(array('msg' => '批量删除成功.'));
     } else if ($id = $_POST['showUsersByRoleId']) {
         // show dialog of users data for spec role
+        $count  = getUserCountByRoleId($id);
         $result = V::getInstance()->assign('roleId', $id)
+            ->assign('dataCount', $count)
+            ->assign('pageCount', ceil($count/10))
+            ->assign('clickedPageNo', 1)
+	        ->assign('prev', 1)
+	        ->assign('next', 2)
             ->fetch('resConf/user/editUserListByRoleIdDialog.tpl');
         echo json_encode(array('msg' => $result));
     } else if ($order = $_POST['orderStatement']) { 
-        if (false !== strpos($order, 'user_id')) {
+        if (false !== strpos($order, 'userId')) {
             // Fresh and resort user list Table for spec role
             freshUserList($order);
         } else {
