@@ -10,22 +10,43 @@ function sortTableInit(tableDom, headers, sortList, forceList) {
     });
 }
 
-function getOrderRules() {
+function getOrderRules(pageDom) {
     // get rows count, val: 10, 20, 50, 100, all
-    var rowsCount = $('#rowsCount option:selected').val();
-    // get page num
-    var pageNum   = $('ol.pagination>li.selected').text();
+    if (pageDom === undefined) {
+        var rowsCount = $('#rowsCount option:selected').val();
+        var pageNum   = $('ol.pagination>li.selected').text();
+        var dataCount = $('input[name="dataCount"]').val();
+    } else {
+        var rowsCount = pageDom.find('select[name="rowsCount"] option:selected').val();
+        var pageNum   = pageDom.find('ol.pagination>li.selected').text();
+        var dataCount = pageDom.find('input[name="dataCount"]').val();
+    }
+    var rowsCount = rowsCount === undefined ? 'all' : rowsCount;
+    var pageCount = Math.ceil(Number(dataCount)/Number(rowsCount));
+    return {
+        pageNum:   pageNum,
+        rowsCount: rowsCount,
+        dataCount: dataCount,
+        pageCount: pageCount
+    }
+}
+
+function getSortThData(tableDom) {
     // get sort key and order
-    var dataCount = $('#dataCount').val();
     var sortData  = new Array();
     var firstSortRowName = '';
-    $('.tablesorter-headerRow>th').each(function() {
+    if (tableDom === undefined) {
+       var ths = $('.tablesorter-headerRow>th');
+    } else {
+       var ths = tableDom.find('.tablesorter-headerRow>th');
+    }
+    ths.each(function(i) {
         var key       = $(this).attr('name');
         var className = $(this).attr('class');
         if (className.indexOf('SortUp') !== -1) {
-            sortData[key] = 'DESC';
+            sortData[i] = new Array(key, 'DESC');
         } else if (className.indexOf('SortDown') !== -1) {
-            sortData[key] = 'ASC';
+            sortData[i] = new Array(key, 'ASC');
         } else {
             // sort-false
         }
@@ -34,25 +55,19 @@ function getOrderRules() {
         } 
     });
     if (sortData.length === 0 && firstSortRowName !== '') {
-        sortData[firstSortRowName] = 'ASC';
+        sortData[0] = new Array(firstSortRowName, 'ASC');
     }
-    var pageCount = Math.ceil(Number(dataCount)/Number(rowsCount));
-    return {
-        pageNum:   pageNum,
-        sortData:  sortData,
-        rowsCount: rowsCount,
-        dataCount: dataCount,
-        pageCount: pageCount
-    }
+    return sortData;
 }
 
-function getOrderStatement() {
+function getOrderStatement(tableDom, pageDom) {
     var result = '';
-    var orderRules = getOrderRules();
-    if (orderRules.sortData.length > 0) {
+    var orderRules = getOrderRules(pageDom);
+    var sortData   = getSortThData(tableDom);
+    if (sortData.length > 0) {
         result += 'ORDER BY ';    
-        for (var i in orderRules.sortData) {
-            result += i + ' ' + orderRules.sortData[i] + ', ';
+        for (var i in sortData) {
+            result += sortData[i][0] + ' ' + sortData[i][1] + ', ';
         }
         result = result.slice(0, -2);
     }
@@ -63,9 +78,9 @@ function getOrderStatement() {
     return result;
 }
 
-function freshTable(url, tableDom, orderStatement) {
+function freshTable(url, tableDom, orderStatement, pageDom) {
     if (!orderStatement) {
-        var orderStatement = getOrderStatement();
+        var orderStatement = getOrderStatement(tableDom, pageDom);
     }
     var data = {
         orderStatement: orderStatement

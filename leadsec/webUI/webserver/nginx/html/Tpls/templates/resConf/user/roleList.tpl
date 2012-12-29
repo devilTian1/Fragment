@@ -4,11 +4,11 @@
     <thead>
         <tr>
             <th class="column_5"><input type="checkbox" onClick="checkAllRole()" title="全选" id="checkAllRole"/></th>
-            <th class="column_10">序号</th>
-            <th class="column_15">角色名称</th>
-            <th class="column_15">创建者</th>
-            <th class="column_15">创建日期</th>
-            <th class="column_15">分配时间(单位:分钟)</th>
+            <th class="column_10" name="role_id">序号</th>
+            <th class="column_15" name="role_name">角色名称</th>
+            <th class="column_15" name="create_by">创建者</th>
+            <th class="column_15" name="create_time">创建日期</th>
+            <th class="column_15" name="time">分配时间(单位:分钟)</th>
             <th class="column_20">操作</th>
         </tr>
     </thead>
@@ -30,7 +30,7 @@
     onclick="openBatchDelSpecRoleDialog()"
     id="DelSpecRoleListBtn">删除已选用户
 </button>
-<div class="pager floatRight">
+<div class="pager floatRight" id="rolePagerDiv">
     <{include file='layout/pagination.tpl' func='Function/resConf/user/roleList.php'}>
 </div>
 <script type="text/javascript" src="Public/js/resConf/user/roleList.js"></script> 

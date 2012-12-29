@@ -25,7 +25,8 @@
             'user.true_name AS realname, user.auth_type AS authType ' .
             'FROM user, user_role_map, role ' .
             'WHERE user.user_id = user_role_map.User_id AND ' .
-            'user_role_map.Role_id = role.role_id AND role.role_id = ' . $_GET['id'];
+            'user_role_map.Role_id = role.role_id AND role.role_id = ' .
+            $_GET['id'] . " $where";
         $data = array();
         $data = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
 

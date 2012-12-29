@@ -341,7 +341,7 @@ function checkAllUser() {
 
 function freshTableAndPage() {
     var url = 'Function/resConf/user/userList.php';
-    freshTable(url, $('#userTable'));
+    freshTable(url, $('#userListTable'));
     freshPagination(url, $('.pager'));
 }
 

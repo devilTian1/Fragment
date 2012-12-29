@@ -22,19 +22,20 @@
     </ol>
 <script type="text/javascript">
     $(document).ready(function() {
-        $('ol.pagination>li').click(function() {
+        var li = $('ol.pagination>li');
+        li.click(function() {
             // remove class 'selected'
-            var liSelected = $('ol.pagination>li.selected');
+            var liSelected = li.filter('.selected');
             var liSelectedText = liSelected.text();
-            var prevDom  = $('ol.pagination>li').eq(1);
-            var nextDom  = $('ol.pagination>li').last().prev();
+            var prevDom  = li.eq(1);
+            var nextDom  = li.last().prev();
 
             var rel = $(this).children('a').attr('rel');
             liSelected.removeClass('selected');
             liSelected.html('<a href="#page=' + liSelectedText +
                 '">' + liSelectedText + '</a>');
             if (rel === 'first') {
-                var firstPageDom = $('ol.pagination>li').eq(2);
+                var firstPageDom = li.eq(2);
                 firstPageDom.addClass('selected').html(firstPageDom.text());
             } else if (rel === 'prev') {
 				var prevPageDom = liSelected.prev();
@@ -50,12 +51,13 @@
 				}
                 nextPageDom.addClass('selected').html(nextPageDom.text());
             } else if (rel === 'last') {
-                var lastPageDom = $('ol.pagination>li').last().prev().prev();
+                var lastPageDom = li.last().prev().prev();
                 lastPageDom.addClass('selected').html(lastPageDom.text());
             } else {
                 $(this).addClass('selected').html($(this).text());
             }
-            freshTable('<{$func}>', <{$tableDom|default: "$('.tablesorter')"}>);
+            freshTable('<{$func}>', <{$tableDom|default: "$('.tablesorter')"}>,
+                '', <{$pageDom|default: "$('.pager')"}>);
         });
     });
 </script>

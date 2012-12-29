@@ -1,4 +1,4 @@
-<{foreach $userData as $u }>
+<{foreach $userData as $u}>
     <tr>
         <td><{$u.user_id}></td>
         <td><{$u.user_name}></td>

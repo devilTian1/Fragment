@@ -227,3 +227,9 @@ function checkAllRole() {
         $('input:checkbox[name="checkSpecRole"]').removeAttr('checked');
     }
 }
+
+function freshTableAndPage() {
+    var url = 'Function/resConf/user/roleList.php';
+    freshTable(url, $('#roleListTable'));
+    freshPagination(url, $('#rolePagerDiv'));
+}
