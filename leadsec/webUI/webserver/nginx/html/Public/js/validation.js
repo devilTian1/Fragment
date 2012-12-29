@@ -546,12 +546,6 @@ var validMsg = {
     timeGroupName: {
         required: '请填写时间组名称.'
     },
-	dnssrv: {
-        required: 'ip地址错误.'
-    },
-	dnssrv2: {
-        required: 'ip地址错误.'
-    },
 	destip: {
         required: '目的地此不能为空'
     },
@@ -597,10 +591,8 @@ var validMsg = {
     },
     sport: '源端口范围1 - 65535',
     dport: '目的端口1 - 65535',
-    roleName: {
-        required: '角色名称不允许为空.'
-    },
-    allocatedTime: '0-525600分钟, 0表示不限制.'
+    dnssrv: '域名服务器IP1格式错误',
+    dnssrv2: '域名服务器IP2格式错误'
 };
 
 function validateForm(form, displayId) {

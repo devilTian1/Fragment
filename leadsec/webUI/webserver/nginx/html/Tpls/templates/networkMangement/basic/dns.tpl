@@ -20,7 +20,7 @@ onSubmit="return false;">
     <tr>
       <td class="tdheader"></td>
       <td class="tdbody">
-      	 <input type="button" class="inputbtn standard" value="确定" onclick="setDns()" />
+      	 <button type="button" class="inputbtn standard" onclick="setDns()">确定</button>
       </td>
     </tr>
     </tbody>
