@@ -33,12 +33,12 @@
 		if(file_exists('/tmp/webui.cmd.log')) {
 			$arr   = file('/tmp/webui.cmd.log');
 			krsort($arr);
-			$arr_s = array("CGI_COSYS:",":command=/usr/local/bin/","2>/dev/null");
-			$str   = "";
+			$arr_s = array('CGI_COSYS:',':command=/usr/local/bin/','2>/dev/null');
+			$str   = '';
 			$result = array();
 			foreach($arr as $key => $val) {
 				$new_str = str_replace($arr_s,$str,$arr[$key]);
-				$result[]= insert_str(insert_str($new_str,0,'#'),34,'\r\n');
+				$result[]= insert_str(insert_str($new_str,0,'#'),34,"\n");
 			}
 		}			
 			echo json_encode(array('status' => true,'msg' =>$result));
