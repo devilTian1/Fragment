@@ -66,6 +66,10 @@
 <script type="text/javascript">
 $(document).ready(function() {
 	renderStandardUi(); 
-
+	var data = {
+		action : 'getStr'
+    };
+	loadEmbedPage("Function/systemManagement/maintain/batchTool.php",data,$('#textareaA'), {dataType: 'JSON'});
+	//$('#textareaA').text(str);
 });
 </script>
