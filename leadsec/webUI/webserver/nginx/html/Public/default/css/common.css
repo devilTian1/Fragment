@@ -87,6 +87,7 @@ label.errorLabel {
     color: red;
     float: right;
     font-weight: bold;
+    display: inline;
 }
 
 .column {

@@ -123,14 +123,6 @@ fieldset .userTraceLabel {
     right: 20em;
 }
 
-/* Error Msg */
-fieldset label.errorContainer {
-    float: none;
-    width: auto;
-    color: red;
-    font-weight: bold;
-}
-
 fieldset input.errorContainer {
     color: red;
     font-weight: bold;

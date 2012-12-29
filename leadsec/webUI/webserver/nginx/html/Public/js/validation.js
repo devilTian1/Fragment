@@ -346,7 +346,8 @@ var validRules = {
         addrName: true
     },
 	dnssrv: {
-        ip: true
+        ip: true,
+        required: '#dnssrv2:filled'
     },
 	dnssrv2: {
         ip: true
@@ -591,8 +592,11 @@ var validMsg = {
     },
     sport: '源端口范围1 - 65535',
     dport: '目的端口1 - 65535',
-    dnssrv: '域名服务器IP1格式错误',
-    dnssrv2: '域名服务器IP2格式错误'
+    dnssrv: {
+        ip: '域名服务器IP1格式错误.',
+        required: '域名服务器IP1不能为空.'
+    },
+    dnssrv2: '域名服务器IP2格式错误.'
 };
 
 function validateForm(form, displayId) {
