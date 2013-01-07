@@ -96,5 +96,14 @@
             }
 			$("#mainZone").width(mzWidth);
 		});
+		
+		//init index page
+		(function(){
+			var path={
+				'1':"systemManagement",
+				'2':"overview"
+					}
+			showTabByAjax(path);
+		})();
     });
 </script>

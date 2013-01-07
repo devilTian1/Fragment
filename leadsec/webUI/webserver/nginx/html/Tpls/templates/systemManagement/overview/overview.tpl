@@ -1,8 +1,8 @@
 <!-- mainContent -->
     <table class="floatLeft column_45">
     	<caption>
-            软硬件信息
-        <a href="#">更多</a>
+            设备信息
+        <!--<a href="#">更多</a>-->
 </caption>
         <tr>
             <th class="column_30">名称</th>
@@ -10,24 +10,24 @@
         </tr>
         <tr>
             <th><{$smarty.const.PRODUCT_NAME}>序列号</th>
-            <td>d6757df2b05c23cb</td>
+            <td><{$devinfo.serialnum}></td>
         </tr>
         <tr>
             <th>硬件版本号</th>
-            <td>SIS-3000-Z6101</td>
+            <td><{$devinfo.devnum}></td>
         </tr>
         <tr>
             <th>软件版本号</th>
-            <td>1.0.200.31</td>
+            <td><{$devinfo.softnum}></td>
         </tr>
         <tr>
             <th><{$smarty.const.PRODUCT_NAME}>名称</th>
-            <td>NetGap</td>
+            <td><{$devinfo.hostname}></td>
         </tr>
     </table>
     <table class="floatLeft column_45">
    		<caption>
-            网络接口状态
+            网口状态图状态
              <a href="#">更多</a>
         </caption>
         <tr>
@@ -35,20 +35,20 @@
             <th class="column_70">内容</th>
         </tr>
         <tr>
-            <th>最近一月总流量</th>
-            <td>&nbsp;</td>
+            <th>网络设备fe1</th>
+            <td>发送0字节， 接收0字节</td>
         </tr>
         <tr>
-            <th>&nbsp;</th>
-            <td>&nbsp;</td>
+            <th>网络设备fe2</th>
+            <td>发送0字节， 接收0字节</td>
         </tr>
         <tr>
-            <th>&nbsp;</th>
-            <td>&nbsp;</td>
+            <th>网络设备fe3</th>
+            <td>发送0字节， 接收0字节</td>
         </tr>
         <tr>
-            <th>&nbsp;</th>
-            <td>&nbsp;</td>
+            <th>网络设备fe4</th>
+            <td>发送0字节， 接收0字节</td>
         </tr>
     </table>
 <br class="clearFloat"/>
@@ -63,75 +63,20 @@
             <th class="column_10 textCenter">状态</th>
             <th class="column_60 textCenter">描述</th>
         </tr>
+        <{foreach from=$liceinfo key=myId item=val}>
+
         <tr>
-            <th>文件交换</th>
+            <th><{$val.name}></th>
             <td class="textCenter">
+            <{if $val.status eq 1}>
             	<img src="<{$smarty.const.THEME_PATH}>/images/icon/select.png" width="16" height="16" />
-            	<!--<img src="<{$smarty.const.THEME_PATH}>/images/icon/stop.png" width="16" height="16" />-->
-            </th>
-            <td class="textCenter">&nbsp;</td>
-        </tr>
-        <tr>
-            <th>数据库同步</th>
-            <td class="textCenter">
-            	<img src="<{$smarty.const.THEME_PATH}>/images/icon/select.png" width="16" height="16" />
-            	<!--<img src="<{$smarty.const.THEME_PATH}>/images/icon/stop.png" width="16" height="16" />-->
-            </th>
-            <td class="textCenter">&nbsp;</td>
-        </tr>
-        <tr>
-            <th>安全浏览</th>
-            <td class="textCenter">
+            <{else}>
             	<img src="<{$smarty.const.THEME_PATH}>/images/icon/stop.png" width="16" height="16" />
+            <{/if}>
             </th>
-            <td class="textCenter">&nbsp;</td>
+            <td class="textCenter"><{$val.remark}></td>
         </tr>
-        <tr>
-            <th>FTP访问</th>
-            <td class="textCenter">
-            	<img src="<{$smarty.const.THEME_PATH}>/images/icon/stop.png" width="16" height="16" />
-            </th>
-            <td class="textCenter">&nbsp;</td>
-        </tr>
-        <tr>
-            <th>邮件访问</th>
-            <td class="textCenter">
-            	<img src="<{$smarty.const.THEME_PATH}>/images/icon/select.png" width="16" height="16" />
-            	<!--<img src="<{$smarty.const.THEME_PATH}>/images/icon/stop.png" width="16" height="16" />-->
-            </th>
-            <td class="textCenter">&nbsp;</td>
-        </tr>
-        <tr>
-            <th>数据库访问</th>
-            <td class="textCenter">
-            	<img src="<{$smarty.const.THEME_PATH}>/images/icon/stop.png" width="16" height="16" />
-            </th>
-            <td class="textCenter">&nbsp;</td>
-        </tr>
-        <tr>
-            <th>定制访问</th>
-            <td class="textCenter">
-            	<img src="<{$smarty.const.THEME_PATH}>/images/icon/select.png" width="16" height="16" />
-            	<!--<img src="<{$smarty.const.THEME_PATH}>/images/icon/stop.png" width="16" height="16" />-->
-            </th>
-            <td class="textCenter">&nbsp;</td>
-        </tr>
-        <tr>
-            <th>安全通道</th>
-            <td class="textCenter">
-            	<img src="<{$smarty.const.THEME_PATH}>/images/icon/select.png" width="16" height="16" />
-            	<!--<img src="<{$smarty.const.THEME_PATH}>/images/icon/stop.png" width="16" height="16" />-->
-            </th>
-            <td class="textCenter">&nbsp;</td>
-        </tr>
-        <tr>
-            <th>消息传输</th>
-            <td class="textCenter">
-            	<img src="<{$smarty.const.THEME_PATH}>/images/icon/select.png" width="16" height="16" />
-            	<!--<img src="<{$smarty.const.THEME_PATH}>/images/icon/stop.png" width="16" height="16" />-->
-            </th>
-            <td class="textCenter">&nbsp;</td>
-        </tr>
+        <{/foreach}>
     </table>
     <br class="clearFloat"/>
     <hr/>
@@ -189,3 +134,4 @@
         </tr>
     </table>
 <br class="clearFloat"/>
+<script type="text/javascript" src="Public/js/systemManagement/overview/overview.js"></script>
