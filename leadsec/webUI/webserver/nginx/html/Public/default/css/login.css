@@ -1,24 +1,36 @@
-body{margin:0; padding:0; font-size:9pt;}
-#login{margin:auto; width:975px; height:368px; margin-top:120px;}
-#top_left{width:691px; height:89px; float:left;}
-#top_left img {margin-left:33px;}
-#top_center{width:248px; height:89px; background:url(../images/login_05.gif); float:left;}
+@charset "utf-8";
+/* CSS Document */
+*{ padding:0px; margin:0px;}
+body{ background:url(../images/login_bg.gif) repeat-x; font-size:12px}
+#login_bg{ width:1000px; height:760px; margin:0 auto;}
+#login_left{background:url(../images/login_bg_l.gif) no-repeat; width:293px; height:760px; float:left}
 
-#center_left{width:691px; height:190px; background:url(../images/login_09.gif); float:left;}
-#center_middle{width:248px; height:190px; float:left; background:url(../images/login_13.gif) repeat-y;}
-#center_right{width:36px; height:190px; float:right; background:url(../images/login_11.gif);}
+#login_center{width:421px; height:760px; float:left}
+#login_c_bg{background:url(../images/login_bg_t.gif) no-repeat;height:234px;}
+#login_top{background:url(../images/login_top.gif) no-repeat;height:109px;}
+#login_nav{background:url(../images/login_nav.gif) no-repeat;height:31px;}
+	#login_nav a img{ border:none;}
+	#login_nav #nav_name{ float:left; font:12px; color:#FFF; height:31px; line-height:31px; padding-left:34px; letter-spacing:1px;}
+	#login_nav #nav_lang{ height:31px; line-height:31px; padding-right:25px; float:right}
+	#nav_lang  #nav_lang_flag{ display:block; float:left; padding:8px 3px 0 3px;}
+	#nav_lang  #nav_lang_c{ color:#ffcc6a; display:block; float:left; letter-spacing:1px;}
+	#nav_lang  #nav_lang_e{ color:#b5cbde; display:block; float:left;letter-spacing:1px;}
+	
+#login_cen{background:url(../images/login_center.gif) no-repeat;height:172px; position:relative;}
+	#login_cen #cen_input{ position:absolute; left:80px; top:55px; padding-left:10px; height:22px; line-height:22px;}
+	#login_cen #cen_input span{ letter-spacing:1px; padding-right:3px;}
+	#login_cen #cen_input #account{width:112px; height:22px; line-height:22px; border:#09F 1px solid;}
+	#login_cen #cen_input #passwd{width:112px; height:22px; line-height:22px; border:#09F 1px solid;}
+	
+	#login_cen #btn{ position:absolute; left:222px; top:117px;}
+	#login_cen #btn #submitbtn{ background:url(../images/login_btn_sure.gif) no-repeat; width:78px; height:24px; border:none; cursor:pointer}
+	#login_cen #btn #resetbtn{ background:url(../images/login_btn_cacel.gif) no-repeat; width:78px; height:24px; border:none; cursor:pointer}
+	#user_error{ position:absolute; left:50px; top:20px; color:#F00; font-weight:bold}
+	#passwd_error{ position:absolute; left:200px; top:20px;color:#F00; font-weight:bold}
+	#login_error{ position:absolute; left:0px; top:20px;color:#F00; font-weight:bold; text-align:center; width:301px;}
+	
+#login_bottom{background:url(../images/login_bottom.gif) no-repeat;height:28px;}
+#login_b_bg{background:url(../images/login_bg_b.gif) no-repeat;height:186px;}
 
-#down_left{width:691px; height:89px; float:left; margin-top:15px;}
-#down_center{width:248px; height:89px; background:url(../images/login_16.gif); float:left;}
-#inf{width:691px; height:38px; background:url(../images/login_18.gif) no-repeat; }
-.inf_text{display:block; width:100px; height:20px; font-size:16px; font-weight:bolder; color:#fff; margin-left:17px; margin-top:12px; float:left;}
-.copyright{display:block; float:left; margin-left:17px; margin-top:15px;}
-
-#user{ margin-left:40px; margin-top:45px; }
-#user_error{ margin:3px 0 0 50px; color:#F00}
-#password{margin-left:40px; margin-top:25px;}
-#passwd_error{ margin:3px 0 0 50px; color:#F00;}
-#login_error{color:#F00; text-align:center}
-input{width:120px; height:18px; border:solid 1px #aca7a7; font-size:9pt;}
-#btn{ margin:40px 28px 0 20px;}
-#btn input{ cursor:pointer; height:25px; line-height:25px; background: url(../images/bt_bg.gif); border: solid 1px #b6b6b6; width:65px; margin-left:15px; text-decoration:none; color:#000;}
+#login_right{background:url(../images/login_bg_r.gif) no-repeat; width:286px; height:760px; float:left}
+#switch_lang{ cursor:pointer}

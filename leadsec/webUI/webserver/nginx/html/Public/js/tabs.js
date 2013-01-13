@@ -12,4 +12,5 @@ function refreshTabs() {
         li.not($(this)).removeClass(visited);
         showInnerText(id);
     });
+	$("#leftmenu").outerHeight($("#mainContent").outerHeight()+21);
 }

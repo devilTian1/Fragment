@@ -199,33 +199,37 @@ label.errorLabel {
 }
 
 #header {
-    height: 50px;
+    height: 122px;
+	background:url(../images/top_header_bg.gif) repeat-x;
 }
 
 #mainZone {
     float: right;
+	background:#e1e9f1;
 }
-
+#content{background:#e1e9f1;}
 #content .secondary {
-    width: 206px;
+    width: 208px;
     float: left;
     position: absolute;
-    top: 50px;
+    top: 122px;
     left: 0px;
+	background:url(../images/nav_top_bg.gif) repeat-x #e1e9f1;
     overflow: hidden;
 }
 
 .footer {
     height: 40px;
-    margin-top: 6px;
+    padding-top: 6px;
+	background:#e1e9f1;
 }
 
 /* HEADER */
 /* LOGO */
 #header .logo {
 	float: left;
-	height: 50px;
-	width: 20%;
+	height: 122px;
+	width: 414px;
 }
 
 #header .logo img {
@@ -235,54 +239,81 @@ label.errorLabel {
 /* HEADER */
 /* right_nav */
 #header .right_nav {
-	float: right;
-	width: 80%;
-	height: 50px;
+	float:left;
+	width: 920px;
+	overflow:hidden;
+	height: 122px;
+	background:url(../images/top_right_bg.gif) no-repeat;
 }
-
-#header .right_nav .text_left {
+/* ICON NAV */
+#header .right_nav .top_icon {
 	float: left;
-	width: 20%;
-	padding: 22px 0 0 0;
-	color: #CC3300;
-}
-#header .right_nav .text_left label {
+
 }
 
-
-#header .right_nav .text_right {
-	float: right;
-	width: 80%;
-	display: inline;
-	padding: 22px 0 0 0;
-	text-align: right;
+#header .right_nav .top_icon ul {
+	padding-top:70px;
+	list-style:none;
+}
+#header .right_nav .top_icon ul li{
+	float:left;
+	padding-right:8px;
+	position:relative;
 }
 
+#header .right_nav .top_icon ul li a img{
+	border:none;
+}
+
+#header .right_nav .top_icon ul li span{
+	background:url(../images/top_tip_bg.png) no-repeat;
+	display:block;
+	position:absolute;
+	width:55px; height:24px;
+	top:-23px; left:-10px;
+	text-align:center;
+	display:none;
+}
+
+/* USERINFO */
+#header .right_nav .top_userinfo {
+	background:url(../images/top_welcome.png) no-repeat;
+	width:231px;
+	height:64px;
+	float:left;
+	margin:34px 0 0 30px;
+	padding:12px 0 0 30px;
+}
+#header .right_nav .top_userinfo span{
+	color:#d7612d
+}
+#header .right_nav .top_userinfo strong{
+	color:#ffe487
+}
 #header .right_nav .text_right a {
 	display: inline;
 	color:#3399CC;
 }
 
 /* TAB & CONTENT */
-/* USERINFO */
-#content .secondary .userinfo {
-    height: 55px;
-    padding: 10px 0px 0px 55px;
-    background: url(../images/manage_r2_c1.jpg) no-repeat;
+#leftmenutop{
+	background:url(../images/left_top.gif) no-repeat;
+	width:201px;
+	height:47px;
 }
-
-#content .secondary .userinfo a {
-    color: #0099CC;
-}
-
-/* TAB & CONTENT */
+#leftmenutop strong{
+	position:absolute;
+	left:53px;
+	top:18px;
+	color:#000;
+	letter-spacing:1px;}
 /* LEFTMENU */
 #leftmenu {
     margin-right: 10px;
-	width: 197px;
-    border: 1px solid #B4C9C6;
+	width: 199px;
+    border: 1px solid #a4b3c2;
 	text-align: left;
-    background-color: #FFFFFF;
+    background-color: #ccd9e6;
 }
 
 #leftmenu .l1_close {
@@ -300,7 +331,7 @@ label.errorLabel {
 	margin: 9px 0px 0px 13px;
 	padding-left: 30px;
 	font-weight: bold;
-	color: #0099CC;
+	color:#000;
 	cursor:pointer;
     font-size: 13px;
 }
@@ -325,7 +356,7 @@ label.errorLabel {
 	cursor:pointer;
     position: absolute;
     top: 250px;
-    left: 198px;
+    left: 200px;
 }
 
 
@@ -334,15 +365,16 @@ label.errorLabel {
 #tab .tabs {
 	width: 99.5%;
 	float: left;
-	background-image: url(../images/nav_bg.jpg);
+	padding: 0px 0px 0px 8px;
+	background:#e1e9f1;
 }
 
 .linkTab {
-    background: url(../images/manage_r2_c14.jpg) no-repeat;
+    background: url(../images/tab_nofocus.gif) no-repeat;
 }
 .visitedTab {
-    background: url(../images/manage_r2_c13.jpg) no-repeat;
-	color:#0099CC;
+    background: url(../images/tab_focus.gif) no-repeat;
+	color:#FFF;
 }
 
 #tab .tabs ul { 
@@ -353,13 +385,13 @@ label.errorLabel {
 
 #tab .tabs li {
     float: left; 
-	margin: 0px; 
-	padding: 2px 0 0 0;
-	line-height: 24px;
+	margin: 0px;
+	line-height: 21px;
+	line-height:21px;
 	font-weight: bold;
 	cursor: pointer;
 	text-align:center;
-    width: 114px;
+    width: 84px;
 }
 
 #tab .tabinfo {
@@ -367,23 +399,46 @@ label.errorLabel {
 	float: left;
 	clear:both;
 	text-align:left;
-	background: url(../images/manage_r3_c11.jpg) repeat-x;
-	border:1px solid  #B4C9C6;
-	border-top:none;
-	height: 27px;
-	padding: 5px 0px 0px 0px;
+	background: url(../images/nav_top_bg.gif) repeat-x;
+	height: 40px;
+	padding: 8px 0px 0px 8px;
 }
-
+#tab .tabinfo_left{
+	background: url(../images/nav_left.gif) no-repeat;
+	width:45px;
+	height:29px;
+	float:left;
+}
+#tab .tabinfo_cen{
+	background: url(../images/nav_cen.gif) repeat-x;
+	
+	float:left;
+}
+#tab .tabinfo_cen strong{
+	line-height:29px;
+	padding-left:20px;
+}
+#tab .tabinfo_right{
+	background: url(../images/nav_right.gif) no-repeat;
+	width:97px; height:29px;
+	float:left;
+	
+}
 /* TAB & CONTENT */
 /* MAINCONTENT */ 
+#mainContentTop{
+	padding:0 0 0 8px;
+	background:#e1e9f1;
+	
+}
 #mainContent {
-    background-color:#FFFFFF;
-	float:left;
-    border: 1px solid #B4C9C6;
-    width: 99.5%;
-    margin: 6px 0 0 0;
-    padding: 5px 0px;
-    overflow: auto;
+   background-color:#FFFFFF;
+   float:left;
+    border:1px solid #B4C9C6;
+	width: 99.5%;
+	margin:0;
+	padding:8px 0px;
+	overflow: auto;
 }
 #mainContent button {
     margin: auto 5px;
@@ -431,8 +486,8 @@ label.errorLabel {
 
 /* FOOTER */
 .footer .bottom {
-    border: 1px solid #B4C9C6;
-    background-color:#FFFFFF;
+    border: 1px solid #8eb1ce;
+    background-color:#a3c6e4;
     padding: 5px 0 5px 0;
     overflow: auto;
     text-align:center;

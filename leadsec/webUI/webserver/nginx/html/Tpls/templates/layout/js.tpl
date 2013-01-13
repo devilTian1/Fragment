@@ -13,6 +13,12 @@
 <script type="text/javascript" src="Public/js/tabs.js"></script>
 <script type="text/javascript" src="Public/js/search.js"></script>
 <script type="text/javascript" src="Public/js/sort.js"></script>
+<!--[if IE 6]>
+<script type="text/javascript" src="Public/js/jquery/desktop/jsLib/DD_belatedPNG_0.0.8a.js" ></script>
+<script type="text/javascript">
+	DD_belatedPNG.fix('#header .right_nav .top_icon img,#header .right_nav .top_userinfo,#header .right_nav .top_icon ul li span');
+</script>
+<![endif]-->
 <script>
     $(document).ready(function() {
         // init layout
@@ -21,11 +27,12 @@
         //set height/width of content_inner
         $("#mainZone").width($("#content").width()-$("#content>.secondary").width());
         var mainZoneWidth = $("#mainZone").width();
+		$("#header .right_nav").width(mainZoneWidth-210)
         // end init layout
-
-        $("#leftmenu").outerHeight($("#mainContent").outerHeight());
+        //$("#leftmenu").outerHeight($("#mainContent").outerHeight());
+		$("#leftmenu").outerHeight($("#mainContent").outerHeight()+21);
         // fold/unfold level1 of leftmenu
-        $("#leftmenu>div:not(.l1)").hide(); // fold all child-menu
+       $("#leftmenu>div:not(.l1)").hide(); // fold all child-menu
         $("#leftmenu>.l1").addClass('l1_close').click(function() {
             var pname = $(this).attr("name");
             var l2Dom = $("#leftmenu>.l2[name='" + pname + "']");
@@ -38,7 +45,7 @@
             }
             $(this).toggleClass('l1_open l1_close');
         });
-
+       
 
         // slide leftmenu div
         var slideWidth = $('#leftmenu').width();
@@ -66,7 +73,7 @@
             });
             if( $(this).offset().left > 195 ) { // close leftmenu
 				arrowImgFlag=0;
-                var mzWidth = "99%";
+                var mzWidth = "99.5%";
             } else { // open leftmenu
 				arrowImgFlag=1;
                 var mzWidth = mainZoneWidth + "px";
@@ -86,6 +93,7 @@
             showTabByAjax(path);
             return false;
         });
+		
 		$(window).resize(function(){
 			$("#mainZone").width($("#content").width()-$("#content>.secondary").width());
 			mainZoneWidth = $("#mainZone").width();
@@ -95,7 +103,20 @@
                 var mzWidth = mainZoneWidth + "px";
             }
 			$("#mainZone").width(mzWidth);
+			//alert(mainZoneWidth);
+			$("#header .right_nav").width(mainZoneWidth-210)
 		});
+		//init header tip
+		$("#header .right_nav .top_icon ul li").mousemove(function() {
+            var me=$(this);
+			me.children("span").show();
+            return false;
+        });
+		$("#header .right_nav .top_icon ul li").mouseout(function() {
+            var me=$(this);
+			me.children("span").hide();
+            return false;
+        });
 		
 		//init index page
 		(function(){

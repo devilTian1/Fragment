@@ -11,10 +11,9 @@
             <!-- NAV & CONTENT -->
             <div class="content" id="content">
                 <div class="secondary">
-                    <!-- userinfo -->
-                    <div class="userinfo">
-                        Welcome,&nbsp;<strong>DavidTian</strong>
-                        [<a href="#">Administrator</a>,&nbsp;<a href="index.php?logout=1">logout</a>]
+                    <!-- leftmenuinfo -->
+                    <div id="leftmenutop">
+                    	<strong>安全隔离网闸</strong>
                     </div>
                     <!-- leftmenu -->
                     <div id="leftmenu">
@@ -30,8 +29,10 @@
                     <div id="tab">
                         <{include file="layout/tabs.tpl"}>
                     </div>
-                    <div id="mainContent">
-                        <{include file='layout/content.tpl'}>
+                    <div id="mainContentTop">
+                        <div id="mainContent">
+                            <{include file='layout/content.tpl'}>
+                        </div>
                     </div>
                 </div>
             </div>

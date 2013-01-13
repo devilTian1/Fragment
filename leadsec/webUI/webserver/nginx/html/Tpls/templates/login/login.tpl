@@ -6,48 +6,40 @@
 <link href="<{$smarty.const.THEME_PATH}>/css/login.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
- <div id="login">
-	     <div id="top">
-		      <div id="top_left"><img src="<{$smarty.const.THEME_PATH}>/images/login_03.gif" /></div>
-			  <div id="top_center"></div>
-		 </div>
-		 
-		 <div id="center">
-		      <div id="center_left"></div>
-			  <div id="center_middle">
-       	       <form action="index.php" method="post" id="loginform" onsubmit="return false">
-			       <div id="user">账 号
-			         <input type="text" name="account" id="account" /><br/>
-                     <div id="user_error"></div>
-			       </div>
-                   
-				   <div id="password">密   码
-				     <input type="password" name="passwd" id="passwd" /><br/>
-                      <div id="passwd_error"></div>
-				   </div>
-				   <div id="btn">
-                   	<input name="提交" type="submit" id="submitbtn" value="登录" />
-                    <input name="重置" type="reset" value="清空" />
-                   </div>
-                  
-			  	</form>
-			  </div>
-			  <div id="center_right"></div>		 
-		 </div>
-		 <div id="down">
-		      <div id="down_left">
-			      <div id="inf">
-                       <span class="inf_text">版权信息</span>
-					   <span class="copyright">@ 2010-2020 <{$smarty.const.COMPANY_NAME}>版权所有</span>
-			      </div>
-			  </div>
-			  <div id="down_center">
-              		<div id="login_error"></div>
-              </div>		 
-		 </div>
-
-	</div>
-
+<div id="login_bg">
+	<div id="login_left"></div>
+    <div id="login_center">
+    	<div id="login_c_bg"></div>
+        <div id="login_top"></div>
+      <div id="login_nav">
+       	<div id="nav_name">欢迎使用网御SIS系统!</div>
+        <div id="nav_lang">
+       	  		<span id="nav_lang_c">中文</span>
+                <span id="nav_lang_flag"><span id="switch_lang" class="zhc"><img src="<{$smarty.const.THEME_PATH}>/images/login_zhc.gif"/></span></span>
+       			<span id="nav_lang_e">英文</span>
+        </div>
+        </div>
+        <div id="login_cen">
+        	  <form action="index.php" method="post" id="loginform" onsubmit="return false">
+            	<input name="lang" type="hidden" value="zhc" id="lang" />
+                <div id="cen_input">
+                    <label><span>账号</span><input type="text" name="account" id="account" /></label>
+                    <label><span>密码</span><input type="password" name="passwd" id="passwd" /></label>
+                    <div id="user_error"></div>
+                    <div id="passwd_error"></div>
+                    <div id="login_error"></div>
+                 </div>
+                 <div id="btn">
+                    <input type="submit" value="" id="submitbtn" name="提交">
+                    <input type="reset" value=""  id="resetbtn" name="重置">
+                 </div>
+             </form>
+        </div>
+        <div id="login_bottom"></div>
+        <div id="login_b_bg"></div>
+    </div>
+    <div id="login_right"></div>
+</div>
 </body>
 </html>
 <script type="text/javascript" src="Public/js/jquery/jquery-1.8.1.min.js"></script>
@@ -74,6 +66,16 @@
 						}
 					});	
 			}
-		})						
+		});
+		$("#switch_lang").click(function(){
+			var lang=$("#lang").val();
+			    if(lang=="zhc"){
+					$("#lang").val("en");
+					$("#switch_lang img").attr("src","<{$smarty.const.THEME_PATH}>/images/login_en.gif")
+				}else if(lang=="en"){
+					$("#lang").val("zhc");
+					$("#switch_lang img").attr("src","<{$smarty.const.THEME_PATH}>/images/login_zhc.gif")
+				}
+			})
 	}); 
 </script>
