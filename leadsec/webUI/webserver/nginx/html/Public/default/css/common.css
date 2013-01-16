@@ -549,3 +549,24 @@ label.errorLabel {
 #stepTabDiv ul{ list-style:none; padding-left:40px;}
 #stepTabDiv ul li{ float:left; width:120px; margin-right:30px;}
 #stepTabDiv ul li a{font:14px; font-weight:bold; color:#FFF; line-height:30px;}
+
+
+.zoombox{width:928px;margin:20px auto 0 auto;}
+.zoompic{border:solid 1px #dfdfdf;width:926px;height:150px;/*background:url(../images/loading.gif) no-repeat 50% 50%;*/}
+
+.zoompic_bg{ background:url(../images/no_eth_data.gif) no-repeat; width:928px; height:150px;}
+
+.sliderbox{height:76px;overflow:hidden;margin:6px 0 0 0; position:relative;}
+.sliderbox .arrow-btn{width:38px;height:76px;background:url(../images/arrow-btn.png) no-repeat;cursor:pointer;}
+.sliderbox #btn-left{float:left;background-position:0 0;}
+.sliderbox #btn-left.dasabled{background-position:0 -76px;}
+.sliderbox #btn-right{float:right;background-position:-38px 0;}
+.sliderbox #btn-right.dasabled{background-position:-38px -76px;}
+.sliderbox .slider{float:left;height:76px;width:847px;position:relative;overflow:hidden;margin:0 0 0 3px;display:inline;}
+.sliderbox .slider ul{position:absolute;left:0;width:999em;}
+.sliderbox .slider li{float:left;width:121px;height:76px;text-align:center;}
+.sliderbox .slider li img{border:solid 1px #dfdfdf;}
+.sliderbox .slider li.current img{border:solid 1px #3366cc;}
+.sliderbox .slider li.current a div{ background:#a5c8e7; border:solid 1px #CCC}
+.jqstooltip{ background:#525866}
+
