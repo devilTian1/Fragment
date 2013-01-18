@@ -19,12 +19,14 @@
             $cmd_str = '#' . date('Y/m/d H:i:s') . ' ' .'return code=' .
                 $status . "\r\n" . $cmd . "\r\n";
             $file = '/tmp/webui.cmd.log';
-            $filesize = filesize($file);
-            if ($filesize > 0) {
+            $isExisted = file_exists($file);
+            if ($isExisted) {
                 file_put_contents($file, $cmd_str, FILE_APPEND);
             } else {
-                file_put_contents($file,$cmd_str);
+                touch($file);
+                file_put_contents($file, $cmd_str);
             }
+            clearstatcache();
             if ($status != 0) {
                 $errMsg = "[$cmd]" . join(', ', $result);
                 throw new ExecCmdException($errMsg);
