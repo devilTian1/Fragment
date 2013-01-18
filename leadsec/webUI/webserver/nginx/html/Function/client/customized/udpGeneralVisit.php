@@ -13,7 +13,7 @@
         $id        = $_POST['customId'];
         $sa        = $_POST['sa'];
         $lip       = $_POST['lip'];
-        $lport     = $_POST['lportReq'];
+        $lport     = $_POST['udplportReq'];
         if (!empty($_POST['action'])) {
             $active = $_POST['action'] === 'enable' ? 'on' : 'off';
         } else {
@@ -22,6 +22,9 @@
         $killVirus = $_POST['killVirus'] === 'Y' ? 'yes' : 'no';
         $usergrp   = $_POST['usergrp'];
         $time      = $_POST['time'];
+        $mulIp     = $_POST['mulIp'];
+        $mulMode   = $_POST['mulMode'];
+        $ipver     = $_POST['ipType'];
         $comment   = $_POST['comment'];
 
         $result = "cudpctl $action task type client mode comm id $id sa $sa " .
@@ -32,7 +35,10 @@
         if (!empty($time)) {
             $result .= "time $time ";
         }
-        $result .= "comment \"$comment\"";
+        if (!empty($mulIp)) {
+            $result .= "mul_ip $mulIp mul_mode $mulMode ";
+        }
+        $result .= "ipver $ipver comment \"$comment\" 1>/dev/null";
         return $result;
     }
 
@@ -40,7 +46,7 @@
         $tpl =  'client/customized/udpGeneralVisitTable.tpl';
         $db  = new dbsqlite(DB_PATH . '/netgap_custom.db');
         $sql = 'SELECT id, sa, lip, lport, killvirus, usergrp, time, active, ' .
-            "comment FROM udp_comm_client_acl $where";
+            "comment, ip_ver, mul_ip, mul_mode FROM udp_comm_client_acl $where";
         $result = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
         echo V::getInstance()->assign('udpCommClientAcl', $result)
             ->assign('pageCount', 10)
@@ -56,7 +62,8 @@
     if ($id = $_POST['editId']) {
         // Open dialog to show specified udp general client acl data
         $sql  = 'SELECT id, sa, lip, lport, killvirus, usergrp, time, active, '.
-            "comment FROM udp_comm_client_acl WHERE id = '$id'";
+            'comment, ip_ver, mul_ip, mul_mode FROM udp_comm_client_acl '. 
+            "WHERE id = '$id'";
         $db   = new dbsqlite(DB_PATH . '/netgap_custom.db');
         $data = $db->query($sql)->getFirstData(PDO::FETCH_ASSOC);
         $tpl  = 'client/customized/udpGeneralVisit_editDialog.tpl';
@@ -99,6 +106,12 @@
         $cli = new cli();
         $cli->run(getCmd());
         echo json_encode(array('msg' => '成功.'));
+    } else if (!empty($_GET['checkExistLport'])) {
+        // Check the same lport exist or not
+        $sql = 'SELECT id FROM udp_comm_client_acl WHERE lport = ' .
+            $_GET['udplportReq'];
+        $db  = new dbsqlite(DB_PATH . '/netgap_custom.db');
+        echo $db->query($sql)->getCount() > 0 ? 'false' : 'true';
     } else if ($orderStatement = $_POST['orderStatement']) {
         // fresh and resort udp_comm_client_acl table
         appendUdpCommClientAclData($orderStatement);

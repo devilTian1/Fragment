@@ -163,11 +163,16 @@ function convertToIpv4Mask($mask, $format = 'dot') {
         }
         return $result;
     } else if ($format === 'dot') {
-        $mask = intval($mask);
-        $maskFrag =
-            str_split(str_pad(str_repeat('1', $mask), 32, '0'), 8);
-        foreach ($maskFrag as $k => $v) {
-            $maskFrag[$k] = base_convert($v, 2, 10);
+        $mask = intval($mask);//转换为整形
+        if ($mask >= 1 && $mask <= 32) {
+            $maskFrag =
+                str_split(str_pad(str_repeat('1', $mask), 32, '0'), 8);
+            foreach ($maskFrag as $k => $v) {
+                $maskFrag[$k] = base_convert($v, 2, 10);//把数字的2进制转化为10进制
+            }
+            return join('.', $maskFrag);
+        } else {
+            throw new Exception('incorrect subnet mask: ' . $mask);
         }
         return join('.', $maskFrag);
     } else {

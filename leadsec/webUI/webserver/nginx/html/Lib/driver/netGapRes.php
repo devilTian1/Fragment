@@ -8,18 +8,17 @@
         public function getAddr() {
             $db     = new dbsqlite(DB_PATH . '/rule.db');
             $sql    = 'SELECT name FROM address UNION SELECT name FROM addrgrp';
-            $data = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
+            $data   = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
+            $result = array();
             foreach ($data as $d) {
                 // delete suffix,eg: _ipv4 or ipv6
                 $key = $d['name'];
-                if ($key === 'any') {
-                    $result['any_ipv4'] = 'any';
-                    $result['any_ipv6'] = 'any';
-                    continue;
+                if ($key === 'any_ipv4' || $key === 'any_ipv6') {
+                    $result = array_merge(array($key => 'any'), $result);
                 } else {
                     $val = substr($key, 0, -5);
+                    $result[$key] = $val;
                 } 
-                $result[$key] = $val;
             }
             $sql = 'SELECT name FROM domain_property';
             $data = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
@@ -80,6 +79,18 @@
             return $result;
         }
 
+        public function getFtpFilterOpts() {
+            $db     = new dbsqlite(DB_PATH . '/gateway_ftp.db');
+            $sql    = 'SELECT name FROM options';
+            $data   = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
+            $result = array('' => '无');
+            foreach ($data as $d) {
+                $name = $d['name'];
+                $result[$name] = $name;
+            }
+            return $result;
+        }
+
         public function checkExistTaskId($modName, $id) {
             if ($modName === 'customized') {
                 $sql = "SELECT id FROM tcp_comm_client_acl WHERE id = $id
@@ -89,10 +100,27 @@
                     UNION SELECT id FROM udp_comm_client_acl WHERE id = $id
                     UNION SELECT id FROM udp_trans_client_acl WHERE id = $id";
                 $db  = new dbsqlite(DB_PATH . '/netgap_custom.db');
-            } else {
-
+            } else if ($modName === 'ftp') {
+                $sql = "SELECT id FROM ftp_comm_client_acl WHERE id = $id
+                    UNION SELECT id FROM ftp_comm_server_acl WHERE id = $id
+                    UNION SELECT id FROM ftp_trans_client_acl WHERE id = $id";
+                $db  = new dbsqlite(DB_PATH . '/gateway_ftp.db');
+            } else if ($modName === 'safepass') {
+            	$sql = "SELECT id FROM fastpass_client_acl WHERE id = $id
+            		UNION SELECT id FROM fastpass_server_acl WHERE id = $id";
+            	$db  = new dbsqlite(DB_PATH . '/netgap_fastpass.db');
+            } else if ($modName === 'fileSync') {
+            	$sql = "SELECT id FROM sync_file_client WHERE id = $id
+            		UNION SELECT id FROM sync_file_server WHERE id = $id";
+            	$db  = new dbsqlite(DB_PATH . '/netgap_new_fs.db');
+            } else if ($modName === 'trans') {
+            	$sql = "SELECT id FROM db_comm_client_acl WHERE id = $id
+            		UNION SELECT id FROM db_trans_client_acl WHERE id = $id";
+            	$db  = new dbsqlite(DB_PATH . '/netgap_db.db');
+            }else {
+                throw new Exception("Can`t check [$modName]");
             }
-            return $db->query($sql)->getCount() > 0;
+            return $db->query($sql)->getCount() > 0 ? 'false' : 'true';
         }
 
         private function __clone() {}

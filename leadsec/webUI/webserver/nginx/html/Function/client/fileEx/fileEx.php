@@ -20,7 +20,7 @@
     }
 
     function appendAddrGroupData($where) {
-        $tpl =  'resConf/addr/addrGroupTable.tpl';
+        $tpl =  'client/fileEx/fileExTable.tpl';
         $db  = new dbsqlite(DB_PATH . '/rule.db');
 	    $sql = "SELECT id, name, comment FROM addrgrp $where";
         $result = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);

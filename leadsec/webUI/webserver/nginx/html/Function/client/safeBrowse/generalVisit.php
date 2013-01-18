@@ -1,112 +1,124 @@
 <?php
     require_once($_SERVER['DOCUMENT_ROOT'] . '/Function/common.php');
 
-    function getAllList() {
-        $addrListArr = array();
-        $sql = "SELECT name FROM address";
-        $db  = new dbsqlite(DB_PATH . '/rule.db');
+    function appendGeneralAccData($where) {
+        $tpl =  'client/safeBrowse/generalVisitTable.tpl';
+        $db  = new dbsqlite(DB_PATH . '/netgap_http.db');
+	    $sql = "SELECT * FROM acl WHERE transparent=0 $where";
         $result = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
-        foreach ($result as $k => $v) {
-            $addrListArr[] = $v['name'];
+        foreach ($result as $key => $arr) {
+        	$result[$key]['sip']= addrNameDelPreffix($arr['sip']);
         }
-        return $addrListArr;
-    }
-
-    function getSpecAddrListName($id) {
-        $db  = new dbsqlite(DB_PATH . '/rule.db');
-        $sql = "select address.name from addrmap INNER JOIN address ".
-            "ON addrmap.addrid == address.id where addrmap.addrgrpid=$id";
-        return $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
-    }
-
-    function appendAddrGroupData($where) {
-        $tpl =  'resConf/addr/addrGroupTable.tpl';
-        $db  = new dbsqlite(DB_PATH . '/rule.db');
-	    $sql = "SELECT id, name, comment FROM addrgrp $where";
-        $result = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
-        foreach ($result as $k => $v) {
-            $r = getSpecAddrListName($v['id']);
-            foreach ($r as $name) {
-                $result[$k]['addrNames'] .= $name['name'] . '&nbsp;';
-            }
-	    }
-        echo V::getInstance()->assign('addrGroup', $result)
+        echo V::getInstance()->assign('GeneralAcc', $result)
             ->assign('pageCount', 10)
             ->fetch($tpl);
     }
 
     function getDataCount() {
-    	$sql = "SELECT id FROM addrgrp";
-        $db  = new dbsqlite(DB_PATH . '/rule.db');
+    	$sql = "SELECT id FROM acl WHERE transparent=0";
+        $db  = new dbsqlite(DB_PATH . '/netgap_http.db');
         return $db->query($sql)->getCount();
     }
 
-    function getAddOrEditData() {
-        $name    = $_POST['addrGrpName'];
-        $comment = $_POST['comment'];
-        $mbrArr  = $_POST['addrGrpMember'];
-        $addmbr  = join('" "', $mbrArr);
-        return array($name, $comment, $addmbr);
-    }
+    function getCmd() {
+    	$cmd  = Array();
+    	if (!empty($_POST['delId'])) {
+    		$id     = $_POST['delId'];    		
+    		$cmd[] = "httpctl del acl id $id";
+    		return $cmd;
+    	}
+        $type = $_POST['type'];
+        
+		if ($type === 'edit') {
+			$id    = $_POST['generalAccId'];
+			$addId = $_POST['generalAccId'];
+            $cmd[] = "httpctl del acl id $id";
+        } else {
+        	$addId = getAddIdFromSql();
+    	}
+        $srcIp	   = $_POST['srcIpList'];
+        $comment   = $_POST['comment'];
+
+		$str = "httpctl add acl id $addId sip $srcIp";
+		if ($_POST['authUsrGrpList'] !== '') {
+			$str .= " auth ".$_POST['authUsrGrpList'];
+		}
+		if ($_POST['timeList'] !== '') {
+			$str .= " time ".$_POST['timeList'];
+		}
+		if (!empty($comment)) {
+        	$str .= " comment \"$comment\"";
+        }
+        
+        $cmd[] = $str;
+
+        return $cmd;
+    }    
+    
+    function addrNameDelPreffix($name) {
+    	// 去掉最后一个下划线_ipv4或_ipv6
+    	return substr($name,0,-5);    	
+	}
+	
+	function getAddIdFromSql() {
+		$db  = new dbsqlite(DB_PATH . '/netgap_http.db');
+        $sql = "SELECT id FROM acl ORDER BY id DESC";
+        $num = $db->query($sql)->getCount();
+        if ($num === 0) {
+        	return 1;
+    	}
+        $result = $db->query($sql)->getFirstData(PDO::FETCH_ASSOC); 
+        return $result['id']+1;
+	}
 
     if (!empty($_POST['editId'])) {
-        // Get specified addrGroup data
+        // Open a specified safepass data
         $tpl = $_POST['tpl'];
         $id  = $_POST['editId'];
-
-        $r   = getSpecAddrListName($id);
-        $addrGrpMemberArr = array();
-        foreach ($r as $row) {
-            $addrGrpMemberArr[] = $row['name'];
-        }
-        $addrListArr = getAllAddrList();
-        $addrListArr = array_diff($addrListArr, $addrGrpMemberArr);
-
-        $db  = new dbsqlite(DB_PATH . '/rule.db');
-	    $sql = "SELECT name, comment FROM addrgrp WHERE id = $id";
-        $addrGroup = $db->query($sql)->getFirstData(PDO::FETCH_ASSOC);
-        $result = V::getInstance()->assign('addrListArr', $addrListArr)
-            ->assign('addrGrpMemberArr', $addrGrpMemberArr)
-            ->assign('addrGroup', $addrGroup)
+        $db  = new dbsqlite(DB_PATH . '/netgap_http.db');
+        $sql = "SELECT * FROM acl WHERE id = '$id'";
+        $result = $db->query($sql)->getFirstData(PDO::FETCH_ASSOC);       
+        $result = V::getInstance()
+        	->assign('addrOptions', netGapRes::getInstance()->getAddr())
+            ->assign('timeList', netGapRes::getInstance()->getTimeList())
+            ->assign('roleList', netGapRes::getInstance()->getRoleList())
+        	->assign('editGeneralAcc', $result)
             ->assign('type', 'edit')->fetch($tpl);
         echo json_encode(array('msg' => $result));
-    } else if ('edit' === $_POST['type']) {
-        // Edit a specified addr group data
-        list($name, $comment, $addmbr) = getAddOrEditData();
-        $cmd1 = "addrgrp set name \"$name\" comment \"$comment\"";
-        $cmd2 = "addrgrp set name \"$name\" delallmbr";
-        $cmd3 = "addrgrp set name \"$name\" addmbr \"$addmbr\"";
-        $cli  = new cli();
-        $cli->run($cmd1);
-        $cli->run($cmd2);
-        $cli->run($cmd3);
-        echo json_encode(array('msg' => "[$name]修改成功."));
-    } else if ('add' === $_POST['type']) {
-        // Add a new addr group data
-        list($name, $comment, $addmbr) = getAddOrEditData();
-        $cmd1 = "addrgrp add name \"$name\" comment \"$comment\"";
-        $cmd2 = "addrgrp set name \"$name\" addmbr \"$addmbr\"";
-        $cli  = new cli();
-        $cli->run($cmd1);
-        $cli->run($cmd2);
-        echo json_encode(array('msg' => "[$name]添加成功."));
-    } else if (!empty($_POST['delName'])) {
-        // Delete the specified addrGroup data
-        $name = $_POST['delName'];
-        $cmd  = "addrgrp del name \"$name\"";
-        $cli  = new cli();
-        $cli->run($cmd);
-        echo json_encode(array('msg' => "[$name]删除成功."));
-    } else if (!empty($_POST['openDialog'])) {
-        // Display add addr group dialog
+     } else if (isset($_POST['openAddDialog'])) {
+        // Open a new safepass dialog
         $tpl = $_POST['tpl'];
         $result = V::getInstance()
-            ->assign('addrGrpMemberArr', array())
+            ->assign('addrOptions', netGapRes::getInstance()->getAddr())
+            ->assign('timeList', netGapRes::getInstance()->getTimeList())
+            ->assign('roleList', netGapRes::getInstance()->getRoleList())
             ->assign('type', 'add')->fetch($tpl);
         echo json_encode(array('msg' => $result));
-    } else if ($orderStatement = $_POST['orderStatement']) {
-        // fresh and resort addr-group list
-        appendAddrGroupData($orderStatement);
+    } else if ('edit' === $_POST['type']) {
+        // Edit a specified safepass data
+        $cmd = getCmd();
+        $cli = new cli();
+        $cli->run($cmd[0]);
+        $cli->run($cmd[1]);
+        $cli->run("httpctl	reconfigure ");
+        echo json_encode(array('msg' => '修改成功.'));
+    } else if ('add' === $_POST['type']) {
+        // Add a new safepass data
+        $cmd = getCmd();
+        $cli = new cli();
+        $cli->run($cmd[0]);
+        $cli->run("httpctl reconfigure ");
+        echo json_encode(array('msg' => '添加成功.'));
+    } else if (!empty($_POST['delId'])) {
+        // Delete the specified safepass data   
+        $cmd = getCmd();     
+        $cli = new cli();
+        $cli->run($cmd[0]);
+        $cli->run("httpctl	reconfigure ");
+        echo json_encode(array('msg' => "删除成功."));
+   } else if ($orderStatement = $_POST['orderStatement']) {
+        // fresh and resort safepass list
+        appendGeneralAccData($orderStatement);
     } else {
         // init page data
         $result = getDataCount();

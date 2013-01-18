@@ -57,8 +57,18 @@
             $result = array();
             try {
                 self::$db->beginTransaction();
-                foreach ($sqls as $key => $sql) {
-                    $result[] = $this->exec($sql, $paramArr[$key]);
+                if (empty($paramArr)) {
+                    foreach ($sqls as $sql) {
+                        $result[] = $this->exec($sql);
+                    }
+                } else if (count($sqls) === 1) {
+                    foreach ($paramArr as $param) {
+                        $result[] = $this->exec($sqls[0], $param);
+                    }
+                } else {
+                    foreach ($paramArr as $key => $param) {
+                        $result[] = $this->exec($sqls[$key], $param);
+                    }
                 }
                 self::$db->commit();
                 return $result;

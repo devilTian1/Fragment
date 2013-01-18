@@ -2,7 +2,6 @@ function searchKeyData(tableId) {
     var keyWord  = $('#search').val().toLowerCase();
     var tableDom = $('#' + tableId);
     var trDoms   = tableDom.find('tbody>tr');
-    
     trDoms.each(function() {
         $(this).show();
         var isShow = false;

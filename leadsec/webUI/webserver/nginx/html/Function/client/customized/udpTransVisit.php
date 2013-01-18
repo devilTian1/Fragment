@@ -49,7 +49,7 @@
         if (!empty($time)) {
             $result .= "time $time ";
         }
-        $result .= "comment \"$comment\"";
+        $result .= "ipver ipv4 comment \"$comment\" 1>/dev/null";
         return $result;
     }
 

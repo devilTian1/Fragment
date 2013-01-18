@@ -96,6 +96,10 @@
         echo json_encode(array('msg' => $result));
     } else if ('add' === $_POST['type']) {
         // Add new realm addr
+        if ($_POST['addrName'] === "any") {
+        	echo json_encode(array('msg' => "[any]为内部关键字，不允许定义为名称."));
+        	return;
+        }
         $cmd = getAddOrEditCmd('add');
         $cli = new cli();
         $cli->run($cmd);

@@ -1,7 +1,7 @@
 <{foreach $udpCommClientAcl as $r }>
     <tr>
         <td><{$r.id}></td>
-        <td><{$r.sa}></td>
+        <td><{$r.sa|regex_replace: "/_ipv(4|6)/" : ""}></td>
         <td><{$r.lip}></td>
         <td><{$r.lport}></td>
         <td><{$r.time}></td>
@@ -12,10 +12,11 @@
                 <input type="hidden" name="customId" value="<{$r.id}>"/>
                 <input type="hidden" name="sa" value="<{$r.sa}>"/>
                 <input type="hidden" name="lip" value="<{$r.lip}>"/>
-                <input type="hidden" name="lportReq" value="<{$r.lport}>"/>
+                <input type="hidden" name="udplportReq" value="<{$r.lport}>"/>
                 <input type="hidden" name="time" value="<{$r.time}>"/>
                 <input type="hidden" name="usergrp" value="<{$r.usergrp}>"/>
                 <input type="hidden" name="killVirus" value="<{$r.killvirus}>"/>
+                <input type="hidden" name="ipType" value="<{$r.ip_ver}>"/>
                 <input type="hidden" name="comment" value="<{$r.comment}>"/>
                 <{if $r.active eq 1 || $r.active eq 'Y'}>
                     <a href="#" onClick="switchUdpCommClientAcl('<{$r.id}>', 'disable')">

@@ -5,25 +5,21 @@
     </caption>
     <thead>
     <tr>
-      <th class="column_10">任务号</th>
-      <th class="column_10">源地此</th>
-      <th class="column_10">本机地此</th>
-      <th class="column_10">本机端口</th>
-      <th class="column_10">过滤选项</th>
-      <th class="column_10">是否启动</th>
-      <th class="column_10">生效时间</th>
-      <th class="column_10">备注</th>
+      <th class="column_5" name="id">序号</th>
+      <th class="column_10" name="sa">源地址</th>
+      <th class="column_10" name="time">生效时段</th>
+      <th class="column_5" name="comment">备注</th>
       <th class="column_20">操作</th>
     </tr>
     </thead>
-     <tbody>
+   <tbody>
     <tr>
-      <td colspan="9">Loading……</td>
+      <td colspan="5">Loading……</td>
     </tr>
     </tbody>
   </table>
 <button class="standard floatLeft" style="position: static"
-    onclick="openNewDialog()">添加
+    onclick="openNewGeneralAccessCtrlDialog()">添加
 </button>
 <div class="pager floatRight">
     <{include file='layout/pagination.tpl' func='Function/client/safeBrowse/generalVisit.php'}>
@@ -33,6 +29,6 @@
     $(document).ready(function() {
         renderStandardUi();
         freshTable('Function/client/safeBrowse/generalVisit.php', $('#generalVisitTable'), 'ORDER BY id ASC LIMIT 10');
-        sortTableInit($('#generalVisitTable'), {8: {sorter: false}}, [[0,0]]);
+        sortTableInit($('#generalVisitTable'), {4: {sorter: false}}, [[0,0]]);
     });
 </script>

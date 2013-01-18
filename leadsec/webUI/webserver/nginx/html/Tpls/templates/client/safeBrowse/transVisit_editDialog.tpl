@@ -1,93 +1,62 @@
-<style type="text/css">
-	#filter label{ display:block; width:120px; float:left; cursor:pointer; height:32px;}
-	.floatLeft input[type="radio"]{ width:10px;}
-</style>
-<form action="Function/client/safeBrowse/transVisit.php" method="POST" id="editForm" onSubmit="return false;">
-    <input type="hidden" name="type" value="<{$type|default: 'add'}>"/>
-    <input type="hidden" name="id" value="<{$res.id}>"/>
-     <fieldset>
-        <!--<legend></legend>-->
-         <div class="row">
-          <label for="destip">任务号:<em class="required">*</em></label>
-          <input type="text" name="destip" value="<{$res.destip}>" />(同一端的任务号必须唯一)
+<form action="Function/client/safeBrowse/transVisit.php" method="POST" id="editTransAccessCtrlForm" onSubmit="return false;">
+	<input type="hidden" name="type" value="<{$type|default: 'add'}>"/>
+	<input type="hidden" name="transAccId" value="<{$editTransAcc.id}>"/>
+	<fieldset>
+    	<legend>添加透明访问控制</legend>
+    	<div class="row">
+    		<label>源地址:</label>
+    		<{html_options  class="select" name="srcIpList"
+                 options=$addrOptions selected=$editTransAcc.sip|default: 'any_ipv4'}>
+    	</div>
+    
+    	<div class="row">
+    		<label>目的地址:</label>
+    			<{html_options class="select" name="destIpList"
+                options=$addrOptions selected=$editTransAcc.dip|default: 'any_ipv4'}>
+    	</div>
+    
+        <div class="row" id="dPortDiv">
+        	<label>目的端口:<em class="required">*</em></label>
+        	<input class="id" type="text" name="destPort" value="<{$editTransAcc.port}>" size="5" maxlength="5"/>        	
         </div>
         
+        <div class="row" id="dPortDiv">
+        	<label>Https:</label>
+        	<input class="checkbox" name="httpEnableChk" id="httpEnableChk" type="checkbox"/>  	
+        </div>
+    
+		<div class="row">
+        	<label>认证用户组:</label>
+        	<{html_options class="select" name="authUsrGrpList"
+                options=$roleList selected=$editTransAcc.usergrp}>
+        </div>
+    
         <div class="row">
-          <label for="destip">源地此:</label>
-          <select name="select" class="w200" id="select">
-          </select>
+        	<label>生效时段:</label>
+        	<{html_options class="select" name="timeList" id="timeList"
+                options=$timeList selected=$editTransAcc.time}>
         </div>
-        
+    
         <div class="row">
-          <label for="destip">目的地此:</label>
-          <select name="select" class="w200" id="select">
-          </select>
+        	<label>备注:</label>
+        	<textarea rows="10" cols="30" name="comment" id="comment"><{$editTransAcc.comment}></textarea>
         </div>
-        
-         <div class="row">
-          <label for="destip">目的端口:</label>
-          <input type="text" name="destip" value="<{$res.destip}>" />(1-65535)(输入形如:1200或2000：3000)
-        </div>
-        
-          <hr class="clearFloat"/>
-        
-        <div class="row">
-            <label>过滤选项:</label><br/>
-            <div id="filter">
-              	<div class="floatLeft"><label><input name="filter" type="radio" value="" checked="checked"/>无</label></div>
-                <div class="floatLeft"><label title="过滤选项1" rel="test.php"><input name="filter" type="radio" value="1" />过滤选项1</label></div>
-                <div class="floatLeft"><label title="过滤选项1" rel="test.php"><input name="filter" type="radio" value="1" />过滤选项1</label></div>
-                <div class="floatLeft"><label title="过滤选项1" rel="test.php"><input name="filter" type="radio" value="1" />过滤选项1</label></div>
-                <div class="floatLeft"><label title="过滤选项1" rel="test.php"><input name="filter" type="radio" value="1" />过滤选项1</label></div>
-                <div class="floatLeft"><label title="过滤选项1" rel="test.php"><input name="filter" type="radio" value="1" />过滤选项1</label></div>
-              </div>
-        </div>
-		<hr class="clearFloat"/>
-        
-        <div class="row">
-            <label>是否启动:</label>
-            <div class="floatLeft">
-               <input name="radio" type="radio" id="radio" value="radio" checked="checked" />启动
-            </div>
-            <div class="floatLeft">
-                <input type="radio" name="radio" id="radio2" value="radio" />停止
-            </div>
-        </div>
-        
-        <div class="row">
-          <label for="destip">认证用户组:</label>
-          <select name="select" class="w200" id="select">
-          </select>
-        </div>
-        
-        <div class="row">
-          <label for="destip">生效时段:</label>
-          <select name="select" class="w200" id="select">
-          </select>
-        </div>
-        
-        <div class="row">
-          <label for="destip">备注:</label>
-          <input type="text" name="destip" value="<{$res.destip}>" />
-        </div>
-    </fieldset>
+	</fieldset>
 </form>
-<link rel="stylesheet" href="Public/js/clueTip/jquery.cluetip.css" type="text/css" />
-<script type="text/javascript" src="Public/js/clueTip/jquery.hoverIntent.js"></script>
-<script type="text/javascript" src="Public/js/clueTip/jquery.bgiframe.min.js"></script>
-<script type="text/javascript" src="Public/js/clueTip/jquery.cluetip.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
-	$('a.title').cluetip({splitTitle: '|'});
-	$('.inputbtn').button();
-	$("#filter label").cluetip({titleAttribute:'title'});
-	$("#filter label").mouseover(function(){
-				var val=$(this).children('input').val();
-				//	$(this).cluetip({titleAttribute:'title'});
-												 })
-	$("#filter label").mouseout(function(){
-					//var val=$(this).children('input').val();
-					
-												 })
+	initTransAccessCtrlEdit(); 
+	validateForm($("#editTransAccessCtrlForm"));	
 });
+
+function initTransAccessCtrlEdit() {
+	if ('<{$type}>' == 'edit') {
+		// 初始化HTTPS
+		if ('<{$editTransAcc.https}>' == '1') {
+			$("#httpEnableChk").attr("checked",'checked');
+		}
+	}
+	filterRes();
+}
+
 </script>

@@ -1,112 +1,136 @@
 <?php
     require_once($_SERVER['DOCUMENT_ROOT'] . '/Function/common.php');
 
-    function getAllList() {
-        $addrListArr = array();
-        $sql = "SELECT name FROM address";
-        $db  = new dbsqlite(DB_PATH . '/rule.db');
+    function appendFastPassData($where) {
+        $tpl =  'client/safePass/safePassTable.tpl';
+        $db  = new dbsqlite(DB_PATH . '/netgap_fastpass.db');
+	    $sql = "SELECT * FROM fastpass_client_acl $where";
         $result = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
-        foreach ($result as $k => $v) {
-            $addrListArr[] = $v['name'];
+        foreach ($result as $key => $arr) {
+        	$result[$key]['sa'] = addrNameDelPreffix($arr['sa']);
+        	if ($arr['samenet'] === 'no') {
+        		$result[$key]['da'] = addrNameDelPreffix($arr['da']);
+        	}
         }
-        return $addrListArr;
-    }
-
-    function getSpecAddrListName($id) {
-        $db  = new dbsqlite(DB_PATH . '/rule.db');
-        $sql = "select address.name from addrmap INNER JOIN address ".
-            "ON addrmap.addrid == address.id where addrmap.addrgrpid=$id";
-        return $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
-    }
-
-    function appendAddrGroupData($where) {
-        $tpl =  'resConf/addr/addrGroupTable.tpl';
-        $db  = new dbsqlite(DB_PATH . '/rule.db');
-	    $sql = "SELECT id, name, comment FROM addrgrp $where";
-        $result = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
-        foreach ($result as $k => $v) {
-            $r = getSpecAddrListName($v['id']);
-            foreach ($r as $name) {
-                $result[$k]['addrNames'] .= $name['name'] . '&nbsp;';
-            }
-	    }
-        echo V::getInstance()->assign('addrGroup', $result)
+        echo V::getInstance()->assign('fpList', $result)
             ->assign('pageCount', 10)
             ->fetch($tpl);
     }
 
     function getDataCount() {
-    	$sql = "SELECT id FROM addrgrp";
-        $db  = new dbsqlite(DB_PATH . '/rule.db');
+    	$sql = "SELECT id FROM fastpass_client_acl";
+        $db  = new dbsqlite(DB_PATH . '/netgap_fastpass.db');
         return $db->query($sql)->getCount();
     }
 
-    function getAddOrEditData() {
-        $name    = $_POST['addrGrpName'];
-        $comment = $_POST['comment'];
-        $mbrArr  = $_POST['addrGrpMember'];
-        $addmbr  = join('" "', $mbrArr);
-        return array($name, $comment, $addmbr);
-    }
+    function getCmd() {
+    	if (!empty($_POST['delId'])) {
+    		$id     = $_POST['delId'];
+    		return "fpctl del task type client id $id";
+    	}
+        $type = $_POST['type'];
+        if ($type === 'add') {
+            $action = 'add';            
+        } elseif ($type === 'edit' || !empty($_POST['activeSwitch'])) {
+            $action = 'set';
+        } else {
+            throw new Exception('fatal action: [' . $type . '].');
+        }
+        $id     = $_POST['safePassId'];
+        $acessType = $_POST['accessType'];
+        $sa 	   = $_POST['srcIpList'];
+        $da 	   = $acessType==='yes' ? $_POST['destIpList_normal'] : $_POST['destIpList_trans'];
+        $service   = $_POST['serviceList'];
+    	if (empty($_POST['srcPort']) || $_POST['srcPort'] === '----') {
+    		$sport = '1:65535';        	
+    	} else {
+    		$sport = $_POST['srcPort'];
+    	}
+    	if (empty($_POST['destPort']) || $_POST['destPort'] === '----') {
+    		$dport = '1:65535';        	
+    	} else {
+    		$dport = $_POST['destPort'];
+    	} 
+        
+
+        $active = $_POST['activeChk'] === 'ok' ? 'on' : 'off';
+
+        $log 	   = $_POST['logChk'] === 'Y' ? 'on' : 'off';
+        if (!empty($_POST['timeList'])) {
+        	$time  = $_POST['timeList'];
+    	} else {
+    		$time  = "none";
+    	}
+        $comment   = $_POST['comment'];
+        $syn 	   = $_POST['synFloodChk'] === 'on' ? $_POST['synFloodTxt'] : 'off';
+        $udp 	   = $_POST['udpFloodChk'] === 'on' ? $_POST['udpFloodTxt'] : 'off';
+        $icmp 	   = $_POST['icmpFloodChk'] === 'on' ? $_POST['icmpFloodTxt'] : 'off';
+        $ping	   = $_POST['pingFloodChk'] === 'on' ? 'on' : 'off';;
+
+        $result = "fpctl $action task type client id $id samenet $acessType sa $sa sport $sport" .
+            " da $da dport $dport service $service time $time active $active log $log syn $syn" . 
+            " udp $udp icmp $icmp ping $ping ";
+        $result .= "comment \"$comment\"";
+        return $result;
+    }    
+    
+    function addrNameDelPreffix($name) {
+    	// 去掉最后一个下划线_ipv4或_ipv6
+    	return substr($name,0,-5);    	
+	}
 
     if (!empty($_POST['editId'])) {
-        // Get specified addrGroup data
+        // Open a specified safepass data
         $tpl = $_POST['tpl'];
-        $id  = $_POST['editId'];
-
-        $r   = getSpecAddrListName($id);
-        $addrGrpMemberArr = array();
-        foreach ($r as $row) {
-            $addrGrpMemberArr[] = $row['name'];
-        }
-        $addrListArr = getAllAddrList();
-        $addrListArr = array_diff($addrListArr, $addrGrpMemberArr);
-
-        $db  = new dbsqlite(DB_PATH . '/rule.db');
-	    $sql = "SELECT name, comment FROM addrgrp WHERE id = $id";
-        $addrGroup = $db->query($sql)->getFirstData(PDO::FETCH_ASSOC);
-        $result = V::getInstance()->assign('addrListArr', $addrListArr)
-            ->assign('addrGrpMemberArr', $addrGrpMemberArr)
-            ->assign('addrGroup', $addrGroup)
+        $id  = $_POST['editId'];		
+        $db  = new dbsqlite(DB_PATH . '/netgap_fastpass.db');
+        $sql = "SELECT * FROM fastpass_client_acl WHERE id = '$id'";
+        $result = $db->query($sql)->getFirstData(PDO::FETCH_ASSOC);       
+        $result = V::getInstance()
+        	->assign('addrOptions', netGapRes::getInstance()->getAddr())
+            ->assign('timeList', netGapRes::getInstance()->getTimeList())
+            ->assign('roleList', netGapRes::getInstance()->getRoleList())
+            ->assign('interfaceList', netGapRes::getInstance()->getInterface())
+        	->assign('editSafePass', $result)
             ->assign('type', 'edit')->fetch($tpl);
         echo json_encode(array('msg' => $result));
-    } else if ('edit' === $_POST['type']) {
-        // Edit a specified addr group data
-        list($name, $comment, $addmbr) = getAddOrEditData();
-        $cmd1 = "addrgrp set name \"$name\" comment \"$comment\"";
-        $cmd2 = "addrgrp set name \"$name\" delallmbr";
-        $cmd3 = "addrgrp set name \"$name\" addmbr \"$addmbr\"";
-        $cli  = new cli();
-        $cli->run($cmd1);
-        $cli->run($cmd2);
-        $cli->run($cmd3);
-        echo json_encode(array('msg' => "[$name]修改成功."));
-    } else if ('add' === $_POST['type']) {
-        // Add a new addr group data
-        list($name, $comment, $addmbr) = getAddOrEditData();
-        $cmd1 = "addrgrp add name \"$name\" comment \"$comment\"";
-        $cmd2 = "addrgrp set name \"$name\" addmbr \"$addmbr\"";
-        $cli  = new cli();
-        $cli->run($cmd1);
-        $cli->run($cmd2);
-        echo json_encode(array('msg' => "[$name]添加成功."));
-    } else if (!empty($_POST['delName'])) {
-        // Delete the specified addrGroup data
-        $name = $_POST['delName'];
-        $cmd  = "addrgrp del name \"$name\"";
-        $cli  = new cli();
-        $cli->run($cmd);
-        echo json_encode(array('msg' => "[$name]删除成功."));
-    } else if (!empty($_POST['openDialog'])) {
-        // Display add addr group dialog
+     } else if (isset($_POST['openAddDialog'])) {
+        // Open a new safepass dialog
         $tpl = $_POST['tpl'];
         $result = V::getInstance()
-            ->assign('addrGrpMemberArr', array())
+            ->assign('addrOptions', netGapRes::getInstance()->getAddr())
+            ->assign('timeList', netGapRes::getInstance()->getTimeList())
+            ->assign('roleList', netGapRes::getInstance()->getRoleList())
+            ->assign('interfaceList', netGapRes::getInstance()->getInterface())
             ->assign('type', 'add')->fetch($tpl);
         echo json_encode(array('msg' => $result));
+    } else if ('edit' === $_POST['type']) {
+        // Edit a specified safepass data
+        $cli = new cli();
+        $cli->run(getCmd());
+        echo json_encode(array('msg' => "修改成功."));
+    } else if ('add' === $_POST['type']) {
+        // Add a new safepass data
+        $cli = new cli();
+        $cli->run(getCmd());
+        echo json_encode(array('msg' => '添加成功.'));
+    } else if (!empty($_POST['delId'])) {
+        // Delete the specified safepass data        
+        $cli = new cli();
+        $cli->run(getCmd());
+        echo json_encode(array('msg' => "删除成功."));
+    } else if ($_POST['activeSwitch']) {
+    	// active on/off a safepass
+    	$cli = new cli();
+        $cli->run(getCmd());
+        echo json_encode(array('msg' => '成功.'));
+    } else if (!empty($_GET['checkExistId'])) {
+        // Check the same id exist or not
+        echo netGapRes::getInstance()->checkExistTaskId('safepass',$_GET['safePassId']);
+        //checkExistId($_GET['safePassId']);
     } else if ($orderStatement = $_POST['orderStatement']) {
-        // fresh and resort addr-group list
-        appendAddrGroupData($orderStatement);
+        // fresh and resort safepass list
+        appendFastPassData($orderStatement);
     } else {
         // init page data
         $result = getDataCount();

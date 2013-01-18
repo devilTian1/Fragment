@@ -29,9 +29,15 @@
         	 return false;
         } 
     }
-    function checkAddAndEditNexthopip($nexthopIp) {  	        
-        $nexthopIpFrag = explode('.', trim($nexthopIp));
-        $ip     = get_client_ip();        
+    function checkAddAndEditNexthopip($nexthopIp,$interface) {  	        
+        $nexthopIpFrag = explode('.', trim($nexthopIp));       
+        $db      = new dbsqlite(DB_PATH . '/configs.db');
+        $sql     =
+            "SELECT ip FROM interface where external_name = '$interface'";
+        $result  = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
+        foreach ($result as $k => $v) {
+        	$ip = $v['ip'];        	
+        }             
         $mask        = convertToIpv4Mask(24);
         $ipFrag      = explode('.', trim($ip));
         $maskFrag    = explode('.', trim($mask));
@@ -92,7 +98,7 @@
         }
         $nexthopip=$_POST['nexthopip'];
         $interface=$_POST['interface'];
-        if (checkAddAndEditNexthopip($nexthopip)) {
+        if (checkAddAndEditNexthopip($nexthopip,$interface)) {
         	$cmdArr   = array();
         	$cmdArr[] = "/usr/local/bin/route add static dip ".
         	"\"$destip/$destmask\" gateway \"$nexthopip\" ".
@@ -103,13 +109,11 @@
       			$cli->run($cmd);
         	}
         	echo json_encode(array('msg' => "添加成功."));
-        }else {
-        	$ip     = get_client_ip();
-        	$msg = "下一跳地址 \"$nexthopip\"不能生效，请配置与\"$ip\"同一地址段的地址 .";
+        }else {       	
+        	$msg = "下一跳地址 \"$nexthopip\"不能生效，请配置与接口\"$interface\"".
+        		"的IP同一地址段的地址 .";
         	echo json_encode(array('msg' => $msg));
-        }
-                                    
-        
+        }                                            
     }elseif (!empty($_POST['sid'])) {
         // Get specified data
         $id  = $_POST['sid'];
@@ -154,7 +158,7 @@
         }
         $nexthopip=$_POST['nexthopip'];
         $interface=$_POST['interface'];
-        if (checkAddAndEditNexthopip($nexthopip)) {
+        if (checkAddAndEditNexthopip($nexthopip,$interface)) {
         	$cmdArr   = array();
         	$cmdArr[] = "/usr/local/bin/route set static id \"$id\" dip " .
         		"\"$destip/$destmask\" gateway \"$nexthopip\" interface " .
@@ -166,8 +170,8 @@
         	}
         	echo json_encode(array('msg' => "修改成功."));
         }else {
-        	$ip     = get_client_ip();
-        	$msg = "下一跳地址 \"$nexthopip\"不能生效，请配置与\"$ip\"同一地址段的地址 .";
+        	$msg = "下一跳地址 \"$nexthopip\"不能生效，请配置与接口\"$interface\"".
+        		"的IP同一地址段的地址 .";
         	echo json_encode(array('msg' => $msg));
         }
         

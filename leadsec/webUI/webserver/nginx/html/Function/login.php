@@ -16,7 +16,7 @@
         //管理主机ip检测
         $db = new dbsqlite(DB_PATH . '/configs.db');
         if (checkAdminIpv4s() === false) {
-            DEBUG || exit('管理主机限制登录');
+            //DEBUG || exit('管理主机限制登录');
         }
         // check allow to serveral admins to login or not
         $sql = "SELECT allow FROM allow_multiple";
@@ -41,7 +41,7 @@
 
     function logout() {
         delOnlineUser($_SESSION['account']);
-    	@$_SESSION=NULL;
+    	@$_SESSION = NULL;
     	@session_unset();
 		@session_destroy();
         V::getInstance()->clearAllAssign();
@@ -81,7 +81,7 @@
     }
 
     function addOnlineUsers($account) {
-        $filePath  = 'Logs/onlineUsers';
+        $filePath  = WEB_PATH . '/Logs/onlineUsers';
         $client_ip = get_client_ip();
         $contents  = file_get_contents($filePath);
         $newUser   = "$account/$client_ip";
@@ -91,7 +91,7 @@
         }
     }
     function delOnlineUser($account) {
-        $filePath  = 'Logs/onlineUsers';
+        $filePath  = WEB_PATH . '/Logs/onlineUsers';
         $client_ip = get_client_ip();
         $contents  = file_get_contents($filePath);
         $newUser   = "$account/$client_ip";
@@ -99,7 +99,7 @@
     }
 
     function isUserOnline($account) {
-        $filePath  = 'Logs/onlineUsers';
+        $filePath  = WEB_PATH . '/Logs/onlineUsers';
         $contents  = file_get_contents($filePath);
         return strpos($contents, "$account/");
     }

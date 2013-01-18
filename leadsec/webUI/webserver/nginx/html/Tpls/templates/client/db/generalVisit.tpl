@@ -5,15 +5,15 @@
     </caption>
     <thead>
     <tr>
-      <th class="column_10">任务号</th>
-      <th class="column_10">数据库类型</th>
-      <th class="column_10">源地此</th>
-      <th class="column_10">本机地此</th>
-      <th class="column_10">本机端口</th>
-      <th class="column_10">过滤选项</th>
-      <th class="column_10">是否启动</th>
-      <th class="column_10">生效时间</th>
-      <th class="column_10">备注</th>
+      <th class="column_10" name="id">任务号</th>
+      <th class="column_10" name="dbtype">数据库类型</th>
+      <th class="column_10" name="sa">源地址</th>
+      <th class="column_10" name="lip">本机地址</th>
+      <th class="column_10" name="lport">本机端口</th>
+      <th class="column_10" name="filter">过滤选项</th>
+      <th class="column_10" >是否启动</th>
+      <th class="column_10" name="time">生效时间</th>
+      <th class="column_10" name="comment">备注</th>
       <th class="column_20">操作</th>
     </tr>
     </thead>
@@ -34,6 +34,6 @@
     $(document).ready(function() {
         renderStandardUi();
         freshTable('Function/client/db/generalVisit.php', $('#generalVisitTable'), 'ORDER BY id ASC LIMIT 10');
-        sortTableInit($('#generalVisitTable'), {9: {sorter: false}}, [[0,0]]);
+        sortTableInit($('#generalVisitTable'), {6: {sorter: false},9: {sorter: false}}, [[0,0]]);
     });
 </script>

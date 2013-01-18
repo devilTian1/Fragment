@@ -1,48 +1,21 @@
-function openEditDialog(id) {
-    var url  = 'Function/resConf/addrBind/ftpVisit.php';
-    var data = {
-        tpl    : 'resConf/addrBind/ftpVisit_editDialog.tpl',
-        editId : id
-    };
-    var title   = '修改FTP过滤';
-    var buttons = {};
-    buttons['确定'] = function() {
-        if ($('#editForm').valid()) {
-            ajaxSubmitForm($('#editForm'), '结果');
-            freshTableAndPage();
-            $(this).remove();
-        }
-    };
-    buttons['取消'] = function() {
-        $(this).remove();
-    };
-    var dialogParams = {
-        width   : 600,
-        height  : 550,
-        buttons : buttons
-    };
-    showDialogByAjax(url, data, title, dialogParams);
-}
-
-function openNewDialog() {
-    var url   = 'Function/resConf/addrBind/ftpVisit.php';
-    var title = '添加FTP过滤';
+function openNewFtpFilterOptionsDialog() {
+    var url   = 'Function/resConf/filterConf/ftp.php';
+    var title = '添加FTP过滤选项';
     var data  = {
-        tpl : 'resConf/addrBind/ftpVisit_editDialog.tpl',
-		openDialog: true
+		openAddDialog: true
     };
     var buttons = {};
     buttons['添加下一条'] = function() {
-        if ($('#editForm').valid()) {
-            openNewDialog();
-            ajaxSubmitForm($('#editForm'), '结果');
+        if ($('#editFtpFilterOptionForm').valid()) {
+            openNewFtpFilterOptionsDialog();
+            ajaxSubmitForm($('#editFtpFilterOptionForm'), '结果');
             freshTableAndPage();
             $(this).remove();
         }
     };
     buttons['确定'] = function() {
-        if ($('#editForm').valid()) {
-            ajaxSubmitForm($('#editForm'), '结果');
+        if ($('#editFtpFilterOptionForm').valid()) {
+            ajaxSubmitForm($('#editFtpFilterOptionForm'), '结果');
             freshTableAndPage();
             $(this).remove();
         }
@@ -52,16 +25,43 @@ function openNewDialog() {
     };
     var dialogParams = {
         width   : 600,
-        height  : 550,
-        buttons : buttons
+        height  : 690,
+        buttons : buttons,
+        position: ['center', 'top']
     };
     showDialogByAjax(url, data, title, dialogParams);
 }
 
-function del(name) {
-    var url  = 'Function/resConf/addrBind/ftpVisit.php';
+function editFtpFilterOptionsDialog(id) {
+    var url   = 'Function/resConf/filterConf/ftp.php';
+    var title = '修改FTP过滤选项';
+    var data  = {
+		editId: id
+    };
+    var buttons = {};
+    buttons['确定'] = function() {
+        if ($('#editFtpFilterOptionForm').valid()) {
+            ajaxSubmitForm($('#editFtpFilterOptionForm'), '结果');
+            freshTableAndPage();
+            $(this).remove();
+        }
+    };
+    buttons['取消'] = function() {
+        $(this).remove();
+    };
+    var dialogParams = {
+        width   : 600,
+        height  : 690,
+        buttons : buttons,
+        position: ['center', 'top']
+    };
+    showDialogByAjax(url, data, title, dialogParams);
+}
+
+function delFtpFilterOptions(id) {
+    var url  = 'Function/resConf/filterConf/ftp.php';
     var data = {
-        delName: name
+        delId: id
     };
     var title  = '删除FTP过滤';
     var buttons = {};
@@ -77,13 +77,13 @@ function del(name) {
     showDialogByAjax(url, data, title, dialogParams);
 }
 
-function openDelDialog(name) {
-    var dialog  = loadingScreen('删除FTP过滤');
+function delFtpFilterOptionsDialog(id, name) {
+    var dialog  = loadingScreen('删除FTP过滤选项');
     var buttons = {};
     buttons['Confirm'] = function() {
-        del(name);
-        $(this).remove();
+        delFtpFilterOptions(id);
         freshTableAndPage();
+        $(this).remove();
     };
     buttons['Cancel']  = function() {
         $(this).remove();
@@ -93,7 +93,7 @@ function openDelDialog(name) {
         height: 160,
         buttons: buttons
     };
-    dialog.setContent("<p>确定要删除名称为" + name + "的FTP过滤吗?</p>");
+    dialog.setContent("<p>确定要删除名称为" + name + "的FTP过滤选项吗?</p>");
     dialog.setOptions(dialogParams);   
 }
 

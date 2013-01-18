@@ -49,9 +49,26 @@
         $result = $db->query("SELECT host FROM system")
                      ->getFirstData(PDO::FETCH_ASSOC);
         $hostStatus = $result['host'] === 'I' ? '内网' : '外网';
-
+        
+		$result = array(
+    		'0' =>array('id' => 'homepage',   'img' => 'top_icon_1.png',  'name' => '首页'),
+    		'1' =>array('id' => 'fastconf',   'img' => 'top_icon_2.png',  'name' => '快捷配置'),
+    		'2' =>array('id' => 'homepage',   'img' => 'top_icon_3.png',  'name' => '首页'),
+    		'3' =>array('id' => 'save',       'img' => 'top_icon_4.png',  'name' => '保存'),
+    		'4' =>array('id' => 'homepage',   'img' => 'top_icon_5.png',  'name' => '首页'),
+    		'5' =>array('id' => 'refresh',    'img' => 'top_icon_6.png',  'name' => '刷新'),
+    		'6' =>array('id' => 'exit',       'img' => 'top_icon_7.png',  'name' => '退出'),
+    		'7' =>array('id' => 'exportlog',  'img' => 'top_icon_8.png',  'name' => '导出日志'),
+    		'8' =>array('id' => 'first',       'img' => 'top_icon_9.png',  'name' => '上一步'),
+    		'9' =>array('id' => 'next',        'img' => 'top_icon_10.png', 'name' => '下一步'),
+    		'10' =>array('id' => 'help',       'img' => 'top_icon_11.png', 'name' => '在线帮助'),
+    		'11' =>array('id' => 'inline',     'img' => 'top_icon_12.png', 'name' => '内网'),
+    		'12' =>array('id' => 'online',     'img' => 'top_icon_13.png', 'name' => '外网'),
+    		'13' =>array('id' => 'exportconf', 'img' => 'top_icon_14.png', 'name' => '导出配置')
+    	);
         // generate smarty instance
-        V::getInstance()->assign('menuArr', $menuArr)
+        V::getInstance()->assign('result', $result)
+        				->assign('menuArr', $menuArr)
                         ->assign('hostStatus', $hostStatus)
                         ->display('index.tpl');
     }

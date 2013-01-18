@@ -50,25 +50,44 @@
   
 <br/>
 
+<{include file='layout/search.tpl' tableId='accountTable'}>
+
 <table class="column_95 textMid tablesorter" id="accountTable">
 	<caption>
 		已绑定IP/MAC对
 	</caption>
 	<thead>
 		<tr>
+			<th class="column_5"><input type="checkbox" onClick="checkAllIp()" title="全选" id="checkAllIp"/></th>
 			<th class="column_20">IP地址</th>
 			<th class="column_30">MAC地址</th>
 			<th class="column_30">唯一性检查</th>
 			<th class="column_20">操作</th>
 		</tr>
 	</thead>
-	<tbody>
-		<tr><td colspan='4'>Loading ...</td></tr>
-	</tbody>
+	<tdbody>
+        <tr>
+            <td colspan='5'>Loading ... ...</td>
+        </tr>
+	</tdbody>
 </table>
-<button class="floatLeft inputbtn" type="button" onClick="openNewAccountDialog()" id="add">
+
+<button class="standard floatLeft" style="position: static" onClick="openNewAccountDialog()">
 	添加
 </button>
+
+<button class="standard floatLeft" style="position: static" onClick="openDelAllIpDialog()">
+	删除全部记录
+</button>
+
+<button class="standard floatLeft" style="position: static" onclick="openDelSpecIpListDialog()">
+	删除已选记录
+</button>
+
+<div class="pager floatRight">
+    <{include file='layout/pagination.tpl' func='Function/appS/addrBind/addrBind.php'}>
+</div>
+
 <script type="text/javascript" src="Public/js/appS/addrBind/addrBind.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
@@ -81,7 +100,7 @@ $(document).ready(function() {
 		}else{
 			$("#switch").val('');
 		}					   
-	})
-	$('.inputbtn').button();
-});
+		})	
+	});
+	freshTable('Function/appS/addrBind/addrBind.php?tpl=editaddrtpl', $('#accountTable'),'ORDER BY id ASC LIMIT 10');
 </script>

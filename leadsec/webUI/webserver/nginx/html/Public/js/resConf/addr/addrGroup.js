@@ -113,6 +113,46 @@ function moveToAddrList() {
     $('#addrGrpMember option:selected').appendTo($('#addrList'));
 }
 
-function moveToAddrGrpMember() {
-    $('#addrList option:selected').appendTo($('#addrGrpMember'));
+function moveToAddrGrpMember() {	
+	var name = $('#addrGrpName').val();
+	var len = name.length;
+	var Type =name.substring(len-4,len);
+	var nameType = $('#addrGrpIpType').val();
+	var ListValue = $('#addrList option:selected').val();
+	var listlen = ListValue.length;
+	var listType =ListValue.substring(listlen-4,listlen);
+	if(nameType==""){
+		var GrpValue = document.getElementById('addrGrpMember').value;  
+		var Grplen = GrpValue.length;
+		var GrpType =GrpValue.substring(Grplen-4,Grplen);
+		if (GrpValue =="") {
+			if (listType == Type) {
+				 $('#addrList option:selected').appendTo($('#addrGrpMember')); 
+			}else {
+				//alert('请添加与本组成员同IP类型的地址组成员');
+				showErrorDialog('请添加与本组成员同IP类型的地址组成员');
+			}
+		}else {
+			if (listType == GrpType) {
+				 $('#addrList option:selected').appendTo($('#addrGrpMember')); 
+			}else {
+				//alert('请添加与本组成员同IP类型的地址组成员');
+				showErrorDialog('请添加与本组成员同IP类型的地址组成员');
+			}
+		}
+    }else {
+    	if (listType == nameType) {
+			 $('#addrList option:selected').appendTo($('#addrGrpMember')); 
+		}else {
+			//alert('请添加与本组成员同IP类型的地址组成员');
+			showErrorDialog('请添加与本组成员同IP类型的地址组成员');
+		}
+    }
+
+	 
+ 
+    
+     	
+
+   // $('#addrList option:selected').appendTo($('#addrGrpMember')); 
 }

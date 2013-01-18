@@ -120,6 +120,13 @@ function switchTcpTransClientAcl(id, action) {
     dialog.setOptions(dialogParams);
 }
 
+function filterRes() {
+    var saOpts  = $('select[name="sa"]');
+    var daOpts  = $('select[name="da"]');
+    saOpts.find('option[value$="_ipv6"]').hideOption();
+    daOpts.find('option[value$="_ipv6"]').hideOption();
+}
+
 function freshTableAndPage() {
     var url = 'Function/client/customized/tcpTransVisit.php';
     freshTable(url, $('#tcpTransVisitTable'));

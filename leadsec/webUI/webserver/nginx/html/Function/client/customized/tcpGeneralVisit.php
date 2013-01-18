@@ -13,7 +13,7 @@
         $id        = $_POST['customId'];
         $sa        = $_POST['sa'];
         $lip       = $_POST['lip'];
-        $lport     = $_POST['lportReq'];
+        $lport     = $_POST['tcplportReq'];
         if (!empty($_POST['action'])) {
             $active = $_POST['action'] === 'enable' ? 'on' : 'off';
         } else {
@@ -22,6 +22,7 @@
         $killVirus = $_POST['killVirus'] === 'Y' ? 'yes' : 'no';
         $usergrp   = $_POST['usergrp'];
         $time      = $_POST['time'];
+        $ipver     = $_POST['ipType'];
         $comment   = $_POST['comment'];
 
         $result = "ctcpctl $action task type client mode comm id $id sa $sa " .
@@ -32,7 +33,7 @@
         if (!empty($time)) {
             $result .= "time $time ";
         }
-        $result .= "comment \"$comment\"";
+        $result .= "ipver $ipver comment \"$comment\"";
         return $result;
     }
 
@@ -40,7 +41,7 @@
         $tpl =  'client/customized/tcpGeneralVisitTable.tpl';
         $db  = new dbsqlite(DB_PATH . '/netgap_custom.db');
         $sql = 'SELECT id, sa, lip, lport, killvirus, usergrp, time, active, ' .
-            "comment FROM tcp_comm_client_acl $where";
+            "comment, ip_ver FROM tcp_comm_client_acl $where";
         $result = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
         echo V::getInstance()->assign('tcpCommClientAcl', $result)
             ->assign('pageCount', 10)
@@ -56,7 +57,8 @@
     if ($id = $_POST['editId']) {
         // Open dialog to show specified tcp general client acl data
         $sql  = 'SELECT id, sa, lip, lport, killvirus, usergrp, time, active, '.
-            "comment, ip_ver FROM tcp_comm_client_acl WHERE id = '$id'";
+            'comment, ip_ver FROM tcp_comm_client_acl ' .
+            " WHERE id = '$id'";
         $db   = new dbsqlite(DB_PATH . '/netgap_custom.db');
         $data = $db->query($sql)->getFirstData(PDO::FETCH_ASSOC);
         $tpl  = 'client/customized/tcpGeneralVisit_editDialog.tpl';
@@ -99,6 +101,12 @@
         $cli = new cli();
         $cli->run(getCmd());
         echo json_encode(array('msg' => '成功.'));
+    } else if (!empty($_GET['checkExistLport'])) {
+        // Check the same lport exist or not
+        $sql = 'SELECT id FROM tcp_comm_client_acl WHERE lport = ' .
+            $_GET['tcplportReq'];
+        $db  = new dbsqlite(DB_PATH . '/netgap_custom.db');
+        echo $db->query($sql)->getCount() > 0 ? 'false' : 'true';
     } else if ($orderStatement = $_POST['orderStatement']) {
         // fresh and resort tcp_comm_client_acl table
         appendTcpCommClientAclData($orderStatement);

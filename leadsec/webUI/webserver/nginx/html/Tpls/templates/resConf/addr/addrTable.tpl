@@ -3,7 +3,9 @@
         <td><{$addr.id}></td>
         <td><{$addr.name}></td>
         <td>
-            <{if $addr.type == 1}>
+        	<{if $addr.name == 'any'}>
+        		--
+            <{else if $addr.type == 1}>
                 <{$addr.ip}>/<{$addr.mask}>
             <{else if $addr.type == 2}>
                 <{$addr.ip}> - <{$addr.mask}>
@@ -13,8 +15,10 @@
         </td>
         <td><{$addr.comment}></td>
         <td class="no_search">
-            <a href="#" class="edit" onclick="openEditAddrListDialog('<{$addr.id}>')">编辑</a>
-            <a href="#" class="delete" onclick="openDelAddrDialog('<{$addr.name}>', '<{$addr.id}>')">删除</a> 
+        	<{if $addr.name != 'any'}>
+            	<a href="#" class="edit" onclick="openEditAddrListDialog('<{$addr.id}>')">编辑</a>
+            	<a href="#" class="delete" onclick="openDelAddrDialog('<{$addr.name}>', '<{$addr.id}>')">删除</a> 
+            <{/if}>
         </td>
     </tr>
 <{foreachelse}>

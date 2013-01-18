@@ -4,7 +4,7 @@
     <fieldset>
         <legend>添加UDP普通访问</legend>
         <div class="row">
-            <label for="customId">任务号:<em class="required">*</em></label>
+            <label for="id">任务号:<em class="required">*</em></label>
             <input class="auto" type="text" name="customId" value="<{$data.id}>"
                 <{if $type ==='edit'}>disabled="disabled"<{/if}>
                 size="4" maxlength="4"/>
@@ -22,7 +22,7 @@
         
         <div class="row">
             <label for="lport">服务器端口:<em class="required">*</em></label>
-            <input class="auto" type="text" name="sportReq" value="<{$data.sport}>" size="5" maxlength="5"/>
+            <input class="port" type="text" name="sportReq" value="<{$data.sport}>" size="5" maxlength="5"/>
         </div>
 
         <div class="row">

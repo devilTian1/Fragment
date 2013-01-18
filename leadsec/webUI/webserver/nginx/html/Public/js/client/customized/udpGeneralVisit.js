@@ -17,7 +17,7 @@ function editUdpCommClientAclDialog(id) {
     };
     var dialogParams = {
         width   : 600,
-        height  : 620,
+        height  : 680,
         buttons : buttons,
         position: ['center', 'top']
     };
@@ -51,7 +51,7 @@ function openNewUdpCommClientAclDialog() {
     };
     var dialogParams = {
         width   : 600,
-        height  : 620,
+        height  : 680,
         buttons : buttons,
         position: ['center', 'top']
     };
@@ -118,6 +118,25 @@ function switchUdpCommClientAcl(id, action) {
     var str = action === 'disable' ? '停止' : '启动';
     dialog.setContent('<p>确定' + str + '任务[' +  id + ']吗?</p>');
     dialog.setOptions(dialogParams);
+}
+
+function filterRes() {
+    var type    = $('input:radio[name="ipType"]:checked').val();
+    var saOpts  = $('select[name="sa"]');
+    var lipOpts = $('select[name="lip"]');
+    saOpts.children('span').showOption(); 
+    lipOpts.children('span').showOption(); 
+    if (type === 'ipv4') {
+        saOpts.find('option[value$="_ipv6"]').hideOption();
+        lipOpts.find('option[value*=":"]').hideOption();
+        $('.mul').show();
+    } else if (type === 'ipv6') {
+        saOpts.find('option[value$="_ipv4"]').hideOption();
+        lipOpts.find('option[value*="."]').hideOption();
+        $('.mul').hide();
+        $('input[name="mulIp"]').val('');
+    } else {
+    }
 }
 
 function freshTableAndPage() {

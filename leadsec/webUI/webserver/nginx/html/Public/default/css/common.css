@@ -550,7 +550,6 @@ label.errorLabel {
 #stepTabDiv ul li{ float:left; width:120px; margin-right:30px;}
 #stepTabDiv ul li a{font:14px; font-weight:bold; color:#FFF; line-height:30px;}
 
-
 .zoombox{width:928px;margin:20px auto 0 auto;}
 .zoompic{border:solid 1px #dfdfdf;width:926px;height:150px;/*background:url(../images/loading.gif) no-repeat 50% 50%;*/}
 
@@ -569,4 +568,3 @@ label.errorLabel {
 .sliderbox .slider li.current img{border:solid 1px #3366cc;}
 .sliderbox .slider li.current a div{ background:#a5c8e7; border:solid 1px #CCC}
 .jqstooltip{ background:#525866}
-

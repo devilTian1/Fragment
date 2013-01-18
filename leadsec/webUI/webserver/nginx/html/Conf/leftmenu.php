@@ -30,6 +30,7 @@
 
     //levev2 client
     'c_fe' => array('pid' => 'c', 'name' => '文件交换', 'link' => 'fileEx'),
+    'c_fs' => array('pid' => 'c', 'name' => '文件同步', 'link' => 'fileSync'),
     'c_d' => array('pid' => 'c', 'name' => '数据库同步','link' => 'dbSync'),
     'c_s' => array('pid' => 'c', 'name' => '安全浏览', 'link' => 'safeBrowse'),
     'c_f' => array('pid' => 'c', 'name' => 'FTP访问',  'link' => 'ftp'),
@@ -37,10 +38,11 @@
     'c_db' => array('pid' => 'c', 'name' => '数据库访问','link' => 'db'),
     'c_c' => array('pid' => 'c', 'name' => '定制访问', 'link' => 'customized'),
     'c_sp' => array('pid' => 'c', 'name' => '安全通道', 'link' => 'safePass'),
-    'c_mt' => array('pid' => 'c', 'name' => '消息传输', 'link' => 'msgTrans'),
+    'c_mt' => array('pid' => 'c', 'name' => '消息传输', 'link' => 'msgTrans'),    
 
     //levev2 server
     's_fe' => array('pid' => 's', 'name' => '文件交换', 'link' => 'fileEx'),
+    's_fs' => array('pid' => 's', 'name' => '文件同步', 'link' => 'fileSync'),
     's_d' => array('pid' => 's', 'name' => '数据库同步','link' => 'dbSync'),
     's_s' => array('pid' => 's', 'name' => '安全浏览', 'link' => 'safeBrowse'),
     's_f' => array('pid' => 's', 'name' => 'FTP访问', 'link' => 'ftp'),
@@ -48,7 +50,7 @@
     's_db' => array('pid' => 's', 'name' => '数据库访问','link' => 'db'),
     's_c' => array('pid' => 's', 'name' => '定制访问', 'link' => 'customized'),
     's_sp' => array('pid' => 's', 'name' => '安全通道', 'link' => 'safePass'),
-    's_mt' => array('pid' => 's', 'name' => '消息传输', 'link' => 'msgTrans'),
+    's_mt' => array('pid' => 's', 'name' => '消息传输', 'link' => 'msgTrans'),    
 
     //level2 appS
     'as_v' => array('pid' => 'as', 'name' => '病毒防护', 'link' => 'virusProtection'),
@@ -59,7 +61,6 @@
     'stm_r' => array('pid' => 'stm', 'name' => '资源状态', 'link' => 'res'),
     'stm_n' => array('pid' => 'stm', 'name' => '网络状态', 'link' => 'network'),
     'stm_u' => array('pid' => 'stm', 'name' => '用户状态', 'link' => 'user'),
-    'stm_s' => array('pid' => 'stm', 'name' => '服务状态', 'link' => 'service'),
     'stm_t' => array('pid' => 'stm', 'name' => '网络测试', 'link' => 'test'),
 
     //level2 log
@@ -69,6 +70,7 @@
     //level3 systemManagement/conf
     'sm_c_t' => array('pid' => 'sm_c', 'name' => '日期时间', 'link' => 'time', 'title' => ''),
     'sm_c_p' => array('pid' => 'sm_c', 'name' => '系统参数', 'link' => 'params', 'title' => ''),
+    'sm_c_f' => array('pid' => 'sm_c', 'name' => '服务状态', 'link' => 'service', 'title' => ''),
     'sm_c_s' => array('pid' => 'sm_c', 'name' => '集中管理', 'link' => 'snmp', 'title' => ''),
 
     //level3 systemManagement/admin
@@ -123,9 +125,15 @@
   	'c_fe_fe' => array('pid' => 'c_fe', 'name' => '文件交换', 'link' => 'fileEx'),
   	'c_fe_gl' => array('pid' => 'c_fe', 'name' => '过滤配置', 'link' => 'filterGl'),
   
+  	//levev3 client/fileSync
+  	'c_fs_fe' => array('pid' => 'c_fs', 'name' => '文件同步', 'link' => 'fileSync'),
+  	'c_fs_af' => array('pid' => 'c_fs', 'name' => '文件名控制', 'link' => 'allowedFile'),
+  	'c_fs_bc' => array('pid' => 'c_fs', 'name' => '内容黑名单', 'link' => 'bannedContent'),
+  	'c_fs_ac' => array('pid' => 'c_fs', 'name' => '内容白名单', 'link' => 'allowedContent'),
+
     //levev3 client/safeBrowse
-    'c_s_t' => array('pid' => 'c_s', 'name' => '透明访问', 'link' => 'transVisit'),
-    'c_s_g' => array('pid' => 'c_s', 'name' => '普通访问', 'link' => 'generalVisit'),
+    'c_s_t' => array('pid' => 'c_s', 'name' => '透明访问控制', 'link' => 'transVisit'),
+    'c_s_g' => array('pid' => 'c_s', 'name' => '普通访问控制', 'link' => 'generalVisit'),
   	'c_s_gl' => array('pid' => 'c_s', 'name' => '过滤配置', 'link' => 'filterGl'),
     
     //levev3 client/ftp
@@ -157,12 +165,15 @@
   	's_fe_fe' => array('pid' => 's_fe', 'name' => '文件交换', 'link' => 'fileEx'),
   	's_fe_gl' => array('pid' => 's_fe', 'name' => '过滤配置', 'link' => 'filterGl'),
   
+  	//levev3 server/fileSync
+  	's_fs_fe' => array('pid' => 's_fs', 'name' => '文件同步', 'link' => 'fileSync'),
+
     //levev3 server/safeBrowse
     's_s_s' => array('pid' => 's_s', 'name' => '安全浏览', 'link' => 'safeBrowse'),
   	's_s_gl' => array('pid' => 's_s', 'name' => '过滤配置', 'link' => 'filterGl'),
   
   	//levev3 server/ftp
-    's_f_f' => array('pid' => 's_f', 'name' => '普通访问',  'link' => 'ftp'),
+    's_f_f' => array('pid' => 's_f', 'name' => '普通访问',  'link' => 'generalVisit'),
   	's_f_gl'=> array('pid' => 's_f', 'name' => '过滤配置',  'link' => 'filterGl'),
     
     //levev3 server/mail
@@ -197,5 +208,6 @@
     'log_c_s' => array('pid' => 'log_c', 'name' => '日志服务器', 'link' => 'server'),
 
     //level3 log/conf
-    'log_v_l' => array('pid' => 'log_v', 'name' => '日志查看', 'link' => 'lookOver')
+    'log_v_l' => array('pid' => 'log_v', 'name' => '日志查看', 'link' => 'lookOver'),
+
   );

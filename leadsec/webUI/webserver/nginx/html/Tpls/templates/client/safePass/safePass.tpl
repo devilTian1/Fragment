@@ -5,16 +5,16 @@
     </caption>
     <thead>
     <tr>
-      <th class="column_5">任务号</th>
-      <th class="column_10">访问类型</th>
-      <th class="column_10">源地此</th>
-      <th class="column_10">源端口</th>
-      <th class="column_10">目的地此</th>
-      <th class="column_10">目的端口</th>
-      <th class="column_10">服务类型</th>
-      <th class="column_10">是否启动</th>
-      <th class="column_10">生效时间</th>
-      <th class="column_5">备注</th>
+      <th class="column_5" name="id">任务号</th>
+      <th class="column_10" name="samenet">访问类型</th>
+      <th class="column_10" name="sa">源地址</th>
+      <th class="column_10" name="sport">源端口</th>
+      <th class="column_10" name="da">目的地址</th>
+      <th class="column_10" name="dport">目的端口</th>
+      <th class="column_10" name="service">服务类型</th>
+      <th class="column_10" name="time">生效时间</th>
+      <th class="column_10" name="active">是否启动</th>      
+      <th class="column_5" name="comment">备注</th>
       <th class="column_20">操作</th>
     </tr>
     </thead>
@@ -25,7 +25,7 @@
     </tbody>
   </table>
 <button class="standard floatLeft" style="position: static"
-    onclick="openNewDialog()">添加
+    onclick="openNewSafePassDialog()">添加
 </button>
 <div class="pager floatRight">
     <{include file='layout/pagination.tpl' func='Function/client/safePass/safePass.php'}>
@@ -35,6 +35,6 @@
     $(document).ready(function() {
         renderStandardUi();
         freshTable('Function/client/safePass/safePass.php', $('#safePassTable'), 'ORDER BY id ASC LIMIT 10');
-        sortTableInit($('#safePassTable'), {4: {sorter: false}}, [[0,0]]);
+        sortTableInit($('#safePassTable'), {10: {sorter: false}}, [[0,0]]);
     });
 </script>

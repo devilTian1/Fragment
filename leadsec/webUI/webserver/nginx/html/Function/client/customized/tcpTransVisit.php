@@ -18,18 +18,6 @@
         return $db->query($sql)->getCount();
     }
 
-    // be called by other three php function file.
-    function checkExistId($id) {
-        $sql = "SELECT id FROM tcp_comm_client_acl WHERE id = $id
-            UNION SELECT id FROM tcp_trans_client_acl WHERE id = $id
-            UNION SELECT id FROM udp_comm_server_acl WHERE id = $id
-            UNION SELECT id FROM tcp_comm_server_acl WHERE id = $id
-            UNION SELECT id FROM udp_comm_client_acl WHERE id = $id
-            UNION SELECT id FROM udp_trans_client_acl WHERE id = $id";
-        $db  = new dbsqlite(DB_PATH . '/netgap_custom.db');
-        echo $db->query($sql)->getCount() > 0 ? 'false' : 'true';
-    }
-
     function getCmd() {
         $type = $_POST['type'];
         if ($type === 'add') {
@@ -61,7 +49,7 @@
         if (!empty($time)) {
             $result .= "time $time ";
         }
-        $result .= "comment \"$comment\"";
+        $result .= "ipver ipv4 comment \"$comment\"";
         return $result;
     }
 
@@ -81,7 +69,7 @@
         echo json_encode(array('msg' => $result));
     } else if (!empty($_POST['openAddDialog'])) {
         // Open new tcp trans client dialog
-        $tpl         = 'client/customized/tcpTransVisit_editDialog.tpl';
+        $tpl    = 'client/customized/tcpTransVisit_editDialog.tpl';
         $result = V::getInstance()
             ->assign('addrOptions', netGapRes::getInstance()->getAddr())
             ->assign('timeList', netGapRes::getInstance()->getTimeList())
@@ -95,7 +83,8 @@
         echo json_encode(array('msg' => '修改成功.'));
     } else if (!empty($_GET['checkExistId'])) {
         // Check the same id exist or not
-        checkExistId($_GET['customId']);
+        echo netGapRes::getInstance()->checkExistTaskId('customized',
+            $_GET['customId']);
     } else if ('add' === $_POST['type']) {
         // Add a new tcp trans client data
         $cli = new cli();

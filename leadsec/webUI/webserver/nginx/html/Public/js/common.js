@@ -107,6 +107,19 @@ function loadAjax(url, data, params) {
     $.ajax(ajaxParams);
 }
 
+function showErrorDialog(msg) {
+    var dialog = loadingScreen(getMessage('错误'));
+    dialog.setContent(msg);
+    var buttons = {};
+    buttons[getMessage('关闭')] = function() {
+        dialog.close();
+    };
+    dialog.setOptions({
+        buttons : buttons
+    });
+    return dialog;
+}
+
 function getMessage(str) {
     return str;
 }
@@ -356,4 +369,22 @@ function tipAutoHide(info, time){
     }, time);
 }
 
+/*
+ * Extend jQuery element set to support new function.
+ *
+ * Show/Hide options in select element. For IE6
+ */
+jQuery.fn.extend({
+    hideOption : function() {
+        this.each(function() {
+            $(this).wrap('<span>').hide();
+        });
+    },
+    showOption : function() {
+        this.each(function() {
+            var opt = $(this).find('option').show();
+            $(this).replaceWith(opt);
+        });
+    }
+});
 StandardUiFactory();

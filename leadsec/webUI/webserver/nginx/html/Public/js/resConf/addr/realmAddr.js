@@ -33,7 +33,8 @@ function openNewRealmAddrDialog() {
     var dialogParams = {
         width   : 620,
         height  : 500,
-        buttons : buttons
+        buttons : buttons,
+        position: ['center', 'top']
     };
     showDialogByAjax(url, data, title, dialogParams);
 }
@@ -60,7 +61,8 @@ function openEditRealmAddrDialog(id) {
     var dialogParams = {
         width   : 620,
         height  : 550,
-        buttons : buttons
+        buttons : buttons,
+        position: ['center', 'top']
     };
     showDialogByAjax(url, data, title, dialogParams);
 }
@@ -87,12 +89,12 @@ function delRealmAddr(name) {
 function openDelRealmAddrDialog(name) {
     var dialog  = loadingScreen('删除域名地址');
     var buttons = {};
-    buttons['Confirm'] = function() {
+    buttons['确定'] = function() {
         delRealmAddr(name);
         $(this).remove();
         freshTableAndPage();
     };
-    buttons['Cancel']  = function() {
+    buttons['取消']  = function() {
         $(this).remove();
     };
     var dialogParams = {

@@ -1,8 +1,8 @@
 <{foreach $udpTransClientAcl as $r }>
     <tr>
         <td><{$r.id}></td>
-        <td><{$r.sa}></td>
-        <td><{$r.da}></td>
+        <td><{$r.sa|regex_replace: "/_ipv(4|6)/" : ""}></td>
+        <td><{$r.da|regex_replace: "/_ipv(4|6)/" : ""}></td>
         <td><{$r.dport}></td>
         <td><{$r.time}></td>
         <td>
@@ -17,6 +17,7 @@
                 <input type="hidden" name="time" value="<{$r.time}>"/>
                 <input type="hidden" name="active" value="<{$r.active}>"/>
                 <input type="hidden" name="killVirus" value="<{$r.killvirus}>"/>
+                <input type="hidden" name="ipType" value="<{$r.ip_ver}>"/>
                 <input type="hidden" name="comment" value="<{$r.comment}>"/>
             <{if $r.active eq 1 || $r.active eq 'Y'}>
                 <a href="#" onClick="switchUdpTransClientAcl('<{$r.id}>', 'disable')">

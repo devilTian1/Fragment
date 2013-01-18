@@ -4,7 +4,7 @@
     function freshAddrList($where) {
         $tpl =  'resConf/addr/addrTable.tpl';
         $db  = new dbsqlite(DB_PATH . '/rule.db');
-        $sql = "SELECT * FROM address $where";
+        $sql = "SELECT * FROM address WHERE name!='any_ipv6' $where";
         $result = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
         foreach ($result as $key => $array) {
        		$result[$key]['name'] = addrNameDelPreffix($array['name']);
@@ -16,12 +16,23 @@
 
     function getCmdArr($type) {
         if ($type === 'del') {
-            return "/usr/local/sbin/ipset destroy {$_POST['delName']}";
+        	// 删除之前的ipset，须先读出原来的名字
+        	$db  = new dbsqlite(DB_PATH . '/rule.db');
+        	$sql = "SELECT name FROM address WHERE name='{$_POST['delName']}" .
+                "_ipv4' or  name='{$_POST['delName']}_ipv6'";
+        	$result = $db->query($sql)->getFirstData(PDO::FETCH_ASSOC);
+            return "/usr/local/sbin/ipset destroy {$result['name']}";
         }
         $cmdArr = array();
-        $name = $_POST['addrName'];
+
+        $name = addrNameAddPreffix($_POST['addrName']);
         if ($type === 'edit') {
-            $cmdArr[] = "/usr/local/sbin/ipset destroy $name";
+        	// 删除之前的ipset，须先读出原来的名字
+        	$db  = new dbsqlite(DB_PATH . '/rule.db');
+        	$sql = "SELECT name FROM address WHERE name='{$_POST['addrName']}" .
+                "_ipv4' or  name='{$_POST['addrName']}_ipv6'";
+        	$result = $db->query($sql)->getFirstData(PDO::FETCH_ASSOC);
+            $cmdArr[] = "/usr/local/sbin/ipset destroy {$result['name']}";
         }
         if (($_POST['addrType']==='default' && validateIpv4Format($_POST['ip'])) ||
             ($_POST['addrType']==='range' && validateIpv4Format($_POST['range_s']))) {
@@ -54,8 +65,13 @@
         $db   = new dbsqlite(DB_PATH . '/rule.db');
         $type = $_POST['addrType'] === 'default' ? '1' : '2';
         if ($type === '1') {
-            $ip1 = $_POST['ip'];
-            $ip2 = $_POST['netmask'];
+            $ip1  = $_POST['ip'];
+            $mask = $_POST['netmask'];
+            if (validateIpv4Format($ip1)) {
+                $ip2 = convertToIpv4Mask($mask, 'dot');
+            } else {
+                $ip2 = $mask;
+            }
         } else { // 2
             $ip1 = $_POST['range_s'];
             $ip2 = $_POST['range_e'];
@@ -64,13 +80,13 @@
         	$addrName = addrNameAddPreffix($_POST['addrName']);
             $sql = 'UPDATE address SET name=?, type=?, ip=?, mask=?, ' .
                 'comment=? WHERE id = ' . $_POST['id'];
-            $params = array( $addrName, $type, $ip1, 
-                            $ip2,               $_POST['comment'],);
+            $params = array($addrName, $type, $ip1, 
+                            $ip2,      $_POST['comment'],);
         } else if ($t === 'add') {
         	$addrName = addrNameAddPreffix($_POST['addrName']);
             $sql    = 'INSERT INTO address VALUES(?, ?, ?, ?, ?, ?)';
             $params = array(NULL, $addrName, $type,
-                            $ip1, $ip2,               $_POST['comment']);
+                            $ip1, $ip2,      $_POST['comment']);
         } else { //delete
             $sql    = 'DELETE FROM address WHERE id = ?';
             $params = array($_POST['delId']);
@@ -86,7 +102,7 @@
     }
 
     function getDataCount() {
-        $sql = "SELECT id FROM address";
+        $sql = "SELECT id FROM address WHERE name!='any_ipv6'";
         $db  = new dbsqlite(DB_PATH . '/rule.db');
         return $db->query($sql)->getCount();
     }
@@ -131,7 +147,7 @@
             $params = array($id);
         } else {
 	        // 组装cmd字段
-	        $name = $_POST['addrName'];
+	        $name = addrNameAddPreffix($_POST['addrName']);
 		    if (($_POST['addrType']==='default' && validateIpv4Format($_POST['ip'])) ||
             ($_POST['addrType']==='range' && validateIpv4Format($_POST['range_s']))) {
 	            $cmdStr = "/usr/local/sbin/ipset create $name hash:net";
@@ -169,7 +185,11 @@
         // Add new ipAddr
         $addrName_src = $_POST['addrName'];        
         // 查询新添加的地址名是否已存在
-        if(checkAddrName($addrName_src)) {
+        if ($addrName_src === "any") {
+        	echo json_encode(array('msg' => "[any]为内部关键字，不允许定义为名称."));
+        	return;
+        }
+        if (checkAddrName($addrName_src)) {
         	echo json_encode(array('msg' => "[$addrName_src]已存在."));
         	return;
         }

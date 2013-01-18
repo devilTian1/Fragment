@@ -18,7 +18,7 @@
     </tbody>
 </table>
 <button class="standard floatLeft" style="position: static"
-    onClick="openNewTcpCommServerAclDialog()">添加</button>
+    onClick="openNewUdpCommServerAclDialog()">添加</button>
 <script type="text/javascript" src="Public/js/server/customized/udp.js"></script>
 <script type="text/javascript">
     $(document).ready(function() {

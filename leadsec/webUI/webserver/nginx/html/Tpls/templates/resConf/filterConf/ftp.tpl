@@ -21,9 +21,9 @@
     onclick="openNewFtpFilterOptionsDialog()">添加
 </button>
 <div class="pager floatRight">
-    <{include file='layout/pagination.tpl' func='Function/resConf/addrBind/ftp.php'}>
+    <{include file='layout/pagination.tpl' func='Function/resConf/filterConf/ftp.php'}>
 </div>
-<script type="text/javascript" src="Public/js/resConf/addrBind/ftpFilterOptions.js"></script>
+<script type="text/javascript" src="Public/js/resConf/filterConf/ftp.js"></script>
 <script type="text/javascript"> 
     $(document).ready(function() {
         renderStandardUi();

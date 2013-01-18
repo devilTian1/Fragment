@@ -139,3 +139,26 @@ fieldset .userTraceLabel {
 .simpleLabel , .maskLabel {
     width: auto;
 }
+
+/* model */
+.seclevel, .time, .usergrp, .lip, .sa, .da, .filter {
+    width: 8em;
+}
+
+.id, .port {
+    width: 5em;
+}
+
+/* filter option*/
+/* ftp */
+.cmdInfoLabel {
+    width: 9em;
+}
+
+.keepAlive {
+    width: 25em;
+}
+
+.banner, .filterOptComment {
+    width: 370px;
+}

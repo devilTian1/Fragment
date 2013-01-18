@@ -5,7 +5,7 @@
         <legend>添加UDP普通访问</legend>
         <div class="row">
             <label for="customId">任务号:<em class="required">*</em></label>
-            <input class="auto" type="text" name="customId" value="<{$data.id}>"
+            <input class="id" type="text" name="customId" value="<{$data.id}>"
                 <{if $type ==='edit'}>disabled="disabled"<{/if}>
                 size="4" maxlength="4"/>
             (同一端的任务号必须唯一)
@@ -13,48 +13,72 @@
             <input type="hidden" name="customId" value="<{$data.id}>"/>
             <{/if}>
         </div>
+
+        <div class="row">
+            <label for="active">ip地址类型:</label>
+            <{html_radios class="radio" name=ipType label_ids=true
+                output=array('ipv4', 'ipv6')
+                values=array('ipv4', 'ipv6')
+                selected=$data.ip_ver|default: 'ipv4'
+                onClick="filterRes()"}>
+        </div>
         
         <div class="row">
             <label for="sa">源地址:</label>
-            <{html_options class="select" name="sa"
+            <{html_options class="select sa" name="sa"
                 options=$addrOptions selected=$data.sa|default: 'any'}>
         </div>
         
          <div class="row">
             <label for="lip">本机地址:</label>
-            <{html_options class="select" name="lip"
-                options=$ifList selected=$data.lip|default: 'empty'}>
+            <{html_options class="select lip" name="lip"
+                options=$ifList selected=$data.lip|default: '无'}>
         </div>
         
         <div class="row">
-            <label for="lport">本机端口:<em class="required">*</em></label>
-            <input class="auto" type="text" name="lportReq" value="<{$data.lport}>" size="5" maxlength="5"/>
+            <label for="udplportReq">本机端口:<em class="required">*</em></label>
+            <input class="port" type="text" name="udplportReq" value="<{$data.lport}>" size="5" maxlength="5"/>
         </div>
         
         <div class="row">
             <label>流病毒扫描:</label>
-            <{html_radios class="radio" name=killVirus label_ids=true values=array('Y', 'N')
-                output=array('开', '关') selected=$data.killvirus|default: 'N'
+            <{html_radios class="radio" name=killVirus label_ids=true
+                values=array('Y', 'N') output=array('开', '关')
+                selected=$data.killvirus|default: 'N'
             }>
+        </div>
+
+        <div class="row mul">
+            <label for="mulMode">组播模式:</label>
+            <{html_radios class="radio" name=mulMode label_ids=true
+                values=array('multicast', 'multiv2')
+                output=array('multicast', 'multiv2')
+                selected=$data.mul_mode|default: 'multicast'}>
+        </div>
+
+        <div class="row mul">
+            <label for="mulIp">组播Ip地址:</label>
+            <input type="text" name="mulIp" value="<{$data.mul_ip}>"/>
         </div>
         
         <div class="row">
             <label for="usergrp">认证用户组:</label>
-            <{html_options class="select" name="usergrp" options=$roleList
-                selected=$data.usergrp|default: 'empty'}>
+            <{html_options class="select usergrp" name="usergrp"
+                options=$roleList selected=$data.usergrp|default: '无'}>
         </div>
         
         <div class="row">
             <label for="destip">生效时段:</label>
-            <{html_options class="select" name="time" options=$timeList
-                selected=$data.time|default: 'empty'}>
+            <{html_options class="select time" name="time" options=$timeList
+                selected=$data.time|default: '无'}>
             </select>
         </div>
         
         <div class="row">
             <label for="active">是否启动:</label>
-            <{html_radios class="radio" name=active label_ids=true values=array('Y', 'N')
-                output=array('开', '关') selected=$data.active|default: 'N'}>
+            <{html_radios class="radio" name=active label_ids=true
+                values=array('Y', 'N') output=array('开', '关')
+                selected=$data.active|default: 'N'}>
         </div>
 
         <div class="row">
@@ -65,7 +89,8 @@
 </form>
 <script type="text/javascript">
     $(document).ready(function() {
+        filterRes();
         validateForm($("#editUdpCommClientAclForm"));
-        $('label[for^="killVirus_"], label[for^="active_"]').addClass('radioLabel');
+        $('label[for^="mulMode_"], label[for^="ipType_"], label[for^="killVirus_"], label[for^="active_"]').addClass('radioLabel');
     });
 </script>

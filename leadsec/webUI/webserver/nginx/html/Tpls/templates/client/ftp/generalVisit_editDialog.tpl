@@ -1,93 +1,80 @@
-<style type="text/css">
-	#filter label{ display:block; width:120px; float:left; cursor:pointer; height:32px;}
-	.floatLeft input[type="radio"]{ width:10px;}
-</style>
-<form action="Function/client/ftp/generalVisit.php" method="POST" id="editForm" onSubmit="return false;">
+<form action="Function/client/ftp/generalVisit.php" method="POST"
+    id="editFtpCommClientAclForm" onSubmit="return false;">
     <input type="hidden" name="type" value="<{$type|default: 'add'}>"/>
-    <input type="hidden" name="id" value="<{$res.id}>"/>
      <fieldset>
-        <!--<legend></legend>-->
+        <legend>FTP客户端普通访问</legend>
         <div class="row">
-          <label for="destip">任务号:<em class="required">*</em></label>
-          <input type="text" name="destip" value="<{$res.destip}>" />(同一端的任务号必须唯一)
+            <label for="ftpId">任务号:<em class="required">*</em></label>
+            <input class="id" type="text" name="ftpId" value="<{$data.id}>"
+                <{if $type ==='edit'}>disabled="disabled"<{/if}>
+                size="4" maxlength="4"/>
+            (同一端的任务号必须唯一)
+            <{if $type ==='edit'}>
+            <input type="hidden" name="ftpId" value="<{$data.id}>"/>
+            <{/if}>
         </div>
-        
+
         <div class="row">
-          <label for="destip">源地此:</label>
-          <select name="select" class="w200" id="select">
-          </select>
+            <label for="active">ip地址类型:</label>
+            <{html_radios class="radio" name=ipType label_ids=true
+                output=array('ipv4', 'ipv6')
+                values=array('ipv4', 'ipv6')
+                selected=$data.ip_ver|default: 'ipv4'
+                onClick="filterRes()"}>
         </div>
-        
+
         <div class="row">
-          <label for="destip">本机地此:</label>
-          <select name="select" class="w200" id="select">
-          </select>
+            <label for="sa">源地址:</label>
+            <{html_options class="select sa" name="sa"
+                options=$addrOptions selected=$data.sa|default: 'any'}>
         </div>
-        
-         <div class="row">
-          <label for="destip">本机端口:</label>
-          <input type="text" name="destip" value="<{$res.destip}>" />
-        </div>
-        
-        <hr class="clearFloat"/>
-        
+
         <div class="row">
-            <label>过滤选项:</label><br/>
-            <div id="filter">
-              	<div class="floatLeft"><label><input name="filter" type="radio" value="" checked="checked"/>无</label></div>
-                <div class="floatLeft"><label title="过滤选项1" rel="test.php"><input name="filter" type="radio" value="1" />过滤选项1</label></div>
-                <div class="floatLeft"><label title="过滤选项1" rel="test.php"><input name="filter" type="radio" value="1" />过滤选项1</label></div>
-                <div class="floatLeft"><label title="过滤选项1" rel="test.php"><input name="filter" type="radio" value="1" />过滤选项1</label></div>
-                <div class="floatLeft"><label title="过滤选项1" rel="test.php"><input name="filter" type="radio" value="1" />过滤选项1</label></div>
-                <div class="floatLeft"><label title="过滤选项1" rel="test.php"><input name="filter" type="radio" value="1" />过滤选项1</label></div>
-              </div>
+            <label for="lip">本机地址:</label>
+            <{html_options class="select lip" name="lip"
+                options=$ifList selected=$data.lip}>
         </div>
-		<hr class="clearFloat"/>
-        
-         <div class="row">
-            <label>是否启动:</label>
-            <div class="floatLeft">
-               <input name="radio" type="radio" id="radio" value="radio" checked="checked" />启动
-            </div>
-            <div class="floatLeft">
-                <input type="radio" name="radio" id="radio2" value="radio" />停止
-            </div>
-        </div>
-        
-         <div class="row">
-          <label for="destip">认证用户组:</label>
-          <select name="select" class="w200" id="select">
-          </select>
+
+        <div class="row">
+            <label for="lport">本机端口:<em class="required">*</em></label>
+            <input class="port" type="text" name="ftplportReq" value="<{$data.lport}>" size="5" maxlength="5"/>
         </div>
         
         <div class="row">
-          <label for="destip">生效时段:</label>
-          <select name="select" class="w200" id="select">
-          </select>
+            <label for="filter">过滤选项:</label>
+            <{html_options class="select filter" name="filter"
+                options=$filterOptions selected=$data.filter|default: '无'}>
+        </div>
+
+        <div class="row">
+            <label for="usergrp">认证用户组:</label>
+            <{html_options class="select usergrp" name="usergrp"
+                options=$roleList selected=$data.usergrp|default: 'empty'}>
         </div>
         
         <div class="row">
-          <label for="destip">备注:</label>
-          <input type="text" name="destip" value="<{$res.destip}>" />
+            <label for="destip">生效时段:</label>
+            <{html_options class="select time" name="time" options=$timeList
+                selected=$data.time|default: 'empty'}>
+            </select>
+        </div>
+        
+        <div class="row">
+            <label for="active">是否启动:</label>
+            <{html_radios class="radio" name=active label_ids=true values=array('Y', 'N')
+                output=array('开', '关') selected=$data.active|default: 'N'}>
+        </div>
+
+        <div class="row">
+            <label for="comment">备注:</label>
+            <textarea rows="10" cols="30" name="comment" id="comment"><{$data.comment}></textarea>
         </div>
     </fieldset>
 </form>
-<link rel="stylesheet" href="Public/js/clueTip/jquery.cluetip.css" type="text/css" />
-<script type="text/javascript" src="Public/js/clueTip/jquery.hoverIntent.js"></script>
-<script type="text/javascript" src="Public/js/clueTip/jquery.bgiframe.min.js"></script>
-<script type="text/javascript" src="Public/js/clueTip/jquery.cluetip.js"></script>
 <script type="text/javascript">
-$(document).ready(function() {
-	$('a.title').cluetip({splitTitle: '|'});
-	$('.inputbtn').button();
-	$("#filter label").cluetip({titleAttribute:'title'});
-	$("#filter label").mouseover(function(){
-				var val=$(this).children('input').val();
-				//	$(this).cluetip({titleAttribute:'title'});
-												 })
-	$("#filter label").mouseout(function(){
-					//var val=$(this).children('input').val();
-					
-												 })
-});
+    $(document).ready(function() {
+        filterRes();
+        validateForm($("#editFtpCommClientAclForm"));
+        $('label[for^="ipType_"], label[for^="active_"]').addClass('radioLabel');
+    });
 </script>

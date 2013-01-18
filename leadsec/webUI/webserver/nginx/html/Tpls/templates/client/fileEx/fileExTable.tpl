@@ -2,17 +2,12 @@
     <tr>
         <td><{$addr.id}></td>
         <td><{$addr.name}></td>
-        <td>
-            <{if $addr.type == 1}>
-                <{$addr.ip}>/<{$addr.mask}>
-            <{else if $addr.type == 2}>
-                <{$addr.ip}> - <{$addr.mask}>
-            <{else if $addr.type == 3}>
-                !<{$addr.ip}>/<{$addr.mask}>
-            <{else}>
-                Error
-            <{/if}>
-        </td>
+        <td><{$addr.name}></td>
+        <td><{$addr.name}></td>
+        <td><{$addr.name}></td>
+        <td><{$addr.name}></td>
+        <td><{$addr.name}></td>
+        <td><{$addr.name}></td>
         <td><{$addr.comment}></td>
         <td class="no_search">
             <a href="#" class="edit" onclick="openEditDialog('<{$addr.id}>')">编辑</a>

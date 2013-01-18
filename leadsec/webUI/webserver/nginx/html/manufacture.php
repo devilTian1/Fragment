@@ -37,7 +37,13 @@
         header("Content-Disposition: attachment; filename=manufact_result.txt");
         readfile('/tmp/manufact_result');
         return true;
+    } else if (!empty($_POST['reboot'])) {
+        // reboot device
+        $cli = new cli();
+        $cli->run('reboot -f');
+        return;
     } else {
+
     }
     // init page data
     $db = new dbsqlite(DB_PATH . '/private.db');
@@ -110,6 +116,11 @@
                                     <input type="hidden" name="download" value="1"/>
                                     <button class="standard float_left" style="position: static" type="submit">
                                         导出生产结果文件</button>
+                                </form>
+                                <form method="POST" id="rebootForm">
+                                    <input type="hidden" name="reboot" value="1"/>
+                                    <button class="standard float_left" style="position: static" type="submit">
+                                        重启设备</button>
                                 </form>
                             </div>
                             <?}?>

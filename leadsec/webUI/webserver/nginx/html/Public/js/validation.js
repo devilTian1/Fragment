@@ -1,6 +1,6 @@
 var perlipv6regex = "^\s*((([0-9A-Fa-f]{1,4}:){7}([0-9A-Fa-f]{1,4}|:))|(([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}|((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){5}(((:[0-9A-Fa-f]{1,4}){1,2})|:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){4}(((:[0-9A-Fa-f]{1,4}){1,3})|((:[0-9A-Fa-f]{1,4})?:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){3}(((:[0-9A-Fa-f]{1,4}){1,4})|((:[0-9A-Fa-f]{1,4}){0,2}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){2}(((:[0-9A-Fa-f]{1,4}){1,5})|((:[0-9A-Fa-f]{1,4}){0,3}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){1}(((:[0-9A-Fa-f]{1,4}){1,6})|((:[0-9A-Fa-f]{1,4}){0,4}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(:(((:[0-9A-Fa-f]{1,4}){1,7})|((:[0-9A-Fa-f]{1,4}){0,5}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:)))(%.+)?\s*$";
 
-var perlipv4regex = '^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$';
+var perlipv4regex = '^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$';
 
 // Custom Validation Method
 function addValidMethod(params) {
@@ -192,6 +192,61 @@ var validMethodParams = {
             return $(params[0] + ':filled').length > 0;
         },
         msg: jQuery.format("{1}")
+    },
+    ftpFilterOptUserInfoValidParam: {
+        name: 'ftpFilterOptUserInfo',
+        validMethod: function(value, element, params) {
+            return this.optional(element) ||
+                /^([^,\s]+,)*[^,\s]+$/g.test(value)
+        },
+        msg: '多个用户类型用","分开'
+    },
+    ftpFilterOptUploadOrDownInfoValidParam: {
+        name: 'ftpFilterOptUploadOrDownInfo',
+        validMethod: function(value, element, params) {
+            return this.optional(element) ||
+            /^(\.([^,\s\.\\\/:\*\?"<>\|'%]+)?,)*\.([^,\s\.\\\/:\*\?"<>\|'%]+)?$/g.test(value)
+        },
+        msg: '多个文件类型用"，"分开，单个"."表示所有的没有后缀的文件。例 .exe,.txt'
+    },
+    serviceListValidParam: {
+        name: 'serviceList',
+        validMethod: function(value, element, params) {
+		var selectedOption =
+            $("select[name='serviceList'] option:selected").val();
+            if (($('#synFloodChk').attr("checked") == 'checked')
+             	&& (selectedOption == 'udp_any' || selectedOption == 'tftp'	||
+                    selectedOption == 'Syslog')) {
+             	return false;
+            } else if ($('#udpFloodChk').attr("checked") == 'checked' 
+             	&& selectedOption != 'udp_any' && selectedOption != 'Syslog'
+                && selectedOption != 'tftp') {
+             	return false;
+            }
+            return true;
+        },
+        msg: '请选择正确的服务类型.'
+    },
+    srcIpUnequalDestIpValidParam: {
+        name: 'srcIpUnequalDestIp',
+        validMethod: function(value, element, params) {
+        	var srcIpOption = $("select[name='srcIpList'] option:selected").val();
+        	if ($("input[name='accessType']:checked").val()=='no') {
+        		var destIpOption = $("select[name='destIpList_trans'] option:selected").val();
+        		if (destIpOption == 'any_ipv4' && srcIpOption == 'any_ipv4') {
+        			return false;
+        		}
+        	}        	
+        	return true;
+        },
+        msg: '源地址与目的地址不能同时为any.'
+    },
+    allowedFileNameValidParam: {
+        name: 'filename',
+        validMethod: function(value, element, params) {
+            return /^[^\\\/:\*"'<>\|%]+$/.test(value)
+        },
+        msg: "文件名中可以使用通配符*和? 但不能包括以下字符 % \ / : \" < > | '"
     }
 };
 for (var i in validMethodParams) {
@@ -563,6 +618,7 @@ var validRules = {
     customId: {
         required: true,
         digits: true,
+        range: [1, 1000],
         remote: {
             url: 'Function/client/customized/tcpTransVisit.php',
             data: {
@@ -570,9 +626,62 @@ var validRules = {
             }
         }
     },
-    lportReq: {
+    tcplportReq: {
         required: true,
-        range: [1, 65535]
+        range: [1, 65535],
+        remote: {
+            url: 'Function/client/customized/tcpGeneralVisit.php',
+            data: {
+                checkExistLport: true
+            }
+
+        }
+    },
+    udplportReq: {
+        required: true,
+        range: [1, 65535],
+        remote: {
+            url: 'Function/client/customized/udpGeneralVisit.php',
+            data: {
+                checkExistLport: true
+            }
+        }
+    },
+    ftplportReq: {
+        required: true,
+        range: [1, 65535],
+        remote: {
+            url: 'Function/client/ftp/generalVisit.php',
+            data: {
+                checkExistLport: true
+            }
+        }
+    },
+    fslip: {
+        required: true,
+        isFilled: ['input[name="fslportReq"]', '请填写本机端口.'],
+        remote: {
+            url: 'Function/client/fileSync/fileSync.php',
+            data: {
+                checkExistLport: true,
+                fslportReq: function() {
+                    return $('input[name="fslportReq"]').val();
+                }
+            }
+        }
+    },
+    fslportReq: {
+        required: true,
+        range: [1, 65535],
+        remote: {
+            url: 'Function/client/fileSync/fileSync.php',
+            data: {
+                checkExistLport: true,
+                fslip: function() {
+                    return $('select[name="fslip"] option:selected').val();
+                }
+            }
+        }
     },
     dportReq: {
         required: true,
@@ -588,6 +697,123 @@ var validRules = {
     serverIp: {
         required: true,
         ip: true
+    },
+    ftpFilterOptName: {
+        required: true,
+        realName: true,
+        remote: {
+            url: 'Function/resConf/filterConf/ftp.php',
+            data: {
+                checkExistName: true
+            }
+        }
+    },
+    mulIp: {
+        ipv4: true
+    },
+    safePassId: {
+    	required: true,
+        range: [1, 1000],
+        remote: {
+            url: 'Function/client/safePass/safePass.php',
+            data: {
+                checkExistId: true
+            }
+        }
+    },
+    srcIpList: {
+    	required: true,
+    	srcIpUnequalDestIp: true
+    },
+    destIpList_normal: {
+    	required: true
+    },
+    destIpList_trans: {
+    	required: true,
+    	srcIpUnequalDestIp: true
+    },
+    serviceList: {
+        serviceList: true
+    },
+    synFloodTxt: {
+    	required: "#synFloodChk:checked"
+    },
+    udpFloodTxt: {
+    	required: "#udpFloodChk:checked"
+    },
+    icmpFloodTxt: {
+    	required: "#icmpFloodChk:checked"
+    },
+    ftpId: {
+        required: true,
+        digits: true,
+        range: [1, 1000],
+        remote: {
+            url: 'Function/client/ftp/generalVisit.php',
+            data: {
+                checkExistId: true
+            }
+        }
+    },
+    spServerIp: {
+    	required: true,
+    	ipv4: true
+    },
+    outflowIpList: {
+    	required: true
+    },
+    fsId: {
+        required: true,
+        digits: true,
+        range: [1, 1000],
+        remote: {
+            url: 'Function/client/fileSync/fileSync.php',
+            data: {
+                checkExistId: true
+            }
+        }
+    },
+    commname: {
+        required: true,
+        addrName: true   
+    },
+    filename: {
+        required: true,
+        filename: true,
+        remote: {
+            url: 'Function/client/fileSync/allowedFile.php',
+            data: {
+                checkExistFileName: true
+            }
+        }
+    },
+    context: {
+        required: true,
+        maxlength: 50,
+        remote: {
+            url: 'Function/client/fileSync/bannedContent.php',
+            data: {
+                checkExistContext: true,
+                allow: function() {
+                    return $('input[name="context"]').attr('class')
+                        .indexOf('allow') !== -1 ? '1' : '0';
+                }
+            }
+        }
+    },
+    destPort: {
+    	required: true,
+    	range: [1, 65535]
+    },
+    clientId: {
+    	required: true,
+        range: [1, 1000],
+        remote: {
+            url: 'Function/client/db/transVisit.php',
+            data: {
+            	checkExistId: true
+            }
+        }
     }
 };
 
@@ -781,14 +1007,104 @@ var validMsg = {
     customId: {
         required: '请输入任务号.',
         digits: '请填写有效数字.',
+        range: '任务号范围为1-1000',
         remote: '任务号已存在.'
     },
     dportReq: '目的端口1 - 65535.',
     lip: '本机地址不能为空.',
-    lportReq: '本机端口1 - 65535.',
+    tcplportReq: {
+        required: '请填写本机端口.',
+        range: '本机端口1 - 65535.',
+        remote: '此本机端口已被使用.'
+    },
+    udplportReq: {
+        required: '请填写本机端口.',
+        range: '本机端口1 - 65535.',
+        remote: '此本机端口已被使用.'
+    },
+    ftplportReq: {
+        required: '请填写本机端口.',
+        range: '本机端口1 - 65535.',
+        remote: '此本机端口已被使用.'
+    },
+    fslip: {
+        required: '请填写本机端口.',
+        remote: '此本机端口已被使用.'
+    },
+    fslportReq: {
+        required: '请填写本机端口.',
+        range: '本机端口1 - 65535.',
+        remote: '此本机端口已被使用.'
+    },
     sportReq: '服务器端口1 - 65535.',
     serverIp: {
         required: '请输入服务器地址.'
+    },
+    safePassId: {
+    	required: '请输入任务号.',
+        range: '任务号范围为1-1000',
+        remote: '任务号已存在.'
+    },
+	srcIpList: {
+		required: '请选择源地址.'
+	},
+	destIpList_normal: {
+		required: '请选择目的地址.'
+	},
+	destIpList_trans: {
+		required: '请选择目的地址.'
+	},
+	synFloodTxt: {
+    	required: '请输入抗synflood阈值.'
+    },
+    udpFloodTxt: {
+    	required: '请输入抗udpflood阈值.'
+    },
+    icmpFloodTxt: {
+    	required: '请输入抗icmpflood阈值.'
+    },
+    ftpId: {
+        required: '请输入任务号.',
+        digits: '请填写有效数字.',
+        range: '任务号范围为1-1000',
+        remote: '任务号已存在.'
+    },
+    ftpFilterOptName: {
+        required: '请输入任务号.',
+        remote: '任务号已存在.'
+    },
+    spServerIp: {
+    	required:'请输入服务器地址'
+    },
+    outflowIpList: {
+    	required:'请选择流出网口IP'
+    },
+    fsId: {
+        required: '请输入任务号.',
+        digits: '请填写有效数字.',
+        range: '任务号范围为1-1000',
+        remote: '任务号已存在.'
+    },
+    commname: {
+        required: '必填.'
+    },
+    filename: {
+        required: '必填.',
+        remote: '文件名已存在.'
+    },
+    context: {
+        required: '必填.',
+        maxlength: '长度不能超过50.',
+        remote: '文件内容已存在.'
+    },
+    destPort: {
+    	required: '请输入目的端口',
+    	range: '目的端口范围为1-65535'
+    },
+    clientId: {
+    	required: '请输入任务号.',
+        range: '任务号范围为1-1000',
+        remote: '任务号已存在.'
     }
 };
 

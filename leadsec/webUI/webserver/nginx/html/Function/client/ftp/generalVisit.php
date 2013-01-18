@@ -1,112 +1,123 @@
 <?php
     require_once($_SERVER['DOCUMENT_ROOT'] . '/Function/common.php');
 
-    function getAllList() {
-        $addrListArr = array();
-        $sql = "SELECT name FROM address";
-        $db  = new dbsqlite(DB_PATH . '/rule.db');
-        $result = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
-        foreach ($result as $k => $v) {
-            $addrListArr[] = $v['name'];
-        }
-        return $addrListArr;
-    }
-
-    function getSpecAddrListName($id) {
-        $db  = new dbsqlite(DB_PATH . '/rule.db');
-        $sql = "select address.name from addrmap INNER JOIN address ".
-            "ON addrmap.addrid == address.id where addrmap.addrgrpid=$id";
-        return $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
-    }
-
-    function appendAddrGroupData($where) {
-        $tpl =  'resConf/addr/addrGroupTable.tpl';
-        $db  = new dbsqlite(DB_PATH . '/rule.db');
-	    $sql = "SELECT id, name, comment FROM addrgrp $where";
-        $result = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
-        foreach ($result as $k => $v) {
-            $r = getSpecAddrListName($v['id']);
-            foreach ($r as $name) {
-                $result[$k]['addrNames'] .= $name['name'] . '&nbsp;';
-            }
-	    }
-        echo V::getInstance()->assign('addrGroup', $result)
+    function appendFtpCommClientAclData($where) {
+        $tpl  =  'client/ftp/generalVisitTable.tpl';
+        $db   = new dbsqlite(DB_PATH . '/gateway_ftp.db');
+	    $sql  = "SELECT * FROM ftp_comm_client_acl $where";
+        $data = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
+        echo V::getInstance()->assign('ftpCommClientAcl', $data)
             ->assign('pageCount', 10)
             ->fetch($tpl);
     }
 
     function getDataCount() {
-    	$sql = "SELECT id FROM addrgrp";
-        $db  = new dbsqlite(DB_PATH . '/rule.db');
+    	$sql = "SELECT id FROM ftp_comm_client_acl";
+        $db  = new dbsqlite(DB_PATH . '/gateway_ftp.db');
         return $db->query($sql)->getCount();
     }
 
-    function getAddOrEditData() {
-        $name    = $_POST['addrGrpName'];
+    function getCmd($action) {
+        if (!empty($_POST['action'])) {
+            $active = $_POST['action'] === 'enable' ? 'on' : 'off';
+        } else {
+            $active = $_POST['active'] === 'Y' ? 'on' : 'off';
+        }
+        $id      = $_POST['ftpId'];
+        $lip     = $_POST['lip'];
+        $lport   = $_POST['ftplportReq'];
+        $sa      = $_POST['sa'];
         $comment = $_POST['comment'];
-        $mbrArr  = $_POST['addrGrpMember'];
-        $addmbr  = join('" "', $mbrArr);
-        return array($name, $comment, $addmbr);
+        //$ipver   = $_POST['ipType'];
+        $time    = $_POST['time'];
+        $filter  = $_POST['filter'];
+        $usergrp = $_POST['usergrp'];
+        $result = "cftpctl $action task type client mode comm id $id sa $sa " .
+            " lip $lip lport $lport active $active ";
+        if (!empty($usergrp)) {
+            $result .= "auth $usergrp ";
+        }
+        if (!empty($time)) {
+            $result .= "time $time ";
+        }
+        if (!empty($filter)) {
+            $result .= "filter $filter ";
+        }
+        //$result .= "ipver $ipver comment \"$comment\"";
+        $result .= " comment \"$comment\"";
+        return $result;
     }
 
-    if (!empty($_POST['editId'])) {
-        // Get specified addrGroup data
-        $tpl = $_POST['tpl'];
-        $id  = $_POST['editId'];
-
-        $r   = getSpecAddrListName($id);
-        $addrGrpMemberArr = array();
-        foreach ($r as $row) {
-            $addrGrpMemberArr[] = $row['name'];
-        }
-        $addrListArr = getAllAddrList();
-        $addrListArr = array_diff($addrListArr, $addrGrpMemberArr);
-
-        $db  = new dbsqlite(DB_PATH . '/rule.db');
-	    $sql = "SELECT name, comment FROM addrgrp WHERE id = $id";
-        $addrGroup = $db->query($sql)->getFirstData(PDO::FETCH_ASSOC);
-        $result = V::getInstance()->assign('addrListArr', $addrListArr)
-            ->assign('addrGrpMemberArr', $addrGrpMemberArr)
-            ->assign('addrGroup', $addrGroup)
+    if ($id = $_POST['editId']) {
+        // Show Dialog to get specified ftp comm client acl data
+	    $sql  = "SELECT * FROM ftp_comm_client_acl WHERE id = $id";
+        $db   = new dbsqlite(DB_PATH . '/gateway_ftp.db');
+        $data = $db->query($sql)->getFirstData(PDO::FETCH_ASSOC);
+        $tpl  = 'client/ftp/generalVisit_editDialog.tpl';
+        $result = V::getInstance()
+            ->assign('addrOptions', netGapRes::getInstance()->getAddr())
+            ->assign('ifList', netGapRes::getInstance()->getInterface())
+            ->assign('timeList', netGapRes::getInstance()->getTimeList())
+            ->assign('filterOptions',
+                netGapRes::getInstance()->getFtpFilterOpts())
+            ->assign('roleList', netGapRes::getInstance()->getRoleList())
+            ->assign('data', $data)
             ->assign('type', 'edit')->fetch($tpl);
         echo json_encode(array('msg' => $result));
     } else if ('edit' === $_POST['type']) {
-        // Edit a specified addr group data
-        list($name, $comment, $addmbr) = getAddOrEditData();
-        $cmd1 = "addrgrp set name \"$name\" comment \"$comment\"";
-        $cmd2 = "addrgrp set name \"$name\" delallmbr";
-        $cmd3 = "addrgrp set name \"$name\" addmbr \"$addmbr\"";
-        $cli  = new cli();
-        $cli->run($cmd1);
-        $cli->run($cmd2);
-        $cli->run($cmd3);
-        echo json_encode(array('msg' => "[$name]修改成功."));
+        // Edit specified data
+        $cli = new cli();
+        $cli->run(getCmd('set'));
+        echo json_encode(array('msg' =>
+            '任务[' . $_POST['ftpId'] . ']修改成功.'));
+
     } else if ('add' === $_POST['type']) {
-        // Add a new addr group data
-        list($name, $comment, $addmbr) = getAddOrEditData();
-        $cmd1 = "addrgrp add name \"$name\" comment \"$comment\"";
-        $cmd2 = "addrgrp set name \"$name\" addmbr \"$addmbr\"";
-        $cli  = new cli();
-        $cli->run($cmd1);
-        $cli->run($cmd2);
-        echo json_encode(array('msg' => "[$name]添加成功."));
-    } else if (!empty($_POST['delName'])) {
-        // Delete the specified addrGroup data
-        $name = $_POST['delName'];
-        $cmd  = "addrgrp del name \"$name\"";
-        $cli  = new cli();
-        $cli->run($cmd);
-        echo json_encode(array('msg' => "[$name]删除成功."));
-    } else if (!empty($_POST['openDialog'])) {
-        // Display add addr group dialog
-        $tpl = $_POST['tpl'];
+        // Add a new ftp comm client acl
+        $cli = new cli();
+        $cli->run(getCmd('add'));
+        echo json_encode(array('msg' =>
+            '任务[' . $_POST['ftpId'] . ']添加成功.'));
+    } else if ($id = $_POST['delId']) {
+        // Delete the specified ftp comm client acl
+        $cli = new cli();
+        $cli->run('cftpctl del task type client mode comm id '. $id);
+        echo json_encode(array('msg' =>
+            '任务[' . $id . ']删除成功.'));
+    } else if (!empty($_POST['openAddDialog'])) {
+        // Display add new ftp comm client acl dialog
+        $tpl    = 'client/ftp/generalVisit_editDialog.tpl';
         $result = V::getInstance()
-            ->assign('addrGrpMemberArr', array())
+            ->assign('addrOptions', netGapRes::getInstance()->getAddr())
+            ->assign('ifList', netGapRes::getInstance()->getInterface())
+            ->assign('timeList', netGapRes::getInstance()->getTimeList())
+            ->assign('filterOptions',
+                netGapRes::getInstance()->getFtpFilterOpts())
+            ->assign('roleList', netGapRes::getInstance()->getRoleList())
             ->assign('type', 'add')->fetch($tpl);
         echo json_encode(array('msg' => $result));
+    } else if (!empty($_GET['checkExistId'])) {
+        // Check the same id exist or not
+        echo netGapRes::getInstance()->checkExistTaskId('ftp',
+            $_GET['ftpId']);
+    } else if (!empty($_GET['checkExistLport'])) {
+        // Check the same lport exist or not
+        $sql = 'SELECT id FROM ftp_comm_client_acl WHERE lport = ' .
+            $_GET['ftplportReq'];
+        $db  = new dbsqlite(DB_PATH . '/gateway_ftp.db');
+        echo $db->query($sql)->getCount() > 0 ? 'false' : 'true';
+    } else if ($action = $_POST['action']) {
+        // enable or disable specified acl
+        $cli = new cli();
+        $cli->run(getCmd('set'));
+        if ($action === 'enable') {
+            $msg = "启动成功.";
+        } else {
+            $msg = "停止成功.";
+        }
+        echo json_encode(array('msg' => $msg));
     } else if ($orderStatement = $_POST['orderStatement']) {
-        // fresh and resort addr-group list
-        appendAddrGroupData($orderStatement);
+        // fresh and resort ftp comm client list
+        appendFtpCommClientAclData($orderStatement);
     } else {
         // init page data
         $result = getDataCount();

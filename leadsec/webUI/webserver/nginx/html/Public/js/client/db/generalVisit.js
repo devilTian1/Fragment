@@ -19,7 +19,8 @@ function openEditDialog(id) {
     var dialogParams = {
         width   : 680,
         height  : 520,
-        buttons : buttons
+        buttons : buttons,
+        position: ['center', 'top']
     };
     showDialogByAjax(url, data, title, dialogParams);
 }
@@ -53,15 +54,16 @@ function openNewDialog() {
     var dialogParams = {
         width   : 680,
         height  : 520,
-        buttons : buttons
+        buttons : buttons,
+        position: ['center', 'top']
     };
     showDialogByAjax(url, data, title, dialogParams);
 }
 
-function del(name) {
+function del(id) {
     var url  = 'Function/client/db/generalVisit.php';
     var data = {
-        delName: name
+        delId: id
     };
     var title  = '删除普通访问';
     var buttons = {};
@@ -77,11 +79,11 @@ function del(name) {
     showDialogByAjax(url, data, title, dialogParams);
 }
 
-function openDelDialog(name) {
+function openDelDialog(id) {
     var dialog  = loadingScreen('删除普通访问');
     var buttons = {};
     buttons['Confirm'] = function() {
-        del(name);
+        del(id);
         $(this).remove();
         freshTableAndPage();
     };
@@ -93,10 +95,31 @@ function openDelDialog(name) {
         height: 160,
         buttons: buttons
     };
-    dialog.setContent("<p>确定要删除名称为" + name + "的普通访问吗?</p>");
+    dialog.setContent("<p>确定要删除名称为" + id + "的普通访问吗?</p>");
     dialog.setOptions(dialogParams);   
 }
+function switchClientCommSer(id, action) {
+    var title   = '启动/停止任务';
+    var dialog  = loadingScreen(title);
+    var buttons = {};
+    buttons['确定'] = function() {
+        ajaxSubmitForm($('#switchClientCommForm_' + id), '结果');
+        freshTableAndPage();
+        $(this).remove();
+    };
+    buttons['取消'] = function() {
+        $(this).remove();
+    };
+    var dialogParams = {
+        width: 300,
+        height: 160,
+        buttons: buttons
+    };
 
+    var str = action === 'disable' ? '停止' : '启动';
+    dialog.setContent('<p>确定' + str + '任务[' +  id + ']吗?</p>');
+    dialog.setOptions(dialogParams);
+}
 function freshTableAndPage() {
     var url = 'Function/client/db/generalVisit.php';
     freshTable(url, $('#generalVisitTable'));

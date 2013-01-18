@@ -18,10 +18,15 @@
         } else {
             $active = $_POST['active'] === 'Y' ? 'on' : 'off';
         }
+        if (validateIpv4Format($sip)) {
+            $ipver = 'ipver ipv4';
+        } else {
+            $ipver = 'ipver ipv6';
+        }
         $comment   = $_POST['comment'];
-
         return "cudpctl $action task type server mode comm id $id sip $sip ".
-            "sport $sport active $active comment \"$comment\"";
+            "sport $sport active $active $ipver comment \"$comment\" " .
+            '1>/dev/null';
     }
 
     function appendUdpCommServerAclData($where) {

@@ -1,80 +1,74 @@
-<style type="text/css">
-	#filter label{ display:block; width:120px; float:left; cursor:pointer; height:32px;}
-	.floatLeft input[type="radio"]{ width:10px;}
-</style>
 <form action="Function/client/db/generalVisit.php" method="POST" id="editForm" onSubmit="return false;">
     <input type="hidden" name="type" value="<{$type|default: 'add'}>"/>
-    <input type="hidden" name="id" value="<{$res.id}>"/>
      <fieldset>
         <!--<legend></legend>-->
         <div class="row">
           <label for="destip">任务号:<em class="required">*</em></label>
-          <input type="text" name="destip" value="<{$res.destip}>" />(同一端的任务号必须唯一)
-        </div>
-        
+          <input type="text" name="clientId" value="<{$res.id}>" 
+              <{if $type ==='edit'}>disabled="disabled"<{/if}>
+              size="4" maxlength="4"/>
+          (同一端的任务号必须唯一)
+         <{if $type ==='edit'}>
+             <input type="hidden" name="clientId" value="<{$res.id}>"/>
+         <{/if}>
+        </div>       
         <div class="row">
-          <label for="destip">数据库类型:</label>
-          <select name="select" class="w200" id="select">
-          </select>
+          <label for="destip">数据库类型:<em class="required">*</em></label>
+          <{html_options  class="w200" name="dbType" id="dbType"
+                    output=array('oracle','sqlserver2005','sqlserver2008') 
+                    values=array('oracle','sqlserver2005','sqlserver2008')
+                    selected=$res.dbtype|default: 'oracle'}>
         </div>
         
          <div class="row">
-          <label for="destip">源地此:</label>
-          <select name="select" class="w200" id="select">
-          </select>
+          <label for="destip">源地址:<em class="required">*</em></label>
+          <{html_options  class="w200" name="sAddress" id="sAddress"
+                    output=$addrOptions values=$addrOptions
+                    selected=$res.sa|default: 'any'}>
         </div>
         
          <div class="row">
-          <label for="destip">本机地此:</label>
-          <select name="select" class="w200" id="select">
-          </select>
+          <label for="destip">本机地址:<em class="required">*</em></label>
+          <{html_options  class="w200" name="lAddress" id="lAddress"
+                    output=$localIp values=$localIp
+                    selected=$res.lip|default: 'any'}>
         </div>
         
         <div class="row">
-          <label for="destip">本机端口:</label>
-          <input type="text" name="destip" value="<{$res.destip}>" />(1-65535)(输入形如:1200或2000：3000)
+          <label for="destip">本机端口:<em class="required">*</em></label>
+          <input type="text" name="localPort" value="<{$res.lport}>" />(1-65535)(输入形如:1200或2000：3000)
         </div>
-        
-         <hr class="clearFloat"/>
         
         <div class="row">
-            <label>过滤选项:</label><br/>
-            <div id="filter">
-              	<div class="floatLeft"><label><input name="filter" type="radio" value="" checked="checked"/>无</label></div>
-                <div class="floatLeft"><label title="过滤选项1" rel="test.php"><input name="filter" type="radio" value="1" />过滤选项1</label></div>
-                <div class="floatLeft"><label title="过滤选项1" rel="test.php"><input name="filter" type="radio" value="1" />过滤选项1</label></div>
-                <div class="floatLeft"><label title="过滤选项1" rel="test.php"><input name="filter" type="radio" value="1" />过滤选项1</label></div>
-                <div class="floatLeft"><label title="过滤选项1" rel="test.php"><input name="filter" type="radio" value="1" />过滤选项1</label></div>
-                <div class="floatLeft"><label title="过滤选项1" rel="test.php"><input name="filter" type="radio" value="1" />过滤选项1</label></div>
-              </div>
+          <label for="destip">过滤选项:</label>
+          <{html_options  class="w200" name="filter" id="filter"
+                    output=$filterOptions values=$filterOptions
+                    selected=$res.filter|default: 'empty'}>
         </div>
-		<hr class="clearFloat"/>
         
          <div class="row">
-            <label>是否启动:</label>
-            <div class="floatLeft">
-               <input name="radio" type="radio" id="radio" value="radio" checked="checked" />启动
-            </div>
-            <div class="floatLeft">
-                <input type="radio" name="radio" id="radio2" value="radio" />停止
-            </div>
+            <label>是否启动:<em class="required">*</em></label>
+            <{html_radios class="radio" name=active label_ids=true values=array('Y', 'N')
+                output=array('开', '关') selected=$res.active|default: 'Y'}>
         </div>
         
          <div class="row">
           <label for="destip">认证用户组:</label>
-          <select name="select" class="w200" id="select">
-          </select>
+           <{html_options  class="w200" name="roleList" id="roleList"
+                    output=$roleList values=$roleList
+                    selected=$res.usergrp|default: 'empty'}>
         </div>
         
         <div class="row">
           <label for="destip">生效时段:</label>
-          <select name="select" class="w200" id="select">
-          </select>
+           <{html_options  class="w200" name="timeList" id="timeList"
+                    output=$timeList values=$timeList
+                    selected=$res.time|default: 'empty'}>
         </div>
         
         <div class="row">
           <label for="destip">备注:</label>
-          <input type="text" name="destip" value="<{$res.destip}>" />
+          <textarea rows="10" cols="30" name="comment" id="comment"><{$res.comment}></textarea>
         </div>
     </fieldset>
 </form>
@@ -83,17 +77,8 @@
 <script type="text/javascript" src="Public/js/clueTip/jquery.bgiframe.min.js"></script>
 <script type="text/javascript" src="Public/js/clueTip/jquery.cluetip.js"></script>
 <script type="text/javascript">
-$(document).ready(function() {
-	$('a.title').cluetip({splitTitle: '|'});
-	$('.inputbtn').button();
-	$("#filter label").cluetip({titleAttribute:'title'});
-	$("#filter label").mouseover(function(){
-				var val=$(this).children('input').val();
-				//	$(this).cluetip({titleAttribute:'title'});
-												 })
-	$("#filter label").mouseout(function(){
-					//var val=$(this).children('input').val();
-					
-												 })
+$(document).ready(function(){
+    renderStandardUi();
+    validateForm($("#editForm"));
 });
 </script>

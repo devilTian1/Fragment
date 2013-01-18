@@ -1,46 +1,15 @@
-function openDbDialog() {
-    var url   = 'Function/layout/showDialog.php';
-    var data  = {
-        tpl : 'server/db/db_editDialog.tpl'
-    };
-    var title   = '信息添加';
-    var buttons = {};
-    buttons['添加下一条'] = function() {
-        if ($('#editForm').valid()) {
-            openNewSFUrlDialog();
-            ajaxSubmitForm($('#editForm'), '结果');
-            $(this).remove();
-        }
-    };
-    buttons['确定'] = function() {
-        if ($('#editForm').valid()) {
-            ajaxSubmitForm($('#editForm'), '结果');
-            $(this).remove();
-        }
-    };
-    buttons['取消'] = function() {
-        $(this).remove();
-    };
-    var dialogParams = {
-        width   : 640,
-        height  : 340,
-        buttons : buttons
-    };
-    showDialogByAjax(url, data, title, dialogParams);
-}
- 
-function openEditDVUserDialog(user) {
-    var url  = 'Function/systemManagement/admin/account.php';
+function openEditDVUserDialog(id) {
+    var url  = 'Function/server/db/db.php';
     var data = {
-        tpl      : 'systemManagement/admin/editAccountDialog.tpl',
-        editUser : user
+        tpl    : 'server/db/db_editDialog.tpl',
+        editId : id
     };
-    var title   = '修改管理员帐号';
+    var title   = '修改普通访问';
     var buttons = {};
     buttons['确定'] = function() {
-        if ($('#editAccountForm').valid()) {
-            countUnchecked($('.roles'));
-            ajaxSubmitForm($('#editAccountForm'), '结果');
+        if ($('#serverEditForm').valid()) {
+            ajaxSubmitForm($('#serverEditForm'), '结果');
+            freshTableAndPage();
             $(this).remove();
         }
     };
@@ -48,19 +17,58 @@ function openEditDVUserDialog(user) {
         $(this).remove();
     };
     var dialogParams = {
-        width   : 540,
-        height  : 380,
-        buttons : buttons
+        width   : 680,
+        height  : 430,
+        buttons : buttons,
+        position: ['center', 'top']
     };
     showDialogByAjax(url, data, title, dialogParams);
 }
 
-function delDVUser(user) {
-    var url    = 'Function/systemManagement/admin/account.php';
-    var data   = { delUser : user };
-    var title  = 'Delete User';
+function openDbDialog() {
+    var url   = 'Function/server/db/db.php';
+    var title = '添加普通访问';
+    var data  = {
+        tpl : 'server/db/db_editDialog.tpl',
+		openDialog: true
+    };
+    var buttons = {};
+    buttons['添加下一条'] = function() {
+        if ($('#serverEditForm').valid()) {
+            openDbDialog();
+            ajaxSubmitForm($('#serverEditForm'), '结果');
+            freshTableAndPage();
+            $(this).remove();
+        }
+    };
+    buttons['确定'] = function() {
+        if ($('#serverEditForm').valid()) {
+            ajaxSubmitForm($('#serverEditForm'), '结果');
+            freshTableAndPage();
+            $(this).remove();
+        }
+    };
+    buttons['取消'] = function() {
+        $(this).remove();
+    };
+    var dialogParams = {
+        width   : 680,
+        height  : 430,
+        buttons : buttons,
+        position: ['center', 'top']
+    };
+    showDialogByAjax(url, data, title, dialogParams);
+}
+
+function del(id) {
+    var url  = 'Function/server/db/db.php';
+    var data = {
+        delId: id
+    };
+    var title  = '删除普通访问';
     var buttons = {};
     buttons['Ok'] = function() {
+        freshTableAndPage();
         $(this).remove();
     };
     var dialogParams = {
@@ -71,21 +79,49 @@ function delDVUser(user) {
     showDialogByAjax(url, data, title, dialogParams);
 }
 
-function openDelDVUserDialog(user) {
-    var dialog  = loadingScreen('delete account');
+function openDelDVUserDialog(id) {
+    var dialog  = loadingScreen('删除普通访问');
     var buttons = {};
     buttons['Confirm'] = function() {
-        delUser(user);
+        del(id);
         $(this).remove();
+        freshTableAndPage();
     };
     buttons['Cancel']  = function() {
         $(this).remove();
     };
     var dialogParams = {
         width: 300,
-        height: 200,
+        height: 160,
         buttons: buttons
     };
-    dialog.setContent("<p>Do you confirm to delete account [" + user + "]</p>");
+    dialog.setContent("<p>确定要删除名称为" + id + "的普通访问吗?</p>");
+    dialog.setOptions(dialogParams);   
+}
+function switchClientCommSer(id, action) {
+    var title   = '启动/停止任务';
+    var dialog  = loadingScreen(title);
+    var buttons = {};
+    buttons['确定'] = function() {
+        ajaxSubmitForm($('#switchServerCommSer_' + id), '结果');
+        freshTableAndPage();
+        $(this).remove();
+    };
+    buttons['取消'] = function() {
+        $(this).remove();
+    };
+    var dialogParams = {
+        width: 300,
+        height: 160,
+        buttons: buttons
+    };
+
+    var str = action === 'disable' ? '停止' : '启动';
+    dialog.setContent('<p>确定' + str + '任务[' +  id + ']吗?</p>');
     dialog.setOptions(dialogParams);
+}
+function freshTableAndPage() {
+    var url = 'Function/server/db/db.php';
+    freshTable(url, $('#serverDbIdTable'));
+    freshPagination(url, $('.pager'));
 }

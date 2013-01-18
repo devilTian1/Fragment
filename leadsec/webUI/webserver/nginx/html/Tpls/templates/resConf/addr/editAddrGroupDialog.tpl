@@ -6,6 +6,7 @@
             <label for="addrGrpName">名称:<em class="required">*</em></label>
             <input type="text" name="addrGrpName" maxlength="15" value="<{$addrGroup.name}>"
                 <{if $type === 'edit'}>readonly="readonly"<{/if}> id="addrGrpName"/>
+            <input id="addrGrpIpType" type="hidden" name="addrGrpIpType" value="<{$nameIpType}>"/>
         </div>
         <br class="clearFloat"/>
         <div class="row">
@@ -13,7 +14,7 @@
             <div class="column column_25">
             <label for="addrList">地址列表</label>
                 <{html_options class='multiSelect' size="5" name="addrList" multiple="multiple" id="addrList"
-                    output=$addrListArr values=$addrListArr}>
+                    output=$addrListArr values=$addrListArrValue}>
             </div>
             <div class="column column_15">
                 <br/>
@@ -27,7 +28,7 @@
                 <label for="addrGrpMember">地址组成员</label>
                 <{html_options class='multiSelect' size="5" multiple="multiple"
                     name="addrGrpMember[]" id="addrGrpMember"
-                    output=$addrGrpMemberArr values=$addrGrpMemberArr}>
+                    output=$addrGrpMemberArr values=$addrGrpMemberArrValue}>
 	        </div>
         </div>
         <br class="clearFloat"/>

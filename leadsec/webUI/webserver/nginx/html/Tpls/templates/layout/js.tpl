@@ -13,6 +13,7 @@
 <script type="text/javascript" src="Public/js/tabs.js"></script>
 <script type="text/javascript" src="Public/js/search.js"></script>
 <script type="text/javascript" src="Public/js/sort.js"></script>
+<script type="text/javascript" src="Public/js/header.js"></script>
 <!--[if IE 6]>
 <script type="text/javascript" src="Public/js/jquery/desktop/jsLib/DD_belatedPNG_0.0.8a.js" ></script>
 <script type="text/javascript">

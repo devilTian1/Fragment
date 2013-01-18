@@ -1,8 +1,8 @@
 <{foreach $tcpTransClientAcl as $r }>
     <tr>
         <td><{$r.id}></td>
-        <td><{$r.sa}></td>
-        <td><{$r.da}></td>
+        <td><{$r.sa|regex_replace: "/_ipv(4|6)/" : ""}></td>
+        <td><{$r.da|regex_replace: "/_ipv(4|6)/" : ""}></td>
         <td><{$r.dport}></td>
         <td><{$r.time}></td>
         <td>

@@ -5,7 +5,7 @@
         <legend>添加TCP普通访问</legend>
         <div class="row">
             <label for="customId">任务号:<em class="required">*</em></label>
-            <input class="auto" type="text" name="customId" value="<{$data.id}>"
+            <input class="id" type="text" name="customId" value="<{$data.id}>"
                 <{if $type ==='edit'}>disabled="disabled"<{/if}>
                 size="4" maxlength="4"/>
             (同一端的任务号必须唯一)
@@ -20,24 +20,24 @@
                 output=array('ipv4', 'ipv6')
                 values=array('ipv4', 'ipv6')
                 selected=$data.ip_ver|default: 'ipv4'
-                onClick="filterIp()"}>
+                onClick="filterRes()"}>
         </div>
 
         <div class="row">
             <label for="sa">源地址:</label>
-            <{html_options class="select" name="sa"
+            <{html_options class="select sa" name="sa"
                 options=$addrOptions selected=$data.sa|default: 'any'}>
         </div>
         
          <div class="row">
             <label for="lip">本机地址:</label>
-            <{html_options class="select" name="lip"
-                options=$ifList selected=$data.lip|default: 'empty'}>
+            <{html_options class="select lip" name="lip"
+                options=$ifList selected=$data.lip|default: '无'}>
         </div>
         
         <div class="row">
-            <label for="lport">本机端口:<em class="required">*</em></label>
-            <input class="auto" type="text" name="lportReq" value="<{$data.lport}>" size="5" maxlength="5"/>
+            <label for="tcplportReq">本机端口:<em class="required">*</em></label>
+            <input class="port" type="text" name="tcplportReq" value="<{$data.lport}>" size="5" maxlength="5"/>
         </div>
         
         <div class="row">
@@ -46,17 +46,17 @@
                 output=array('开', '关') selected=$data.killvirus|default: 'N'
             }>
         </div>
-        
+
         <div class="row">
             <label for="usergrp">认证用户组:</label>
-            <{html_options class="select" name="usergrp" options=$roleList
-                selected=$data.usergrp|default: 'empty'}>
+            <{html_options class="select usergrp" name="usergrp"
+                options=$roleList selected=$data.usergrp|default: '无'}>
         </div>
-        
+
         <div class="row">
-            <label for="destip">生效时段:</label>
-            <{html_options class="select" name="time" options=$timeList
-                selected=$data.time|default: 'empty'}>
+            <label for="time">生效时段:</label>
+            <{html_options class="select time" name="time" options=$timeList
+                selected=$data.time|default: '无'}>
             </select>
         </div>
         
@@ -73,25 +73,8 @@
     </fieldset>
 </form>
 <script type="text/javascript">
-    function filterIp() {
-        var type    = $('input:radio[name="ipType"]:checked').val();
-        var saOpts  = $('select[name="sa"]>option');
-        var lipOpts = $('select[name="lip"]>option');
-        saOpts.show(); 
-        lipOpts.show(); 
-        if (type === 'ipv4') {
-            saOpts.filter('[value$="_ipv6"]').hide();
-            lipOpts.filter('[value*=":"]').hide();
-        } else if (type === 'ipv6') {
-            saOpts.filter('[value$="_ipv4"]').hide();
-            lipOpts.filter('[value*="."]').hide();
-        } else {
-        }
-        saOpts.filter(':visible:eq(0)').attr('selected','selected');
-        lipOpts.filter(':visible:eq(0)').attr('selected','selected');
-    }
     $(document).ready(function() {
-        filterIp()
+        filterRes();
         validateForm($("#editTcpCommClientAclForm"));
         $('label[for^="ipType_"], label[for^="killVirus_"], label[for^="active_"]').addClass('radioLabel');
     });
