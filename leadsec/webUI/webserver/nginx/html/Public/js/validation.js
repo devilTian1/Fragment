@@ -125,6 +125,7 @@ var validMethodParams = {
                 '[0-9]{4}/(0?[1-9]|1[0-2])/(0?[0-9]|[12][0-9]|3[01])';
             var hhmm      = '(0?[0-9]|1[0-9]|2[0-3]):(0?[0-9]|[1-5][0-9])';
             var hhmm_ss   = hhmm + '(:(0?[0-9]|[1-5][0-9]))?';
+            var hhmmss    = hhmm + ':(0?[0-9]|[1-5][0-9])';
 
             if (params[0] === 'YYYY/MM/DD hh:mm(:ss)') {
                 regexpStr = yyyymmdd + ' ' + hhmm_ss;
@@ -133,7 +134,7 @@ var validMethodParams = {
             } else if (params[0] === 'hh:mm(:ss)') {
                 regexpStr = hhmm_ss;
             } else {
-                regexpStr = yyyymmdd + ' ' + hhmm_ss;
+                regexpStr = yyyymmdd + ' ' + hhmmss;
             }
             var regexp = new RegExp('^' + regexpStr + '$');
             return this.optional(element) || regexp.test(value);
@@ -244,9 +245,49 @@ var validMethodParams = {
     allowedFileNameValidParam: {
         name: 'filename',
         validMethod: function(value, element, params) {
-            return /^[^\\\/:\*"'<>\|%]+$/.test(value)
+            return this.optional(element) || /^[^\\\/:\*"'<>\|%]+$/.test(value)
         },
         msg: "文件名中可以使用通配符*和? 但不能包括以下字符 % \ / : \" < > | '"
+    },
+    fileExchangeFilterName: {
+        name: 'FEfilterName',
+         validMethod: function(value, element, params) {
+            return this.optional(element) || /^[a-zA-Z0-9_]{1,30}$/.test(value)
+        },
+        msg: "30个由任意数字, 中文, 字母, 下划线组成"
+    },
+    urlFilterValidParam: {
+        name: 'urlFilter',
+        validMethod: function(value, element, params) {
+            var urlregex = new RegExp("^[a-z0-9_-]*(\\.([a-z0-9_-])+)+$","i");
+            return this.optional(element) ||
+            urlregex.test(value)
+        },
+        msg: 'URL格式错误.'
+    },
+    fragPortValidParam: {
+        name: 'httpPort',
+        validMethod: function(value, element, params) {
+            var portArr = value.split(',');
+            for (var i in portArr) {
+                var frag = portArr[i];
+                if (frag.indexOf('-') !== -1) { //eg: 80-8080
+                    var pf = frag.split('-');
+                    var p1 = parseInt(pf[0]);
+                    var p2 = parseInt(pf[1]);
+                    if (!(p1 >= 1 && p1 <= 65535) || !(p2 >= 1 && p2 <= 65535)||
+                        !(p1 < p2)) {
+                        return false;
+                    }
+                } else { //eg: 22
+                    if (!(frag >= 1 && frag <= 65535)) {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        },
+        msg: '端口格式错误.'
     }
 };
 for (var i in validMethodParams) {
@@ -777,30 +818,6 @@ var validRules = {
         required: true,
         addrName: true   
     },
-    filename: {
-        required: true,
-        filename: true,
-        remote: {
-            url: 'Function/client/fileSync/allowedFile.php',
-            data: {
-                checkExistFileName: true
-            }
-        }
-    },
-    context: {
-        required: true,
-        maxlength: 50,
-        remote: {
-            url: 'Function/client/fileSync/bannedContent.php',
-            data: {
-                checkExistContext: true,
-                allow: function() {
-                    return $('input[name="context"]').attr('class')
-                        .indexOf('allow') !== -1 ? '1' : '0';
-                }
-            }
-        }
-    },
     destPort: {
     	required: true,
     	range: [1, 65535]
@@ -813,6 +830,421 @@ var validRules = {
             data: {
             	checkExistId: true
             }
+        }
+    },
+    FEname: {
+        required: true,
+        addrName: true,
+        remote: {
+            url: 'Function/client/fileEx/allowedFile.php',
+            data: {
+                checkExistFileName: true
+            }
+        }
+    },
+    FEfilename: {
+        filename: true
+    },
+    'FEfilenames[]': {
+        required: function() {
+            return $('#filenames option').length === 0;
+        }
+    },
+    'FEbflist[]': {
+        required: function() {
+            return $('#bflist option').length === 0;
+        }
+    },
+    'FEaflist[]': {
+        required: function() {
+            return $('#aflist option').length === 0;
+        }
+    },
+    FEcontext: {
+        maxlength: 50
+    },
+    FECCname: {
+        required: true,
+        addrName: true,
+        remote: {
+            url: 'Function/client/fileEx/bannedContent.php',
+            data: {
+                checkExistName: true
+            }
+        }
+    },
+    FEfilterName: {
+        required: true,
+        FEfilterName: true,
+        remote: {
+            url: 'Function/client/fileEx/filter.php',
+            data: {
+                checkExistName: true
+            }
+        }
+    },
+    sizemax: {
+        digits: true
+    },
+    sizemin: {
+        digits: true
+    },
+    timemax: {
+        dateTime: ['YYYY/MM/DD hh:mm:ss'],
+        fullDate_s_or_e: ['#timemin', '#timemax']
+    },
+    timemin: {
+        dateTime: ['YYYY/MM/DD hh:mm:ss'],
+        fullDate_s_or_e: ['#timemin', '#timemax']
+    },
+    usrName: {
+    	required: true,
+        realName: true,
+        remote: {
+            url: 'Function/client/safeBrowse/localUsrManage.php',
+            data: {
+            	checkExistName: true
+            }
+        }
+    },
+    psswd1: {
+    	required: true,
+        passwd: [6, 15]
+    },
+    psswd2: {
+    	equalTo: "#psswd1"
+    },
+    sendTaskId: {
+        required: true,
+        range: [1, 100],
+        remote: {
+            url: 'Function/client/fileEx/sendTask.php',
+            data: {
+            	checkExistId: true
+            }
+        }
+    },
+    receiveTaskId: {
+        required: true,
+        range: [1, 100],
+        remote: {
+            url: 'Function/server/fileEx/receiveTask.php',
+            data: {
+            	checkExistId: true
+            }
+        }
+    },
+    readyString: {
+        required: '#sendMethod_changename:checked',
+        maxlength: 15
+    },
+    completeString: {
+        required: '#sendMethod_changename:checked',
+        maxlength: 15
+    },
+    radiusSIp: {
+    	required: true,
+    	ip: true
+    },
+    radiusPort: {
+    	required: true,
+    	range: [1,65535]
+    },
+    sharedKey: {
+    	required: true
+    },
+    ldapSIp: {
+    	required: true,
+    	ip: true
+    },
+    ldapDN: {
+    	required: true
+    },
+    sip: {
+        required: true,
+        ipv4: true
+    },
+    shareName: {
+        required: true,
+        maxlength: 15
+    },
+    smbUser: {
+        maxlength: 20
+    },
+    smbPwd: {
+        maxlength: 20
+    },
+    url_list: {
+    	required: true,
+    	urlFilter: true,
+    	remote: {
+            url: 'Function/client/safeBrowse/urlFilter.php',
+            data: {
+            	checkExistList: true,
+            	edit: function() {
+            		return $("input[name='type']").val();
+            	},
+            	hi_list: function() {
+            		return $("input[name='hid_list']").val();
+            	}
+            }
+        }
+    },
+    postfix_list: {
+        required: true,
+        ftpFilterOptUploadOrDownInfo: true,
+        remote: {
+            url: 'Function/client/safeBrowse/postfixFilter.php',
+            data: {
+            	checkExistList: true,
+            	edit: function() {
+            		return $("input[name='type']").val();
+            	},
+            	hi_list: function() {
+            		return $("input[name='hid_list']").val();
+            	}
+            }
+        }
+    },
+    portReq: {
+        required: true,
+        range: [1, 65535]
+    },
+    msgTransId: {
+    	required: true,
+        range: [1, 1000],
+        remote: {
+            url: 'Function/client/msgTrans/msgTrans.php',
+            data: {
+            	checkExistId: true
+            }
+        }
+    },
+    keyName: {
+    	required: true,
+    	addrName: true,
+    	remote: {
+    		url: 'Function/client/safeBrowse/keywordFilter.php',
+            data: {
+            	checkExistName: true
+            }
+    	}
+    },
+    'contextList[]': {
+        required: function() {
+            return $('#contextList option').length === 0;
+        }
+    },
+    httpPort: {
+    	required: true,
+    	httpPort: true
+    },
+    httpsPort: {
+    	required: true,
+    	httpPort: true
+    },
+    pop3Id: {
+        required: true,
+        range: [1, 1000],
+    	remote: {
+    		url: 'Function/client/mail/pop3GeneralVisit.php',
+            data: {
+            	checkExistId: true
+            }
+    	}   
+    },
+    pop3lportReq: {
+        required: true,
+        range: [1, 65535],
+        remote: {
+            url: 'Function/client/mail/pop3GeneralVisit.php',
+            data: {
+                checkExistLport: true,
+                pop3lip: function() {
+                    return $('select[name="pop3lip"] option:selected').val();
+                }
+            }
+        }   
+    },
+    pop3lip: {
+        required: true,
+        isFilled: ['input[name="pop3lportReq"]', '请填写本机端口.'],
+        remote: {
+            url: 'Function/client/mail/pop3GeneralVisit.php',
+            data: {
+                checkExistLport: true,
+                pop3lportReq: function() {
+                    return $('input[name="pop3lportReq"]').val();
+                }
+            }
+        }
+    },
+    mailName: {
+    	required: true,
+    	addrName: true,
+    	remote: {
+    		url: 'Function/client/mail/mailAddr.php',
+            data: {
+            	checkExistName: true
+            }
+    	}
+    },
+    mailAddr_txt: {
+    	email: true
+    },
+    'mailList[]': {
+        required: function() {
+            return $('#mailList option').length === 0;
+        }
+    },
+    keywordName: {
+    	required: true,
+    	maxlength: 15,
+    	remote: {
+    		url: 'Function/client/mail/keyword.php',
+            data: {
+            	checkExistName: true
+            }
+    	}
+    },
+    'keywordList[]': {
+        required: function() {
+            return $('#keywordList option').length === 0;
+        }
+    },
+    attachName: {
+    	required: true,
+    	maxlength: 15,
+    	remote: {
+    		url: 'Function/client/mail/attachExt.php',
+            data: {
+            	checkExistName: true
+            }
+    	}
+    },
+    'attachList[]': {
+        required: function() {
+            return $('#attachList option').length === 0;
+        }
+    },
+    attach_txt: {
+    	ftpFilterOptUploadOrDownInfo: true
+    },
+    cfilename: {
+        required: true,
+        remote: {
+            url: 'Function/client/msgTrans/callowedFile.php',
+            data: {
+                checkExistcFileName: true
+            }
+        }
+    },
+    cblacklist: {
+        required: true,
+        remote: {
+            url: 'Function/client/msgTrans/cbannedContent.php',
+            data: {
+            	checkExistcBlacklist: true
+            }
+        }
+    },
+    cwhitelist: {
+        required: true,
+        remote: {
+            url: 'Function/client/msgTrans/callowedContent.php',
+            data: {
+            	checkExistcWhitelist: true
+            }
+        }
+    },
+    userAuthenName: {
+        required: true,
+        remote: {
+            url: 'Function/client/msgTrans/localUserAuthen.php',
+            data: {
+            	checkExistAuthenName: true
+            }
+        }
+    },
+    UserPriName: {
+        required: true,
+        remote: {
+            url: 'Function/client/msgTrans/userPrivilege.php',
+            data: {
+            	checkExistUserPriName: true
+            }
+        }
+    },
+    smtpId: {
+        required: true,
+        range: [1, 1000],
+    	remote: {
+    		url: 'Function/client/mail/smtpGeneralVisit.php',
+            data: {
+            	checkExistId: true
+            }
+    	}   
+    },
+    fslportReq: {
+        required: true,
+        range: [1, 65535],
+        remote: {
+            url: 'Function/client/fileSync/fileSync.php',
+            data: {
+                checkExistLport: true,
+                fslip: function() {
+                    return $('select[name="fslip"] option:selected').val();
+                }
+            }
+        }
+    },
+    smtplip: {
+        required: true,
+        isFilled: ['input[name="smtplportReq"]', '请填写本机端口.'],
+        remote: {
+            url: 'Function/client/mail/smtpGeneralVisit.php',
+            data: {
+                checkExistLport: true,
+                smtplportReq: function() {
+                    return $('input[name="smtplportReq"]').val();
+                }
+            }
+        }
+    },
+    smtplportReq: {
+        required: true,
+        range: [1, 65535],
+        remote: {
+            url: 'Function/client/mail/smtpGeneralVisit.php',
+            data: {
+                checkExistLport: true,
+                smtplip: function() {
+                    return $('select[name="smtplip"] option:selected').val();
+                }
+            }
+        }
+    },
+    MfilterName: {
+        required: true,
+        realName: true,
+        remote: {
+            url: 'Function/client/mail/filter.php',
+            data: {
+                checkExistName: true
+            }
+        }
+    },
+    attachmax: {
+        range: [1, 65535]
+    },
+    sendfilter: {
+        required : function() {
+            return $('select[name="senderList"] option:selected').val() !== '';
+        }
+    },
+    recvfilter: {
+        required : function() {
+            return $('select[name="recvList"] option:selected').val() !== '';
         }
     }
 };
@@ -860,7 +1292,10 @@ var validMsg = {
     addStaticAddr: '请填写IP地址.',
     ntpSyncInterval: '不能小于1分钟或超过65535分钟.',
     max_record: '请填写最大记录数.',
-    interval: '请填写自动解析间隔.',
+    interval: {
+        required: '必填.',
+        range: '1-65535.'
+    },
     autoParseErrInterval: '请填写自动解析记录失效间隔.',
     timeListName: {
         required: '请填写时间列表名称.'
@@ -1088,15 +1523,6 @@ var validMsg = {
     commname: {
         required: '必填.'
     },
-    filename: {
-        required: '必填.',
-        remote: '文件名已存在.'
-    },
-    context: {
-        required: '必填.',
-        maxlength: '长度不能超过50.',
-        remote: '文件内容已存在.'
-    },
     destPort: {
     	required: '请输入目的端口',
     	range: '目的端口范围为1-65535'
@@ -1105,6 +1531,195 @@ var validMsg = {
     	required: '请输入任务号.',
         range: '任务号范围为1-1000',
         remote: '任务号已存在.'
+    },
+    FEname: {
+        required: '必填.',
+        remote: '文件名已存在.'
+    },
+    'FEfilenames[]': '内容不能为空.',
+    'FEbflist[]': '内容不能为空.',
+    'FEaflist[]': '内容不能为空.',
+    FECCname: {
+        required: '必填.',
+        remote: '文件名已存在.'
+    },
+    FEfilterName: {
+        required: '必填.',
+        remote: '名称已存在.'
+    },
+    sizemax: {
+        digits: '请填写有效数字.'
+    },
+    sizemin: {
+        digits: '请填写有效数字.'
+    },
+    usrName: {
+    	required: '请输入用户名.',
+    	remote: '用户名已存在'
+    },
+    psswd1: {
+    	required: '请输入密码.'
+    },
+    psswd2:  '两次输入密码不一致.',
+    sendTaskId: {
+        required: '必填.',
+        range: '1-100的整数.',
+        remote: '任务号已存在.'
+    },
+    receiveTaskId: {
+        required: '必填.',
+        range: '1-100的整数.',
+        remote: '任务号已存在.'
+    },
+    readyString: {
+        required: '必填.',
+        maxlength: '不得超过15个字符.'
+    },
+    completeString: {
+        required: '必填.',
+        maxlength: '不得超过15个字符.'
+    },
+    radiusSIp: {
+    	required: '请输入服务器IP地址.'
+    },
+    radiusPort: {
+    	required: '请输入端口.',
+    	range: '端口范围为1-65535.'
+    },
+    sharedKey: '请输入共享密钥.',
+    ldapSIp: {
+    	required: '请输入LDAP服务器地址.'
+    },
+    ldapDN: '请输入LDAP DN.',
+    sip: {
+        required: '必填.'
+    },
+    shareName: {
+        required: '必填.',
+        maxlength: '不得超过15个字符.'
+    },
+    smbUser: '不得超过20个字符.',
+    smbPwd: '不得超过20个字符.',
+    url_list: {
+    	required: '请输入URL.',
+		remote: 'URL已存在.'
+    },
+    postfix_list: {
+        required: '请输入文件后缀名.',
+        ftpFilterOptUploadOrDownInfo: '输入的文件后缀名非法.',
+        remote: '文件后缀名已存在.'
+    },
+    portReq: {
+        required: '必填.',
+        range: '端口范围1-65535'
+    }, msgTransId: {
+    	required: '请输入任务号.',
+        range: '任务号范围为1-1000',
+        remote: '任务号已存在.'
+    },
+    keyName: {
+    	required: '请输入名称.',
+    	remote: '名称已存在.'
+    },
+    'contextList[]': '请输入禁止的内容.',
+    httpPort: {
+    	required: '请输入Http协议可访问端口.'
+    },
+    httpsPort: {
+    	required: '请输入Https协议可访问端口.'
+    },
+    pop3Id: {
+    	required: '请输入任务号.',
+        range: '任务号范围为1-1000',
+        remote: '任务号已存在.'
+    },
+    pop3lportReq: {
+    	required: '必填.',
+        range: '范围为1-65535',
+        remote: '端口已经被使用.'
+    },
+    mailName: {
+    	required: '请输入名称.',
+    	remote: '名称已存在.'
+    },
+    mailAddr_txt: {
+    	email: '请输入有效的邮件地址.'
+    },    
+    'mailList[]': '请输入邮件地址.',
+    keywordName: {
+    	required: '请输入名称.',
+    	maxlength: '名称最大长度为15.',
+    	remote: '名称已存在.'
+    },
+    'keywordList[]': '请输入关键字.',
+    attachName: {
+    	required: '请输入名称.',
+    	maxlength: '名称最大长度为15.',
+    	remote: '名称已存在.'
+    },
+    'attachList[]': '请输入扩展名.',
+    attach_txt: '请输入正确的扩展名.如:.exe',
+    cfilename: {
+        required: '必填.',
+        remote: '文件名已存在.'
+    },
+    cblacklist: {
+        required: '必填.',
+        remote: '文件名已存在.'
+    },
+    cwhitelist: {
+        required: '必填.',
+        remote: '文件名已存在.'
+    },
+    userAuthenName: {
+        required: '必填.',
+        remote: '文件名已存在.'
+    },
+    UserPriName: {
+        required: '必填.',
+        remote: '文件名已存在.'
+    },
+    pop3lip: {
+        required: '请填写本机端口.',
+        remote: '此本机端口已被使用.'
+    },
+    pop3lportReq: {
+    	required: '必填.',
+        range: '范围为1-65535',
+        remote: '端口已经被使用.'
+    },
+    smtpId: {
+    	required: '请输入任务号.',
+        range: '任务号范围为1-1000',
+        remote: '任务号已存在.'
+    },
+    smtplip: {
+        required: '请填写本机端口.',
+        remote: '此本机端口已被使用.'
+    },
+    smtplportReq: {
+    	required: '必填.',
+        range: '范围为1-65535',
+        remote: '端口已经被使用.'
+    },
+    MfilterName: {
+        required: '必填.',
+        remote: '此名称已存在.'
+    },
+    attachmax: '范围在1-65535.',
+    sendfilter: '请选择发件人过滤类型.',
+    recvfilter: '请选择收件人过滤类型.'
+};
+
+var groups = {
+    fsLipLport: 'fslip fslportReq'
+};
+
+var errorPlacement = function (error, element) {
+    if (element.attr('name') === "sendfilter") {
+        error.insertAfter("label[for='sendfilter_black']");
+    } else if (element.attr('name') === "recvfilter") {
+        error.insertAfter("label[for='recvfilter_black']");
     }
 };
 
@@ -1112,6 +1727,8 @@ function validateForm(form, displayId) {
     var options = {
         rules:    validRules,
         messages: validMsg,
+        groups: groups,
+        errorPlacement: errorPlacement,
         errorClass: 'errorLabel'
     };
 

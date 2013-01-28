@@ -26,7 +26,7 @@
     'rc_a' => array('pid' => 'rc', 'name' => '地址', 'link' => 'addr'),
     'rc_t' => array('pid' => 'rc', 'name' => '时间', 'link' => 'time'),
     'rc_u' => array('pid' => 'rc', 'name' => '用户', 'link' => 'user'),
-    'rc_ab' => array('pid' => 'rc', 'name' => '过滤配置', 'link' => 'filterConf'),
+    'rc_fc' => array('pid' => 'rc', 'name' => '过滤配置', 'link' => 'filterConf'),
 
     //levev2 client
     'c_fe' => array('pid' => 'c', 'name' => '文件交换', 'link' => 'fileEx'),
@@ -113,28 +113,34 @@
     'rc_u_rl' => array('pid' => 'rc_u', 'name' => '角色列表', 'link' => 'roleList'),
     
     //level3 resConf/filterConf
-    'rc_ab_s' => array('pid' => 'rc_ab', 'name' => '安全浏览', 'link' => 'safeBrowse'),
-    'rc_ab_fs' => array('pid' => 'rc_ab', 'name' => '文件同步', 'link' => 'fileSyn'),
-    'rc_ab_fe' => array('pid' => 'rc_ab', 'name' => '文件交换', 'link' => 'fileExchange'),
-    'rc_ab_fv' => array('pid' => 'rc_ab', 'name' => 'FTP访问', 'link' => 'ftp'),
-    'rc_ab_e' => array('pid' => 'rc_ab', 'name' => '邮件访问', 'link' => 'emailVisit'),
-    'rc_ab_d' => array('pid' => 'rc_ab', 'name' => '数据库访问', 'link' => 'dataVisit'),
-    'rc_ab_m' => array('pid' => 'rc_ab', 'name' => '消息传递', 'link' => 'msgPass'),
+    'rc_fc_s' => array('pid' => 'rc_fc', 'name' => '安全浏览', 'link' => 'safeBrowse'),
+    'rc_fc_fe' => array('pid' => 'rc_fc', 'name' => '文件交换', 'link' => 'fileExchange'),
+    'rc_fc_fv' => array('pid' => 'rc_fc', 'name' => 'FTP访问', 'link' => 'ftp'),
+    'rc_fc_e' => array('pid' => 'rc_fc', 'name' => '邮件访问', 'link' => 'emailVisit'),
+    'rc_fc_d' => array('pid' => 'rc_fc', 'name' => '数据库访问', 'link' => 'dataVisit'),
+    'rc_fc_m' => array('pid' => 'rc_fc', 'name' => '消息传递', 'link' => 'msgPass'),
     
   	//levev3 client/fileEx
-  	'c_fe_fe' => array('pid' => 'c_fe', 'name' => '文件交换', 'link' => 'fileEx'),
-  	'c_fe_gl' => array('pid' => 'c_fe', 'name' => '过滤配置', 'link' => 'filterGl'),
-  
+  	'c_fe_st' => array('pid' => 'c_fe', 'name' => '发送任务', 'link' => 'sendTask'),
+  	'c_fe_af' => array('pid' => 'c_fe', 'name' => '文件名控制', 'link' => 'allowedFile'),
+  	'c_fe_bc' => array('pid' => 'c_fe', 'name' => '内容黑名单', 'link' => 'bannedContent'),
+  	'c_fe_ac' => array('pid' => 'c_fe', 'name' => '内容白名单', 'link' => 'allowedContent'),
+  	'c_fe_fpc' => array('pid' => 'c_fe', 'name' => '文件属性控制', 'link' => 'filter'),
+  	'c_fe_task' => array('pid' => 'c_fe', 'name' => '共享目录', 'link' => 'shareDir'),
+    
   	//levev3 client/fileSync
   	'c_fs_fe' => array('pid' => 'c_fs', 'name' => '文件同步', 'link' => 'fileSync'),
-  	'c_fs_af' => array('pid' => 'c_fs', 'name' => '文件名控制', 'link' => 'allowedFile'),
-  	'c_fs_bc' => array('pid' => 'c_fs', 'name' => '内容黑名单', 'link' => 'bannedContent'),
-  	'c_fs_ac' => array('pid' => 'c_fs', 'name' => '内容白名单', 'link' => 'allowedContent'),
 
     //levev3 client/safeBrowse
+    'c_s_bc' => array('pid' => 'c_s', 'name' => '基本配置', 'link' => 'basicConfig'),
     'c_s_t' => array('pid' => 'c_s', 'name' => '透明访问控制', 'link' => 'transVisit'),
     'c_s_g' => array('pid' => 'c_s', 'name' => '普通访问控制', 'link' => 'generalVisit'),
-  	'c_s_gl' => array('pid' => 'c_s', 'name' => '过滤配置', 'link' => 'filterGl'),
+  	'c_s_ua' => array('pid' => 'c_s', 'name' => '用户认证方式', 'link' => 'usrAuthen'),
+  	'c_s_um' => array('pid' => 'c_s', 'name' => '本地用户管理', 'link' => 'localUsrManage'),
+  	'c_s_fc' => array('pid' => 'c_s', 'name' => '过滤配置', 'link' => 'filterGl'),
+  	'c_s_url' => array('pid' => 'c_s', 'name' => 'URL过滤', 'link' => 'urlFilter'),
+  	'c_s_pf' => array('pid' => 'c_s', 'name' => '文件名过滤', 'link' => 'postfixFilter'),
+  	'c_s_kf' => array('pid' => 'c_s', 'name' => '关键字过滤', 'link' => 'keywordFilter'),
     
     //levev3 client/ftp
     'c_f_t' => array('pid' => 'c_f', 'name' => '透明访问',  'link' => 'transVisit'),
@@ -142,16 +148,20 @@
   	'c_f_gl'=> array('pid' => 'c_f', 'name' => '过滤配置',  'link' => 'filterGl'),
     
     //levev3 client/mail
-    'c_m_s' => array('pid' => 'c_m', 'name' => 'SMTP访问', 'link' => 'smtpVisit'),
-    'c_m_p' => array('pid' => 'c_m', 'name' => 'POP3访问', 'link' => 'pop3Visit'),
-  	'c_m_gl'=> array('pid' => 'c_m', 'name' => '过滤配置',  'link' => 'filterGl'),
+    'c_m_pgv' => array('pid' => 'c_m', 'name' => 'POP3普通访问', 'link' => 'pop3GeneralVisit'),
+    'c_m_ptv' => array('pid' => 'c_m', 'name' => 'POP3透明访问', 'link' => 'pop3TransVisit'),
+    'c_m_sgv' => array('pid' => 'c_m', 'name' => 'SMTP普通访问', 'link' => 'smtpGeneralVisit'),
+    'c_m_stv' => array('pid' => 'c_m', 'name' => 'SMTP透明访问', 'link' => 'smtpTransVisit'),
+  	'c_m_ma'=> array('pid' => 'c_m', 'name' => '邮件地址',  'link' => 'mailAddr'),
+  	'c_m_k'=> array('pid' => 'c_m', 'name' => '内容关键字',  'link' => 'keyword'),
+  	'c_m_ae'=> array('pid' => 'c_m', 'name' => '附件扩展名',  'link' => 'attachExt'),
+  	'c_m_f'=> array('pid' => 'c_m', 'name' => '过滤选项集',  'link' => 'filter'),
     
     //levev3 client/db
     'c_db_t' => array('pid' => 'c_db', 'name' => '透明访问','link' => 'transVisit'),
-    'c_db_g' => array('pid' => 'c_db', 'name' => '普通访问','link' => 'generalVisit'),
-  	'c_db_gl'=> array('pid' => 'c_db', 'name' => '过滤配置',  'link' => 'filterGl'),
+    'c_db_g' => array('pid' => 'c_db', 'name' => '普通访问','link' => 'generalVisit'),  	
     
-    //levev3 client/custome
+    //levev3 client/customized
     'c_c_tt' => array('pid' => 'c_c', 'name' => 'TCP透明访问', 'link' => 'tcpTransVisit'),
     'c_c_tg' => array('pid' => 'c_c', 'name' => 'TCP普通访问', 'link' => 'tcpGeneralVisit'),
     'c_c_ut' => array('pid' => 'c_c', 'name' => 'UDP透明访问', 'link' => 'udpTransVisit'),
@@ -159,31 +169,30 @@
     
   	//levev3 client/msgTrans
   	'c_mt_mt' => array('pid' => 'c_mt', 'name' => '消息传输', 'link' => 'msgTrans'),
-  	'c_mt_gl'=> array('pid' => 'c_mt', 'name' => '过滤配置',  'link' => 'filterGl'),	
+    'c_mt_af' => array('pid' => 'c_mt', 'name' => '文件名控制', 'link' => 'callowedFile'),
+  	'c_mt_bc' => array('pid' => 'c_mt', 'name' => '内容黑名单', 'link' => 'cbannedContent'),
+  	'c_mt_ac' => array('pid' => 'c_mt', 'name' => '内容白名单', 'link' => 'callowedContent'),	
+    'c_mt_lu' => array('pid' => 'c_mt', 'name' => '本地用户认证', 'link' => 'localUserAuthen'),
+  	'c_mt_up' => array('pid' => 'c_mt', 'name' => '用户权限', 'link' => 'userPrivilege'),	
   
   	//levev3 server/fileEx
-  	's_fe_fe' => array('pid' => 's_fe', 'name' => '文件交换', 'link' => 'fileEx'),
-  	's_fe_gl' => array('pid' => 's_fe', 'name' => '过滤配置', 'link' => 'filterGl'),
+  	's_fe_rt' => array('pid' => 's_fe', 'name' => '接受任务', 'link' => 'receiveTask'),
   
   	//levev3 server/fileSync
   	's_fs_fe' => array('pid' => 's_fs', 'name' => '文件同步', 'link' => 'fileSync'),
 
     //levev3 server/safeBrowse
-    's_s_s' => array('pid' => 's_s', 'name' => '安全浏览', 'link' => 'safeBrowse'),
-  	's_s_gl' => array('pid' => 's_s', 'name' => '过滤配置', 'link' => 'filterGl'),
+  	's_s_gl' => array('pid' => 's_s', 'name' => '服务管理', 'link' => 'serviceManage'),
   
   	//levev3 server/ftp
     's_f_f' => array('pid' => 's_f', 'name' => '普通访问',  'link' => 'generalVisit'),
-  	's_f_gl'=> array('pid' => 's_f', 'name' => '过滤配置',  'link' => 'filterGl'),
     
     //levev3 server/mail
-    's_m_s' => array('pid' => 's_m', 'name' => 'SMTP访问', 'link' => 'smtpMail'),
-    's_m_p' => array('pid' => 's_m', 'name' => 'POP3访问', 'link' => 'pop3Mail'),
-  	's_m_gl'=> array('pid' => 's_m', 'name' => '过滤配置',  'link' => 'filterGl'),
+    's_m_p' => array('pid' => 's_m', 'name' => 'POP3访问', 'link' => 'pop3'),
+    's_m_s' => array('pid' => 's_m', 'name' => 'SMTP访问', 'link' => 'smtp'),
     
     //levev3 server/db
     's_db_d' => array('pid' => 's_db', 'name' => '数据库访问','link' => 'db'),
-  	's_db_gl'=> array('pid' => 's_db', 'name' => '过滤配置',  'link' => 'filterGl'),
     
     //levev3 server/customized
     's_c_t' => array('pid' => 's_c', 'name' => 'TCP访问', 'link' => 'tcp'),
@@ -191,7 +200,6 @@
     
   	//levev3 client/msgTrans
   	's_mt_mt' => array('pid' => 's_mt', 'name' => '消息传输', 'link' => 'msgTrans'),
-  	's_mt_gl'=> array('pid' => 's_mt', 'name' => '过滤配置',  'link' => 'filterGl'),	
   
     //level3 appS/ips
     'as_v_v' => array('pid' => 'as_v', 'name' => '病毒库升级', 'link' => 'virusUpgrade'),

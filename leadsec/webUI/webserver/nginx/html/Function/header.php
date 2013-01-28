@@ -20,7 +20,7 @@
         echo json_encode(array( 'msg' => "已连接到首页."));      
     }else if ($name_save = $_POST['headerName_save']) {
         // 保存    
-        $cmd = "backpkg config";        
+        $cmd = "/usr/sbin/backpkg config";        
     	$cli = new cli();
     	$cli->run($cmd);
         echo json_encode(array( 'msg' => "已保存."));      

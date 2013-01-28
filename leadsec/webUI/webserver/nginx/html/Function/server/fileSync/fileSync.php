@@ -14,6 +14,11 @@
     function getCmd($action) {
         $id      = $_POST['fsId'];
         $sip     = $_POST['serverIp'];
+        if (validateIpv4Format($sip)) {
+            $ipver = 'ipver ipv4';
+        } else {
+            $ipver = 'ipver ipv6';
+        }
         $sport   = $_POST['sportReq'];
         if ($_POST['ssl'] === 'Y') {
             $ssl   = 'yes';
@@ -24,7 +29,8 @@
         }
         $comment = $_POST['comment'];
         $result  = "fs2ctl $action task type server id $id sip $sip sport " .
-            "$sport mode quick ssl $ssl commname $cname comment \"$comment\"";
+            "$sport mode quick ssl $ssl commname $cname $ipver " .
+            "comment \"$comment\" 1>/dev/null";
         return $result;
     }
 

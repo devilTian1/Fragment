@@ -17,7 +17,10 @@ create table dir_info
 	ready_string	CHAR(20),
 	complete_string	CHAR(20),
 	active		CHAR(1),
-	filter		CHAR(30)
+	filter		CHAR(30),
+    hexip       CHAR(15),
+    pexip       CHAR(15),
+    lip         CHAR(15)
 );
 
 create table basic_configure

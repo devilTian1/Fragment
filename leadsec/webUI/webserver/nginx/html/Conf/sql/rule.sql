@@ -29,7 +29,8 @@ create table address
     comment     VARCHAR(255)           --备注
 );
 
-insert into  address values(1,'any',1,'0.0.0.0','0.0.0.0','全部地址');
+insert into  address values(1,'any_ipv4',1,'0.0.0.0','0.0.0.0','全部地址');
+insert into  address values(2,'any_ipv6',1,'::','0','全部地址');
 
 
 --表名: 地址组

@@ -25,9 +25,11 @@ create table system
 	fs_new_status CHAR(1),
 	mctcp_status		CHAR(1),
 	hardware_warning		CHAR(1),  --硬件界面报警
- 	mcudp_status		CHAR(1)
+ 	mcudp_status		CHAR(1),
+	http_server_status   	CHAR(1)     --安全浏览服务端状态
+
 );
 
-insert into system values ( "O","0", "0", "0", "0","0", "0","0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "127.1.0.1", "127.1.0.2", "eth6", "0", "0", "0","0");
+insert into system values ( "O","0", "0", "0", "0","0", "0","0", "0", "0", "0", "0", "0", "0", "0", "0", "1", "127.1.0.1", "127.1.0.2", "eth6", "0", "0", "0","0","0");
  
 COMMIT;

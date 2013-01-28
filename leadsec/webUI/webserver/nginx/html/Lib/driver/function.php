@@ -60,7 +60,7 @@ function get_client_os()
  *  Multi-dimensional Arry or One-dimensional array.
  * @param regex $exclude.    Exclude paths that matches this regex
  */
-function directoryToArray($dir, $rescursive = true, $listDirs = false, $listFiles = true, $dirStruct = false, $exclude = '') {
+function directoryToArray($dir, $rescursive = false, $listDirs = false, $listFiles = true, $dirStruct = false, $exclude = '') {
     if ($handle = opendir($dir)) {
         $result = array();
         while (false !== ($file = readdir($handle))) {

@@ -22,7 +22,9 @@
     </div>
     <!-- userinfo -->
     <div class="top_userinfo">
-         <span>Welcome</span>,&nbsp;<strong>DavidTian</strong>
-         [<a href="#">Administrator</a>,&nbsp;<a href="index.php?logout=1" onClick="function() {window.Location.href='index.php'}">logout</a>]
+        <div class="paddingLeft30">
+            <span>Welcome</span>,&nbsp;<strong>DavidTian</strong>
+            [<a href="#">Administrator</a>,&nbsp;<a href="index.php?logout=1" onClick="function() {window.Location.href='index.php'}">logout</a>]
+        </div>
    </div>
 </div>

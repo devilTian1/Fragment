@@ -135,9 +135,10 @@ a,img{border:0;}
     </tr>
     <tr>
         <th>&nbsp;</th>
-        <td>&nbsp;</td>
+        <td></td>
     </tr>
 </table>
+
 <br class="clearFloat"/>
 <script type="text/javascript" src="Public/js/systemManagement/overview/overview.js"></script>
 <script type="text/javascript" src="Public/js/jquery/jquery.sparkline.min.js"></script>
@@ -148,20 +149,56 @@ $(document).ready(function (){
 		function setSparkLine(eth) {
 			var eth=eth
 			var mrefreshinterval = 1000; // update display every 500ms
-			var mpoints = [];
+			var mpoints=[],mpoints2=[],mpoints3=[];
 			var mpoints_max = 232;
 			var mdraw = function() {
-				var pps=Math.ceil(100*Math.random())
-				$("#t").html(pps);
+				var pps=Math.ceil(100*Math.random()),
+				    pps2=20,
+					pps3=Math.ceil(100*Math.random());
 				mpoints.push(pps);
-				$("#t1").html(mpoints.length);
+				mpoints2.push(pps2);
+				mpoints3.push(pps3);
+				
 				if (mpoints.length > mpoints_max){
 					mpoints.splice(0,1);
 				}
-				$('.zoompic').sparkline(mpoints, { width: mpoints.length*4, 
+				if (mpoints2.length > mpoints_max){
+					mpoints2.splice(0,1);
+				}
+				if (mpoints3.length > mpoints_max){
+					mpoints3.splice(0,1);
+				}
+				
+				$('.zoompic').sparkline(mpoints, {width: mpoints.length*4, 
 										   			  height:150,
 													  spotRadius:3,
+													  fillColor: false, 
 													  tooltipPrefix:'网卡:'+eth+'; 当前速度：', 
+													  tooltipSuffix: 'kb/s',
+													  defaultPixelsPerValue:50,
+													  //tooltipChartTitle:'信息提示',
+													  tooltipFormat:'<span style="color: {{color}}">&#9679;</span>{{prefix}}{{y}}{{suffix}}</span>'
+													 });
+				$('.zoompic').sparkline(mpoints2, {   width: mpoints2.length*4, 
+										   			  height:150,
+													  spotRadius:3,
+													  composite: true,
+													  fillColor: false, 
+													  lineColor: 'yellow',
+													  tooltipPrefix:'网卡:'+eth+'; 信息量：', 
+													  tooltipSuffix: 'kb/s',
+													  defaultPixelsPerValue:50,
+													  //tooltipChartTitle:'信息提示',
+													  tooltipFormat:'<span style="color: {{color}}">&#9679;</span>{{prefix}}{{y}}{{suffix}}</span>'
+													 });
+				
+				$('.zoompic').sparkline(mpoints3, {   width: mpoints3.length*4, 
+										   			  height:150,
+													  spotRadius:3,
+													  composite: true,
+													  fillColor: false, 
+													  lineColor: 'red',
+													  tooltipPrefix:'网卡:'+eth+'; 信息量2：', 
 													  tooltipSuffix: 'kb/s',
 													  defaultPixelsPerValue:50,
 													  //tooltipChartTitle:'信息提示',

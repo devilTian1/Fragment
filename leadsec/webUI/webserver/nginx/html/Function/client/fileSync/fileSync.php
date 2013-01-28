@@ -33,7 +33,7 @@
         if (!empty($time)) {
             $result .= "time $time ";
         }
-        $result .= "comment \"$comment\"";
+        $result .= "seclevel 0 ipver $ipver comment \"$comment\" 1>/dev/null";
         return $result;
     }
 

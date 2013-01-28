@@ -5,17 +5,17 @@
     </caption>
     <thead>
     <tr>
-      <th class="column_5">任务号</th>
-      <th class="column_10">源地此</th>
-      <th class="column_10">本机地此</th>
-      <th class="column_10">本地端口</th>
-      <th class="column_10">认证/加密</th>
-      <th class="column_10">本机备份</th>
-      <th class="column_10">病毒扫描</th>
-      <th class="column_10">是否启动</th>
-      <th class="column_10">生效时间</th>
-      <th class="column_5">备注</th>
-      <th class="column_20">操作</th>
+      <th class="column_8" name="id">任务号</th>
+      <th class="column_10" name="sa">源地址</th>
+      <th class="column_10" name="lip">本机地址</th>
+      <th class="column_10" name="lport">本地端口</th>
+      <th class="column_7" name="ssl">认证/加密</th>
+      <th class="column_6" name="backup">本机备份</th>
+      <th class="column_6" name="scanvirus">病毒扫描</th>
+      <th class="column_6" name="active">是否启动</th>
+      <th class="column_8" name="name">生效时间</th>
+      <th class="column_15">备注</th>
+      <th class="column_15">操作</th>
     </tr>
     </thead>
     <tbody>
@@ -35,6 +35,6 @@
     $(document).ready(function() {
         renderStandardUi();
         freshTable('Function/client/msgTrans/msgTrans.php', $('#msgTransTable'), 'ORDER BY id ASC LIMIT 10');
-        sortTableInit($('#msgTransTable'), {4: {sorter: false}}, [[0,0]]);
+        sortTableInit($('#msgTransTable'), {9: {sorter: false},10: {sorter: false}}, [[0,0]]);
     });
 </script>

@@ -96,5 +96,14 @@
         toggleCNameDiv();
         validateForm($("#editFileSyncClientAclForm"));
         $('label[for^="mode_"], label[for^="ssl_"], label[for^="ipType_"], label[for^="killVirus_"]').addClass('radioLabel');
+        $('select[name="fslip"]').click(function() {
+            $('input[name="fslportReq"]').rules('remove', 'remote');
+            $(this).rules('add', {remote: validRules.fslip.remote});
+        });
+    
+        $('input[name="fslportReq"]').keypress(function() {
+            $('select[name="fslip"]').rules('remove', 'remote');
+            $(this).rules('add', {remote : validRules.fslportReq.remote});
+        });
     });
 </script>

@@ -1,7 +1,7 @@
 function openNewDVUserDialog() {
     var url   = 'Function/layout/showDialog.php';
     var data  = {
-        tpl : 'resConf/addrBind/dataVisit_user_editDialog.tpl'
+        tpl : 'resConf/filterConf/dataVisit_user_editDialog.tpl'
     };
     var title   = '添加用户过滤';
     var buttons = {};
@@ -93,7 +93,7 @@ function openDelDVUserDialog(user) {
 function openNewDVSqlDialog() {
     var url   = 'Function/layout/showDialog.php';
     var data  = {
-        tpl : 'resConf/addrBind/dataVisit_sql_editDialog.tpl'
+        tpl : 'resConf/filterConf/dataVisit_sql_editDialog.tpl'
     };
     var title   = '添加SQL语句过滤';
     var buttons = {};
@@ -124,7 +124,7 @@ function openNewDVSqlDialog() {
 function openDVOptionsDialog() {
     var url   = 'Function/layout/showDialog.php';
     var data  = {
-        tpl : 'resConf/addrBind/dataVisit_options_editDialog.tpl'
+        tpl : 'resConf/filterConf/dataVisit_options_editDialog.tpl'
     };
     var title   = '添加过滤选项集';
     var buttons = {};

@@ -150,6 +150,17 @@ fieldset .userTraceLabel {
 }
 
 /* filter option*/
+/* mail */
+.filterSelect {
+    width: 8em;
+}
+/* file exchange */
+.contentCtlSelect {
+    width: 8em;
+}
+.filesize {
+    width: 6em;
+}
 /* ftp */
 .cmdInfoLabel {
     width: 9em;

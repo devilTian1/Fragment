@@ -1,7 +1,7 @@
-function openEditDialog(id) {
-    var url  = 'Function/resConf/addrBind/dataVisit_options.php';
+function openEditOptionsDialog(id) {
+    var url  = 'Function/resConf/filterConf/dataVisit_options.php';
     var data = {
-        tpl    : 'resConf/addrBind/dataVisit_options_editDialog.tpl',
+        tpl    : 'resConf/filterConf/dataVisit_options_editDialog.tpl',
         editId : id
     };
     var title   = '修改过滤选项';
@@ -24,17 +24,16 @@ function openEditDialog(id) {
     showDialogByAjax(url, data, title, dialogParams);
 }
 
-function openNewDialog() {
-    var url   = 'Function/resConf/addrBind/dataVisit_options.php';
+function openNewOptionsDialog() {
+    var url   = 'Function/resConf/filterConf/dataVisit_options.php';
     var title = '添加过滤选项';
     var data  = {
-        tpl : 'resConf/addrBind/dataVisit_options_editDialog.tpl',
 		openDialog: true
     };
     var buttons = {};
     buttons['添加下一条'] = function() {
         if ($('#editForm').valid()) {
-            openNewDialog();
+        	openNewOptionsDialog();
             ajaxSubmitForm($('#editForm'), '结果');
             freshTableAndPage();
             $(this).remove();
@@ -59,7 +58,7 @@ function openNewDialog() {
 }
 
 function del(name) {
-    var url  = 'Function/resConf/addrBind/dataVisit_options.php';
+    var url  = 'Function/resConf/filterConf/dataVisit_options.php';
     var data = {
         delName: name
     };
@@ -77,7 +76,7 @@ function del(name) {
     showDialogByAjax(url, data, title, dialogParams);
 }
 
-function openDelDialog(name) {
+function openDelOptionsDialog(name) {
     var dialog  = loadingScreen('删除过滤选项');
     var buttons = {};
     buttons['Confirm'] = function() {
@@ -93,12 +92,12 @@ function openDelDialog(name) {
         height: 160,
         buttons: buttons
     };
-    dialog.setContent("<p>确定要删除名称为" + name + "的过滤选项吗?</p>");
+    dialog.setContent("<p>确定要删除序号为" + name + "的过滤选项吗?</p>");
     dialog.setOptions(dialogParams);   
 }
 
 function freshTableAndPage() {
-    var url = 'Function/resConf/addrBind/dataVisit_options.php';
+    var url = 'Function/resConf/filterConf/dataVisit_options.php';
     freshTable(url, $('#dataVisit_optionsTable'));
     freshPagination(url, $('.pager'));
 }

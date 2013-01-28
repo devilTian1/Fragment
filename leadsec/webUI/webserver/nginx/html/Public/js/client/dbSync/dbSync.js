@@ -1,10 +1,9 @@
 function openEditDialog(id) {
     var url  = 'Function/client/dbSync/dbSync.php';
+	var title   = '修改数据库同步';
     var data = {
-        tpl    : 'client/dbSync/dbSync_editDialog.tpl',
         editId : id
     };
-    var title   = '修改数据库同步';
     var buttons = {};
     buttons['确定'] = function() {
         if ($('#editForm').valid()) {
@@ -18,11 +17,13 @@ function openEditDialog(id) {
     };
     var dialogParams = {
         width   : 680,
-        height  : 460,
-        buttons : buttons
+        height  : 650,
+        buttons : buttons,
+		position: ['center', 'top']
     };
     showDialogByAjax(url, data, title, dialogParams);
 }
+
 
 function openNewDialog() {
     var url   = 'Function/client/dbSync/dbSync.php';
@@ -52,18 +53,40 @@ function openNewDialog() {
     };
     var dialogParams = {
         width   : 680,
-        height  : 460,
-        buttons : buttons
+        height  : 600,
+        buttons : buttons,
+		position: ['center', 'top']
     };
     showDialogByAjax(url, data, title, dialogParams);
 }
 
-function del(name) {
-    var url  = 'Function/client/dbSync/dbSync.php';
-    var data = {
-        delName: name
+function openDelDialog(id) {
+    var dialog  = loadingScreen('删除数据库同步');
+    var buttons = {};
+    buttons['Confirm'] = function() {
+        delDbSyncClient(id);
+        freshTableAndPage();
+		$(this).remove();
     };
-    var title  = '删除数据库同步';
+    buttons['Cancel']  = function() {
+        $(this).remove();
+    };
+    var dialogParams = {
+        width: 300,
+        height: 160,
+        buttons: buttons,
+		position: ['center', 'top']
+    };
+    dialog.setContent("<p>确定要删除吗?</p>");
+    dialog.setOptions(dialogParams);   
+}
+
+function delDbSyncClient(id) {
+	var url  = 'Function/client/dbSync/dbSync.php';
+    var data = {
+		delId : id
+    };
+    var title   = '删除客户端数据库交换';
     var buttons = {};
     buttons['Ok'] = function() {
         freshTableAndPage();
@@ -77,15 +100,40 @@ function del(name) {
     showDialogByAjax(url, data, title, dialogParams);
 }
 
-function openDelDialog(name) {
-    var dialog  = loadingScreen('删除数据库同步');
+function toggleCNameDiv() {
+    if ($("input:radio[name='ssl']:checked").val() === 'Y') {
+        $(".cNameDiv").show();
+    } else { 
+        $(".cNameDiv").hide();
+    }
+}
+
+function filterRes() {
+    var type    = $('input:radio[name="ipType"]:checked').val();
+    var saOpts  = $('select[name="sa"]');
+    var lipOpts = $('select[name="fslip"]');
+    saOpts.children('span').showOption(); 
+    lipOpts.children('span').showOption(); 
+    if (type === 'ipv4') {
+        saOpts.find('option[value$="_ipv6"]').hideOption();
+        lipOpts.find('option[value*=":"]').hideOption();
+    } else if (type === 'ipv6') {
+        saOpts.find('option[value$="_ipv4"]').hideOption();
+        lipOpts.find('option[value*="."]').hideOption();
+    } else {
+    }
+}
+
+function switchPhysicalDev(id, action, formId) {
+    var title   = '启动/停止任务';
+    var dialog  = loadingScreen(title);
     var buttons = {};
-    buttons['Confirm'] = function() {
-        del(name);
-        $(this).remove();
+    buttons['确定'] = function() {
+        ajaxSubmitForm($('#switchForm_' + formId), '结果');
         freshTableAndPage();
+        $(this).remove();
     };
-    buttons['Cancel']  = function() {
+    buttons['取消'] = function() {
         $(this).remove();
     };
     var dialogParams = {
@@ -93,12 +141,14 @@ function openDelDialog(name) {
         height: 160,
         buttons: buttons
     };
-    dialog.setContent("<p>确定要删除名称为" + name + "的数据库同步吗?</p>");
-    dialog.setOptions(dialogParams);   
+    var str = action === 'disable' ? '停止' : '启动';
+    dialog.setContent('<p>确定' + str + '任务[' + id  + ']吗?</p>');
+    dialog.setOptions(dialogParams);
 }
+
 
 function freshTableAndPage() {
     var url = 'Function/client/dbSync/dbSync.php';
-    freshTable(url, $('#dbSyncTable'));
+    freshTable(url, $('#dbSyncTable'),'ORDER BY id ASC LIMIT 10');
     freshPagination(url, $('.pager'));
 }

@@ -32,9 +32,9 @@
         $host = $db->query('SELECT host FROM system')
             ->getFirstData(PDO::FETCH_ASSOC);
         if ($host['host'] === 'O'){
-            $configfile = 'ngconfig_out.txt';
+            $configfile = 'ngconfig_out';
         } else {
-            $configfile = 'ngconfig_in.txt';
+            $configfile = 'ngconfig_in';
         }
         return $configfile ;
     }
@@ -47,61 +47,74 @@
     $cli = new cli();
     if (!empty($_FILES)) {
         // Upgrade System
-        $uploadfs = new fileUpload();
-        $uploadfs->upload();
-        $cmd = "config import \"{$_FILES['importFile']['name']}\"";
-        $cli->run($cmd);
-        echo json_encode(array('msg' => '升级成功.'));
-    } else if ($switch = $_POST['switch']) {
-        // 获取后缀名为.db的文件,然后将此类型的文件存放在一个数组中
-        $files  = directoryToArray('/usr/local/conf');
-        $dbFiles = array();
-        foreach ($files as $v) {
-            if (getSuffixOfFileName($v) === 'db') {
-                    $dbFiles[] = $v;
-                }
-        }
-        $filename = urlencode(ExportFile());
-        header("Content-Type: application/octet-stream; charset=utf-8;");
-        header("Content-Disposition: attachment; filename=\"$filename\";");
+		$str_match =  getSuffixOfFileName($_FILES['importFile']['name'],3);
+		if (!empty($str_match)) {
+			$result = '0';
+			echo json_encode(array('status' => true,'msg' => $result));
+		} else {
+			$uploadfs = new fileUpload();
+			$uploadfs->upload();
+			$cmd  = "config import \"{$_FILES['importFile']['name']}\"";
+			$cli  = new cli();
+			$cli->run($cmd);
+			$result = '导入成功,请重启网闸';
+			echo json_encode(array('status' => true,'msg' => $result));
+		}
+    } else if ('off' === $_POST['switch']) {
+		$path = '/tmp/download/';
+		$type = $_POST['switch'];
+		$configfile  = ExportFile();
+		//$configfile  = "ngconfig_in";
+		$cmd = "config export \"$configfile\" encrypt $type ";
+		$cli->run($cmd);
+		//生成命令后将对应的文件下载下来
+		$filename = $path . $configfile;
+		$file = fopen($filename,"r");
+		$filename_s=iconv("utf-8","gb2312",$configfile);
+		header("Content-Type: application/octet-stream; charset=utf-8;");
+		header("Content-Disposition: attachment; filename=\"$filename_s\";");
         header('Pragma: no-cache;');
         header('Cache-Control: must-revalidate, post-check=0, pre-check=0;');
-        $result  = '';
-        $result .= 'Leadsec Secutiry Netgap' . date('Y-n-d H:i:s', time()) . "\r\n" . 
-            '--------DO NOT edit this line' . "\r\n";
-        foreach ($dbFiles as $dbFile) {
-            $tableStr = join(' ',$cli->run("sqlite3 $dbFile '.table'"));
-            $tableArr = preg_split('/\s+/', $tableStr);
-            $db       = new dbsqlite($dbFile);
-            foreach ($tableArr as $table) {
-                $data = $db->query("SELECT * FROM $table")
-                    ->getAllData(PDO::FETCH_ASSOC);
-                if (0 !== count($data)) {
-                    foreach ($data as $key => $val) {
-                        $result .= 'setdb ' . getDbName($dbFile) . ' ' . $table . ' ';
-                        foreach ($val as $k => $v) {
-                            $result .= "$k  $v ";
-                        }
-                        $result .= "\r\n" ;
-                    }
-                } else {
-                    $result .= 'setdb ' . getDbName($dbFile) . " no content in $table\r\n";
-                }
-            }           
-        }
-        if ('on' === $switch) {
-            echo getEncryptStr($result);
-        } else { //off
-            echo $result;
-        }
-    } else if (!empty($_GET['restore'])){
+		$buffer=1024;
+		$file_count=0;
+		//向浏览器返回数据
+		while(!feof($file) && $file_count<filesize($filename)){
+			$file_con = fread($file,$buffer);
+			$file_count+=$buffer;
+			echo $file_con;
+		}
+		fclose($file);
+    } else if ('on' === $_POST['switch']) {
+		$path = '/tmp/download/';
+		$type = $_POST['switch'];
+		$configfile  = ExportFile();
+		//$configfile  = "ngconfig_in";
+		$cmd = "config export \"$configfile\" encrypt $type ";
+		$cli->run($cmd);
+		//生成命令后将对应的文件下载下来
+		$filename = $path . $configfile;
+		$file = fopen($filename,"r");
+		header("Content-Type: application/octet-stream;");
+		header("Content-Disposition: attachment; filename=\"$configfile\";");
+        header('Pragma: no-cache;');
+        header('Cache-Control: must-revalidate, post-check=0, pre-check=0;');
+		$buffer=1024;
+		$file_count=0;
+		//向浏览器返回数据
+		while(!feof($file) && $file_count<filesize($filename)){
+			$file_con = fread($file,$buffer);
+			$file_count+=$buffer;
+			echo $file_con;
+		}
+		fclose($file);	
+	} else if (!empty($_GET['restore'])){
         // restore the factory configuration
-        $cmd = 'Config rest';
+        $cmd = 'config reset';
         $cli->run($cmd);
         echo json_encode(array('msg' => '恢复出厂配置成功.'));
     } else if (!empty($_GET['save'])){
         // save configuration info
-        $cli->run('Config save');
+        $cli->run('config save');
         echo json_encode(array('msg' => '保存配置成功.'));
     } else {
         // initial page info

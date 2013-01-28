@@ -25,6 +25,6 @@
         renderStandardUi();
         freshTable('Function/server/customized/tcp.php',
             $('#tcpCommServerTable'), 'ORDER BY id ASC LIMIT 10');
-        sortTableInit($('#tcpCommServerTable'), {6: {sorter: false}}, [[0,0]]);
+        sortTableInit($('#tcpCommServerTable'), {5: {sorter: false}}, [[0,0]]);
     });
 </script>

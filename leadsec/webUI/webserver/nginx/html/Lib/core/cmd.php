@@ -13,20 +13,17 @@
          *  $result. Array. Output of the command as Array.
          */
         public function exec($cmd) {
-            $status = 0;
-            $result = array();
+            $status    = 0;
+            $result    = array();
             exec($cmd, $result, $status);
-            $cmd_str = '#' . date('Y/m/d H:i:s') . ' ' .'return code=' .
-                $status . "\r\n" . $cmd . "\r\n";
-            $file = '/tmp/webui.cmd.log';
+            $date      = date('Y/m/d H:i:s');
+            $logStr    = "#$date return code=$status\r\n$cmd\r\n";
+            $file      = '/tmp/webui.cmd.log';
             $isExisted = file_exists($file);
-            if ($isExisted) {
-                file_put_contents($file, $cmd_str, FILE_APPEND);
-            } else {
+            if (!$isExisted) {
                 touch($file);
-                file_put_contents($file, $cmd_str);
             }
-            clearstatcache();
+            file_put_contents($file, $logStr, FILE_APPEND);
             if ($status != 0) {
                 $errMsg = "[$cmd]" . join(', ', $result);
                 throw new ExecCmdException($errMsg);

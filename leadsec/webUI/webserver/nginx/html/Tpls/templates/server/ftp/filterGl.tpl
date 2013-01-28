@@ -1,1 +1,1 @@
-<{include file='resConf/addrBind/ftpVisit.tpl'}>
+<{include file='resConf/filterConf/ftp.tpl'}>

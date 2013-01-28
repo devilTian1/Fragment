@@ -5,6 +5,7 @@
 <script type="text/javascript" src="Public/js/jquery/jquery.tablesorter.js"></script>
 <script type="text/javascript" src="Public/js/jquery/jquery.form.js"></script>
 <script type="text/javascript" src="Public/js/jquery/jquery.validate.min.js"></script>
+<script type="text/javascript" src="Public/js/jquery/jquery.tooltip.min.js"></script>
 <script type="text/javascript" src="Public/js/tip/msgbox.js"></script>
 <!-- Put our libraries next -->
 <script type="text/javascript" src="Public/js/common.js"></script>

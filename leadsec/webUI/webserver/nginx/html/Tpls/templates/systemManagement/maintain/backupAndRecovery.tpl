@@ -14,7 +14,7 @@
                 </label>
                 <input type="checkbox" name="encryption" id="encryption"
                     onClick="switchEncrypt()"/>
-                <button type="submit" class="inputbtn standard" id="export">
+				<button class="inputbtn standard" type="Submit">
                 导出配置
                 </button>
             </form>
@@ -24,7 +24,7 @@
         <td class="tdheader">配置文件:</td>
         <td class="tdbody">
             <form action="Function/systemManagement/maintain/backupAndRecovery.php" 
-                method="POST" id="importFileForm">
+                method="POST" id="importFileForm" onSubmit="return false">
                     <input class="uploadFile" name="importFile" id="importFile" type="file">&nbsp;
                     <button class="inputbtn standard" type="button" id="importBtn"
                         onclick="importConfigFile()">

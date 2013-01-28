@@ -7,12 +7,12 @@
         <td><{$value.dport}></td>
         <td><{$value.filter}></td>
         <td>
-            <form action="Function/client/db/generalVisit.php" method="POST"
+            <form action="Function/client/db/transVisit.php" method="POST"
                 id="switchClientCommForm_<{$value.id}>" onSubmit="return false;">
                 <input type="hidden" name="clientId" value="<{$value.id}>"/>
                 <input type="hidden" name="dbType" value="<{$value.dbtype}>"/>
                 <input type="hidden" name="sAddress" value="<{$value.sa}>"/>
-                <input type="hidden" name="lAddress" value="<{$value.dp}>"/>
+                <input type="hidden" name="lAddress" value="<{$value.da}>"/>
                 <input type="hidden" name="localPort" value="<{$value.dport}>"/>
                 <input type="hidden" name="filter" value="<{$value.filter}>"/>
                 <input type="hidden" name="active" value="<{$value.active}>"/>

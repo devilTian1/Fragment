@@ -1,17 +1,14 @@
 <?php
     require_once($_SERVER['DOCUMENT_ROOT'] . '/Function/common.php');
 
-    //Upgrade list information   
-    function getResult() {
-        $db = new dbsqlite(DB_PATH . '/private.db');
-        $result = $db->query("SELECT up_version FROM upgrade_history ORDER BY up_time DESC")
-            ->getFirstData(PDO::FETCH_ASSOC);
-        $result_list = $db->query("SELECT * FROM upgrade_history ORDER BY up_time DESC")
-            ->getAllData(PDO::FETCH_ASSOC);
-        V::getInstance()->assign('lastestVersion', $result['up_version'])
-            ->assign('result_list', $result_list);
-     }
-              
+	function freshList($where) {
+        $tpl  = 'systemManagement/maintain/upgradeListTable.tpl';
+        $db  = new dbsqlite(DB_PATH . '/private.db');
+        $sql = "SELECT * FROM upgrade_history $where";
+        $result = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
+        echo V::getInstance()->assign('upgradeList',$result)->fetch($tpl);
+    }
+	
     if (!empty($_FILES)) {
         // Upgrade System and then upgrage
         $uploadfs = new fileUpload($_FILES);
@@ -23,7 +20,7 @@
     } else if (!empty($_GET['reboot'])) {
         // Reboot system
         $cli = new cli();
-        $cli->run('Config rest');
+        $cli->run('/sbin/reboot');
         echo json_encode(array('msg' => '重启成功'));
     } else if ('exportUpgradeHistory' === $_POST['action']) {
         $db = new dbsqlite(DB_PATH . '/private.db');
@@ -46,7 +43,10 @@
             echo "No Upgrade History Data." ;
         }
         return true;
+    } else if ($order = $_POST['orderStatement']) {
+		freshList($order);
+   
     } else {
-        getResult();
-    }
+		
+	}
 ?>

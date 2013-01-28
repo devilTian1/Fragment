@@ -2,85 +2,92 @@
 	.floatLeft input[type="radio"]{ width:10px;}
 	.floatLeft span{ float:left;}
 </style>
-<form action="Function/client/safePass/safePass.php" method="POST" id="editForm" onSubmit="return false;">
+<form action="Function/client/dbSync/dbSync.php" method="POST" id="editForm" onSubmit="return false;">
     <input type="hidden" name="type" value="<{$type|default: 'add'}>"/>
-    <input type="hidden" name="id" value="<{$res.id}>"/>
      <fieldset>
-        <!--<legend></legend>-->
         <div class="row">
-          <label for="destip">任务号:<em class="required">*</em></label>
-          <input type="text" name="destip" value="<{$res.destip}>" />(同一端的任务号必须唯一)
+            <label for="fsId">任务号:<em class="required">*</em></label>
+            <input class="id" type="text" name="fsId" value="<{$data.id}>"
+                <{if $type === 'edit'}>disabled="disabled"<{/if}>
+                size="4" maxlength="4"/>
+            (同一端的任务号必须唯一)
+            <{if $type === 'edit'}>
+            <input type="hidden" name="fsId" value="<{$data.id}>"/>
+            <{/if}>
+        </div>
+
+		<div class="row">
+            <label for="active">ip地址类型:</label>
+            <{html_radios class="radio" name=ipType label_ids=true
+                output=array('ipv4', 'ipv6')
+                values=array('ipv4', 'ipv6')
+                selected=$data.ip_ver|default: 'ipv4'
+                onClick="filterRes()"}>
         </div>
         
         <div class="row">
-          <label for="destip">源地此:</label>
-          <select name="select" class="w200" id="select">
-          </select>
+            <label for="sa">源地址:</label>
+            <{html_options class="select sa" name="sa"
+                options=$addrOptions selected=$data.sa|default: 'any'}>
         </div>
         
         <div class="row">
-          <label for="destip">本机地此:</label>
-          <select name="select" class="w200" id="select">
-          </select>
+            <label for="lip">本机地址:</label>
+            <{html_options class="select lip" name="fslip"
+                options=$ifList selected=$data.lip|default: '无'}>
         </div>
         
         <div class="row">
-          <label for="destip">本机端口:</label>
-          <input type="text" name="destip" value="<{$res.destip}>" />(1-65535)(输入形如:1200或2000：3000)
+            <label for="fslportReq">本机端口:<em class="required">*</em></label>
+            <input class="port" type="text" name="fslportReq" value="<{$data.lport}>" size="5" maxlength="5"/>
         </div>
         
         <div class="row">
-            <label>身份认证及加密传输:</label>
-            <div class="floatLeft">
-               <input name="radio" type="radio" id="radio" value="radio" checked="checked" />是
-            </div>
-            <div class="floatLeft">
-                <input type="radio" name="radio" id="radio2" value="radio" />否
-            </div>
+            <label>身份认证及传输加密:</label>
+            <{html_radios class="radio" name=ssl label_ids=true
+                values=array('Y', 'N') onClick="toggleCNameDiv()"
+                output=array('是', '否') selected=$data.ssl|default: 'Y'
+            }>
         </div>
         
-        <div class="row">
-          <label for="destip">客户端证书公共名:<em class="required">*</em></label>
-          <input type="text" name="destip" value="<{$res.destip}>" />(0-3650 天，0表示不限制)
+         <div class="row cNameDiv">
+            <label>客户端证书公共名:<em class="required">*</em></label>
+            <input type="text" name="commname" value="<{$data.commname}>"/>
         </div>
-        
-        <div class="row">
-            <label>病毒扫描:</label>
-            <div class="floatLeft">
-               <input name="radio" type="radio" id="radio" value="radio" checked="checked" />否
-            </div>
-            <div class="floatLeft">
-                <input type="radio" name="radio" id="radio2" value="radio" />二进制文件扫描
-            </div>
-            <div class="floatLeft">
-                <input type="radio" name="radio" id="radio2" value="radio" />全扫描
-            </div>
+       
+
+		<div class="row">
+            <label>流病毒扫描:</label>
+            <{html_radios class="radio" name=killVirus label_ids=true values=array('2', '0','1')
+                output=array('全扫描', '否','二进制扫描') selected=$data.killvirus|default: '2'
+            }>
         </div>
+
         
         <div class="row">
             <label>是否启动:</label>
-            <div class="floatLeft">
-               <input name="radio" type="radio" id="radio" value="radio" checked="checked" />启动
-            </div>
-            <div class="floatLeft">
-                <input type="radio" name="radio" id="radio2" value="radio" />停止
-            </div>
+            <{html_radios class="radio" name=active  values=array('Y','N')
+                output=array('启动', '停止') selected=$data.active|default: 'Y'
+            }>
         </div>
         
         <div class="row">
-          <label for="destip">生效时段:</label>
-          <select name="select" class="w200" id="select">
-          </select>
+            <label for="time">生效时段:</label>
+            <{html_options class="select time" name="time" options=$timeList
+                selected=$data.time|default: '无'}>
+            </select>
         </div>
         
         <div class="row">
-          <label for="destip">备注:</label>
-          <input type="text" name="destip" value="<{$res.destip}>" />
+            <label for="comment">备注:</label>
+            <textarea rows="10" cols="30" name="comment" id="comment"><{$data.comment}></textarea>
         </div>
     </fieldset>
 </form>
 <script type="text/javascript">
-$(document).ready(function() {
-						   
-});
+	$(document).ready(function() {
+		filterRes();
+		toggleCNameDiv();
+		validateForm($("#editForm"));					   
+	});
 </script>

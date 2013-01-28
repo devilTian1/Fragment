@@ -12,7 +12,8 @@ create table tcp_trans_client_acl
 	active		CHAR(1),			--当前服务启停开关：'1'-ON, '0'-OFF
 	fast_pass 	INTEGER,   --快速通道开关，Added by Yanghong 2007-4-11 10:39
 	killvirus	CHAR(1),
-	comment		VARCHAR(255)
+	comment		VARCHAR(255),
+	ip_ver		CHAR(10)
 	
 );
 
@@ -57,7 +58,8 @@ create table udp_trans_client_acl
 	active		CHAR(1),			--当前服务启停开关：'1'-ON, '0'-OFF
 	fast_pass 	INTEGER,   --快速通道开关，Added by Yanghong 2007-4-19 18:38
 	killvirus	CHAR(1),
-	comment		VARCHAR(255)
+	comment		VARCHAR(255),
+	ip_ver		CHAR(10)
 );
 --insert into udp_trans_client_acl values(1,'any','any',1234,'','','1',0,'0','comment');
 --insert into udp_trans_client_acl values(2,'any','any',1230,'','','0',0,'0','comment');

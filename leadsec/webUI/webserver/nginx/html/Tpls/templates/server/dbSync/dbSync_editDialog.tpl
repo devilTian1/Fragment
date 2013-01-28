@@ -1,52 +1,60 @@
-<form action="xtcs.html" method="POST" id="editForm" onSubmit="return false;">
-<table class="column_95">
-  <tbody>
-      <td class="tdheader"><span class="red">*</span> 任务号</td>
-      <td class="tdbody">
-        <input type="text" name="inputtext3" class="inputtext"/>(同一端的任务号必须唯一)</td>
-    </tr>
-      <tr>
-        <td class="tdheader"><span class="red">*</span>服务器地此:</td>
-        <td class="tdbody"><input type="text" name="inputtext4"  class="inputtext"/>(如10.0.0.1)</td>
-      </tr>
-      <tr>
-        <td class="tdheader"><span class="red">*</span>服务器端口:</td>
-        <td class="tdbody"><input type="text" name="inputtext2"  class="inputtext"/>(1-65535)</td>
-      </tr>
-    <tr>
-      <td class="tdheader"><span class="red">*</span>身份认证及加密传输: :</td>
-      <td class="tdbody">
-        <input name="radio" type="radio" id="radio" value="radio" checked="checked" />
-        是
-        <input type="radio" name="radio" id="radio2" value="radio" />
-        否
-      </td>
-    </tr>
-    <tr>
-      <td class="tdheader"><span class="red">*</span>客户端证书公共名:</td>
-      <td class="tdbody">
-        <input type="text" name="inputtext"  class="inputtext"/>
-( 0-3650 天，0表示不限制 ) </td>
-    </tr>
-    <tr>
-      <td class="tdheader"><span class="red">*</span>是否启动： </td>
-      <td class="tdbody">
-        <input name="radio2" type="radio" id="radio5" value="radio" checked="checked" />
-        启动
-        <input type="radio" name="radio2" id="radio6" value="radio" />
-        停止</td>
-    </tr>
-    <tr>
-      <td class="tdheader"><span class="red"></span>备注：</td>
-      <td class="tdbody">
-        <input type="text" name="inputtext"  class="inputtext"/>
-       </td>
-    </tr>
-    </tbody>
-  </table>
+<style type="text/css">
+	.floatLeft input[type="radio"]{ width:10px;}
+	.floatLeft span{ float:left;}
+</style>
+<form action="Function/server/dbSync/dbSync.php" method="POST" id="editForm" onSubmit="return false;">
+    <input type="hidden" name="type" value="<{$type|default: 'add'}>"/>
+     <fieldset>
+        <div class="row">
+            <label for="fsId">任务号:<em class="required">*</em></label>
+            <input class="id" type="text" name="fsId" value="<{$data.id}>"
+                <{if $type === 'edit'}>disabled="disabled"<{/if}>
+                size="4" maxlength="4"/>
+            (同一端的任务号必须唯一)
+            <{if $type === 'edit'}>
+            <input type="hidden" name="fsId" value="<{$data.id}>"/>
+            <{/if}>
+        </div>
+   
+        <div class="row">
+            <label for="lip">服务器地址:<em class="required">*</em></label>
+			<input class="id" type="text" name="serverip" value="<{$data.serverip}>"
+        </div>
+        
+        <div class="row">
+            <label for="fslportReq">服务器端口:<em class="required">*</em></label>
+            <input class="port" type="text" name="sport" value="<{$data.sport}>" size="5" maxlength="5"/>
+        </div>
+        
+        <div class="row">
+            <label>身份认证及传输加密:</label>
+            <{html_radios class="radio" name=ssl label_ids=true
+                values=array('Y', 'N') onClick="toggleCNameDiv()"
+                output=array('是', '否') selected=$data.ssl|default: 'Y'
+            }>
+        </div>
+        
+         <div class="row cNameDiv">
+            <label>客户端证书公共名:<em class="required">*</em></label>
+            <input type="text" name="commname" value="<{$data.commname}>"/>
+        </div>
+       
+        <div class="row">
+            <label>是否启动:</label>
+            <{html_radios class="radio" name=active  values=array('Y', 'N')
+                output=array('启动', '停止') selected=$data.active|default: 'Y'
+            }>
+        </div>
+        
+        <div class="row">
+            <label for="comment">备注:</label>
+            <textarea rows="10" cols="30" name="comment" id="comment"><{$data.comment}></textarea>
+        </div>
+    </fieldset>
 </form>
 <script type="text/javascript">
-$(document).ready(function() {
-						   
-});
+	$(document).ready(function() {
+		toggleCNameDiv();
+		validateForm($("#editForm"));					   
+	});
 </script>

@@ -1,33 +1,11 @@
-<style>
-	#consolept { 
-		height:100; 
-		border:0px; 
+<style type="text/css">
+	#consolept{
 		margin:0px;
 		background-color:#000000;
 		color:#CCCCCC;
 		font-family:FixedSys, Terminal, system, verdana, arial;
 		font-size:12px;
-		/*font-weight:bold;*/
 	}
-	
-	a {
-		text-decoration:none;
-		color:#CCCCCC;
-	}
-	
-	a:hover {
-		text-decoration:none;
-		color:#CCCCCC;
-	}
-	
-	b {
-		font-weight:normal;
-	}
-	
-	strong {
-		font-weight:normal;
-	}
-	
 	.entryBox {
        	position:absolute;
 		bottom:0px;
@@ -36,56 +14,112 @@
 		border:1px;
 	}
 </style>
-<table id="terminal" cellpadding="0" cellspacing="0" border="0" height="100%" width="100%">
-    <tr>
-        <td height="100%" width="100%" onClick="setFocusToEntryBox();" valign="top">
-            <div style="width:100%;overflow:scroll;height:400px" id="consolept" onblur="setFocusToEntryBox();">
-                <span id="commandPrompt"></span><span id="commandContainer"></span><img src="../imgs/cursor.gif"  />
-                <input type="text" id="entryBox" class="entryBox"  onkeyup="keyEvent()">
-            </div>
-        </td>
-    </tr>
-</table>
-<table class="column_95">
-    <caption>网络调试工具</caption>
-    <thead>
-  	<tr>
-        <th width="120">调试工具</th>
-        <th class="tdbody">调试参数</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-      <td><label><input name="test" type="radio" value="" />Ping</label></td>
-      <td class="tdbody"><label>IP地址<input name="" type="text" /></label></td>
-    </tr>
-    <tr>
-      <td><label><input name="test" type="radio" value="" />traceroute</label></td>
-      <td class="tdbody"><label>IP地址<input name="" type="text" /></label></td>
-    </tr>
-    <tr>
-      <td><label><input name="test" type="radio" value="" />tcpdump</label></td>
-      <td class="tdbody"><label>网络接口
-        <select name="select" id="select">
-        </select>
-      </label></td>
-    </tr>
-    <tr>
-      <td><label><input name="test" type="radio" value="" />arp</label></td>
-      <td class="tdbody">&nbsp;</td>
-    </tr>
-    <tr>
-      <td><label><input name="test" type="radio" value="" />routeshow</label></td>
-      <td class="tdbody">&nbsp;</td>
-    </tr>
-    <tr>
-      <td></td>
-      <td class="tdbody"><input type="button" class="button" name="button" id="button" value="开启调试" /></td>
-    </tr>
-   </tbody>
-</table>
+
+      	<div style="overflow:scroll;height:100%" id="consolept" onblur="setFocusToEntryBox();" onclick="setFocusToEntryBox();">
+					<p>Welcome to Web Console System</p>
+					<p>Version 1.0</p>
+					<p>Author: Huna</p>
+					<p>Email: huna@leadsec.com</p>
+          <br />
+                    <span id="commandPrompt"></span><span id="commandContainer"></span><img src="../imgs/cursor.gif"  />
+                    <input type="text" id="entryBox" class="entryBox"  onkeyup="keyEvent()">
+		</div>
 <script type="text/javascript">
 $(document).ready(function() {
     $(".button").button();
+	$('#commandPrompt').html('utm:\>');
+	setFocusToEntryBox();
+	//点击按钮时处理
+	$('#startTestBtn').click(function(){
+		var test=$("input[name='test']:checked").val();	
+		switch(test){
+			case "ping":
+				var ip_ping=$("#ip_ping").val(),
+					cmd="ping "+ip_ping;
+					sendMessages(cmd);
+				break;
+			case "traceroute":
+				alert("traceroute");
+				break;
+			case "tcpdump":
+				alert("tcpdump");
+				break;
+			case "arp":
+				alert("arp");
+				break;
+			case "routeshow":
+				alert("routeshow");
+				break;
+			default:
+				alert('error');
+			break
+		}
+	});
 });
+//键盘处理
+ function keyEvent()
+ {
+	// alert('sdfsdf');
+	 var command=document.getElementById('commandContainer');
+	 var text=document.getElementById('entryBox');
+	 var prompt=document.getElementById('commandPrompt');
+	 var key=0;
+	 document.onkeyup = function(e){  
+		 if(e==null){
+		 key=event.keyCode;
+	 }else{
+		 key=e.which;
+	 }
+	 switch(key)
+	 {
+	   case 13:
+		 command.innerHTML='';
+		 prompt.innerHTML+=text.value+'<br/>'+'utm:\>'; 
+		 var cmd=encodeURIComponent(text.value);
+		 sendMessages(cmd); 
+		 setFocusToEntryBox();
+		 break;    
+	   default :
+		 command.innerHTML=text.value;
+		 break;
+	 }
+	 }
+ }  
+ //调整显示位置以及聚焦
+ function setFocusToEntryBox()
+ {
+	document.getElementById('consolept').scrollTop = document.getElementById('consolept').scrollHeight+200;
+	$("#entryBox").focus();
+}
+//向后台发送处理结果数据
+function sendMessages(cmd){
+	if(cmd == "cls"){
+        var prompt=document.getElementById('commandPrompt');
+            prompt.innerHTML='utm:\>';
+    }else{
+	    document.getElementById('entryBox').value='';
+		$.post("test.php", {cmd: cmd},
+		   function(cmdstr){
+				//alert(cmdstr);
+				processRequest(cmdstr);
+		   });
+	   }
+}
+//处理结果
+function processRequest(cmdstr){
+	 var command=document.getElementById('commandPrompt');
+	 if(cmdstr == "-1"||cmdstr=="0")
+	 {
+	  	setFocusToEntryBox();
+	 }else{
+	   var arr1 = new Array();
+	   arr1 = cmdstr.split("\n");
+	   if(arr1.length > 2)
+	   {
+		  cmdstr = arr1.join("<br/>");
+	   }
+	   command.innerHTML+=cmdstr+"<br/>"+'utm:\>'; 
+	   setFocusToEntryBox();
+	 }
+}
 </script>

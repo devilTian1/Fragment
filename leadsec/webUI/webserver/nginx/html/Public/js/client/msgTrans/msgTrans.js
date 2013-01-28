@@ -1,7 +1,7 @@
 function openEditDialog(id) {
     var url  = 'Function/client/msgTrans/msgTrans.php';
     var data = {
-        tpl    : 'client/msgTrans/msgTrans_editDialog.tpl',
+        //tpl    : 'client/msgTrans/msgTrans_editDialog.tpl',
         editId : id
     };
     var title   = '修改消息传输';
@@ -28,7 +28,7 @@ function openNewDialog() {
     var url   = 'Function/client/msgTrans/msgTrans.php';
     var title = '添加消息传输';
     var data  = {
-        tpl : 'client/msgTrans/msgTrans_editDialog.tpl',
+        //tpl : 'client/msgTrans/msgTrans_editDialog.tpl',
 		openDialog: true
     };
     var buttons = {};
@@ -58,10 +58,10 @@ function openNewDialog() {
     showDialogByAjax(url, data, title, dialogParams);
 }
 
-function del(name) {
+function del(id) {
     var url  = 'Function/client/msgTrans/msgTrans.php';
     var data = {
-        delName: name
+        delId: id
     };
     var title  = '删除消息传输';
     var buttons = {};
@@ -77,11 +77,11 @@ function del(name) {
     showDialogByAjax(url, data, title, dialogParams);
 }
 
-function openDelDialog(name) {
+function openDelDialog(id) {
     var dialog  = loadingScreen('删除消息传输');
     var buttons = {};
     buttons['Confirm'] = function() {
-        del(name);
+        del(id);
         $(this).remove();
         freshTableAndPage();
     };
@@ -93,10 +93,31 @@ function openDelDialog(name) {
         height: 160,
         buttons: buttons
     };
-    dialog.setContent("<p>确定要删除名称为" + name + "的消息传输吗?</p>");
+    dialog.setContent("<p>确定要删除序号为" + id + "的消息传输吗?</p>");
     dialog.setOptions(dialogParams);   
 }
+function switchmsgTrans(id, action) {
+    var title   = '启动/停止任务';
+    var dialog  = loadingScreen(title);
+    var buttons = {};
+    buttons['确定'] = function() {
+        ajaxSubmitForm($('#switchmsgTransForm_' + id), '结果');
+        freshTableAndPage();
+        $(this).remove();
+    };
+    buttons['取消'] = function() {
+        $(this).remove();
+    };
+    var dialogParams = {
+        width: 300,
+        height: 160,
+        buttons: buttons
+    };
 
+    var str = action === 'disable' ? '停止' : '启动';
+    dialog.setContent('<p>确定' + str + '任务[' +  id + ']吗?</p>');
+    dialog.setOptions(dialogParams);
+}
 function freshTableAndPage() {
     var url = 'Function/client/msgTrans/msgTrans.php';
     freshTable(url, $('#msgTransTable'));

@@ -79,9 +79,47 @@
             return $result;
         }
 
+        public function getFileExFilterOpts() {
+            $db     = new dbsqlite(DB_PATH . '/netgap_fs.db');
+            $sql    = 'SELECT name FROM filter';
+            $data   = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
+            $result = array('' => '无');
+            foreach ($data as $d) {
+                $name = $d['name'];
+                $result[$name] = $name;
+            }
+            return $result;
+        }
+
         public function getFtpFilterOpts() {
             $db     = new dbsqlite(DB_PATH . '/gateway_ftp.db');
             $sql    = 'SELECT name FROM options';
+            $data   = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
+            $result = array('' => '无');
+            foreach ($data as $d) {
+                $name = $d['name'];
+                $result[$name] = $name;
+            }
+            return $result;
+        }
+
+        public function getMailFilterOpts($type) {
+            $db     = new dbsqlite(DB_PATH . '/netgap_mail.db');
+            if ($type === 'smtp' || $type === 'pop3') {
+                $sql = "SELECT name FROM filter WHERE protocol = '$type'";
+            } else if ($type === 'allowedext') {
+                $sql = 'SELECT name FROM attach_ext';
+            } else if ($type === 'smailaddr') {
+                $sql = 'SELECT name FROM mailaddr WHERE type = "发件人"';
+            } else if ($type === 'rmailaddr') {
+                $sql = 'SELECT name FROM mailaddr WHERE type = "收件人"';
+            } else if ($type === 'title') {
+                $sql = 'SELECT name FROM keyword WHERE type = "主题"';
+            } else if ($type === 'content') {
+                $sql = 'SELECT name FROM keyword WHERE type = "正文"';
+            } else {
+                throw new Exception("Can`t check [$type]");
+            }
             $data   = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
             $result = array('' => '无');
             foreach ($data as $d) {
@@ -115,9 +153,42 @@
             	$db  = new dbsqlite(DB_PATH . '/netgap_new_fs.db');
             } else if ($modName === 'trans') {
             	$sql = "SELECT id FROM db_comm_client_acl WHERE id = $id
+            	    UNION SELECT id FROM db_comm_server_acl WHERE id = $id
             		UNION SELECT id FROM db_trans_client_acl WHERE id = $id";
             	$db  = new dbsqlite(DB_PATH . '/netgap_db.db');
-            }else {
+            } else if ($modName === 'localUsrMng') {
+            	$sql = "SELECT name FROM user WHERE name = '$id'";
+            	$db  = new dbsqlite(DB_PATH . '/netgap_http.db');
+            } else if ($modName === 'filterList') {
+            	$sql = "SELECT list FROM url WHERE list = '$id'";
+            	$db  = new dbsqlite(DB_PATH . '/netgap_http.db');
+            }else if ($modName === 'msg') {
+            	$sql = "SELECT id FROM msg_client_task WHERE id = $id
+            		UNION SELECT id FROM msg_server_task WHERE id = $id";
+                $db  = new dbsqlite(DB_PATH . '/netgap_msg.db');
+            } else if ($modName === 'filterKeyword') {
+            	$sql = "SELECT name FROM context WHERE name = '$id'";
+            	$db  = new dbsqlite(DB_PATH . '/netgap_http.db');
+            } else if ($modName === 'pop3') {
+            	$sql = "SELECT id FROM pop3_comm_client_acl WHERE id = $id
+                    UNION SELECT id FROM pop3_trans_client_acl WHERE id = $id
+                    UNION SELECT id FROM pop3_comm_server_acl WHERE id = $id";
+            	$db  = new dbsqlite(DB_PATH . '/netgap_mail.db');
+            } else if ($modName === 'smtp') {
+            	$sql = "SELECT id FROM smtp_comm_client_acl WHERE id = $id
+                    UNION SELECT id FROM smtp_trans_client_acl WHERE id = $id
+                    UNION SELECT id FROM smtp_comm_server_acl WHERE id = $id";
+            	$db  = new dbsqlite(DB_PATH . '/netgap_mail.db');
+            } else if ($modName === 'mailAddr') {
+            	$sql = "SELECT name FROM mailaddr WHERE name = '$id'";
+            	$db  = new dbsqlite(DB_PATH . '/netgap_mail.db');
+            } else if ($modName === 'keyword') {
+            	$sql = "SELECT name FROM keyword WHERE name = '$id'";
+            	$db  = new dbsqlite(DB_PATH . '/netgap_mail.db');
+            } else if ($modName === 'attachExt') {
+            	$sql = "SELECT name FROM attach_ext WHERE name = '$id'";
+            	$db  = new dbsqlite(DB_PATH . '/netgap_mail.db');
+            } else {
                 throw new Exception("Can`t check [$modName]");
             }
             return $db->query($sql)->getCount() > 0 ? 'false' : 'true';

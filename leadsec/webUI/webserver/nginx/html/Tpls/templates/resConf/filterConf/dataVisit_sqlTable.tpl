@@ -1,25 +1,21 @@
-<{foreach $addrList as $addr }>
+<{foreach $res as $value }>
     <tr>
-        <td><{$addr.id}></td>
-        <td><{$addr.name}></td>
+        <td><{$value.name}></td>        
         <td>
-            <{if $addr.type == 1}>
-                <{$addr.ip}>/<{$addr.mask}>
-            <{else if $addr.type == 2}>
-                <{$addr.ip}> - <{$addr.mask}>
-            <{else if $addr.type == 3}>
-                !<{$addr.ip}>/<{$addr.mask}>
+            <{if $value.allow == 'A'}>
+                                          允许           
             <{else}>
-                Error
+                                          阻止
             <{/if}>
         </td>
-        <td><{$addr.comment}></td>
+        <td><{$value.sqllist}></td>
+         <td><{$value.comment}></td>
         <td class="no_search">
-            <a href="#" class="edit" onclick="openEditAddrListDialog('<{$addr.id}>')">编辑</a>
-            <a href="#" class="delete" onclick="openDelAddrDialog('<{$addr.name}>')">
-                删除</a> 
+           <a href="#" class="edit" onclick="openEditDialog('<{$value.id}>')">编辑</a>
+           <a href="#" class="delete" onclick="openDelDialog('<{$value.name}>','<{$value.id}>')">
+                删除</a>            
         </td>
     </tr>
 <{foreachelse}>
-    <tr><td colspan='5'>No Address Data</td></tr>
+    <tr><td colspan='5'>No Data</td></tr>
 <{/foreach}>

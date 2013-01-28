@@ -23,14 +23,14 @@
         <div class="row">
           <label for="destip">源地址:<em class="required">*</em></label>
           <{html_options  class="w200" name="sAddress" id="sAddress"
-                    output=$addrOptions values=$addrOptions
+                    output=$addrOptions values=$addrOptionsvalue
                     selected=$res.sa|default: 'any'}>
         </div>
         
         <div class="row">
           <label for="destip">目的地址:<em class="required">*</em></label>
           <{html_options  class="w200" name="lAddress" id="lAddress"
-                    output=$localIp values=$localIp
+                    output=$localIp values=$localIpValue
                     selected=$res.dp|default: 'any'}>
         </div>
         
@@ -68,7 +68,7 @@
         
         <div class="row">
           <label for="destip">备注:</label>
-          <textarea rows="10" cols="30" name="comment" id="comment"><{$res.comment}></textarea>
+           <textarea rows="1" cols="30" name="comment" id="comment"><{$res.comment}></textarea>
         </div>
     </fieldset>
 </form>

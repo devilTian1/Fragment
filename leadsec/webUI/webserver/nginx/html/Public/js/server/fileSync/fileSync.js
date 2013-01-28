@@ -25,7 +25,7 @@ function openNewFileSyncDialog() {
     };
     var dialogParams = {
         width   : 600,
-        height  : 650,
+        height  : 550,
         buttons : buttons,
         position: ['center', 'top']
     };
@@ -51,7 +51,7 @@ function editFileSyncServerAclDialog(id) {
     };
     var dialogParams = {
         width   : 600,
-        height  : 650,
+        height  : 550,
         buttons : buttons,
         position: ['center', 'top']
     };

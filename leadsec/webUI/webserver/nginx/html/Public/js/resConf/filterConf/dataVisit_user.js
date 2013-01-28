@@ -1,14 +1,13 @@
-function openEditDialog(id) {
-    var url  = 'Function/resConf/addrBind/dataVisit_user.php';
+function openEditUserDialog(id) {
+    var url  = 'Function/resConf/filterConf/dataVisit_user.php';
     var data = {
-        tpl    : 'resConf/addrBind/dataVisit_user_editDialog.tpl',
-        editId : id
+    	editId  : id   
     };
     var title   = '修改用户过滤';
     var buttons = {};
     buttons['确定'] = function() {
-        if ($('#editForm').valid()) {
-            ajaxSubmitForm($('#editForm'), '结果');
+    	if ($('#editUserFilterForm').valid()) {
+            ajaxSubmitForm($('#editUserFilterForm'), '结果');
             freshTableAndPage();
             $(this).remove();
         }
@@ -18,31 +17,31 @@ function openEditDialog(id) {
     };
     var dialogParams = {
         width   : 620,
-        height  : 550,
-        buttons : buttons
+        height  : 500,
+        buttons : buttons,
+        position: ['center', 'top']
     };
     showDialogByAjax(url, data, title, dialogParams);
 }
 
 function openNewDialog() {
-    var url   = 'Function/resConf/addrBind/dataVisit_user.php';
+    var url   = 'Function/resConf/filterConf/dataVisit_user.php';
     var title = '添加用户过滤';
     var data  = {
-        tpl : 'resConf/addrBind/dataVisit_user_editDialog.tpl',
 		openDialog: true
     };
     var buttons = {};
     buttons['添加下一条'] = function() {
-        if ($('#editForm').valid()) {
+        if ($('#editUserFilterForm').valid()) {
             openNewDialog();
-            ajaxSubmitForm($('#editForm'), '结果');
+            ajaxSubmitForm($('#editUserFilterForm'), '结果');
             freshTableAndPage();
             $(this).remove();
         }
     };
     buttons['确定'] = function() {
-        if ($('#editForm').valid()) {
-            ajaxSubmitForm($('#editForm'), '结果');
+        if ($('#editUserFilterForm').valid()) {
+            ajaxSubmitForm($('#editUserFilterForm'), '结果');
             freshTableAndPage();
             $(this).remove();
         }
@@ -52,14 +51,14 @@ function openNewDialog() {
     };
     var dialogParams = {
         width   : 600,
-        height  : 400,
+        height  : 450,
         buttons : buttons
     };
     showDialogByAjax(url, data, title, dialogParams);
 }
 
 function del(name) {
-    var url  = 'Function/resConf/addrBind/dataVisit_user.php';
+    var url  = 'Function/resConf/filterConf/dataVisit_user.php';
     var data = {
         delName: name
     };
@@ -77,7 +76,7 @@ function del(name) {
     showDialogByAjax(url, data, title, dialogParams);
 }
 
-function openDelDialog(name) {
+function openDelUserDialog(name,id) {
     var dialog  = loadingScreen('删除用户过滤');
     var buttons = {};
     buttons['Confirm'] = function() {
@@ -98,7 +97,7 @@ function openDelDialog(name) {
 }
 
 function freshTableAndPage() {
-    var url = 'Function/resConf/addrBind/dataVisit_user.php';
+    var url = 'Function/resConf/filterConf/dataVisit_user.php';
     freshTable(url, $('#dataVisit_userTable'));
     freshPagination(url, $('.pager'));
 }

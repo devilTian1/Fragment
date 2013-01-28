@@ -1,20 +1,23 @@
-function openDbSyncDialog() {
-    var url   = 'Function/layout/showDialog.php';
+function openNewDialog() {
+    var url   = 'Function/server/dbSync/dbSync.php';
+    var title = '添加数据库同步';
     var data  = {
-        tpl : 'server/dbSync/dbSync_editDialog.tpl'
+        tpl : 'server/dbSync/dbSync_editDialog.tpl',
+		openDialog: true
     };
-    var title   = '信息添加';
     var buttons = {};
     buttons['添加下一条'] = function() {
         if ($('#editForm').valid()) {
-            openNewSFUrlDialog();
+            openNewDialog();
             ajaxSubmitForm($('#editForm'), '结果');
+            freshTableAndPage();
             $(this).remove();
         }
     };
     buttons['确定'] = function() {
         if ($('#editForm').valid()) {
             ajaxSubmitForm($('#editForm'), '结果');
+            freshTableAndPage();
             $(this).remove();
         }
     };
@@ -22,45 +25,71 @@ function openDbSyncDialog() {
         $(this).remove();
     };
     var dialogParams = {
-        width   : 640,
-        height  : 380,
-        buttons : buttons
-    };
-    showDialogByAjax(url, data, title, dialogParams);
-}
- 
-function openEditDVUserDialog(user) {
-    var url  = 'Function/systemManagement/admin/account.php';
-    var data = {
-        tpl      : 'systemManagement/admin/editAccountDialog.tpl',
-        editUser : user
-    };
-    var title   = '修改管理员帐号';
-    var buttons = {};
-    buttons['确定'] = function() {
-        if ($('#editAccountForm').valid()) {
-            countUnchecked($('.roles'));
-            ajaxSubmitForm($('#editAccountForm'), '结果');
-            $(this).remove();
-        }
-    };
-    buttons['取消'] = function() {
-        $(this).remove();
-    };
-    var dialogParams = {
-        width   : 540,
-        height  : 380,
-        buttons : buttons
+        width   : 680,
+        height  : 600,
+        buttons : buttons,
+		position: ['center', 'top']
     };
     showDialogByAjax(url, data, title, dialogParams);
 }
 
-function delDVUser(user) {
-    var url    = 'Function/systemManagement/admin/account.php';
-    var data   = { delUser : user };
-    var title  = 'Delete User';
+
+function openEditDialog(id) {
+    var url  = 'Function/server/dbSync/dbSync.php';
+	var title   = '修改数据库同步';
+    var data = {
+        editId : id
+    };
+    var buttons = {};
+    buttons['确定'] = function() {
+        if ($('#editForm').valid()) {
+            ajaxSubmitForm($('#editForm'), '结果');
+            freshTableAndPage();
+            $(this).remove();
+        }
+    };
+    buttons['取消'] = function() {
+        $(this).remove();
+    };
+    var dialogParams = {
+        width   : 680,
+        height  : 650,
+        buttons : buttons,
+		position: ['center', 'top']
+    };
+    showDialogByAjax(url, data, title, dialogParams);
+}
+
+function openDelDialog(id) {
+    var dialog  = loadingScreen('删除数据库同步');
+    var buttons = {};
+    buttons['Confirm'] = function() {
+        delDbSyncClient(id);
+        freshTableAndPage();
+		$(this).remove();
+    };
+    buttons['Cancel']  = function() {
+        $(this).remove();
+    };
+    var dialogParams = {
+        width: 300,
+        height: 160,
+        buttons: buttons,
+		position: ['center', 'top']
+    };
+    dialog.setContent("<p>确定要删除吗?</p>");
+    dialog.setOptions(dialogParams);   
+}
+
+function delDbSyncClient(id) {
+	var url  = 'Function/server/dbSync/dbSync.php';
+    var data = {
+		delId : id
+    };
+    var title   = '删除客户端数据库交换';
     var buttons = {};
     buttons['Ok'] = function() {
+        freshTableAndPage();
         $(this).remove();
     };
     var dialogParams = {
@@ -71,21 +100,39 @@ function delDVUser(user) {
     showDialogByAjax(url, data, title, dialogParams);
 }
 
-function openDelDVUserDialog(user) {
-    var dialog  = loadingScreen('delete account');
+function toggleCNameDiv() {
+    if ($("input:radio[name='ssl']:checked").val() === 'Y') {
+        $(".cNameDiv").show();
+    } else { 
+        $(".cNameDiv").hide();
+    }
+}
+
+function switchPhysicalDev(id, action, formId) {
+    var title   = '启动/停止任务';
+    var dialog  = loadingScreen(title);
     var buttons = {};
-    buttons['Confirm'] = function() {
-        delUser(user);
+    buttons['确定'] = function() {
+        ajaxSubmitForm($('#switchForm_' + formId), '结果');
+        freshTableAndPage();
         $(this).remove();
     };
-    buttons['Cancel']  = function() {
+    buttons['取消'] = function() {
         $(this).remove();
     };
     var dialogParams = {
         width: 300,
-        height: 200,
+        height: 160,
         buttons: buttons
     };
-    dialog.setContent("<p>Do you confirm to delete account [" + user + "]</p>");
+    var str = action === 'disable' ? '停止' : '启动';
+    dialog.setContent('<p>确定' + str + '任务[' + id  + ']吗?</p>');
     dialog.setOptions(dialogParams);
+}
+
+
+function freshTableAndPage() {
+    var url = 'Function/server/dbSync/dbSync.php';
+    freshTable(url, $('#dbSyncServerTable'),'ORDER BY id ASC LIMIT 10');
+    freshPagination(url, $('.pager'));
 }

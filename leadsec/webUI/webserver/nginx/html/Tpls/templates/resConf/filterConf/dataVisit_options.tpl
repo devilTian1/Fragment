@@ -5,11 +5,10 @@
     </caption>
     <thead>
     <tr>
-      <th class="column_10">序号</th>
-      <th class="column_20">名称</th>
-      <th class="column_10">用户名过滤</th>
-      <th class="column_10">SQL语句过滤</th>
-      <th class="column_10">流病毒扫描</th>
+      <th class="column_10" name="id">序号</th>
+      <th class="column_10" name="name">名称</th>
+      <th class="column_10" name="usergrp">用户名过滤</th>
+      <th class="column_10" name="sqlgrp">SQL语句过滤</th>
       <th class="column_20">备注</th>
       <th class="column_20">操作</th>
     </tr>
@@ -21,16 +20,16 @@
 </tbody>
   </table>
 <button class="standard floatLeft" style="position: static"
-    onclick="openNewDialog()">添加
+    onclick="openNewOptionsDialog()">添加
 </button>
 <div class="pager floatRight">
-    <{include file='layout/pagination.tpl' func='Function/resConf/addrBind/dataVisit_options.php'}>
+    <{include file='layout/pagination.tpl' func='Function/resConf/filterConf/dataVisit_options.php'}>
 </div>
-<script type="text/javascript" src="Public/js/resConf/addrBind/dataVisit_options.js"></script>
+<script type="text/javascript" src="Public/js/resConf/filterConf/dataVisit_options.js"></script>
 <script type="text/javascript"> 
     $(document).ready(function() {
         renderStandardUi();
-        freshTable('Function/resConf/addrBind/dataVisit_options.php', $('#dataVisit_optionsTable'), 'ORDER BY id ASC LIMIT 10');
-        sortTableInit($('#dataVisit_optionsTable'), {6: {sorter: false}}, [[0,0]]);
+        freshTable('Function/resConf/filterConf/dataVisit_options.php', $('#dataVisit_optionsTable'), 'ORDER BY id ASC LIMIT 10');
+        sortTableInit($('#dataVisit_optionsTable'), {4: {sorter: false},5: {sorter: false}}, [[0,0]]);
     });
 </script>

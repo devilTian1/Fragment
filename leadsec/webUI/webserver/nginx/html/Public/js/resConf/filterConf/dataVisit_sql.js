@@ -1,7 +1,7 @@
 function openEditDialog(id) {
-    var url  = 'Function/resConf/addrBind/dataVisit_sql.php';
+    var url  = 'Function/resConf/filterConf/dataVisit_sql.php';
     var data = {
-        tpl    : 'resConf/addrBind/dataVisit_sql_editDialog.tpl',
+        //tpl    : 'resConf/filterConf/dataVisit_sql_editDialog.tpl',
         editId : id
     };
     var title   = '修改SQL语句过滤';
@@ -18,17 +18,17 @@ function openEditDialog(id) {
     };
     var dialogParams = {
         width   : 600,
-        height  : 420,
+        height  : 450,
         buttons : buttons
     };
     showDialogByAjax(url, data, title, dialogParams);
 }
 
 function openNewDialog() {
-    var url   = 'Function/resConf/addrBind/dataVisit_sql.php';
+    var url   = 'Function/resConf/filterConf/dataVisit_sql.php';
     var title = '添加SQL语句过滤';
     var data  = {
-        tpl : 'resConf/addrBind/dataVisit_sql_editDialog.tpl',
+        //tpl : 'resConf/filterConf/dataVisit_sql_editDialog.tpl',
 		openDialog: true
     };
     var buttons = {};
@@ -52,14 +52,14 @@ function openNewDialog() {
     };
     var dialogParams = {
         width   : 600,
-        height  : 420,
+        height  : 450,
         buttons : buttons
     };
     showDialogByAjax(url, data, title, dialogParams);
 }
 
 function del(name) {
-    var url  = 'Function/resConf/addrBind/dataVisit_sql.php';
+    var url  = 'Function/resConf/filterConf/dataVisit_sql.php';
     var data = {
         delName: name
     };
@@ -77,7 +77,7 @@ function del(name) {
     showDialogByAjax(url, data, title, dialogParams);
 }
 
-function openDelDialog(name) {
+function openDelDialog(name,id) {
     var dialog  = loadingScreen('删除SQL语句过滤');
     var buttons = {};
     buttons['Confirm'] = function() {
@@ -98,7 +98,7 @@ function openDelDialog(name) {
 }
 
 function freshTableAndPage() {
-    var url = 'Function/resConf/addrBind/dataVisit_sql.php';
+    var url = 'Function/resConf/filterConf/dataVisit_sql.php';
     freshTable(url, $('#dataVisit_sqlTable'));
     freshPagination(url, $('.pager'));
 }

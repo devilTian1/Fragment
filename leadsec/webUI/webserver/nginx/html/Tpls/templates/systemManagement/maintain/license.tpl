@@ -13,7 +13,7 @@ id="licenseForm" onSubmit="return false">
     <tr>
         <td></td>
         <td>
-            <button class="inputbtn standard" name="licenseFile" 
+            <button class="inputbtn standard" type="button" id="licenseFile" 
 			onclick="importLicense()">
                 导入许可证
             </button>
@@ -49,6 +49,6 @@ license.js"></script>
 $(document).ready(function() {
     renderStandardUi();
     validateForm($("#licenseForm"));
-    freshTable('Function/systemManagement/maintain/license.php',$('#licenseTable'));
+    freshTable('Function/systemManagement/maintain/license.php',$('#licenseTable'),'ORDER BY application');
 });
 </script>

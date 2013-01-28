@@ -1,13 +1,18 @@
 <?php
     require_once($_SERVER['DOCUMENT_ROOT'] . '/Function/common.php');
 
-   
+    function addrNameDelPreffix($name) {
+    	// 去掉最后一个下划线_ipv4或_ipv6
+    	return substr($name,0,-5);    	
+	}
     function freshClientCommData($where) {
         $tpl =  'client/db/generalVisitTable.tpl';
         $db  = new dbsqlite(DB_PATH . '/netgap_db.db');
 	    $sql = "SELECT * FROM db_comm_client_acl $where";
         $result = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
-       
+     	foreach ($result as $key => $array) {
+       		$result[$key]['sa'] = addrNameDelPreffix($array['sa']);
+    	}
         echo V::getInstance()->assign('clientComm', $result)
             ->assign('pageCount', 10)
             ->fetch($tpl);
@@ -25,7 +30,6 @@
         $data   = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
         $result = array();
         foreach ($data as $d) {
-                // delete suffix,eg: _ipv4 or ipv6
             $key = $d['name'];
             if ($key === 'any_ipv4' || $key === 'any_ipv6') {
                 $result[] = 'any';
@@ -35,6 +39,17 @@
             } 
         }
         return $result;
+    }
+    function getAddressListValue() {
+   	   //从资源定义的地址列表里得到客户端普通访问的源地址的value
+   		$db = new dbsqlite(DB_PATH . '/rule.db');
+        $sql    = 'SELECT name FROM address';
+        $data   = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
+        $resultValues = array();
+        foreach ($data as $d) {          
+            $resultValues[] = $d['name'];
+        }
+        return $resultValues;
     }
     function getFilterList() {
    	   //获得过滤选项
@@ -47,23 +62,7 @@
         }
         return $result;
     }
-    function getAllIdList() {
-    	//获得已存在的任务号
-        $sql = "SELECT id FROM db_comm_client_acl";            
-        $db  = new dbsqlite(DB_PATH . '/netgap_db.db');
-        $result = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
-        foreach ($result as $k) {       	
-        	$allCommIdList[] = $k['id'];		       	
-        }
-        $sql = "SELECT id FROM db_trans_client_acl";            
-        $db  = new dbsqlite(DB_PATH . '/netgap_db.db');
-        $result = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
-        foreach ($result as $k) {       	
-        	$allTransIdList[] = $k['id'];		       	
-        }
-        $allIdList = array_merge($allCommIdList, $allTransIdList); 
-        return $allIdList ;
-    }
+
     function getAllLportList($lip) {
     	//获得同一个IP下已存在的本机端口
         $sql = "SELECT lport FROM db_comm_client_acl where lip ='$lip'";            
@@ -99,11 +98,43 @@
         $timeList  = $_POST['timeList'];
         $comment   = $_POST['comment'];
  
-        $result = "dbctl $action task db $dbType client mode comm id $id "
+        $result = "dbctl $action task db $dbType type client mode comm id $id "
         	." sa $sAddress lip $lAddress lport $localPort ";  
         	          
-        if (!empty($timeList)) {
+        if ($timeList != '无') {
             $result .= "time $timeList ";
+        }
+	    if ($filter != '无') {
+            $result .= "filter $filter ";
+        }
+        $result .= " comment \"$comment\"";
+        return $result;
+    }
+    function getActionCmd() {
+		//组装命令行
+        $id = $_POST['clientId'];
+        $sql = 'SELECT sa,time,filter' .
+            " FROM db_comm_client_acl WHERE id = '$id'";
+        $db  = new dbsqlite(DB_PATH . '/netgap_db.db');
+        $data = $db->query($sql)->getFirstData(PDO::FETCH_ASSOC);
+
+        $dbType    = $_POST['dbType'];
+        $sAddress  = $data['sa'];
+        $lAddress  = $_POST['lAddress'];
+        $localPort = $_POST['localPort'];
+        $filter    = $data['filter'];           
+        $roleList  = $_POST['roleList'];
+        $timeList  = $data['time'];
+        $comment   = $_POST['comment'];
+ 
+        $result = "dbctl set task db $dbType type client mode comm id $id "
+        	." sa $sAddress lip $lAddress lport $localPort ";  
+        	          
+        if ($timeList != '') {
+            $result .= "time $timeList ";
+        }
+	    if ($filter != '') {
+            $result .= "filter $filter ";
         }
         $result .= " comment \"$comment\"";
         return $result;
@@ -117,10 +148,12 @@
         $result = $db->query($sql)->getFirstData(PDO::FETCH_ASSOC);
         //print_r( $result);
         $addrOptions = getAddressList();
+        $addrOptionsvalue = getAddressListValue();
         $filterOptions = getFilterList();
         $tpl = 'client/db/generalVisit_editDialog.tpl';
         $result = V::getInstance()
             ->assign('addrOptions', $addrOptions)
+            ->assign('addrOptionsvalue', $addrOptionsvalue)
             ->assign('filterOptions', $filterOptions)
             ->assign('timeList', netGapRes::getInstance()->getTimeList())
             ->assign('roleList', netGapRes::getInstance()->getRoleList())
@@ -163,9 +196,14 @@
         foreach ($result as $d) {              
             $dbType = $d;           
         }
-        $cmd  = "dbctl del task db $dbType type client mode comm id $delId";
+     
+        $cmd  = "dbctl del task db $dbType type client mode comm id $delId ";
         $cli  = new cli();
+        $sql = "delete FROM db_comm_client_acl WHERE id =''";    
+        $result = $db->query($sql)->getFirstData(PDO::FETCH_ASSOC);
+        $result = $db->close();
         $cli->run($cmd);
+ 
         echo json_encode(array('msg' => "删除成功."));
     } else if ('add' === $_POST['type']) {
         // Add a new addr group data
@@ -189,10 +227,12 @@
         $tpl = 'client/db/generalVisit_editDialog.tpl';
         $addrOptions = getAddressList();
         $filterOptions = getFilterList();
+        $addrOptionsvalue = getAddressListValue();
         $result['lport'] = '1521';
         $result = V::getInstance()
         	->assign('res', $result)
             ->assign('addrOptions', $addrOptions)
+            ->assign('addrOptionsvalue', $addrOptionsvalue)
             ->assign('filterOptions', $filterOptions)
             ->assign('timeList', netGapRes::getInstance()->getTimeList())
             ->assign('roleList', netGapRes::getInstance()->getRoleList())
@@ -207,7 +247,7 @@
         	$active = 'on';	
         }
         $cli = new cli();
-        $cmd = getCmd();
+        $cmd = getActionCmd();
         $cmd .= " active $active";
         $cli->run($cmd);
         echo json_encode(array('msg' => '成功.'));

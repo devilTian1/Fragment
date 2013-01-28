@@ -5,9 +5,11 @@ CREATE TABLE basic_configure
     mode                    CHAR(1),  --'P':preempt mode 'N':nonpreempt mode
     ifcfg                   CHAR(1),  --'D':disable physical net work device 'E':not disable
     peer_ha_ip              CHAR(15), --peer gap ha ip address
-    peer_ha_port    INT               --peer gap ha port number
+    peer_ha_port            INT,      --peer gap ha port number
+    interval                INT
+
 );
-INSERT INTO "basic_configure" VALUES('M','P','E','0.0.0.0',8000);
+INSERT INTO "basic_configure" VALUES('M','P','E','0.0.0.0',8000,30);
 CREATE TABLE haif 
 (
     ifname                  CHAR(15),   --network interface alias name

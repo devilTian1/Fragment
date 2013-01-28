@@ -48,9 +48,7 @@ function StandardUiFactory() {
          * destroy the dialog
          */
         dialog.close = function() {
-            $(this).dialog('close');
             $(this).dialog('destroy');
-            $(this).remove();
         }
 
         /**

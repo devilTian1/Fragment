@@ -23,7 +23,7 @@
     </table>
 </form>
 
-<table class="column_95 textMid tablesorter">
+<table class="column_95 textMid tablesorter" id="upgradeListTable">
     <caption>版本日志信息</caption>
     <thead>
         <tr>
@@ -33,38 +33,34 @@
             <th class="column_20">操作</th>
         </tr>
     </thead>
-    <{foreach $result_list as $k => $val}>
+    <tbody>
         <tr>
-            <td><{$val.id}></td>
-            <td><{$val.up_version}></td>
-            <td><{$val.del_bugs}></td>
-            <td><{$val.up_time}></td>
+            <td colspan='4'>Loading ... ...</td>
         </tr>
-    <{foreachelse}>
-        <tr><td colspan='4'>No Upgrade History Data</td></tr>
-    <{/foreach}>
-    <tr>
-        <td colspan="4">
-            <form class="inline" action="Function/systemManagement/maintain/upgrade.php" method="POST">
-                <input type="hidden" name="action" value="exportUpgradeHistory"/>
-                <button class="inputbtn standard" type="submit">
-                    导出升级历史</button>
-                <input type="hidden" name="downloadUpgradeHistory" value='1'/>
-            </form>
-            <button  type="button"  class="inputbtn standard" onclick="window.open('http://www.leadsec.com.cn')">
-                检查最新升级包</button>
-            <form class="inline" action="Function/systemManagement/maintain/upgrade.php?reboot=22" method="GET"
-                id="rebootForm" onSubmit="return false">
-                <button type="button" class="inputbtn standard" onclick="reboot()">
-                    重启<{$smarty.const.PRODUCT_NAME}></button>
-            </form>
-        </td>
-    </tr>
+    </tbody>
 </table>
+
+<form class="inline" action="Function/systemManagement/maintain/upgrade.php" method="POST">
+	<input type="hidden" name="action" value="exportUpgradeHistory"/>
+	<button class="inputbtn standard" type="submit">
+		导出升级历史</button>
+	<input type="hidden" name="downloadUpgradeHistory" value='1'/>
+</form>
+<button  type="button"  class="inputbtn standard" onclick="window.open('http://www.leadsec.com.cn')">
+	检查最新升级包</button>
+<form class="inline" action="Function/systemManagement/maintain/upgrade.php?reboot=22" method="GET"
+	id="rebootForm" onSubmit="return false">
+	<button type="button" class="inputbtn standard" onclick="reboot()">
+		重启<{$smarty.const.PRODUCT_NAME}></button>
+</form>
+       
+
+
 <script type="text/javascript" src="Public/js/systemManagement/maintain/upgrade.js"></script>
 <script type="text/javascript">
     $(document).ready(function() {
         renderStandardUi();
         validateForm($("#upgradeForm"));
+		freshTable('Function/systemManagement/maintain/upgrade.php', $('#upgradeListTable'),'ORDER BY id DESC');
     });
 </script>

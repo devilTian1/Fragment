@@ -31,15 +31,32 @@
         return $db->query($sql)->getCount();
     }
 
+	function getSuffixOfFileName($fileName, $length = 3) {   
+        $result = '';
+        $p      = strrpos($fileName, '.'); 
+        if (false !== $p) {
+            $result = substr($fileName, $p+1, $length); 
+        }
+        return $result;
+    } 
+
     if (!empty($_FILES)) {
 		//Import license
-        $uploadfs = new fileUpload($_FILES);
-        $uploadfs->upload();
-        $cmd  = '/usr/local/license/bin/sls_upload /tmp/' .
+		$str_match =  getSuffixOfFileName($_FILES['licenseFile']['name'],3);
+		if ($str_match!=='dat') {
+			$result = '0';
+			echo json_encode(array('status' => true,'msg' => $result));
+		} else {
+			$dPath = '/tmp';
+			$uploadfs = new fileUpload($_FILES,$dPath);
+			$uploadfs->upload();
+			$cmd  = '/usr/local/license/bin/sls_upload /tmp/' .
 			$_FILES['licenseFile']['name'];
-        $cli  = new cli();
-        $cli->run($cmd);
-        echo json_encode(array('msg' => '升级成功'));
+			$cli  = new cli();
+			$cli->run($cmd);
+			$result = '导入成功';
+			echo json_encode(array('status' => true,'msg' => $result));
+		}
     } else if ($orderStatement =$_POST['orderStatement']) {
 		//Call getLicenseInformation()
         getLicenseInformation($orderStatement);

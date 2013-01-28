@@ -106,7 +106,19 @@ label.errorLabel {
 .column_5 {
     width: 5%;
 }
+.column_6 {
+    width: 6%;
+}
+.column_7 {
+    width: 7%;
+}
+.column_8 {
+    width: 8%;
+}
 .column_10 {
+    width: 10%;
+}
+.column_13 {
     width: 10%;
 }
 .column_15 {
@@ -281,8 +293,11 @@ label.errorLabel {
 	width:231px;
 	height:64px;
 	float:left;
-	margin:34px 0 0 30px;
-	padding:12px 0 0 30px;
+	margin:34px 0 0 10px;
+	padding:12px 0 0 0px;
+}
+#header .right_nav .top_userinfo .paddingLeft30{
+    padding-left: 30px;
 }
 #header .right_nav .top_userinfo span{
 	color:#d7612d
