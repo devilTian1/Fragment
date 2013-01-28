@@ -406,7 +406,7 @@ label.errorLabel {
 	font-weight: bold;
 	cursor: pointer;
 	text-align:center;
-    width: 84px;
+    width: 100px;
 }
 
 #tab .tabinfo {
