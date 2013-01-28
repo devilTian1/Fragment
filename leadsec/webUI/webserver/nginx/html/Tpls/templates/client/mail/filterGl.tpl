@@ -1,1 +1,0 @@
-<{include file='resConf/addrBind/emailVisit.tpl'}>
