@@ -4,7 +4,7 @@
         <legend>时间列表维护</legend>
         <div class="row">
             <label for="timeListName">名称:<em class="required">*</em></label>
-            <input type="text" name="timeListName" maxlength="15" value="<{$timeList.name}>"
+            <input type="text" name="resTimeName" maxlength="15" value="<{$timeList.name}>"
             <{if $type === 'edit'}>readonly="readonly"<{/if}> id="timeListName"/>
         </div>
         <br class="clearFloat"/>
@@ -22,10 +22,10 @@
                 <label class="note">有效时间格式 YYYY/MM/DD hh:mm 或 YYYY/MM/DD hh:mm:ss</label>
                 <br/><br/>
                 <label class="radioLabel" for="startTime_f">起始时间:&nbsp;</label>
-                <input type="text" name="startTime_f" id="startTime_f" value="<{$timeList.startTime_f}>"/>
+                <input type="text" name="startTime_f" id="startTime_f"  maxlength = "19" value="<{$timeList.startTime_f}>"/>
                 <br/><br/>
                 <label class="radioLabel" for="endTime_f">终止时间:&nbsp;</label>
-                <input type="text" name="endTime_f" id="endTime_f" value="<{$timeList.endTime_f}>"/>
+                <input type="text" name="endTime_f" id="endTime_f"  maxlength = "19" value="<{$timeList.endTime_f}>"/>
             </div>
             <br class="clearFloat"/>
         </div>
@@ -39,10 +39,10 @@
                     <label><{$v}></label>
                     <br class="clearFloat"/>
                     <label class="radioLabel" for="startTime_<{$k}>">起始时间:&nbsp;</label>
-                    <input type="text" name="startTime_<{$k}>" id="startTime_<{$k}>" value="<{$timeList['startTime_'|cat:$k]}>"/>
+                    <input type="text" name="startTime_<{$k}>" id="startTime_<{$k}>" maxlength = "8" value="<{$timeList['startTime_'|cat:$k]}>"/>
                     <br class="clearFloat"/>
                     <label class="radioLabel" for="endTime_<{$k}>">终止时间:&nbsp;</label>
-                    <input type="text" name="endTime_<{$k}>" id="endTime_<{$k}>" value="<{$timeList['endTime_'|cat:$k]}>"/>
+                    <input type="text" name="endTime_<{$k}>" id="endTime_<{$k}>" maxlength = "8" value="<{$timeList['endTime_'|cat:$k]}>"/>
                     <br class="clearFloat"/><br/>
                 <{/foreach}>
             </div>
@@ -50,7 +50,7 @@
         </div>
         <div class="row">
             <label for="comment">备注:</label>
-            <textarea rows="10" cols="30" name="comment" id="comment"><{$timeList.comment}></textarea>
+            <textarea cols="30" name="comment" id="comment"><{$timeList.comment}></textarea>
         </div>
         <br class="clearFloat"/>
     </fieldset>

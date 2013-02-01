@@ -4,7 +4,13 @@
         <td><{$u.user_id}></td>
         <td><{$u.user_name}></td>
         <td><{$u.true_name}></td>
-        <td><{if $u.active === 1}>Y<{else}>N<{/if}></td>
+        <td>
+            <{if $u.active === '1'}>
+                <img src="<{$smarty.const.THEME_PATH}>/images/icon/select.png" width="16" height="16"/>
+            <{else}>
+                <img src="<{$smarty.const.THEME_PATH}>/images/icon/stop.png"  width="16" height="16"/>
+            <{/if}>
+        </td>
         <td><{$u.validtime}></td>
         <td class="no_search"><a href="#" onClick="openImportSnFileDialog('<{$u.user_name}>')">导入</a></td>
         <td class="no_search"><a href="#" onClick="openActiveSpecUserDialog('<{$u.user_name}>')">同步</a></td>

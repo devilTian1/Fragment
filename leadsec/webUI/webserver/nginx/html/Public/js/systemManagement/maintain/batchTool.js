@@ -1,6 +1,21 @@
 function show() {
+    var intvalSec = 5;
+    var displayDom = $('#textareaA');
 	var data = {
 		action : 'getStr'
+    };
+    var ajaxParams = {
+        dataType: 'JSON',
+        beforeSend: function() {
+            if (displayDom.get(0) === undefined) {
+                return false;
+            }
+        },
+        complete: function () {
+            setTimeout(function() {
+                show();
+            }, intvalSec * 1000);
+        }
     };
 	loadEmbedPage("Function/systemManagement/maintain/batchTool.php",data,$('#textareaA'), {dataType: 'JSON'});
 }

@@ -1,6 +1,6 @@
 <{foreach $timeGroup as $name => $t }>
     <tr>
-        <td><{$t@index+1}></td>
+        <td><{$t@iteration}></td>
         <td><{$name}></td>
         <td><{foreach $t.subname as $subname}>
         <{$subname}><br/>

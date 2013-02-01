@@ -38,7 +38,7 @@
         </div>
         <div class="row">
             <label for="comment">备注:</label>
-            <textarea rows="10" cols="30" name="comment" id="comment"><{$comment}></textarea>
+            <textarea rows="10" cols="30" name="comment" id="comment"><{$roleData.comment}></textarea>
         </div>
     </fieldset>
 </form>

@@ -18,6 +18,11 @@ CREATE TABLE haif
     --ip                    CHAR(128),
     --mask                  CHAR(20)
 );
+CREATE TABLE lvs_basic
+(
+	role CHAR(1)						--'D':director 'N':node
+);
+INSERT INTO lvs_basic(role) values('D');
 CREATE TABLE service 
 (
     id              INT,

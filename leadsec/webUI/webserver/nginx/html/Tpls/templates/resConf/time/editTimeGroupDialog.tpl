@@ -4,7 +4,7 @@
         <legend>时间组维护</legend>
         <div class="row">
             <label for="timeGroupName">名称:<em class="required">*</em></label>
-            <input type="text" name="timeGroupName" maxlength="15" value="<{$timeGroup.name}>"
+            <input type="text" name="resTimeName" maxlength="15" value="<{$timeGroup.name}>"
             <{if $type === 'edit'}>readonly="readonly"<{/if}> id="timeGroupName"/>
         </div>
         <br class="clearFloat"/>
@@ -33,7 +33,7 @@
         <br class="clearFloat"/>
         <div class="row">
             <label for="comment">备注:</label>
-            <textarea rows="10" cols="30" name="comment" id="comment"><{$timeGroup.comment}></textarea>
+            <textarea cols="30" name="comment" id="comment"><{$timeGroup.comment}></textarea>
         </div>
         <br class="clearFloat"/>
     </fieldset>

@@ -4,36 +4,65 @@
     function freshTimeList($where) {
         $tpl  = 'resConf/time/timeListTable.tpl';
         $db   = new dbsqlite('/usr/local/tss/conf/db_hss_tss');
-        $sql  = "SELECT name, comment FROM time_span";
-        $data = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
+        $sql  = "SELECT name, spantype, comment FROM time_span";
+        $data = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);        
         $result = array();
         $weekName = array('mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun');
-        foreach ($data as $v) {
-            $pos = strrpos($v['name'], '_');
-            if ($pos !== false) {
-                $nameSuffix = substr($v['name'], $pos+1);
-                if (false !== array_search($nameSuffix, $weekName)) {
-                    $v['name'] = substr($v['name'], 0, -($pos-1));
-                    $sql  = "SELECT comment FROM grp_comment WHERE name = '{$v['name']}'";
-                    $comments = $db->query($sql)->getFirstData(PDO::FETCH_ASSOC);
-                    $v['comment'] = $comments['comment'];
-                    $result[$v['name']] = $v;
-                } else {
-                    $result[$v['name']] = $v;
-                }
-            } else {
-                $result[$v['name']] = $v;
-            }
+        foreach ($data as $v) {        	
+        	if ($v['spantype'] !== '0') {
+        		$pos = strrpos($v['name'], '_');
+            	if ($pos !== false) {
+                	$nameSuffix = substr($v['name'], $pos+1);
+                	if (false !== array_search($nameSuffix, $weekName)) {
+                    	$v['name'] = substr($v['name'], 0, -4);
+                    	$sql  = "SELECT comment FROM grp_comment WHERE name = '{$v['name']}'";
+                    	$comments = $db->query($sql)->getFirstData(PDO::FETCH_ASSOC);
+                    	$v['comment'] = $comments['comment'];
+                    	$result[$v['name']] = $v;
+                		} else {
+                    		$result[$v['name']] = $v;
+                		}
+            	} else {
+                	$result[$v['name']] = $v;
+            	}
+        	} else {        		
+        		$result[$v['name']] = $v;	
+        	}          
         }
+        
         echo V::getInstance()->assign('timeList', $result)
             ->assign('pageCount', 10)
             ->fetch($tpl);
     }
 
     function getDataCount() {
-        $sql = "SELECT name FROM time_span";
-        $db  = new dbsqlite('/usr/local/tss/conf/db_hss_tss');
-        return $db->query($sql)->getCount();
+        $db   = new dbsqlite('/usr/local/tss/conf/db_hss_tss');
+        $sql  = "SELECT name, spantype, comment FROM time_span";
+        $data = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);        
+        $result = array();
+        $weekName = array('mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun');
+        foreach ($data as $v) {        	
+        	if ($v['spantype'] !== '0') {
+        		$pos = strrpos($v['name'], '_');
+            	if ($pos !== false) {
+                	$nameSuffix = substr($v['name'], $pos+1);
+                	if (false !== array_search($nameSuffix, $weekName)) {
+                    	$v['name'] = substr($v['name'], 0, -4);
+                    	$sql  = "SELECT comment FROM grp_comment WHERE name = '{$v['name']}'";
+                    	$comments = $db->query($sql)->getFirstData(PDO::FETCH_ASSOC);
+                    	$v['comment'] = $comments['comment'];
+                    	$result[$v['name']] = $v;
+                		} else {
+                    		$result[$v['name']] = $v;
+                		}
+            	} else {
+                	$result[$v['name']] = $v;
+            	}
+        	} else {        		
+        		$result[$v['name']] = $v;	
+        	}          
+        }
+        return count($result);
     }
     
     function getDateFormat($str, $type='fullDate') {
@@ -82,7 +111,7 @@
     }
 
     function getAddOrEditTimeCmd($type) {
-        $name    = $_POST['timeListName'];
+        $name    = $_POST['resTimeName'];
         $comment = $_POST['comment'];
 
         if ($_POST['scheduleType'] === 'oneTime') {
@@ -101,9 +130,9 @@
         }
     }
 
-    if ($name = $_POST['name']) {
+    if ($name = $_POST['editName']) {
         // Get specified timelist data
-        $tpl = $_POST['tpl'];
+        $tpl = 'resConf/time/editTimeListDialog.tpl';
         $db  = new dbsqlite('/usr/local/tss/conf/db_hss_tss');
         $sql = "SELECT * FROM time_span WHERE name = '$name' or name like '{$name}\_%' ESCAPE '\'";
         $data = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
@@ -162,6 +191,12 @@
         $result = V::getInstance()->assign('timeList', $result)
             ->assign('type', 'edit')->fetch($tpl);
         echo json_encode(array('msg' => $result));
+    } else if (!empty($_POST['openDialog'])) {
+        // Display add dialog
+        $tpl = 'resConf/time/editTimeListDialog.tpl';
+        $result = V::getInstance()->assign('timeList', $result)
+            ->assign('type', 'add')->fetch($tpl);
+        echo json_encode(array('msg' => $result));
     } else if ('add' === $_POST['type']) {
         // Add new time data
         $cmd = getAddOrEditTimeCmd('add');
@@ -183,6 +218,11 @@
     } else if ($orderStatement = $_POST['orderStatement']) {
         // fresh and resort timelist Table
         freshTimeList($orderStatement);
+    } else if (!empty($_GET['checkExistResTimeName'])) {
+    	$db  = new dbsqlite('/usr/local/tss/conf/db_hss_tss');
+    	$sql = "SELECT name FROM time_span WHERE spantype = '0' and name = '".$_GET['resTimeName']."'"
+               ."UNION SELECT name FROM grp_comment WHERE name = '".$_GET['resTimeName']."'";
+        echo $db->query($sql)->getCount() > 0 ? 'false' : 'true';   	
     } else {
         // init page data
         $result = getDataCount();

@@ -1,6 +1,6 @@
 <{foreach $timeList as $name => $t }>
     <tr>
-        <td><{$t@index+1}></td>
+        <td><{$t@iteration}></td>
         <td><{$t.name}></td>
         <td><{$t.comment}></td>
         <td class="no_search">

@@ -5,8 +5,8 @@
         <td><{$u.true_name}></td>
         <td><{$u.auth_type}></td>
         <td><{$u.roles}></td>
-        <td>bb</td>
-        <td>aa</td>
+        <td><{if $u.isOnline eq 1}>在线<{else}>不在线<{/if}></td>
+        <td><{$u.onlineIp}></td>
         <td class="no_search">
             <a href="#" class="edit" onclick="openEditSpecUserDialog('<{$u.user_name}>')" title="修改">&nbsp;</a>
             <a href="#" class="delete" onclick="openDelSpecUserDialog('<{$u.user_name}>')" title="删除">&nbsp;</a>&nbsp;&nbsp;

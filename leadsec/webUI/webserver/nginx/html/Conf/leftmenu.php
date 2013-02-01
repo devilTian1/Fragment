@@ -2,7 +2,7 @@
   $leftmenuArr = array(
     // level 1
     'sm' => array('pid' => 0, 'name' => '系统管理', 'link' => 'systemManagement'),
-    'nm' => array('pid' => 0, 'name' => '网络管理', 'link' => 'networkMangement'),
+    'nm' => array('pid' => 0, 'name' => '网络管理', 'link' => 'networkManagement'),
     'rc' => array('pid' => 0, 'name' => '资源配置', 'link' => 'resConf'),
     'c' => array('pid' => 0, 'name' => '客户端', 'link' => 'client'),
     's' => array('pid' => 0, 'name' => '服务端', 'link' => 'server'),
@@ -21,6 +21,7 @@
     'nm_i' => array('pid' => 'nm', 'name' => '网络接口', 'link' => 'interface'),
     'nm_b' => array('pid' => 'nm', 'name' => '基本配置', 'link' => 'basic'),
     'nm_h' => array('pid' => 'nm', 'name' => '高可用性', 'link' => 'HA'),
+    'nm_l' => array('pid' => 'nm', 'name' => '负载均衡', 'link' => 'lvs'),
 
     //level2 resConf
     'rc_a' => array('pid' => 'rc', 'name' => '地址', 'link' => 'addr'),
@@ -98,6 +99,11 @@
     'nm_h_v' => array('pid' => 'nm_h', 'name' => '虚拟地址', 'link' => 'viraddr'),
     'nm_h_h' => array('pid' => 'nm_h', 'name' => '双机热备', 'link' => 'ha'),
     'nm_h_l' => array('pid' => 'nm_h', 'name' => '负载均衡', 'link' => 'lvs'),
+
+    //level3 networkManagement/lvs
+    'nm_l_b' => array('pid' => 'nm_l', 'name' => '基本配置', 'link' => 'basic'),
+    'nm_l_v' => array('pid' => 'nm_l', 'name' => '虚拟地址', 'link' => 'virtualAddr'),
+    'nm_l_s' => array('pid' => 'nm_l', 'name' => '调度器配置', 'link' => 'schedule'),
     
     //level3 resConf/addr
     'rc_a_a' => array('pid' => 'rc_a', 'name' => '地址列表', 'link' => 'addrList'),

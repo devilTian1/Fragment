@@ -20,10 +20,15 @@
     onclick="openNewTimeGroupDialog()"
     id="addTimeGroupBtn">添加
 </button>
+<div class="pager floatRight">
+    <{include file='layout/pagination.tpl' func='Function/resConf/time/timeGroup.php'}>
+</div>
 <script type="text/javascript" src="Public/js/resConf/time/timeGroup.js"></script>
 <script type="text/javascript"> 
     $(document).ready(function() {
         renderStandardUi();
-        freshTable('Function/resConf/time/timeGroup.php', $('#timeGroupTable'), 'ORDER BY name');
+        freshTable('Function/resConf/time/timeGroup.php', $('#timeGroupTable'), 'ORDER BY name ASC LIMIT 10');
+        sortTableInit($('#timeGroupTable'), {0: {sorter: false}, 2: {sorter: false}, 3: {sorter: false}, 
+            4: {sorter: false}}, [[1,0]]);
     });
 </script>

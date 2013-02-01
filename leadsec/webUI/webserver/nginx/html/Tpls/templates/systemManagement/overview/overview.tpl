@@ -11,7 +11,7 @@ a,img{border:0;}
     <tr>
         <td>
   <div class="zoombox">
-	<div class="zoompic"></div>
+	<div class="zoompic" id="zoompic"></div>
 	<div class="sliderbox">
 		<div id="btn-left" class="arrow-btn dasabled">
         </div>
@@ -142,6 +142,14 @@ a,img{border:0;}
 <br class="clearFloat"/>
 <script type="text/javascript" src="Public/js/systemManagement/overview/overview.js"></script>
 <script type="text/javascript" src="Public/js/jquery/jquery.sparkline.min.js"></script>
+
+<!--[if lt IE 9]><script language="javascript" type="text/javascript" src="Public/js/jquery/jqplot/excanvas.min.js"></script><![endif]-->
+<script language="javascript" type="text/javascript" src="Public/js/jquery/jqplot/jquery.jqplot.min.js"></script>
+<script language="javascript" type="text/javascript" src="Public/js/jquery/jqplot/plugins/jqplot.cursor.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="Public/js/jquery/jqplot/jquery.jqplot.min.css" />
+
+
 <script type="text/javascript">
 $(document).ready(function (){
 		var setTimeout_flag=-1;
@@ -211,6 +219,46 @@ $(document).ready(function (){
 			setTimeout_flag=setTimeout(mdraw, mrefreshinterval); 
 		};
 		//setSparkLine("eth0");
+	
+	function setSplotLine(){
+		var arr_pot1=[1,2,10,11,2,4,6,8,12,15,11,23,13,16,12,1],
+			arr_pot2=[4,5,6,8,12,4,12,12,1,9,10,9,1,14,2,12],
+			arr_pot3=[9,2,10,3,1,9,10,8,12,15,11,34,18,12,1,23];
+			
+		$.jqplot('zoompic',[arr_pot1,arr_pot2,arr_pot3],
+			{	
+				animate: true,
+				animateReplot: true,
+				cursor: {           
+					show: true,           
+					zoom: true,            
+					looseZoom: true,           
+					showTooltip: true        
+				},
+				legend: {        
+					show: true,       
+					placement: 'outsideGrid'
+				},
+				series:[
+					{label:'FE0'},
+					{label:'FE1'},
+					{label:'FE2'}
+				],
+				axes: {
+					xaxis: {
+					 ticks:[[1, '1:00'],[2,'2:00'],[3,'3:00'],[4,'4:00'],[5,'5:00'],[6,'6:00'],[7,'7:00'],[8,'8:00'],[9,'9:00'],[10,'10:00']
+							,[11,'11:00'],[12,'12:00'],[13,'13:00'],[14,'14:00'],[15,'15:00'],[16,'16:00']]
+					},
+					yaxis: {               
+						tickOptions: {                 
+							formatString: "%'dM"             
+						}          
+					 }
+			 }
+		});
+	}
+		
+		
 	for(var i=0;i<=maxEthNum;i++){
 		$("#eth"+i).click(function(){
 				var id=$(this).attr("id");
@@ -220,7 +268,8 @@ $(document).ready(function (){
 				clearTimeout(setTimeout_flag);	 
 				if(flag==1){//有流量控制
 					$(".zoompic").removeClass("zoompic_bg");
-					setSparkLine(id);	
+					setSplotLine();
+					//setSparkLine(id);	
 				}else{
 					$(".zoompic").html("");
 					$(".zoompic").addClass("zoompic_bg");

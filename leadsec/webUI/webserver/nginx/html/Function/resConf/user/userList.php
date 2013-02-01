@@ -71,13 +71,9 @@
         $ip     = $_POST['bindIp'];
         $mac    = $_POST['bindMac'];
         $active = $_POST['active'] === 'on' ? 'on' : 'off';
-        if ('twofa' === $_POST['authType']) {
-            $authType = $_POST['twofaType'];
-        } else {
-            $authType = $_POST['authType'];
-        }
-        $firstChangePwd = $_POST['firstChangePwd'] === 'on' ? 'on' : 'off';
-        $modifyPwdAllow = $_POST['modifyPwdAllow'] === 'on' ? 'on' : 'off';
+        $authType = $_POST['authType'];
+        $firstChangePwd = $_POST['firstChangePwd'];
+        $modifyPwdAllow = $_POST['modifyPwdAllow'];
         $pwd      = $_POST['passwd_user'];
         $realName = $_POST['realName'];
         $name     = $_POST['userListName'];
@@ -89,7 +85,9 @@
         $result = "user $action username \"$name\" ".
             "auth-type $authType";
         if ($authType === 'local-pwd' || $authType === 'dyn-pwd') {
-            $result .= " pwd '$pwd'";
+        	   if ('add' === $action || 'on' === $_POST['modifyEnable'] || 1===$_POST['vip']) {
+                $result .= " pwd '$pwd'";
+            }
             if ($authType === 'dyn-pwd' && !empty($_FILES['sn'])) {
                 $result .= " sn {$_FILES['sn']['name']}";
             }
@@ -185,10 +183,10 @@
                 $at = 'localCert';
                 break;
             case '4':
-                $at = 'certPwd';
+                $at = 'twofa';
                 break;
             case '5':
-                $at = 'dynPwd';
+                $at = 'twofa';
                 break;
             default: 
                 throw New Exception('error: Auth Type.'. $userList['auth_type']);
@@ -196,7 +194,7 @@
         $rolesMemberArr = getSpecRolesByUserName($specUser);
         $result = V::getInstance()
             ->assign('userList', $userList)
-            ->assign('allRolsArr', array_diff(getAllRoles(), $rolesMemberArr))
+            ->assign('allRolesArr', array_diff(getAllRoles(), $rolesMemberArr))
             ->assign('rolesMemberArr', $rolesMemberArr)
             ->assign($mpa, 'checked="checked"')
             ->assign($fcp, 'checked="checked"')
@@ -212,11 +210,12 @@
         $cli = new cli();
         $cli->run($cmd);
         echo json_encode(array('msg' => '修改成功.'));
-    } else if ($time = $_POST['lockTime']) {
+    } else if (isset($_POST['lockTime'])) {
         // Set lock time for specified user
+        $time = $_POST['lockTime'];
         $name = $_POST['name'];
         $cli  = new cli();
-        $cli->run("user lock username \"$name\" time \"$time\"");
+        $cli->run("user lock username \"$name\" time $time");
         echo json_encode(array('msg' => '修改成功.'));
     } else if ($name = $_POST['lockUser']) {
         // Get Lock Data of specified user
@@ -227,7 +226,7 @@
             ->assign('lockTime', $time)
             ->fetch($tpl);
         echo json_encode(array('msg' => $result));
-    } else if ($name = $_POST['resetPwdName'] && $pwd = $_POST['passwd_user']) {
+    } else if (($name = $_POST['resetPwdName']) && ($pwd = $_POST['passwd_user'])) {
         // Set lock time for specified user
         $cli  = new cli();
         $cli->run("user reset username \"$name\" password '$pwd'");

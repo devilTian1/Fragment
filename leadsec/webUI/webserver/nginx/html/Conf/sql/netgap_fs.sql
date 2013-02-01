@@ -18,9 +18,11 @@ create table dir_info
 	complete_string	CHAR(20),
 	active		CHAR(1),
 	filter		CHAR(30),
-    hexip       CHAR(15),
-    pexip       CHAR(15),
-    lip         CHAR(15)
+    hexip       CHAR(15),  --网闸本端交换卡地址
+    pexip       CHAR(15),  --网闸对端交换卡地址
+    lip         CHAR(15),  --本机地址
+    tnum        CHAR(15),  --文件交换线程数
+    port        CHAR(15)   --协议端口
 );
 
 create table basic_configure

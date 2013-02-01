@@ -2,7 +2,6 @@ function openNewTimeGroupDialog() {
     var url   = 'Function/resConf/time/timeGroup.php';
     var title   = '定义时间组';
     var data  = {
-        tpl : 'resConf/time/editTimeGroupDialog.tpl',
         openNewTimeGrpDialog: true
     };
     var buttons = {};
@@ -29,19 +28,19 @@ function openNewTimeGroupDialog() {
     };
     var dialogParams = {
         width   : 620,
-        height  : 500,
-        buttons : buttons
+        height  : 400,
+        buttons : buttons,
+        position: ['center', 'top']
     };
     showDialogByAjax(url, data, title, dialogParams);
 }
 
 function openEditTimeGroupDialog(name) {
-    var url  = 'Function/resConf/time/timeGroup.php';
+	var url   = 'Function/resConf/time/timeGroup.php';
     var data = {
-        tpl    : 'resConf/time/editTimeGroupDialog.tpl',
         name : name
     };
-    var title   = '修改地址组';
+    var title   = '修改时间组';
     var buttons = {};
     buttons['确定'] = function() {
         if ($('#editTimeGroupForm').valid()) {
@@ -56,8 +55,9 @@ function openEditTimeGroupDialog(name) {
     };
     var dialogParams = {
         width   : 620,
-        height  : 550,
-        buttons : buttons
+        height  : 400,
+        buttons : buttons,
+        position: ['center', 'top']
     };
     showDialogByAjax(url, data, title, dialogParams);
 }
@@ -81,7 +81,7 @@ function delTimeGrp(name) {
     showDialogByAjax(url, data, title, dialogParams);
 }
 function openDelTimeGroupDialog(name) {
-    var dialog  = loadingScreen('删除地址组');
+    var dialog  = loadingScreen('删除时间组');
     var buttons = {};
     buttons['Confirm'] = function() {
         delTimeGrp(name);

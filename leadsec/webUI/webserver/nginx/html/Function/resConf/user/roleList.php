@@ -38,12 +38,23 @@
         $result   = array();
         foreach ($data as $d) {
             $userId = $d['userId'];
+            $sql = 'SELECT ip FROM user_online WHERE user_id=' . $userId;
+            $res_online = $db->query($sql)->getFirstData(PDO::FETCH_ASSOC);
+            if (empty($res_online['ip'])) {
+            	$isOnline = 0;
+            	$onlineIp = "";
+            } else {
+            	$isOnline = 1;
+            	$onlineIp = $res_online['ip'];
+            }
             $roles = getRolesByUserId($userId);
             $result[] = array('user_id'   => $userId,
                               'user_name' => $d['name'],
                               'true_name' => $d['realname'],
                               'auth_type' => $authType[$d['authType']],
-                              'roles'     => join('<br/>', $roles)
+                              'roles'     => join('<br/>', $roles),
+                              'isOnline' => $isOnline,
+                              'onlineIp' => $onlineIp
             );
         }
         echo V::getInstance()->assign('userData', $result)

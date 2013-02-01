@@ -1,8 +1,8 @@
 function openNewTimeListDialog() {
-    var url   = 'Function/layout/showDialog.php';
-    var title   = '定义地址';
+    var url   = 'Function/resConf/time/timeList.php';
+    var title   = '时间列表';
     var data  = {
-        tpl : 'resConf/time/editTimeListDialog.tpl'
+    	openDialog: true
     };
     var buttons = {};
     buttons['添加下一条'] = function() {
@@ -27,7 +27,8 @@ function openNewTimeListDialog() {
     var dialogParams = {
         width   : 620,
         height  : 500,
-        buttons : buttons
+        buttons : buttons,
+        position: ['center', 'top']
     };
     showDialogByAjax(url, data, title, dialogParams);
 }
@@ -35,8 +36,7 @@ function openNewTimeListDialog() {
 function openEditTimeListDialog(name) {
     var url  = 'Function/resConf/time/timeList.php';
     var data = {
-        tpl  : 'resConf/time/editTimeListDialog.tpl',
-        name : name   
+        editName : name   
     };
     var title   = '修改时间列表';
     var buttons = {};
@@ -53,7 +53,8 @@ function openEditTimeListDialog(name) {
     var dialogParams = {
         width   : 620,
         height  : 500,
-        buttons : buttons
+        buttons : buttons,
+        position: ['center', 'top']
     };
     showDialogByAjax(url, data, title, dialogParams);
 }

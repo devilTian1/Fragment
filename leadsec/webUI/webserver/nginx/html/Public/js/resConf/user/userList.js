@@ -347,32 +347,88 @@ function freshTableAndPage() {
 
 function changeAuthType() {
     var authType = $(':radio[name="authType"]:checked').val();
-    if ('twofa' === authType) {
-        $('.twofa').show();
-        $('#passwd_user').removeAttr('disabled');
-        $('#passwd_user_again').removeAttr('disabled');
+    if ('dyn-pwd' === authType) {
+        if ($("input[name='type']").val() == "edit" && $("input[name='vip']").val() != 1) {
+    		$("#modifyEnable").removeAttr('disabled');
+    	} else {
+        		$('#passwd_user').removeAttr('disabled');
+        		$('#passwd_user_again').removeAttr('disabled');
+	}
         $('#sn').removeAttr('disabled');
-        if ('cert-pwd' === $(':radio[name="twofaType"]:checked').val()) {
-            $('#sn').attr('disabled', 'disabled');
-        } else { //dynpwd
-            $('#sn').removeAttr('disabled');
-        }
+        $('#userModifyDiv').removeClass('hide');
+        $('#firstModifyDiv').removeClass('hide');
+        $('input[name="modifyPwdAllow"]').removeAttr('disabled');
+        $('input[name="firstChangePwd"]').removeAttr('disabled');
+        $('#userValidTimeDiv').removeClass('hide');
+        $('#psswdValidTimeDiv').removeClass('hide');
+        $('input[name="validTime"]').removeAttr('disabled');
+        $('input[name="validTime_pwd"]').removeAttr('disabled');
     } else if ('local-pwd' === authType) {
-        $('.twofa').hide();
-        $('#passwd_user').removeAttr('disabled');
-        $('#passwd_user_again').removeAttr('disabled');
+	if ($("input[name='type']").val() == "edit" && $("input[name='vip']").val() != 1) {
+		$("#modifyEnable").removeAttr('disabled');
+	} else {
+	        $('#passwd_user').removeAttr('disabled');
+	        $('#passwd_user_again').removeAttr('disabled');
+	}
         $('#sn').attr('disabled', 'disabled');
+        $('#userModifyDiv').removeClass('hide');
+        $('#firstModifyDiv').removeClass('hide');
+        $('input[name="modifyPwdAllow"]').removeAttr('disabled');
+        $('input[name="firstChangePwd"]').removeAttr('disabled');
+        $('#userValidTimeDiv').removeClass('hide');
+        $('#psswdValidTimeDiv').removeClass('hide');
+        $('input[name="validTime"]').removeAttr('disabled');
+        $('input[name="validTime_pwd"]').removeAttr('disabled');
     } else if ('local-cert' === authType) {
-        $('.twofa').hide();
-        $('#passwd_user').attr('disabled', 'disabled');
-        $('#passwd_user_again').attr('disabled', 'disabled');
+	if ($("input[name='type']").val() == "edit" && $("input[name='vip']").val() != 1) {
+		$("#modifyEnable").attr('disabled', 'disabled');
+	} else {
+		$('#passwd_user').attr('disabled', 'disabled');
+		$('#passwd_user_again').attr('disabled', 'disabled');
+	}
         $('#sn').attr('disabled', 'disabled');
+        $('#userModifyDiv').removeClass('hide');
+        $('#firstModifyDiv').removeClass('hide');
+        $('input[name="modifyPwdAllow"]').removeAttr('disabled');
+        $('input[name="firstChangePwd"]').removeAttr('disabled');
+        $('#userValidTimeDiv').removeClass('hide');
+        $('#psswdValidTimeDiv').removeClass('hide');
+        $('input[name="validTime"]').removeAttr('disabled');
+        $('input[name="validTime_pwd"]').removeAttr('disabled');
     } else if ('vip' === authType) {
-        $('.twofa').hide();
-        $('#passwd_user').attr('disabled', 'disabled');
-        $('#passwd_user_again').attr('disabled', 'disabled');
+    	if ($("input[name='type']").val() == "edit" && $("input[name='vip']").val() != 1) {
+        		$("#modifyEnable").attr('disabled', 'disabled');
+   	} else {
+        		$('#passwd_user').attr('disabled', 'disabled');
+        		$('#passwd_user_again').attr('disabled', 'disabled');
+	}
         $('#sn').attr('disabled', 'disabled');
+        $('#userModifyDiv').addClass('hide');
+        $('#firstModifyDiv').addClass('hide');
+        $('input[name="modifyPwdAllow"]').attr('disabled', 'disabled');
+        $('input[name="firstChangePwd"]').attr('disabled', 'disabled');
+        $('#userValidTimeDiv').addClass('hide');
+        $('#psswdValidTimeDiv').addClass('hide');
+        $('input[name="validTime"]').attr('disabled', 'disabled');
+        $('input[name="validTime_pwd"]').attr('disabled', 'disabled');
     } else {
+    }
+    if ($("input[name='type']").val() == "edit" && $("input[name='vip']").val() != 1) {
+	enablePasswd();
     }
 }
 
+function enablePasswd() {
+    if ($("#modifyEnable").attr("checked") == 'checked' && $("#modifyEnable").attr("disabled") !== 'disabled') {
+    	$("input[name='passwd_user']").removeAttr("disabled");
+    	$("input[name='passwd_user']").attr("value","");
+    	$("input[name='passwd_user_again']").removeAttr("disabled");
+    	$("input[name='passwd_user_again']").attr("value","");
+    } else {
+	$("input[name='passwd_user']").attr("value","*********");
+    	$("input[name='passwd_user']").attr("disabled",'disabled');
+  
+	$("input[name='passwd_user_again']").attr("value","*********"); 
+	$("input[name='passwd_user_again']").attr("disabled",'disabled');    	
+    }
+}

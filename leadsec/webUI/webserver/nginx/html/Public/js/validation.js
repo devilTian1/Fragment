@@ -1246,6 +1246,15 @@ var validRules = {
         required : function() {
             return $('select[name="recvList"] option:selected').val() !== '';
         }
+    },
+    resTimeName: {
+        required: true,
+        remote: {
+            url: 'Function/resConf/time/timeList.php',
+            data: {
+            	checkExistResTimeName: true
+            }
+        }
     }
 };
 
@@ -1708,7 +1717,11 @@ var validMsg = {
     },
     attachmax: '范围在1-65535.',
     sendfilter: '请选择发件人过滤类型.',
-    recvfilter: '请选择收件人过滤类型.'
+    recvfilter: '请选择收件人过滤类型.',
+    resTimeName: {
+        required: '必填.',
+        remote: '文件名已存在.'
+    }
 };
 
 var groups = {
@@ -1720,6 +1733,8 @@ var errorPlacement = function (error, element) {
         error.insertAfter("label[for='sendfilter_black']");
     } else if (element.attr('name') === "recvfilter") {
         error.insertAfter("label[for='recvfilter_black']");
+    } else {
+        error.insertAfter(element);
     }
 };
 
