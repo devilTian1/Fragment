@@ -1,17 +1,14 @@
 #include <stdio.h>
 
+#define NONBLACK 'a'
+
 main() {
-    int c;
-    int repeatSpace = 0;
+    int c, lastc = NONBLACK;
+
     while ((c = getchar()) != EOF) {
-        if (c == ' ' && repeatSpace == 1) {
-            continue;
-        } else if (c == ' ' && repeatSpace == 0) {
-            repeatSpace = 1;
-            putchar(' ');
-        } else {
-            repeatSpace = 0;
+        if (c != ' ' || lastc != ' ') {
             putchar(c);
         }
+        lastc = c;
     }
 }
