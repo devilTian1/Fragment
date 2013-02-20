@@ -7,6 +7,9 @@
         $db  = new dbsqlite(DB_PATH . '/netgap_db_swap.db');
 	    $sql = "SELECT * FROM db_swap_client_acl $where";
         $result = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
+        	foreach ($result as $key => $arr) {
+        	$result[$key]['sa'] = addrNameDelPreffix($arr['sa']);
+        }
         echo V::getInstance()->assign('dataInfo', $result)
             ->assign('pageCount', 10)
             ->fetch($tpl);
@@ -49,6 +52,11 @@
         return $result;
     }
 
+    function addrNameDelPreffix($name) {
+    	// 去掉最后一个下划线_ipv4或_ipv6
+    	return substr($name,0,-5);    	
+    }
+    
     if ($id = ($_POST['editId'])) {
         // Get specified addrGroup data
 		$sql  = "SELECT * FROM db_swap_client_acl WHERE id = '$id'";

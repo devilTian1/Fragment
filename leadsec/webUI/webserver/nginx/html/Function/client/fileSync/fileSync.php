@@ -7,6 +7,9 @@
         $sql = 'SELECT id, sa, lip, lport, ssl, commname, mode, killvirus, ' .
             "time, comment FROM sync_file_client $where";
         $result = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
+	foreach ($result as $key => $arr) {
+        	$result[$key]['sa'] = addrNameDelPreffix($arr['sa']);
+        }
         echo V::getInstance()->assign('fileSyncClientAcl', $result)
             ->assign('pageCount', 10)
             ->fetch($tpl);
@@ -41,6 +44,11 @@
         $sql = 'SELECT id FROM sync_file_client';
         $db  = new dbsqlite(DB_PATH . '/netgap_new_fs.db');
         return $db->query($sql)->getCount();
+    }
+
+    function addrNameDelPreffix($name) {
+    	// 去掉最后一个下划线_ipv4或_ipv6
+    	return substr($name,0,-5);    	
     }
 
     if ($id = $_POST['editId']) {

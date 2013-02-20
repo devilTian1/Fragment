@@ -6,8 +6,8 @@
     <thead>
     <tr>
       <th class="column_5">任务号</th>
-      <th class="column_10">源地此</th>
-      <th class="column_10">本机地此</th>
+      <th class="column_10">源地址</th>
+      <th class="column_10">本机地址</th>
       <th class="column_10">本地端口</th>
       <th class="column_10">认证/加密</th>
       <th class="column_10">公共名</th>
