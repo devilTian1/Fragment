@@ -1,5 +1,5 @@
 function openEditPhysicalDialog(external_name) {
-    var url  = 'Function/networkMangement/interface/physical.php';
+    var url  = 'Function/networkManagement/interface/physical.php';
     var data = {
         name : external_name
     };
@@ -47,7 +47,7 @@ function switchPhysicalDev(name, action, formId) {
 }
 
 function freshTableAndPage() {
-    var url = 'Function/networkMangement/interface/physical.php';
+    var url = 'Function/networkManagement/interface/physical.php';
     freshTable(url, $('#physicalTable'));
     freshPagination(url, $('.pager'));
 }

@@ -1,7 +1,7 @@
 function openEditRedundanceDevDialog(external_name) {
-    var url  = 'Function/networkMangement/interface/redundance.php';
+    var url  = 'Function/networkManagement/interface/redundance.php';
     var data = {
-        tpl  : 'networkMangement/interface/editRedundanceDialog.tpl',
+        tpl  : 'networkManagement/interface/editRedundanceDialog.tpl',
         name : external_name
     };
     var title   = '修改冗余设备';
@@ -28,10 +28,10 @@ function openEditRedundanceDevDialog(external_name) {
 }
 
 function openNewRedundanceDevDialog() {
-    var url   = 'Function/networkMangement/interface/redundance.php';
+    var url   = 'Function/networkManagement/interface/redundance.php';
     var title = '添加冗余设备';
     var data  = {
-        tpl : 'networkMangement/interface/editRedundanceDialog.tpl',
+        tpl : 'networkManagement/interface/editRedundanceDialog.tpl',
         openNewRedundanceDevDialog : true
     };
     var buttons = {};
@@ -65,7 +65,7 @@ function openNewRedundanceDevDialog() {
 }
 
 function delRedundanceDev(name) {
-    var url  = 'Function/networkMangement/interface/redundance.php';
+    var url  = 'Function/networkManagement/interface/redundance.php';
     var data = {
         delName: name
     };
@@ -134,7 +134,7 @@ function moveToAddrList() {
 }
 
 function freshTableAndPage() {
-    var url = 'Function/networkMangement/interface/redundance.php';
+    var url = 'Function/networkManagement/interface/redundance.php';
     freshTable(url, $('#redundanceTable'));
     freshPagination(url, $('.pager'));
 }

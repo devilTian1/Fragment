@@ -4,9 +4,9 @@ function defaultGatewayData() {
     }
 }
 function openEditStaticRouteDialog(sid) {
-    var url  = 'Function/networkMangement/basic/staticRoute.php';
+    var url  = 'Function/networkManagement/basic/staticRoute.php';
     var data = {
-        tpl    : 'networkMangement/basic/editStaticRouteDialog.tpl',
+        tpl    : 'networkManagement/basic/editStaticRouteDialog.tpl',
         sid : sid
     };
     var title   = '修改静态路由';
@@ -30,10 +30,10 @@ function openEditStaticRouteDialog(sid) {
 }
 
 function openNewStaticRouteDialog() {
-    var url   = 'Function/networkMangement/basic/staticRoute.php';
+    var url   = 'Function/networkManagement/basic/staticRoute.php';
     var title   = '添加静态路由';
     var data  = {
-        tpl : 'networkMangement/basic/editStaticRouteDialog.tpl',
+        tpl : 'networkManagement/basic/editStaticRouteDialog.tpl',
 		type: 'showAdd'
     };
     var buttons = {};
@@ -64,7 +64,7 @@ function openNewStaticRouteDialog() {
 }
 
 function delStaticRoute(delid) {
-    var url  = 'Function/networkMangement/basic/staticRoute.php';
+    var url  = 'Function/networkManagement/basic/staticRoute.php';
     var data = {
         delid: delid
     };
@@ -103,7 +103,7 @@ function openDelStaticRouteDialog(id) {
 }
 
 function changeStaticRouteActive(changeid,argu) {
-    var url  = 'Function/networkMangement/basic/staticRoute.php';
+    var url  = 'Function/networkManagement/basic/staticRoute.php';
     var data = {
         changeid: changeid,
 		argu	: argu
@@ -123,7 +123,7 @@ function changeStaticRouteActive(changeid,argu) {
 }
 
 function freshTableAndPage() {
-    var url = 'Function/networkMangement/basic/staticRoute.php';
+    var url = 'Function/networkManagement/basic/staticRoute.php';
     freshTable(url, $('#staticRouteTable'));
     freshPagination(url, $('.pager'));
 }

@@ -1,7 +1,7 @@
 function openEditAliasDialog(external_name) {
-    var url  = 'Function/networkMangement/interface/alias.php';
+    var url  = 'Function/networkManagement/interface/alias.php';
     var data = {
-        tpl  : 'networkMangement/interface/editAliasDialog.tpl',
+        tpl  : 'networkManagement/interface/editAliasDialog.tpl',
         name : external_name
     };
     var title   = '修改别名设备';
@@ -28,10 +28,10 @@ function openEditAliasDialog(external_name) {
 }
 
 function openNewAliasDialog() {
-    var url  = 'Function/networkMangement/interface/alias.php';
+    var url  = 'Function/networkManagement/interface/alias.php';
     var title   = '添加别名设备';
     var data  = {
-        tpl : 'networkMangement/interface/editAliasDialog.tpl',
+        tpl : 'networkManagement/interface/editAliasDialog.tpl',
         openNewAliasDialog: true
     };
     var buttons = {};
@@ -63,7 +63,7 @@ function openNewAliasDialog() {
 }
 
 function delAlias(name) {
-    var url  = 'Function/networkMangement/interface/alias.php';
+    var url  = 'Function/networkManagement/interface/alias.php';
     var data = {
         delName: name
     };
@@ -124,7 +124,7 @@ function switchAliasDev(name, action, formId) {
 }
 
 function freshTableAndPage() {
-    var url = 'Function/networkMangement/interface/alias.php';
+    var url = 'Function/networkManagement/interface/alias.php';
     freshTable(url, $('#aliasTable'));
     freshPagination(url, $('.pager'));
 }
