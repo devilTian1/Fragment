@@ -26,7 +26,8 @@ $(function(){
 			  <{foreach from=$resall item=res_all name=res_all}>
 				'<{$res_all.id}>':{
 				   'title':'<{$res_all.title}>',
-				   'url':'<{$res_all.url}>'
+				   'pmenu':'<{$res_all.pmenu}>',
+				   'smenu':'<{$res_all.smenu}>'
 					}
 					<{if $smarty.foreach.res_all.last}><{else}>,<{/if}>
 			  <{/foreach}>

@@ -155,7 +155,8 @@ myLib.desktop.deskIcon={
 		_this.init();
 		$("#"+data.id).data("iconData",{
 							'title':data.title,
-					        'url':data.url
+					        'pmenu':data.pmenu,
+							'smenu':data.smenu
 							});
 		
 		}
@@ -341,7 +342,11 @@ myLib.desktop.deskIcon={
  		 //双击图标打开窗口
 		 .click(function(){
 						   var data=$(this).data("iconData"),id=this.id;
-						   showPageByAjax(data.url);
+						   var path={
+								'1':data.pmenu,
+								'2':data.smenu
+									}
+							showTabByAjax(path);
  							})
  		 .draggable({
 					helper: "clone",
@@ -375,7 +380,11 @@ myLib.desktop.deskIcon={
 					text:"打开模块",
 					func:function(){
 						 var data=$(this).data("iconData"),id=this.id;
-						   showPageByAjax(data.url);
+						    var path={
+								'1':data.pmenu,
+								'2':data.smenu
+									}
+							showTabByAjax(path);
 						}
 						}]
 					,[{

@@ -7,16 +7,16 @@
     	$returnArr=array();
     	$returnArr['title']=$leftmenuArr[$ID]['name'];
     	$returnArr['id']=$ID;
-    	$returnArr['img']=$leftmenuArr[$ID]['link'];
+    	$returnArr['img']=$ID;
+    	$returnArr['smenu']=$leftmenuArr[$ID]['link'];
     	
     	$pid=$leftmenuArr[$ID]['pid'];
     	$parr=$leftmenuArr[$pid];
     	if($parr['pid']!==0){
-    		$ppid=$parr['pid'];
-    		$pparr=$leftmenuArr[$ppid];
-    		$returnArr['url']=$pparr['link']."/".$parr['link']."/".$leftmenuArr[$ID]['link'].".php";
+    		return 0;
     	}else {
-    		$returnArr['url']=$parr['link']."/".$leftmenuArr[$ID]['link']."/".$leftmenuArr[$ID]['link'].".php";
+    		$returnArr['pmenu']=$parr['link'];
+    		//$returnArr['url']=$parr['link']."/".$leftmenuArr[$ID]['link']."/".$leftmenuArr[$ID]['link'].".php";
     	}
     	return $returnArr;
     }
@@ -25,7 +25,10 @@
 		$returnArr=array();
 		if($arr[0]=="") return $returnArr;
 		foreach ($arr as $val){
-			$returnArr[]=getArrFromID($val);
+			$temp=getArrFromID($val);
+			if($temp!=0){
+				$returnArr[]=$temp;
+			}
 		}
 		return $returnArr;
 	}
@@ -52,27 +55,15 @@
 			$toplink=$topval['link'];
 			foreach ($subArr as $subkey=>$subval){
 				$returnArr[$topnum]['subarr'][$subnum]['subtitle']=$subval['name'];
-				$childArr=getSubArr($subkey);
-				$childnum=0;
-				$sublink=$subval['link'];
-				if(empty($childArr)){
-						$returnArr[$topnum]['subarr'][$subnum]['children'][$childnum]['title']=$subval['name'];
-						$returnArr[$topnum]['subarr'][$subnum]['children'][$childnum]['id']=$subkey;
-						$returnArr[$topnum]['subarr'][$subnum]['children'][$childnum]['img']=$sublink;
-						$returnArr[$topnum]['subarr'][$subnum]['children'][$childnum]['url']=$toplink.'/'.$sublink.'/'.$sublink.'.php';
-				}else {
-					foreach ($childArr as $key =>$childval){
-						$returnArr[$topnum]['subarr'][$subnum]['children'][$childnum]['title']=$childval['name'];
-						$returnArr[$topnum]['subarr'][$subnum]['children'][$childnum]['id']=$key;
-						$returnArr[$topnum]['subarr'][$subnum]['children'][$childnum]['img']=$childval['link'];
-						$returnArr[$topnum]['subarr'][$subnum]['children'][$childnum]['url']=$toplink.'/'.$sublink.'/'.$childval['link'].'.php';
-						$childnum+=1;
-					}
-				}
+				$returnArr[$topnum]['subarr'][$subnum]['id']=$subkey;
+				$returnArr[$topnum]['subarr'][$subnum]['img']=$subkey;
+				$returnArr[$topnum]['subarr'][$subnum]['pmenu']=$toplink;
+				$returnArr[$topnum]['subarr'][$subnum]['smenu']=$subval['link'];
 				$subnum+=1;
 			}
 			$topnum+=1;
 		}
+		
 		return $returnArr;
 	}
     if (isset($_POST['show'])) {

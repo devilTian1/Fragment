@@ -60,30 +60,22 @@ ul{
 -->
 </style>
 <div id="con">
-    <UL id="tags">
-      <!--<li class="selectTag"><A onClick="selectTag('tagContent0',this)" href="javascript:void(0)">系统管理</A> </li> -->
-       <{foreach from=$res key=key item=resitem name=restop}>
-      		<li <{if $smarty.foreach.restop.first}>class="selectTag"<{/if}>><a onClick="selectTag('tagContent<{$key}>',this)" href="#"><{$resitem.toptitle}></a></li>
-      <{/foreach}>
-      
-    </UL>
     <div id="tagContent">
-    	<{foreach from=$res key=key item=resitem name=restop2}>
-        <div class="tagContent <{if $smarty.foreach.restop2.first}>selectTag<{/if}>" id="tagContent<{$key}>">
+        <div class="tagContent selectTag">
         	 <div class="dhooo_tab">
-                 <ul class="tab_btn" id="myTab_btns<{$key}>">
-                 	<{foreach from=$resitem.subarr item=subitem name=ressub}>
-                      	<li <{if $smarty.foreach.ressub.first}> class="hot" <{/if}>><{$subitem.subtitle}></li>
+                 <ul class="tab_btn" id="myTab_btns">
+                 	<{foreach from=$res key=key item=resitem name=restop}>
+                      	<li <{if $smarty.foreach.restop.first}> class="hot" <{/if}>><{$resitem.toptitle}></li>
                     <{/foreach}>
                  </ul>
-                <div class="main" id="main<{$key}>">
+                <div class="main" id="main">
                     <div class="shell">
                         <ul>
-                        <{foreach from=$resitem.subarr item=subitem}>
+                        <{foreach from=$res key=key item=resitem}>
                              <li>
                                 <ul class="listIcon">
-                                <{foreach from=$subitem.children item=childitem}>
-                                      <li><img src="Public/js/jquery/desktop/icon/<{$childitem.img}>.png" alt="" /><span><{$childitem.title}></span><a href="#" class="add" id="<{$childitem.id}>" rev="<{$childitem.url}>" rel="<{$childitem.img}>" title="<{$childitem.title}>">添加应用</a></li>
+                                <{foreach from=$resitem.subarr item=subitem}>
+                                      <li><img src="Public/js/jquery/desktop/icon/<{$subitem.img}>.png" alt="" /><span><{$subitem.subtitle}></span><a href="#" class="add" id="<{$subitem.id}>" rev="<{$subitem.pmenu}>" rel="<{$subitem.smenu}>" title="<{$subitem.subtitle}>">添加应用</a></li>
                                 <{/foreach}>
                                 </ul>
                              </li>
@@ -93,7 +85,6 @@ ul{
                 </div>
             </div>
          </div>
-         <{/foreach}>
     </div>
 </div>
 <script type="text/javascript" src="Public/js/systemManagement/quick/quick.js"></script>
@@ -101,13 +92,14 @@ ul{
  initdbhooo();
 $(document).ready(function(){
 	$("ul.listIcon li").find("a.add").click(function(){
-				var id=this.id,title=this.title,img=this.rel,url=this.rev;
+				var id=this.id,title=this.title,img=this.id,pmenu=this.rev,smenu=this.ref;
 				//这里的data本应该使用ajax方法从数据库获取，这里直接写到页面
 				var data={
 					'id':id,
 					'title':title,
 					'iconSrc':"Public/js/jquery/desktop/icon/"+img+".png",
-					'url':url
+					'pmenu':pmenu,
+					'smenu':smenu
 					}
 					parent.addIcon(data);
 					return false;

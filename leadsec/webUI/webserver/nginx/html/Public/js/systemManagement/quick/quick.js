@@ -11,7 +11,7 @@ function openNewQuickDialog() {
     };
     var dialogParams = {
         width   : 840,
-        height  : 560,
+        height  : 540,
         buttons : buttons
     };
     showDialogByAjax(url, data, title, dialogParams);
@@ -76,51 +76,8 @@ if(diff==0)clearInterval(me.only);
 
 function initdbhooo(){
 	new dhooo({
-	btns:UIs.call(UI('myTab_btns0'),'LI')
+	btns:UIs.call(UI('myTab_btns'),'LI')
 	,className:'hot'
-	,contentID:'main0'
+	,contentID:'main'
 	,len:760
-	});
-	new dhooo({
-	btns:UIs.call(UI('myTab_btns1'),'LI')
-	,className:'hot'
-	,contentID:'main1'
-	,len:760
-	});
-	new dhooo({
-	btns:UIs.call(UI('myTab_btns2'),'LI')
-	,className:'hot'
-	,contentID:'main2'
-	,len:760
-	});
-	new dhooo({
-	btns:UIs.call(UI('myTab_btns3'),'LI')
-	,className:'hot'
-	,contentID:'main3'
-	,len:760
-	});
-	new dhooo({
-	btns:UIs.call(UI('myTab_btns4'),'LI')
-	,className:'hot'
-	,contentID:'main4'
-	,len:760
-	});
-	new dhooo({
-	btns:UIs.call(UI('myTab_btns5'),'LI')
-	,className:'hot'
-	,contentID:'main5'
-	,len:760
-	});
-	new dhooo({
-	btns:UIs.call(UI('myTab_btns6'),'LI')
-	,className:'hot'
-	,contentID:'main6'
-	,len:760
-	});
-	new dhooo({
-	btns:UIs.call(UI('myTab_btns7'),'LI')
-	,className:'hot'
-	,contentID:'main7'
-	,len:760
-	});
-}
+	});}
