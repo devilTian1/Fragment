@@ -56,7 +56,18 @@
         $cli->run($cmd1);
         $cli->run($cmd2);
         echo json_encode(array('msg' => "[$name]添加成功."));
-    } else {
+    } elseif('getImgData' === $_POST['type']){
+    	$eth=$_POST['eth'];//根据不同的网关来查找相关的数据
+    	$pe=array();
+    	$time=time();
+    	
+    	$pe[0]['x']=$pe[1]['x']=$pe[2]['x']=intval($time)*1000;
+    	$pe[0]['y']=rand(1,20);
+    	$pe[1]['y']=rand(1,20);
+    	$pe[2]['y']=rand(1,20);
+    	echo json_encode($pe);
+    }
+    else {
         // init page data
         $devinfo=getDevInfo();
         $liceinfo=getLicenseInfo();
