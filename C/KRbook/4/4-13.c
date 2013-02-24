@@ -14,7 +14,7 @@ void reverse(char x[]) {
 }   
 
 main() {
-    char x[] = "t";
+    char x[] = "xy";
     void reverse(char []);
     reverse(x);
     printf("%s\n", x);
