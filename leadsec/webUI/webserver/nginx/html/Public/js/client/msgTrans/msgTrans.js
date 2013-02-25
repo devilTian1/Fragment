@@ -118,6 +118,21 @@ function switchmsgTrans(id, action) {
     dialog.setContent('<p>确定' + str + '任务[' +  id + ']吗?</p>');
     dialog.setOptions(dialogParams);
 }
+function filterRes() {
+    var type    = $('input:radio[name="ipType"]:checked').val();
+    var saOpts  = $('select[name="sAddress"]');
+    var lipOpts = $('select[name="lAddress"]');
+    saOpts.children('span').showOption(); 
+    lipOpts.children('span').showOption(); 
+    if (type === 'ipv4') {
+        saOpts.find('option[value$="_ipv6"]').hideOption();
+        lipOpts.find('option[value*=":"]').hideOption();
+    } else if (type === 'ipv6') {
+        saOpts.find('option[value$="_ipv4"]').hideOption();
+        lipOpts.find('option[value*="."]').hideOption();
+    } else {
+    }
+}
 function freshTableAndPage() {
     var url = 'Function/client/msgTrans/msgTrans.php';
     freshTable(url, $('#msgTransTable'));

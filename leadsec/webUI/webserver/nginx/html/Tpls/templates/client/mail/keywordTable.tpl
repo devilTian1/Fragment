@@ -3,7 +3,13 @@
         <td><{$key+1}></td>        
         <td><{$array.name}></td>
         <td><{$array.value}></td>
-        <td><{$array.type}></td>
+        <td>
+            <{if $array.type == 'subject'}>
+                                          主题           
+            <{else}>
+                                        正文
+            <{/if}>
+        </td>
         <td><{$array.comment}></td>
         <td class="no_search">
             <a href="#" class="edit" onclick="openEditKeywordDialog('<{$array.id}>')">编辑</a>

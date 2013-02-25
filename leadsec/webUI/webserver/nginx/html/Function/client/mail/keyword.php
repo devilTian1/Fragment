@@ -46,7 +46,7 @@
         $sql = "SELECT * FROM keyword WHERE id='$id'";
         $result = $db->query($sql)->getFirstData(PDO::FETCH_ASSOC);
         $keywordList = split(',',$result['value']);
-        $keywordType = $result['type'] === '主题' ? 'subject' : 'context';
+        $keywordType = $result['type'] === 'subject' ? 'subject' : 'context';
         $result = V::getInstance()
         	->assign('editKeyword', $result)
         	->assign('keywordList', $keywordList)

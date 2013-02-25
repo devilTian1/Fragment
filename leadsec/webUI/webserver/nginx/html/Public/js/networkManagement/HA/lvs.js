@@ -1,7 +1,7 @@
 function openEditLvsDialog(sid) {
-    var url  = 'Function/networkManagement/HA/lvs.php';
+    var url  = 'Function/networkMangement/HA/lvs.php';
     var data = {
-        tpl    : 'networkManagement/HA/editLvsDialog.tpl',
+        tpl    : 'networkMangement/HA/editLvsDialog.tpl',
         sid : sid
     };
     var title   = '修改负载均衡';
@@ -25,10 +25,10 @@ function openEditLvsDialog(sid) {
 }
 
 function openNewLvsDialog() {
-    var url   = 'Function/networkManagement/HA/lvs.php';
+    var url   = 'Function/networkMangement/HA/lvs.php';
     var title   = '添加负载均衡';
     var data  = {
-        tpl : 'networkManagement/HA/editLvsDialog.tpl',
+        tpl : 'networkMangement/HA/editLvsDialog.tpl',
 		type: 'showAdd'
     };
     var buttons = {};
@@ -59,7 +59,7 @@ function openNewLvsDialog() {
 }
 
 function delLvs(delid) {
-    var url  = 'Function/networkManagement/HA/lvs.php';
+    var url  = 'Function/networkMangement/HA/lvs.php';
     var data = {
         delid: delid
     };
@@ -98,7 +98,7 @@ function openDelLvsDialog(id) {
 }
 
 function freshTableAndPage() {
-    var url = 'Function/networkManagement/HA/lvs.php';
+    var url = 'Function/networkMangement/HA/lvs.php';
     freshTable(url, $('#lvsTable'));
     freshPagination(url, $('.pager'));
 }

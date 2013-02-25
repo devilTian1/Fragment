@@ -143,7 +143,7 @@
         // Get specified  data
         $id = $_POST['editId'];
         $sql = 'SELECT id, dbtype, sa, lip, lport, time, active, filter, ' .
-            "comment FROM db_comm_client_acl WHERE id = '$id'";
+            "comment,ip_ver FROM db_comm_client_acl WHERE id = '$id'";
         $db  = new dbsqlite(DB_PATH . '/netgap_db.db');
         $result = $db->query($sql)->getFirstData(PDO::FETCH_ASSOC);
         //print_r( $result);

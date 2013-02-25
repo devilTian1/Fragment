@@ -38,7 +38,7 @@
     	<div class="row">
     		<label>发件人过滤类别:</label>
     		<{html_radios class="radio" name=sendfilter label_ids=true values=array('white', 'black')
-              output=array('white', 'black') selected=$editFilter.sflag
+              output=array('white', 'black') selected=$editFilter.sflag|default: 'white'
             }>  		
     	</div>
     	
@@ -51,7 +51,7 @@
     	<div class="row">
     		<label>收件人过滤类别:</label>
     		<{html_radios class="radio" name=recvfilter label_ids=true values=array('white', 'black')
-              output=array('white', 'black') selected=$editFilter.rflag
+              output=array('white', 'black') selected=$editFilter.rflag|default: 'white'
             }>      		 		
     	</div>
     	

@@ -12,12 +12,6 @@
             ->fetch($tpl);
     }
 
-    function getOnlineUserInfo() {
-        $result = array();
-        //fileLinesToArr($_SERVER['DOCUMENT_ROOT'] . '/Logs/onlineUsers', 65535);
-        return $result;
-    }
-
     function freshUserList($where) {
         $tpl = 'resConf/user/editUserListByRoleIdTable.tpl';
         $db  = new dbsqlite(DB_PATH . '/uma_auth.db');
@@ -32,8 +26,6 @@
 
         $authType = array('VIP', 'local pwd',     'local cert',
                           '',    '2-fa/ cert+pw', '2-fa / dyn + pw');
-
-        $olUser = getOnlineUserInfo();
 
         $result   = array();
         foreach ($data as $d) {

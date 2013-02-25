@@ -19,7 +19,14 @@
                     values=array('oracle','sqlserver2005','sqlserver2008')
                     selected=$res.dbtype|default: 'oracle'}>
         </div>
-        
+        <div class="row">
+            <label for="active">ip地址类型:</label>
+            <{html_radios class="radio" name=ipType label_ids=true
+                output=array('ipv4', 'ipv6')
+                values=array('ipv4', 'ipv6')
+                selected=$res.ip_ver|default: 'ipv4'
+                onClick="filterRes()"}>
+        </div>
          <div class="row">
           <label for="destip">源地址:<em class="required">*</em></label>
           <{html_options  class="w200" name="sAddress" id="sAddress"
@@ -78,6 +85,7 @@
 <script type="text/javascript" src="Public/js/clueTip/jquery.cluetip.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
+	filterRes();
     renderStandardUi();
     validateForm($("#editForm"));
 });

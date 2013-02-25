@@ -1,7 +1,7 @@
 function openEditViraddrDialog(sid) {
-    var url  = 'Function/networkManagement/HA/viraddr.php';
+    var url  = 'Function/networkMangement/HA/viraddr.php';
     var data = {
-        tpl    : 'networkManagement/HA/editViraddrDialog.tpl',
+        tpl    : 'networkMangement/HA/editViraddrDialog.tpl',
         sid : sid
     };
     var title   = '修改虚拟地此';
@@ -25,10 +25,10 @@ function openEditViraddrDialog(sid) {
 }
 
 function openNewViraddrDialog() {
-    var url   = 'Function/networkManagement/HA/viraddr.php';
+    var url   = 'Function/networkMangement/HA/viraddr.php';
     var title   = '添加虚拟地此';
     var data  = {
-        tpl : 'networkManagement/HA/editViraddrDialog.tpl',
+        tpl : 'networkMangement/HA/editViraddrDialog.tpl',
 		type: 'showAdd'
     };
     var buttons = {};
@@ -59,7 +59,7 @@ function openNewViraddrDialog() {
 }
 
 function delStaticRoute(delid) {
-    var url  = 'Function/networkManagement/HA/viraddr.php';
+    var url  = 'Function/networkMangement/HA/viraddr.php';
     var data = {
         delid: delid
     };
@@ -98,7 +98,7 @@ function openDelViraddrDialog(id) {
 }
 
 function freshTableAndPage() {
-    var url = 'Function/networkManagement/HA/viraddr.php';
+    var url = 'Function/networkMangement/HA/viraddr.php';
     freshTable(url, $('#viraddrTable'));
     freshPagination(url, $('.pager'));
 }

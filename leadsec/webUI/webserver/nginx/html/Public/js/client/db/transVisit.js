@@ -132,7 +132,12 @@ function getOracleDataIp(tableDom) {
     	oracleDataIp: oracleDataIp
     }
 }
-
+function filterRes() {
+    var saOpts  = $('select[name="sAddress"]');
+    var daOpts  = $('select[name="lAddress"]');
+    saOpts.find('option[value$="_ipv6"]').hideOption();
+    daOpts.find('option[value$="_ipv6"]').hideOption();
+}
 function freshOracleDataIpTable(url,tableDom,oracleDataIp) {
     if (!oracleDataIp) {
         var oracleDataIp = getOracleDataIp(tableDom);

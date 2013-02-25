@@ -11,7 +11,14 @@
              <input type="hidden" name="msgTransId" value="<{$res.id}>"/>
          <{/if}>
         </div>
-        
+        <div class="row">
+            <label for="active">ip地址类型:</label>
+            <{html_radios class="radio" name=ipType label_ids=true
+                output=array('ipv4', 'ipv6')
+                values=array('ipv4', 'ipv6')
+                selected=$res.ip_ver|default: 'ipv4'
+                onClick="filterRes()"}>
+        </div>
         <div class="row">
           <label>源地址:</label>
           <{html_options  class="w200" name="sAddress" id="sAddress"
@@ -71,6 +78,7 @@
 </form>
 <script type="text/javascript">
 $(document).ready(function(){
+	filterRes();
     renderStandardUi();
     validateForm($("#editForm"));
 });

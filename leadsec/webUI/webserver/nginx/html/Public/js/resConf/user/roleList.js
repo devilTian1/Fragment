@@ -234,10 +234,14 @@ function freshTableAndPage(tableDom, pageDom) {
     if (id !== undefined) {
         url += '?roleId=' + id;
     }
-    if (tableDom === undefined) {
+    if ($('#userListTable').length === 1) {
+        tableDom = $('#userListTable');
+    } else if (tableDom === undefined) {
         tableDom = $('#roleListTable');
     }
-    if (pageDom === undefined) {
+    if ($('#userPageDiv').length === 1) {
+        pageDom = $('#userPagerDiv');
+    } else if (pageDom === undefined) {
         pageDom = $('#rolePagerDiv');
     }
     freshTable(url, tableDom, false, pageDom);

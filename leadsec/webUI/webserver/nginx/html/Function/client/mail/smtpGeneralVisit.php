@@ -53,7 +53,8 @@
         // Show Dialog to get specified smtp comm client acl data
 	    $sql  = "SELECT * FROM smtp_comm_client_acl WHERE id = $id";
         $db   = new dbsqlite(DB_PATH . '/netgap_mail.db');
-        $data = $db->query($sql)->getFirstData(PDO::FETCH_ASSOC);
+        $data = $db->query($sql)->getFirstData(PDO::FETCH_ASSOC);   
+        //print_r($data);    	 
         $tpl  = 'client/mail/smtpGeneralVisit_editDialog.tpl';
         $result = V::getInstance()
             ->assign('addrOptions', netGapRes::getInstance()->getAddr())

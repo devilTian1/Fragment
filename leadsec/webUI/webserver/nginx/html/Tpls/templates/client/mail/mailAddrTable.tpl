@@ -3,7 +3,13 @@
         <td><{$key+1}></td>        
         <td><{$array.name}></td>
         <td><{$array.value}></td>
-        <td><{$array.type}></td>
+        <td>
+            <{if $array.type == 'recv'}>
+                                          收件人           
+            <{else}>
+                                        发件人
+            <{/if}>
+        </td>
         <td><{$array.comment}></td>
         <td class="no_search">
             <a href="#" class="edit" onclick="openEditMailAddrDialog('<{$array.id}>')">编辑</a>

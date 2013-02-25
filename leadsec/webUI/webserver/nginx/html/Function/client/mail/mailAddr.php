@@ -32,7 +32,7 @@
     	$name = $_POST['mailName'];    	
     	$mailArr = $_POST['mailList'];
         $mail = join(',',$mailArr);
-        $mailType = $_POST['mailType'] === 'recv' ? 'recv' : 'sender';
+        $mailType = $_POST['mailType'] === 'recv' ? 'recv' : 'send';
         $comment = $_POST['comment'];
     	$cmd = "mailresource $action mailaddr name $name value $mail type $mailType comment $comment";
     	return $cmd;
@@ -46,7 +46,7 @@
         $sql = "SELECT * FROM mailaddr WHERE id='$id'";
         $result = $db->query($sql)->getFirstData(PDO::FETCH_ASSOC);
         $mailList = split(',',$result['value']);
-        $mailType = $result['type'] === '收件人' ? 'recv' : 'send';
+        $mailType = $result['type'] === 'recv' ? 'recv' : 'send';
         $result = V::getInstance()
         	->assign('editMail', $result)
         	->assign('mailList', $mailList)

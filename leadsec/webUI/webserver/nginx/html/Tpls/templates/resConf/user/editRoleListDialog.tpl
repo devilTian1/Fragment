@@ -42,7 +42,7 @@
         </div>
     </fieldset>
 </form>
-<script type="text/javascript" src="Public/js/resConf/user/userGroup.js"></script>
+<script type="text/javascript" src="Public/js/resConf/user/roleList.js"></script>
 <script  type="text/javascript"> 
 $(document).ready(function() {
     renderStandardUi();

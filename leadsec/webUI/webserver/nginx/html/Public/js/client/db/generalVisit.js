@@ -98,6 +98,21 @@ function openDelDialog(id) {
     dialog.setContent("<p>确定要删除名称为" + id + "的普通访问吗?</p>");
     dialog.setOptions(dialogParams);   
 }
+function filterRes() {
+    var type    = $('input:radio[name="ipType"]:checked').val();
+    var saOpts  = $('select[name="sAddress"]');
+    var laOpts = $('select[name="lAddress"]');
+    saOpts.children('span').showOption(); 
+    laOpts.children('span').showOption(); 
+    if (type === 'ipv4') {
+        saOpts.find('option[value$="_ipv6"]').hideOption();
+        laOpts.find('option[value*=":"]').hideOption();
+    } else if (type === 'ipv6') {
+        saOpts.find('option[value$="_ipv4"]').hideOption();
+        laOpts.find('option[value*="."]').hideOption();
+    } else {
+    }
+}
 function switchClientCommSer(id, action) {
     var title   = '启动/停止任务';
     var dialog  = loadingScreen(title);

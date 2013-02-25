@@ -31,7 +31,7 @@
           <label for="destip">目的地址:<em class="required">*</em></label>
           <{html_options  class="w200" name="lAddress" id="lAddress"
                     output=$localIp values=$localIpValue
-                    selected=$res.dp|default: 'any'}>
+                    selected=$res.da|default: 'any'}>
         </div>
         
          <div class="row">
@@ -78,6 +78,7 @@
 <script type="text/javascript" src="Public/js/clueTip/jquery.cluetip.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
+	filterRes();
     renderStandardUi();
     validateForm($("#editForm"));
 });
