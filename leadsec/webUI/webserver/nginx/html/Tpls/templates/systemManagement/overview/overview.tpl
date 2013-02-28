@@ -141,134 +141,133 @@ a,img{border:0;}
 
 <br class="clearFloat"/>
 <script type="text/javascript" src="Public/js/systemManagement/overview/overview.js"></script>
-<script type="text/javascript" src="Public/js/jquery/jquery.sparkline.min.js"></script>
 
-<!--[if lt IE 9]><script language="javascript" type="text/javascript" src="Public/js/jquery/jqplot/excanvas.min.js"></script><![endif]-->
-<script language="javascript" type="text/javascript" src="Public/js/jquery/jqplot/jquery.jqplot.min.js"></script>
-<script language="javascript" type="text/javascript" src="Public/js/jquery/jqplot/plugins/jqplot.cursor.min.js"></script>
-
-<link rel="stylesheet" type="text/css" href="Public/js/jquery/jqplot/jquery.jqplot.min.css" />
-
+<script src="Public/js/jquery/Highcharts/highcharts.js"></script>
 
 <script type="text/javascript">
 $(document).ready(function (){
 		var setTimeout_flag=-1;
+		var setTimeIntval=3000;//多少时间更新一次
 		var maxEthNum=6;//网卡数量
-		function setSparkLine(eth) {
-			var eth=eth
-			var mrefreshinterval = 1000; // update display every 500ms
-			var mpoints=[],mpoints2=[],mpoints3=[];
-			var mpoints_max = 232;
-			var mdraw = function() {
-				var pps=Math.ceil(100*Math.random()),
-				    pps2=20,
-					pps3=Math.ceil(100*Math.random());
-				mpoints.push(pps);
-				mpoints2.push(pps2);
-				mpoints3.push(pps3);
-				
-				if (mpoints.length > mpoints_max){
-					mpoints.splice(0,1);
-				}
-				if (mpoints2.length > mpoints_max){
-					mpoints2.splice(0,1);
-				}
-				if (mpoints3.length > mpoints_max){
-					mpoints3.splice(0,1);
-				}
-				
-				$('.zoompic').sparkline(mpoints, {width: mpoints.length*4, 
-										   			  height:150,
-													  spotRadius:3,
-													  fillColor: false, 
-													  tooltipPrefix:'网卡:'+eth+'; 当前速度：', 
-													  tooltipSuffix: 'kb/s',
-													  defaultPixelsPerValue:50,
-													  //tooltipChartTitle:'信息提示',
-													  tooltipFormat:'<span style="color: {{color}}">&#9679;</span>{{prefix}}{{y}}{{suffix}}</span>'
-													 });
-				$('.zoompic').sparkline(mpoints2, {   width: mpoints2.length*4, 
-										   			  height:150,
-													  spotRadius:3,
-													  composite: true,
-													  fillColor: false, 
-													  lineColor: 'yellow',
-													  tooltipPrefix:'网卡:'+eth+'; 信息量：', 
-													  tooltipSuffix: 'kb/s',
-													  defaultPixelsPerValue:50,
-													  //tooltipChartTitle:'信息提示',
-													  tooltipFormat:'<span style="color: {{color}}">&#9679;</span>{{prefix}}{{y}}{{suffix}}</span>'
-													 });
-				
-				$('.zoompic').sparkline(mpoints3, {   width: mpoints3.length*4, 
-										   			  height:150,
-													  spotRadius:3,
-													  composite: true,
-													  fillColor: false, 
-													  lineColor: 'red',
-													  tooltipPrefix:'网卡:'+eth+'; 信息量2：', 
-													  tooltipSuffix: 'kb/s',
-													  defaultPixelsPerValue:50,
-													  //tooltipChartTitle:'信息提示',
-													  tooltipFormat:'<span style="color: {{color}}">&#9679;</span>{{prefix}}{{y}}{{suffix}}</span>'
-													 });
-				
-				setTimeout_flag=setTimeout(mdraw, mrefreshinterval);
-			}
-			// We could use setInterval instead, but I prefer to do it this way
-			setTimeout_flag=setTimeout(mdraw, mrefreshinterval); 
-		};
-		//setSparkLine("eth0");
+/************************************************************************************************************************************/
+	   Highcharts.setOptions({
+            global: {
+                useUTC: false
+            }
+        });
+        var chart;
+		function setHighcharts(eth){
+			clearInterval(setTimeout_flag);
+			var data_pe=(function() {
+                    // generate an array of random data
+                    var data = [],
+                        time = (new Date()).getTime(),
+                        i;
+    
+                    for (i = -19; i <= 0; i++) {
+                        data.push({
+                            x: time + i * 1000,
+                            y: 0
+                        });
+                    }
+                    return data;
+                })()
+        	chart = new Highcharts.Chart({
+            chart: {
+                renderTo: 'zoompic',
+                type: 'spline',
+                marginRight: 10,
+                events: {
+                    load: function() {
+                        // set up the updating of the chart each second
+                        var series0 = this.series[0];
+						var series1 = this.series[1];
+						var series2 = this.series[2];
+                        setTimeout_flag=setInterval(function() {
+							$.post("Function/systemManagement/overview/overview.php", {type:'getImgData',eth: eth },
+							  function(data){
+								  if (typeof(JSON) == 'undefined'){  
+										 jsondata = eval("("+data+")");  
+								  }else{  
+										 jsondata = JSON.parse(data);  
+								  } 
+								  series0.addPoint([jsondata[0].x, jsondata[0].y], true, true);
+								  series1.addPoint([jsondata[1].x, jsondata[1].y], true, true);
+								  series2.addPoint([jsondata[2].x, jsondata[2].y], true, true);
+								  //alert("Data Loaded: " + data);
+							  });
+                        }, setTimeIntval);
+                    }
+                }
+            },
+            title: {
+                text: ''
+            },
+            xAxis: {
+                type: 'datetime',
+                tickPixelInterval: 150
+            },
+            yAxis: {
+                title: {
+                    text: '流量(M/s)'
+                },
+                plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: '#808080'
+                }]
+            },
+            tooltip: {
+                formatter: function() {
+                        return '<b>选项：'+ this.series.name +'</b><br/>时间：'+
+                        Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) +'<br/>数值：'+
+                        Highcharts.numberFormat(this.y, 2);
+                }
+            },
+            legend: {
+				enabled:true,
+				layout: 'vertical',
+                align: 'left',
+                verticalAlign: 'top',
+                x: 60,
+                y: 0,
+                floating: true
+               /* backgroundColor: '#FFFFFF',
+                borderWidth: 1*/
+            },
+            exporting: {
+                enabled: false
+            },
+            series: [{
+                name: 'PE0',
+                data:data_pe
+            },
+			{
+                name: 'PE1',
+                data: data_pe
+            },
+			{
+                name: 'PE2',
+                data: data_pe
+            }]
+        });
+  }
+		
+/************************************************************************************************************************************/
 	
-	function setSplotLine(){
-		var arr_pot1=[1,2,10,11,2,4,6,8,12,15,11,23,13,16,12,1],
-			arr_pot2=[4,5,6,8,12,4,12,12,1,9,10,9,1,14,2,12],
-			arr_pot3=[9,2,10,3,1,9,10,8,12,15,11,34,18,12,1,23];
-			
-		$.jqplot('zoompic',[arr_pot1,arr_pot2,arr_pot3],
-			{	
-				animate: true,
-				animateReplot: true,
-				cursor: {           
-					show: true,           
-					zoom: true,            
-					looseZoom: true,           
-					showTooltip: true        
-				},
-				legend: {        
-					show: true,       
-					placement: 'outsideGrid'
-				},
-				series:[
-					{label:'FE0'},
-					{label:'FE1'},
-					{label:'FE2'}
-				],
-				axes: {
-					xaxis: {
-					 ticks:[[1, '1:00'],[2,'2:00'],[3,'3:00'],[4,'4:00'],[5,'5:00'],[6,'6:00'],[7,'7:00'],[8,'8:00'],[9,'9:00'],[10,'10:00']
-							,[11,'11:00'],[12,'12:00'],[13,'13:00'],[14,'14:00'],[15,'15:00'],[16,'16:00']]
-					},
-					yaxis: {               
-						tickOptions: {                 
-							formatString: "%'dM"             
-						}          
-					 }
-			 }
-		});
-	}
-		
-		
 	for(var i=0;i<=maxEthNum;i++){
 		$("#eth"+i).click(function(){
 				var id=$(this).attr("id");
 				var flag=$(this).attr("rel");
 				$("#thumbnail li.current").removeClass("current");
 				$(this).parents("li").addClass("current");
-				clearTimeout(setTimeout_flag);	 
+				clearInterval(setTimeout_flag);
 				if(flag==1){//有流量控制
 					$(".zoompic").removeClass("zoompic_bg");
-					setSplotLine();
+					//$(".zoompic").html("");
+					setHighcharts(id);
+					//setCubism(id);
+					//setSplotLine(id);
 					//setSparkLine(id);	
 				}else{
 					$(".zoompic").html("");
