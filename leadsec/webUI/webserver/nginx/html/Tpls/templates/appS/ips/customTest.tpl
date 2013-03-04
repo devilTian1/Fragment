@@ -1,4 +1,5 @@
-<table class="column_95 textMid tablesorter" id="addrTable">
+<{include file='layout/search.tpl' tableId='customTestTable'}>
+<table class="column_95 textMid tablesorter" id="customTestTable">
     <caption>
   	自定义检测
     </caption>
@@ -15,7 +16,10 @@
         </tr>
     </thead>
     <tbody>
-        <tr>
+    	<tr>
+     	<td colspan='8'>Loading ... ...</td>
+     </tr>
+       <!-- <tr>
             <td>1</td>
             <td></td>
             <td></td>
@@ -28,15 +32,23 @@
             	<a href="#" class="edit" onclick="editRedundance()">编辑</a>
         		<a href="#" class="delete" onclick="delRedundance()">删除</a> 
             </td>
-        </tr>
+        </tr>-->
     </tbody>
 </table>
-<button class="standard floatLeft" style="position: static"
-    onclick="openNewAddrListDialog()"
-    id="addAddr">添加
+  <button class="standard floatLeft" style="position: static"
+    onclick="openNewCustomTestDialog()"
+    id="addAlias">添加
 </button>
-<script type="text/javascript"> 
-    $(document).ready(function() {
-      $("#addAddr").button();
-    });
+<div class="pager floatRight">
+    <{include file='layout/pagination.tpl' func='Function/appS/ips/customTest.php'}>
+</div>
+
+<script type="text/javascript" src="Public/js/appS/ips/customTest.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+    renderStandardUi();
+    freshTable('Function/appS/ips/customTest.php', $('#customTestTable'), 'ORDER BY external_name ASC LIMIT 10');
+    sortTableInit($('#customTestTable'), {7: {sorter: false}});
+});
 </script>
+
