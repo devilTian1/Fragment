@@ -29,8 +29,8 @@ void ungets(char s[]) {
 
 int li = 0;
 char line[MAXLINE];
-int getlines(char line[], int max);
-
+//int getlines(char line[], int max);
+/*
 int getop(char s[]) {
     int i, c;
         
@@ -47,8 +47,7 @@ int getop(char s[]) {
 
     i = 0;
     if (!isdigit(c) && c != '.' && c != '-') {
-        return c;
-    }
+        return c;    }
     /*
     if (c == '-') {
         if (isdigit(c = getch()) || c == '.') {
@@ -61,6 +60,7 @@ int getop(char s[]) {
         }
     }
     */
+/*
     if (isdigit(c)) {
         //while (isdigit(s[++i] = c = getch())) {
         while (isdigit(s[++i] = c = line[li++])) {
@@ -79,6 +79,8 @@ int getop(char s[]) {
         ungetch(c);
     }
     */
+/*
     li--;
     return NUMBER;
 }
+*/
