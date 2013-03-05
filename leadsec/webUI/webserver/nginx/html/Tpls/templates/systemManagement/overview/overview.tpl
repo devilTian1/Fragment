@@ -186,11 +186,15 @@ $(document).ready(function (){
                         setTimeout_flag=setInterval(function() {
 							$.post("Function/systemManagement/overview/overview.php", {type:'getImgData',eth: eth },
 							  function(data){
+								  if(document.getElementById("zoompic")==null){
+								  	 clearInterval(setTimeout_flag);
+								  }
 								  if (typeof(JSON) == 'undefined'){  
 										 jsondata = eval("("+data+")");  
 								  }else{  
 										 jsondata = JSON.parse(data);  
 								  } 
+								  
 								  series0.addPoint([jsondata[0].x, jsondata[0].y], true, true);
 								  series1.addPoint([jsondata[1].x, jsondata[1].y], true, true);
 								  series2.addPoint([jsondata[2].x, jsondata[2].y], true, true);
@@ -203,6 +207,9 @@ $(document).ready(function (){
             title: {
                 text: ''
             },
+			credits:{
+				enabled:false
+			},
             xAxis: {
                 type: 'datetime',
                 tickPixelInterval: 150
