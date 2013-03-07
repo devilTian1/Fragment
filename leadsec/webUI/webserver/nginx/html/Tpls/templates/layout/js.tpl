@@ -6,6 +6,7 @@
 <script type="text/javascript" src="Public/js/jquery/jquery.form.js"></script>
 <script type="text/javascript" src="Public/js/jquery/jquery.validate.min.js"></script>
 <script type="text/javascript" src="Public/js/jquery/jquery.tooltip.min.js"></script>
+<script type="text/javascript" src="Public/js/jquery/nicescroll/jquery.nicescroll.min.js"></script>
 <script type="text/javascript" src="Public/js/tip/msgbox.js"></script>
 <!-- Put our libraries next -->
 <script type="text/javascript" src="Public/js/common.js"></script>
@@ -27,7 +28,7 @@
         // load content div
         refreshTabs();
         //set height/width of content_inner
-        $("#mainZone").width($("#content").width()-$("#content>.secondary").width());
+        $("#mainZone").width($("#content").width()-$("#content>.secondary").width()+20);
         var mainZoneWidth = $("#mainZone").width();
 		$("#header .right_nav").width(mainZoneWidth-210)
         // end init layout
@@ -128,5 +129,8 @@
 					}
 			showTabByAjax(path);
 		})();
+		//beautify scroll html
+		$("html").niceScroll({cursorborder:"",cursorcolor:"#4d8fc7",boxzoom:true});
+		$("#mainContent").niceScroll({cursorborder:"",cursorcolor:"#4d8fc7",boxzoom:true});
     });
 </script>

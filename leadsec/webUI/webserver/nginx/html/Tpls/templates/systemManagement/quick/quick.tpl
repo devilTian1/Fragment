@@ -67,7 +67,7 @@ function addIcon(data){
 <{foreach from=$res1 item=res_1 name=res_1}>
   <li class="desktop_icon" id="<{$res_1.id}>"> <span class="icon"><img src="Public/js/jquery/desktop/icon/<{$res_1.img}>.png"/></span> <div class="text"><{$res_1.title}><s></s></div> </li>
 <{/foreach}>
-  <li class="desktop_icon add_icon" id="addIcon0"> <span class="icon"><img src="Public/js/jquery/desktop/themes/default/images/add_icon.png"/></span> <div class="text">添加 <s></s></div> </li>
+  <li class="desktop_icon add_icon" id="addIcon0"> <span class="icon"><img src="Public/js/jquery/desktop/themes/default/images/add_icon.png"/></span> <div class="text" style="color:#06C; font-weight:bold; letter-spacing:2px;">添加 <s></s></div> </li>
 </ul>
 
 <ul class="deskIcon">
