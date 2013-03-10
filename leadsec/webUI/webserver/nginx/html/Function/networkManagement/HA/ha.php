@@ -60,7 +60,21 @@
                 $result[$curDevName][$key] = $val;
             }
         }
-        var_dump($result);
+       // var_dump($result);
     }
-    freshStatus();
+    
+    if (@$_GET['act']=='getstatus') {
+    	$id=$_GET['id'];//根据唯一ID来判断
+       	//echo 1;//正常
+       //echo 0;//为启动
+       	echo -1;//异常
+        
+    }else {
+        // init page data
+        V::getInstance()->assign('dataCount', $result)
+            ->assign('pageCount', ceil($result/10))
+            ->assign('clickedPageNo', 1)
+	        ->assign('prev', 1)
+	        ->assign('next', 2);
+    }
 ?>

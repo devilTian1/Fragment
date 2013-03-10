@@ -1,182 +1,162 @@
-<style type="text/css">
-	#hotstandby{ margin-left:30px;}
-	#gapBox1{ width:150px; height:600px; background:#CCC; float:left; position:relative}
-	#midBox{ width:600px; height:600px; background:#eee; float:left; position:relative;}
-	#gapBox2{ width:150px; height:600px; background:#CCC; float:left; position:relative}
-	
-	#mainBox{width:100%; height:220px; background:#0C9; position:absolute; top:0;}
-	#mainBox .inner_content{border-bottom:2px solid #FC0; height:110px;position:relative;}
-	
-	/*#mainBox .inner_content span{
-	position:absolute;
-	left:36px;
-	top:11px;
-	color:#F00;
-	font-size:14px;
-	font-weight:bold;
-	}*/
-	#mainBox .out_content{border-top:2px solid #FC0; height:110px;position:relative;}
-	/*#mainBox .out_content span{
-		position:absolute;
-		left:0px;
-		top:0px;color:#F00; font-size:14px; font-weight:bold;
-	}*/
-	#chongBox{width:100%; height:220px; background:#0C9; position:absolute; bottom:0;}
-	#chongBox .inner_content{border-bottom:2px solid #FC0; height:110px; position:relative;}
-	#chongBox .out_content{border-top:2px solid #FC0; height:110px; position:relative;}
-	/*#chongBox .inner_content span{
-		position:absolute;
-		left:0px;
-		top:0px;color:#F00; font-size:14px; font-weight:bold;
-	}
-	#chongBox .out_content span{
-		position:absolute;
-		left:0px;
-		top:0px;color:#F00; font-size:14px; font-weight:bold;
-	}*/
-	
-	.netcard{ position:absolute; width:100%; height:40px;  top:50%; padding:0 30px;}
-    .netcard .networdcard{ width:20px; height:20px; border:2px solid #09F; float:left; background:#CF3; margin:5px}
-	.netcard .networdcard2{ background:#00C;}
-.content_con{
-	padding:20px 10px;
-	position:absolute;
-	left:0;
-	top:0;
-	width: 452px;
-	height: 58px;
-}
-.content_con .logo{ 
-	float:left;
-	width:40px;
-	border:1px solid #C00;
-	height:20px;
-}
-.content_con .name{
-	 float:left;
-	font-size:16px; font-weight:bold; color:#F00; padding-right:20px;
-}
-.content_con .status_{
-    float:left;
-	font-size:14px;
-	color:#333;
-}
-.content_con .status_ span{ font-size:16px; color:#0FF; font-weight:bold}
-
-#leftline{
-	position:absolute;
-	width:80px;
-	height:404px;
-	border:#F00 3px solid;
-	border-right:none;
-	right:0;
-	top: 44px;
-}
-#rightline{
-	position:absolute;
-	width:80px;
-	height:404px;
-	border:#F00 3px solid;
-	border-left:none;
-	left:0;
-	top:160px;
-}
-</style>
+<link type="text/css" rel="stylesheet" href="<{$smarty.const.THEME_PATH}>/css/ha.css"/>
 <div id="hotstandby">
-   <!--左边部分-->
-   <div id="gapBox1">
-   		<div id="leftline"></div>
-   </div>
    <!--中间部分-->
    <div id="midBox">
-	<div id="mainBox">
-        <div class="inner_content">
-        	<div class="content">
-                <div class="content_con">
-                    <div class="logo">LOGO</div>
-                    <div class="name">主(内)</div>
-                    <div class="status_">状态：<img src="<{$smarty.const.THEME_PATH}>/images/icon/showlink.gif" width="16" height="18" />(<span>正常</span>)</div>
+     <!--左边部分-->
+   		<div id="midBox_left"></div>
+        <div id="midBox_cen">
+        	<!--主网闸-->
+            <div id="mainBox">
+             	<div class="toptitle">
+                	<div class="title">
+                    	<img src="<{$smarty.const.THEME_PATH}>/images/imgha/icon_title.png" width="96" height="39" />
+                    </div>
+                    <!--网闸正常-->
+                    <div class="gapstatus gap_exact">
+                    	<span>正常</span>
+   				    </div>
+                    <!--网闸异常-->
+                   <!-- <div class="gapstatus gap_unusual">
+                    	<span>异常</span>
+   				    </div>-->
+                    <!--网闸未启动-->
+                    <!--<div class="gapstatus gap_nostart">
+                    	<span>未启动</span>
+   				    </div>-->
+                    
+             	    <div class="name">
+                    	当前网闸:<span>主闸</span>
+                    </div>
                 </div>
-          </div>
-        	<div class="netcard">
-                <div class="networdcard"></div>
-                <div class="networdcard networdcard2"></div>
-                <div class="networdcard"></div>
-                <div class="networdcard"></div>
-                <div class="networdcard"></div>
-                <div class="networdcard"></div>
-                <div class="networdcard"></div>
-                <div class="networdcard"></div>
-            </div>
-        </div>
-        <div class="out_content">
-        	<div class="content">
-                <div class="content_con">
-                    <div class="logo">LOGO</div>
-                    <div class="name">主(外)</div>
-                    <div class="status_">状态：<img src="<{$smarty.const.THEME_PATH}>/images/icon/showlink.gif" width="16" height="18" />(<span>正常</span>)</div>
+                <div class="netcardtop">
+                	<div class="networdcard netcard_unusual" title="eth0_0"></div>
+                    <div class="networdcard netcard_exact" title="eth0_1"></div>
+                    <div class="networdcard netcard_exact" title="eth0_2"></div>
+                    <div class="networdcard netcard_unusual" title="eth0_3"></div>
+                    <div class="networdcard netcard_unusual" title="eth0_4"></div>
+                    <div class="networdcard netcard_unusual" title="eth0_5"></div>
+                    <div class="networdcard netcard_exact" title="eth0_6"></div>
+                    <div class="networdcard netcard_unusual" title="eth0_7"></div>
+                    <div class="networdcard netcard_exact" title="eth0_8"></div>
+                    <div class="networdcard netcard_exact" title="eth0_9"></div>
+                    <div class="networdcard netcard_unusual" title="eth0_10"></div>
+                    <div class="networdcard netcard_unusual" title="eth0_11"></div>
+                    <div class="networdcard netcard_unusual" title="eth0_12"></div>
+                    <div class="networdcard netcard_exact" title="eth0_13"></div>
+                
                 </div>
-            </div>
-        	<div class="netcard">
-                <div class="networdcard"></div>
-                <div class="networdcard"></div>
-                <div class="networdcard"></div>
-                <div class="networdcard"></div>
-                <div class="networdcard"></div>
-                <div class="networdcard"></div>
-                <div class="networdcard"></div>
-                <div class="networdcard"></div>
-            </div>
-        </div>
-    </div>
-    <div id="chongBox">
-        <div class="inner_content">
-            <div class="content">
-                <div class="content_con">
-                    <div class="logo">LOGO</div>
-                    <div class="name">备(内)</div>
-                    <div class="status_">状态：<img src="<{$smarty.const.THEME_PATH}>/images/icon/showlink.gif" width="16" height="18" />(<span>正常</span>)</div>
-                </div>
-            </div>
-            <div class="netcard">
-                <div class="networdcard"></div>
-                <div class="networdcard"></div>
-                <div class="networdcard"></div>
-                <div class="networdcard"></div>
-                <div class="networdcard"></div>
-                <div class="networdcard"></div>
-                <div class="networdcard"></div>
-                <div class="networdcard"></div>
-            </div>
-        </div>
-        <div class="out_content">
-            <div class="content">
-                <div class="content_con">
-                    <div class="logo">LOGO</div>
-                    <div class="name">备(外)</div>
-                    <div class="status_">状态：<img src="<{$smarty.const.THEME_PATH}>/images/icon/showlink.gif" width="16" height="18" />(<span>正常</span>)</div>
+                <div class="netcardbottom">
+                	<div class="networdcard netcard_unusual" title="eth1_0"></div>
+                    <div class="networdcard netcard_exact" title="eth1_1"></div>
+                    <div class="networdcard netcard_exact" title="eth1_2"></div>
+                    <div class="networdcard netcard_unusual" title="eth1_3"></div>
+                    <div class="networdcard netcard_unusual" title="eth1_4"></div>
+                    <div class="networdcard netcard_unusual" title="eth1_5"></div>
+                    <div class="networdcard netcard_exact" title="eth1_6"></div>
+                    <div class="networdcard netcard_exact" title="eth1_7"></div>
                 </div>
             </div>
-            <div class="netcard">
-                <div class="networdcard"></div>
-                <div class="networdcard"></div>
-                <div class="networdcard"></div>
-                <div class="networdcard"></div>
-                <div class="networdcard"></div>
-                <div class="networdcard"></div>
-                <div class="networdcard"></div>
-                <div class="networdcard"></div>
+            <!--从网闸-->
+            <div id="chongBox">
+                <div class="toptitle">
+                	<div class="title">
+                    	<img src="<{$smarty.const.THEME_PATH}>/images/imgha/icon_title.png" width="96" height="39" />
+                    </div>
+                     <!--网闸正常-->
+                    <div class="gapstatus gap_exact">
+                    	<span>正常</span>
+   				    </div>
+                    <!--网闸异常-->
+                   <!-- <div class="gapstatus gap_unusual">
+                    	<span>异常</span>
+   				    </div>-->
+                    <!--网闸未启动-->
+                    <!--<div class="gapstatus gap_nostart">
+                    	<span>未启动</span>
+   				    </div>-->
+             	    <div class="name">
+                    	当前网闸:<span>从闸</span>
+                    </div>
+                </div>
+                <div class="netcardtop">
+                	<div class="networdcard netcard_unusual" title="eth2_1"></div>
+                    <div class="networdcard netcard_exact" title="eth2_2"></div>
+                    <div class="networdcard netcard_exact" title="eth2_3"></div>
+                    <div class="networdcard netcard_unusual" title="eth2_4"></div>
+                    <div class="networdcard netcard_unusual" title="eth2_5"></div>
+                    <div class="networdcard netcard_unusual" title="eth2_6"></div>
+                    <div class="networdcard netcard_exact" title="eth2_7"></div>
+                    <div class="networdcard netcard_exact" title="eth2_8"></div>
+                </div>
+                <div class="netcardbottom">
+                	<div class="networdcard netcard_unusual" title="eth3_0"></div>
+                    <div class="networdcard netcard_exact" title="eth3_1"></div>
+                    <div class="networdcard netcard_exact" title="eth3_2"></div>
+                    <div class="networdcard netcard_unusual" title="eth3_3"></div>
+                    <div class="networdcard netcard_unusual" title="eth3_4"></div>
+                    <div class="networdcard netcard_unusual" title="eth3_5"></div>
+                    <div class="networdcard netcard_exact" title="eth3_6"></div>
+                    <div class="networdcard netcard_exact" title="eth3_7"></div>
+                </div>
             </div>
         </div>
-    </div>
+     <div id="midBox_right"></div>
 </div>
-    <!--右边部分-->
-    <div id="gapBox2">
-    	<div id="rightline"></div>
-   </div>
+ <ul id="tipinfo">
+    <li class="gap_exact">正常</li>
+    <li class="gap_unusual">异常</li>
+    <li class="gap_nostart">未启动</li>
+ </ul>
+<!--心跳线正常-->
+  <div id="leftline"><img src="<{$smarty.const.THEME_PATH}>/images/imgha/heartbeat_l_exact.png" width="55" height="294" /></div>
+  <div id="rightline"><img src="<{$smarty.const.THEME_PATH}>/images/imgha/heartbeat_r_exact.png" width="55" height="294" /></div>
+<!--心跳线异常-->
+ <!-- <div id="leftline"><img src="<{$smarty.const.THEME_PATH}>/images/imgha/heartbeat_l_unusual.png" width="55" height="294" /></div>
+  <div id="rightline"><img src="<{$smarty.const.THEME_PATH}>/images/imgha/heartbeat_r_unusual.png" width="55" height="294" /></div>
+--><!--心跳线未启动-->
+<!--  <div id="leftline"><img src="<{$smarty.const.THEME_PATH}>/images/imgha/heartbeat_l_nostart.png" width="55" height="294" /></div>
+  <div id="rightline"><img src="<{$smarty.const.THEME_PATH}>/images/imgha/heartbeat_r_nostart.png" width="55" height="294" /></div>
+-->
 </div>
+<!--[if IE 6]>
 <script type="text/javascript">
-$(document).ready(function() {
+	DD_belatedPNG.fix('.gap_exact,.gap_nostart,.gap_unusual');
+</script>
+<![endif]-->
+<script type="text/javascript">
+function max_int(){
+	var maxNum=0;
+	for(var i=0;i<arguments.length;i++){
+		if(arguments[i]>maxNum){
+			maxNum=arguments[i];
+		}
+	}
+	return maxNum;
+}
 
+$(document).ready(function() {
+	var size1=$("#mainBox .netcardtop .networdcard").size(),
+		size2=$("#mainBox .netcardbottom .networdcard").size(),
+		size3=$("#chongBox .netcardtop .networdcard").size(),
+		size4=$("#chongBox .netcardbottom .networdcard").size(),
+		sizeNum=max_int(size1,size2,size3,size4);
+	$("#midBox_cen").width(45*sizeNum);
+	$("#rightline").css({ left: (45*sizeNum+120)+"px"});
+	$("#hotstandby").width(45*sizeNum+200);
+	
+	$(".networdcard").mouseover(function(){
+		var id=$(this).attr("title"),
+			me=$(this);
+		$.get("Function/networkManagement/HA/ha.php", { act: "getstatus", id: id, rannum:Math.random() },
+		  function(data){
+			if(data==1){
+				me.removeClass("netcard_exact netcard_nostart netcard_unusual").addClass("netcard_exact");
+			}else if(data==-1){
+				me.removeClass("netcard_exact netcard_nostart netcard_unusual").addClass("netcard_unusual");
+			}else if(data==0){
+				me.removeClass("netcard_exact netcard_nostart netcard_unusual").addClass("netcard_nostart");
+			}
+		  });
+	});
 });
 </script>
