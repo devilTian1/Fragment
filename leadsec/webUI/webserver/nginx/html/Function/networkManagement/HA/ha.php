@@ -32,7 +32,9 @@
     function freshStatus() {
         $result = array();
         $curDevName = '';
-        $line = fileLinesToArr('/etc/ha.d/all_status', '', 1, 'includeFunc');
+        //$line = fileLinesToArr('/etc/ha.d/all_status', '', 1, 'includeFunc');
+		$line = fileLinesToArr(WEB_PATH.'/all_status', 100, 'includeFunc');
+		
         foreach ($line as $l) {
             if (preg_match('/^\[(.+)\]$/', $l[0], $match)) {
                 $curDevName = $match[1];
@@ -60,21 +62,35 @@
                 $result[$curDevName][$key] = $val;
             }
         }
-       // var_dump($result);
+       return $result;
     }
-    
     if (@$_GET['act']=='getstatus') {
     	$id=$_GET['id'];//根据唯一ID来判断
-       	//echo 1;//正常
-       //echo 0;//为启动
-       	echo -1;//异常
+    	$allstatus=freshStatus();
+    	$arr=explode("__",$id);
+    	$flag=$arr[0];
+    	$fe=$arr[1];
+    	$enable=$allstatus[$flag]["ifstatus"][$fe]["enable"];
+    	$active=$allstatus[$flag]["ifstatus"][$fe]["active"];
+    	//1正常0未启动-1异常
+    	if($enable==0){
+    		echo 0;
+    		exit();
+    	}elseif($active==1){
+    		echo 1;
+    		exit();
+    	}else{
+    		echo -1;
+    		exit(-1);
+    	}
         
     }else {
+    	$allstatus=freshStatus();
         // init page data
-        V::getInstance()->assign('dataCount', $result)
-            ->assign('pageCount', ceil($result/10))
-            ->assign('clickedPageNo', 1)
-	        ->assign('prev', 1)
-	        ->assign('next', 2);
+        V::getInstance()->assign('master_in', $allstatus['master_in'])
+            ->assign('master_out', $allstatus['master_out'])
+            ->assign('slave_in', $allstatus['slave_in'])
+	        ->assign('slave_out', $allstatus['slave_out'])
+	        ->assign('linkstatus', $allstatus['linkstatus']);
     }
 ?>

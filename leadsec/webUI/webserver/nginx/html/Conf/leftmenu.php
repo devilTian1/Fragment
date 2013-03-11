@@ -28,6 +28,7 @@
     'rc_t' => array('pid' => 'rc', 'name' => '时间', 'link' => 'time'),
     'rc_u' => array('pid' => 'rc', 'name' => '用户', 'link' => 'user'),
     'rc_fc' => array('pid' => 'rc', 'name' => '过滤配置', 'link' => 'filterConf'),
+  	'rc_v' => array('pid' => 'rc', 'name' => '虚拟地址', 'link' => 'virtualAddr'),
 
     //levev2 client
     'c_fe' => array('pid' => 'c', 'name' => '文件交换', 'link' => 'fileEx'),

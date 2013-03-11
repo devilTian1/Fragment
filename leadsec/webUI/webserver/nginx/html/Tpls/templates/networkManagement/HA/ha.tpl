@@ -12,48 +12,51 @@
                     	<img src="<{$smarty.const.THEME_PATH}>/images/imgha/icon_title.png" width="96" height="39" />
                     </div>
                     <!--网闸正常-->
-                    <div class="gapstatus gap_exact">
-                    	<span>正常</span>
-   				    </div>
+                    <{if $master_in.status eq "正常"}>
+                        <div class="gapstatus gap_exact">
+                            <span><{$master_in.status}></span>
+                        </div>
+                    <{elseif $master_in.status eq "异常"}>
                     <!--网闸异常-->
-                   <!-- <div class="gapstatus gap_unusual">
-                    	<span>异常</span>
-   				    </div>-->
+                    <div class="gapstatus gap_unusual">
+                    	<span><{$master_in.status}></span>
+   				    </div>
                     <!--网闸未启动-->
-                    <!--<div class="gapstatus gap_nostart">
-                    	<span>未启动</span>
-   				    </div>-->
-                    
+                    <{else}>
+                    <div class="gapstatus gap_nostart">
+                    	<span><{$master_in.status}></span>
+   				    </div>
+                    <{/if}>
              	    <div class="name">
-                    	当前网闸:<span>主闸</span>
+                    	当前网闸:<span><{$master_in.hastatus}></span>
                     </div>
                 </div>
                 <div class="netcardtop">
-                	<div class="networdcard netcard_unusual" title="eth0_0"></div>
-                    <div class="networdcard netcard_exact" title="eth0_1"></div>
-                    <div class="networdcard netcard_exact" title="eth0_2"></div>
-                    <div class="networdcard netcard_unusual" title="eth0_3"></div>
-                    <div class="networdcard netcard_unusual" title="eth0_4"></div>
-                    <div class="networdcard netcard_unusual" title="eth0_5"></div>
-                    <div class="networdcard netcard_exact" title="eth0_6"></div>
-                    <div class="networdcard netcard_unusual" title="eth0_7"></div>
-                    <div class="networdcard netcard_exact" title="eth0_8"></div>
-                    <div class="networdcard netcard_exact" title="eth0_9"></div>
-                    <div class="networdcard netcard_unusual" title="eth0_10"></div>
-                    <div class="networdcard netcard_unusual" title="eth0_11"></div>
-                    <div class="networdcard netcard_unusual" title="eth0_12"></div>
-                    <div class="networdcard netcard_exact" title="eth0_13"></div>
-                
+                	<{foreach from=$master_in.ifstatus item=val key=key}>
+						<div class="networdcard  
+                        	<{if $val.enable eq 0}>
+                            	 netcard_nostart
+                            <{elseif $val.active eq 1}>					
+                        		 netcard_exact
+                            <{else}>
+                            	netcard_unusual
+                            <{/if}>	
+                        " title="master_in__<{$key}>"></div>
+					<{/foreach}>
+                	<!--<div class="networdcard netcard_unusual" title="eth0_0"></div>-->
                 </div>
                 <div class="netcardbottom">
-                	<div class="networdcard netcard_unusual" title="eth1_0"></div>
-                    <div class="networdcard netcard_exact" title="eth1_1"></div>
-                    <div class="networdcard netcard_exact" title="eth1_2"></div>
-                    <div class="networdcard netcard_unusual" title="eth1_3"></div>
-                    <div class="networdcard netcard_unusual" title="eth1_4"></div>
-                    <div class="networdcard netcard_unusual" title="eth1_5"></div>
-                    <div class="networdcard netcard_exact" title="eth1_6"></div>
-                    <div class="networdcard netcard_exact" title="eth1_7"></div>
+                	<{foreach from=$master_out.ifstatus item=val key=key}>
+						<div class="networdcard  
+                        	<{if $val.enable eq 0}>
+                            	 netcard_nostart
+                            <{elseif $val.active eq 1}>					
+                        		 netcard_exact
+                            <{else}>
+                            	netcard_unusual
+                            <{/if}>	
+                        " title="master_out__<{$key}>"></div>
+					<{/foreach}>
                 </div>
             </div>
             <!--从网闸-->
@@ -63,40 +66,50 @@
                     	<img src="<{$smarty.const.THEME_PATH}>/images/imgha/icon_title.png" width="96" height="39" />
                     </div>
                      <!--网闸正常-->
-                    <div class="gapstatus gap_exact">
-                    	<span>正常</span>
-   				    </div>
+                    <{if $slave_in.status eq "正常"}>
+                        <div class="gapstatus gap_exact">
+                            <span><{$slave_in.status}></span>
+                        </div>
+                    <{elseif $slave_in.status eq "异常"}>
                     <!--网闸异常-->
-                   <!-- <div class="gapstatus gap_unusual">
-                    	<span>异常</span>
-   				    </div>-->
+                    <div class="gapstatus gap_unusual">
+                    	<span><{$slave_in.status}></span>
+   				    </div>
                     <!--网闸未启动-->
-                    <!--<div class="gapstatus gap_nostart">
-                    	<span>未启动</span>
-   				    </div>-->
+                    <{else}>
+                    <div class="gapstatus gap_nostart">
+                    	<span><{$slave_in.status}></span>
+   				    </div>
+                    <{/if}>
              	    <div class="name">
-                    	当前网闸:<span>从闸</span>
+                    	当前网闸:<span><{$slave_in.hastatus}></span>
                     </div>
                 </div>
                 <div class="netcardtop">
-                	<div class="networdcard netcard_unusual" title="eth2_1"></div>
-                    <div class="networdcard netcard_exact" title="eth2_2"></div>
-                    <div class="networdcard netcard_exact" title="eth2_3"></div>
-                    <div class="networdcard netcard_unusual" title="eth2_4"></div>
-                    <div class="networdcard netcard_unusual" title="eth2_5"></div>
-                    <div class="networdcard netcard_unusual" title="eth2_6"></div>
-                    <div class="networdcard netcard_exact" title="eth2_7"></div>
-                    <div class="networdcard netcard_exact" title="eth2_8"></div>
+                	<{foreach from=$slave_in.ifstatus item=val key=key}>
+						<div class="networdcard  
+                        	<{if $val.enable eq 0}>
+                            	 netcard_nostart
+                            <{elseif $val.active eq 1}>					
+                        		 netcard_exact
+                            <{else}>
+                            	netcard_unusual
+                            <{/if}>	
+                        " title="slave_in__<{$key}>"></div>
+					<{/foreach}>
                 </div>
                 <div class="netcardbottom">
-                	<div class="networdcard netcard_unusual" title="eth3_0"></div>
-                    <div class="networdcard netcard_exact" title="eth3_1"></div>
-                    <div class="networdcard netcard_exact" title="eth3_2"></div>
-                    <div class="networdcard netcard_unusual" title="eth3_3"></div>
-                    <div class="networdcard netcard_unusual" title="eth3_4"></div>
-                    <div class="networdcard netcard_unusual" title="eth3_5"></div>
-                    <div class="networdcard netcard_exact" title="eth3_6"></div>
-                    <div class="networdcard netcard_exact" title="eth3_7"></div>
+                	<{foreach from=$slave_out.ifstatus item=val key=key}>
+						<div class="networdcard  
+                        	<{if $val.enable eq 0}>
+                            	 netcard_nostart
+                            <{elseif $val.active eq 1}>					
+                        		 netcard_exact
+                            <{else}>
+                            	netcard_unusual
+                            <{/if}>	
+                        " title="slave_out__<{$key}>"></div>
+					<{/foreach}>
                 </div>
             </div>
         </div>
@@ -107,17 +120,32 @@
     <li class="gap_unusual">异常</li>
     <li class="gap_nostart">未启动</li>
  </ul>
+ 
+ <!--外网-->
+<{if $linkstatus.out_to_out eq 1}>
 <!--心跳线正常-->
-  <div id="leftline"><img src="<{$smarty.const.THEME_PATH}>/images/imgha/heartbeat_l_exact.png" width="55" height="294" /></div>
-  <div id="rightline"><img src="<{$smarty.const.THEME_PATH}>/images/imgha/heartbeat_r_exact.png" width="55" height="294" /></div>
+   <div id="leftline"><img src="<{$smarty.const.THEME_PATH}>/images/imgha/heartbeat_l_exact.png" width="55" height="294" /></div>
+<{elseif $linkstatus.out_to_out eq 0}>
+<!--心跳线未启动-->
+   <div id="leftline"><img src="<{$smarty.const.THEME_PATH}>/images/imgha/heartbeat_l_nostart.png" width="55" height="294" /></div>
+<{else}> 
 <!--心跳线异常-->
- <!-- <div id="leftline"><img src="<{$smarty.const.THEME_PATH}>/images/imgha/heartbeat_l_unusual.png" width="55" height="294" /></div>
-  <div id="rightline"><img src="<{$smarty.const.THEME_PATH}>/images/imgha/heartbeat_r_unusual.png" width="55" height="294" /></div>
---><!--心跳线未启动-->
-<!--  <div id="leftline"><img src="<{$smarty.const.THEME_PATH}>/images/imgha/heartbeat_l_nostart.png" width="55" height="294" /></div>
-  <div id="rightline"><img src="<{$smarty.const.THEME_PATH}>/images/imgha/heartbeat_r_nostart.png" width="55" height="294" /></div>
--->
+	<div id="leftline"><img src="<{$smarty.const.THEME_PATH}>/images/imgha/heartbeat_l_unusual.png" width="55" height="294" /></div>
+<{/if}>
+  
+<!--内网-->
+<{if $linkstatus.in_to_in eq 1}> 
+<!--心跳线正常-->
+   <div id="rightline"><img src="<{$smarty.const.THEME_PATH}>/images/imgha/heartbeat_r_exact.png" width="55" height="294" /></div>
+<{elseif $linkstatus.in_to_in eq 0}> 
+<!--心跳线未启动-->
+	<div id="rightline"><img src="<{$smarty.const.THEME_PATH}>/images/imgha/heartbeat_r_nostart.png" width="55" height="294" /></div>
+<{else}>
+<!--心跳线异常-->
+	<div id="rightline"><img src="<{$smarty.const.THEME_PATH}>/images/imgha/heartbeat_r_unusual.png" width="55" height="294" /></div>
+<{/if}>
 </div>
+
 <!--[if IE 6]>
 <script type="text/javascript">
 	DD_belatedPNG.fix('.gap_exact,.gap_nostart,.gap_unusual');
