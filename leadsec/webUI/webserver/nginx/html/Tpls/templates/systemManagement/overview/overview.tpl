@@ -3,13 +3,13 @@
 /* zoombox */
 a,img{border:0;}
 </style>
-<table class="floatLeft column_60">
+<table class="floatLeft column_90">
     <caption>
         网口状态图状态
          <!--<a href="#">更多</a>-->
     </caption>
     <tr>
-        <td>
+        <td id="zoomboxtd">
   <div class="zoombox">
 	<div class="zoompic" id="zoompic"></div>
 	<div class="sliderbox">
@@ -60,28 +60,12 @@ a,img{border:0;}
 
 <table class="floatLeft column_45">
     <caption>
-        license
-        <a href="#">更多</a>
+        利用率
+     <!--   <a href="#">更多</a>-->
     </caption>
     <tr>
-        <th class="column_30">服务名称</th>
-        <th class="column_10 textCenter">状态</th>
-        <th class="column_60 textCenter">描述</th>
+        <th id="useRatio">    </th>
     </tr>
-    <{foreach from=$liceinfo key=myId item=val}>
-
-    <tr>
-        <th><{$val.name}></th>
-        <td class="textCenter">
-        <{if $val.status eq 1}>
-            <img src="<{$smarty.const.THEME_PATH}>/images/icon/select.png" width="16" height="16" />
-        <{else}>
-            <img src="<{$smarty.const.THEME_PATH}>/images/icon/stop.png" width="16" height="16" />
-        <{/if}>
-        </th>
-        <td class="textCenter"><{$val.remark}></td>
-    </tr>
-    <{/foreach}>
 </table>
 <br class="clearFloat"/>
 <hr/>
@@ -115,7 +99,7 @@ a,img{border:0;}
 <table class="floatLeft column_45">
 <caption>
         双击热备状态
-         <a href="#">更多</a>
+         <a id="testmore">更多</a>
     </caption>
     <tr>
         <th class="column_30">名称</th>
@@ -146,6 +130,11 @@ a,img{border:0;}
 
 <script type="text/javascript">
 $(document).ready(function (){
+		//动态改变宽度
+		var widbox=$("#zoomboxtd").width();
+		$(".zoombox").width(widbox);
+		$("#zoompic").width(widbox);
+		
 		var setTimeout_flag=-1;
 		var setTimeIntval=3000;//多少时间更新一次
 		var maxEthNum=6;//网卡数量
@@ -258,8 +247,63 @@ $(document).ready(function (){
                 data: data_pe
             }]
         });
-  }
-		
+  	}
+	/*******************************利用率*********************************/		
+	var chart1 = new Highcharts.Chart({
+            chart: {
+                renderTo: 'useRatio',
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false,
+				height:210				
+            },
+			credits:{
+				enabled:false
+			},
+            title: {
+                text: ''
+            },
+            tooltip: {
+        	    pointFormat: '{series.name}: <b>{point.percentage}%</b>',
+            	percentageDecimals: 0.9
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: false
+                    },
+                    showInLegend: true
+                }
+            },
+            series: [{
+                type: 'pie',
+                name: '使用率',
+                data: [
+                    ['cpu', 45.0],
+                    ['mem', 45.0],
+					['其它', 10.0]
+                ]
+            }]
+        });
+	//IE6下面滚动条优化
+	if($.browser.msie&&($.browser.version == "6.0")&&!$.support.style){
+		 $("#mainContent").scroll(function(){
+			//利用率
+			var top=$("#useRatio").offset().top-$("#useRatio div").offset().top;
+			$("#useRatio div").css({"top":top+"px"});
+			$("#useRatio div").css({"top":"0px"});
+			
+			//网口状态图状态 
+			var top1=$("#zoomboxtd").offset().top-$(".zoombox").offset().top;
+			$(".sliderbox").css({"top":top1+"px"});
+			$(".sliderbox").css({"top":"0px"});
+			$("#zoompic").css({"top":top1+"px"});
+			$("#zoompic div").css({"top":top1+"px"});
+			$("#zoompic div").css({"top":"0px"});
+		 })
+	}
 /************************************************************************************************************************************/
 	
 	for(var i=0;i<=maxEthNum;i++){
