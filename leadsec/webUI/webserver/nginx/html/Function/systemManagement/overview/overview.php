@@ -239,6 +239,7 @@
         $status   = getServerStatusInfo();
         $cpuUsed  = getCpuUsed();
         $memUsed  = getMemUsed();
+    	
         V::getInstance()->assign('devinfo', $devinfo)
             ->assign('curStampTime', time())
         	->assign('liceinfo', $liceinfo)
