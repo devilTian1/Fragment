@@ -7,6 +7,8 @@
 <script type="text/javascript" src="Public/js/jquery/jquery.validate.min.js"></script>
 <script type="text/javascript" src="Public/js/jquery/jquery.tooltip.min.js"></script>
 <script type="text/javascript" src="Public/js/jquery/nicescroll/jquery.nicescroll.min.js"></script>
+<script type="text/javascript" src="Public/js/jquery/fisheye/jquery.fisheye.js"></script>
+
 <script type="text/javascript" src="Public/js/tip/msgbox.js"></script>
 <!-- Put our libraries next -->
 <script type="text/javascript" src="Public/js/common.js"></script>
@@ -21,6 +23,7 @@
 <script type="text/javascript" src="Public/js/jquery/desktop/jsLib/DD_belatedPNG_0.0.8a.js" ></script>
 <script type="text/javascript">
 	DD_belatedPNG.fix('#header .right_nav .top_icon img,#header .right_nav .top_userinfo,#header .right_nav .top_icon ul li span');
+	//DD_belatedPNG.fix('#header .right_nav .top_userinfo,#header .right_nav .top_icon ul li span');
 </script>
 <![endif]-->
 <script>
@@ -133,5 +136,11 @@
 		//beautify scroll html
 		$("html").niceScroll({cursorborder:"",cursorcolor:"#4d8fc7",boxzoom:true});
 		$("#mainContent").niceScroll({cursorborder:"",cursorcolor:"#4d8fc7",boxzoom:true});
+		
+		$(".top_icon").FishEye({
+			fishEyeItemName: ".fishEyeItem",
+			maxScalePct: 70,
+			scaleStepPct: 20
+		});
     });
 </script>

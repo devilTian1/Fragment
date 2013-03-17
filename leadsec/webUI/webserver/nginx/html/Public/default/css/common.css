@@ -11,7 +11,7 @@ html {
 
 body {
     font: normal 12px 'Lucida Grande', Verdana, sans-serif;
-	background-color: #F9F9F9;
+	background-color: #F9F9F9;  
 	line-height: 175%;
 	color:#666;
 }
@@ -264,15 +264,15 @@ label.errorLabel {
 }
 
 #header .right_nav .top_icon ul {
-	padding-top:70px;
+	padding-top:60px;
 	list-style:none;
 }
+
 #header .right_nav .top_icon ul li{
 	float:left;
 	padding-right:8px;
 	position:relative;
 }
-
 #header .right_nav .top_icon ul li a img{
 	border:none;
 }
@@ -286,6 +286,7 @@ label.errorLabel {
 	text-align:center;
 	display:none;
 }
+
 
 /* USERINFO */
 #header .right_nav .top_userinfo {

@@ -9,10 +9,7 @@ a,img{border:0;}
     </caption>
     <tr>
         <td id="zoomboxtd">
-  <div class="zoombox">
 	<div class="zoompic" id="zoompic"></div>
-	
-</div><!--slider end-->
         </td>
     </tr>
 </table>
@@ -259,8 +256,7 @@ function getInitData(intval) {
 $(document).ready(function () {
     //动态改变宽度
     var widbox = $("#zoomboxtd").width();
-    $(".zoombox").width(widbox);
-    $("#zoompoc").width(widbox);
+    $("#zoompic").width(widbox);
 
 		var setTimeout_flag = -1;
 		var setTimeIntval   = 3000;//多少时间更新一次
@@ -284,17 +280,29 @@ $(document).ready(function () {
                         setTimeout_flag=setInterval(function() {
 							$.post("Function/systemManagement/overview/overview.php", {type:'getImgData'},
 							    function(result) {
-                                    var data = result.msg.ifData;
-								    if(document.getElementById("zoompic")==null){
+									if(document.getElementById("zoompic")==null){
 								        clearInterval(setTimeout_flag);
 								    }
+									if (typeof(JSON) == 'undefined'){  
+										 dataJson = eval("("+result+")");  
+								 	}else{  
+										 dataJson = JSON.parse(result);  
+								    }
+                                    var data = dataJson.msg.ifData;
+								
                                     var j = 0;
                                     for (var i in data) {
-                                        series[j++].addPoint([data[i].inKb.x, data[i].inKb.y], true, false);
-                                        series[j++].addPoint([data[i].outKb.x, data[i].outKb.y], true, false);
+										if(!isNaN(parseInt(i))){
+										  var inKbx=data[i].inKb.x;
+											  inKby=data[i].inKb.y,
+											  outKbx=data[i].outKb.x,
+											  outKby=data[i].outKb.y;
+                                              series[j++].addPoint([inKbx,inKby], true, false);
+                                              series[j++].addPoint([outKbx,outKby], true, false);
+										}
                                     }
-                                    updateUsedStatus(result.msg.cpuUsed, result.msg.memUsed);
-							    }, 'json');
+                                   updateUsedStatus(dataJson.msg.cpuUsed, dataJson.msg.memUsed);
+							    });
                         }, setTimeIntval);
                     }
                 }
@@ -486,83 +494,30 @@ $(document).ready(function () {
             }]
         });
 	//IE6下面滚动条优化
-	if($.browser.msie&&($.browser.version == "6.0")&&!$.support.style){
+	if($.browser.msie&&($.browser.version == "6.0"||$.browser.version == "7.0")&&!$.support.style){
 		 $("#mainContent").scroll(function(){
 			//利用率
 			var top=$("#useRatio").offset().top-$("#useRatio div").offset().top;
 			$("#useRatio div").css({"top":top+"px"});
-			$("useRatio div").css({"top":"0px"});
+			$("#useRatio div").css({"top":"0px"});
 		
 			//网口状态图状态 
-			var top1=$("#zoomboxtd").offset().top-$(".zoombox").offset().top;
-			$(".sliderbox").css({"top":top1+"px"});
-			$(".sliderbox").css({"top":"0px"});
-			$("#zoompic").css({"top":top1+"px"});
-			$("#zoompic div").css({"top":top1+"px"});
+			var top1=$("#zoompic").offset().top-$("#zoompic div").offset().top;
+			$("#zoompic div").css({"top":top+"px"});
 			$("#zoompic div").css({"top":"0px"});
 		 })
 	}
 /************************************************************************************************************************************/
-
-
     setHighcharts();
-    for (var i in chart.series) {
-        if (i === '0') {
-            chart.series[i].show();
-        } else {
-            chart.series[i].hide();
-        }
+   for (var i in chart.series) {
+	   if(!isNaN(parseInt(i))){
+			if (i === '0') {
+				chart.series[i].show();
+			} else {
+				chart.series[i].hide();
+			}
+	   }
     }
-
-	$("#thumbnail li.current a").click();
-	//小图片左右滚动
-	var $slider = $('.slider ul');
-	var $slider_child_l = $('.slider ul li').length;
-	var $slider_width = $('.slider ul li').width();
-	$slider.width($slider_child_l * $slider_width);
-	
-	var slider_count = 0;
-	
-	if ($slider_child_l < 7) {
-		$('#btn-right').css({cursor: 'auto'});
-		$('#btn-right').removeClass("dasabled");
-	}
-	
-	$('#btn-right').click(function() {
-		if ($slider_child_l < 7 || slider_count >= $slider_child_l - 7) {
-			return false;
-		}
-		
-		slider_count++;
-		$slider.animate({left: '-=' + $slider_width + 'px'}, 'fast');
-		slider_pic();
-	});
-	
-	$('#btn-left').click(function() {
-		if (slider_count <= 0) {
-			return false;
-		}
-		slider_count--;
-		$slider.animate({left: '+=' + $slider_width + 'px'}, 'fast');
-		slider_pic();
-	});
-	
-	function slider_pic() {
-		if (slider_count >= $slider_child_l - 7) {
-			$('#btn-right').css({cursor: 'auto'});
-			$('#btn-right').addClass("dasabled");
-		}
-		else if (slider_count > 0 && slider_count <= $slider_child_l - 7) {
-			$('#btn-left').css({cursor: 'pointer'});
-			$('#btn-left').removeClass("dasabled");
-			$('#btn-right').css({cursor: 'pointer'});
-			$('#btn-right').removeClass("dasabled");
-		}
-		else if (slider_count <= 0) {
-			$('#btn-left').css({cursor: 'auto'});
-			$('#btn-left').addClass("dasabled");
-		}
-	}
 	
 });
 </script>
