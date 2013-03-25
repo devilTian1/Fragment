@@ -1,5 +1,5 @@
 <{foreach $menuArr as $l1}>
-    <div class="l1" name="<{$l1.link}>">
+    <div class="l1 l1_close_<{$l1.link}>" name="<{$l1.link}>">
         <span><{$l1.name}></span>
     </div>
         <div class="l2" name="<{$l1.link}>">

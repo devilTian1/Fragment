@@ -40,18 +40,23 @@
         //$("#leftmenu").outerHeight($("#mainContent").outerHeight());
 		$("#leftmenu").outerHeight($("#mainContent").outerHeight()+21);
         // fold/unfold level1 of leftmenu
-       $("#leftmenu>div:not(.l1)").hide(); // fold all child-menu
-        $("#leftmenu>.l1").addClass('l1_close').click(function() {
+        $("#leftmenu>div:not(.l1)").hide(); // fold all child-menu
+        $("#leftmenu>.l1").click(function() {
             var pname = $(this).attr("name");
             var l2Dom = $("#leftmenu>.l2[name='" + pname + "']");
-            $("#leftmenu>.l1").not($(this)).removeClass('l1_open').addClass('l1_close');
+			$("#leftmenu>.l1").not(function(){
+									var cname=$(this).attr("name");
+									if(pname!=cname){
+										$(this).removeClass('l1_open_'+cname).addClass('l1_close_'+cname);	
+									}
+								});
             $("#leftmenu>.l2").not(l2Dom).slideUp();
             if ( l2Dom.css('display') == 'none' ) {
                 l2Dom.slideDown('slow');
             } else {
                 l2Dom.slideUp('slow');
             }
-            $(this).toggleClass('l1_open l1_close');
+            $(this).toggleClass('l1_open_'+pname+' l1_close_'+pname);
         });
        
 
