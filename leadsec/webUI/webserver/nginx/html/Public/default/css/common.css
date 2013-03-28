@@ -336,8 +336,74 @@ label.errorLabel {
 	background-image: url(../images/l1_down.gif);
 }
 
+#leftmenu .l1_close_systemManagement {
+	background: url(../images/l1.gif) 0 0 no-repeat;
+	width:150px; height:22px;
+}
+#leftmenu .l1_close_networkManagement{
+	background: url(../images/l1.gif) 0 -22px no-repeat;
+	width:150px; height:22px;
+}
+#leftmenu .l1_close_resConf{
+	background: url(../images/l1.gif) 0 -44px no-repeat;
+	width:150px; height:22px;
+}
+#leftmenu .l1_close_client{
+	background: url(../images/l1.gif) 0 -66px no-repeat;
+	width:150px; height:22px;
+}
+#leftmenu .l1_close_server{
+	background: url(../images/l1.gif) 0 -88px no-repeat;
+	width:150px; height:22px;
+}
+#leftmenu .l1_close_appS{
+	background: url(../images/l1.gif) 0 -110px no-repeat;
+	width:150px; height:22px;
+}
+#leftmenu .l1_close_statMonitor{
+	background: url(../images/l1.gif) 0 -132px no-repeat;
+	width:150px; height:22px;
+}
+#leftmenu .l1_close_log{
+	background: url(../images/l1.gif) 0 -154px no-repeat;
+	width:150px; height:22px;
+}
+
+
 #leftmenu .l1_open {
 	background-image: url(../images/l1_up.gif);
+}
+#leftmenu .l1_open_systemManagement {
+	background: url(../images/l1.gif) 0 -176px no-repeat;
+	width:150px; height:22px;
+}
+#leftmenu .l1_open_networkManagement {
+	background: url(../images/l1.gif) 0 -198px no-repeat;
+	width:150px; height:22px;
+}
+#leftmenu .l1_open_resConf {
+	background: url(../images/l1.gif) 0 -220px no-repeat;
+	width:150px; height:22px;
+}
+#leftmenu .l1_open_client {
+	background: url(../images/l1.gif) 0 -242px no-repeat;
+	width:150px; height:22px;
+}
+#leftmenu .l1_open_server {
+	background: url(../images/l1.gif) 0 -264px no-repeat;
+	width:150px; height:22px;
+}
+#leftmenu .l1_open_appS {
+	background: url(../images/l1.gif) 0 -286px no-repeat;
+	width:150px; height:22px;
+}
+#leftmenu .l1_open_statMonitor {
+	background: url(../images/l1.gif) 0 -308px no-repeat;
+	width:150px; height:22px;
+}
+#leftmenu .l1_open_log {
+	background: url(../images/l1.gif) 0 -330px no-repeat;
+	width:150px; height:22px;
 }
 
 #leftmenu .l1 {
@@ -345,7 +411,7 @@ label.errorLabel {
 	height: 22px;
 	width: 140px;
 	margin: 9px 0px 0px 13px;
-	padding-left: 30px;
+	padding-left: 42px;
 	font-weight: bold;
 	color:#000;
 	cursor:pointer;
