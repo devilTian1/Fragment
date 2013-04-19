@@ -1,0 +1,15 @@
+#consolept{
+		margin:0px;
+		background-color:#000000;
+		color:#CCCCCC;
+		font-family:FixedSys, Terminal, system, verdana, arial;
+		font-size:12px;
+}
+
+.entryBox {
+       	position:absolute;
+		bottom:0px;
+		left:-300px;
+		border-color:white;
+		border:1px;
+}

@@ -36,6 +36,8 @@
             <{/foreach}>
         <{/if}>
     </ul>
+    <!--<span id="modelchk" class="modelchk_off"></span>-->
+    <span id="modelchk" class="modelchk_on"></span>
 </div>
 <script type="text/javascript">
  <{if isset($tabs) && count($tabs) != 0}>
