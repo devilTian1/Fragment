@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/NetGap/!svn/ver/2552/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/logs
+END
+access.log
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/NetGap/!svn/ver/2552/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/logs/access.log
+END
+error.log
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/NetGap/!svn/ver/2552/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/logs/error.log
+END
+nginx.pid
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/NetGap/!svn/ver/2552/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/logs/nginx.pid
+END
