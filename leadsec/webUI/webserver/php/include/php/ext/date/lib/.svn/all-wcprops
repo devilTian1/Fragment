@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 124
+/svn/NetGap/!svn/ver/2553/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/php/include/php/ext/date/lib
+END
+timelib_config.h
+K 25
+svn:wc:ra_dav:version-url
+V 141
+/svn/NetGap/!svn/ver/2553/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/php/include/php/ext/date/lib/timelib_config.h
+END
+timelib_structs.h
+K 25
+svn:wc:ra_dav:version-url
+V 142
+/svn/NetGap/!svn/ver/2553/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/php/include/php/ext/date/lib/timelib_structs.h
+END
+timelib.h
+K 25
+svn:wc:ra_dav:version-url
+V 134
+/svn/NetGap/!svn/ver/2553/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/php/include/php/ext/date/lib/timelib.h
+END

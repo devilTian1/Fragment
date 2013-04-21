@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/NetGap/!svn/ver/3802/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/php/etc
+END
+php.ini
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/NetGap/!svn/ver/3802/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/php/etc/php.ini
+END
+pear.conf
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/NetGap/!svn/ver/2553/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/php/etc/pear.conf
+END
+php-fpm.conf
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/NetGap/!svn/ver/2553/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/php/etc/php-fpm.conf
+END
+php-fpm.conf.default
+K 25
+svn:wc:ra_dav:version-url
+V 124
+/svn/NetGap/!svn/ver/2553/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/php/etc/php-fpm.conf.default
+END

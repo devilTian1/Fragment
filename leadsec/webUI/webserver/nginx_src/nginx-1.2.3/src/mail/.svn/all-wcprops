@@ -1,0 +1,113 @@
+K 25
+svn:wc:ra_dav:version-url
+V 126
+/svn/NetGap/!svn/ver/2975/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx_src/nginx-1.2.3/src/mail
+END
+ngx_mail_smtp_handler.c
+K 25
+svn:wc:ra_dav:version-url
+V 150
+/svn/NetGap/!svn/ver/2975/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx_src/nginx-1.2.3/src/mail/ngx_mail_smtp_handler.c
+END
+ngx_mail.c
+K 25
+svn:wc:ra_dav:version-url
+V 137
+/svn/NetGap/!svn/ver/2975/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx_src/nginx-1.2.3/src/mail/ngx_mail.c
+END
+ngx_mail_imap_handler.c
+K 25
+svn:wc:ra_dav:version-url
+V 150
+/svn/NetGap/!svn/ver/2975/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx_src/nginx-1.2.3/src/mail/ngx_mail_imap_handler.c
+END
+ngx_mail.h
+K 25
+svn:wc:ra_dav:version-url
+V 137
+/svn/NetGap/!svn/ver/2975/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx_src/nginx-1.2.3/src/mail/ngx_mail.h
+END
+ngx_mail_proxy_module.c
+K 25
+svn:wc:ra_dav:version-url
+V 150
+/svn/NetGap/!svn/ver/2975/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx_src/nginx-1.2.3/src/mail/ngx_mail_proxy_module.c
+END
+ngx_mail_pop3_module.c
+K 25
+svn:wc:ra_dav:version-url
+V 149
+/svn/NetGap/!svn/ver/2975/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx_src/nginx-1.2.3/src/mail/ngx_mail_pop3_module.c
+END
+ngx_mail_smtp_module.c
+K 25
+svn:wc:ra_dav:version-url
+V 149
+/svn/NetGap/!svn/ver/2975/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx_src/nginx-1.2.3/src/mail/ngx_mail_smtp_module.c
+END
+ngx_mail_pop3_module.h
+K 25
+svn:wc:ra_dav:version-url
+V 149
+/svn/NetGap/!svn/ver/2975/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx_src/nginx-1.2.3/src/mail/ngx_mail_pop3_module.h
+END
+ngx_mail_imap_module.c
+K 25
+svn:wc:ra_dav:version-url
+V 149
+/svn/NetGap/!svn/ver/2975/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx_src/nginx-1.2.3/src/mail/ngx_mail_imap_module.c
+END
+ngx_mail_smtp_module.h
+K 25
+svn:wc:ra_dav:version-url
+V 149
+/svn/NetGap/!svn/ver/2975/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx_src/nginx-1.2.3/src/mail/ngx_mail_smtp_module.h
+END
+ngx_mail_core_module.c
+K 25
+svn:wc:ra_dav:version-url
+V 149
+/svn/NetGap/!svn/ver/2975/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx_src/nginx-1.2.3/src/mail/ngx_mail_core_module.c
+END
+ngx_mail_imap_module.h
+K 25
+svn:wc:ra_dav:version-url
+V 149
+/svn/NetGap/!svn/ver/2975/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx_src/nginx-1.2.3/src/mail/ngx_mail_imap_module.h
+END
+ngx_mail_auth_http_module.c
+K 25
+svn:wc:ra_dav:version-url
+V 154
+/svn/NetGap/!svn/ver/2975/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx_src/nginx-1.2.3/src/mail/ngx_mail_auth_http_module.c
+END
+ngx_mail_ssl_module.c
+K 25
+svn:wc:ra_dav:version-url
+V 148
+/svn/NetGap/!svn/ver/2975/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx_src/nginx-1.2.3/src/mail/ngx_mail_ssl_module.c
+END
+ngx_mail_parse.c
+K 25
+svn:wc:ra_dav:version-url
+V 143
+/svn/NetGap/!svn/ver/2975/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx_src/nginx-1.2.3/src/mail/ngx_mail_parse.c
+END
+ngx_mail_ssl_module.h
+K 25
+svn:wc:ra_dav:version-url
+V 148
+/svn/NetGap/!svn/ver/2975/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx_src/nginx-1.2.3/src/mail/ngx_mail_ssl_module.h
+END
+ngx_mail_handler.c
+K 25
+svn:wc:ra_dav:version-url
+V 145
+/svn/NetGap/!svn/ver/2975/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx_src/nginx-1.2.3/src/mail/ngx_mail_handler.c
+END
+ngx_mail_pop3_handler.c
+K 25
+svn:wc:ra_dav:version-url
+V 150
+/svn/NetGap/!svn/ver/2975/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx_src/nginx-1.2.3/src/mail/ngx_mail_pop3_handler.c
+END

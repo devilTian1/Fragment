@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 125
+/svn/NetGap/!svn/ver/2975/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx_src/nginx-1.2.3/auto/os
+END
+linux
+K 25
+svn:wc:ra_dav:version-url
+V 131
+/svn/NetGap/!svn/ver/2975/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx_src/nginx-1.2.3/auto/os/linux
+END
+win32
+K 25
+svn:wc:ra_dav:version-url
+V 131
+/svn/NetGap/!svn/ver/2975/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx_src/nginx-1.2.3/auto/os/win32
+END
+darwin
+K 25
+svn:wc:ra_dav:version-url
+V 132
+/svn/NetGap/!svn/ver/2975/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx_src/nginx-1.2.3/auto/os/darwin
+END
+conf
+K 25
+svn:wc:ra_dav:version-url
+V 130
+/svn/NetGap/!svn/ver/2975/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx_src/nginx-1.2.3/auto/os/conf
+END
+freebsd
+K 25
+svn:wc:ra_dav:version-url
+V 133
+/svn/NetGap/!svn/ver/2975/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx_src/nginx-1.2.3/auto/os/freebsd
+END
+solaris
+K 25
+svn:wc:ra_dav:version-url
+V 133
+/svn/NetGap/!svn/ver/2975/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx_src/nginx-1.2.3/auto/os/solaris
+END

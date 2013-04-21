@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/NetGap/!svn/ver/3749/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/cert
+END
+user.p12
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/NetGap/!svn/ver/3749/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/cert/user.p12
+END
+ca.p12
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/NetGap/!svn/ver/3749/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/cert/ca.p12
+END
+user.crt
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/NetGap/!svn/ver/3749/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/cert/user.crt
+END
+ca.crt
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/NetGap/!svn/ver/3749/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/cert/ca.crt
+END
+server.crt
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/NetGap/!svn/ver/3749/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/cert/server.crt
+END
+server.key
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/NetGap/!svn/ver/3749/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/cert/server.key
+END

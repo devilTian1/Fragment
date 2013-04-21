@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/svn/NetGap/!svn/ver/2975/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx_src/nginx-1.2.3/conf
+END
+uwsgi_params
+K 25
+svn:wc:ra_dav:version-url
+V 135
+/svn/NetGap/!svn/ver/2975/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx_src/nginx-1.2.3/conf/uwsgi_params
+END
+fastcgi_params
+K 25
+svn:wc:ra_dav:version-url
+V 137
+/svn/NetGap/!svn/ver/2975/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx_src/nginx-1.2.3/conf/fastcgi_params
+END
+fastcgi.conf
+K 25
+svn:wc:ra_dav:version-url
+V 135
+/svn/NetGap/!svn/ver/2975/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx_src/nginx-1.2.3/conf/fastcgi.conf
+END
+nginx.conf
+K 25
+svn:wc:ra_dav:version-url
+V 133
+/svn/NetGap/!svn/ver/2975/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx_src/nginx-1.2.3/conf/nginx.conf
+END
+scgi_params
+K 25
+svn:wc:ra_dav:version-url
+V 134
+/svn/NetGap/!svn/ver/2975/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx_src/nginx-1.2.3/conf/scgi_params
+END
+win-utf
+K 25
+svn:wc:ra_dav:version-url
+V 130
+/svn/NetGap/!svn/ver/2975/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx_src/nginx-1.2.3/conf/win-utf
+END
+mime.types
+K 25
+svn:wc:ra_dav:version-url
+V 133
+/svn/NetGap/!svn/ver/2975/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx_src/nginx-1.2.3/conf/mime.types
+END
+koi-win
+K 25
+svn:wc:ra_dav:version-url
+V 130
+/svn/NetGap/!svn/ver/2975/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx_src/nginx-1.2.3/conf/koi-win
+END
+koi-utf
+K 25
+svn:wc:ra_dav:version-url
+V 130
+/svn/NetGap/!svn/ver/2975/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx_src/nginx-1.2.3/conf/koi-utf
+END

@@ -1,0 +1,65 @@
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/svn/NetGap/!svn/ver/2553/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/php/include/php/ext/iconv
+END
+php_iconv_supports_errno.h
+K 25
+svn:wc:ra_dav:version-url
+V 148
+/svn/NetGap/!svn/ver/2553/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/php/include/php/ext/iconv/php_iconv_supports_errno.h
+END
+php_iconv_aliased_libiconv.h
+K 25
+svn:wc:ra_dav:version-url
+V 150
+/svn/NetGap/!svn/ver/2553/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/php/include/php/ext/iconv/php_iconv_aliased_libiconv.h
+END
+php_php_iconv_impl.h
+K 25
+svn:wc:ra_dav:version-url
+V 142
+/svn/NetGap/!svn/ver/2553/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/php/include/php/ext/iconv/php_php_iconv_impl.h
+END
+php_have_ibm_iconv.h
+K 25
+svn:wc:ra_dav:version-url
+V 142
+/svn/NetGap/!svn/ver/2553/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/php/include/php/ext/iconv/php_have_ibm_iconv.h
+END
+php_have_libiconv.h
+K 25
+svn:wc:ra_dav:version-url
+V 141
+/svn/NetGap/!svn/ver/2553/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/php/include/php/ext/iconv/php_have_libiconv.h
+END
+php_php_iconv_h_path.h
+K 25
+svn:wc:ra_dav:version-url
+V 144
+/svn/NetGap/!svn/ver/2553/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/php/include/php/ext/iconv/php_php_iconv_h_path.h
+END
+php_have_bsd_iconv.h
+K 25
+svn:wc:ra_dav:version-url
+V 142
+/svn/NetGap/!svn/ver/2553/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/php/include/php/ext/iconv/php_have_bsd_iconv.h
+END
+php_iconv.h
+K 25
+svn:wc:ra_dav:version-url
+V 133
+/svn/NetGap/!svn/ver/2553/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/php/include/php/ext/iconv/php_iconv.h
+END
+php_have_glibc_iconv.h
+K 25
+svn:wc:ra_dav:version-url
+V 144
+/svn/NetGap/!svn/ver/2553/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/php/include/php/ext/iconv/php_have_glibc_iconv.h
+END
+php_have_iconv.h
+K 25
+svn:wc:ra_dav:version-url
+V 138
+/svn/NetGap/!svn/ver/2553/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/php/include/php/ext/iconv/php_have_iconv.h
+END

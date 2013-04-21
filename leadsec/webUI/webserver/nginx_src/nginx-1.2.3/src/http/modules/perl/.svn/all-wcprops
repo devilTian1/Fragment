@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 139
+/svn/NetGap/!svn/ver/2975/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx_src/nginx-1.2.3/src/http/modules/perl
+END
+typemap
+K 25
+svn:wc:ra_dav:version-url
+V 147
+/svn/NetGap/!svn/ver/2975/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx_src/nginx-1.2.3/src/http/modules/perl/typemap
+END
+ngx_http_perl_module.c
+K 25
+svn:wc:ra_dav:version-url
+V 162
+/svn/NetGap/!svn/ver/2975/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx_src/nginx-1.2.3/src/http/modules/perl/ngx_http_perl_module.c
+END
+Makefile.PL
+K 25
+svn:wc:ra_dav:version-url
+V 151
+/svn/NetGap/!svn/ver/2975/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx_src/nginx-1.2.3/src/http/modules/perl/Makefile.PL
+END
+ngx_http_perl_module.h
+K 25
+svn:wc:ra_dav:version-url
+V 162
+/svn/NetGap/!svn/ver/2975/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx_src/nginx-1.2.3/src/http/modules/perl/ngx_http_perl_module.h
+END
+nginx.xs
+K 25
+svn:wc:ra_dav:version-url
+V 148
+/svn/NetGap/!svn/ver/2975/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx_src/nginx-1.2.3/src/http/modules/perl/nginx.xs
+END
+nginx.pm
+K 25
+svn:wc:ra_dav:version-url
+V 148
+/svn/NetGap/!svn/ver/2975/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx_src/nginx-1.2.3/src/http/modules/perl/nginx.pm
+END
