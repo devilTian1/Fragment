@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 143
+/svn/NetGap/!svn/ver/4012/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/systemManagement/conf
+END
+params.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 154
+/svn/NetGap/!svn/ver/4012/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/systemManagement/conf/params.tpl
+END
+snmp.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 152
+/svn/NetGap/!svn/ver/4012/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/systemManagement/conf/snmp.tpl
+END
+time.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 152
+/svn/NetGap/!svn/ver/4012/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/systemManagement/conf/time.tpl
+END
+service.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 155
+/svn/NetGap/!svn/ver/2979/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/systemManagement/conf/service.tpl
+END

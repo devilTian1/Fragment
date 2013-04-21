@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 134
+/svn/NetGap/!svn/ver/4065/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/resConf/addr
+END
+editRealmAddrDialog.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 158
+/svn/NetGap/!svn/ver/4061/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/resConf/addr/editRealmAddrDialog.tpl
+END
+addrTable.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 148
+/svn/NetGap/!svn/ver/4061/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/resConf/addr/addrTable.tpl
+END
+realmAddrTable.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 153
+/svn/NetGap/!svn/ver/2979/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/resConf/addr/realmAddrTable.tpl
+END
+addrList.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 147
+/svn/NetGap/!svn/ver/2979/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/resConf/addr/addrList.tpl
+END
+addrGroup.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 148
+/svn/NetGap/!svn/ver/2979/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/resConf/addr/addrGroup.tpl
+END
+realmAddr.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 148
+/svn/NetGap/!svn/ver/2979/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/resConf/addr/realmAddr.tpl
+END
+editAddrGroupDialog.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 158
+/svn/NetGap/!svn/ver/4061/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/resConf/addr/editAddrGroupDialog.tpl
+END
+addrGroupTable.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 153
+/svn/NetGap/!svn/ver/4061/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/resConf/addr/addrGroupTable.tpl
+END
+editAddrDialog.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 153
+/svn/NetGap/!svn/ver/4065/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/resConf/addr/editAddrDialog.tpl
+END

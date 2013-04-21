@@ -1,0 +1,89 @@
+K 25
+svn:wc:ra_dav:version-url
+V 142
+/svn/NetGap/!svn/ver/4085/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/networkManagement/HA
+END
+editViraddrDialog.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 164
+/svn/NetGap/!svn/ver/2988/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/networkManagement/HA/editViraddrDialog.tpl
+END
+ipDetect.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 155
+/svn/NetGap/!svn/ver/4083/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/networkManagement/HA/ipDetect.tpl
+END
+syncConf.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 155
+/svn/NetGap/!svn/ver/4068/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/networkManagement/HA/syncConf.tpl
+END
+viraddrTable.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 159
+/svn/NetGap/!svn/ver/2988/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/networkManagement/HA/viraddrTable.tpl
+END
+lvs.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 150
+/svn/NetGap/!svn/ver/2988/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/networkManagement/HA/lvs.tpl
+END
+editIpDetectDialog.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 165
+/svn/NetGap/!svn/ver/3515/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/networkManagement/HA/editIpDetectDialog.tpl
+END
+ha.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 149
+/svn/NetGap/!svn/ver/3990/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/networkManagement/HA/ha.tpl
+END
+downHistory.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 158
+/svn/NetGap/!svn/ver/3206/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/networkManagement/HA/downHistory.tpl
+END
+ha_basic.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 155
+/svn/NetGap/!svn/ver/4008/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/networkManagement/HA/ha_basic.tpl
+END
+ipDetectTable.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 160
+/svn/NetGap/!svn/ver/4085/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/networkManagement/HA/ipDetectTable.tpl
+END
+editLvsDialog.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 160
+/svn/NetGap/!svn/ver/2988/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/networkManagement/HA/editLvsDialog.tpl
+END
+viraddr.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 154
+/svn/NetGap/!svn/ver/2988/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/networkManagement/HA/viraddr.tpl
+END
+lvsTable.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 155
+/svn/NetGap/!svn/ver/2988/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/networkManagement/HA/lvsTable.tpl
+END
+syncHistory.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 158
+/svn/NetGap/!svn/ver/3206/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/networkManagement/HA/syncHistory.tpl
+END

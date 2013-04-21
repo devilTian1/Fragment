@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 137
+/svn/NetGap/!svn/ver/3874/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/statMonitor/res
+END
+editCPUChartsDialog.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 161
+/svn/NetGap/!svn/ver/3823/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/statMonitor/res/editCPUChartsDialog.tpl
+END
+editMemChartsDialog.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 161
+/svn/NetGap/!svn/ver/3823/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/statMonitor/res/editMemChartsDialog.tpl
+END
+res.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 145
+/svn/NetGap/!svn/ver/3711/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/statMonitor/res/res.tpl
+END
+devinfo.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 149
+/svn/NetGap/!svn/ver/3337/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/statMonitor/res/devinfo.tpl
+END
+meminfo.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 149
+/svn/NetGap/!svn/ver/3874/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/statMonitor/res/meminfo.tpl
+END

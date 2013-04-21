@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 127
+/svn/NetGap/!svn/ver/4181/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Function/client/mail
+END
+smtpTransVisit.php
+K 25
+svn:wc:ra_dav:version-url
+V 146
+/svn/NetGap/!svn/ver/4181/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Function/client/mail/smtpTransVisit.php
+END
+mailAddr.php
+K 25
+svn:wc:ra_dav:version-url
+V 140
+/svn/NetGap/!svn/ver/4057/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Function/client/mail/mailAddr.php
+END
+pop3GeneralVisit.php
+K 25
+svn:wc:ra_dav:version-url
+V 148
+/svn/NetGap/!svn/ver/4112/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Function/client/mail/pop3GeneralVisit.php
+END
+smtpGeneralVisit.php
+K 25
+svn:wc:ra_dav:version-url
+V 148
+/svn/NetGap/!svn/ver/4112/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Function/client/mail/smtpGeneralVisit.php
+END
+keyword.php
+K 25
+svn:wc:ra_dav:version-url
+V 139
+/svn/NetGap/!svn/ver/4057/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Function/client/mail/keyword.php
+END
+attachExt.php
+K 25
+svn:wc:ra_dav:version-url
+V 141
+/svn/NetGap/!svn/ver/4057/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Function/client/mail/attachExt.php
+END
+filter.php
+K 25
+svn:wc:ra_dav:version-url
+V 138
+/svn/NetGap/!svn/ver/4057/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Function/client/mail/filter.php
+END
+pop3TransVisit.php
+K 25
+svn:wc:ra_dav:version-url
+V 146
+/svn/NetGap/!svn/ver/4181/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Function/client/mail/pop3TransVisit.php
+END

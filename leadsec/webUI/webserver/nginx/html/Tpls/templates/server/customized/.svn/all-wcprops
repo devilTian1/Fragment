@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 139
+/svn/NetGap/!svn/ver/4091/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/server/customized
+END
+tcp.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 147
+/svn/NetGap/!svn/ver/3439/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/server/customized/tcp.tpl
+END
+udp.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 147
+/svn/NetGap/!svn/ver/3439/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/server/customized/udp.tpl
+END
+editTcpDialog.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 157
+/svn/NetGap/!svn/ver/4091/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/server/customized/editTcpDialog.tpl
+END
+editUdpDialog.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 157
+/svn/NetGap/!svn/ver/4091/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/server/customized/editUdpDialog.tpl
+END
+tcpTable.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 152
+/svn/NetGap/!svn/ver/4091/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/server/customized/tcpTable.tpl
+END
+udpTable.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 152
+/svn/NetGap/!svn/ver/4091/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/server/customized/udpTable.tpl
+END

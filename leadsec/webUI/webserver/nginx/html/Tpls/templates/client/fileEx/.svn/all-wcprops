@@ -1,0 +1,113 @@
+K 25
+svn:wc:ra_dav:version-url
+V 135
+/svn/NetGap/!svn/ver/4062/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/client/fileEx
+END
+shareDirDialog.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 154
+/svn/NetGap/!svn/ver/3723/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/client/fileEx/shareDirDialog.tpl
+END
+bannedContent.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 153
+/svn/NetGap/!svn/ver/2979/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/client/fileEx/bannedContent.tpl
+END
+allowedContent.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 154
+/svn/NetGap/!svn/ver/2979/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/client/fileEx/allowedContent.tpl
+END
+sendTaskTable.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 153
+/svn/NetGap/!svn/ver/2979/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/client/fileEx/sendTaskTable.tpl
+END
+filter.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 146
+/svn/NetGap/!svn/ver/2979/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/client/fileEx/filter.tpl
+END
+allowedFile.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 151
+/svn/NetGap/!svn/ver/2979/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/client/fileEx/allowedFile.tpl
+END
+bannedContentTable.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 158
+/svn/NetGap/!svn/ver/4062/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/client/fileEx/bannedContentTable.tpl
+END
+allowedContentTable.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 159
+/svn/NetGap/!svn/ver/4062/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/client/fileEx/allowedContentTable.tpl
+END
+filterTable.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 151
+/svn/NetGap/!svn/ver/2979/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/client/fileEx/filterTable.tpl
+END
+allowedFileTable.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 156
+/svn/NetGap/!svn/ver/4062/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/client/fileEx/allowedFileTable.tpl
+END
+shareDir.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 148
+/svn/NetGap/!svn/ver/3723/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/client/fileEx/shareDir.tpl
+END
+editSendTaskDialog.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 158
+/svn/NetGap/!svn/ver/4047/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/client/fileEx/editSendTaskDialog.tpl
+END
+editBannedContentDialog.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 163
+/svn/NetGap/!svn/ver/4062/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/client/fileEx/editBannedContentDialog.tpl
+END
+editAllowedContentDialog.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 164
+/svn/NetGap/!svn/ver/4062/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/client/fileEx/editAllowedContentDialog.tpl
+END
+shareDirTable.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 153
+/svn/NetGap/!svn/ver/3723/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/client/fileEx/shareDirTable.tpl
+END
+editFilterDialog.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 156
+/svn/NetGap/!svn/ver/3514/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/client/fileEx/editFilterDialog.tpl
+END
+sendTask.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 148
+/svn/NetGap/!svn/ver/2979/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/client/fileEx/sendTask.tpl
+END
+editAllowedFileDialog.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 161
+/svn/NetGap/!svn/ver/4062/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/client/fileEx/editAllowedFileDialog.tpl
+END

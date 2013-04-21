@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 127
+/svn/NetGap/!svn/ver/4070/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Function/server/mail
+END
+pop3.php
+K 25
+svn:wc:ra_dav:version-url
+V 136
+/svn/NetGap/!svn/ver/4070/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Function/server/mail/pop3.php
+END
+smtp.php
+K 25
+svn:wc:ra_dav:version-url
+V 136
+/svn/NetGap/!svn/ver/4070/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Function/server/mail/smtp.php
+END

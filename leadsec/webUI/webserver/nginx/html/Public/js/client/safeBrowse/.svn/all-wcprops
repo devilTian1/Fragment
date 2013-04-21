@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 134
+/svn/NetGap/!svn/ver/4128/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Public/js/client/safeBrowse
+END
+transVisit.js
+K 25
+svn:wc:ra_dav:version-url
+V 148
+/svn/NetGap/!svn/ver/4128/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Public/js/client/safeBrowse/transVisit.js
+END
+basicConfig.js
+K 25
+svn:wc:ra_dav:version-url
+V 149
+/svn/NetGap/!svn/ver/2979/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Public/js/client/safeBrowse/basicConfig.js
+END
+filterGl.js
+K 25
+svn:wc:ra_dav:version-url
+V 146
+/svn/NetGap/!svn/ver/2979/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Public/js/client/safeBrowse/filterGl.js
+END
+urlFilter.js
+K 25
+svn:wc:ra_dav:version-url
+V 147
+/svn/NetGap/!svn/ver/4128/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Public/js/client/safeBrowse/urlFilter.js
+END
+keywordFilter.js
+K 25
+svn:wc:ra_dav:version-url
+V 151
+/svn/NetGap/!svn/ver/4128/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Public/js/client/safeBrowse/keywordFilter.js
+END
+generalVisit.js
+K 25
+svn:wc:ra_dav:version-url
+V 150
+/svn/NetGap/!svn/ver/4128/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Public/js/client/safeBrowse/generalVisit.js
+END
+localUsrManage.js
+K 25
+svn:wc:ra_dav:version-url
+V 152
+/svn/NetGap/!svn/ver/4128/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Public/js/client/safeBrowse/localUsrManage.js
+END
+usrAuthen.js
+K 25
+svn:wc:ra_dav:version-url
+V 147
+/svn/NetGap/!svn/ver/2979/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Public/js/client/safeBrowse/usrAuthen.js
+END
+postfixFilter.js
+K 25
+svn:wc:ra_dav:version-url
+V 151
+/svn/NetGap/!svn/ver/4128/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Public/js/client/safeBrowse/postfixFilter.js
+END

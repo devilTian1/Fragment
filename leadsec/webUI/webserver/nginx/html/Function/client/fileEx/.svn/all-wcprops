@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 129
+/svn/NetGap/!svn/ver/4070/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Function/client/fileEx
+END
+sendTask.php
+K 25
+svn:wc:ra_dav:version-url
+V 142
+/svn/NetGap/!svn/ver/4070/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Function/client/fileEx/sendTask.php
+END
+shareDir.php
+K 25
+svn:wc:ra_dav:version-url
+V 142
+/svn/NetGap/!svn/ver/3566/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Function/client/fileEx/shareDir.php
+END
+allowedContent.php
+K 25
+svn:wc:ra_dav:version-url
+V 148
+/svn/NetGap/!svn/ver/4055/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Function/client/fileEx/allowedContent.php
+END
+bannedContent.php
+K 25
+svn:wc:ra_dav:version-url
+V 147
+/svn/NetGap/!svn/ver/4055/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Function/client/fileEx/bannedContent.php
+END
+filter.php
+K 25
+svn:wc:ra_dav:version-url
+V 140
+/svn/NetGap/!svn/ver/4049/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Function/client/fileEx/filter.php
+END
+allowedFile.php
+K 25
+svn:wc:ra_dav:version-url
+V 145
+/svn/NetGap/!svn/ver/4055/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Function/client/fileEx/allowedFile.php
+END

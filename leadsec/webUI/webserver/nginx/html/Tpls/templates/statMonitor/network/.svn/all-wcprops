@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 141
+/svn/NetGap/!svn/ver/3888/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/statMonitor/network
+END
+networkTable.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 158
+/svn/NetGap/!svn/ver/3408/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/statMonitor/network/networkTable.tpl
+END
+editNetworkCharts.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 163
+/svn/NetGap/!svn/ver/3754/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/statMonitor/network/editNetworkCharts.tpl
+END
+editNetworkDialogTable.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 168
+/svn/NetGap/!svn/ver/3888/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/statMonitor/network/editNetworkDialogTable.tpl
+END
+network.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 153
+/svn/NetGap/!svn/ver/3678/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/statMonitor/network/network.tpl
+END
+editNetworkDialog.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 163
+/svn/NetGap/!svn/ver/3408/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/statMonitor/network/editNetworkDialog.tpl
+END

@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 129
+/svn/NetGap/!svn/ver/4190/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Public/js/resConf/user
+END
+userList.js
+K 25
+svn:wc:ra_dav:version-url
+V 141
+/svn/NetGap/!svn/ver/4151/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Public/js/resConf/user/userList.js
+END
+roleList.js
+K 25
+svn:wc:ra_dav:version-url
+V 141
+/svn/NetGap/!svn/ver/4151/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Public/js/resConf/user/roleList.js
+END
+auth.js
+K 25
+svn:wc:ra_dav:version-url
+V 137
+/svn/NetGap/!svn/ver/4190/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Public/js/resConf/user/auth.js
+END
+accessControl.js
+K 25
+svn:wc:ra_dav:version-url
+V 146
+/svn/NetGap/!svn/ver/4139/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Public/js/resConf/user/accessControl.js
+END

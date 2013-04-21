@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 125
+/svn/NetGap/!svn/ver/4146/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Public/js/appS/ids
+END
+conf.js
+K 25
+svn:wc:ra_dav:version-url
+V 133
+/svn/NetGap/!svn/ver/3151/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Public/js/appS/ids/conf.js
+END
+customTest.js
+K 25
+svn:wc:ra_dav:version-url
+V 139
+/svn/NetGap/!svn/ver/4146/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Public/js/appS/ids/customTest.js
+END
+scanConf.js
+K 25
+svn:wc:ra_dav:version-url
+V 137
+/svn/NetGap/!svn/ver/3161/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Public/js/appS/ids/scanConf.js
+END
+autoConf.js
+K 25
+svn:wc:ra_dav:version-url
+V 137
+/svn/NetGap/!svn/ver/4120/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Public/js/appS/ids/autoConf.js
+END
+testResult.js
+K 25
+svn:wc:ra_dav:version-url
+V 139
+/svn/NetGap/!svn/ver/3192/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Public/js/appS/ids/testResult.js
+END
+ddosConf.js
+K 25
+svn:wc:ra_dav:version-url
+V 137
+/svn/NetGap/!svn/ver/4122/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Public/js/appS/ids/ddosConf.js
+END
+policy.js
+K 25
+svn:wc:ra_dav:version-url
+V 135
+/svn/NetGap/!svn/ver/4146/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Public/js/appS/ids/policy.js
+END

@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 131
+/svn/NetGap/!svn/ver/4082/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/server/db
+END
+db.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 138
+/svn/NetGap/!svn/ver/3584/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/server/db/db.tpl
+END
+filterGl.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 144
+/svn/NetGap/!svn/ver/2979/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/server/db/filterGl.tpl
+END
+db_editDialog.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 149
+/svn/NetGap/!svn/ver/4082/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/server/db/db_editDialog.tpl
+END
+dbTable.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 143
+/svn/NetGap/!svn/ver/4082/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/server/db/dbTable.tpl
+END

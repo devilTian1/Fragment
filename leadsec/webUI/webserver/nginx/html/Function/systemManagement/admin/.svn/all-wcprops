@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 138
+/svn/NetGap/!svn/ver/4215/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Function/systemManagement/admin
+END
+account.php
+K 25
+svn:wc:ra_dav:version-url
+V 150
+/svn/NetGap/!svn/ver/4215/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Function/systemManagement/admin/account.php
+END
+cert.php
+K 25
+svn:wc:ra_dav:version-url
+V 147
+/svn/NetGap/!svn/ver/3562/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Function/systemManagement/admin/cert.php
+END
+host.php
+K 25
+svn:wc:ra_dav:version-url
+V 147
+/svn/NetGap/!svn/ver/2979/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Function/systemManagement/admin/host.php
+END
+uploadCert.php
+K 25
+svn:wc:ra_dav:version-url
+V 153
+/svn/NetGap/!svn/ver/2979/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Function/systemManagement/admin/uploadCert.php
+END
+mode.php
+K 25
+svn:wc:ra_dav:version-url
+V 147
+/svn/NetGap/!svn/ver/2979/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Function/systemManagement/admin/mode.php
+END

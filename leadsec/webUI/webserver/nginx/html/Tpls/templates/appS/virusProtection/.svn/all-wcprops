@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 142
+/svn/NetGap/!svn/ver/3092/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/appS/virusProtection
+END
+engineManage.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 159
+/svn/NetGap/!svn/ver/3092/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/appS/virusProtection/engineManage.tpl
+END
+virusUpgrade.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 159
+/svn/NetGap/!svn/ver/2979/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/appS/virusProtection/virusUpgrade.tpl
+END

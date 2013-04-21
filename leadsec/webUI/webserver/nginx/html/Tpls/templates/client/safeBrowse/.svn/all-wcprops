@@ -1,0 +1,131 @@
+K 25
+svn:wc:ra_dav:version-url
+V 139
+/svn/NetGap/!svn/ver/4181/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/client/safeBrowse
+END
+generalVisit_editDialog.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 167
+/svn/NetGap/!svn/ver/4181/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/client/safeBrowse/generalVisit_editDialog.tpl
+END
+localUsrManage_editDialog.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 169
+/svn/NetGap/!svn/ver/4105/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/client/safeBrowse/localUsrManage_editDialog.tpl
+END
+postfixFilter_editDialog.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 168
+/svn/NetGap/!svn/ver/4105/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/client/safeBrowse/postfixFilter_editDialog.tpl
+END
+keywordFilter.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 157
+/svn/NetGap/!svn/ver/2979/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/client/safeBrowse/keywordFilter.tpl
+END
+transVisit_editDialog.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 165
+/svn/NetGap/!svn/ver/4181/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/client/safeBrowse/transVisit_editDialog.tpl
+END
+generalVisit.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 156
+/svn/NetGap/!svn/ver/3994/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/client/safeBrowse/generalVisit.tpl
+END
+urlFilter_editDialog.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 164
+/svn/NetGap/!svn/ver/4105/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/client/safeBrowse/urlFilter_editDialog.tpl
+END
+localUsrManage.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 158
+/svn/NetGap/!svn/ver/2979/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/client/safeBrowse/localUsrManage.tpl
+END
+keywordFilterTable.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 162
+/svn/NetGap/!svn/ver/4127/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/client/safeBrowse/keywordFilterTable.tpl
+END
+postfixFilter.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 157
+/svn/NetGap/!svn/ver/2979/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/client/safeBrowse/postfixFilter.tpl
+END
+generalVisitTable.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 161
+/svn/NetGap/!svn/ver/4105/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/client/safeBrowse/generalVisitTable.tpl
+END
+localUsrManageTable.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 163
+/svn/NetGap/!svn/ver/4105/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/client/safeBrowse/localUsrManageTable.tpl
+END
+transVisit.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 154
+/svn/NetGap/!svn/ver/3994/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/client/safeBrowse/transVisit.tpl
+END
+basicConfig.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 155
+/svn/NetGap/!svn/ver/2979/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/client/safeBrowse/basicConfig.tpl
+END
+filterGl.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 152
+/svn/NetGap/!svn/ver/2979/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/client/safeBrowse/filterGl.tpl
+END
+urlFilter.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 153
+/svn/NetGap/!svn/ver/2979/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/client/safeBrowse/urlFilter.tpl
+END
+postfixFilterTable.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 162
+/svn/NetGap/!svn/ver/4105/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/client/safeBrowse/postfixFilterTable.tpl
+END
+transVisitTable.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 159
+/svn/NetGap/!svn/ver/4105/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/client/safeBrowse/transVisitTable.tpl
+END
+usrAuthen.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 153
+/svn/NetGap/!svn/ver/2979/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/client/safeBrowse/usrAuthen.tpl
+END
+keywordFilter_editDialog.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 168
+/svn/NetGap/!svn/ver/4127/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/client/safeBrowse/keywordFilter_editDialog.tpl
+END
+urlFilterTable.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 158
+/svn/NetGap/!svn/ver/4105/branches/Branch_1.0.300.0_20120822/tree_app/web/deliverable/webserver/nginx/html/Tpls/templates/client/safeBrowse/urlFilterTable.tpl
+END
