@@ -8,7 +8,6 @@
 <script type="text/javascript" src="Public/js/jquery/desktop/jsLib/DD_belatedPNG_0.0.8a.js" ></script>
 <script type="text/javascript">
 	DD_belatedPNG.fix('#navBar,.icon img,.desktop_icon .text,.desktop_icon .text s');
-    //.listIcon img
 </script>
 <![endif]-->
 <script type="text/javascript">

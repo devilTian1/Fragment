@@ -270,6 +270,5 @@
 
     //level3 log/conf
     'log_v_l' => array('pid' => 'log_v', 'name' => '业务日志', 'link' => 'bizLog'),
-    'log_v_a' => array('pid' => 'log_v', 'name' => '管理日志', 'link' => 'admLog'),
-
+    'log_v_a' => array('pid' => 'log_v', 'name' => '管理日志', 'link' => 'admLog')
   );

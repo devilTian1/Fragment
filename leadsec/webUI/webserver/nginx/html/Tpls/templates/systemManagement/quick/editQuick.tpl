@@ -92,7 +92,7 @@ ul{
  initdbhooo();
 $(document).ready(function(){
 	$("ul.listIcon li").find("a.add").click(function(){
-				var id=this.id,title=this.title,img=this.id,pmenu=this.rev,smenu=this.ref;
+				var id=this.id,title=this.title,img=this.id,pmenu=this.rev,smenu=this.rel;
 				//这里的data本应该使用ajax方法从数据库获取，这里直接写到页面
 				var data={
 					'id':id,

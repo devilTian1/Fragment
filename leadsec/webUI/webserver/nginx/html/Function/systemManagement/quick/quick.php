@@ -1,6 +1,6 @@
 <?php
     require_once($_SERVER['DOCUMENT_ROOT'] . '/Function/common.php');
-    require_once(WEB_PATH . '/Conf/leftmenu.php');
+    require WEB_PATH.'/Conf/leftmenu.php';
     //get one arr
     function getArrFromID($ID){
     	global $leftmenuArr;
@@ -12,6 +12,7 @@
     	
     	$pid=$leftmenuArr[$ID]['pid'];
     	$parr=$leftmenuArr[$pid];
+    	
     	if($parr['pid']!==0){
     		return 0;
     	}else {
@@ -142,9 +143,10 @@
     	$arrto2=getAllArrFromID($arr2);
     	$arrto3=getAllArrFromID($arr3);
     	$arrto4=getAllArrFromID($arr4);
-    	echo "<pre>";
-    	//var_dump($arrto1);
-    	echo "</pre>";
+    	/*echo "<pre>";
+    	var_dump($arrto1);
+    	var_dump($arr1);
+    	echo "</pre>";*/
     	$arrtoAll=array_merge($arrto1,$arrto2,$arrto3,$arrto4);
     	V::getInstance()->assign('res1', $arrto1)
         				->assign('res2', $arrto2)
