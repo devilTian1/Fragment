@@ -355,8 +355,8 @@ function showStepPageByAjax(url) {
 function refreshLayout() {
     var contentH  = $("#mainContent").outerHeight();
     var leftmenuH = $("#leftmenu").outerHeight();
-    contentH > leftmenuH ? $("#leftmenu").outerHeight(contentH) : 
-        $("#mainContent").outerHeight(leftmenuH);
+    contentH > leftmenuH ? $("#leftmenu").outerHeight(contentH+21) : 
+        $("#mainContent").outerHeight(leftmenuH-21);
     refreshTabs();
 }
 
