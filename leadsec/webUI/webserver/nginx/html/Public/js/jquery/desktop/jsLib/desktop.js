@@ -152,7 +152,6 @@ myLib.desktop.deskIcon={
 		if(!$('ul.deskIcon').find("#"+data.id).size()){
 		var iconHtml="<li class='desktop_icon' id='"+data.id+"'><span class='icon'><img src='"+data.iconSrc+"'/></span><div class='text'>"+data.title+"<s></s></div></li>"; 
 		$(iconHtml).insertBefore("ul.currDesktop .add_icon");
-		_this.init();
 		$("#"+data.id).data("iconData",{
 							'title':data.title,
 					        'pmenu':data.pmenu,
@@ -160,6 +159,7 @@ myLib.desktop.deskIcon={
 							});
 		
 		}
+		_this.init();
 	},
 	delIcon:function(elem){
 		var _this=this;
@@ -252,7 +252,6 @@ myLib.desktop.deskIcon={
  							});
 		},	
 	init:function(iconData){
- 		 
  		 var myData=myLib.desktop.getMydata()
 		    ,winWh=myData.winWh
 			,$deskIconBlock=myData.panel.desktopPanel['_this']
@@ -275,12 +274,12 @@ myLib.desktop.deskIcon={
  		 //附加data数据
 		 myLib.desktop.iconDataInit(iconData);
 		 //给添加按钮附件data数据
-		 $deskIcon.find("li.add_icon").data("iconData",{
+		 /*$deskIcon.find("li.add_icon").data("iconData",{
 						'title':"添加应用",
 					    'url':'yingyong.html',
 					    'winWidth':600,
 					    'winHeight':400
-						});
+						});*/
  		 
 		 //桌面可使用鼠标拖动切换
 		 var timeStart,timeEnd,dxStart,dxEnd;
@@ -319,9 +318,8 @@ myLib.desktop.deskIcon={
 						}
  						}	
 					});
-		 
- 		 
 		 //单击添加应用
+		 $deskIcon.find("li.add_icon").unbind("click");//modify by xiaozl 解决绑定多次单击事件
 		 $deskIcon
 		 .find("li.add_icon")
 		 .click(function(){
@@ -339,8 +337,7 @@ myLib.desktop.deskIcon={
 							  $(this).removeClass("desktop_icon_over");
 							 })
 		 .not("li.add_icon")
- 		 //双击图标打开窗口
-		 .click(function(){
+		 .click(function(){//双击图标打开窗口
 						   var data=$(this).data("iconData"),id=this.id;
 						   var path={
 								'1':data.pmenu,

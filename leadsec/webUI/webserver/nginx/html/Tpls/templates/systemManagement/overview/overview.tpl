@@ -280,6 +280,7 @@ $(document).ready(function () {
                                     var data = result.msg.ifData;
 								    if(document.getElementById("zoompic")==null){
 								        clearInterval(setTimeout_flag);
+										return;
 								    }
                                     var j = 0;
                                     for (var i in data) {
