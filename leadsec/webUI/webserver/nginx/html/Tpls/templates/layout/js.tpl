@@ -1,4 +1,16 @@
 <!-- Put 3rd party js libraries first -->
+<script type="text/javascript">
+//正试运行中，屏蔽ie错误提示。
+var track_errors=1;
+function noError()
+{
+	if (track_errors==1)
+	{
+	return true;
+	}
+}
+window.onerror = noError;
+</script>
 <script type="text/javascript" src="Public/js/jquery/jquery-1.8.1.min.js"></script>
 <script type="text/javascript" src="Public/js/jquery/jquery-ui-1.8.23.custom.min.js"></script>
 <script type="text/javascript" src="Public/js/jquery/jquery.bgiframe.min.js"></script>
@@ -157,5 +169,12 @@
 		var cheight=$(window).height()-250
 		$("#leftmenu").height(cheight+37);
 		$("#mainContent").height(cheight);
+		$("#mainContent").resize(function(){
+				$("#mainContent").getNiceScroll().resize();			  
+			});
+		$("#mainContent").bind('DOMNodeInserted',
+		 	function(e) {
+				$("#mainContent").getNiceScroll().resize();
+			});
     });
 </script>
