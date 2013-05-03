@@ -10,9 +10,9 @@ a,img{border:0;}
     <tr>
         <td id="zoomboxtd">
   <div class="zoombox">
-	<div class="zoompic" id="zoompic"></div>
-	
-</div><!--slider end-->
+	<div class="zoompic" id="zoompic">
+    </div>
+  </div><!--slider end-->
         </td>
     </tr>
 </table>
@@ -529,23 +529,6 @@ $(document).ready(function () {
                 }
             }]
         });
-	//IE6下面滚动条优化
-	if($.browser.msie&&($.browser.version == "6.0")&&!$.support.style){
-		 $("#mainContent").scroll(function(){
-			//利用率
-			var top=$("#useRatio").offset().top-$("#useRatio div").offset().top;
-			$("#useRatio div").css({"top":top+"px"});
-			$("useRatio div").css({"top":"0px"});
-		
-			//网口状态图状态 
-			var top1=$("#zoomboxtd").offset().top-$(".zoombox").offset().top;
-			$(".sliderbox").css({"top":top1+"px"});
-			$(".sliderbox").css({"top":"0px"});
-			$("#zoompic").css({"top":top1+"px"});
-			$("#zoompic div").css({"top":top1+"px"});
-			$("#zoompic div").css({"top":"0px"});
-		 })
-	}
 /************************************************************************************************************************************/
 
 
@@ -606,6 +589,27 @@ $(document).ready(function () {
 			$('#btn-left').css({cursor: 'auto'});
 			$('#btn-left').addClass("dasabled");
 		}
+	}
+	
+	//IE6下面滚动条优化
+	if($.browser.msie&&($.browser.version == "6.0")&&!$.support.style){
+		 $("#mainContent").scroll(function(){
+			//利用率
+			var top=$("#useRatio").offset().top-$("#useRatio div").offset().top;
+			$("#useRatio div").css({"top":top+"px"});
+			$("#useRatio div").css({"top":"0px"});
+		
+			//网口状态图状态 
+			var top1=$("#zoomboxtd").offset().top-$(".zoombox").offset().top;
+			$(".sliderbox").css({"top":top1+"px"});
+			$(".sliderbox").css({"top":"0px"});
+			$("#zoompic").css({"top":top1+"px"});
+			$("#zoompic div").css({"top":top1+"px"});
+			$("#zoompic div").css({"top":"0px"});
+			//设定z-index遮盖vml
+			$("#mainContent").css({"position":"relative"});
+			$("#mainContent").css({"z-index":"8"});
+		 })
 	}
 	
 });
