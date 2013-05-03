@@ -357,6 +357,7 @@ function refreshLayout() {
     var leftmenuH = $("#leftmenu").outerHeight();
     contentH > leftmenuH ? $("#leftmenu").outerHeight(contentH+21) : 
         $("#mainContent").outerHeight(leftmenuH-21);
+	$("#mainContent").getNiceScroll().resize();
     refreshTabs();
 }
 

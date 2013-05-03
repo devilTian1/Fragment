@@ -169,5 +169,12 @@ window.onerror = noError;
 		var cheight=$(window).height()-250
 		$("#leftmenu").height(cheight+37);
 		$("#mainContent").height(cheight);
+		/*$("#mainContent").resize(function(){
+				$("#mainContent").getNiceScroll().resize();			  
+			});
+		$("#mainContent").bind('DOMNodeInserted',
+		 	function(e) {
+				$("#mainContent").getNiceScroll().resize();
+			});*/
     });
 </script>
