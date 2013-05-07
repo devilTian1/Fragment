@@ -21,6 +21,7 @@ $(function(){
 					   'url':'systemManagement/overview/overview.php'
 						},
 			  };*/
+		  if($("#smartMenu_body").length>0){$("#smartMenu_body").remove();}//解决页面跳转后再跳回来时,右键函数不起作用bug
 		  var deskIconData={
 			  <{foreach from=$resall item=res_all name=res_all}>
 				'<{$res_all.id}>':{
