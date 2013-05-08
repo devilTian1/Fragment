@@ -166,8 +166,10 @@ window.onerror = noError;
 		$("html").niceScroll({cursorborder:"",cursorcolor:"#4d8fc7",boxzoom:true});
 		$("#mainContent").niceScroll({cursorborder:"",cursorcolor:"#4d8fc7",boxzoom:true});
 		$("#leftmenu").niceScroll({cursorborder:"",cursorcolor:"#4d8fc7",boxzoom:true});
-		var cheight=$(window).height()-250
-		$("#leftmenu").height(cheight+37);
-		$("#mainContent").height(cheight);
+		setTimeout(function() {
+			 var cheight=$(window).height()-250;
+			 $("#leftmenu").height(cheight+37);
+			 $("#mainContent").height(cheight);
+    	}, 500);
     });
 </script>
