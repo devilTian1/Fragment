@@ -40,6 +40,10 @@ caption a {
     padding-right: 10px;
 }
 
+* html caption a {
+	margin-top:-20px;
+}
+
 .textMid th, .textMid td {
     text-align: center;
 }
