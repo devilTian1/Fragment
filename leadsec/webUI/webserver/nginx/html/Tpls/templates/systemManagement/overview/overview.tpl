@@ -263,7 +263,7 @@ $(document).ready(function () {
             }
         });
         var chart;
-		function setHighcharts(eth){
+		function setHighcharts(){
 			clearInterval(setTimeout_flag);
         	chart = new Highcharts.Chart({
             chart: {
@@ -531,85 +531,21 @@ $(document).ready(function () {
         });
 /************************************************************************************************************************************/
 
-
     setHighcharts();
-    for (var i in chart.series) {
-        if (i === '0') {
-            chart.series[i].show();
-        } else {
-            chart.series[i].hide();
-        }
-    }
-
-	$("#thumbnail li.current a").click();
-	//小图片左右滚动
-	var $slider = $('.slider ul');
-	var $slider_child_l = $('.slider ul li').length;
-	var $slider_width = $('.slider ul li').width();
-	$slider.width($slider_child_l * $slider_width);
-	
-	var slider_count = 0;
-	
-	if ($slider_child_l < 7) {
-		$('#btn-right').css({cursor: 'auto'});
-		$('#btn-right').removeClass("dasabled");
-	}
-	
-	$('#btn-right').click(function() {
-		if ($slider_child_l < 7 || slider_count >= $slider_child_l - 7) {
-			return false;
-		}
-		
-		slider_count++;
-		$slider.animate({left: '-=' + $slider_width + 'px'}, 'fast');
-		slider_pic();
-	});
-	
-	$('#btn-left').click(function() {
-		if (slider_count <= 0) {
-			return false;
-		}
-		slider_count--;
-		$slider.animate({left: '+=' + $slider_width + 'px'}, 'fast');
-		slider_pic();
-	});
-	
-	function slider_pic() {
-		if (slider_count >= $slider_child_l - 7) {
-			$('#btn-right').css({cursor: 'auto'});
-			$('#btn-right').addClass("dasabled");
-		}
-		else if (slider_count > 0 && slider_count <= $slider_child_l - 7) {
-			$('#btn-left').css({cursor: 'pointer'});
-			$('#btn-left').removeClass("dasabled");
-			$('#btn-right').css({cursor: 'pointer'});
-			$('#btn-right').removeClass("dasabled");
-		}
-		else if (slider_count <= 0) {
-			$('#btn-left').css({cursor: 'auto'});
-			$('#btn-left').addClass("dasabled");
+	for (var i in chart.series) {
+		if (i === '0') {
+			chart.series[i].show();
+		} else {
+			chart.series[i].hide();
 		}
 	}
-	
 	//IE6下面滚动条优化
 	if($.browser.msie&&($.browser.version == "6.0")&&!$.support.style){
-		 $("#mainContent").scroll(function(){
-			//利用率
-			var top=$("#useRatio").offset().top-$("#useRatio div").offset().top;
-			$("#useRatio div").css({"top":top+"px"});
-			$("#useRatio div").css({"top":"0px"});
-		
-			//网口状态图状态 
-			var top1=$("#zoomboxtd").offset().top-$(".zoombox").offset().top;
-			$(".sliderbox").css({"top":top1+"px"});
-			$(".sliderbox").css({"top":"0px"});
-			$("#zoompic").css({"top":top1+"px"});
-			$("#zoompic div").css({"top":top1+"px"});
-			$("#zoompic div").css({"top":"0px"});
-			//设定z-index遮盖vml
-			$("#mainContent").css({"position":"relative"});
-			$("#mainContent").css({"z-index":"8"});
-		 })
+	   //设定z-index遮盖vml
+		$("#mainContent").css({"position":"relative"});
+		$("#mainContent").css({"z-index":"8"});
+		$(".footer").css({"position":"relative"});
+		$(".footer").css({"z-index":"8"});
 	}
 	
 });
