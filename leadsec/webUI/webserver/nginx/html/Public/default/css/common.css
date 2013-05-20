@@ -436,6 +436,7 @@ label.errorLabel {
 
 /* TAB & CONTENT */
 /* tabs */ 
+#tab label{ height:69px; display:block; line-height:69px; padding-left:20px;}
 #tab .tabs {
 	width: 99.5%;
 	float: left;
