@@ -52,8 +52,10 @@ $(function(){
 function addIcon(data){
 	 var id=data.id;//得到当前的id
 	 var index= $("#navBar").find("a").index($('.currTab'))+1;//判断是哪个桌面添加的
-	 $.post("Function/systemManagement/quick/quick.php", {type:'add',id:id, index:index});
-	 myLib.desktop.deskIcon.addIcon(data);
+	 if(!$('ul.deskIcon').find("#"+data.id).size()){
+	 	$.post("Function/systemManagement/quick/quick.php", {type:'add',id:id, index:index});
+		 myLib.desktop.deskIcon.addIcon(data);
+	 }
 }
 </script>
 <div id="wallpapers"></div>

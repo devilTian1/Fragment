@@ -80,7 +80,7 @@
     	$strcon="";
     	if(file_exists($pathfile)){
     		$filecontent=file_get_contents($pathfile);
-    		if(!stripos($filecontent,$id)){
+    		if(stripos($filecontent,$id)===false){
 	    		$arr_temp=explode(";",$filecontent);
 	    		foreach ($arr_temp as $key=>$arr_val){
 	    			if ($index==$key+1){
