@@ -49,12 +49,15 @@ $(function(){
 		  });		
 
 //添加应用函数
+var addFlag_time=0;//判断是否正在处于添加快捷配置
 function addIcon(data){
+	 if(addFlag_time==1){return;}
 	 var id=data.id;//得到当前的id
 	 var index= $("#navBar").find("a").index($('.currTab'))+1;//判断是哪个桌面添加的
 	 if(!$('ul.deskIcon').find("#"+data.id).size()){
+		addFlag_time=1;
 	 	$.post("Function/systemManagement/quick/quick.php", {type:'add',id:id, index:index});
-		 myLib.desktop.deskIcon.addIcon(data);
+		myLib.desktop.deskIcon.addIcon(data);
 	 }
 }
 </script>

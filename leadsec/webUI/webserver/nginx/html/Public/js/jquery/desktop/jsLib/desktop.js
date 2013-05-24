@@ -157,7 +157,7 @@ myLib.desktop.deskIcon={
 					        'pmenu':data.pmenu,
 							'smenu':data.smenu
 							});
-		
+		addFlag_time=0;
 		}
 		_this.init();
 	},
