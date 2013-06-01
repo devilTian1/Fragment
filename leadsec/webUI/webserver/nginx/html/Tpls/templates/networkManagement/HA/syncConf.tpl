@@ -95,5 +95,6 @@ $(document).ready(function() {
     renderStandardUi();
     validateForm($("#serverIPForm"));
     validateForm($("#localAddrForm"));
+	$(".tdbody").width($("table").width()-250);
 });
 </script>
