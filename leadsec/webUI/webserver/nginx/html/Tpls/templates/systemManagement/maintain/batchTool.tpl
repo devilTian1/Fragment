@@ -9,18 +9,13 @@
 			</textarea>
 		</td>
 		<td>
-			<button class="inputbtn standard" type="submit" onclick="cleanUp()">
-				清空
-			</button><br/><br/>
+        	<input class="inputbtn standard" type="submit" onclick="cleanUp()" value="清空"/>
+			<br/><br/>
 			<form class="inline" action="Function/systemManagement/maintain/batchTool.php" method="POST">
 			<input type="hidden" name="action" value="down"/>
-			<button class="inputbtn standard" type="submit">
-				导出
-			</button>
+			<input class="inputbtn standard" type="submit" value="导出"/>
 			</form><br/><br/>
-			<button class="inputbtn standard" type="submit" onclick="show()">
-				刷新
-			</button>
+			<input class="inputbtn standard" type="submit" onclick="show()" value="刷新"/>
 		</td>
 	</tr>
 </table>
@@ -37,14 +32,11 @@
 					<textarea cols="45" rows="5" name="batchCmd" id="textareaB" onkeyup="ModifyStyle()"></textarea>
 				</form>
 			</td>
-			
 			<td>
-				<button class="inputbtn standard" id="rewrite" onclick="reWrite()">
-					重写
-				</button><br /><br />
-				<button class="inputbtn standard" id="upload" onClick="runBatchCmd()">
-					提交
-				</button>
+				<input type="button" class="inputbtn standard" id="rewrite" onclick="reWrite()" value="重写"/>
+					<br /><br />
+				<input type="button" class="inputbtn standard" id="upload" onClick="runBatchCmd()" value="提交"/>
+					
 			</td>
 			
 		</tr>
@@ -56,9 +48,8 @@
 					id="batchToolExportForm" method="POST" onSubmit="return false;">
 					<input name="batchToolExportFile" type="file" id="file"/>
 					<input type="hidden" name="action" value="uploadBatchFile">
-       				<button class="inputbtn standard" type="button" onclick="exportBatchToolFile()">
-						导入
-					</button>
+       				<input class="inputbtn standard" type="button" onclick="exportBatchToolFile()" value="导入"/>
+						
 				</form>
 			</td>
 		</tr> 
@@ -66,10 +57,8 @@
 			<td colspan="2">
 			<form class="inline" action="Function/systemManagement/maintain/batchTool.php" 
 				id="performBatchProcessingForm" method="POST" onSubmit="return false;">
-				<input type="hidden" name="action" value="performBatchProcessing">
-				<button class="inputbtn standard" id="performBat" onclick="performBatchProcessingForm()" >
-					执行批处理
-				</button>
+				<input type="hidden" name="action" value="performBatchProcessing" />
+				<input type="button" class="inputbtn standard" id="performBat" onclick="performBatchProcessingForm()" value="执行批处理" />
 			</form>
 			</td>
 		</tr>
@@ -78,7 +67,13 @@
 <script type="text/javascript">
 $(document).ready(function() {
 	renderStandardUi(); 
-    ModifyStyle();
+    function testTextAreaB(){
+		ModifyStyle();
+		setTimeout(function(){
+				testTextAreaB();		
+						},20);
+	}
+	testTextAreaB();
 	validateForm($("#batchToolExportForm"));
 	show();
 });
