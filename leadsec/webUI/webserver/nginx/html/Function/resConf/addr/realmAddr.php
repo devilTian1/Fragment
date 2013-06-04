@@ -11,10 +11,18 @@
         $tpl =  'resConf/addr/realmAddrTable.tpl';
         $db  = new dbsqlite(DB_PATH . '/rule.db');
 	    $sql = "SELECT id, name, domain, primary_dns, slave_dns".
-            " FROM domain_property $where";
-        $result = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
+            " FROM domain_property";
+	    $params = array();
+	    if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
+	    	$data   = getWhereStatement($db, $_GET['cols'], $_GET['keyword']);
+	    	$sql   .= $data['sql'];
+	    	$params = $data['params'];
+	    }
+	    $sql .=  ' ' . $where;
+	    $result = $db->query($sql, $params)->getAllData(PDO::FETCH_ASSOC);
         foreach ($result as $k => $v) {
             $r = getIpList($v['name']);
+            $result[$k]['delname'] = $v['name'];
             $key = $v['name'];
             $val = substr($key, 0, -5);
             $result[$k]['name'] = $val;
@@ -36,7 +44,7 @@
     }
 
     function getAddOrEditCmd($type) {
-        $name        = $_POST['addrName'];
+        $name        = $_POST['domainAddrName'];
         $domain      = $_POST['domainName'] === '' ? 'none' : $_POST['domainName'];
         $autoResolve = $_POST['auto_resolve'] === 'on' ? 'on' : 'off';
         $primaryDns  = $_POST['primaryDns'] === '' ? 'none' : $_POST['primaryDns'];
@@ -71,11 +79,23 @@
         return $cmdArr;
     }
 
+    function getWhereStatement($db, $cols, $keyword) {
+    	$value = '%' . $keyword . '%';
+    	$params = array_fill(0, count(explode(',', $cols)), $value);
+    	return array('sql'    => ' WHERE (' .
+    			$db->getWhereStatement($cols, 'OR', 'like') . ')',
+    			'params' => $params);
+    }
+    
     function getDataCount() {
         $sql = "SELECT id FROM domain_property";
         $db  = new dbsqlite(DB_PATH . '/rule.db');
-        $result = $db->query($sql)->getCount();
-        return $result;
+        if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
+            $data   = getWhereStatement($db, $_GET['cols'], $_GET['keyword']);
+            $sql   .= $data['sql'];
+            $params = $data['params'];
+        }
+        return $db->query($sql, $params)->getCount();
     }
 
     if ($id = $_POST['specId']) {
@@ -106,32 +126,39 @@
         echo json_encode(array('msg' => $result));
     } else if ('add' === $_POST['type']) {
         // Add new realm addr
-        if ($_POST['addrName'] === "any") {
-        	echo json_encode(array('msg' => "[any]为内部关键字，不允许定义为名称."));
+        if ($_POST['domainAddrName'] === "any") {
+        	echo json_encode(array('msg' => "[any]为内部关键字，不允许定义为名称。"));
         	return;
         }
         $cmd = getAddOrEditCmd('add');
         $cli = new cli();
         $cli->setLog($cmd['log'])->run($cmd['cmd']);
-        echo json_encode(array('msg' => "添加成功."));
+        echo json_encode(array('msg' => "添加成功。"));
     } else if ('edit' === $_POST['type']) {
         // Edit specified realm addr
         $cmd = getAddOrEditCmd('set');
         $cli = new cli();
         $cli->setLog($cmd['log'])->run($cmd['cmd']);
-        echo json_encode(array('msg' => "修改成功."));
+        echo json_encode(array('msg' => "修改成功。"));
     } else if ($delName = $_POST['delName']) {
-        // Delete specified realm addr
+        // Delete specified realm addr    	
         $cmd = "domain del name $delName";
+        $name = substr($delName, 0, -5);
         $cli = new cli();
-        $cli->setLog('删除资源配置的域名地址'.$name)->run($cmd);
-        echo json_encode(array('msg' => "[$delName]已经删除."));
-    } else if ($name = $_POST['refreshName']) {
+        $cli->setLog('删除资源配置的域名地址'.$delName)->run($cmd);
+        echo json_encode(array('msg' => "[$name]已经删除。"));
+    } else if ($refreshId = $_POST['refreshName']) {
         // refresh specified realm addr
-        $cmd = "domain refresh name $name";
+    	$db  = new dbsqlite(DB_PATH . '/rule.db');
+    	$sql = "SELECT name FROM domain_property
+    	WHERE id = '$refreshId'";
+    	$result = $db->query($sql)->getFirstData(PDO::FETCH_ASSOC);
+    	$refreshName = $result['name'];    	
+    	$cmd = "domain refresh name $refreshName";
+    	$name = substr($refreshName, 0, -5);
         $cli = new cli();
-        $cli->setLog('刷新资源配置的域名地址'.$name)->run($cmd);
-        echo json_encode(array('msg' => "[$name]已刷新."));
+        $cli->setLog('刷新资源配置的域名地址'.$refreshName)->run($cmd);
+        echo json_encode(array('msg' => "[$name]已刷新。"));
     } else if ($orderStatement = $_POST['orderStatement']) {
         // fresh and resort realm addr table
         appendRealmAddrData($orderStatement);

@@ -7,8 +7,11 @@ function openEditDialog(id) {
     var buttons = {};
     buttons[getMessage('Ok')] = function() {
         if ($('#editForm').valid()) {
-            ajaxSubmitForm($('#editForm'), '结果');
-            freshTableAndPage();
+			 var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editForm'), '结果',undefined,
+				undefined,afterSuccessCallback);
             $(this).remove();
         }
     };
@@ -36,15 +39,21 @@ function openNewDialog() {
     buttons[getMessage('Add Next')] = function() {
         if ($('#editForm').valid()) {
             openNewDialog();
-            ajaxSubmitForm($('#editForm'), '结果');
-            freshTableAndPage();
+			var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editForm'), '结果',undefined,
+				undefined,afterSuccessCallback);
             $(this).remove();
         }
     };
     buttons[getMessage('Ok')] = function() {
         if ($('#editForm').valid()) {
-            ajaxSubmitForm($('#editForm'), '结果');
-            freshTableAndPage();
+			var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editForm'), '结果',undefined,
+				undefined,afterSuccessCallback);
             $(this).remove();
         }
     };
@@ -95,6 +104,7 @@ function delDbSyncClient(id) {
     var dialogParams = {
         width   : 250,
         height  : 170,
+		buttons: buttons,
         position: jQuery.getDialogPosition(250,170)
     };
     showDialogByAjax(url, data, title, dialogParams);
@@ -111,7 +121,7 @@ function toggleCNameDiv() {
 function filterRes() {
     var type    = $('input:radio[name="ipType"]:checked').val();
     var saOpts  = $('select[name="sa"]');
-    var lipOpts = $('select[name="fslip"]');
+    var lipOpts = $('select[name="clientDbSyncLip"]');
     saOpts.showOption(); 
     lipOpts.showOption(); 
     if (type === 'ipv4') {
@@ -128,8 +138,11 @@ function switchPhysicalDev(id, action, formId) {
     var dialog  = loadingScreen(title);
     var buttons = {};
     buttons[getMessage('Ok')] = function() {
-        ajaxSubmitForm($('#switchForm_' + formId), '结果');
-        freshTableAndPage();
+		var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+        ajaxSubmitForm($('#switchForm_' + formId), '结果',undefined,
+			undefined,afterSuccessCallback);
         $(this).remove();
     };
     buttons[getMessage('Cancel')] = function() {
@@ -138,6 +151,7 @@ function switchPhysicalDev(id, action, formId) {
     var dialogParams = {
         width: 300,
         height: 160,
+		buttons: buttons,
         position: jQuery.getDialogPosition(300,160)
     };
     var str = action === 'disable' ? '停止' : '启动';

@@ -72,6 +72,12 @@
 		$cmd  = "config import \"{$_FILES['importFile']['name']}\"";
 		$msg_log = "系统管理下系统维护模块下导入配置文件".$_FILES['importFile']['name'];
 		$cli  = new cli();
+		list($status,$result) = $cli->setLog($msg_log)->execCmdGetStatus($cmd);
+		if ($status == 0) {
+			echo json_encode(array('msg' => '导入成功.'));
+		} else {
+			echo json_encode(array('msg' => '导入失败.'));
+		}
 		$cli->setLog($msg_log)->run($cmd);
 		$result = '导入成功,请重启网闸';
 		echo json_encode(array('status' => true,'msg' => $result));
@@ -137,7 +143,7 @@
 			$showErrorInfo = getStatusInfo($status);
 			echo json_encode(array('msg' => $showErrorInfo));
 		} else {
-			echo json_encode(array('msg' => '恢复出厂配置成功.'));
+			echo json_encode(array('msg' => '操作成功!请重启安全隔离网闸.'));
 		}
     } else if (!empty($_GET['save'])){
         // save configuration info

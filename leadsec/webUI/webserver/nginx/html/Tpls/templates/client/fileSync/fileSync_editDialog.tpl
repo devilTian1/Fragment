@@ -4,8 +4,8 @@
     <fieldset>
         <legend>添加客户端文件同步</legend>
         <div class="row">
-            <label for="fsId">任务号:<em class="required">*</em></label>
-            <input class="id" type="text" name="fsId" value="<{$data.id}>"
+            <label for="clientFileSyncTaskId">任务号:<em class="required">*</em></label>
+            <input class="id" type="text" name="clientFileSyncTaskId" id="clientFileSyncTaskId" value="<{$data.id}>"
                 <{if $type === 'edit'}>disabled="disabled"<{/if}>
                 size="4" maxlength="4"/>
             (同一端的任务号必须唯一)
@@ -30,14 +30,16 @@
         </div>
         
          <div class="row">
-            <label for="lip">本机地址:</label>
-            <{html_options class="select lip" name="fslip"
-                options=$ifList selected=$data.lip|default: '无'}>
+            <label for="clientFileSyncLip">本机地址:</label>
+            <{html_options class="select lip" name="clientFileSyncLip" 
+                id="clientFileSyncLip" options=$ifList 
+				selected=$data.lip|default: '无'}>
         </div>
         
         <div class="row">
-            <label for="fslportReq">端口:<em class="required">*</em></label>
-            <input class="port" type="text" name="fslportReq" value="<{$data.lport}>" size="5" maxlength="5"/>
+            <label for="clientFileSyncLport">端口:<em class="required">*</em></label>
+            <input class="port" type="text" name="clientFileSyncLport" id="clientFileSyncLport"
+			value="<{$data.lport}>" size="5" maxlength="5"/>
         </div>
 
         <div class="row">
@@ -58,7 +60,7 @@
         
         <div class="row cNameDiv">
             <label>客户端证书公共名:<em class="required">*</em></label>
-            <input type="text" name="commname" value="<{$data.commname}>"/>
+            <input type="text" class="width132" name="commname" value="<{$data.commname}>"/>
         </div>
         
         <div class="row">
@@ -86,7 +88,7 @@
         -->
         <div class="row">
             <label for="comment">备注:</label>            
-            <input class="comment" name="comment" id="comment" value="<{$data.comment}>"/>
+            <input class="width132" class="comment" name="comment" id="comment" value="<{$data.comment}>"/>
         </div>
     </fieldset>
 </form>

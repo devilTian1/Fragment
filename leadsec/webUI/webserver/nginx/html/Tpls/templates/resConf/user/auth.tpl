@@ -14,7 +14,7 @@
         <tr>
             <td class="tdheader column_40">重定向URL:<em class="required">*</em></td>
             <td class="tdbody">
-                <input type="text" name="redirectUrl" 
+                <input class="w150" type="text" name="redirectUrl" 
                     value="<{$serverConf.redirecturl}>" id="redirectUrl"/>
             </td>
         </tr>
@@ -64,7 +64,7 @@
         <tr>
             <td class="tdheader column_40">密码重复次数:<em class="required">*</em></td>
             <td class="tdbody">
-                <input type="text" name="maxLoadTimes" 
+                <input class="w150" type="text" name="maxLoadTimes" 
                     value="<{$paramsConf.maxloadtimes|default: 5}>"
                     id="maxLoadTimes"/>
             </td>
@@ -72,7 +72,7 @@
         <tr>
             <td class="tdheader column_40">超时解锁时间(单位:分钟):<em class="required">*</em></td>
             <td class="tdbody">
-                <input type="text" name="unlockTime" 
+                <input class="w150" type="text" name="unlockTime" 
                     value="<{$paramsConf.unlocktime|default: 10}>"
                     id="unlockTime"/>
             </td>
@@ -80,7 +80,7 @@
         <tr>
             <td class="tdheader column_40">密码有效期(单位:天, 0表示永久):<em class="required">*</em></td>
             <td class="tdbody">
-                <input type="text" name="pwdPeriod" 
+                <input class="w150" type="text" name="pwdPeriod" 
                     value="<{$paramsConf.pwdperiod|default: 0}>"
                     id="pwdPeriod"/>
             </td>
@@ -88,7 +88,7 @@
         <tr>
             <td class="tdheader column_40">密码到期提醒(单位:天):<em class="required">*</em></td>
             <td class="tdbody">
-                <input type="text" name="pwdRemind" 
+                <input class="w150" type="text" name="pwdRemind" 
                     value="<{$paramsConf.pwdremind|default: 7}>"
                     id="pwdRemind"/>
             </td>
@@ -96,7 +96,7 @@
         <tr>
             <td class="tdheader column_40">用户IDLE时间(单位:分钟):<em class="required">*</em></td>
             <td class="tdbody">
-                <input type="text" name="idleTime" 
+                <input class="w150" type="text" name="idleTime" 
                     value="<{$paramsConf.idletime|default: 0}>"
                     id="idleTime"/>
             </td>
@@ -113,7 +113,7 @@
     </tbody>
 </table>
 </form>
-<{include file='layout/search.tpl' tableId='authPolicyTable'}>
+<{include file='layout/search.tpl' colNames='auth_policy_name,sa_type,ingress,port'}>
 <table class="column_95 textMid tablesorter" id="authPolicyTable">
     <caption>认证策略</caption>
     <thead>

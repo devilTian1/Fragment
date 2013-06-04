@@ -5,15 +5,18 @@ function editAllowedContentDialog(id) {
 		editId: id
     };
     var buttons = {};
-    buttons['确定'] = function() {
+    buttons[getMessage('Ok')] = function() {
         if ($('#editAllowedContentForm').valid()) {
             $('#aflist option').attr('selected', 'selected');
-            ajaxSubmitForm($('#editAllowedContentForm'), '结果');
-            freshTableAndPage();
+            var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editAllowedContentForm'), '结果', undefined,
+                undefined, afterSuccessCallback);
             $(this).remove();
         }
     };
-    buttons['取消'] = function() {
+    buttons[getMessage('Cancel')] = function() {
         $(this).remove();
     };
     var dialogParams = {
@@ -33,7 +36,7 @@ function delAllowedContent(id, name) {
     };
     var title  = '删除内容白名单';
     var buttons = {};
-    buttons['确定'] = function() {
+    buttons[getMessage('Ok')] = function() {
         freshTableAndPage();
         $(this).remove();
     };
@@ -49,12 +52,12 @@ function delAllowedContent(id, name) {
 function delAllowedContentDialog(id, name) {
     var dialog  = loadingScreen('删除客户端文件交换');
     var buttons = {};
-    buttons['确定'] = function() {
+    buttons[getMessage('Ok')] = function() {
         delAllowedContent(id, name);
         freshTableAndPage();
         $(this).remove();
     };
-    buttons['取消']  = function() {
+    buttons[getMessage('Cancel')]  = function() {
         $(this).remove();
     };
     var dialogParams = {
@@ -74,24 +77,30 @@ function openNewAllowedContentDialog() {
 		openAddDialog: true
     };
     var buttons = {};
-    buttons['添加下一条'] = function() {
+    buttons[getMessage('Add Next')] = function() {
         if ($('#editAllowedContentForm').valid()) {
             $('#aflist option').attr('selected', 'selected');
             openNewAllowedContentDialog();
-            ajaxSubmitForm($('#editAllowedContentForm'), '结果');
-            freshTableAndPage();
+            var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editAllowedContentForm'), '结果', undefined,
+                undefined, afterSuccessCallback);
             $(this).remove();
         }
     };
-    buttons['确定'] = function() {
+    buttons[getMessage('Ok')] = function() {
         if ($('#editAllowedContentForm').valid()) {
             $('#aflist option').attr('selected', 'selected');
-            ajaxSubmitForm($('#editAllowedContentForm'), '结果');
-            freshTableAndPage();
+            var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editAllowedContentForm'), '结果', undefined,
+                undefined, afterSuccessCallback);
             $(this).remove();
         }
     };
-    buttons['取消'] = function() {
+    buttons[getMessage('Cancel')] = function() {
         $(this).remove();
     };
     var dialogParams = {
@@ -126,7 +135,7 @@ function moveToAFlist() {
 function rmAFlist() {
     var selectedDom = $('#aflist option:selected');
     if (selectedDom.length === 0 ) {
-        showErrorDialog(getMessage('请选择要删除的内容.'));
+        showErrorDialog(getMessage('请选择要删除的内容。'));
         return false;
     } else {
         selectedDom.remove();

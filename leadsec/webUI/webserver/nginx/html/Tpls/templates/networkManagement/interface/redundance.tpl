@@ -1,4 +1,4 @@
-<{include file='layout/search.tpl' tableId='redundanceTable'}>
+<{include file='layout/search.tpl'}>
 <table class="column_95 textMid tablesorter" id="redundanceTable">
     <caption>冗余设备</caption>
     <thead>
@@ -19,12 +19,12 @@
     </tbody>
 </table>
 <button class="standard floatLeft" style="position: static"
-    onclick="openSetWorkModeDialog()"
-    id="workModeSet">高级设置
-</button>
-<button class="standard floatLeft" style="position: static"
     onclick="openNewRedundanceDevDialog()"
     id="addRedundance">添加
+</button>
+<button class="standard floatLeft" style="position: static"
+    onclick="openSetWorkModeDialog()"
+    id="workModeSet">高级设置
 </button>
 <div class="pager floatRight">
     <{include file='layout/pagination.tpl' func='Function/networkManagement/interface/redundance.php'}>

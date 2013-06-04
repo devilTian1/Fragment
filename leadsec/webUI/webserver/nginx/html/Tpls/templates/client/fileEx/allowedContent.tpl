@@ -1,4 +1,4 @@
-<{include file='layout/search.tpl' tableId='allowedContentTable'}>
+<{include file='layout/search.tpl' colNames='name,context,comment'}>
 <table class="column_95 textMid tablesorter" id="allowedContentTable">
     <caption>内容控制</caption>
     <thead>

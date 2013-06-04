@@ -28,10 +28,16 @@
         /**
          * only for 'select' sql cmd.
          */
-        public function query($sql) {
+        public function query($sql, $params = array()) {
             $this->trace($sql);
             try {
-                $this->queryResult = self::$db->query($sql);
+                if (!empty($params)) {
+                    $st = self::$db->prepare($sql);
+                    $st->execute($params);
+                    $this->queryResult = $st;
+                } else {
+                    $this->queryResult = self::$db->query($sql);
+                }
                 return $this;
             } catch (Exception $e) {
                 throw new DBException('Database problem: ' . $e->getMessage());
@@ -120,10 +126,16 @@
             foreach (array('B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K',
                            'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U',
                            'V', 'W', 'X', 'Y', 'Z') as $a) {
-                $replace = 'REPLACE(' . $replace . ", '$a', ''),";
+                $replace = 'REPLACE(' . $replace . ", '$a', '')";
             }
-            $replace = substr($replace, 0, -1) . '+0';
+            $replace .= '+0';
             return str_replace($name, $replace, $sql);
+        }
+
+        public function getWhereStatement($colStr, $connect, $operator,
+            $value = '?'){
+            return str_replace(',', " $operator $value $connect ", $colStr) .
+                " $operator $value";
         }
 
         public function close() {

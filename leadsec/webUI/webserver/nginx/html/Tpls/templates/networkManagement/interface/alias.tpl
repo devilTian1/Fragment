@@ -1,4 +1,4 @@
-<{include file='layout/search.tpl' tableId='aliasTable'}>
+<{include file='layout/search.tpl'}>
   <table class="column_95 textMid tablesorter" id="aliasTable">
     <caption>
   	 别名设备

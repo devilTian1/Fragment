@@ -314,6 +314,59 @@ function convertToIpv4Mask($mask, $format = 'dot') {
     }
 }
 
+function getCurModStat($tabPath) {
+    $l1 = strtolower($tabPath[1]);
+    if ($l1 !== 'client' && $l1 !== 'server') {
+        return false;
+    }
+    $mod = $tabPath[2];
+    $res = 
+        array('fileEx'     => array('db'      => 'netgap_system.db|system',
+                                    'colName' => 'sync_status'),
+              'fileSync'   => array('db'      => 'netgap_system.db|system',
+									'colName' => 'fs_new_status'),
+              'dbSync'     => array('db'      =>'netgap_system.db|system',
+									'colName' => 'db_swap_status'),
+              'safeBrowse' => array('db'      =>'netgap_system.db|system',
+                                    'colName' => 'http_status'),
+              'ftp'        => array('db'      => 'gateway_ftp.db|system',
+                                    'colName' => 'ftp_status'),
+              'mail'       => array('db'      => 'netgap_mail.db|mail_system',
+                                    'colName' => 'pop3_status'),
+              'pop3'       => array('db'      => 'netgap_mail.db|mail_system',
+                                    'colName' => 'pop3_status'),
+              'smtp'       => array('db'      => 'netgap_mail.db|mail_system',
+                                    'colName' => 'smtp_status'),
+	          'db'         => array('db'      => 'netgap_system.db|system',
+                                    'colName' => 'db_status'),
+              'safePass'   => array('db'      => 
+                                        'netgap_fastpass.db|fastpass_status',
+                                    'colName' => 'status'),
+              'msgTrans'   => array('db'      => 'netgap_system.db|system',
+                                    'colName' => 'sync_msg_status'),
+              'customized' => array('db'      => 'netgap_system.db|system',
+                                    'colName' => 'ctcp_status'),
+              'tcp'        => array('db'      => 'netgap_system.db|system',
+                                    'colName' => 'ctcp_status'),
+              'udp'        => array('db'      => 'netgap_system.db|system',
+                                    'colName' => 'cudp_status')
+        );
+    list($db, $table) = explode('|', $res[$mod]['db']);
+    $colName          = $res[$mod]['colName'];
+
+    $db   = new dbsqlite(DB_PATH . '/' . $db);
+    $sql  = "SELECT $colName FROM $table";
+    $data = $db->query($sql)->getFirstData(PDO::FETCH_ASSOC);
+    $stat = $data[$colName];
+    if ($stat === '1') {
+        return array('active' => 'on',  'mod' => $mod, 'serv' => $colName);
+    } else if ($stat === '0') {
+        return array('active' => 'off', 'mod' => $mod, 'serv' => $colName);
+    } else {
+        return false;
+    }
+}
+
 /*
  * Validate ipv4 format.
  * @param $ipv4 string. to be validated.

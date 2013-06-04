@@ -14,8 +14,11 @@ function openEditUserDialog(id) {
     		showErrorDialog('字符","请不要放在末尾');
     	}else{
     		if ($('#editUserFilterForm').valid()) {
-                ajaxSubmitForm($('#editUserFilterForm'), '结果');
-                freshTableAndPage();
+    			var afterSuccessCallback = function() {
+                    freshTableAndPage();
+                };
+                ajaxSubmitForm($('#editUserFilterForm'), '结果', undefined,
+                    undefined, afterSuccessCallback);
                 $(this).remove();
             }
     	}    	
@@ -49,8 +52,11 @@ function openNewDialog() {
     	}else{
     		if ($('#editUserFilterForm').valid()) {
                 openNewDialog();
-                ajaxSubmitForm($('#editUserFilterForm'), '结果');
-                freshTableAndPage();
+    			var afterSuccessCallback = function() {
+                    freshTableAndPage();
+                };
+                ajaxSubmitForm($('#editUserFilterForm'), '结果', undefined,
+                    undefined, afterSuccessCallback);
                 $(this).remove();
             }
     	}
@@ -65,8 +71,11 @@ function openNewDialog() {
     		showErrorDialog('字符","请不要放在末尾');
     	}else{
     		if ($('#editUserFilterForm').valid()) {
-                ajaxSubmitForm($('#editUserFilterForm'), '结果');
-                freshTableAndPage();
+    			var afterSuccessCallback = function() {
+                    freshTableAndPage();
+                };
+                ajaxSubmitForm($('#editUserFilterForm'), '结果', undefined,
+                    undefined, afterSuccessCallback);
                 $(this).remove();
             }
     	}       

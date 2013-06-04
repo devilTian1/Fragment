@@ -7,8 +7,11 @@ function editPop3TransClientAclDialog(id) {
     var buttons = {};
     buttons[getMessage('Ok')] = function() {
         if ($('#editPop3TransClientAclForm').valid()) {
-            ajaxSubmitForm($('#editPop3TransClientAclForm'), '结果');
-            freshTableAndPage();
+        	var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editPop3TransClientAclForm'), '结果', undefined,
+                undefined, afterSuccessCallback);    
             $(this).remove();
         }
     };
@@ -34,15 +37,21 @@ function openNewPop3TransClientAclDialog() {
     buttons[getMessage('Add Next')] = function() {
         if ($('#editPop3TransClientAclForm').valid()) {
             openNewPop3TransClientAclDialog();
-            ajaxSubmitForm($('#editPop3TransClientAclForm'), '结果');
-            freshTableAndPage();
+            var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editPop3TransClientAclForm'), '结果', undefined,
+                undefined, afterSuccessCallback);   
             $(this).remove();
         }
     };
     buttons[getMessage('Ok')] = function() {
         if ($('#editPop3TransClientAclForm').valid()) {
-            ajaxSubmitForm($('#editPop3TransClientAclForm'), '结果');
-            freshTableAndPage();
+        	var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editPop3TransClientAclForm'), '结果', undefined,
+                undefined, afterSuccessCallback);   
             $(this).remove();
         }
     };
@@ -104,8 +113,11 @@ function switchPop3TransClientAcl(id, action) {
     var dialog  = loadingScreen(title);
     var buttons = {};
     buttons[getMessage('Ok')] = function() {
-        ajaxSubmitForm($('#switchPop3TransClientForm_' + id), '结果');
-        freshTableAndPage();
+    	var afterSuccessCallback = function() {
+            freshTableAndPage();
+        };
+        ajaxSubmitForm($('#switchPop3TransClientForm_' + id), '结果', undefined,
+            undefined, afterSuccessCallback);   
         $(this).remove();
     };
     buttons[getMessage('Cancel')] = function() {

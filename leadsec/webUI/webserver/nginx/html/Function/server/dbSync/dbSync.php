@@ -5,22 +5,47 @@
     function appendDbSyncinformation($where) {
         $tpl =  'server/dbSync/dbSyncTable.tpl';
         $db  = new dbsqlite(DB_PATH . '/netgap_db_swap.db');
-	    $sql = "SELECT * FROM db_swap_server_acl $where";
-        $result = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
+	    $sql = "SELECT * FROM db_swap_server_acl";
+		$params = array();
+        if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
+            $data   = getWhereStatement($db, $_GET['cols'], $_GET['keyword']);
+            $sql   .= $data['sql'];
+            $params = $data['params'];
+        }
+        $sql .=  ' ' . $where;
+        $result = $db->query($sql,$params)->getAllData(PDO::FETCH_ASSOC);
         echo V::getInstance()->assign('dataInfo', $result)
             ->assign('pageCount', 10)
             ->fetch($tpl);
     }
 
+	function getWhereStatement($db, $cols, $keyword) {
+        $value  = '%' . $keyword . '%';
+        $params = array_fill(0, count(explode(',', $cols)), $value);
+        return array('sql'    => ' WHERE (' .
+                              $db->getWhereStatement($cols, 'OR', 'like') . ')',
+                     'params' => $params);
+    }
+
     function getDataCount() {
     	$sql = "SELECT id FROM db_swap_server_acl $where";
         $db  = new dbsqlite(DB_PATH . '/netgap_db_swap.db');
-        return $db->query($sql)->getCount();
+		$params = array();
+        if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
+            $data   = getWhereStatement($db, $_GET['cols'], $_GET['keyword']);
+            $sql   .= $data['sql'];
+            $params = $data['params'];
+        }
+        return $db->query($sql,$params)->getCount();
     }
 
 	function getCmd($action) {
 		//任务号
-        $id = intval($_POST['serverDbId']);
+		if (!empty($_POST['serverDbSyncTaskId'])) {
+			$id = intval($_POST['serverDbSyncTaskId']);
+		} else {
+			$id = intval($_POST['serverDbId']);
+		}
 		//本机地址
         $sip     = $_POST['serverip'];
 		if (validateIpv4Format($_POST['serverip'])) {
@@ -29,7 +54,7 @@
 			$ipver = 'ipv6';
 		}
 		//本机端口
-        $sport   = $_POST['sport'];
+        $sport   = $_POST['serverport'];
         if ($_POST['ssl'] === 'Y') {
 		//身份认证及传输加密,若加密则客户端证书有名称
             $ssl   = 'yes';

@@ -10,24 +10,30 @@ function openNewRealmAddrDialog() {
         tpl : 'resConf/addr/editRealmAddrDialog.tpl'
     };
     var buttons = {};
-    buttons['添加下一条'] = function() {
+    buttons[getMessage('Add Next')] = function() {
         if ($('#editRealmAddrForm').valid()) {
             selectedOption();
             openNewRealmAddrDialog();
-            ajaxSubmitForm($('#editRealmAddrForm'), '结果');
-            freshTableAndPage();
+            var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editRealmAddrForm'), '结果', undefined,
+                undefined, afterSuccessCallback);
             $(this).remove();
         }
     };
-    buttons['确定'] = function() {
+    buttons[getMessage('Ok')] = function() {
         if ($('#editRealmAddrForm').valid()) {
             selectedOption();
-            ajaxSubmitForm($('#editRealmAddrForm'), '结果');
-            freshTableAndPage();
+            var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editRealmAddrForm'), '结果', undefined,
+                undefined, afterSuccessCallback);
             $(this).remove();
         }
     };
-    buttons['取消'] = function() {
+    buttons[getMessage('Cancel')] = function() {
         $(this).remove();
     };
     var dialogParams = {
@@ -47,15 +53,18 @@ function openEditRealmAddrDialog(id) {
     };
     var title   = '域名地址维护';
     var buttons = {};
-    buttons['确定'] = function() {
+    buttons[getMessage('Ok')] = function() {
         if ($('#editRealmAddrForm').valid()) {
             selectedOption();
-            ajaxSubmitForm($('#editRealmAddrForm'), '结果');
-            freshTableAndPage();
+            var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editRealmAddrForm'), '结果', undefined,
+                undefined, afterSuccessCallback);
             $(this).remove();
         }
     };
-    buttons['取消'] = function() {
+    buttons[getMessage('Cancel')] = function() {
         $(this).remove();
     };
     var dialogParams = {
@@ -74,7 +83,7 @@ function delRealmAddr(name) {
     };
     var title  = '删除域名地址';
     var buttons = {};
-    buttons['Ok'] = function() {
+    buttons[getMessage('Ok')] = function() {
         freshTableAndPage();
         $(this).remove();
     };
@@ -87,15 +96,15 @@ function delRealmAddr(name) {
     showDialogByAjax(url, data, title, dialogParams);
 }
 
-function openDelRealmAddrDialog(name) {
+function openDelRealmAddrDialog(name,delname) {
     var dialog  = loadingScreen('删除域名地址');
     var buttons = {};
-    buttons['确定'] = function() {
-        delRealmAddr(name);
+    buttons[getMessage('Ok')] = function() {
+        delRealmAddr(delname);
         $(this).remove();
         freshTableAndPage();
     };
-    buttons['取消']  = function() {
+    buttons[getMessage('Cancel')]  = function() {
         $(this).remove();
     };
     var dialogParams = {
@@ -115,7 +124,7 @@ function refreshRealmAddr(name) {
     };
     var title  = '刷新域名地址';
     var buttons = {};
-    buttons['Ok'] = function() {
+    buttons[getMessage('Ok')] = function() {
         freshTableAndPage();
         $(this).remove();
     };

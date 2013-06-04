@@ -7,9 +7,9 @@
             <form action="Function/server/mail/pop3.php"
                 method="POST" id="switchPop3CommServerForm_<{$r.id}>"
                 onSubmit="return false;">
-                <input type="hidden" name="pop3Id" value="<{$r.id}>"/>
+                <input type="hidden" name="pop3GeneralId" value="<{$r.id}>"/>
                 <input type="hidden" name="serverIp" value="<{$r.serverip}>"/>
-                <input type="hidden" name="sportReq" value="<{$r.sport}>"/>
+                <input type="hidden" name="pop3GeneralSport" value="<{$r.sport}>"/>
                 <input type="hidden" name="comment" value="<{$r.comment|escape}>"/>
                 <{if $r.active eq 1 || $r.active eq 'Y' || $r.active eq 'ok'}>
                     <a href="#" onClick="switchPop3CommServerAcl('<{$r.id}>', 'disable')">
@@ -32,5 +32,5 @@
         </td>
     </tr>
 <{foreachelse}>
-    <tr><td colspan='6'>No Data</td></tr>
+    <tr><td colspan='6'>无数据</td></tr>
 <{/foreach}>

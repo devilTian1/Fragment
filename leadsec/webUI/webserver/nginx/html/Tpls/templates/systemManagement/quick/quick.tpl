@@ -21,7 +21,9 @@ $(function(){
 					   'url':'systemManagement/overview/overview.php'
 						},
 			  };*/
-		  if($("#smartMenu_body").length>0){$("#smartMenu_body").remove();}//解决页面跳转后再跳回来时,右键函数不起作用bug
+    if ($('#smartMenu_body').length > 0) {
+        $('#smartMenu_body').remove();
+    }
 		  var deskIconData={
 			  <{foreach from=$resall item=res_all name=res_all}>
 				'<{$res_all.id}>':{
@@ -49,16 +51,16 @@ $(function(){
 		  });		
 
 //添加应用函数
-var addFlag_time=0;//判断是否正在处于添加快捷配置
+var addFlag_time = 0;//判断是否正在处于添加快捷配置
 function addIcon(data){
-	 if(addFlag_time==1){return;}
+    if (addFlag_time==1) {return;}
 	 var id=data.id;//得到当前的id
 	 var index= $("#navBar").find("a").index($('.currTab'))+1;//判断是哪个桌面添加的
-	 if(!$('ul.deskIcon').find("#"+data.id).size()){
-		addFlag_time=1;
-	 	$.post("Function/systemManagement/quick/quick.php", {type:'add',id:id, index:index});
-		myLib.desktop.deskIcon.addIcon(data);
-	 }
+    if (!$('ul.deskIcon').find("#"+data.id).size()) {
+        addFlag_time=1;
+	    $.post("Function/systemManagement/quick/quick.php", {type:'add',id:id, index:index});
+        myLib.desktop.deskIcon.addIcon(data);
+    }
 }
 </script>
 <div id="wallpapers"></div>

@@ -6,13 +6,13 @@
     	<div class="row">
     		<label>源地址:</label>
     		<{html_options  class="select" name="srcIpList"
-                 options=$addrOptions selected=$editTransAcc.sip|default: 'any_ipv4'}>
+                 options=$saddrOptions selected=$editTransAcc.sip|default: 'any_ipv4'}>
     	</div>
     
     	<div class="row">
     		<label>目的地址:</label>
     			<{html_options class="select" name="destIpList"
-                options=$addrOptions selected=$editTransAcc.dip|default: 'any_ipv4'}>
+                options=$daddrOptions selected=$editTransAcc.dip|default: 'any_ipv4'}>
     	</div>
     
         <div class="row" id="dPortDiv">

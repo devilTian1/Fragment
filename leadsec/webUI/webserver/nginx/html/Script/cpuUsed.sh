@@ -18,5 +18,5 @@ SYS_USAGE=`expr $SYS_IDLE/$Total*100 |bc -l`
  
 SYS_Rate=`expr 100-$SYS_USAGE |bc -l`  
 
-Disp_SYS_Rate=`echo "scale=3;  if(scale($SYS_Rate) == length($SYS_Rate)) print 0; print $SYS_Rate/1" |bc`  
+Disp_SYS_Rate=`echo "scale=2;  if(scale($SYS_Rate) == length($SYS_Rate)) print 0; print $SYS_Rate/1" |bc`  
 echo $Disp_SYS_Rate% 

@@ -1,6 +1,6 @@
 <{foreach $GeneralAcc as $key => $array }>
     <tr>
-        <td><{$beginId++}></td>        
+        <td><{$array.id}></td>
         <td><{$array.sip}></td>
         <td>
         	<{if $array.time != 'none'}>
@@ -16,5 +16,5 @@
         </td>
     </tr>
 <{foreachelse}>
-    <tr><td colspan='6'>No Data</td></tr>
+    <tr><td colspan='6'>无数据</td></tr>
 <{/foreach}>

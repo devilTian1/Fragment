@@ -1,4 +1,4 @@
-<{include file='layout/search.tpl' tableId='userListTable'}>
+<{include file='layout/search.tpl'}>
 <table class="column_95 textMid tablesorter" id="userListTable">
     <caption>用户管理</caption>
     <thead>
@@ -7,11 +7,11 @@
         <th class="column_5" name="user_id">序号</th>
         <th class="column_5" name="user_name">名称</th>
         <th class="column_10" name="true_name">真实姓名</th>
-        <th class="column_5" name="">状态</th>
-        <th class="column_10">有效截至日期(零点)</th>
-        <th class="column_10">SN文件</th>
-        <th class="column_10">动态密码</th>
-        <th class="column_10">唯一SN号码</th>
+        <th class="column_5">状态</th>
+        <th class="column_10" name="validtime">有效截至日期(零点)</th>
+        <th class="column_8">SN文件</th>
+        <th class="column_8">动态密码</th>
+        <th class="column_10" name="dyn_sn">唯一SN号码</th>
         <th class="column_20">操作</th>
     </tr>
     </thead>

@@ -1,11 +1,26 @@
 <?php
     require_once($_SERVER['DOCUMENT_ROOT'] . '/Function/common.php');
 
+     function getWhereStatement($db, $cols, $keyword) {
+    	$value = '%' . $keyword . '%';
+    	$params = array_fill(0, count(explode(',', $cols)), $value);
+    	return array('sql'    => ' WHERE (' .
+    			$db->getWhereStatement($cols, 'OR', 'like') . ')',
+    			'params' => $params);
+    }
+    
     function appendFtpTransClientAclData($where) {
         $tpl  =  'client/ftp/transVisitTable.tpl';
         $db   = new dbsqlite(DB_PATH . '/gateway_ftp.db');
-	    $sql  = "SELECT * FROM ftp_trans_client_acl $where";
-        $data = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
+	    $sql  = "SELECT * FROM ftp_trans_client_acl ";	    
+	    $params = array();
+        if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
+        	$dataSearch   = getWhereStatement($db, $_GET['cols'], $_GET['keyword']);
+        	$sql   .= $dataSearch['sql'];
+        	$params = $dataSearch['params'];
+        }
+        $sql .=  ' ' . $where;     	    
+        $data = $db->query($sql, $params)->getAllData(PDO::FETCH_ASSOC);
         echo V::getInstance()->assign('ftpTransClientAcl', $data)
             ->assign('pageCount', 10)
             ->fetch($tpl);
@@ -13,8 +28,13 @@
 
     function getDataCount() {
     	$sql = "SELECT id FROM ftp_trans_client_acl";
-        $db  = new dbsqlite(DB_PATH . '/gateway_ftp.db');
-        return $db->query($sql)->getCount();
+        $db  = new dbsqlite(DB_PATH . '/gateway_ftp.db');        
+        if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
+        	$data   = getWhereStatement($db, $_GET['cols'], $_GET['keyword']);
+        	$sql   .= $data['sql'];
+        	$params = $data['params'];
+        }        
+        return $db->query($sql, $params)->getCount();
     }
 
     function getCmd($action) {
@@ -31,7 +51,7 @@
         $time    = $_POST['time'];
         $filter  = $_POST['filter'];
         $usergrp = $_POST['usergrp'];
-		//$killVirus = $_POST['killVirus'] === 'Y' ? 'yes' : 'no';
+		$killVirus = $_POST['killVirus'] === 'Y' ? 'Y' : 'N';
 		
         $result = "cftpctl $action task type client mode trans id $id sa $sa " .
             " da $da dport $dport active $active ";
@@ -45,6 +65,7 @@
             $result .= "filter $filter ";
         }
         $result .= " comment \"$comment\"";
+        $result .= " virus $killVirus";
         return $result;
     }
 
@@ -55,7 +76,7 @@
         $data = $db->query($sql)->getFirstData(PDO::FETCH_ASSOC);        
         $tpl  = 'client/ftp/transVisit_editDialog.tpl';
         $result = V::getInstance()
-            ->assign('addrOptions', netGapRes::getInstance()->getAddr())            
+            ->assign('addrOptions', netGapRes::getInstance()->getAddr(true))            
             ->assign('addrDestOptions', netGapRes::getInstance()->getAddrList())          
             ->assign('ifList', netGapRes::getInstance()->getInterface())
             ->assign('timeList', netGapRes::getInstance()->getTimeList())
@@ -68,9 +89,9 @@
     } else if ('edit' === $_POST['type']) {
         // Edit specified data
         $cli = new cli();
-        $cli->run('cftpctl del task type client mode trans id ' .
+        $cli->setIsRec(false)->run('cftpctl del task type client mode trans id ' .
             $_POST['ftpTransId']);
-        $cli->setLog("修改一条FTP透明访问任务,任务号为".$_POST['ftpTransId'])->run(getCmd('set'));
+        $cli->setIsRec(true)->setLog("修改一条FTP透明访问任务,任务号为".$_POST['ftpTransId'])->run(getCmd('set'));
         echo json_encode(array('msg' =>
             '任务[' . $_POST['ftpTransId'] . ']修改成功.'));
 
@@ -90,7 +111,7 @@
         // Display add new ftp trans client acl dialog
         $tpl    = 'client/ftp/transVisit_editDialog.tpl';
         $result = V::getInstance()
-            ->assign('addrOptions', netGapRes::getInstance()->getAddr())
+            ->assign('addrOptions', netGapRes::getInstance()->getAddr(true))
             ->assign('addrDestOptions', netGapRes::getInstance()->getAddrList())
             ->assign('ifList', netGapRes::getInstance()->getInterface())
             ->assign('timeList', netGapRes::getInstance()->getTimeList())
@@ -109,10 +130,6 @@
             $msg = "停止成功.";
         }
         echo json_encode(array('msg' => $msg));
-    } else if (!empty($_GET['checkExistId'])) {
-        // Check the same id exist or not
-        echo netGapRes::getInstance()->checkExistTaskId('ftp',
-            $_GET['ftpTransId']);
     } else if ($orderStatement = $_POST['orderStatement']) {
         // fresh and resort ftp trans client list
         appendFtpTransClientAclData($orderStatement);

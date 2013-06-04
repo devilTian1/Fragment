@@ -9,8 +9,15 @@
         $tpl =  'networkManagement/interface/redundanceTable.tpl';
         $db  = new dbsqlite(DB_PATH . '/configs.db');
         $sql = 'SELECT external_name, ip, mask, workmode, ipaddr_type, ' .
-            "interface_list, enable FROM interface WHERE device_type = 6 $where";
-        $result = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
+            "interface_list, enable FROM interface WHERE device_type = 6";
+        $params = array();
+        if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
+            $data   = getWhereStatement($db, $_GET['cols'], $_GET['keyword']);
+            $sql   .= $data['sql'];
+            $params = $data['params'];
+        }
+        $sql .=  ' ' . $where;
+        $result = $db->query($sql, $params)->getAllData(PDO::FETCH_ASSOC);
         echo V::getInstance()->assign('list', $result)
         	->assign('workmodeArr', $workmodeArr)
         	->assign('ipaddrArr',   $ipaddrArr)
@@ -45,8 +52,8 @@
         $ipStr = "";
         if ($_POST['ipaddr_type'] === '1') {
             $ipAddrTypeParam = 'ipaddr_type static';
-            $ip = $_POST['devIpv4'];
-            $ipv4Mask  = $_POST['ipv4Netmask'];
+            $ip = $_POST['redundanceIpv4'];
+            $ipv4Mask  = $_POST['redundanceMask'];
             if (!empty($ipv4Mask)) {
                 $ipv4Mask = convertToIpv4Mask($ipv4Mask);
             }
@@ -93,11 +100,25 @@
         }
         return $result;
     }
+    
+    function getWhereStatement($db, $cols, $keyword) {
+        $value  = '%' . $keyword . '%';
+        $params = array_fill(0, count(explode(',', $cols)), $value);
+        return array('sql'    => ' AND (' .
+                              $db->getWhereStatement($cols, 'OR', 'like') . ')',
+                     'params' => $params);
+    }
 
     function getDataCount() {
         $sql = 'SELECT external_name FROM interface where device_type = 6';
         $db  = new dbsqlite(DB_PATH . '/configs.db');
-        return $db->query($sql)->getCount();
+        $params = array();
+        if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
+            $data   = getWhereStatement($db, $_GET['cols'], $_GET['keyword']);
+            $sql   .= $data['sql'];
+            $params = $data['params'];
+        }
+        return $db->query($sql, $params)->getCount();
     }
 
     function getExistRdNameArr() {
@@ -111,6 +132,17 @@
         return $result;
     }
     
+	function isInUseCheck($name) {
+        $sql = "SELECT phy_device FROM interface where phy_device='$name'";
+        $db  = new dbsqlite(DB_PATH . '/configs.db');
+        $num = $db->query($sql)->getCount();
+        if(intval($num) > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     $rdNameArr = array('rd1', 'rd2', 'rd3', 'rd4');
     if (!empty($_POST['name'])) {
         // Get specified Physical data and show Edit Dialog
@@ -210,7 +242,24 @@
         $cli->setLog("修改冗余设备高级设置, 将冗余设备工作模式设置为$workMode")
             ->run("interface set rdoption workmode $workMode");
         echo json_encode(array('msg' => '修改成功.'));
-    } else if ($orderStatement = $_POST['orderStatement']) {
+    } else if ($ipType = $_GET['checkIpExist']) {
+        // check if the ip address exists
+        $db     = new dbsqlite(DB_PATH . '/configs.db');
+        if ($ipType === 'ipv4') {
+            $sql  = "SELECT external_name FROM interface " .
+                "WHERE ip = '{$_GET['redundanceIpv4']}' AND external_name!='{$_GET['exName']}'";
+            echo $db->query($sql)->getCount() > 0 ? 'false' : 'true';
+        } else {
+            throw new Exception("Can`t valid the ip type:  $ipvType.");
+        }
+    } else if ($_GET['isInUseCheck']) {
+		$name = $_GET['checkName'];
+        if(isInUseCheck($name)) {
+            echo "true";
+        } else {
+            echo "false";
+        }
+	} else if ($orderStatement = $_POST['orderStatement']) {
         // fresh and resort phycial Table
         freshRedundance($orderStatement);
     }else {

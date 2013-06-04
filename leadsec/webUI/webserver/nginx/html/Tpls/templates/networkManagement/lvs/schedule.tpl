@@ -1,4 +1,4 @@
-<{include file='layout/search.tpl' tableId='scheduleTable'}>
+<{include file='layout/search.tpl' colNames='virtual_ip,virtual_port,real_ip,real_port'}>
 <table class="column_95 textMid tablesorter" id="scheduleTable">
     <caption>信息列表</caption>
     <thead>
@@ -6,10 +6,10 @@
             <th class="column_10">序号</th>
             <th class="column_20" name="virtual_ip">虚拟地址</th>
             <th class="column_10" name="virtual_port">虚拟端口</th>
-            <th class="column_15">真实地址1</th>
-            <th class="column_10">端口1</th>
-            <th class="column_15">真实地址2</th>
-            <th class="column_10">端口2</th>
+            <th class="column_15" name="real_ip">真实地址1</th>
+            <th class="column_10" name="real_port">端口1</th>
+            <th class="column_15" name="real_ip">真实地址2</th>
+            <th class="column_10" name="real_port">端口2</th>
             <th class="column_10">操作</th>
         </tr>
     </thead>

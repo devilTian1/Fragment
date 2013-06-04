@@ -49,7 +49,7 @@
                 <input type="hidden" name="time" value="<{$r.time}>"/>
                 <input type="hidden" name="FEfilterOpt" value="<{$r.filter}>"/>
                 <input type="hidden" name="lip" value="<{$r.lip}>"/>
-                <input type="hidden" name="portReq" value="<{$r.port}>"/>
+                <input type="hidden" name="sendTaskPort" value="<{$r.port}>"/>
                 <{if $r.active eq 1 || $r.active eq 'Y'}>
                     <a href="#" onClick="switchSendTaskAcl('<{$r.task_id}>', 'disable')">
                         <img src="<{$smarty.const.THEME_PATH}>/images/icon/select.png" width="16" height="16"/>
@@ -72,5 +72,5 @@
         </td>
     </tr>
 <{foreachelse}>
-    <tr><td colspan='10'>No Data</td></tr>
+    <tr><td colspan='10'>无数据</td></tr>
 <{/foreach}>

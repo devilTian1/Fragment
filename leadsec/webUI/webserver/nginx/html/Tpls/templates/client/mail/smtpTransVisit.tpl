@@ -1,4 +1,4 @@
-<{include file='layout/search.tpl' tableId='smtpTransVisitTable'}>
+<{include file='layout/search.tpl' colNames='id,sa,da,dport,filter,time,comment'}>
 <table class="column_95 textMid tablesorter" id="smtpTransVisitTable">
     <caption>信息列表</caption>
     <thead>

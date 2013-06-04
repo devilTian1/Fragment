@@ -9,13 +9,13 @@
         <tr>
           <td width="250" class="tdheader">ftp服务器 IP:</td>
           <td class="tdbody">
-            <input type="text" name="ip" id="ftpSerIP" value="<{$ftp.ftpsrv}>" />         
+            <input class="w150" type="text" name="ip" id="ftpSerIP" value="<{$ftp.ftpsrv}>" />         
           </td>
         </tr>
         <tr>
           <td width="250" class="tdheader">端口:</td>
           <td class="tdbody">
-            <input type="text" name="ftpPort" id="ftpPort" value="<{$ftp.port}>" size="5" maxlength="5"/>         
+            <input type="text" class="port" name="ftpPort" id="ftpPort" value="<{$ftp.port}>" size="5" maxlength="5"/>         
           </td>
         </tr>
         <tr>
@@ -30,13 +30,13 @@
         <tr>
           <td width="250" class="tdheader">用户名:</td>
           <td class="tdbody">
-            <input type="text" name="ftpName" id="ftpName" value="<{$ftp.user}>" size="15" maxlength="15"/>         
+            <input class="w150" type="text" name="ftpName" id="ftpName" value="<{$ftp.user}>" size="15" maxlength="15"/>         
           </td>
         </tr>
         <tr>
           <td width="250" class="tdheader">密码:</td>
           <td class="tdbody">
-            <input type="password" name="password1" id="ftpPasswd" value="<{$ftp.pass}>" />
+            <input class="w150" type="password" name="password1" id="ftpPasswd" value="<{$ftp.pass}>" />
                            
           </td>
         </tr>
@@ -69,10 +69,51 @@
         </tr>
         <tr>
           <td width="250" class="tdheader">上传间隔:</td>
-          <td class="tdbody">
-                                   分钟：<input type="text" name="ftpMinute" id="ftpMinute"  <{if $auto.minute eq 0}> value="" <{else}> value="<{$auto.minute}>" <{/if}> size="2" maxlength="2"/>&nbsp;&nbsp;&nbsp;&nbsp;  
-                                  小时：<input type="text" name="ftpHour" id="ftpHour" <{if $auto.hour eq 0}> value="" <{else}> value="<{$auto.hour}>" <{/if}> size="2" maxlength="2"/> &nbsp;&nbsp;&nbsp;&nbsp;
-                                  日：<input type="text" name="ftpDay" id="ftpDay" <{if $auto.day eq 0}> value="" <{else}> value="<{$auto.day}>" <{/if}> size="2" maxlength="2"/>                                                     
+          <td class="tdbody">                                  
+              <div>
+        	      <label>
+          		      <input type="radio" id="upWay" name="upWay" value="1" />
+        		  </label>
+        				每隔
+        		  <label>
+          		      <{html_options name="selectLengthList" id="selectLengthList"
+					      output=array(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23)
+						  values=array(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23)
+						  selected=<{$auto.shour|default:1}> }>    
+						小时
+				  </label>
+			  </div>
+			  <div class="rowElem">
+          	      <label>
+            		   <input type="radio" id="upWay" name="upWay" value="2" />
+          		  </label>
+          				每天
+          		  <label>
+            	      <{html_options name="selectTimeList" id="selectTimeList"
+            		      output=array(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23)
+				          values=array(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23)
+				          selected=<{$auto.sday|default:1}> }> 
+						 点（小时）
+				   </label>
+        	   </div>
+        	   <div class="rowElem">
+          	       <label>
+            				<input type="radio" id="upWay" name="upWay" value="3" />
+          		   </label>
+          				每周
+
+				       <{html_options name="selectDayList" id="selectDayList"
+				           output=array('星期一','星期二','星期三','星期四','星期五','星期六','星期日')
+				           values=array(1,2,3,4,5,6,0) 
+				           selected=<{$auto.sweek|default:1}> }> 
+							天&nbsp;
+				       <{html_options name="selectHourList" id="selectHourList"
+				           output=array(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23)
+				           values=array(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23) 
+				           selected=<{$auto.swh|default:1}> }>
+            			       点（小时） 
+
+              </div>                                                                                    
           </td>         
         </tr>             
         <tr>
@@ -93,6 +134,15 @@
 $(document).ready(function() {
     renderStandardUi();
     validateForm($("#ftpTransForm"));
-    validateForm($("#logTransForm"));
+    validateForm($("#logTransForm"));        
+    initAutoUpSet();
+    upWayTimeCtrl();
+    $("input[name='upWay']").click(function(){
+		upWayTimeCtrl();
+	});  
 });
+function initAutoUpSet(){
+	$("input[name='upWay'][value=<{$auto.upway}>]").attr("checked",'checked');
+		
+}
 </script>

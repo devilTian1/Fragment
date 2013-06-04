@@ -4,13 +4,13 @@
     <fieldset>
         <legend>添加TCP普通访问</legend>
         <div class="row">
-            <label for="customId">任务号:<em class="required">*</em></label>
-            <input class="id" type="text" name="customId" value="<{$data.id}>"
+            <label for="customTcpGeneralId">任务号:<em class="required">*</em></label>
+            <input class="id" type="text" name="customTcpGeneralId" id="customTcpGeneralId" value="<{$data.id}>"
                 <{if $type ==='edit'}>disabled="disabled"<{/if}>
                 size="4" maxlength="4"/>
             (同一端的任务号必须唯一)
             <{if $type ==='edit'}>
-            <input type="hidden" name="customId" value="<{$data.id}>"/>
+            <input type="hidden" name="customTcpGeneralId" value="<{$data.id}>"/>
             <{/if}>
         </div>
         
@@ -31,13 +31,14 @@
         
          <div class="row">
             <label for="lip">本机地址:</label>
-            <{html_options class="select lip" name="lip"
-                options=$ifList selected=$data.lip|default: '无'}>
+            <{html_options class="select lip" name="tcpGeneralLip"
+               id="tcpGeneralLip" options=$ifList selected=$data.lip|default: '无'}>
         </div>
         
         <div class="row">
             <label for="tcplportReq">本机端口:<em class="required">*</em></label>
-            <input class="port" type="text" name="tcplportReq" value="<{$data.lport}>" size="5" maxlength="5"/>
+            <input class="port" type="text" name="tcpGeneralLport" 
+            id="tcpGeneralLport" value="<{$data.lport}>" size="5" maxlength="5"/>
         </div>
         
         <div class="row">

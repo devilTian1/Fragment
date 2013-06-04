@@ -1,5 +1,6 @@
 <form action="Function/appS/ids/conf.php?conf=1" method="POST" id="setConfForm"
     onSubmit="return false;">
+    <input type="hidden" name="ifused" value="<{$ifused}>"/>
   <table class="column_95">
   <caption>
   基本配置

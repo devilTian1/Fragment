@@ -20,7 +20,7 @@ do
     total=`expr $cpu2_total - $cpu1_total | bc -l`
     result=`expr $usage/$total*100 | bc -l`
 
-    rate=`echo "scale=3;  if(scale($result) == length($result)) print 0; print $result/1" |bc`  
+    rate=`echo "scale=2;  if(scale($result) == length($result)) print 0; print $result/1" |bc`  
     echo $rate% 
 
     i=$(($i+11))

@@ -7,8 +7,11 @@ function openEditUserPriDialog(name) {
     var buttons = {};
     buttons[getMessage('Ok')] = function() {
         if ($('#editUserPriTableForm').valid()) {
-            ajaxSubmitForm($('#editUserPriTableForm'), '结果');
-            freshTableAndPage();
+            var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editUserPriTableForm'), '结果', undefined,
+                undefined, afterSuccessCallback);
             $(this).remove();
         }
     };
@@ -33,15 +36,21 @@ function openNewUserPriDialog() {
     buttons[getMessage('Add Next')] = function() {
         if ($('#editUserPriTableForm').valid()) {
         	openNewUserPriDialog();
-            ajaxSubmitForm($('#editUserPriTableForm'), '结果');
-            freshTableAndPage();
+        	var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editUserPriTableForm'), '结果', undefined,
+                undefined, afterSuccessCallback);
             $(this).remove();
         }
     };
     buttons[getMessage('Ok')] = function() {
         if ($('#editUserPriTableForm').valid()) {
-            ajaxSubmitForm($('#editUserPriTableForm'), '结果');
-            freshTableAndPage();
+        	var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editUserPriTableForm'), '结果', undefined,
+                undefined, afterSuccessCallback);
             $(this).remove();
         }
     };

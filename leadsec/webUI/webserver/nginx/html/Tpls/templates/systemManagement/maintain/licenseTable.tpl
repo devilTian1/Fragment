@@ -6,6 +6,6 @@
         <td><{$val.status}></td>
     </tr>
 <{foreachelse}>
-    <tr><td colspan='5'>No  Data</td></tr>
+    <tr><td colspan='5'>ÎÞÊý¾Ý</td></tr>
 <{/foreach}>
 

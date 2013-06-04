@@ -21,11 +21,18 @@
     require_once(WEB_PATH . '/Lib/driver/function.php');
     
     $msg = 'show';
-    if (!empty($_POST['authType'])) {
+    if ($_GET['checkExistUserName']) {
+        $name = $_GET['authUserListName'];
+        $db  = new dbsqlite(DB_PATH . '/uma_auth.db');
+        $sql = "SELECT user_id FROM user_online WHERE user_id = " .
+            "(SELECT user_id FROM user where user_name='$name')";
+        echo $db->query($sql)->getCount() > 0 ? 'false' : 'true';
+        return;
+    } else if (!empty($_POST['authType'])) {
         $msg = 'fail';
         //auth usrname and password
         $clientIp = get_client_ip();
-        $username = $_POST['userListName'];
+        $username = $_POST['authUserListName'];
         if ('local' === $_POST['authType']) {
             $localPasswd = $_POST['passwd_user'];
             $cmd = "auth_login type localpwd user $username ip $clientIp password $localPasswd";
@@ -117,7 +124,7 @@
                         <br class="clear_float"/>
                         <div class="row">
                             <label>用户名 :</label>
-                            <input type="text" name="userListName" value=""/>
+                            <input type="text" name="authUserListName" value=""/>
                         </div>
                         <br class="clear_float"/>
                         <div class="row">

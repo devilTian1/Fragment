@@ -17,7 +17,7 @@ function editAllowedFileDialog(id) {
     };
     var dialogParams = {
         width   : 660,
-        height  : 240,
+        height  : 300,
         buttons : buttons,
         position: jQuery.getDialogPosition(660,240)
     };
@@ -92,7 +92,7 @@ function openNewAllowedFileDialog() {
     };
     var dialogParams = {
         width   : 660,
-        height  : 240,
+        height  : 300,
         buttons : buttons,
         position: jQuery.getDialogPosition(660,240)
     };
@@ -157,11 +157,11 @@ function switchBinChk(action) {
     var title   = '启用/停止二进制文件控制';
     var dialog  = loadingScreen(title);
     var buttons = {};   
-    buttons['确定'] = function() {
+    buttons[getMessage('Ok')] = function() {
         var resultDialog  = loadingScreen(title);
         var successCallback = function(result, textStatus) {
             var buttons = {};
-            buttons['Ok'] = function() {
+            buttons[getMessage('Ok')] = function() {
                 resultDialog.close();
             }
             resultDialog.setOptions({

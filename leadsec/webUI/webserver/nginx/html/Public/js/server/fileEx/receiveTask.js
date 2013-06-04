@@ -5,14 +5,17 @@ function editReceiveTaskDialog(id) {
 		editId: id
     };
     var buttons = {};
-    buttons['确定'] = function() {
+    buttons[getMessage('Ok')] = function() {
         if ($('#editReceiveTaskForm').valid()) {
-            ajaxSubmitForm($('#editReceiveTaskForm'), '结果');
-            freshTableAndPage();
+        	var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editReceiveTaskForm'), '结果', undefined,
+                undefined, afterSuccessCallback);   
             $(this).remove();
         }
     };
-    buttons['取消'] = function() {
+    buttons[getMessage('Cancel')] = function() {
         $(this).remove();
     };
     var dialogParams = {
@@ -31,7 +34,7 @@ function delReceiveTask(id) {
     };
     var title  = '结果';
     var buttons = {};
-    buttons['Ok'] = function() {
+    buttons[getMessage('Ok')] = function() {
         freshTableAndPage();
         $(this).remove();
     };
@@ -47,12 +50,12 @@ function delReceiveTask(id) {
 function delReceiveTaskDialog(id) {
     var dialog  = loadingScreen('删除接收任务');
     var buttons = {};
-    buttons['Confirm'] = function() {
+    buttons[getMessage('Ok')] = function() {
         delReceiveTask(id);
         freshTableAndPage();
         $(this).remove();
     };
-    buttons['Cancel']  = function() {
+    buttons[getMessage('Cancel')]  = function() {
         $(this).remove();
     };
     var dialogParams = {
@@ -72,22 +75,28 @@ function openNewReceiveTaskDialog() {
 		openAddDialog: true
     };
     var buttons = {};
-    buttons['添加下一条'] = function() {
+    buttons[getMessage('Add Next')] = function() {
         if ($('#editReceiveTaskForm').valid()) {
             openNewReceiveTaskDialog();
-            ajaxSubmitForm($('#editReceiveTaskForm'), '结果');
-            freshTableAndPage();
+            var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editReceiveTaskForm'), '结果', undefined,
+                undefined, afterSuccessCallback);   
             $(this).remove();
         }
     };
-    buttons['确定'] = function() {
+    buttons[getMessage('Ok')] = function() {
         if ($('#editReceiveTaskForm').valid()) {
-            ajaxSubmitForm($('#editReceiveTaskForm'), '结果');
-            freshTableAndPage();
+        	var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editReceiveTaskForm'), '结果', undefined,
+                undefined, afterSuccessCallback);   
             $(this).remove();
         }
     };
-    buttons['取消'] = function() {
+    buttons[getMessage('Cancel')] = function() {
         $(this).remove();
     };
     var dialogParams = {
@@ -102,10 +111,10 @@ function openNewReceiveTaskDialog() {
 function switchFs() {
     $('div.smbDiv').show();
     var fs = $('input:radio[name="fs"]:checked').val();
-    $('input[name="portReq"]').val(445);
+    $('input[name="receiveTaskPort"]').val(445);
     if (fs !== 'smbfs') {
         $('div.smbDiv').hide();
-        $('input[name="portReq"]').val(2049);
+        $('input[name="receiveTaskPort"]').val(2049);
     }
 }
 
@@ -114,12 +123,15 @@ function switchReceiveTaskAcl(id, action) {
 
     var dialog  = loadingScreen(title);
     var buttons = {};
-    buttons['确定'] = function() {
-        ajaxSubmitForm($('#switchReceiveTaskForm_' + id), '结果');
-        freshTableAndPage();
+    buttons[getMessage('Ok')] = function() {
+    	var afterSuccessCallback = function() {
+            freshTableAndPage();
+        };
+        ajaxSubmitForm($('#switchReceiveTaskForm_' + id), '结果', undefined,
+            undefined, afterSuccessCallback);   
         $(this).remove();
     };
-    buttons['取消'] = function() {
+    buttons[getMessage('Cancel')] = function() {
         $(this).remove();
     };
     var dialogParams = {

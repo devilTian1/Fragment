@@ -1,4 +1,4 @@
-<{include file='layout/search.tpl' tableId='virtualAddrTable'}>
+<{include file='layout/search.tpl' tableId='virtualAddrTable' colNames="phyDevice,ip,ifname,mask"}>
 <table class="column_95 textMid tablesorter" id="virtualAddrTable">
     <caption>信息列表</caption>
     <thead>

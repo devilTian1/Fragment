@@ -1,7 +1,7 @@
 <!-- mainContent -->
 <style type="text/css">
 /* zoombox */
-a,img{border:0;}
+a, img{border:0;}
 </style>
 <table class="floatLeft column_90">
     <caption>
@@ -12,20 +12,20 @@ a,img{border:0;}
   <div class="zoombox">
 	<div class="zoompic" id="zoompic">
     </div>
-  </div><!--slider end-->
+</div><!--slider end-->
         </td>
     </tr>
 </table>
 <br class="clearFloat"/>
 <hr/>
 <table class="floatLeft column_45 dev_info_table">
-    <caption>设备信息</caption>
+    <caption>设备[<{$smarty.const.PRODUCT_NAME}>]信息</caption>
     <tr>
         <th class="column_30">名称</th>
         <th class="column_70">内容</th>
     </tr>
     <tr>
-        <th><{$smarty.const.PRODUCT_NAME}>序列号</th>
+        <th>序列号</th>
         <td><{$devinfo.serialnum}></td>
     </tr>
     <tr>
@@ -37,7 +37,7 @@ a,img{border:0;}
         <td><{$devinfo.softnum}></td>
     </tr>
     <tr>
-        <th><{$smarty.const.PRODUCT_NAME}>名称</th>
+        <th>名称</th>
         <td><{$devinfo.hostname}></td>
     </tr>
 </table>
@@ -263,7 +263,7 @@ $(document).ready(function () {
             }
         });
         var chart;
-		function setHighcharts(){
+		function setHighcharts() {
 			clearInterval(setTimeout_flag);
         	chart = new Highcharts.Chart({
             chart: {
@@ -280,7 +280,7 @@ $(document).ready(function () {
                                     var data = result.msg.ifData;
 								    if(document.getElementById("zoompic")==null){
 								        clearInterval(setTimeout_flag);
-										return;
+                                        return;
 								    }
                                     var j = 0;
                                     for (var i in data) {
@@ -529,23 +529,22 @@ $(document).ready(function () {
                 }
             }]
         });
-/************************************************************************************************************************************/
-
-    setHighcharts();
-	for (var i in chart.series) {
-		if (i === '0') {
-			chart.series[i].show();
-		} else {
-			chart.series[i].hide();
-		}
-	}
 	//IE6下面滚动条优化
 	if($.browser.msie&&($.browser.version == "6.0")&&!$.support.style){
-	   //设定z-index遮盖vml
-		$("#mainContent").css({"position":"relative"});
-		$("#mainContent").css({"z-index":"8"});
-		$(".footer").css({"position":"relative"});
-		$(".footer").css({"z-index":"8"});
+        //设定z-index遮盖vml
+        $("#mainContent").css({"position": "relative"});
+        $("#mainContent").css({"z-index": "8"});
+        $(".footer").css({"position": "relative"});
+        $(".footer").css({"z-index": "8"});
+	}
+/******************************************************************************/
+    setHighcharts();
+    for (var i in chart.series) {
+        if (i === '0') {
+            chart.series[i].show();
+        } else {
+            chart.series[i].hide();
+		}
 	}
 	
 });

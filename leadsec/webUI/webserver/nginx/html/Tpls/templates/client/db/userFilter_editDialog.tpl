@@ -18,7 +18,7 @@
         </div>
         <div class="row">
           <label >用户名列表:<em class="required">*</em></label>
-          <textarea rows="5" cols="30" name="userFilterNameList" id="userFilterNameList" size="1024" maxlength="1024"><{$res.usrnamelist|escape}></textarea>
+          <textarea rows="5" cols="30" name="userFilterNameList" id="userFilterNameList"  maxlength="1025"><{$res.usrnamelist|escape}></textarea>
         </div>
         
         <div class="row">

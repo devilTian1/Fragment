@@ -4,8 +4,9 @@
     $priArr = array('紧急', '警报', '临界', '出错',
                     '预警', '提示', '通知', '调试');
 
-    $modArr = array('sync'      => '文件同步',
-                    'dbsync'    => '数据库同步',
+    $modArr = array('sync'      => '文件交换',
+                    'File-swap' => '文件同步',
+                    'DB-swap'   => '数据库同步',
                     'http'      => '安全浏览',
                     'ftp'       => 'FTP访问',
                     'smtp'      => '邮件访问',
@@ -20,19 +21,13 @@
                     'cudp'      => '定制访问<cudp>',
                     'ha'        => '双机热备',
                     'ids'       => '入侵检测',
-                    'snmp'      => '集中管理'
+                    'snmp'      => '集中管理',
+                    'lvs'       => '负载均衡'
     );
 
-    function getDname() {
-        $db = new dbsqlite(DB_PATH . '/configs.db');
-        $result = $db->query("SELECT hostname FROM hostname")
-                     ->getFirstData(PDO::FETCH_ASSOC);
-        return $result['hostname'];
-    }
-    $dname = getDname();
-    $searchRegexp = "/devid=" . LOG_DEVID . " date=\".*\" dname=$dname " .
-        "logtype=([0-8]|\d{2,3}) pri=\d+ mod=\S+.*" .
-        "event=\"(?:[\w\d\s\\\"\']*|[^\"]+)\"\s?/";
+    $searchRegexp = "/devid=" . LOG_DEVID . " date=\"([^\"]+)\" dname=[^\s]+ " .
+        'logtype=([0-8]|\d{2,3}) pri=\d+ mod=\S+\s' .
+        "event=\"(?:.*\\\".*)|[^\"]+\"/";
 
     function checkTime($date) {
         $ct = strtotime($date);
@@ -139,13 +134,12 @@
             $prior   = $_GET['pri'] === 'all'  ? '\d+' : $_GET['pri'];
             $logType = $_GET['logType'] === 'all' ? '(?:[0-8]|\d{2,3})' :
                 $_GET['logType'];
-            $keyword = empty($_GET['keyword']) ? '(?:[\w\d\s\\\"\']*|[^\"]+)' : 
+            $keyword = empty($_GET['keyword']) ? '(?:.*\\".*)|[^"]+' : 
                 '.*' . $_POST['keyword'] . '.*';
-            $searchRegexp = "/devid=" . LOG_DEVID . " date=\"(.*)\" " .
-                "dname=$dname logtype=$logType pri=($prior) mod=(\S+).*" .
-                "event=\"($keyword)\"\s?/";
+            $searchRegexp = "/devid=" . LOG_DEVID . " date=\"([^\"]+)\" " .
+                "dname=[^\s]+ logtype=$logType pri=($prior) mod=(\S+)\s" .
+                "event=\"($keyword)\"/";
         }
-
         $p1     = $match[1];
         $p2     = $match[2];
         $limit  = $match[3];
@@ -163,7 +157,12 @@
         $result = fileLinesToArr(LOG_PATH, '', 1, 'includeFunc', 'formatFunc');
         $count  = count($result);
         if ($time === 'DESC') {
-            $result = array_reverse($result);
+            $half = floor($count/2);
+            for ($i = 0; $i < $half; $i++) {
+                $t = $result[$i];
+                $result[$i] = $result[$count-$i-1];
+                $result[$count-$i-1] = $t;
+            }
         }
         if (!empty($pri)) {
             if ($pri === 'ASC') {
@@ -190,8 +189,8 @@
             '(?:[\w\d\s\\\"\']*|[^\"]+)' .
             $_POST['keyword'] . '(?:[\w\d\s\\\"\']*|[^\"]+)';
 
-        $searchRegexp = "/devid=" . LOG_DEVID . " date=\"(.*)\" " .
-            "dname=$dname logtype=$logType pri=($prior) mod=(\S+).*" .
+        $searchRegexp = "/devid=" . LOG_DEVID . " date=\"([^\"]+)\" " .
+            "dname=[^\s]+ logtype=$logType pri=($prior) mod=(\S+).*" .
             "event=\"($keyword)\"\s?/";
 
         $result = fileLinesToArr(LOG_PATH, '', 1, 'includeFunc', 'formatFunc');
@@ -203,15 +202,35 @@
             ->assign('keyword', $_POST['keyword'])->fetch($tpl);
         echo json_encode(array('msg' => array('html'  => $html,
                                               'count' => $count)));
-    } else {
+    } else if ('exportFwlog' === $_POST['action']) {
+		//export fw.log
+		$filename = LOG_PATH;
+		$file = fopen($filename,"r");
+		//$filename_s=iconv("utf-8","gb2312",$filename);
+		header("Content-Type: application/octet-stream; charset=utf-8;");
+		//header("Content-Disposition: attachment; filename=\"$filename_s\";");
+		//header("Content-Disposition: attachment; filename=\"$filename\";");
+		header("Content-Disposition: attachment; filename=\"fw.log\";");
+        header('Pragma: no-cache;');
+        header('Cache-Control: must-revalidate, post-check=0, pre-check=0;');
+		$buffer=1024;
+		$file_count=0;
+		//向浏览器返回数据
+		while(!feof($file) && $file_count<filesize($filename)){
+			$file_con = fread($file,$buffer);
+			$file_count+=$buffer;
+			echo $file_con;
+		}
+		fclose($file);
+	} else {
         // init page
-        $logTypeVal = array('all', '3',   '8',   '9',   '301', '302', '303',
-                            '304', '305', '306', '308', '309', '311', '312',
+        $logTypeVal = array('all', '3',   '8',   '301', '302', '303', '304',
+                            '305', '306', '308', '311', '312', '313', '314',
                             '330');
-        $logTypeArr = array('所有',       '入侵检测', '集中管理', '设备管理',
-                            '文件交换',   '安全浏览', 'FTP访问',  '邮件访问',
-                            '数据库访问', '定制访问', 'ha',       '系统管理',
-                            '数据库同步', '消息模块', '安全通道');
+        $logTypeArr = array('所有',     '入侵检测', '集中管理',   '文件交换',
+                            '安全浏览', 'FTP访问',  '邮件访问',   '数据库访问',
+                            '定制访问', '双机热备', '数据库同步', '消息模块',
+                            '文件同步', '负载均衡', '安全通道');
         $result = getDataCount();
         V::getInstance()->assign('dataCount', $result)
             ->assign('logTypeArr', $logTypeArr)

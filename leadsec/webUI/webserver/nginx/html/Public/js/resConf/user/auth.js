@@ -6,22 +6,28 @@ function openNewAuthPolicyDialog() {
         addNewAuthPolicy : true
     };
     var buttons = {};
-    buttons['添加下一条'] = function() {
+    buttons[getMessage('Add Next')] = function() {
         if ($('#editAuthPolicyForm').valid()) {
         	openNewAuthPolicyDialog();
-            ajaxSubmitForm($('#editAuthPolicyForm'), '结果');
-            freshTableAndPage();
+        	var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editAuthPolicyForm'), '结果', undefined,
+                undefined, afterSuccessCallback);
             $(this).remove();
         }
     };
-    buttons['确定'] = function() {
+    buttons[getMessage('Ok')] = function() {
         if ($('#editAuthPolicyForm').valid()) {
-            ajaxSubmitForm($('#editAuthPolicyForm'), '结果');
-            freshTableAndPage();
+        	var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editAuthPolicyForm'), '结果', undefined,
+                undefined, afterSuccessCallback);
             $(this).remove();
         }
     };
-    buttons['取消'] = function() {
+    buttons[getMessage('Cancel')] = function() {
         freshTableAndPage();
         $(this).remove();
     };
@@ -40,14 +46,17 @@ function openEditAuthPolicyDialog(name) {
         editAuthPolicy : name
     };
     var buttons = {};
-    buttons['确定'] = function() {
+    buttons[getMessage('Ok')] = function() {
         if ($('#editAuthPolicyForm').valid()) {
-            ajaxSubmitForm($('#editAuthPolicyForm'), '结果');
-            freshTableAndPage();
+        	var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editAuthPolicyForm'), '结果', undefined,
+                undefined, afterSuccessCallback);
             $(this).remove();
         }
     };
-    buttons['取消'] = function() {
+    buttons[getMessage('Cancel')] = function() {
         freshTableAndPage();
         $(this).remove();
     };
@@ -63,12 +72,12 @@ function openEditAuthPolicyDialog(name) {
 function openDelAuthPolicyDialog(name) {
 	var dialog  = loadingScreen('删除认证策略');
     var buttons = {};
-    buttons['Confirm'] = function() {
+    buttons[getMessage('Ok')] = function() {
         delAuthPolicy(name);
         freshTableAndPage();
         $(this).remove();
     };
-    buttons['Cancel']  = function() {
+    buttons[getMessage('Cancel')]  = function() {
         $(this).remove();
     };
     var dialogParams = {
@@ -88,7 +97,7 @@ function delAuthPolicy(name) {
     };
     var title  = '删除用户列表';
     var buttons = {};
-    buttons['Ok'] = function() {
+    buttons[getMessage('Ok')] = function() {
         freshTableAndPage();
         $(this).remove();
     };
@@ -110,17 +119,17 @@ function openDelSpecAuthPolicyDialog() {
     var buttons = {};
     if (authpolicy.length === 0) {
         dialog.setContent("<p>没有选择任何认证策略?</p>");
-        buttons['Close']  = function() {
+        buttons[getMessage('Ok')]  = function() {
             $(this).remove();
         };
     } else {
         dialog.setContent("<p>确定要删除已选的认证策略吗?</p>");
-        buttons['Confirm'] = function() {
+        buttons[getMessage('Ok')] = function() {
             delSpecAuthPolicy(authpolicy);
             freshTableAndPage();
             $(this).remove();
         };
-        buttons['Cancel']  = function() {
+        buttons[getMessage('Cancel')]  = function() {
             $(this).remove();
         };
     }
@@ -147,7 +156,7 @@ function delSpecAuthPolicy(authpolicy) {
     }
     var title  = '删除认证策略';
     var buttons = {};
-    buttons['Ok'] = function() {
+    buttons[getMessage('Ok')] = function() {
         freshTableAndPage();
         $(this).remove();
     };
@@ -163,12 +172,12 @@ function delSpecAuthPolicy(authpolicy) {
 function openDelAllAuthPolicyDialog() {
 	var dialog  = loadingScreen('删除认证策略');
     var buttons = {};
-    buttons['Confirm'] = function() {
+    buttons[getMessage('Ok')] = function() {
         delAllAuthPolicy();
         freshTableAndPage();
         $(this).remove();
     };
-    buttons['Cancel']  = function() {
+    buttons[getMessage('Cancel')]  = function() {
         $(this).remove();
     };
     var dialogParams = {
@@ -188,7 +197,7 @@ function delAllAuthPolicy() {
     };
     var title  = '删除认证策略';
     var buttons = {};
-    buttons['Ok'] = function() {
+    buttons[getMessage('Ok')] = function() {
         freshTableAndPage();
         $(this).remove();
     };
@@ -205,12 +214,15 @@ function switchAuthPolicyAcl(name, action, formId) {
 	var title   = '启用/停止认证策略';
     var dialog  = loadingScreen(title);
     var buttons = {};
-    buttons['确定'] = function() {
-        ajaxSubmitForm($('#switchAuthPolicyForm_' + formId), '结果');
-        freshTableAndPage();
+    buttons[getMessage('Ok')] = function() {
+        var afterSuccessCallback = function() {
+            freshTableAndPage();
+        };
+        ajaxSubmitForm($('#switchAuthPolicyForm_' + formId), '结果', undefined,
+            undefined, afterSuccessCallback);
         $(this).remove();
     };
-    buttons['取消'] = function() {
+    buttons[getMessage('Cancel')] = function() {
         $(this).remove();
     };
     var dialogParams = {
@@ -258,12 +270,20 @@ function changeAddrType() {
 
 function setServerConf() {
 	if($('#serverConfForm').valid()){
-        ajaxSubmitForm($('#serverConfForm'), '认证服务器配置 - 本机认证');
+		var afterSuccessCallback = function() {
+            freshTableAndPage();
+        };
+        ajaxSubmitForm($('#serverConfForm'), '认证服务器配置 - 本机认证', undefined,
+                undefined, afterSuccessCallback);
     }
 }
 
 function setParamsConf() {
 	if($('#paramsConfForm').valid()){
-        ajaxSubmitForm($('#paramsConfForm'), '认证参数配置');
+		var afterSuccessCallback = function() {
+            freshTableAndPage();
+        };
+		ajaxSubmitForm($('#paramsConfForm'), '认证参数配置', undefined,
+                undefined, afterSuccessCallback);
     }
 }

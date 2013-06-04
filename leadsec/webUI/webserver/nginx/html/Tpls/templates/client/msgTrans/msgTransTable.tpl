@@ -28,10 +28,10 @@
          <td>
             <form action="Function/client/msgTrans/msgTrans.php" method="POST"
                 id="switchmsgTransForm_<{$value.id}>" onSubmit="return false;">
-                <input type="hidden" name="msgTransId" value="<{$value.id}>"/>
-                <input type="hidden" name="sAddress" value="<{$value.sa}>"/>
-                <input type="hidden" name="lAddress" value="<{$value.lip}>"/>
-                <input type="hidden" name="lPort" value="<{$value.lport}>"/>
+                <input type="hidden" name="cmsgGeneralId" value="<{$value.id}>"/>
+                <input type="hidden" name="cmsgsAddress" value="<{$value.sa}>"/>
+                <input type="hidden" name="cmsgGeneralLip" value="<{$value.lip}>"/>
+                <input type="hidden" name="cmsgGeneralLport" value="<{$value.lport}>"/>
                 <input type="hidden" name="ssl" value="<{$value.ssl}>"/>
                 <input type="hidden" name="scanvirus" value="<{$value.scanvirus}>"/>
                 <input type="hidden" name="backup" value="<{$value.backup}>"/>
@@ -63,5 +63,5 @@
         </td>
     </tr>
 <{foreachelse}>
-    <tr><td colspan='11'>No Data</td></tr>
+    <tr><td colspan='11'>无数据</td></tr>
 <{/foreach}>

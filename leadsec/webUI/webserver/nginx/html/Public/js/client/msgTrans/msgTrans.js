@@ -8,8 +8,11 @@ function openEditDialog(id) {
     var buttons = {};
     buttons[getMessage('Ok')] = function() {
         if ($('#editForm').valid()) {
-            ajaxSubmitForm($('#editForm'), '结果');
-            freshTableAndPage();
+        	var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editForm'), '结果', undefined,
+                undefined, afterSuccessCallback);
             $(this).remove();
         }
     };
@@ -36,15 +39,21 @@ function openNewDialog() {
     buttons[getMessage('Add Next')] = function() {
     	if ($('#editForm').valid()) {
     		openNewDialog();
-    	    ajaxSubmitForm($('#editForm'), '结果');
-    	    freshTableAndPage();
+        	var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editForm'), '结果', undefined,
+                undefined, afterSuccessCallback);
     	    $(this).remove();
     	 }       
     };
     buttons[getMessage('Ok')] = function() {
     	if ($('#editForm').valid()) {
-    		ajaxSubmitForm($('#editForm'), '结果');
-            freshTableAndPage();
+        	var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editForm'), '结果', undefined,
+                undefined, afterSuccessCallback);
             $(this).remove();
         }       
     };
@@ -105,8 +114,11 @@ function switchmsgTrans(id, action) {
     var dialog  = loadingScreen(title);
     var buttons = {};
     buttons[getMessage('Ok')] = function() {
-        ajaxSubmitForm($('#switchmsgTransForm_' + id), '结果');
-        freshTableAndPage();
+    	var afterSuccessCallback = function() {
+            freshTableAndPage();
+        };
+        ajaxSubmitForm($('#switchmsgTransForm_' + id), '结果', undefined,
+            undefined, afterSuccessCallback);
         $(this).remove();
     };
     buttons[getMessage('Cancel')]  = function() {
@@ -125,8 +137,8 @@ function switchmsgTrans(id, action) {
 }
 function filterRes() {
     var type    = $('input:radio[name="ipType"]:checked').val();
-    var saOpts  = $('select[name="sAddress"]');
-    var lipOpts = $('select[name="cmsgLip"]');
+    var saOpts  = $('select[name="cmsgsAddress"]');
+    var lipOpts = $('select[name="cmsgGeneralLip"]');
     saOpts.showOption(); 
     lipOpts.showOption(); 
     if (type === 'ipv4') {

@@ -4,25 +4,25 @@
     <fieldset>
         <legend>添加POP3普通访问</legend>
         <div class="row">
-            <label for="pop3Id">任务号:<em class="required">*</em></label>
-            <input class="id" type="text" name="pop3Id" value="<{$data.id}>"
+            <label for="pop3GeneralId">任务号:<em class="required">*</em></label>
+            <input class="id" type="text" name="pop3GeneralId" id="pop3GeneralId" value="<{$data.id}>"
                 <{if $type ==='edit'}>disabled="disabled"<{/if}>
                 size="4" maxlength="4"/>
             (同一端的任务号必须唯一)
             <{if $type ==='edit'}>
-            <input type="hidden" name="pop3Id" value="<{$data.id}>"/>
+            <input type="hidden" name="pop3GeneralId" value="<{$data.id}>"/>
             <{/if}>
         </div>
 
         <div class="row">
             <label for="serverIp">服务器地址:<em class="required">*</em></label>
-            <input type="text" name="serverIp" id="serverIp"
+            <input class="width10em" type="text" name="serverIp" id="serverIp"
                 value="<{$data.serverip}>"/>
         </div>
         
         <div class="row">
-            <label for="lport">服务器端口:<em class="required">*</em></label>
-            <input class="port" type="text" name="sportReq" value="<{$data.sport|default: 110}>" size="5" maxlength="5"/>
+            <label for="pop3GeneralSport">服务器端口:<em class="required">*</em></label>
+            <input class="port" type="text" name="pop3GeneralSport" id="pop3GeneralSport" value="<{$data.sport|default: 110}>" size="5" maxlength="5"/>
         </div>
 
         <div class="row">
@@ -33,7 +33,7 @@
 
         <div class="row">
             <label for="comment">备注:</label>
-            <input class="comment" name="comment" id="comment" value="<{$data.comment|escape}>"/>
+            <input class="width10em comment" name="comment" id="comment" value="<{$data.comment|escape}>"/>
         </div>
     </fieldset>
 </form>

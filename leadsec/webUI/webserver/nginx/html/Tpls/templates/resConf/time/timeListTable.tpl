@@ -9,5 +9,5 @@
         </td>
     </tr>
 <{foreachelse}>
-    <tr><td colspan='4'>No Time List Data</td></tr>
+    <tr><td colspan='4'>无数据</td></tr>
 <{/foreach}>

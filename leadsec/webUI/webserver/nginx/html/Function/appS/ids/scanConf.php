@@ -18,7 +18,7 @@
         echo json_encode(array('msg' => '修改成功.'));
     } else {
         // init page data
-        $path = '/usr/local/lxnids/lxnids.conf';
+        $path = '/usr/local/lxnids/lxnids.scan';
         $params= getParamFromFile($path,'/^#preprocessor portscan: \$HOME_NET/');
         if (empty($params)) {
             $enableScan = 1;

@@ -7,7 +7,7 @@
         <tr>
             <td class="tdheader column_40">管理员登录超时时间(单位: 秒):</td>
             <td class="tdbody">
-                <input type="text" name="expTime" value="<{$smarty.const.EXPIRED_TIME}>"
+                <input type="text" class="width149" name="expTime" value="<{$smarty.const.EXPIRED_TIME}>"
                 id="expTimeText"/>
             </td>
         </tr>
@@ -34,14 +34,14 @@ onSubmit="return false;">
         <tr>
             <td class="tdheader column_40">限制次数:</td>
             <td class="tdbody">
-                <input type="text" name="limitErrNum" value="<{$smarty.const.LIMITERR_NUM}>"
+                <input type="text" class="width149" name="limitErrNum" value="<{$smarty.const.LIMITERR_NUM}>"
                 id="limitErrNum"/>
             </td>
         </tr>
         <tr>
-            <td class="tdheader column_40">间隔时间(单位:秒):</td>
+            <td class="tdheader column_40">自动解锁时间(单位:秒):</td>
             <td class="tdbody">
-                <input type="text" name="limitErrTime" value="<{$smarty.const.LIMITERR_TIME}>"
+                <input type="text" class="width149" name="limitErrTime" value="<{$smarty.const.LIMITERR_TIME}>"
                 id="limitErrTime"/>
             </td>
         </tr>

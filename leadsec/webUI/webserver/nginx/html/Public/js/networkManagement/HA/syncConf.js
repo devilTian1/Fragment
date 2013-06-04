@@ -1,11 +1,17 @@
 function serverConfBtn() {
     if($('#serverIPForm').valid()){
-        ajaxSubmitForm($('#serverIPForm'), '服务器设置 ');
+		var afterSuccessCallback = function() {
+            };
+        ajaxSubmitForm($('#serverIPForm'), '服务器设置 ',undefined,
+			undefined,afterSuccessCallback);
     }
 }
 function localAddrBtn() {
     if($('#localAddrForm').valid()){
-        ajaxSubmitForm($('#localAddrForm'), '本地设置 ');
+		var afterSuccessCallback = function() {
+            }
+        ajaxSubmitForm($('#localAddrForm'), '本地设置 ',undefined,
+			undefined,afterSuccessCallback);
     }
 }
 function downloadConfDialog() {
@@ -115,13 +121,13 @@ function syncHistoryDialog() {
 
 
 function startConfDialog() {
-    var dialog  = loadingScreen('启动配置');
+    var dialog  = loadingScreen('启动服务');
     var buttons = {};
     var localAddr  = $('#localAddr').val();
 	var localPort = $('#localPort').val();
     if(localAddr==="" || localPort===""){
     	dialog.close();
-    	showErrorDialog('请输入本地监听地址和端口，然后再点击启动配置！');
+    	showErrorDialog('请输入本地监听地址和端口，然后再点击启动服务！');
     
     }else{
     	buttons[getMessage('Ok')] = function() {
@@ -137,7 +143,7 @@ function startConfDialog() {
             buttons: buttons,
             position: jQuery.getDialogPosition(300,160)
         };
-        dialog.setContent("<p>确定要启动配置吗?</p>");
+        dialog.setContent("<p>确定要启动服务吗?</p>");
         dialog.setOptions(dialogParams);  
     }     
 }
@@ -147,7 +153,7 @@ function start() {
     var data = {
     	startConf : true
     };
-    var title  = '启动配置';
+    var title  = '启动服务';
     var buttons = {};
     buttons[getMessage('Ok')] = function() {
     	$("button[name='buttonOff']").button({ disabled: false});
@@ -163,7 +169,7 @@ function start() {
     showDialogByAjax(url, data, title, dialogParams);
 }
 function stopConfDialog() {
-    var dialog  = loadingScreen('停止配置');
+    var dialog  = loadingScreen('停止服务');
     var buttons = {};
     buttons[getMessage('Ok')] = function() {
     	stop();
@@ -178,7 +184,7 @@ function stopConfDialog() {
         buttons: buttons,
         position: jQuery.getDialogPosition(300,160)
     };
-    dialog.setContent("<p>确定要停止配置吗?</p>");
+    dialog.setContent("<p>确定要停止服务吗?</p>");
     dialog.setOptions(dialogParams);   
 }
 
@@ -187,9 +193,9 @@ function stop() {
     var data = {
     	stopConf : true
     };
-    var title  = '停止配置';
+    var title  = '停止服务';
     var buttons = {};
-    buttons['Ok'] = function() {
+    buttons[getMessage('Ok')] = function() {
     	$("button[name='buttonOff']").button({ disabled: true});
         $("button[name='buttonOn']").button({ disabled: false});
         $(this).remove();
@@ -209,7 +215,7 @@ function downHistoryDialog() {
 		downDialog: true
     };
     var buttons = {};     
-    buttons['OK'] = function() {
+    buttons[getMessage('Ok')] = function() {
         $(this).remove();
     };
     var dialogParams = {

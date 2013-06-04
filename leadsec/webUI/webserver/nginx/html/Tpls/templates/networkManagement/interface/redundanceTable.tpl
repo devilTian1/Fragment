@@ -36,15 +36,15 @@
         </td>
         <td>
             <a href="#" class="edit"
-                onclick="openEditRedundanceDevDialog('<{$value.external_name}>')">
+                onclick="isInUseCheck('<{$value.external_name}>',openEditRedundanceDevDialog)">
                 编辑</a>
       	    <a href="#" class="delete"
-                onclick="openDelRedundanceDevDialog('<{$value.external_name}>')">
+                onclick="isInUseCheck('<{$value.external_name}>',openDelRedundanceDevDialog)">
                 删除</a>	
         </td>
     </tr>
 <{foreachelse}>
     <tr>
-        <td colspan='7'>No Redundance Device Data</td>
+        <td colspan='7'>没有冗余设备</td>
     </tr>
 <{/foreach}>

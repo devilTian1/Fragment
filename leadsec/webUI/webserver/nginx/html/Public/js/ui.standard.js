@@ -1,6 +1,5 @@
 function renderStandardUi() {
-	$("input.standard").button({
-    });
+    $("input.standard").button({});
     $("button.standard").button({
     });
     $("button.trash").button({

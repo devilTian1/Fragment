@@ -39,6 +39,7 @@
     $(document).ready(function(){
         $.fn.zTree.init($("#fileTree"), setting, zNodes);
         var t;
+		/*
         $('#fileTree a').live('mouseover',function() {
             var dom = $(this);
             t = setTimeout(function() {
@@ -59,5 +60,28 @@
                 window.clearTimeout(t);
             }
         });
+		*/
+		$("#fileTree a").bind('click',function(){
+			var dom = $(this);
+			var data = {
+				path: dom.attr('title')
+			};
+			var params = {
+				type: 'POST',
+				dataType: 'JSON',
+				success: function(result, textStatus) {
+					var content = result.msg;
+					var dialog  = loadingScreen('结果');
+					var dialogParams = {
+						width: 250,
+						height: 200,
+						position: jQuery.getDialogPosition(250,200)
+					};
+					dialog.setContent("文件大小为:"+content);
+					dialog.setOptions(dialogParams); 
+				}
+			};
+			loadAjax('Function/client/fileEx/shareDir.php', data, params);
+		});
     });
 </script>

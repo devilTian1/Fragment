@@ -1,5 +1,6 @@
 <?php
 require_once(WEB_PATH . '/Lib/core/upload.php');
+define('UPLOAD_ERR_EMPTY', 5);
 /**
  *
  */
@@ -41,6 +42,8 @@ class FileUpload extends UPLOAD {
                 return 'No temparary directory.';
             case UPLOAD_ERR_CANT_WRITE :
                 return 'Can not write to disk.';
+            case UPLOAD_ERR_EMPTY : 
+                return 'File is empty.';
             default :
                 return "[$err] Unknown upload error."; 
 	    }

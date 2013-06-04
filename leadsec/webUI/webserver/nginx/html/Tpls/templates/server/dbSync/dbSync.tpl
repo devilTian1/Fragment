@@ -6,12 +6,12 @@
     <thead>
     <tr>
       <th class="column_10" name="id">任务号</th>
-      <th class="column_20">服务器地址</th>
-      <th class="column_10">服务器端口</th>
+      <th class="column_20" name="serverip">服务器地址</th>
+      <th class="column_10" name="sport">服务器端口</th>
       <th class="column_10">认证/加密</th>
-      <th class="column_10">公共名</th>
+      <th class="column_10" name="commname">公共名</th>
       <th class="column_10">是否启动</th>
-      <th class="column_10">备注</th>
+      <th class="column_10" name="comment">备注</th>
       <th class="column_20">操作</th>
     </tr>
     </thead>

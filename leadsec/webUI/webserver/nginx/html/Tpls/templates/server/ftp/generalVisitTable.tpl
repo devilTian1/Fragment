@@ -32,5 +32,5 @@
         </td>
     </tr>
 <{foreachelse}>
-    <tr><td colspan='6'>没有任务.</td></tr>
+    <tr><td colspan='6'>无数据.</td></tr>
 <{/foreach}>

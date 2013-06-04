@@ -1,13 +1,13 @@
 <form action="Function/client/msgTrans/cbannedContent.php" method="POST"
     id="editBannedContentForm" onSubmit="return false;">
     <input type="hidden" name="type" value="<{$type|default: 'add'}>"/>
+    <input type="hidden" name="hid_list" value="<{$data.blacklist}>">
     <fieldset>
         <legend>添加内容黑名单</legend>
         <div class="row">
             <label for="blacklist">禁止的内容:
                 <em class="required">*</em></label>
-            <input class="w200" type="text" name="cblacklist"  maxlength="64"
-                value="<{$data.blacklist}>"/>
+            <textarea rows="3" cols="30" name="cblacklist" id="cblacklist" maxlength="65"><{$data.blacklist}></textarea>            	
             <{if $type ==='edit'}>
                 <input type="hidden" name="editname" value="<{$data.blacklist}>"/>
             <{/if}>
@@ -36,5 +36,14 @@
 <script type="text/javascript">
     $(document).ready(function() {
         validateForm($("#editBannedContentForm"));
+        $('#editBannedContentForm').bind('keypress', function(event){
+            if (event.keyCode == '13') {
+     	        if ($('#editBannedContentForm').valid()) {
+     	            ajaxSubmitForm($('#editBannedContentForm'), '结果');
+     	            freshTableAndPage();
+     	        }
+                return false;
+            }
+        });
     });
 </script>

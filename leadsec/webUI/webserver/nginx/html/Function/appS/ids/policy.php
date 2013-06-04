@@ -4,6 +4,7 @@
 		if ($action_type = $_POST['action_type']) {
 			$cli = new cli();
 			$name = $_POST['policyName'];
+			$name_c = $_POST['policyName_c'];
 			if ($action_type === 'disable') {
 				//停止任务
 				$cmd1 = "ids start";
@@ -11,7 +12,7 @@
 				$msg_log = "应用防护下入侵检测模块下".$name."服务停止!";
 				$cli->run($cmd1);
 				$cli->setLog($msg_log)->run($cmd2);
-				echo json_encode(array('status' => 0,'msg' => "{$name}服务已停止"));
+				echo json_encode(array('status' => 0,'msg' => "{$name_c}服务已停止"));
 			} else if ($action_type ==='enable'){
 				//开启任务
 				$cmd1 = "ids start";
@@ -19,7 +20,7 @@
 				$msg_log = "应用防护下入侵检测模块下".$name."服务开启!";
 				$cli->run($cmd1);
 				$cli->setLog($msg_log)->run($cmd2);
-				echo json_encode(array('status' => 0,'msg' => "{$name}服务已开启!"));
+				echo json_encode(array('status' => 0,'msg' => "{$name_c}服务已开启!"));
 			}
 		} else {
 			// init page data

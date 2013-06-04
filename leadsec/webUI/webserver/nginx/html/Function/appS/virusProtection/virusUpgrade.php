@@ -57,10 +57,14 @@
         // 手动升级，文件上传
         $uploadfs = new fileUpload($_FILES);
         $uploadfs->upload();
-        $cmd = "upgrade avpackage \"{$_FILES['updateFile']['name']}\"";        
+        $cmd = "upgrade avpackage \"{$_FILES['file']['name']}\"";        
         $cli = new cli();
-        $cli->setLog("病毒库手动升级")->run($cmd);
-        echo json_encode(array('msg' => '升级成功'));
+		list($status,$result) = $cli->setLog($msg_log)->execCmdGetStatus($cmd);
+		if ($status == 0) {
+			echo json_encode(array('msg' => '病毒库升级成功.'));
+		} else {
+			echo json_encode(array('msg' => '病毒库升级失败.'));
+		}
     } else if ('exportUpgradeHistory' === $_POST['action']) {
         $db = new dbsqlite(DB_PATH . '/netgap_av.db');
         $result_list = $db->query("SELECT * FROM  upgrade_history ORDER BY up_time DESC")
@@ -88,8 +92,12 @@
         $result = $db->query('SELECT * FROM autoupNew')
                      ->getFirstData(PDO::FETCH_ASSOC);
         $uphistory = $db->query('SELECT * FROM upgrade_history ORDER BY up_time DESC')
-                     ->getAllData(PDO::FETCH_ASSOC);       
+                     ->getAllData(PDO::FETCH_ASSOC);
+        if(count($uphistory) > 0) {
+            $currentVersion = $uphistory[0]['up_version'];
+        }
         V::getInstance()->assign('autoUpSet', $result)
-        				->assign('uphistory', $uphistory); 
+        				->assign('uphistory', $uphistory)
+        				->assign('currentVersion', $currentVersion); 
     }
 ?>

@@ -36,7 +36,7 @@
         </td>
     </tr>
 <{foreachelse}>
-    <tr><td colspan='8'>No online user Data</td></tr>
+    <tr><td colspan='8'>无数据</td></tr>
 <{/foreach}>
 <script type="text/javascript"> 
     $(document).ready(function() {

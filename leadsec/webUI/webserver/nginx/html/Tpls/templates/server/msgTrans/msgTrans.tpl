@@ -1,4 +1,4 @@
-<{include file='layout/search.tpl' tableId='msgTransTable'}>
+<{include file='layout/search.tpl'}>
 <table class="column_95 textMid tablesorter" id="msgTransTable">
     <caption>
            信息列表

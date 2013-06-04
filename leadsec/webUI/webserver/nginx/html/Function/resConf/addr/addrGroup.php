@@ -61,8 +61,15 @@
     function appendAddrGroupData($where) {
         $tpl =  'resConf/addr/addrGroupTable.tpl';
         $db  = new dbsqlite(DB_PATH . '/rule.db');
-	    $sql = "SELECT id, name, comment FROM addrgrp $where";
-        $result = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
+	    $sql = "SELECT id, name, comment FROM addrgrp";
+        $params = array();
+        if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
+        	$data   = getWhereStatement($db, $_GET['cols'], $_GET['keyword']);
+        	$sql   .= $data['sql'];
+        	$params = $data['params'];
+        }
+        $sql .=  ' ' . $where;
+        $result = $db->query($sql, $params)->getAllData(PDO::FETCH_ASSOC);
         foreach ($result as $k => $v) {
         	//获得在页面显示的名称
         	$key = $v['name'];
@@ -82,10 +89,23 @@
             ->fetch($tpl);
     }
 
+    function getWhereStatement($db, $cols, $keyword) {
+    	$value = '%' . $keyword . '%';
+    	$params = array_fill(0, count(explode(',', $cols)), $value);
+    	return array('sql'    => ' WHERE (' .
+    			$db->getWhereStatement($cols, 'OR', 'like') . ')',
+    			'params' => $params);
+    }
+    
     function getDataCount() {
     	$sql = "SELECT id FROM addrgrp";
         $db  = new dbsqlite(DB_PATH . '/rule.db');
-        return $db->query($sql)->getCount();
+        if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
+            $data   = getWhereStatement($db, $_GET['cols'], $_GET['keyword']);
+            $sql   .= $data['sql'];
+            $params = $data['params'];
+        }
+        return $db->query($sql, $params)->getCount();
     }
 
     function getAddOrEditData() {
@@ -258,24 +278,22 @@
             }
         }
         $cmdLog['errornum'] = 0;
-        $cmdLog['addId'] = 0;
+        $cmdLog['addId'] = $addId;
         return $cmdLog;
     }
     
     function addIpsetCmdToSql($type,$id) {
 		// 将ipset命令保存到shell.db中的ipset_addr_list中
-		if ($type === 'delete') {
+		if ($type === 'del') {
             $sql = "DELETE FROM ipset_addr_grp WHERE id=?";
-            $params = array($id);
+            $params = array($id['addId']);
         } else {	        
-	        $b = ipsetCmdPack();
-	        $cmdStr = $b['cmd'];
 	        if ($type === 'edit') {
 	        	$sql = "UPDATE ipset_addr_grp SET cmd=? WHERE id=?";
-	        	$params = array($cmdStr,$id);
+	        	$params = array($id['cmd'],$id['addId']);
 	        } else {
 				$sql = "INSERT INTO ipset_addr_grp VALUES(?, ?)";
-				$params = array($id,$cmdStr);
+				$params = array($id['addId'],$id['cmd']);
 	    	}
     	}
     	//error_log('\n####sql='.$sql.';addOrEditId='.$cmdStr.';id='.$id,3,'/var/log/error.log');
@@ -308,6 +326,9 @@
 	    			$db->exec($sql, $params);
 	    			$sql    = 'DELETE FROM addrmap WHERE addrgrpid = ?';
 	    			$params = array($delId);
+	    			$c = array();
+	    			$c['addId'] = $delId;
+	    			addIpsetCmdToSql($type,$c);
 	    			$db->exec($sql, $params);
 	    		}
 	    		return $errornum;
@@ -319,6 +340,9 @@
 	    		$sql    = 'DELETE FROM addrmap WHERE addrgrpid = ?';
 	    		$params = array($delId);
 	    		$db->exec($sql, $params);
+	    		$c = array();
+	    		$c['addId'] = $delId;
+	    		addIpsetCmdToSql($type,$c);
 	    		return $delId;
 	    	}
         } 
@@ -379,6 +403,7 @@
 	    	return $b['errornum'];
 	    }
 	    $delId = $b['addId'];
+	    addIpsetCmdToSql($type,$b);
         return $delId;
     }
     
@@ -437,17 +462,16 @@
         list($name) = getAddOrEditData();
 	    $id = getCmdArr('edit');
 	    if($id >= 0){
-	    	addIpsetCmdToSql('edit',$id);
-	    	echo json_encode(array('msg' => "[$name]修改成功."));
+	    	echo json_encode(array('msg' => "[$name]修改成功。"));
 	    }else{
 	    	if($id == -5){
-	    		echo json_encode(array('msg' => "[$name]地址组不存在"));
+	    		echo json_encode(array('msg' => "[$name]地址组不存在。"));
 	    	}else if($id == -6){
-	    		echo json_encode(array('msg' => "[$name]地址组被引用"));
+	    		echo json_encode(array('msg' => "[$name]地址组被引用。"));
 	    	}else if($id == -7){
-	    		echo json_encode(array('msg' => "[$name]地址组成员重复添加"));
+	    		echo json_encode(array('msg' => "[$name]地址组成员重复添加。"));
 	    	}else{
-	    		echo json_encode(array('msg' => "[$name]地址组修改不成功"));
+	    		echo json_encode(array('msg' => "[$name]地址组修改不成功。"));
 	    	}
 	    }        
     } else if ('add' === $_POST['type']) {
@@ -455,17 +479,16 @@
         list($name, $comment, $addmbr,$addOrEditId,$addOrEditType)=getAddOrEditData();      		        	
 		$id = getCmdArr('add');
 		if($id >= 0){
-			addIpsetCmdToSql('add',$id);
-			echo json_encode(array('msg' => "[$name]添加成功."));           
+			echo json_encode(array('msg' => "[$name]添加成功。"));           
 		}else{
 			if($id == -5){
-				echo json_encode(array('msg' => "[$name]地址组不存在"));
+				echo json_encode(array('msg' => "[$name]地址组不存在。"));
 			}else if($id == -6){
-				echo json_encode(array('msg' => "[$name]地址组被引用"));
+				echo json_encode(array('msg' => "[$name]地址组被引用。"));
 			}else if($id == -7){
-				echo json_encode(array('msg' => "[$name]地址组成员重复添加"));
+				echo json_encode(array('msg' => "[$name]地址组成员重复添加。"));
 			}else{
-				echo json_encode(array('msg' => "[$name]地址组添加不成功"));
+				echo json_encode(array('msg' => "[$name]地址组添加不成功。"));
 			}
 		}		 
     } else if (!empty($_POST['delName'])) {
@@ -473,15 +496,14 @@
         $name = $_POST['delName'];
         $id = getCmdArr('del');
         if($id >= 0){
-        	addIpsetCmdToSql('delete',$id);
-        	echo json_encode(array('msg' => "[$name]删除成功."));        	
+        	echo json_encode(array('msg' => "[$name]删除成功。"));        	
         }else{
         	if($id == -5){
-        		echo json_encode(array('msg' => "[$name]地址组不存在"));
+        		echo json_encode(array('msg' => "[$name]地址组不存在。"));
         	}else if($id == -6){
-        		echo json_encode(array('msg' => "[$name]地址组被引用"));
+        		echo json_encode(array('msg' => "[$name]地址组被引用。"));
         	}else{
-        		echo json_encode(array('msg' => "[$name]地址组删除不成功"));
+        		echo json_encode(array('msg' => "[$name]地址组删除不成功。"));
         	}
         }                
     } else if (!empty($_POST['openAddAddrGrpDialog'])) {

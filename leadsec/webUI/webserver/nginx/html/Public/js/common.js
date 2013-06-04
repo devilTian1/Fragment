@@ -111,9 +111,11 @@ function loadAjax(url, data, params) {
 
 function showAjaxErrorDialog(XMLHttpRequest, textStatus, errorThrown) {
     var dialog = loadingScreen(getMessage('错误'));
-    result = 'ERROR: AJAX error. Respone text: ' +
-        XMLHttpRequest.responseText + ', status:' + textStatus +
-        ', errorThrown:' + errorThrown;
+    result = getMessage('ERROR') + ': [' + getMessage('AJAX error') +
+        ']. ' + getMessage('Respone text') + ': [' +
+        XMLHttpRequest.responseText + '], ' + getMessage('error msg') +
+        ':[' + textStatus + '], ' + getMessage('errorThrown') + ':[' +
+        errorThrown + ']';
     dialog.setContent($('<p>' + result + '</p>'));
 }
 
@@ -245,6 +247,9 @@ function showDialogByAjax(url, data, title, dialogParams, ajaxParams,
     }
     if (!errorCallback) {
         errorCallback = function(XMLHttpRequest, textStatus, errorThrown) {
+            if (!checkTimeOut(XMLHttpRequest.responseText)) {
+                return false;
+            }
             showAjaxErrorDialog(XMLHttpRequest, textStatus, errorThrown);
         }
     }
@@ -263,7 +268,7 @@ function showDialogByAjax(url, data, title, dialogParams, ajaxParams,
     return dialog;
 }
 
-function freshPrePage(url, tableDom){
+function freshPrePage(url, tableDom,name){
     var data = {
     		selectList: true
     };
@@ -277,7 +282,11 @@ function freshPrePage(url, tableDom){
 	            for(var i in sl)
 	            {
 	            	var a = parseInt(i)+1;
-	            	opstr = opstr + "<option id=\""+tableDom.attr('id')+"-"+a+"\" class=\"select "+tableDom.attr('id')+" option\" value=\""+sl[i]+"\">"+sl[i]+"</option>";
+	            	if(sl[i] == name){
+	            		opstr = opstr + "<option id=\""+tableDom.attr('id')+"-"+a+"\" class=\"select "+tableDom.attr('id')+" option\" value=\""+sl[i]+"\" selected>"+sl[i]+"</option>";
+	            	}else{
+	            		opstr = opstr + "<option id=\""+tableDom.attr('id')+"-"+a+"\" class=\"select "+tableDom.attr('id')+" option\" value=\""+sl[i]+"\">"+sl[i]+"</option>";
+	            	}	            	
 	            }
 	            
 	            tableDom.html(opstr);
@@ -286,13 +295,12 @@ function freshPrePage(url, tableDom){
 	    loadEmbedPage(url, data, tableDom, params);   
 }
 
-function ajaxSubmitForm(formEle, title, successCallback, errorCallback) {
+function ajaxSubmitForm(formEle, title, successCallback, errorCallback,
+    afterSuccessCallback) {
     var dialog = loadingScreen(title);
     dialog.dialog('moveToTop');
     var buttons = {};
-    buttons[getMessage('Ok')] = function() {
-        dialog.close();
-    }
+    
     dialog.setOptions({
         width : 250,
         height: 170,
@@ -306,6 +314,10 @@ function ajaxSubmitForm(formEle, title, successCallback, errorCallback) {
 	            content = content.join('<br/>');	
 	        }
             dialog.setContent($('<p>' + content + '</p>'));
+            if (afterSuccessCallback != undefined &&
+                typeof(afterSuccessCallback) == 'function') {
+                afterSuccessCallback(result, textStatus);
+            }
         }
     }
     var s = successCallback;
@@ -313,6 +325,12 @@ function ajaxSubmitForm(formEle, title, successCallback, errorCallback) {
         if (!checkTimeOut(result)) {
             return false;
         }
+        buttons[getMessage('Ok')] = function() {
+            dialog.close();
+        }
+        dialog.setOptions({
+            buttons: buttons
+        });
         s(result);
     }
     if (!errorCallback) {
@@ -320,9 +338,11 @@ function ajaxSubmitForm(formEle, title, successCallback, errorCallback) {
             if (!checkTimeOut(XMLHttpRequest.responseText)) {
                 return false;
             }
-            result = 'ERROR: AJAX error. Respone text: ' +
-                XMLHttpRequest.responseText + ', status:' + textStatus +
-                ', errorThrown:' + errorThrown;
+            result = getMessage('ERROR') + ': [' + getMessage('AJAX error') +
+                ']. ' + getMessage('Respone text') + ': [' +
+                XMLHttpRequest.responseText + '], ' + getMessage('error msg') +
+                ':[' + textStatus + '], ' + getMessage('errorThrown') + ':[' +
+                errorThrown + ']';
             dialog.setContent($('<p>' + result + '</p>'));
         }
     }
@@ -357,7 +377,7 @@ function refreshLayout() {
     var leftmenuH = $("#leftmenu").outerHeight();
     contentH > leftmenuH ? $("#leftmenu").outerHeight(contentH+21) : 
         $("#mainContent").outerHeight(leftmenuH-21);
-	setTimeout(function(){$("#mainContent").getNiceScroll().resize();},500);
+    setTimeout(function(){$("#mainContent").getNiceScroll().resize();},500);
     refreshTabs();
 }
 
@@ -414,6 +434,12 @@ function getCookie(str) {
     }
 }
 
+if(!String.prototype.trim){
+	var TRIM_REG = /(^\s*)|(\s*$)/g;
+	String.prototype.trim = function(){
+		return this.replace(TRIM_REG,'');
+	}
+}
 /*
  * Extend jQuery element set to support new function.
  *

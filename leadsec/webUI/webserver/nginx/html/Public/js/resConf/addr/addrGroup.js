@@ -9,8 +9,11 @@ function openEditAddrGroupDialog(id) {
     buttons[getMessage('Ok')] = function() {
         if ($('#editAddrGroupForm').valid()) {
             $('#addrGrpMember option').attr('selected', 'selected');
-            ajaxSubmitForm($('#editAddrGroupForm'), '结果');
-            freshTableAndPage();
+            var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editAddrGroupForm'), '结果', undefined,
+                undefined, afterSuccessCallback);
             $(this).remove();
         }
     };
@@ -38,16 +41,22 @@ function openNewAddrGroupDialog() {
         if ($('#editAddrGroupForm').valid()) {
             openNewAddrGroupDialog();
             $('#addrGrpMember option').attr('selected', 'selected');
-            ajaxSubmitForm($('#editAddrGroupForm'), '结果');
-            freshTableAndPage();
+            var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editAddrGroupForm'), '结果', undefined,
+                undefined, afterSuccessCallback);
             $(this).remove();
         }
     };
     buttons[getMessage('Ok')] = function() {
         if ($('#editAddrGroupForm').valid()) {
             $('#addrGrpMember option').attr('selected', 'selected');
-            ajaxSubmitForm($('#editAddrGroupForm'), '结果');
-            freshTableAndPage();
+            var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editAddrGroupForm'), '结果', undefined,
+                undefined, afterSuccessCallback);
             $(this).remove();
         }
     };

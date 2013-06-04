@@ -11,64 +11,72 @@ function setLimitErrTime() {
 }
 
 function openNewAccountDialog() {
-    var url   = 'Function/layout/showDialog.php';
-    var data  = {
-        tpl : 'systemManagement/admin/editAccountDialog.tpl'
-    };
-    var title   = '添加管理员帐号';
-    var buttons = {};
-    buttons[getMessage('Add Next')] = function() {
-        if ($('#editAccountForm').valid()) {
-            openNewAccountDialog();
-            ajaxSubmitForm($('#editAccountForm'), '结果');
-            freshAccountList();
-            $(this).remove();
-        }
-    };
-    buttons[getMessage('Ok')] = function() {
-        if ($('#editAccountForm').valid()) {
-            ajaxSubmitForm($('#editAccountForm'), '结果');
-            freshAccountList();
-            $(this).remove();
-        }
-    };
-    buttons[getMessage('Cancel')] = function() {
-        $(this).remove();
-    };
-    var dialogParams = {
-        width   : 540,
-        height  : 380,
-        buttons : buttons,
-		position: jQuery.getDialogPosition(540,380)
-    };
-    showDialogByAjax(url, data, title, dialogParams);
+	if ($("#currentRol").val()!=='1'){
+		showErrorDialog('非超级管理员没有添加用户的权限!');
+	} else { 
+		var url   = 'Function/systemManagement/admin/account.php';
+		var data  = {
+			addUser : true
+		};
+		var title   = '添加管理员帐号';
+		var buttons = {};
+		buttons[getMessage('Add Next')] = function() {
+			if ($('#editAccountForm').valid()) {
+				openNewAccountDialog();
+				ajaxSubmitForm($('#editAccountForm'), '结果',
+                    undefined, undefined, freshAccountList);
+				$(this).remove();
+			}
+		};
+		buttons[getMessage('Ok')] = function() {
+			if ($('#editAccountForm').valid()) {
+				ajaxSubmitForm($('#editAccountForm'), '结果',
+                    undefined, undefined, freshAccountList);
+				$(this).remove();
+			}
+		};
+		buttons[getMessage('Cancel')] = function() {
+			$(this).remove();
+		};
+		var dialogParams = {
+			width   : 540,
+			height  : 380,
+			buttons : buttons,
+			position: jQuery.getDialogPosition(540,380)
+		};
+		showDialogByAjax(url, data, title, dialogParams);
+	}
 }
 
-function openEditUserDialog(user) {
-    var url  = 'Function/systemManagement/admin/account.php';
-    var data = {
-        tpl      : 'systemManagement/admin/editAccountDialog.tpl',
-        editUser : user
-    };
-    var title   = '修改管理员帐号';
-    var buttons = {};
-    buttons[getMessage('Ok')] = function() {
-        if ($('#editAccountForm').valid()) {
-            ajaxSubmitForm($('#editAccountForm'), '结果');
-            freshAccountList();
-            $(this).remove();
-        }
-    };
-    buttons[getMessage('Cancel')] = function() {
-        $(this).remove();
-    };
-    var dialogParams = {
-        width   : 540,
-        height  : 380,
-        buttons : buttons,
-		position: jQuery.getDialogPosition(540,380)
-    };
-    showDialogByAjax(url, data, title, dialogParams);
+function openEditUserDialog(user,isOnline) {
+	if (user!== $("#currentName").val() && isOnline==='yes') {
+		showErrorDialog('不能对在线的用户进行编辑!');
+	} else {
+		var url  = 'Function/systemManagement/admin/account.php';
+		var data = {
+			tpl      : 'systemManagement/admin/editAccountDialog.tpl',
+			editUser : user
+		};
+		var title   = '修改管理员帐号';
+		var buttons = {};
+		buttons[getMessage('Ok')] = function() {
+			if ($('#editAccountForm').valid()) {
+				ajaxSubmitForm($('#editAccountForm'), '结果',
+                    undefined, undefined, freshAccountList);
+				$(this).remove();
+			}
+		};
+		buttons[getMessage('Cancel')] = function() {
+			$(this).remove();
+		};
+		var dialogParams = {
+			width   : 540,
+			height  : 380,
+			buttons : buttons,
+			position: jQuery.getDialogPosition(540,380)
+		};
+		showDialogByAjax(url, data, title, dialogParams);
+	}
 }
 
 function delUser(user) {

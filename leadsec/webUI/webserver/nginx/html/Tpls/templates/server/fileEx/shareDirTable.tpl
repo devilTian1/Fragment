@@ -5,7 +5,7 @@
             <{if $r.mode === 'C'}>
             发送
             <{else}>
-            接受
+            接收
             <{/if}>
         </td>
         <td><{$r.ip}></td>
@@ -17,5 +17,5 @@
         </td>
     </tr>
 <{foreachelse}>
-    <tr><td colspan='6'>No Data</td></tr>
+    <tr><td colspan='6'>无数据</td></tr>
 <{/foreach}>

@@ -7,10 +7,17 @@
                 <td class="tdbody"><{$lastestVersion|default:'没有任何版本信息'}></td>
             </tr>
             <tr>
-                <td class="tdheader"><span class="red">*</span> 升级文件:</td>
+                <td class="tdheader">
+					<span class="red">*</span> 升级文件:
+				</td>
+				<td>
+					<{include file='layout/upload.tpl' name='file' id='file'}>
+				</td>
+				<!--
                 <td class="tdbody">
                     <input name="upgradeFile" type="file" id="file" />
                 </td>
+				-->
             </tr>
             <tr>
                 <td></td>
@@ -62,5 +69,7 @@
         renderStandardUi();
         validateForm($("#upgradeForm"));
 		freshTable('Function/systemManagement/maintain/upgrade.php', $('#upgradeListTable'),'ORDER BY id DESC');
+		var uploadWid =  $('#file').width();
+		$('.uploadText').width(uploadWid - 75);
     });
 </script>

@@ -8,7 +8,7 @@
         <legend>常规配置</legend>
 		<div class="row">
             <label for="name">名称:<em class="required">*</em></label>
-            <input type="text" name="ftpFilterOptName" size="15" maxLength="15"
+            <input class="width150" type="text" name="ftpFilterOptName" size="15" maxLength="15"
                 value="<{$data.name}>"/>
         </div>
         <div class="row">
@@ -118,22 +118,8 @@
                     checked=$data.cmd_info_download}>
             </div>
         </div>
-     </fieldset>
+     </fieldset>     
      
-     <fieldset>
-     	<legend>病毒扫描控制</legend>
-        <div class="row">
-            <label for="fileSize">文件扫描大小:</label>
-            <input type="text" name="fileSize" value="<{$data.file_size}>"/>
-            KB
-        </div>
-        <div class="row">
-            <label>文件病毒扫描:</label>
-            <{html_radios class="radio" name=virus label_ids=true
-            output=array('开启', '关闭') values=array('Y', 'N')
-            selected=$data.virus|default: 'N'}>
-        </div>
-     </fieldset>  
 </form>
 <script type="text/javascript">
     $(document).ready(function() {

@@ -1,90 +1,97 @@
 <?php
     require_once($_SERVER['DOCUMENT_ROOT'] . '/Function/common.php');
   
-    function getTimeListData() {
-    	//获得时间列表里的值
-        $db   = new dbsqlite('/usr/local/tss/conf/db_hss_tss');
-        $sql  = "SELECT name, spantype FROM time_span";
-        $data = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);        
-        $result = array();
-        $weekName = array('mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun');
-        foreach ($data as $v) {        	
-        	if ($v['spantype'] !== '0') {
-        		$pos = strrpos($v['name'], '_');
-            	if ($pos !== false) {
-                	$nameSuffix = substr($v['name'], $pos+1);
-                	if (false !== array_search($nameSuffix, $weekName)) {
-                    	$v['name'] = substr($v['name'], 0, -4);                    	
-                    	$result[] = $v['name'];
-                		} else {
-                    		$result[] = $v['name'];
-                		}
-            	} else {
-                	$result[] = $v['name'];
-            	}
-        	} else {       		
-        		$result[] = $v['name'];	
-        	}          
-        }  
-        $result = array_unique($result);    
-        return $result;
+    function getWhereStatement($db, $cols, $keyword) {
+        $value = '%' . $keyword . '%';
+        $params = array_fill(0, count(explode(',', $cols)), $value);
+        return array('sql'    => ' where (' .
+                              $db->getWhereStatement($cols, 'OR', 'like') . ')',
+                     'params' => $params);
     }
-    function getTimeData($where) {
-    	//获得时间组里的所有值:包括已添加的名称及时间组成员
-        $db   = new dbsqlite('/usr/local/tss/conf/db_hss_tss');
-        if ('all' === $where) {
-            $sql  = "SELECT distinct name FROM time_grp";
-        } else {
-            $sql  = "SELECT distinct name FROM time_grp $where";
-        }
-        $data = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
-        $result = array();
-        foreach ($data as $d) {
-        	$result[] = $d['name']; 
-        }              
-        return $result;
+
+    function getAndStatement($db, $cols, $keyword) {
+        $value = '%' . $keyword . '%';
+        $params = array_fill(0, count(explode(',', $cols)), $value);
+        return array('sql'    => ' AND (' .
+                              $db->getWhereStatement($cols, 'OR', 'like') . ')',
+                     'params' => $params);
     }
+
     function getSpecComment($name) {
         $db   = new dbsqlite('/usr/local/tss/conf/db_hss_tss');
         $sql  = "SELECT comment FROM grp_comment WHERE name = '$name'";
+        $params = array();
+        	if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
+            	$data   = getAndStatement($db, $_GET['cols'], $_GET['keyword']);
+            	$sql   .= $data['sql'];
+            	$params = $data['params'];
+        	}
+        	$sql .=  ' ' . $where;
         $data = $db->query($sql)->getFirstData(PDO::FETCH_ASSOC);
         return $data['comment'];
     }
+
     function getTimeGroupData($where) {
-        $result = array();       
-        $timelist = getTimeListData();
-        $timedata = getTimeData($where);         
-        foreach ($timedata as $d) {
-        	if (false === array_search($d, $timelist)) {
-        		//获得时间组里已添加的名称
-        	 	$db   = new dbsqlite('/usr/local/tss/conf/db_hss_tss');
-        	 	$sql  = "SELECT subname FROM time_grp where name = '$d'";
-                $data   = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
-                foreach ($data as $d2) {
-                	$result[$d]['subname'][] = $d2['subname'];	
+        $db     = new dbsqlite('/usr/local/tss/conf/db_hss_tss');
+        $regexp = '/^(.+)\sLIMIT (\d+) OFFSET (\d+)/';
+        if (preg_match($regexp, $where, $match)) {
+            $orderStatement = $db->replaceAlp($match[1], 'time_grp.name');
+            $limit          = $match[2];
+            $offset         = $match[3];
+        } else {
+            throw new Exception("Incorrect Where Statement: [$where].");
+        }
+        $sql = 'SELECT DISTINCT time_grp.name as name, ' .
+            'time_grp.subname as subname, grp_comment.comment as comment ' .
+            'FROM time_grp, grp_comment ' .
+            'WHERE time_grp.name = grp_comment.name AND time_grp.subname ' .
+            'IN (SELECT DISTINCT name FROM time_grp UNION ' .
+            'SELECT name FROM time_span WHERE spantype = 0) ' . $orderStatement;
+        $data   = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
+        $result = array();
+        // information-filter
+        foreach ($data as $d) {
+            $grpName = $d['name'];
+            $member  = $d['subname'];
+            $comment = $d['comment'];
+            $result[$grpName]['subname'][] = $member;
+            if (!isset($result[$grpName]['comment'])) {
+                $result[$grpName]['comment'] = $comment;
+            }
+        }
+        // keyword-searching
+        if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
+            $keyword = $_GET['keyword'];
+            foreach ($result as $key => $val) {
+                if (false === strpos($key, $keyword) &&
+                    false === array_search($keyword, $val['subname'])) {
+                    unset($result[$key]);
                 }
-                $result[$d]['comment'] = getSpecComment($d);                 
-        	}	
-        }          
-        return $result;
-    }    
+            }
+        }
+        return array_slice($result, $offset, $limit);
+    }
+
     function freshTimeGroup($where) {
         $tpl  = 'resConf/time/timeGroupTable.tpl';
         $data = getTimeGroupData($where);
         echo V::getInstance()->assign('timeGroup', $data)
             ->fetch($tpl);
     }
+
  	function getDataCount() {
-        $result = array();       
-        $timelist = getTimeListData();
-        $timedata = getTimeData('all');         
-        foreach ($timedata as $d) {
-        	if (false === array_search($d, $timelist)) {        	 
-                $result[] = $d;                 
-        	}	
-        }  
-        return count($result);        
+        $sql = 'SELECT DISTINCT name FROM time_grp WHERE subname in ' .
+            '(SELECT DISTINCT name FROM time_grp UNION ' .
+            'SELECT name FROM time_span WHERE spantype = 0)';
+        $db   = new dbsqlite('/usr/local/tss/conf/db_hss_tss');
+        if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
+            $data   = getAndStatement($db, $_GET['cols'], $_GET['keyword']);
+            $sql   .= $data['sql'];
+            $params = $data['params'];
+        }
+        return $db->query($sql, $params)->getCount();
     }
+
     function getAllTimeList() {
         $tpl  = 'resConf/time/timeListTable.tpl';
         $db   = new dbsqlite('/usr/local/tss/conf/db_hss_tss');
@@ -123,8 +130,8 @@
         }
         return $result;
     }
-    function getTimeGroupInUse($name)
-    {
+
+    function getTimeGroupInUse($name) {
     	 $flag = 0;
     	 //文件交换
      	 $db  = new dbsqlite(DB_PATH . '/netgap_fs.db');
@@ -179,9 +186,9 @@
     	 	return $flag;
     	 }
     	//数据库访问
-     	 $db  = new dbsqlite(DB_PATH . '/gateway_ftp.db');
+     	 $db  = new dbsqlite(DB_PATH . '/netgap_db.db');
     	 $sql = "SELECT time FROM db_trans_client_acl WHERE time = '$name' 
-    	     UNION SELECT time FROM db_comm_client_acl time = '$name'";
+    	     UNION SELECT time FROM db_comm_client_acl WHERE time = '$name'";
     	 $data = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
     	 if(count($data) > 0){
     	 	$flag = 1;
@@ -243,7 +250,7 @@
             $cmd = "timegrp set name \"$name\" addmbr \"$m\"";
             $cli->setLog("添加名称为".$_POST['resTimeName']."的时间组的成员")->run($cmd);
         }
-        echo json_encode(array('msg' => '添加成功.'));
+        echo json_encode(array('msg' => '添加成功。'));
     } else if ('edit' === $_POST['type']) {
         // Edit the specified time group data
         $name    = $_POST['resTimeName'];
@@ -259,18 +266,18 @@
             $cmd = "timegrp set name \"$name\" addmbr \"$m\"";
             $cli->setLog("编辑名称为".$_POST['resTimeName']."的时间组的成员")->run($cmd);
         }
-        echo json_encode(array('msg' => '修改成功.'));
+        echo json_encode(array('msg' => '修改成功。'));
     } else if ($name = $_POST['delName']) {
         // Delete the specified time group data
         $flag = getTimeGroupInUse($name);
         if ($flag == 1) {       	
-        	$msg = "名称为\"$name\"的时间组被引用，无法删除";
+        	$msg = "名称为\"$name\"的时间组被引用，无法删除。";
         	echo json_encode(array('msg' => $msg));
         } else {
             $cmd  = "timegrp del name \"$name\"";
         	$cli  = new cli();
         	$cli->setLog("删除名称为".$_POST['delName']."的时间组")->run($cmd);
-        	echo json_encode(array('msg' => "[$name]删除成功."));	
+        	echo json_encode(array('msg' => "[$name]删除成功。"));	
         }       
     } else if (!empty($_POST['openNewTimeGrpDialog'])) {
         // Display add time group dialog

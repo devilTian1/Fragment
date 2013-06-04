@@ -4,8 +4,15 @@
     function freshSchedulrTable($where) {
         $tpl =  'networkManagement/lvs/scheduleTable.tpl';
         $db  = new dbsqlite(DB_PATH . '/netgap_ha.db');
-        $sql = "SELECT virtual_ip,virtual_port FROM service WHERE id=1 $where";
-        $result = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
+        $sql = "SELECT virtual_ip,virtual_port FROM service WHERE id=1";
+        $params = array();
+        if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
+        	$data   = getWhereStatement($db, $_GET['cols'], $_GET['keyword']);
+        	$sql   .= $data['sql'];
+        	$params = $data['params'];
+        }
+        $sql .=  ' ' . $where;
+        $result = $db->query($sql, $params)->getAllData(PDO::FETCH_ASSOC);
         $schedule = array();
         foreach ($result as $arr) {
             $sql = "SELECT * FROM service WHERE virtual_ip='" . $arr['virtual_ip'] . "' AND virtual_port='" . $arr['virtual_port'] . "'";
@@ -62,11 +69,24 @@
         }
         return $result;
     }
+    
+    function getWhereStatement($db, $cols, $keyword) {
+    	$value = '%' . $keyword . '%';
+    	$params = array_fill(0, count(explode(',', $cols)), $value);
+    	return array('sql'    => ' AND (' .
+    			$db->getWhereStatement($cols, 'OR', 'like') . ')',
+    			'params' => $params);
+    }
 
     function getDataCount() {
         $sql = 'SELECT id FROM service WHERE id=1';
         $db  = new dbsqlite(DB_PATH . '/netgap_ha.db');
-        return $db->query($sql)->getCount();
+        if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
+        	$data   = getWhereStatement($db, $_GET['cols'], $_GET['keyword']);
+        	$sql   .= $data['sql'];
+        	$params = $data['params'];
+        }
+        return $db->query($sql, $params)->getCount();
     }
     
     function getAddCmd() {
@@ -98,8 +118,8 @@
         }
         $cli->setLog('网络管理的调度配置:reconfigure')->run('lvsctl reconfigure');
         //$cli->setLog('网络管理的调度配置停止')->run('lvsctl stop');
-        //$cli->setLog('网络管理的调度配置启用')->run('lvsctl start');
-        echo json_encode(array('msg' => '添加成功.'));
+        $cli->setLog('网络管理的调度配置启用')->run('lvsctl startup');
+        echo json_encode(array('msg' => '添加成功。'));
     } else if ($_POST['type'] === 'edit') {
         $ip = $_POST['delVirtualIp'];
         $port = $_POST['delVirtualPort'];
@@ -115,8 +135,8 @@
         }
         $cli->setLog('网络管理的调度配置:reconfigure')->run('lvsctl reconfigure');
         //$cli->setLog('网络管理的调度配置停止')->run('lvsctl stop');
-        //$cli->setLog('网络管理的调度配置启用')->run('lvsctl start');
-        echo json_encode(array('msg' => '修改成功.'));
+        $cli->setLog('网络管理的调度配置启用')->run('lvsctl startup');
+        echo json_encode(array('msg' => '修改成功。'));
     } else if ($_POST['openNewRealAddrDialog']) {
         // open add-new-real-addr dialog
         $tpl    = 'networkManagement/lvs/editScheduleDialog.tpl';
@@ -146,8 +166,8 @@
         }
         $cli->setLog('网络管理的调度配置:reconfigure')->run('lvsctl reconfigure');
         //$cli->setLog('网络管理的调度配置停止')->run('lvsctl stop');
-        //$cli->setLog('网络管理的调度配置启用')->run('lvsctl start');
-        echo json_encode(array('msg' => '删除成功.'));
+        $cli->setLog('网络管理的调度配置启用')->run('lvsctl startup');
+        echo json_encode(array('msg' => '删除成功。'));
     } else if ($_GET['checkExistVirtualAddr']) {
         $check = array('virtualAddr' => $_GET['virtualAddr'],'virtualPort' => $_GET['virtualPort']);        
         echo netGapRes::getInstance()->checkExistTaskId('schedule',$check);

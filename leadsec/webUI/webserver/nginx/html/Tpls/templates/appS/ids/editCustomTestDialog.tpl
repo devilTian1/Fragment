@@ -6,7 +6,7 @@
 	<div class="row">
 		 <div class="column column_50">
 			 <label for="source_address">源地址:<em class="required">*</em></label>
-			 <input type="text" name="source_address" value="<{$list.source_address}>"/>
+			 <input type="text" class="width132" name="source_address" value="<{$list.source_address}>"/>
 			 <{if $type === 'edit'}>
 				<input type="hidden" name="editId" value="<{$list.rule_id}>"/>
 			 <{/if}>
@@ -29,7 +29,7 @@
    <div class="row">
 		 <div class="column column_50">
 			 <label for="target_address">目的地址:<em class="required">*</em></label>
-			 <input type="text" name="target_address" value="<{$list.target_address}>"/>
+			 <input class="width132" type="text" name="target_address" value="<{$list.target_address}>"/>
 		 </div>
 		  <div class="column column_50">
 			<label for="target_mask">掩码:<em class="required">*</em></label>
@@ -141,7 +141,7 @@
 		</div>
    </div>
    <div class="row"><label for="txt_msg">定义报警事件主题:<em class="required">*</em></label>
-	   <input type="text" name="txt_msg" value="<{$list.txt_msg}>"/>
+	   <input type="text" class="width132" name="txt_msg" value="<{$list.txt_msg}>"/>
 	</div>
 </fieldset>
 </form>

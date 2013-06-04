@@ -9,10 +9,5 @@
         <td><{$r.level}></td>
     </tr>
 <{foreachelse}>
-    <tr><td colspan='7'>没有入侵检测记录！</td></tr>
+    <tr><td colspan='7'>无数据</td></tr>
 <{/foreach}>
-<script type="text/javascript"> 
-    $(document).ready(function() {
-        renderStandardUi();
-    });
-</script>

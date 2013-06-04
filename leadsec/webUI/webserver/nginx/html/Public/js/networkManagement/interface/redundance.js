@@ -1,3 +1,39 @@
+function isInUseCheck(external_name,func) {
+    var url  = 'Function/networkManagement/interface/redundance.php';
+    var data = {
+        isInUseCheck  : true,
+        checkName : external_name
+    };
+        var params = {        
+			type    : 'GET',        
+			success : function(result) {           
+				if (result == 'true') {               
+					OpenTipsDialog(external_name);          
+				} else {               
+					func(external_name);          
+				}     
+			}   
+		};        
+    loadAjax(url, data, params);
+}
+
+function OpenTipsDialog(external_name) {
+    var title   = '提示';
+    var dialog  = loadingScreen(title);
+    var buttons = {};
+    buttons['关闭'] = function() {
+        $(this).remove();
+    };
+    var dialogParams = {
+        width: 300,
+        Height: 160,
+        buttons: buttons,       
+		position : jQuery.getDialogPosition('300','160')
+    };
+    dialog.setContent('<p>冗余设备[' + external_name  + ']正被引用，不能修改或删除此别名。</p>');
+    dialog.setOptions(dialogParams);
+}
+
 function openEditRedundanceDevDialog(external_name) {
     var url  = 'Function/networkManagement/interface/redundance.php';
     var data = {
@@ -10,8 +46,11 @@ function openEditRedundanceDevDialog(external_name) {
         if ($('#editRedundanceForm').valid()) {
             $('#external_name').removeAttr('disabled');
             $('#addrMember option').attr('selected', 'selected');
-            ajaxSubmitForm($('#editRedundanceForm'), '结果');
-            freshTableAndPage();
+            var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editRedundanceForm'), '结果', undefined,
+                undefined, afterSuccessCallback);
             $(this).remove();
         }
     };
@@ -39,16 +78,22 @@ function openNewRedundanceDevDialog() {
         if ($('#editRedundanceForm').valid()) {
             $('#addrMember option').attr('selected', 'selected');
             openNewRedundanceDevDialog();
-            ajaxSubmitForm($('#editRedundanceForm'), '结果');
-            freshTableAndPage();
+            var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editRedundanceForm'), '结果', undefined,
+                undefined, afterSuccessCallback);
             $(this).remove();
         }
     };
     buttons['确定'] = function() {
         if ($('#editRedundanceForm').valid()) {
             $('#addrMember option').attr('selected', 'selected');
-            ajaxSubmitForm($('#editRedundanceForm'), '结果');
-            freshTableAndPage();
+            var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editRedundanceForm'), '结果', undefined,
+                undefined, afterSuccessCallback);
             $(this).remove();
         }
     };
@@ -79,7 +124,8 @@ function delRedundanceDev(name) {
         width   : 250,
         height  : 170,
         buttons : buttons,
-        position : jQuery.getDialogPosition('250','170')
+        
+		position : jQuery.getDialogPosition('250','170')
     };
     showDialogByAjax(url, data, title, dialogParams);
 }
@@ -98,8 +144,8 @@ function openDelRedundanceDevDialog(name) {
     var dialogParams = {
         width: 300,
         height: 160,
-        buttons: buttons,
-        position : jQuery.getDialogPosition('300','160')
+        buttons: buttons,       
+		position : jQuery.getDialogPosition('300','160')
     };
     dialog.setContent("<p>确定要删除名称为" + name + "的冗余设备吗?</p>");
     dialog.setOptions(dialogParams);   
@@ -110,8 +156,11 @@ function switchRedundanceDev(name, action, formId) {
     var dialog  = loadingScreen(title);
     var buttons = {};
     buttons['确定'] = function() {
-        ajaxSubmitForm($('#switchRedundanceDevForm_' + formId), '结果');
-        freshTableAndPage();
+        var afterSuccessCallback = function() {
+                freshTableAndPage();
+        };
+        ajaxSubmitForm($('#switchRedundanceDevForm_' + formId), '结果', undefined,
+                undefined, afterSuccessCallback);
         $(this).remove();
     };
     buttons['取消'] = function() {
@@ -120,8 +169,8 @@ function switchRedundanceDev(name, action, formId) {
     var dialogParams = {
         width: 300,
         height: 160,
-        buttons: buttons,
-        position : jQuery.getDialogPosition('300','160')
+        buttons: buttons,       
+		position : jQuery.getDialogPosition('300','160')
     };
     var str = action === 'disable' ? '停止' : '启动';
     dialog.setContent('<p>确定' + str + '冗余设备[' + name  + ']吗?</p>');
@@ -136,8 +185,11 @@ function openSetWorkModeDialog() {
     };
     var buttons = {};
     buttons['确定'] = function() {
-        ajaxSubmitForm($('#editWorkModeForm'), '结果');
-        freshTableAndPage();
+        var afterSuccessCallback = function() {
+                freshTableAndPage();
+        };
+        ajaxSubmitForm($('#editWorkModeForm'), '结果', undefined,
+                undefined, afterSuccessCallback);
         $(this).remove();
     };
     buttons['取消'] = function() {

@@ -32,22 +32,32 @@
     } else if (isset($_GET['reconf'])) {
 		// start/stop service
         $cli = new cli();
+		$path = "/usr/local/bin/";
         if ('on' === $_POST['switch']) {
 			$msg_log = '网络管理模块下启动双机热备服务';
-            $cli->setLog($msg_log)->run('hactl start');
-            $msg = '服务已启动.';
+			list($status,$result) = $cli->setLog($msg_log)
+				->execCmdGetStatus($path.'hactl start 1>/dev/null');
+			if ($status > 0) {
+				echo json_encode(array('msg' => '服务启动失败!请确认配置是否正确.'));
+			} else {
+				echo json_encode(array('msg' => '服务启动成功!'));
+			}
         } else {
             // stop start
 			$msg_log = '网络管理模块下停止双机热备服务';
-            $cli->setLog($msg_log)->run('hactl stop');
-            $msg = '服务已停止.';
+			list($status,$result) = $cli->setLog($msg_log)
+				->execCmdGetStatus($path.'hactl stop 1>/dev/null');
+			if ($status > 0) {
+				echo json_encode(array('msg' => '服务停止失败!'));
+			} else {
+				echo json_encode(array('msg' => '服务已停止!'));
+			}
         }
-        echo json_encode(array('msg' => $msg));
-		
 	} else {
         // init data
 		$cli     = new cli();
-        $return  = $cli->setGetResult(true)->run('hactl status');
+        $return  = $cli->setGetResult(true)->setLog('获取双机热备服务状态')
+            ->run('hactl status');
         $str     = strtolower($return[0]);
         if (false !== strpos($str, 'stop')) {
             $switch = 'off';

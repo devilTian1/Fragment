@@ -9,11 +9,11 @@
         <td>
             <form action="Function/client/db/generalVisit.php" method="POST"
                 id="switchClientCommForm_<{$value.id}>" onSubmit="return false;">
-                <input type="hidden" name="clientId" value="<{$value.id}>"/>
+                <input type="hidden" name="cdbGeneralId" value="<{$value.id}>"/>
                 <input type="hidden" name="dbType" value="<{$value.dbtype}>"/>
-                <input type="hidden" name="sAddress" value="<{$value.sa}>"/>
-                <input type="hidden" name="lAddress" value="<{$value.lip}>"/>
-                <input type="hidden" name="localPort" value="<{$value.lport}>"/>
+                <input type="hidden" name="cdbGeneralsAddress" value="<{$value.sa}>"/>
+                <input type="hidden" name="cdbGeneralLip" value="<{$value.lip}>"/>
+                <input type="hidden" name="cdbGeneralLport" value="<{$value.lport}>"/>
                 <input type="hidden" name="filter" value="<{$value.filter}>"/>
                 <input type="hidden" name="active" value="<{$value.active}>"/>
                 <input type="hidden" name="timeList" value="<{$value.time}>"/>
@@ -44,5 +44,5 @@
         </td>
     </tr>
 <{foreachelse}>
-    <tr><td colspan='10'>No Data</td></tr>
+    <tr><td colspan='10'>无数据</td></tr>
 <{/foreach}>

@@ -57,7 +57,7 @@
 				按 IP 探测:
 		</td>
 		<td class="tdbody">
-        	<input type="text" name="ip" id="serverip" value=''/>
+        	<input type="text" class="width149" name="ip" id="serverip" value=''/>
 			<input type="hidden" name="switchbyip" id="switchbyip" value=''/>
 
 		</td>
@@ -90,8 +90,8 @@
 	<thead>
 		<tr>
 			<th class="column_5"><input type="checkbox" onClick="checkAllIp()" title="全选" id="checkAllIp"/></th>
-			<th class="column_20">IP地址</th>
-			<th class="column_30">MAC地址</th>
+			<th class="column_20" name = "ip">IP地址</th>
+			<th class="column_30" name = "mac">MAC地址</th>
 			<th class="column_30">唯一性检查</th>
 			<th class="column_20">操作</th>
 		</tr>

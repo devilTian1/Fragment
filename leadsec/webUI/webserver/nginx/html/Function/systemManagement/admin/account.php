@@ -23,9 +23,9 @@
         return array(
             $_POST['account'],
             $_POST['passwd'],
-            $_POST['confAdmin'] === 'on' ? 'on' : 'off',
-            $_POST['policyAdmin'] === 'on' ? 'on' : 'off',
-            $_POST['logAdmin'] === 'on' ? 'on' : 'off'
+            $_POST['role'] === 'manager'  ? 'on' : 'off',
+            $_POST['role'] === 'policyer' ? 'on' : 'off',
+            $_POST['role'] === 'auditor'  ? 'on' : 'off'
         );
     }
 
@@ -75,9 +75,9 @@
 		$name_role = getCurrentUserRole($name);
 		$role_type = $name_role[0]['super'];
 		if ($user_role[0]['super'] === '1') {
-			$isEditRole = true;
+			$isEditRole = 'yes';
 		} else {
-			$isEditRole = false;
+			$isEditRole = 'no';
 		}
 		//查看(非超级管理员)在线的用户
 		if (isUserOnline($name) !== false && $name_role[0]['super'] !== '1' && $name !== $user ) {
@@ -96,7 +96,11 @@
 				->assign('type', 'edit')->fetch($tpl);
 			echo json_encode(array('msg' => $result));
 		}
-    } else if ($_POST['type'] === 'add') {
+    } else if (!empty($_POST['addUser'])) {
+		$tpl = "systemManagement/admin/editAccountDialog.tpl";
+		$result = V::getInstance()->assign('type', 'add')->fetch($tpl);
+		echo json_encode(array('msg' => $result));
+	} else if ($_POST['type'] === 'add') {
         // add a new account
         list($account, $passwd, $isManager, $isPolicyer, $isAuditor) =
             getUserData();
@@ -127,17 +131,30 @@
     } else if (!empty($_POST['freshAccountList'])) {
         $tpl = 'systemManagement/admin/accountTable.tpl';
 		//如果用户是超级管理员显示所有的列表信息
+		$cur_role = $user_role[0]['super'];
 		if ($user_role[0]['super'] === '1') {
 			$db  = new dbsqlite(DB_PATH . '/configs.db');
 			$result = $db->query('SELECT * FROM accounts')
 				->getAllData(PDO::FETCH_ASSOC);
 			$result = getAccountsIsOnline($result);
-			echo V::getInstance()->assign('accounts', $result)->fetch($tpl);
+			echo V::getInstance()->assign('accounts', $result)
+				->assign('cur_role', $cur_role)
+				->assign('cur_user',$user)
+				->fetch($tpl);
 		} else {
 		//反之则显示当前自己的信息
-			echo V::getInstance()->assign('accounts',$user_role)->fetch($tpl);
+			echo V::getInstance()->assign('accounts',$user_role)
+				->assign('cur_role', $cur_role)
+				->assign('cur_user',$user)
+				->fetch($tpl);
 		}
-    } else {
+    } else if ($_GET['checkExistAccountName']) {
+		//检查用户名是否重复
+		$sql = 'SELECT account FROM accounts WHERE account = "' .
+            $_GET['account'] . '"';
+        $db  = new dbsqlite(DB_PATH . '/configs.db');
+        echo $db->query($sql)->getCount() > 0 ? 'false' : 'true';
+	} else {
         // init page data
         $db  = new dbsqlite(DB_PATH . '/configs.db');
         $multiAdm = $db->query('SELECT allow FROM allow_multiple')

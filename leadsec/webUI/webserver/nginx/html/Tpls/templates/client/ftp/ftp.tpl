@@ -1,14 +1,13 @@
-<{include file='layout/search.tpl' tableId='ftpFilterOptionsTable'}>
+<{include file='layout/search.tpl' colNames='name,user_info,cmd_info,comment'}>
 <table class="column_95 textMid tablesorter" id="ftpFilterOptionsTable">
  <caption>FTP过滤选项</caption>
 	<thead> 
         <tr>
-          <th class="column_10" name="name">名称</th>
+          <th class="column_15" name="name">名称</th>
           <th class="column_25" name="user_info">用户控制</th>
-          <th class="column_30" name="cmd_info">命令控制</th>
-          <th class="column_15" name="virus">文件病毒扫描</th>
-          <th class="column_10" name="comment">备注</th>
-          <th class="column_10">操作</th>
+          <th class="column_30" name="cmd_info">命令控制</th>       
+          <th class="column_15" name="comment">备注</th>
+          <th class="column_15">操作</th>
         </tr>
     </thead>
 	<tbody>
@@ -28,7 +27,7 @@
     $(document).ready(function() {
         renderStandardUi();
         freshTable('Function/client/ftp/ftp.php',
-            $('#ftpFilterOptionsTable'), 'ORDER BY id ASC LIMIT 10');
+            $('#ftpFilterOptionsTable'), 'ORDER BY name ASC LIMIT 10');
         sortTableInit($('#ftpFilterOptionsTable'), {5: {sorter: false}}, [[0,0]]);
     });
 </script>

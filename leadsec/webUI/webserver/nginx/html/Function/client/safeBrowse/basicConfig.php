@@ -11,6 +11,10 @@
         $httpHead  = $_POST['httpHead'] === 'on' ? 'HEAD' : '';
         $httpPort = $_POST['httpPort'];
         $httpsPort = $_POST['httpsPort'];
+        $memoryMax = $_POST['memoryMax'];
+        $httpRequestMax = $_POST['httpRequestMax'];
+        $virusScan  = $_POST['virusScan']   === 'on' ? 'on' : 'off';
+        $virusMsg = $_POST['virusScan']   === 'on' ? '开启' : '关闭';
         
         $cmd = Array();
         $msg = Array();
@@ -22,6 +26,12 @@
         $msg[] = "设置Http协议可访问端口有{$httpPort}";
         $cmd[] = "httpctl set httpsport $httpsPort";
         $msg[] = "设置Https协议可访问端口有{$httpsPort}";
+        $cmd[] = "/usr/local/bin/httpctl set reqhead $httpRequestMax";
+        $msg[] = "设置Http请求头部上限{$httpRequestMax}";
+        $cmd[] = "/usr/local/bin/httpctl set cachemem $memoryMax";
+        $msg[] = "设置缓存文件上限为{$memoryMax}";
+        $cmd[] = "httpctl set cf virus $virusScan";
+        $msg[] = "设置病毒扫描为{$virusMsg}";
         $cli = new cli();
         $i = 0;
         foreach ($cmd as $arr) {
@@ -68,6 +78,8 @@
 		}
 		$httpPortStr = join(',',$httpPort);
 		$httpsPortStr = join(',',$httpsPort);
+	$virus_scan = $db->query('SELECT scan_virus FROM cf_info')
+                     ->getFirstData(PDO::FETCH_ASSOC);
         V::getInstance()->assign('editBasicConfig', $result)
         				->assign('httpGet', $httpGet)
         				->assign('httpPost', $httpPost)
@@ -75,6 +87,7 @@
         				->assign('httpHead', $httpHead)
         				->assign('httpPort', $httpPortStr)
         				->assign('httpsPort', $httpsPortStr)
+        				->assign('virusScan',$virus_scan['scan_virus'])
         				->assign('interfaceList', netGapRes::getInstance()->getInterface());
     }
 ?>

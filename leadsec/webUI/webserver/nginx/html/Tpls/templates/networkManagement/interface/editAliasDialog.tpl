@@ -8,6 +8,7 @@
                 <{if $res.phy_device}>disabled="disabled"<{/if}>>
             <{html_options output=$res.bindDev values=$res.bindDev selected=$res.phy_device}>
             </select>
+            <{if $res.phy_device}><input type="hidden" name="external_name" value="<{$res.phy_device}>_<{$res.alias_id}>"/><{/if}>
         </div>
         
         <div class="row"><label for="aliasId">选择别名ID:<em class="required">*</em></label>

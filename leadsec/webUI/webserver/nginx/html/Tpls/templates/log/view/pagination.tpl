@@ -1,7 +1,7 @@
     <input type="hidden" name="dataCount" value="<{$dataCount}>"/>
     <label class="floatLeft">每页显示
     <{html_options class="pagesize" name=rowsCount
-        output=array(10,20,50,100,'全部') values=array(10,20,50,100,all)
+        output=array(10,20,50,100) values=array(10,20,50,100)
         selected=<{$rowsCount|default: 10}>
         onChange="freshTableAndPage(<{$tableDom|default: '$(".tablesorter")'}>, <{$pageDom|default: '$(".pager")'}>)"
         id="rowsCount"}>

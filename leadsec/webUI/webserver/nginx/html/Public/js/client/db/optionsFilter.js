@@ -20,8 +20,11 @@ function openEditOptionsDialog(id,flag) {
     	var buttons = {};
     	buttons[getMessage('Ok')] = function() {
     	    if ($('#optionFilterEditForm').valid()) {
-    	        ajaxSubmitForm($('#optionFilterEditForm'), '结果');
-    	        freshTableAndPage();
+    	    	var afterSuccessCallback = function() {
+                    freshTableAndPage();
+                };
+    	        ajaxSubmitForm($('#optionFilterEditForm'), '结果', undefined,
+    	            undefined, afterSuccessCallback);
     	        $(this).remove();
     	    }
     	};
@@ -50,8 +53,11 @@ function openNewOptionsDialog(flag) {
         if ($('#optionFilterEditForm').valid()) {
         	if (!flag) { 
         		openNewOptionsDialog();
-                ajaxSubmitForm($('#optionFilterEditForm'), '结果');
-                freshTableAndPage();
+        		var afterSuccessCallback = function() {
+                    freshTableAndPage();
+                };
+    	        ajaxSubmitForm($('#optionFilterEditForm'), '结果', undefined,
+    	            undefined, afterSuccessCallback);
         	}else{
         		openNewOptionsDialog(flag);
          		var dialog = loadingScreen(title);
@@ -66,10 +72,11 @@ function openNewOptionsDialog(flag) {
          	        buttons: buttons,
          	       position: jQuery.getDialogPosition(250,170)
          	    });
+         	   var optionName = $("input[name='optionName']").val(); 
          		var successResult = function(result, textStatus) {
          		        var content = result.msg;
          	            dialog.setContent($('<p>' + content + '</p>'));
-         	            freshPrePage('Function/client/db/optionsFilter.php', $('#filter'));
+         	            freshPrePage('Function/client/db/optionsFilter.php', $('#filter'),optionName);
          	        }    		
          		var dialog_c= ajaxSubmitForm($('#optionFilterEditForm'), '结果',successResult);
          		dialog_c.close();
@@ -81,8 +88,11 @@ function openNewOptionsDialog(flag) {
     buttons[getMessage('Ok')] = function() {
         if ($('#optionFilterEditForm').valid()) {
         	if (!flag) { 
-        		 ajaxSubmitForm($('#optionFilterEditForm'), '结果');
-                 freshTableAndPage();
+        		var afterSuccessCallback = function() {
+                    freshTableAndPage();
+                };
+    	        ajaxSubmitForm($('#optionFilterEditForm'), '结果', undefined,
+    	            undefined, afterSuccessCallback);
         	}else{
         		var dialog = loadingScreen(title);
         	    dialog.dialog('moveToTop');
@@ -96,10 +106,11 @@ function openNewOptionsDialog(flag) {
         	        buttons: buttons,
         	        position: jQuery.getDialogPosition(250,170)
         	    });
+        	    var optionName = $("input[name='optionName']").val(); 
         		var successResult = function(result, textStatus) {
         		        var content = result.msg;
         	            dialog.setContent($('<p>' + content + '</p>'));
-        	            freshPrePage('Function/client/db/optionsFilter.php', $('#filter'));
+        	            freshPrePage('Function/client/db/optionsFilter.php', $('#filter'),optionName);
         	    }    		
         		var dialog_c= ajaxSubmitForm($('#optionFilterEditForm'), '结果',successResult);
         		dialog_c.close();

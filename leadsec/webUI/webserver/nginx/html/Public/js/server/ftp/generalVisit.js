@@ -7,8 +7,11 @@ function editFtpCommServerAclDialog(id) {
     var buttons = {};
     buttons[getMessage('Ok')] = function() {
         if ($('#editFtpCommServerAclForm').valid()) {
-            ajaxSubmitForm($('#editFtpCommServerAclForm'), '结果');
-            freshTableAndPage();
+        	var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editFtpCommServerAclForm'), '结果', undefined,
+                undefined, afterSuccessCallback);
             $(this).remove();
         }
     };
@@ -34,15 +37,21 @@ function openNewFtpCommServerAclDialog() {
     buttons[getMessage('Add Next')] = function() {
         if ($('#editFtpCommServerAclForm').valid()) {
             openNewFtpCommServerAclDialog();
-            ajaxSubmitForm($('#editFtpCommServerAclForm'), '结果');
-            freshTableAndPage();
+            var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editFtpCommServerAclForm'), '结果', undefined,
+                undefined, afterSuccessCallback);
             $(this).remove();
         }
     };
     buttons[getMessage('Ok')] = function() {
         if ($('#editFtpCommServerAclForm').valid()) {
-            ajaxSubmitForm($('#editFtpCommServerAclForm'), '结果');
-            freshTableAndPage();
+        	var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editFtpCommServerAclForm'), '结果', undefined,
+                undefined, afterSuccessCallback);
             $(this).remove();
         }
     };
@@ -104,8 +113,11 @@ function switchFtpCommServerAcl(id, action) {
     var dialog  = loadingScreen(title);
     var buttons = {};
     buttons[getMessage('Ok')] = function() {
-        ajaxSubmitForm($('#switchFtpCommServerForm_' + id), '结果');
-        freshTableAndPage();
+    	var afterSuccessCallback = function() {
+            freshTableAndPage();
+        };
+        ajaxSubmitForm($('#switchFtpCommServerForm_' + id), '结果', undefined,
+            undefined, afterSuccessCallback);
         $(this).remove();
     };
     buttons[getMessage('Cancel')] = function() {

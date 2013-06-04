@@ -1,4 +1,4 @@
-<{include file='layout/search.tpl' tableId='bannedContentTable'}>
+<{include file='layout/search.tpl' colNames='name,context,comment'}>
 <table class="column_95 textMid tablesorter" id="bannedContentTable">
     <caption>内容控制</caption>
     <thead>

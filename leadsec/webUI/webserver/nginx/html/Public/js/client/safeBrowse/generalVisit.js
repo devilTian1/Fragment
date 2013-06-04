@@ -42,9 +42,9 @@ function openEditGeneralAccessCtrlDialog(id) {
     };
     var dialogParams = {
         width   : 680,
-        height  : 300,
+        height  : 340,
         buttons : buttons,
-        position : jQuery.getDialogPosition('680','300')
+        position : jQuery.getDialogPosition('680','340')
     };
     showDialogByAjax(url, data, title, dialogParams);
 }
@@ -74,9 +74,9 @@ function openNewGeneralAccessCtrlDialog() {
     };
     var dialogParams = {
         width   : 680,
-        height  : 300,
+        height  : 340,
         buttons : buttons,
-        position : jQuery.getDialogPosition('680','300')
+        position : jQuery.getDialogPosition('680','340')
     };    
     showDialogByAjax(url, data, title, dialogParams);
 }

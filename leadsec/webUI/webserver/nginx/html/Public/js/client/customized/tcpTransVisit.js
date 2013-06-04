@@ -7,8 +7,11 @@ function editTcpTransClientAclDialog(id) {
     var buttons = {};
     buttons[getMessage('Ok')] = function() {
         if ($('#editTcpTransClientAclForm').valid()) {
-            ajaxSubmitForm($('#editTcpTransClientAclForm'), '结果');
-            freshTableAndPage();
+            var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editTcpTransClientAclForm'), '结果', undefined,
+                undefined, afterSuccessCallback);
             $(this).remove();
         }
     };
@@ -34,15 +37,21 @@ function openNewTcpTransClientAclDialog() {
     buttons[getMessage('Add Next')] = function() {
         if ($('#editTcpTransClientAclForm').valid()) {
             openNewTcpTransClientAclDialog();
-            ajaxSubmitForm($('#editTcpTransClientAclForm'), '结果');
-            freshTableAndPage();
+            var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editTcpTransClientAclForm'), '结果', undefined,
+                undefined, afterSuccessCallback);
             $(this).remove();
         }
     };
     buttons[getMessage('Ok')] = function() {
         if ($('#editTcpTransClientAclForm').valid()) {
-            ajaxSubmitForm($('#editTcpTransClientAclForm'), '结果');
-            freshTableAndPage();
+            var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editTcpTransClientAclForm'), '结果', undefined,
+                undefined, afterSuccessCallback);
             $(this).remove();
         }
     };
@@ -104,8 +113,11 @@ function switchTcpTransClientAcl(id, action) {
     var dialog  = loadingScreen(title);
     var buttons = {};
     buttons[getMessage('Ok')] = function() {
-        ajaxSubmitForm($('#switchTcpTransClientForm_' + id), '结果');
-        freshTableAndPage();
+        var afterSuccessCallback = function() {
+            freshTableAndPage();
+        };
+        ajaxSubmitForm($('#switchTcpTransClientForm_' + id), '结果', undefined,
+            undefined, afterSuccessCallback);
         $(this).remove();
     };
     buttons[getMessage('Cancel')] = function() {

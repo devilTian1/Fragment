@@ -7,8 +7,11 @@ function editUdpTransClientAclDialog(id) {
     var buttons = {};
     buttons[getMessage('Ok')] = function() {
         if ($('#editUdpTransClientAclForm').valid()) {
-            ajaxSubmitForm($('#editUdpTransClientAclForm'), '结果');
-            freshTableAndPage();
+        	var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editUdpTransClientAclForm'), '结果', undefined,
+                undefined, afterSuccessCallback);
             $(this).remove();
         }
     };
@@ -34,15 +37,21 @@ function openNewUdpTransClientAclDialog() {
     buttons[getMessage('Add Next')] = function() {
         if ($('#editUdpTransClientAclForm').valid()) {
             openNewUdpTransClientAclDialog();
-            ajaxSubmitForm($('#editUdpTransClientAclForm'), '结果');
-            freshTableAndPage();
+            var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editUdpTransClientAclForm'), '结果', undefined,
+                undefined, afterSuccessCallback);
             $(this).remove();
         }
     };
     buttons[getMessage('Ok')] = function() {
         if ($('#editUdpTransClientAclForm').valid()) {
-            ajaxSubmitForm($('#editUdpTransClientAclForm'), '结果');
-            freshTableAndPage();
+        	var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editUdpTransClientAclForm'), '结果', undefined,
+                undefined, afterSuccessCallback);
             $(this).remove();
         }
     };
@@ -104,8 +113,11 @@ function switchUdpTransClientAcl(id, action) {
     var dialog  = loadingScreen(title);
     var buttons = {};
     buttons[getMessage('Ok')] = function() {
-        ajaxSubmitForm($('#switchUdpTransClientForm_' + id), '结果');
-        freshTableAndPage();
+    	var afterSuccessCallback = function() {
+            freshTableAndPage();
+        };
+        ajaxSubmitForm($('#switchUdpTransClientForm_' + id), '结果', undefined,
+            undefined, afterSuccessCallback);
         $(this).remove();
     };
     buttons[getMessage('Cancel')] = function() {

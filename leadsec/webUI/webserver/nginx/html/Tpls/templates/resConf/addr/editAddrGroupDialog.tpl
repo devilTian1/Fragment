@@ -4,7 +4,7 @@
         <legend>地址组维护</legend>
         <div class="row">
             <label for="addrGrpName">名称:<em class="required">*</em></label>
-            <input class="w150" type="text"  name="addrGrpName"  value="<{$addrGroup}>"
+            <input class="width10em" type="text"  name="addrGrpName"  value="<{$addrGroup}>"
                 <{if $type ==='edit'}>disabled="disabled"<{/if}> id="addrGrpName" size="15" maxlength="15"/>
 			<input type="hidden" id="iptype" name="iptype" value="<{$iptype|default:''}>"/>
 			<{if $type ==='edit'}>
@@ -37,7 +37,7 @@
         <br class="clearFloat"/>
         <div class="row">
             <label for="comment">备注:</label>            
-            <input class="comment" name="comment" id="comment" value="<{$comment|escape}>"/>
+            <input class="width10em comment" name="comment" id="comment" value="<{$comment|escape}>"/>
         </div>
         <br class="clearFloat"/>
     </fieldset>
@@ -46,5 +46,11 @@
     $(document).ready(function(){
         renderStandardUi();
         validateForm($("#editAddrGroupForm"));
+        $('#addrList').dblclick(function(){
+        	moveToAddrGrpMember();
+        });
+        $('#addrGrpMember').dblclick(function(){
+        	moveToAddrList();
+        });
     });
 </script>

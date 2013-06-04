@@ -15,7 +15,7 @@
         </td>
     </tr>
 <{foreachelse}>
-    <tr><td colspan='7'>No Role List Data</td></tr>
+    <tr><td colspan='7'>没有角色信息</td></tr>
 <{/foreach}>
 <script type="text/javascript"> 
     $(document).ready(function() {

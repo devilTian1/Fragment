@@ -12,7 +12,7 @@ function showAppList() {
 	} else {
 		$("#appListDiv").css("display",'none');
 	}
-	$("#mainContent").getNiceScroll().resize();
+    $("#mainContent").getNiceScroll().resize();
 }
 
 function showVideoList() {
@@ -21,7 +21,7 @@ function showVideoList() {
 	} else {
 		$("#videoListDiv").css("display",'none');
 	}
-	$("#mainContent").getNiceScroll().resize();
+    $("#mainContent").getNiceScroll().resize();
 }
 
 function showAudioList() {
@@ -30,7 +30,7 @@ function showAudioList() {
 	} else {
 		$("#audioListDiv").css("display",'none');
 	}
-	$("#mainContent").getNiceScroll().resize();
+    $("#mainContent").getNiceScroll().resize();
 }
 
 function showImageList() {
@@ -39,7 +39,7 @@ function showImageList() {
 	} else {
 		$("#imageListDiv").css("display",'none');
 	}
-	$("#mainContent").getNiceScroll().resize();
+    $("#mainContent").getNiceScroll().resize();
 }
 
 function showTextList() {
@@ -48,5 +48,5 @@ function showTextList() {
 	} else {
 		$("#textListDiv").css("display",'none');
 	}
-	$("#mainContent").getNiceScroll().resize();
+    $("#mainContent").getNiceScroll().resize();
 }

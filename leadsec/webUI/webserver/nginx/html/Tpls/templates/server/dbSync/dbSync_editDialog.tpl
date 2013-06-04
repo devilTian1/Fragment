@@ -7,7 +7,8 @@
      <fieldset>
         <div class="row">
             <label for="serverDbId">任务号:<em class="required">*</em></label>
-            <input class="id" type="text" name="serverDbId" value="<{$data.id}>"
+            <input class="id" type="text" name="serverDbSyncTaskId" 
+			id="serverDbSyncTaskId" value="<{$data.id}>"
                 <{if $type === 'edit'}>disabled="disabled"<{/if}>
                 size="4" maxlength="4"/>
             (同一端的任务号必须唯一)
@@ -17,13 +18,15 @@
         </div>
    
         <div class="row">
-            <label for="lip">服务器地址:<em class="required">*</em></label>
-			<input class="id" type="text" name="serverip" value="<{$data.serverip}>"
+            <label for="serverip">服务器地址:<em class="required">*</em></label>
+			<input class="width132" type="text" name="serverip" 
+			value="<{$data.serverip}>"
         </div>
         
         <div class="row">
-            <label for="fslportReq">服务器端口:<em class="required">*</em></label>
-            <input class="port" type="text" name="sport" value="<{$data.sport}>" size="5" maxlength="5"/>
+            <label for="sport">服务器端口:<em class="required">*</em></label>
+            <input class="port" type="text" name="serverport"
+			value="<{$data.sport}>" size="5" maxlength="5"/>
         </div>
         
         <div class="row">
@@ -36,7 +39,7 @@
         
          <div class="row cNameDiv">
             <label>客户端证书公共名:<em class="required">*</em></label>
-            <input type="text" name="commname" value="<{$data.commname}>"/>
+            <input class="width132" type="text" name="commname" value="<{$data.commname}>"/>
         </div>
        
         <div class="row">
@@ -48,7 +51,7 @@
         
         <div class="row">
             <label for="comment">备注:</label>           
-            <input class="comment" name="comment" id="comment" value="<{$data.comment}>"/>
+            <input class="width132" name="comment" id="comment" value="<{$data.comment}>"/>
         </div>
     </fieldset>
 </form>

@@ -4,17 +4,37 @@
     function appendMailAddrData($where) {
         $tpl =  'client/mail/mailAddrTable.tpl';
         $db  = new dbsqlite(DB_PATH . '/netgap_mail.db');
-	    $sql = "SELECT * FROM mailaddr $where";
-        $result = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
+	    $sql = "SELECT * FROM mailaddr";
+        $params = array();
+	    if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
+	    	$data   = getWhereStatement($db, $_GET['cols'], $_GET['keyword']);
+	    	$sql   .= $data['sql'];
+	    	$params = $data['params'];
+	    }
+	    $sql .=  ' ' . $where;
+	    $result = $db->query($sql, $params)->getAllData(PDO::FETCH_ASSOC);
         echo V::getInstance()->assign('mailAddr', $result)
             ->assign('pageCount', 10)
             ->fetch($tpl);
     }
 
+    function getWhereStatement($db, $cols, $keyword) {
+    	$value = '%' . $keyword . '%';
+    	$params = array_fill(0, count(explode(',', $cols)), $value);
+    	return array('sql'    => ' WHERE (' .
+    			$db->getWhereStatement($cols, 'OR', 'like') . ')',
+    			'params' => $params);
+    }
+    
     function getDataCount() {
     	$sql = "SELECT id FROM mailaddr";
         $db  = new dbsqlite(DB_PATH . '/netgap_mail.db');
-        return $db->query($sql)->getCount();
+        if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
+            $data   = getWhereStatement($db, $_GET['cols'], $_GET['keyword']);
+            $sql   .= $data['sql'];
+            $params = $data['params'];
+        }
+        return $db->query($sql, $params)->getCount();
     }
     
     function getCmd($type) {
@@ -71,25 +91,25 @@
     	$name = $_POST['mailName'];    	
         $cli->setLog("修改邮件访问模块下的邮件地址, 名称为{$name}")
             ->run(getCmd('edit'));
-        echo json_encode(array('msg' => '修改成功.'));
+        echo json_encode(array('msg' => '修改成功。'));
     } else if ('add' === $_POST['type']) {
         // Add a new keywordFilter data
         $cli = new cli();
     	$name = $_POST['mailName'];    	
         $cli->setLog("添加邮件访问模块下的邮件地址, 名称为{$name}")
             ->run(getCmd('add'));
-        echo json_encode(array('msg' => '添加成功.'));
+        echo json_encode(array('msg' => '添加成功。'));
     } else if (!empty($_POST['delId'])) {
         // Delete the specified keywordFilter data 
     	$rc = checkMailAddr();
     	if($rc != 0){
-    		echo json_encode(array('msg' => "此邮件地址策略被引用,不能被删除."));
+    		echo json_encode(array('msg' => "此邮件地址策略被引用，不能被删除。"));
     	}else{
     		$cli = new cli();
     		$id  = $_POST['delId'];
     		$cli->setLog("删除邮件访问模块下的邮件地址, id为{$id}")
     		->run(getCmd('del'));
-    		echo json_encode(array('msg' => "删除成功."));
+    		echo json_encode(array('msg' => "删除成功。"));
     	}
    } else if ($orderStatement = $_POST['orderStatement']) {
         // fresh and resort keywordFilter list

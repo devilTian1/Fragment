@@ -11,9 +11,9 @@
 					启用 </label>:
 				</td>
       			<td class="tdbody"><div id="errDiv"></div>升级服务器地址：
-        			<input type="text" name="upAddr" id="upAddr" value="<{$autoUpSet.upaddr}>"/>
+        			<input type="text" name="upAddr" id="upAddr" value="<{$autoUpSet.upaddr}>" class="width149"/>
         			&nbsp;&nbsp;升级服务器端口：
-        			<input type="text" name="upPort" id="upPort" value="<{$autoUpSet.upport}>" size="2"/>        			
+        			<input type="text" name="upPort" id="upPort" value="<{$autoUpSet.upport}>" size="5"/>        			
       			</td>
 			</tr>
     		<tr>
@@ -58,8 +58,7 @@
           				<label>
             				<input type="radio" name="upWay" value="3" />
           				</label>
-          				每周
-          				<label>
+          				每周          				
 				            <{html_options name="selectDayList" id="selectDayList"
 				            output=array('星期一','星期二','星期三','星期四','星期五','星期六','星期日')
 				          	values=array(1,2,3,4,5,6,0) 
@@ -69,8 +68,7 @@
 				            output=array(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23)
 				          	values=array(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23) 
 				          	selected=<{$autoUpSet.swh|default:1}> }>
-            				点（小时） 
-            			</label>
+            				点（小时）             			
         			</div>
       			</td>
     		</tr>
@@ -96,12 +94,12 @@ onSubmit="return false;">
 	    <tbody>
 	        <tr>
 	            <td class="tdheader" width="200">病毒库当前版本：</td>
-	            <td class="tdbody"><span class="red">2001.8.1</span></td>
+	            <td class="tdbody"><span class="red"><{$currentVersion}></span></td>
 	        </tr>
 	        <tr>
 	            <td class="tdheader"><span class="red">*</span>升级文件:</td>
 	            <td class="tdbody">
-	               <input name="updateFile" type="file" id="file" />
+	               <{include file='layout/upload.tpl' name='file' id='file'}>
 	            </td>
 	        </tr>
         	<tr>
@@ -134,7 +132,7 @@ onSubmit="return false;">
 			<td><{$Array.up_time}></td>
 		</tr>
 	<{foreachelse}>
-	    <tr><td colspan='4'>No Update Record</td></tr>
+	    <tr><td colspan='4'>无数据</td></tr>
 	<{/foreach}>
 	<tr>
         <td colspan="4">
@@ -168,7 +166,9 @@ $(document).ready(function() {
 		{
 			$("label[for='autoUpEnable']").parent().attr("style",'display:none');
 		}
-	});	
+	});
+	var uploadWid =  $('#file').width();
+        $('.uploadText').width(uploadWid - 75);
 });
 
 function initAutoUpSet(){

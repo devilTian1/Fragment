@@ -13,6 +13,14 @@ function search() {
     }
 }
 
+function cleanLog() {
+    var afterSuccessCallback =
+        freshLogTable('Function/log/view/admLog.php', $('#logTable'),
+            'ORDER BY time DESC LIMIT 10 OFFSET 0');
+    ajaxSubmitForm($('#cleanLogForm'), getMessage('Result'), undefined,
+        undefined, afterSuccessCallback);
+}
+
 function showAdvSearchDiv() {
     $('#advSearchDiv').slideDown('slow', function() {
         $("#searchBtn").insertAfter('#userTrace');

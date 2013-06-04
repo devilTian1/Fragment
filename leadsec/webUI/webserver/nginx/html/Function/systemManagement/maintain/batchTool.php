@@ -15,6 +15,14 @@
 		}
 	}
 
+	function includeFunc($buffer) {
+        if (preg_match('/^([^\s].+)$/',$buffer,$match)) {
+            return $match[1];
+        } else {
+            return false;
+        }
+    }
+
 	if ('getStr' === $_POST['action']) {
 		show();
 	} else if ('empty' === $_POST['action']) {
@@ -83,22 +91,42 @@
 		$batch_cmd_path = '/tmp/upload/tmpbatcmd';
 		if(file_exists($batch_cmd_path)) {
             $result = array();
-			$lines  = fileLinesToArr($batch_cmd_path, '', 1);
-			$num = count($lines);
-			if ($num === 0){
-				$result = 'empty';
-				echo json_encode(array('status' => true,'msg' => $result));
-			} else {
+			clearstatcache();
+			$file_size = filesize($batch_cmd_path);
+			if ($file_size > 0) {
+				//$lines  = fileLinesToArr($batch_cmd_path, '', 1);
+				$fp     = @fopen($batch_cmd_path, 'r');
+				$buffer = fgets($fp, 4096);
+				$includeFunc = includeFunc($buffer);
+				$lines  = fileLinesToArr($batch_cmd_path, '', 1, 'includeFunc',NULL);
+				//echo "<pre>";
+				//print_r($lines);
+				$num = count($lines);
 				$cli = new cli();
-				$msg_result =array();
+				$sum = 0;
+				//$msg_result =array();
 				foreach ($lines as $k => $v) {
-					$cli_array = $cli->setGetResult(true)->run($v);
-					$msg_result = array_merge($msg_result,$cli_array);
+					//$cli_array = $cli->setGetResult(true)->setLog("[执行批处理命令]".$v)->run($v);
+					//echo "<pre>";
+					//print_r($cli_array);
+					//$msg_result = array_merge($msg_result,$cli_array);
+					//$cli->setLog("[执行批处理命令]".$v)->run($v);
+					list($status,$result) = $cli->setLog("[执行批处理命令]".$v)
+						->execCmdGetStatus($v);
+					if ($status > 0) {
+					//	echo json_encode(array('msg' =>$v."命令出现错误!"));
+						$sum = $sum + 1;
+						continue;
+					}
 				}
-				array_unshift($msg_result,$num);
+				$cmd_num = $num - $sum;
+				//array_unshift($msg_result,$num);
 				file_put_contents('/tmp/upload/tmpbatcmd','');
-				echo json_encode(array('status' => true,'msg' =>$msg_result));
-			}
+				echo json_encode(array('status' => true,'msg' =>$cmd_num));
+			} else {
+				$result = 0;
+				echo json_encode(array('msg' => $result));
+			} 
 		}
 
 	} else {

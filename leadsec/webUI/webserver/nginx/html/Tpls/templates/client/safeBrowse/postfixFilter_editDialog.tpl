@@ -5,7 +5,7 @@
     	<legend>管理文件名过滤</legend>
     	<div class="row">
     		<label>文件名后缀:<em class="required">*</em></label>
-    		<input type="text" name="postfix_list" value="<{$editPostfix.list}>" size="50" maxlength="1023"/>
+    		<input type="text" name="postfix_list" value="<{$editPostfix.list}>" size="50" maxlength="1023" class="width132"/>
     		<br class="clearFloat">(文件名后缀按.exe或.txt的方式输入,只有.表示所有的没有后缀的文件)
     	</div>
     

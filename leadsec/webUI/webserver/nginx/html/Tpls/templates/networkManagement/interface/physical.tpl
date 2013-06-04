@@ -1,4 +1,4 @@
-<{include file='layout/search.tpl' tableId='physicalTable'}>
+<{include file='layout/search.tpl'}>
 <table class="column_95 textMid tablesorter" id="physicalTable">
  <caption>
      物理设备

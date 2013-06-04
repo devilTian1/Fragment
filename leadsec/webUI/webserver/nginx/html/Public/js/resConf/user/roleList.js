@@ -11,7 +11,7 @@ function OpenRoleTipsDialog(external_name) {
         buttons: buttons,
         position : jQuery.getDialogPosition('300','160')
     };
-    dialog.setContent('<p>角色['+external_name+']正被引用，不能修改或删除此角色.</p>');
+    dialog.setContent('<p>角色['+external_name+']正被引用，不能修改或删除此角色。</p>');
     dialog.setOptions(dialogParams);
 }
 
@@ -75,15 +75,21 @@ function openNewRoleListDialog() {
     buttons['添加下一条'] = function() {
         if ($('#editRoleListForm').valid()) {
             openNewRoleListDialog();
-            ajaxSubmitForm($('#editRoleListForm'), '结果');
-            freshTableAndPage();
+            var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editRoleListForm'), '结果', undefined,
+                undefined, afterSuccessCallback);
             $(this).remove();
         }
     };
     buttons['确定'] = function() {
         if ($('#editRoleListForm').valid()) {
-            ajaxSubmitForm($('#editRoleListForm'), '结果');
-            freshTableAndPage();
+            var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editRoleListForm'), '结果', undefined,
+                undefined, afterSuccessCallback);
             $(this).remove();
         }
     };
@@ -220,8 +226,11 @@ function openEditSpecRoleDialog(name) {
     var buttons = {};
     buttons['确定'] = function() {
         if ($('#editRoleListForm').valid()) {
-            ajaxSubmitForm($('#editRoleListForm'), '结果');
-            freshTableAndPage();
+            var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editRoleListForm'), '结果', undefined,
+                undefined, afterSuccessCallback);
             $(this).remove();
         }
     };

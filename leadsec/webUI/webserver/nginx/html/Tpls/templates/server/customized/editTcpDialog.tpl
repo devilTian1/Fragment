@@ -16,7 +16,7 @@
 
         <div class="row">
             <label for="serverIp">服务器地址:<em class="required">*</em></label>
-            <input type="text" name="serverIp" id="serverIp"
+            <input class="width150" type="text" name="serverIp" id="serverIp"
                 value="<{$data.serverip}>"/>
         </div>
         

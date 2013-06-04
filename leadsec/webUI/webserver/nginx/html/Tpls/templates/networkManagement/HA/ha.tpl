@@ -93,7 +93,7 @@
    				    </div>
                     <{/if}>
              	    <div class="role">
-                    	角色:<span>备闸</span>
+                    	角色:<span>从闸</span>
                     </div>
              	    <div class="name">
                     	当前状态:<span><{$slave_in.hastatus}></span>
@@ -187,10 +187,24 @@ $(document).ready(function() {
 		size3=$("#chongBox .netcardtop .networkCard").size(),
 		size4=$("#chongBox .netcardbottom .networkCard").size(),
 		sizeNum=max_int(size1,size2,size3,size4);
-	$("#midBox_cen").width(45*sizeNum);
-	$("#rightline").css({ left: (45*sizeNum+120)+"px"});
-	$("#hotstandby").width(45*sizeNum+200);
-
+	var m_width = 45*sizeNum;
+	if (m_width<360) {
+		$("#midBox_cen").width(360);
+	} else {
+		$("#midBox_cen").width(45*sizeNum);
+	}
+	var r_left = 45*sizeNum+120;
+	if (r_left <480) {
+		$("#rightline").css({ left: 480+"px"});
+	} else {
+		$("#rightline").css({ left: (45*sizeNum+120)+"px"});
+	}
+	var h_width = 45*sizeNum+200;
+	if (h_width <560) {
+		$("#hotstandby").width(560);
+	} else {
+		$("#hotstandby").width(45*sizeNum+200);
+	}
     var intval;
 	$(".networkCard[id^='fe1_']").mouseover(function(){
         var me = $(this);

@@ -14,14 +14,14 @@
             <tr>
                 <td width="250" class="tdheader">时间间隔(单位:秒): </td>
                 <td class="tdbody"><label>
-                    <input type="text" name="scanInterval" id="scanInterval" value="<{$interval}>"/>
+                    <input type="text" name="scanInterval" id="scanInterval" value="<{$interval}>" class="width149"/>
                     </label>
                 </td>
             </tr>
             <tr>
                 <td class="tdheader">发现端口连接次数:</td>
                 <td class="tdbody"><label>
-                    <input type="text" name="connectTimes" value="<{$connectTimes}>"/>
+                    <input type="text" name="connectTimes" value="<{$connectTimes}>" class="width149"/>
                     </label>
                 </td>
             </tr>

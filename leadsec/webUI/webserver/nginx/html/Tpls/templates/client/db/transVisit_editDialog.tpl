@@ -4,19 +4,19 @@
         <!--<legend></legend>-->
         <div class="row">
           <label >任务号:<em class="required">*</em></label>
-          <input class="id" type="text" name="clientTransId" id="clientTransId" value="<{$res.id}>" 
+          <input class="id" type="text" name="cdbTransId" id="cdbTransId" value="<{$res.id}>" 
               <{if $type ==='edit'}>disabled="disabled"<{/if}>
               size="4" maxlength="4"/>
           (同一端的任务号必须唯一)
          <{if $type ==='edit'}>
-             <input type="hidden" name="clientTransId" value="<{$res.id}>"/>
+             <input type="hidden" name="cdbTransId" value="<{$res.id}>"/>
          <{/if}>
         </div>       
          <div class="row">
          	<label >数据库类型:<em class="required">*</em></label>
          	<{if $type === 'add'}>
           		<{html_options  class="w150" name="dbType" id="dbType"
-                    output=array('oracle','mysql','DB2','sybase','sqlserver2000','sqlserver2005','sqlserver2008','sqlserver2012') 
+                    output=array('oracle','mysql','DB2','sybase','sqlserver2000','sqlserver2005(sp3)','sqlserver2008','sqlserver2012') 
                     values=array('oracle','mysql','DB2','sybase','sqlserver2000','sqlserver2005','sqlserver2008','sqlserver2012')
                     selected=$res.dbtype|default: 'oracle'  }>
         	<{else}>
@@ -27,21 +27,21 @@
          		<{/if}>            
         	<{/if}>
         </div>        
+
+         <div class="row">
+            <label >源地址:<em class="required">*</em></label>
+            <{html_options class="select sa" name="sAddress" id="sAddress"
+                options=$saddrOptions selected=$res.sa|default: 'any'}>
+        </div>
+
         <div class="row">
-          <label>源地址:<em class="required">*</em></label>
-          <{html_options  class="select sa" name="sAddress" id="sAddress"
-                    output=$addrOptions values=$addrOptionsvalue
-                    selected=$res.sa|default: 'any'}>
-        </div>       
-        <div class="row">
-          <label>目的地址:<em class="required">*</em></label>
-          <{html_options  class="select lip" name="lAddress" id="lAddress"
-                    output=$localIp values=$localIpValue
-                    selected=$res.da|default: 'any'}>
-        </div>       
+            <label for="sa">目的地址:<em class="required">*</em></label>
+            <{html_options class="select da" name="lAddress" id="lAddress"
+                options=$daddrOptions selected=$res.da|default: 'any'}>
+        </div>      
          <div class="row">
           <label>目的端口:<em class="required">*</em></label>
-          <input class="port" type="text" name="cliTransPortReq" value="<{$res.dport}>" size="5" maxlength="5"/>
+          <input class="port" type="text" name="cdbTransLport" id="cdbTransLport" value="<{$res.dport}>" size="5" maxlength="5"/>
         </div>
         
         <div class="row">

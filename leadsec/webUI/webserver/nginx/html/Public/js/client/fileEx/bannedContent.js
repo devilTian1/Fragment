@@ -5,15 +5,18 @@ function editBannedContentDialog(id) {
 		editId: id
     };
     var buttons = {};
-    buttons['确定'] = function() {
+    buttons[getMessage('Ok')] = function() {
         if ($('#editBannedContentForm').valid()) {
             $('#bflist option').attr('selected', 'selected');
-            ajaxSubmitForm($('#editBannedContentForm'), '结果');
-            freshTableAndPage();
+            var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editBannedContentForm'), '结果', undefined,
+                undefined, afterSuccessCallback);
             $(this).remove();
         }
     };
-    buttons['取消'] = function() {
+    buttons[getMessage('Cancel')] = function() {
         $(this).remove();
     };
     var dialogParams = {
@@ -33,7 +36,7 @@ function delBannedContent(id, name) {
     };
     var title  = '删除内容黑名单';
     var buttons = {};
-    buttons['确定'] = function() {
+    buttons[getMessage('Ok')] = function() {
         freshTableAndPage();
         $(this).remove();
     };
@@ -49,12 +52,12 @@ function delBannedContent(id, name) {
 function delBannedContentDialog(id, name) {
     var dialog  = loadingScreen('删除客户端文件交换');
     var buttons = {};
-    buttons['确定'] = function() {
+    buttons[getMessage('Ok')] = function() {
         delBannedContent(id, name);
         freshTableAndPage();
         $(this).remove();
     };
-    buttons['取消']  = function() {
+    buttons[getMessage('Cancel')]  = function() {
         $(this).remove();
     };
     var dialogParams = {
@@ -74,24 +77,30 @@ function openNewBannedContentDialog() {
 		openAddDialog: true
     };
     var buttons = {};
-    buttons['添加下一条'] = function() {
+    buttons[getMessage('Add Next')] = function() {
         if ($('#editBannedContentForm').valid()) {
             $('#bflist option').attr('selected', 'selected');
             openNewBannedContentDialog();
-            ajaxSubmitForm($('#editBannedContentForm'), '结果');
-            freshTableAndPage();
+            var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editBannedContentForm'), '结果', undefined,
+                undefined, afterSuccessCallback);
             $(this).remove();
         }
     };
-    buttons['确定'] = function() {
+    buttons[getMessage('Ok')] = function() {
         if ($('#editBannedContentForm').valid()) {
             $('#bflist option').attr('selected', 'selected');
-            ajaxSubmitForm($('#editBannedContentForm'), '结果');
-            freshTableAndPage();
+            var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editBannedContentForm'), '结果', undefined,
+                undefined, afterSuccessCallback);
             $(this).remove();
         }
     };
-    buttons['取消'] = function() {
+    buttons[getMessage('Cancel')] = function() {
         $(this).remove();
     };
     var dialogParams = {
@@ -126,7 +135,7 @@ function moveToBFlist() {
 function rmBFlist() {
     var selectedDom = $('#bflist option:selected');
     if (selectedDom.length === 0 ) {
-        showErrorDialog(getMessage('请选择要删除的内容.'));
+        showErrorDialog(getMessage('请选择要删除的内容。'));
         return false;
     } else {
         selectedDom.remove();

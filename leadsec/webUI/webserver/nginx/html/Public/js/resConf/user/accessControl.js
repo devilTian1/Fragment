@@ -81,8 +81,11 @@ function openNewRuleListDialog() {
     buttons['确定'] = function() {
         if ($('#editRuleListForm').valid()) {
 			selectedOption();
-            ajaxSubmitForm($('#editRuleListForm'), '结果');
-            freshTableAndPage();
+			var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editRuleListForm'), '结果',undefined,
+				undefined,afterSuccessCallback);
             $(this).remove();
         }
     };
@@ -208,8 +211,11 @@ function openEditSpecRuleDialog(name) {
     buttons['确定'] = function() {
         if ($('#editRuleListForm').valid()) {
 			selectedOption();
-            ajaxSubmitForm($('#editRuleListForm'), '结果');
-            freshTableAndPage();
+			var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editRuleListForm'), '结果',undefined,
+				undefined,afterSuccessCallback);
             $(this).remove();
         }
     };

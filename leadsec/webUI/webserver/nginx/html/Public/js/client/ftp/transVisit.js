@@ -7,8 +7,11 @@ function editFtpTransClientAclDialog(id) {
     var buttons = {};
     buttons[getMessage('Ok')] = function() {
         if ($('#editFtpTransClientAclForm').valid()) {
-            ajaxSubmitForm($('#editFtpTransClientAclForm'), '结果');
-            freshTableAndPage();
+        	var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editFtpTransClientAclForm'), '结果', undefined,
+                undefined, afterSuccessCallback);
             $(this).remove();
         }
     };
@@ -38,8 +41,11 @@ function openNewFtpTransClientAclDialog() {
     	}else{    	
 	        if ($('#editFtpTransClientAclForm').valid()) {
 	            openNewFtpTransClientAclDialog();
-	            ajaxSubmitForm($('#editFtpTransClientAclForm'), '结果');
-	            freshTableAndPage();
+	            var afterSuccessCallback = function() {
+	                freshTableAndPage();
+	            };
+	            ajaxSubmitForm($('#editFtpTransClientAclForm'), '结果', undefined,
+	                undefined, afterSuccessCallback);
 	            $(this).remove();
 	        }
       }
@@ -50,8 +56,11 @@ function openNewFtpTransClientAclDialog() {
     		showErrorDialog('目的地址不能为空，请先定义地址对象，选择后再添加任务..');
     	}else{
 	        if ($('#editFtpTransClientAclForm').valid()) {
-	            ajaxSubmitForm($('#editFtpTransClientAclForm'), '结果');
-	            freshTableAndPage();
+	        	var afterSuccessCallback = function() {
+	                freshTableAndPage();
+	            };
+	            ajaxSubmitForm($('#editFtpTransClientAclForm'), '结果', undefined,
+	                undefined, afterSuccessCallback);
 	            $(this).remove();
 	        }
     	}
@@ -114,8 +123,11 @@ function switchFtpTransClientAcl(id, action) {
     var dialog  = loadingScreen(title);
     var buttons = {};
     buttons[getMessage('Ok')] = function() {
-        ajaxSubmitForm($('#switchFtpTransClientForm_' + id), '结果');
-        freshTableAndPage();
+    	var afterSuccessCallback = function() {
+            freshTableAndPage();
+        };
+        ajaxSubmitForm($('#switchFtpTransClientForm_' + id), '结果', undefined,
+            undefined, afterSuccessCallback);
         $(this).remove();
     };
     buttons[getMessage('Cancel')] = function() {

@@ -5,13 +5,13 @@ function openEditAddrListDialog(id) {
     };
     var title   = '修改地址';
     var buttons = {};
-    buttons['确定'] = function() {
+    buttons[getMessage('Ok')] = function() {
         if ($('#editAddrListForm').valid()) {
             addOrEditAddrList('edit', title);
             $(this).remove();
         }
     };
-    buttons['取消'] = function() {
+    buttons[getMessage('Cancel')] = function() {
         $(this).remove();
     };
     var dialogParams = {
@@ -27,25 +27,11 @@ function addOrEditAddrList(type, title) {
     if (type === 'next') {
         openNewAddrListDialog();
     }
-    var resultDialog  = loadingScreen(title);
-    resultDialog.dialog('moveToTop');
-    var buttons = {};
-    buttons['Ok'] = function() {
-        resultDialog.close();
-    }
-    resultDialog.setOptions({
-        width : 250,
-        height: 170,
-        buttons: buttons,
-        position : jQuery.getDialogPosition('250','170')
-    });
-    var successCallback = function(result, textStatus) {
-        resultDialog.setContent($('<p>' + result.msg + '</p>'));
+    var afterSuccessCallback = function() {
         freshTableAndPage();
-    }
-    var dialog = ajaxSubmitForm($('#editAddrListForm'), '结果',
-        successCallback);
-    dialog.close();
+    };
+    ajaxSubmitForm($('#editAddrListForm'), '结果', undefined,
+        undefined, afterSuccessCallback);
 }
 
 function openNewAddrListDialog() {
@@ -55,19 +41,19 @@ function openNewAddrListDialog() {
         tpl : 'resConf/addr/editAddrDialog.tpl'
     };
     var buttons = {};
-    buttons['添加下一条'] = function() {
+    buttons[getMessage('Add Next')] = function() {
         if ($('#editAddrListForm').valid()) {
             addOrEditAddrList('next', title);
             $(this).remove();
         }
     };
-    buttons['确定'] = function() {
+    buttons[getMessage('Ok')] = function() {
         if ($('#editAddrListForm').valid()) {
             addOrEditAddrList('add', title);
             $(this).remove();
         }
     };
-    buttons['取消'] = function() {
+    buttons[getMessage('Cancel')] = function() {
         $(this).remove();
     };
     var dialogParams = {
@@ -87,7 +73,7 @@ function delAddr(name, id) {
     };
     var title  = '删除地址';
     var buttons = {};
-    buttons['Ok'] = function() {
+    buttons[getMessage('Ok')] = function() {
         freshTableAndPage();
         $(this).remove();
     };
@@ -103,12 +89,12 @@ function delAddr(name, id) {
 function openDelAddrDialog(name, id) {
     var dialog  = loadingScreen('删除地址');
     var buttons = {};
-    buttons['确定'] = function() {
+    buttons[getMessage('Ok')] = function() {
         delAddr(name, id);
         $(this).remove();
         freshTableAndPage();
     };
-    buttons['取消']  = function() {
+    buttons[getMessage('Cancel')]  = function() {
         $(this).remove();
     };
     var dialogParams = {

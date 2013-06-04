@@ -5,14 +5,14 @@
     	<legend>管理邮件地址过滤</legend>
     	<div class="row">
     		<label>名称:<em class="required">*</em></label>
-    		<input type="text" name="mailName" value="<{$editMail.name}>" size="15" maxlength="15"
+    		<input class="width10em" type="text" name="mailName" value="<{$editMail.name}>" size="15" maxlength="15"
     		<{if $type === 'edit'}>disabled="disabled"<{/if}>/>
     		<{if $type === 'edit'}><input type="hidden" name="mailName" value="<{$editMail.name}>"><{/if}>
     	</div>
     	
     	<div class="row">
     		<label>邮件地址:</label>
-    		<input type="text" name="mailAddr_txt" id="mailAddr_txt" value="" size="30" maxlength="30"/>    		
+    		<input class="width10em" type="text" name="mailAddr_txt" id="mailAddr_txt" value="" size="30" maxlength="30"/>    		
     	</div>
     	
     	<div class="row">
@@ -39,7 +39,7 @@
     
         <div class="row">
         	<label>备注:</label>        	
-        	<input class="comment" name="comment" id="comment" value="<{$editMail.comment|escape}>"/>
+        	<input class="width10em comment" name="comment" id="comment" value="<{$editMail.comment|escape}>"/>
         </div>
 	</fieldset>
 </form>
@@ -52,6 +52,7 @@ $(document).ready(function() {
 		if($("#editMailAddrForm").validate().element("#mailAddr_txt")) {
 			var mail=$("#mailAddr_txt").val(),
 			flag=0;
+			$("#mailAddr_txt").val('');
 			$("#mailList option").each(function(){
 				if($(this).val()==mail){
 					flag=1;

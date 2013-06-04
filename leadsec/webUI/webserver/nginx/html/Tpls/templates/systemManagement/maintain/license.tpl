@@ -6,8 +6,8 @@ id="licenseForm" onSubmit="return false">
         </caption>
     <tr>
         <td width="250" class="tdheader">产品许可证:</td>
-        <td class="tdbody">
-            <input name="licenseFile" type="file" id="file" />
+		<td>
+			<{include file='layout/upload.tpl' name='uploadLicense' id='file'}>
         </td>
     </tr>
     <tr>
@@ -50,5 +50,7 @@ $(document).ready(function() {
     renderStandardUi();
     validateForm($("#licenseForm"));
     freshTable('Function/systemManagement/maintain/license.php',$('#licenseTable'));
+	var uploadWid =  $('#file').width();
+    $('.uploadText').width(uploadWid - 75);
 });
 </script>

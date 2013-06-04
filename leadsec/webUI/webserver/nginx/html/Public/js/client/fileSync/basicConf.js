@@ -13,14 +13,15 @@ function importCACert() {
 		var resultDialog  = loadingScreen('结果');
 	     	var successCallback = function(result, textStatus) {
 	            var buttons = {};
-	            buttons['Ok'] = function() {
+	            buttons[getMessage('Ok')] = function() {
 		            freshCertConf();
 	                resultDialog.close();
 	            }
 	            resultDialog.setOptions({
 	                width : 250,
 	                height: 170,
-	                buttons: buttons
+	                buttons: buttons,
+	                position: jQuery.getDialogPosition(250,170)
 	            });
 	            var content = result.msg;         
 	            resultDialog.setContent($('<p>' + content + '</p>'));
@@ -42,14 +43,15 @@ function del(name,id) {
     };
     var title  = '删除'+ name;
     var buttons = {};
-    buttons['Ok'] = function() {
+    buttons[getMessage('Ok')] = function() {
     	freshCertConf();
         $(this).remove();
     };
     var dialogParams = {
         width   : 250,
         height  : 170,
-        buttons : buttons
+        buttons : buttons,
+        position: jQuery.getDialogPosition(250,170)
     };
     showDialogByAjax(url, data, title, dialogParams);
 }
@@ -64,22 +66,47 @@ function openDelDialog(name) {
     }else {
     	id = "SISkey";
     }
-    buttons['Confirm'] = function() {
+    buttons[getMessage('Ok')] = function() {
         del(name,id);
         $(this).remove();
     };
-    buttons['Cancel']  = function() {
+    buttons[getMessage('Cancel')]  = function() {
         $(this).remove();
     };
     var dialogParams = {
         width: 300,
         height: 160,
-        buttons: buttons
+        buttons: buttons,
+        position: jQuery.getDialogPosition(300,160)
     };
     dialog.setContent("<p>确定要删除已导入的" + name + "吗?</p>");
     dialog.setOptions(dialogParams);   
 }
-
+function importCACert() {
+    if ($('#fileCertConfForm').valid()) {
+        var url  = 'Function/client/fileSync/basicConf.php';
+        var title  = '结果';
+	    var dialog = loadingScreen(title);
+        dialog.dialog('moveToTop');
+	    var buttons = {};
+        buttons[getMessage('Ok')] = function() {
+	        dialog.close();
+	    }
+	    dialog.setOptions({
+	        width : 250,
+            height: 170,
+	        buttons: buttons,
+	        position: jQuery.getDialogPosition(250,170)
+	    });
+	    var successResult = function(result, textStatus) {
+	        var content = result.msg;
+	        dialog.setContent($('<p>' + content + '</p>'));
+	        $('#fileCertConfForm').resetForm();
+	    }    
+	    var dialog_c= ajaxSubmitForm($('#fileCertConfForm'), '结果',successResult);
+	    dialog_c.close();          
+	}
+}
 function freshCertConf() {
     var url = 'Function/client/fileSync/basicConf.php';
     freshTable(url, $('#certListTable'));

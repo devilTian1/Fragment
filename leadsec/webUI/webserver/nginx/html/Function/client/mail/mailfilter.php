@@ -2,19 +2,39 @@
     require_once($_SERVER['DOCUMENT_ROOT'] . '/Function/common.php');
 
     function appendFilterData($where) {
-        $tpl =  'client/mail/filterTable.tpl';
+        $tpl =  'client/mail/mailfilterTable.tpl';
         $db  = new dbsqlite(DB_PATH . '/netgap_mail.db');
-	    $sql = "SELECT * FROM filter $where";
-        $result = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
+	    $sql = "SELECT * FROM filter";
+        $params = array();
+        if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
+        	$data   = getWhereStatement($db, $_GET['cols'], $_GET['keyword']);
+        	$sql   .= $data['sql'];
+        	$params = $data['params'];
+        }
+        $sql .=  ' ' . $where;
+        $result = $db->query($sql, $params)->getAllData(PDO::FETCH_ASSOC);
         echo V::getInstance()->assign('filter', $result)
             ->assign('pageCount', 10)
             ->fetch($tpl);
+    }
+    
+    function getWhereStatement($db, $cols, $keyword) {
+    	$value = '%' . $keyword . '%';
+    	$params = array_fill(0, count(explode(',', $cols)), $value);
+    	return array('sql'    => ' WHERE (' .
+    			$db->getWhereStatement($cols, 'OR', 'like') . ')',
+    			'params' => $params);
     }
 
     function getDataCount() {
     	$sql = "SELECT id FROM filter";
         $db  = new dbsqlite(DB_PATH . '/netgap_mail.db');
-        return $db->query($sql)->getCount();
+        if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
+            $data   = getWhereStatement($db, $_GET['cols'], $_GET['keyword']);
+            $sql   .= $data['sql'];
+            $params = $data['params'];
+        }
+        return $db->query($sql, $params)->getCount();
     }
     
     function getCmd($type) {
@@ -103,7 +123,7 @@
     
     if ($id = $_POST['editId']) {
         // Open a specified attachExt data
-        $tpl  = 'client/mail/filter_editDialog.tpl';
+        $tpl  = 'client/mail/mailfilter_editDialog.tpl';
         $db   = new dbsqlite(DB_PATH . '/netgap_mail.db');
         if(!empty($_POST['plug'])){
         	$sql = "SELECT * FROM filter WHERE name = '$id'";
@@ -129,7 +149,7 @@
         echo json_encode(array('msg' => $result));
      } else if (isset($_POST['openAddDialog'])) {
         // Open a new attachExt dialog
-        $tpl = 'client/mail/filter_editDialog.tpl';
+        $tpl = 'client/mail/mailfilter_editDialog.tpl';
         $result = V::getInstance()
             ->assign('allowextList',
                 netGapRes::getInstance()->getMailFilterOpts('allowedext'))
@@ -149,25 +169,25 @@
     	$name = $_POST['MfilterName'];
         $cli->setLog("修改邮件访问模块下的过滤配置, 名称为{$name}")
             ->run(getCmd('edit'));
-        echo json_encode(array('msg' => '修改成功.'));
+        echo json_encode(array('msg' => '修改成功。'));
     } else if ('add' === $_POST['type']) {
         // Add a new attachExt data
         $cli  = new cli();
     	$name = $_POST['MfilterName'];
         $cli->setLog("添加邮件访问模块下的过滤配置, 名称为{$name}")
             ->run(getCmd('add'));
-        echo json_encode(array('msg' => '添加成功.'));
+        echo json_encode(array('msg' => '添加成功。'));
     } else if (!empty($_POST['delId'])) {
         // Delete the specified attachExt data 
     	$rc = checkMailFilter();
     	if($rc != 0){
-    		echo json_encode(array('msg' => "此过滤配置策略被引用,不能被删除."));
+    		echo json_encode(array('msg' => "此过滤配置策略被引用，不能被删除。"));
     	}else{
     		$cli = new cli();
     		$id  = $_POST['delId'];
     		$cli->setLog("删除邮件访问模块下的过滤配置, id为{$id}")
     		->run(getCmd('del'));
-    		echo json_encode(array('msg' => "删除成功."));
+    		echo json_encode(array('msg' => "删除成功。"));
     	}
    } else if ($orderStatement = $_POST['orderStatement']) {
         // fresh and resort attachExt list

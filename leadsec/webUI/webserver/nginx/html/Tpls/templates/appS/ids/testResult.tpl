@@ -1,4 +1,4 @@
-<{include file='layout/search.tpl' tableId='testResultTable'}>
+<{include file='layout/search.tpl' tableId='testResultTable' colNames='event'}>
 <table class="column_95 textMid tablesorter" id="testResultTable">
     <caption>显示检测结果</caption>
     <thead>

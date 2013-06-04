@@ -10,10 +10,10 @@
             <form action="Function/client/mail/pop3GeneralVisit.php"
                 method="POST" id="switchPop3CommClientForm_<{$r.id}>"
                 onSubmit="return false;">
-                <input type="hidden" name="pop3Id" value="<{$r.id}>"/>
+                <input type="hidden" name="pop3GeneralId" value="<{$r.id}>"/>
                 <input type="hidden" name="sa" value="<{$r.sa}>"/>
-                <input type="hidden" name="pop3lip" value="<{$r.lip}>"/>
-                <input type="hidden" name="pop3lportReq" value="<{$r.lport}>"/>
+                <input type="hidden" name="pop3GeneralLip" value="<{$r.lip}>"/>
+                <input type="hidden" name="pop3GeneralLport" value="<{$r.lport}>"/>
                 <input type="hidden" name="time" value="<{$r.time}>"/>
                 <input type="hidden" name="filter" value="<{$r.filter}>"/>
                 <input type="hidden" name="usergrp" value="<{$r.usergrp}>"/>
@@ -43,5 +43,5 @@
         </td>
     </tr>
 <{foreachelse}>
-    <tr><td colspan='9'>No Data</td></tr>
+    <tr><td colspan='9'>无数据</td></tr>
 <{/foreach}>

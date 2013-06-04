@@ -9,10 +9,10 @@
             <form action="Function/client/customized/udpTransVisit.php"
                 method="POST" id="switchUdpTransClientForm_<{$r.id}>"
                 onSubmit="return false;">
-                <input type="hidden" name="cusUdpTransId" value="<{$r.id}>"/>
+                <input type="hidden" name="customUdpTransId" value="<{$r.id}>"/>
                 <input type="hidden" name="sa" value="<{$r.sa}>"/>
                 <input type="hidden" name="da" value="<{$r.da}>"/>
-                <input type="hidden" name="udpTranslportReq" value="<{$r.dport}>"/>
+                <input type="hidden" name="customUdpTransLport" value="<{$r.dport}>"/>
                 <input type="hidden" name="usergrp" value="<{$r.usergrp}>"/>
                 <input type="hidden" name="time" value="<{$r.time}>"/>
                 <input type="hidden" name="active" value="<{$r.active}>"/>
@@ -41,5 +41,5 @@
         </td>
     </tr>
 <{foreachelse}>
-    <tr><td colspan='8'>没有任务</td></tr>
+    <tr><td colspan='8'>无数据</td></tr>
 <{/foreach}>

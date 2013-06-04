@@ -14,7 +14,7 @@
         	}
         }else if($cmdarr[0] == "ping"){
         	if(strpos($cmdarr[1],':') !== false){
-        		$cmdstr = 'ping6 '.$cmdarr[1];
+        		$cmdstr = 'ping6 -c 5 '.$cmdarr[1];
         	}
         }
         return $cmdstr;
@@ -22,7 +22,7 @@
     function tcpdumpCmd($ifname){
     	
     	$tcpcmd = "";
-    	$sql = "SELECT external_name,enable,device_type FROM interface WHERE external_name = '".$ifname."'";
+    	$sql = "SELECT internal_name,enable,device_type FROM interface WHERE external_name = '".$ifname."'";
     	$db  = new dbsqlite(DB_PATH . '/configs.db');
     	$result = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
     	if(count($result) == 0)
@@ -38,7 +38,7 @@
     		{
     			return 3;
     		}
-    		$tcpcmd = "/usr/sbin/tcpdump -i ".$v['external_name']." -c 100";
+    		$tcpcmd = "/usr/sbin/tcpdump -i ".$v['internal_name']." -c 100";
     		return $tcpcmd;
     	}
     }

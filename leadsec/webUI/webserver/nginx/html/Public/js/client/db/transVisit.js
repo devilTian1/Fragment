@@ -8,8 +8,11 @@ function openEditDialog(id) {
     var buttons = {};
     buttons[getMessage('Ok')] = function() {
         if ($('#editForm').valid()) {
-            ajaxSubmitForm($('#editForm'), '结果');
-            freshTableAndPage();
+        	var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editForm'), '结果', undefined,
+                undefined, afterSuccessCallback);
             $(this).remove();
         }
     };
@@ -36,15 +39,21 @@ function openNewDialog() {
     buttons[getMessage('Add Next')] = function() {  
     	if ($('#editForm').valid()) {
             openNewDialog();
-            ajaxSubmitForm($('#editForm'), '结果');
-            freshTableAndPage();
+            var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editForm'), '结果', undefined,
+                undefined, afterSuccessCallback);
             $(this).remove();
         }     
     };
     buttons[getMessage('Ok')] = function() {
     	if ($('#editForm').valid()) {
-            ajaxSubmitForm($('#editForm'), '结果');
-            freshTableAndPage();
+    		var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editForm'), '结果', undefined,
+                undefined, afterSuccessCallback);
             $(this).remove();
         }
        
@@ -87,7 +96,6 @@ function openDelDialog(id) {
     buttons[getMessage('Ok')] = function() {
         del(id);
         $(this).remove();
-        freshTableAndPage();
     };
     buttons[getMessage('Cancel')]  = function() {
         $(this).remove();
@@ -106,8 +114,11 @@ function switchClientCommSer(id, action) {
     var dialog  = loadingScreen(title);
     var buttons = {};
     buttons[getMessage('Ok')] = function() {
-        ajaxSubmitForm($('#switchClientCommForm_' + id), '结果');
-        freshTableAndPage();
+    	var afterSuccessCallback = function() {
+            freshTableAndPage();
+        };
+        ajaxSubmitForm($('#switchClientCommForm_' + id), '结果', undefined,
+            undefined, afterSuccessCallback);
         $(this).remove();
     };
     buttons[getMessage('Cancel')] = function() {

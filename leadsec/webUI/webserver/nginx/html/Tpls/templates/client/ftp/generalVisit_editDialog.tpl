@@ -4,13 +4,14 @@
      <fieldset>
         <legend>FTP客户端普通访问</legend>
         <div class="row">
-            <label for="ftpId">任务号:<em class="required">*</em></label>
-            <input class="id" type="text" name="ftpId" value="<{$data.id}>"
+            <label for="ftpGeneralId">任务号:<em class="required">*</em></label>
+            <input class="id" type="text" name="ftpGeneralId"
+                id="ftpGeneralId" value="<{$data.id}>"
                 <{if $type ==='edit'}>disabled="disabled"<{/if}>
                 size="4" maxlength="4"/>
             (同一端的任务号必须唯一)
             <{if $type ==='edit'}>
-            <input type="hidden" name="ftpId" value="<{$data.id}>"/>
+            <input type="hidden" name="ftpGeneralId" value="<{$data.id}>"/>
             <{/if}>
         </div>
 
@@ -31,13 +32,16 @@
 
         <div class="row">
             <label for="lip">本机地址:</label>
-            <{html_options class="select lip" name="lip" id="lip"
-                options=$ifList selected=$data.lip}>
+            <{html_options class="select lip" name="ftpGeneralLip"
+                id="ftpGeneralLip" options=$ifList
+                selected=$data.lip|default:current($ifList)}>
         </div>
 
         <div class="row">
             <label for="lport">本机端口:<em class="required">*</em></label>
-            <input class="port" type="text" name="ftplportReq" value="<{$data.lport}>" size="5" maxlength="5"/>
+            <input class="port" type="text" id="ftpGeneralLport"
+                name="ftpGeneralLport" value="<{$data.lport}>" size="5"
+                maxlength="5"/>
         </div>
         
         <div class="row">
@@ -70,6 +74,13 @@
             <{html_radios class="radio" name=active label_ids=true values=array('Y', 'N')
                 output=array('开', '关') selected=$data.active|default: 'Y'}>
         </div>
+        
+         <div class="row">
+            <label>文件病毒扫描:</label>
+            <{html_radios class="radio" name=killVirus label_ids=true
+            output=array('开', '关') values=array('Y', 'N')
+            selected=$data.virus|default: 'N'}>
+        </div>       
        
         <div class="row">
             <label for="comment">备注:</label>           

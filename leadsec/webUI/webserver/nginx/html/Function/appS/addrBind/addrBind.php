@@ -12,16 +12,37 @@
 	function freshList($where) {
 		$tpl = 'appS/addrBind/addrBindListTable.tpl';
         $db  = new dbsqlite(DB_PATH . '/rule.db');
-        $sql = "SELECT * FROM addrbind $where";
-        $result = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
+        $sql = "SELECT * FROM addrbind";
+		$params = array();
+        if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
+            $data   = getWhereStatement($db, $_GET['cols'], $_GET['keyword']);
+            $sql   .= $data['sql'];
+            $params = $data['params'];
+        }
+        $sql .=  ' ' . $where;
+        $result = $db->query($sql,$params)->getAllData(PDO::FETCH_ASSOC);
         echo V::getInstance()->assign('sql_value_array', $result)
 			->assign('pageCount', 10)->fetch($tpl);
+    }
+
+	function getWhereStatement($db, $cols, $keyword) {
+        $value  = '%' . $keyword . '%';
+        $params = array_fill(0, count(explode(',', $cols)), $value);
+        return array('sql'    => ' WHERE (' .
+                              $db->getWhereStatement($cols, 'OR', 'like') . ')',
+                     'params' => $params);
     }
 
 	function getDataCount() {
         $db  = new dbsqlite(DB_PATH . '/rule.db');
         $sql = "SELECT count(id) as sum FROM addrbind";
-        $result = $db->query($sql)->getFirstData(PDO::FETCH_ASSOC);
+		$params = array();
+        if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
+            $data   = getWhereStatement($db, $_GET['cols'], $_GET['keyword']);
+            $sql   .= $data['sql'];
+            $params = $data['params'];
+        }
+        $result = $db->query($sql,$params)->getFirstData(PDO::FETCH_ASSOC);
         return $result['sum'];
     }
 	
@@ -299,13 +320,14 @@
 			$msg_log = "应用防护下地址绑定模块服务启动";
             $cli->setLog($msg_log)->run('ipmaccfg ipmac_check on');
             $msg = '服务已启动.';
+			echo json_encode(array('status' => 0,'msg' => $msg));
         } else {
             // stop start
 			$msg_log = "应用防护下地址绑定模块服务停止";
             $cli->setLog($msg_log)->run('ipmaccfg ipmac_check off');
             $msg = '服务已停止.';
+			echo json_encode(array('status' => 0,'msg' => $msg));
         }
-        echo json_encode(array('msg' => $msg));
 	} else {
 		//页面初始化
 		$cli     = new cli();

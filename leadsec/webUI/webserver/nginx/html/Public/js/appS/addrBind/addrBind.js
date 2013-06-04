@@ -1,34 +1,43 @@
 function setServiceForm(action) {
-	var resultDialog  = loadingScreen('结果');
-	var buttons = {};
-    	buttons['Ok'] = function() {    	
-        resultDialog.close();
-    }
-    resultDialog.setOptions({
-        width : 250,
-        height: 170,
-        buttons: buttons
-    });
-    var successCallback = function(result, textStatus) {
-        if (result.status !== -1) { 
-            if (action == 'on') {   
-                $("#switch_serveice").val('off');
-                $("button[name='buttonOff']").button({ disabled: false});
-                $("button[name='buttonOn']").button({ disabled: true});
-                $("#status").html('启动');
-            } else {
-                $("#switch_serveice").val('on');
-                $("button[name='buttonOff']").button({ disabled: true});
-                $("button[name='buttonOn']").button({ disabled: false});
-                $("#status").html('停止');
+	var title   = '启动/停止服务';
+    var dialog  = loadingScreen(title);
+    var buttons = {};   
+    buttons[getMessage('Ok')] = function() {
+        var afterSuccessCallback = function(result, textStatus) {
+            if (result.status =='0') { 
+				if (action == 'on') {
+					$("#switch_serveice").val('off');
+					$("button[name='buttonOff']").button({ disabled: false});
+					$("button[name='buttonOn']").button({ disabled: true});
+					$("#status").html('启动');
+				} else {
+					$("#switch_serveice").val('on');
+					$("button[name='buttonOff']").button({ disabled: true});
+					$("button[name='buttonOn']").button({ disabled: false});
+					$("#status").html('停止');
+				}
             }
         }
-        resultDialog.setContent($('<p>' + result.msg + '</p>'));        
+        ajaxSubmitForm($('#ipmacServiceForm'), '结果', undefined,
+            undefined, afterSuccessCallback);
+        $(this).remove();
     };
-
-    var dialog = ajaxSubmitForm($('#ipmacServiceForm'), '服务启停', successCallback);
-    dialog.close();
+    buttons[getMessage('Cancel')] = function() {
+        $(this).remove();
+    };    
+    var dialogParams = {
+        width: 300,
+        height: 160,
+        buttons: buttons,
+        position: jQuery.getDialogPosition(300,160)
+    };
+    var str = action === 'on' ? '启动' : '停止';
+    dialog.setContent('<p>确定' + str + '服务吗?</p>');
+    dialog.setOptions(dialogParams);
+	
 }
+
+
 
 function init() {
 	$("#detectbyfec").attr("checked",'checked');
@@ -67,7 +76,8 @@ function detectall() {
 			var dialog  = loadingScreen('结果');
 			var dialogParams = {
 				width: 250,
-				height: 200
+				height: 200,
+				position: jQuery.getDialogPosition(250,200)
 			};
 			dialog.setContent("<p>正在探测，请稍后...</p>");
 			dialog.setOptions(dialogParams); 
@@ -94,7 +104,8 @@ function resultDialog() {
 	var dialogParams = {
 		width: 250,
 		height: 200,
-		buttons: buttons
+		buttons: buttons,
+		position: jQuery.getDialogPosition(250,200)
 	};
 	dialog.setContent("<p>探测完毕，请点击按钮<探测到的IP/MAC对>查看探测结果！</p>");
 	dialog.setOptions(dialogParams); 
@@ -121,7 +132,8 @@ function detectResultShow() {
     var dialogParams = {
         width: 650,
         height: 620,
-        buttons: buttons
+        buttons: buttons,
+		position: jQuery.getDialogPosition(650,620)
     };
     dialog.setOptions(dialogParams);
 	var successCallback = function(result, textStatus) {
@@ -175,7 +187,8 @@ function bindsucsess() {
 	var dialogParams = {
 		width: 250,
 		height: 200,
-		buttons: buttons
+		buttons: buttons,
+		position: jQuery.getDialogPosition(250,210)
 	};
 	dialog.setContent("<p>绑定成功！</p>");
 	dialog.setOptions(dialogParams); 
@@ -211,8 +224,11 @@ function edit(id) {
     var buttons = {};
     buttons['确定'] = function() {
 		if ($('#editIpAddrForm').valid()) {
-			ajaxSubmitForm($('#editIpAddrForm'), '结果');
-			freshTableAndPage();
+			var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+			ajaxSubmitForm($('#editIpAddrForm'), '结果',undefined,
+				undefined,afterSuccessCallback);
 			$(this).remove();
 		}
     };
@@ -222,8 +238,8 @@ function edit(id) {
     var dialogParams = {
         width   : 600,
         height  : 300,
-        position : ['center', 'top'],
-        buttons : buttons
+        buttons : buttons,
+		position: jQuery.getDialogPosition(600,300)
     };
     var successCallback = function(result, textStatus) {
         dialog.setContent(result.msg);
@@ -248,13 +264,14 @@ function del(ip) {
     };
     var title  = '删除ip/mac地址列表';
     var buttons = {};
-    buttons['Ok'] = function() {
+    buttons[getMessage('Ok')] = function() {
         $(this).remove();
     };
     var dialogParams = {
         width   : 250,
         height  : 170,
-        buttons : buttons
+        buttons : buttons,
+		position: jQuery.getDialogPosition(250,170)
     };
     showDialogByAjax(url, data, title, dialogParams);
 }
@@ -274,7 +291,8 @@ function openDelSpecIpDialog(ip) {
     var dialogParams = {
         width: 300,
         height: 160,
-        buttons: buttons
+        buttons: buttons,
+		position: jQuery.getDialogPosition(300,160)
     };
     dialog.setContent("<p>确定要删除" + ip + "此条记录吗?</p>");
     dialog.setOptions(dialogParams);
@@ -284,17 +302,18 @@ function openDelSpecIpDialog(ip) {
 function openDelAllIpDialog() {
 	var dialog  = loadingScreen('删除ip/mac地址列表');
     var buttons = {};
-    buttons['Confirm'] = function() {
+    buttons[getMessage('Confirm')] = function() {
 		delAllIp()
         $(this).remove();
     };
-    buttons['Cancel']  = function() {
+    buttons[getMessage('Cancel')]  = function() {
         $(this).remove();
     };
     var dialogParams = {
         width: 300,
         height: 160,
-        buttons: buttons
+        buttons: buttons,
+		position: jQuery.getDialogPosition(300,160)
     };
     dialog.setContent("<p>确定要删除所有的记录吗?</p>");
     dialog.setOptions(dialogParams);
@@ -309,13 +328,14 @@ function delAllIp() {
     };
     var title  = '删除ip/mac地址列表';
     var buttons = {};
-    buttons['Ok'] = function() {
+    buttons[getMessage('Ok')] = function() {
         $(this).remove();
     };
     var dialogParams = {
         width   : 250,
         height  : 170,
-        buttons : buttons
+        buttons : buttons,
+		position: jQuery.getDialogPosition(250,170)
     };
     showDialogByAjax(url, data, title, dialogParams);
 }
@@ -337,23 +357,24 @@ function openDelSpecIpListDialog() {
     var buttons = {};
     if (ips.length === 0) {
         dialog.setContent("<p>没有选择任何用户?</p>");
-        buttons['Close']  = function() {
+        buttons['关闭']  = function() {
             $(this).remove();
         };
     } else {
         dialog.setContent("<p>确定要删除已选的用户数据吗?</p>");
-        buttons['Confirm'] = function() {
+        buttons[getMessage('Confirm')] = function() {
             delSpecIp(ips);
             $(this).remove();
         };
-        buttons['Cancel']  = function() {
+        buttons[getMessage('Cancel')]  = function() {
             $(this).remove();
         };
     }
     var dialogParams = {
         width: 300,
         height: 160,
-        buttons: buttons
+        buttons: buttons,
+		position: jQuery.getDialogPosition(300,160)
     };
     dialog.setOptions(dialogParams);
 }
@@ -372,14 +393,15 @@ function delSpecIp(ips) {
     }
     var title  = '删除ip/mac地址记录';
     var buttons = {};
-    buttons['Ok'] = function() {
+    buttons[getMessage('Ok')] = function() {
         freshTableAndPage();
         $(this).remove();
     };
     var dialogParams = {
         width   : 250,
         height  : 170,
-        buttons : buttons
+        buttons : buttons,
+		position: jQuery.getDialogPosition(250,170)
     };
     showDialogByAjax(url, data, title, dialogParams);
 }
@@ -403,8 +425,11 @@ function openNewAccountDialog() {
     };
     buttons['确定'] = function() {
         if ($('#editIpAddrForm').valid()) {
-            ajaxSubmitForm($('#editIpAddrForm'), '结果');
-			freshTableAndPage();
+			var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editIpAddrForm'), '结果',undefined,
+				undefined,afterSuccessCallback);
             $(this).remove();
         }
     };
@@ -415,8 +440,8 @@ function openNewAccountDialog() {
     var dialogParams = {
         width   : 600,
         height  : 300,
-        position : ['center', 'top'],
-        buttons : buttons
+        buttons : buttons,
+		position: jQuery.getDialogPosition(600,300)
     };
     showDialogByAjax(url, data, title, dialogParams);
 }

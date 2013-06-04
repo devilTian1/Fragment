@@ -7,8 +7,11 @@ function editSmtpCommServerAclDialog(id) {
     var buttons = {};
     buttons['确定'] = function() {
         if ($('#editSmtpCommServerAclForm').valid()) {
-            ajaxSubmitForm($('#editSmtpCommServerAclForm'), '结果');
-            freshTableAndPage();
+        	var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editSmtpCommServerAclForm'), '结果', undefined,
+                undefined, afterSuccessCallback);   
             $(this).remove();
         }
     };
@@ -34,15 +37,21 @@ function openNewSmtpCommServerAclDialog() {
     buttons['添加下一条'] = function() {
         if ($('#editSmtpCommServerAclForm').valid()) {
             openNewSmtpCommServerAclDialog();
-            ajaxSubmitForm($('#editSmtpCommServerAclForm'), '结果');
-            freshTableAndPage();
+            var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editSmtpCommServerAclForm'), '结果', undefined,
+                undefined, afterSuccessCallback);  
             $(this).remove();
         }
     };
     buttons['确定'] = function() {
         if ($('#editSmtpCommServerAclForm').valid()) {
-            ajaxSubmitForm($('#editSmtpCommServerAclForm'), '结果');
-            freshTableAndPage();
+        	var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editSmtpCommServerAclForm'), '结果', undefined,
+                undefined, afterSuccessCallback);  
             $(this).remove();
         }
     };
@@ -104,8 +113,11 @@ function switchSmtpCommServerAcl(id, action) {
     var dialog  = loadingScreen(title);
     var buttons = {};
     buttons['确定'] = function() {
-        ajaxSubmitForm($('#switchSmtpCommServerForm_' + id), '结果');
-        freshTableAndPage();
+    	var afterSuccessCallback = function() {
+            freshTableAndPage();
+        };
+        ajaxSubmitForm($('#switchSmtpCommServerForm_' + id), '结果', undefined,
+            undefined, afterSuccessCallback);  
         $(this).remove();
     };
     buttons['取消'] = function() {

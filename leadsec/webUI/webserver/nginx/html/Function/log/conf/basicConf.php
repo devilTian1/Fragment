@@ -12,7 +12,7 @@
         	"tcpenable $tcpPort udpenable $udpPort sizelimit $logLimitSize";
         $cli = new cli();
         $cli->setLog("修改日志配置的基本配置")->run($cmd);
-        echo json_encode(array('msg' => '修改成功.'));
+        echo json_encode(array('msg' => '修改成功。'));
     } else {
         // init page data
         $db = new dbsqlite(DB_PATH . '/configs.db');

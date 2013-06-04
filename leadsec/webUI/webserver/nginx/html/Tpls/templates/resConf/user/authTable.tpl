@@ -42,5 +42,5 @@
         </td>
     </tr>
 <{foreachelse}>
-    <tr><td colspan='7'>No Auth Policy Data</td></tr>
+    <tr><td colspan='7'>无数据</td></tr>
 <{/foreach}>

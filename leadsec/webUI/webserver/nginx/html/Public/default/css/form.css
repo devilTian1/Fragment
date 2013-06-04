@@ -94,7 +94,7 @@ hr {
 /* LOG */
 fieldset.searchFieldset {
     position: relative;
-    width: 95%;
+    width: 92.8%;
     margin: 5px;
 }
 
@@ -114,13 +114,24 @@ fieldset label.e_time {
 }
 
 fieldset a.advSearch {
+    color: #0099CC;
     margin-right: 10em;
     display: inline;
 }
 
+fieldset a.advSearch:hover {
+	text-decoration: underline;
+}
+
 fieldset a.fold {
+    color: #0099CC;
     margin-right: 10em;
 }
+
+fieldset a.fold:hover {
+	text-decoration: underline;
+}
+
 
 fieldset .userTraceLabel {
     width: auto;

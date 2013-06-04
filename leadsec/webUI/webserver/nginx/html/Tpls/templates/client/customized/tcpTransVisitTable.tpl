@@ -9,10 +9,10 @@
             <form action="Function/client/customized/tcpTransVisit.php"
                 method="POST" id="switchTcpTransClientForm_<{$r.id}>"
                 onSubmit="return false;">
-                <input type="hidden" name="cusTcpTransId" value="<{$r.id}>"/>
+                <input type="hidden" name="customTcpTransId" value="<{$r.id}>"/>
                 <input type="hidden" name="sa" value="<{$r.sa}>"/>
                 <input type="hidden" name="da" value="<{$r.da}>"/>
-                <input type="hidden" name="tcpTranslportReq" value="<{$r.dport}>"/>
+                <input type="hidden" name="customtcpTransLport" value="<{$r.dport}>"/>
                 <input type="hidden" name="usergrp" value="<{$r.usergrp}>"/>
                 <input type="hidden" name="time" value="<{$r.time}>"/>
                 <input type="hidden" name="active" value="<{$r.active}>"/>
@@ -40,5 +40,5 @@
         </td>
     </tr>
 <{foreachelse}>
-    <tr><td colspan='8'>没有任务</td></tr>
+    <tr><td colspan='8'>无数据</td></tr>
 <{/foreach}>

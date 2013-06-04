@@ -2,15 +2,15 @@
     <input type="hidden" name="type" value="edit"/>
     <fieldset>
         <legend>修改物理设备</legend>
-        <div class="hide" id="summary">
-        </div>
+        <ul class="hide" id="summary">
+        </ul>
         <div class="row">
         	 <label for="external_name">名称:</label>
              <input type="text" name="external_name" value="<{$res.external_name}>" readonly="readonly"/>(不能修改)
 		</div>
         
         <div class="row"><label for="mac_address">MAC 地址:</label>
-          <input type="text" name="mac_address" value="<{$res.mac_address}>"/>
+          <input type="text" name="mac_address" value="<{$res.mac_address}>" class="width132"/>
         </div>
        
         <div class="row"><label for="linkmode">链路工作模式:</label>
@@ -29,7 +29,7 @@
         
         <div class="row" id="workmode_div" <{if $res.workmode eq 2}> class="hide" <{/if}>>
             <label for="mtu">MTU:</label>
-            <input type="text" name="mtu" value="<{$res.mtu}>" />
+            <input type="text" name="mtu" value="<{$res.mtu}>" class="width132"/>
         </div>
         
         <div class="row">
@@ -47,12 +47,12 @@
             </div>
             <div id="ipaddr_type_div" <{if $res.ipaddr_type neq 1}> class="hide" <{/if}>>
                 <div class="row"><label for="ipv4">IPV4地址：</label>
-                    <input type="text" name="devIpv4" id="devIpv4" value="<{$res.ip}>"/><label class="maskLabel">/</label>
-                    <input class="ipv4Netmask" type="text" name="ipv4Netmask" value="<{$res.mask}>"/>
+                    <input type="text" name="devIpv4" id="devIpv4" value="<{$res.ip}>" class="ipv4"/><label class="maskLabel">/</label>
+                    <input class="ipv4Netmask" type="text" name="devIpv4Netmask" value="<{$res.mask}>"/>
                 </div>
                 <div class="row"><label for="ipv6">IPV6地址：</label>
-                    <input type="text" name="devIpv6" id="devIpv6" value="<{$res.ipv6}>"/><label class="maskLabel">/</label>
-                    <input class="ipv6Netmask" type="text" name="ipv6Netmask" value="<{$res.ipv6_mask}>" />
+                    <input type="text" name="devIpv6" id="devIpv6" value="<{$res.ipv6}>" class="ipv6"/><label class="maskLabel">/</label>
+                    <input class="ipv6Netmask" type="text" name="devIpv6Netmask" value="<{$res.ipv6_mask}>" />
                 </div>
             </div>
         </div>

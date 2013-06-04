@@ -7,9 +7,9 @@
             <{else if $r.user_info === '' && $r.user_act === '0'}>
                 禁止所有全部用户
             <{else if $r.user_act === '1'}>
-                禁止:&nbsp;<{$r.user_info|truncate: 20: '...'}>
-            <{else}>
                 允许:&nbsp;<{$r.user_info|truncate: 20: '...'}>
+            <{else}>
+                禁止:&nbsp;<{$r.user_info|truncate: 20: '...'}>
             <{/if}>
         </td>
         <td>
@@ -18,20 +18,13 @@
             <{else if $r.cmd_info === '' && $r.cmd_act === '0'}>
                 禁止所有全部命令
             <{else if $r.cmd_act === '1'}>
-                禁止:&nbsp;
-                <{$r.cmd_info}>
-            <{else}>
                 允许:&nbsp;
                 <{$r.cmd_info}>
-            <{/if}>
-        </td>
-        <td>
-            <{if $r.virus === 'Y' || $r.virus === '1'}>
-            开启
             <{else}>
-            关闭
+                禁止:&nbsp;
+                <{$r.cmd_info}>
             <{/if}>
-        </td>
+        </td>       
         <td title="<{$r.comment|escape}>" ><{$r.comment|escape|truncate:30:"... ..."}></td>
         <td class="no_search">
             <a href="#" class="edit"
@@ -43,5 +36,5 @@
         </td>
     </tr>
 <{foreachelse}>
-    <tr><td colspan='6'>没有FTP过滤配置信息.</td></tr>
+    <tr><td colspan='6'>无数据.</td></tr>
 <{/foreach}>

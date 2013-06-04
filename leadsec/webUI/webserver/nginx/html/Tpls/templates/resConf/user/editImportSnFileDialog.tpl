@@ -5,7 +5,7 @@
         <legend>SN文件导入</legend>
         <div class="row">
             <label for="importFile">导入SN文件:</label>
-            <input class="uploadFile" type="file" name="importFile" id="importFile"/>
+            <{include file='layout/upload.tpl' name='importFile' id='importFile'}>
         </div>
     </fieldset>
 </form>
@@ -13,5 +13,7 @@
 $(document).ready(function() {
     renderStandardUi();
     validateForm($("#editImportSnFileForm"));
+    var uploadWid =  $('#importFile').width();
+    $('.uploadText').width(uploadWid - 75);
 });
 </script>

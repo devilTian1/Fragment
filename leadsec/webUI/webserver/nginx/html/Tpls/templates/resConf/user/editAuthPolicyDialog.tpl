@@ -4,7 +4,7 @@
         <legend>定义认证策略</legend>
         <div id="summary"></div>
 		<div class="row"><label for="AuthPolicyName">策略名称:<em class="required">*</em></label>
-            <input type="text" name="AuthPolicyName" id="AuthPolicyName" value="<{$autopolicy.auth_policy_name}>" <{if $type === 'edit'}>readonly="readonly"<{/if}>/>
+            <input class="width10em" type="text" name="AuthPolicyName" id="AuthPolicyName" value="<{$autopolicy.auth_policy_name}>" <{if $type === 'edit'}>readonly="readonly"<{/if}>/>
         </div>
         <div class="row">
             <label for="scraddr">定义地址的方式:</label>
@@ -16,13 +16,13 @@
         <div class="row">
             <label>地址:</label>
             <div class="floatLeft" id="addrDiv">
-                <input class="ip" type="text" name="authIp" value="<{$autopolicy.ip}>"/><label class="maskLabel">/</label>
-                <input type="text" name="authNetmask" value="<{$autopolicy.netmask}>"/>
+                <input class="width10em ip" type="text" name="authIp" value="<{$autopolicy.ip}>"/><label class="maskLabel">/</label>
+                <input class="width10em" type="text" name="authNetmask" value="<{$autopolicy.netmask}>"/>
                 <br class="clearFloat"/>
             </div>
             <div class="floatLeft" id="rangeDiv">
-                <input class="ip" type="text" name="authRange_s" value="<{$autopolicy.ip}>"/><b> - </b>
-                <input class="ip" type="text" name="authRange_e" value="<{$autopolicy.netmask}>"/>
+                <input class="width10em ip" type="text" name="authRange_s" value="<{$autopolicy.ip}>"/><b> - </b>
+                <input class="width10em ip" type="text" name="authRange_e" value="<{$autopolicy.netmask}>"/>
             </div>
             <div class="floatLeft" id="objDiv">
                 <select class="select" name="objaddr" id="objaddr">
@@ -36,7 +36,7 @@
             </select>
         </div>
         <div class="row"><label for="dport">目的端口:</label>
-            <input type="text" name="dport" value="<{$autopolicy.port}>" />
+            <input class="width10em" type="text" name="dport" value="<{$autopolicy.port}>" />
         </div>
         <div class="row"><label for="active">状态:</label>
             <{html_radios class="radio" name="active" label_ids=true
@@ -45,7 +45,7 @@
         </div>
         <div class="row">
             <label for="comment">备注:</label>
-            <input class="comment" name="comment" id="comment" value="<{$autopolicy.comment|escape}>"/>
+            <input class="width10em comment" name="comment" id="comment" value="<{$autopolicy.comment|escape}>"/>
         </div>
   </fieldset>
 </form>

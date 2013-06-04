@@ -8,7 +8,7 @@
         <tr>
           <td width="250" class="tdheader">服务器 IP:</td>
           <td class="tdbody">
-            <input type="text" name="ha_ip" id="serverIp" value="<{$ser.host}>" />         
+            <input type="text" class="width149" name="ha_ip" id="serverIp" value="<{$ser.host}>" />         
           </td>
         </tr>       
         <tr>
@@ -95,6 +95,6 @@ $(document).ready(function() {
     renderStandardUi();
     validateForm($("#serverIPForm"));
     validateForm($("#localAddrForm"));
-	$(".tdbody").width($("table").width()-250);
+    $(".tdbody").width($("table").width()-250);
 });
 </script>

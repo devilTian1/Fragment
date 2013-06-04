@@ -4,24 +4,24 @@
     <fieldset>
         <legend>域名地址维护</legend>
         <div class="row">
-            <label for="addrName">名称:<em class="required">*</em></label>
-            <input type="text" name="addrName" maxlength="15" value="<{$realmAddr.name}>"
+            <label for="domainAddrName">名称:<em class="required">*</em></label>
+            <input class="width10em" type="text" name="domainAddrName" maxlength="15" value="<{$realmAddr.name}>"
             <{if $type ==='edit'}>disabled="disabled"<{/if}> id="addrName"/>
             <{if $type ==='edit'}>
-            <input type="hidden" name="addrName" value="<{$realmAddr.name}>"/>
+            <input type="hidden" name="domainAddrName" value="<{$realmAddr.name}>"/>
             <{/if}>
         </div>
         <br class="clearFloat"/>
         <div class="row">
             <label for="domainName">域名:<em class="required">*</em></label>
-            <input type="text" name="domainName" value="<{$realmAddr.domain}>"
+            <input class="width10em" type="text" name="domainName" value="<{$realmAddr.domain}>"
             	id="domainName"/>
         </div>
         <br class="clearFloat"/>
         <div class="row">
             <label for="addStaticAddr">添加静态IP:</label>
             <div class="column column_65">
-                <input type="text" name="addStaticAddr" id="addStaticAddr"/>
+                <input class="width10em" type="text" name="addStaticAddr" id="addStaticAddr"/>
                 <button class="standard floatLeft addBtn" type="button" onClick="addStaticAddrList()">
                     添加</button>
             </div>
@@ -63,33 +63,33 @@
         <br class="clearFloat"/>
         <div class="row">
             <label for="max_record">最大记录数:<em class="required">*</em></label>
-            <input type="text" name="max_record" id="max_record"
+            <input class="width10em" type="text" name="max_record" id="max_record"
                 value="<{$realmAddr.max_record|default:64}>"/>
         </div>
         <br class="clearFloat"/>
         <div class="row">
             <label for="interval">自动解析间隔(单位:分钟):
                 <em class="required">*</em></label>
-            <input type="text" name="interval" id="interval"
+            <input class="width10em" type="text" name="interval" id="interval"
                 value="<{$realmAddr.interval|default: 30}>"/>
         </div>
         <br class="clearFloat"/>
         <div class="row">
                 <label for="autoParseErrInterval">自动解析记录失效间隔:<em class="required">*</em></label>
-            <input type="text" name="autoParseErrInterval" id="autoParseErrInterval"
+            <input class="width10em" type="text" name="autoParseErrInterval" id="autoParseErrInterval"
                 value="<{$realmAddr.expire|default:2}>"/>
             （是自动解析间隔的多少倍）
         </div>
         <br class="clearFloat"/>
         <div class="row">
             <label for="primaryDns">主DNS服务器:</label>
-            <input type="text" name="primaryDns" id="primaryDns"
+            <input class="width10em" type="text" name="primaryDns" id="primaryDns"
                 value="<{$realmAddr.primary_dns}>"/>
         </div>
         <br class="clearFloat"/>
         <div class="row">
             <label for="secondaryDns">次DNS服务器:</label>
-            <input type="text" name="slaveDns" id="slaveDns"
+            <input class="width10em" type="text" name="slaveDns" id="slaveDns"
                 value="<{$realmAddr.slave_dns}>"/>
         </div>
         <br class="clearFloat"/>
@@ -102,7 +102,7 @@
         <br class="clearFloat"/>
         <div class="row">
             <label for="comment">备注:</label>            
-            <input class="comment" name="comment" id="comment" value="<{$realmAddr.comment|escape}>"/>
+            <input class="width10em comment" name="comment" id="comment" value="<{$realmAddr.comment|escape}>"/>
         </div>
         <br class="clearFloat"/>
     </fieldset>

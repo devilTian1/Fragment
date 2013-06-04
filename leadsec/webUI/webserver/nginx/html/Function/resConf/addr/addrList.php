@@ -2,15 +2,25 @@
     require_once($_SERVER['DOCUMENT_ROOT'] . '/Function/common.php');
 
     function freshAddrList($where) {
+    	preg_match('/OFFSET\s(\d+)$/', $where, $match);
+    	$offset = intval($match[1]) + 1;
         $tpl =  'resConf/addr/addrTable.tpl';
         $db  = new dbsqlite(DB_PATH . '/rule.db');
-        $sql = "SELECT * FROM address WHERE name!='any_ipv6' $where";
-        $result = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
+        $sql = "SELECT * FROM address WHERE name!='any_ipv6'";
+        $params = array();
+        if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
+        	$data   = getWhereStatement($db, $_GET['cols'], $_GET['keyword']);
+        	$sql   .= $data['sql'];
+        	$params = $data['params'];
+        }
+        $sql .=  ' ' . $where;
+        $result = $db->query($sql, $params)->getAllData(PDO::FETCH_ASSOC);
         foreach ($result as $key => $array) {
        		$result[$key]['name'] = addrNameDelPreffix($array['name']);
        		$result[$key]['ip'] = ipConvert($array['ip'],$array['mask']);
     	}
         echo V::getInstance()->assign('addrList', $result)
+            ->assign('beginId', $offset)
             ->assign('pageCount', 10)
             ->fetch($tpl);
     }
@@ -74,7 +84,7 @@
     			$ipArr[$i] = base_convert(($ipArr3[$i] & $maskArr[$i]),2,16);
     		}
     		$iptmp = implode(':',$ipArr);
-    		$ipstr = preg_replace('/0?(:0)+/', ':', $iptmp,1);
+    		$ipstr = preg_replace('/(:0)+/', ':', $iptmp,1);
     		$tmpArr = explode(':',$ipstr);
     		$tmplen = count($tmpArr)-1;
     		if($tmpArr[$tmplen] == '')
@@ -206,10 +216,23 @@
         return $result;
     }
 
+    function getWhereStatement($db, $cols, $keyword) {
+    	$value = '%' . $keyword . '%';
+    	$params = array_fill(0, count(explode(',', $cols)), $value);
+    	return array('sql'    => ' AND (' .
+    			$db->getWhereStatement($cols, 'OR', 'like') . ')',
+    			'params' => $params);
+    }
+    
     function getDataCount() {
         $sql = "SELECT id FROM address WHERE name!='any_ipv6'";
         $db  = new dbsqlite(DB_PATH . '/rule.db');
-        return $db->query($sql)->getCount();
+        if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
+            $data   = getWhereStatement($db, $_GET['cols'], $_GET['keyword']);
+            $sql   .= $data['sql'];
+            $params = $data['params'];
+        }
+        return $db->query($sql, $params)->getCount();
     }
     
     function checkAddrName($name) {
@@ -297,24 +320,24 @@
         $addrName_src = $_POST['addrName'];        
         // 查询新添加的地址名是否已存在
         if ($addrName_src === "any") {
-        	echo json_encode(array('msg' => "[any]为内部关键字，不允许定义为名称."));
+        	echo json_encode(array('msg' => "[any]为内部关键字，不允许定义为名称。"));
         	return;
         }
         if (checkAddrName($addrName_src)) {
-        	echo json_encode(array('msg' => "[$addrName_src]已存在."));
+        	echo json_encode(array('msg' => "[$addrName_src]已存在。"));
         	return;
         }
         $id = getCmdArr('add');
         if($id >= 0){
         	addIpsetCmdToSql('add',$id);
-        echo json_encode(array('msg' => "[{$_POST['addrName']}]添加成功."));
+        echo json_encode(array('msg' => "[{$_POST['addrName']}]添加成功。"));
         }else{
         	if($id == -5){
-        		echo json_encode(array('msg' => "[{$_POST['addrName']}]地址不存在"));
+        		echo json_encode(array('msg' => "[{$_POST['addrName']}]地址不存在。"));
         	}else if($id == -6){
-        		echo json_encode(array('msg' => "[{$_POST['addrName']}]地址被引用"));
+        		echo json_encode(array('msg' => "[{$_POST['addrName']}]地址被引用。"));
         	}else{
-        		echo json_encode(array('msg' => "[{$_POST['addrName']}]地址添加不成功"));
+        		echo json_encode(array('msg' => "[{$_POST['addrName']}]地址添加不成功。"));
         	}
         }      
     } else if ('edit' === $_POST['type']) {
@@ -322,36 +345,45 @@
         $id = getCmdArr('edit');
         if($id >= 0){
         	addIpsetCmdToSql('edit',$id);
-        echo json_encode(array('msg' => "[{$_POST['addrName']}]修改成功."));
+        echo json_encode(array('msg' => "[{$_POST['addrName']}]修改成功。"));
         }else{
         	if($id == -5){
-        		echo json_encode(array('msg' => "[{$_POST['addrName']}]地址不存在"));
+        		echo json_encode(array('msg' => "[{$_POST['addrName']}]地址不存在。"));
         	}else if($id == -6){
-        		echo json_encode(array('msg' => "[{$_POST['addrName']}]地址被引用"));
+        		echo json_encode(array('msg' => "[{$_POST['addrName']}]地址被引用。"));
         	}else{
-        		echo json_encode(array('msg' => "[{$_POST['addrName']}]地址修改不成功"));
+        		echo json_encode(array('msg' => "[{$_POST['addrName']}]地址修改不成功。"));
         	}
         }       
     } else if (!empty($_POST['delId'])) {
         // Delete the specified ipAddr
         $rc = checkAddress();
         if($rc != 0){
-        	echo json_encode(array('msg' => "此地址为地址组成员,不能被删除"));
+        	echo json_encode(array('msg' => "此地址为地址组成员，不能被删除。"));
         }else{
         	$id = getCmdArr('del');
         	if($id >= 0){
         		addIpsetCmdToSql('del',$id);
-        	    echo json_encode(array('msg' => "[{$_POST['delName']}]删除成功."));
+        	    echo json_encode(array('msg' => "[{$_POST['delName']}]删除成功。"));
         	}else{
         		if($id == -5){
-        			echo json_encode(array('msg' => "[{$_POST['delName']}]地址不存在"));
+        			echo json_encode(array('msg' => "[{$_POST['delName']}]地址不存在。"));
         		}else if($id == -6){
-        			echo json_encode(array('msg' => "[{$_POST['delName']}]地址被引用"));
+        			echo json_encode(array('msg' => "[{$_POST['delName']}]地址被引用。"));
         		}else{
-        			echo json_encode(array('msg' => "[{$_POST['delName']}]地址删除不成功"));
+        			echo json_encode(array('msg' => "[{$_POST['delName']}]地址删除不成功。"));
         		}
         	}       	
         }              
+    } else if ($_GET['checkExistAddrName']){
+        // Check the same name exist or not
+    	$name = $_GET['addrName'] ? $_GET['addrName'] : $_GET['domainAddrName'];
+    	$nameipv4 = $name."_ipv4";
+    	$nameipv6 = $name."_ipv6";
+        $sql = "SELECT name FROM address WHERE name = '$nameipv4' or name = '$nameipv6'
+        	UNION SELECT name FROM addrgrp WHERE name = '$nameipv4' or name = '$nameipv6'";           
+        $db  = new dbsqlite(DB_PATH . '/rule.db');
+        echo $db->query($sql)->getCount() > 0 ? 'false' : 'true';
     } else if ($orderStatement = $_POST['orderStatement']) {
         // fresh and resort addrlist Table
         freshAddrList($orderStatement);

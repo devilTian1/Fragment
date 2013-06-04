@@ -8,15 +8,21 @@ function openNewFileSyncDialog() {
     buttons[getMessage('Add Next')] = function() {
         if ($('#editFileSyncClientAclForm').valid()) {
             openNewFileSyncDialog();
-            ajaxSubmitForm($('#editFileSyncClientAclForm'), '结果');
-            freshTableAndPage();
+			var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editFileSyncClientAclForm'), '结果',undefind,
+				undefind,afterSuccessCallback);
             $(this).remove();
         }
     };
     buttons[getMessage('Ok')] = function() {
         if ($('#editFileSyncClientAclForm').valid()) {
-            ajaxSubmitForm($('#editFileSyncClientAclForm'), '结果');
-            freshTableAndPage();
+			var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editFileSyncClientAclForm'), '结果',undefined,
+				undefined,afterSuccessCallback);
             $(this).remove();
         }
     };
@@ -41,8 +47,11 @@ function editFileSyncClientAclDialog(id) {
     var buttons = {};
     buttons[getMessage('Ok')] = function() {
         if ($('#editFileSyncClientAclForm').valid()) {
-            ajaxSubmitForm($('#editFileSyncClientAclForm'), '结果');
-            freshTableAndPage();
+			var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editFileSyncClientAclForm'), '结果',undefined,
+				undefined,afterSuccessCallback);
             $(this).remove();
         }
     };
@@ -102,7 +111,7 @@ function delFileSyncClientAclDialog(id) {
 function filterRes() {
     var type    = $('input:radio[name="ipType"]:checked').val();
     var saOpts  = $('select[name="sa"]');
-    var lipOpts = $('select[name="fslip"]');
+    var lipOpts = $("#clientFileSyncLip");
     saOpts.showOption(); 
     lipOpts.showOption(); 
     if (type === 'ipv4') {

@@ -7,8 +7,11 @@ function editSmtpCommClientAclDialog(id) {
     var buttons = {};
     buttons[getMessage('Ok')] = function() {
         if ($('#editSmtpCommClientAclForm').valid()) {
-            ajaxSubmitForm($('#editSmtpCommClientAclForm'), '结果');
-            freshTableAndPage();
+        	var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editSmtpCommClientAclForm'), '结果', undefined,
+                undefined, afterSuccessCallback);   
             $(this).remove();
         }
     };
@@ -34,15 +37,21 @@ function openNewSmtpCommClientAclDialog() {
     buttons[getMessage('Add Next')] = function() {
         if ($('#editSmtpCommClientAclForm').valid()) {
             openNewSmtpCommClientAclDialog();
-            ajaxSubmitForm($('#editSmtpCommClientAclForm'), '结果');
-            freshTableAndPage();
+            var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editSmtpCommClientAclForm'), '结果', undefined,
+                undefined, afterSuccessCallback);   
             $(this).remove();
         }
     };
     buttons[getMessage('Ok')] = function() {
         if ($('#editSmtpCommClientAclForm').valid()) {
-            ajaxSubmitForm($('#editSmtpCommClientAclForm'), '结果');
-            freshTableAndPage();
+        	var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editSmtpCommClientAclForm'), '结果', undefined,
+                undefined, afterSuccessCallback);   
             $(this).remove();
         }
     };
@@ -104,8 +113,11 @@ function switchSmtpCommClientAcl(id, action) {
     var dialog  = loadingScreen(title);
     var buttons = {};
     buttons[getMessage('Ok')] = function() {
-        ajaxSubmitForm($('#switchSmtpCommClientForm_' + id), '结果');
-        freshTableAndPage();
+    	var afterSuccessCallback = function() {
+            freshTableAndPage();
+        };
+        ajaxSubmitForm($('#switchSmtpCommClientForm_' + id), '结果', undefined,
+            undefined, afterSuccessCallback);   
         $(this).remove();
     };
     buttons[getMessage('Cancel')] = function() {
@@ -126,7 +138,7 @@ function switchSmtpCommClientAcl(id, action) {
 function filterRes() {
     var type    = $('input:radio[name="ipType"]:checked').val();
     var saOpts  = $('select[name="sa"]');
-    var lipOpts = $('select[name="smtplip"]');
+    var lipOpts = $('select[name="smtpGeneralLip"]');
     saOpts.showOption();
     lipOpts.showOption();
     if (type === 'ipv4') {

@@ -29,6 +29,7 @@
         <div class="row">
             <label for="ftpTranslportReq">目的端口:<em class="required">*</em></label>
             <input class="port" type="text" name="ftpTranslportReq"
+                id="ftpTranslportReq"
                 value="<{$data.dport|default: 21}>" size="5" maxlength="5"/>
         </div>
         
@@ -61,7 +62,14 @@
             <label >是否启动:</label>
             <{html_radios class="radio" name=active label_ids=true values=array('Y', 'N')
                 output=array('开', '关') selected=$data.active|default: 'Y'}>
-        </div>
+        </div>         
+        
+        <div class="row">
+            <label>文件病毒扫描:</label>
+            <{html_radios class="radio" name=killVirus label_ids=true
+            output=array('开', '关') values=array('Y', 'N')
+            selected=$data.virus|default: 'N'}>
+        </div>       
 		
         <div class="row">
             <label for="comment">备注:</label>            

@@ -7,8 +7,11 @@ function editBannedContentDialog(blacklist) {
     var buttons = {};
     buttons[getMessage('Ok')] = function() {
         if ($('#editBannedContentForm').valid()) {
-            ajaxSubmitForm($('#editBannedContentForm'), '结果');
-            freshTableAndPage();
+        	var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editBannedContentForm'), '结果', undefined,
+                undefined, afterSuccessCallback);
             $(this).remove();
         }
     };
@@ -17,7 +20,7 @@ function editBannedContentDialog(blacklist) {
     };
     var dialogParams = {
         width   : 660,
-        height  : 300,
+        height  : 360,
         buttons : buttons,
         position: jQuery.getDialogPosition(660,300)
     };
@@ -75,15 +78,21 @@ function openNewBannedContentDialog() {
     buttons[getMessage('Add Next')] = function() {
         if ($('#editBannedContentForm').valid()) {
             openNewBannedContentDialog();
-            ajaxSubmitForm($('#editBannedContentForm'), '结果');
-            freshTableAndPage();
+            var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editBannedContentForm'), '结果', undefined,
+                undefined, afterSuccessCallback);
             $(this).remove();
         }
     };
     buttons[getMessage('Ok')] = function() {
         if ($('#editBannedContentForm').valid()) {
-            ajaxSubmitForm($('#editBannedContentForm'), '结果');
-            freshTableAndPage();
+        	var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editBannedContentForm'), '结果', undefined,
+                undefined, afterSuccessCallback);
             $(this).remove();
         }
     };
@@ -92,7 +101,7 @@ function openNewBannedContentDialog() {
     };
     var dialogParams = {
         width   : 660,
-        height  : 300,
+        height  : 360,
         buttons : buttons,
         position: jQuery.getDialogPosition(660,300)
     };

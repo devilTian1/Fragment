@@ -1,4 +1,4 @@
-<{include file='layout/search.tpl' tableId='filterTable'}>
+<{include file='layout/search.tpl' colNames='name,filename,blacklist,whitelist'}>
 <table class="column_95 textMid tablesorter" id="filterTable">
     <caption>文件属性控制</caption>
     <thead>

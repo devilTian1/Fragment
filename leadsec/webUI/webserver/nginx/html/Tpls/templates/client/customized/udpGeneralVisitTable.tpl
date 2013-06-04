@@ -9,10 +9,10 @@
             <form action="Function/client/customized/udpGeneralVisit.php"
                 method="POST" id="switchUdpCommClientForm_<{$r.id}>"
                 onSubmit="return false;">
-                <input type="hidden" name="customId" value="<{$r.id}>"/>
+                <input type="hidden" name="customUdpGeneralId" value="<{$r.id}>"/>
                 <input type="hidden" name="sa" value="<{$r.sa}>"/>
-                <input type="hidden" name="lip" value="<{$r.lip}>"/>
-                <input type="hidden" name="udplportReq" value="<{$r.lport}>"/>
+                <input type="hidden" name="udpGeneralLip" value="<{$r.lip}>"/>
+                <input type="hidden" name="udpGeneralLport" value="<{$r.lport}>"/>
                 <input type="hidden" name="time" value="<{$r.time}>"/>
                 <input type="hidden" name="usergrp" value="<{$r.usergrp}>"/>
                 <input type="hidden" name="killVirus" value="<{$r.killvirus}>"/>
@@ -39,5 +39,5 @@
         </td>
     </tr>
 <{foreachelse}>
-    <tr><td colspan='8'>没有任务</td></tr>
+    <tr><td colspan='8'>无数据</td></tr>
 <{/foreach}>

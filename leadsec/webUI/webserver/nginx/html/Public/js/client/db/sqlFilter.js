@@ -8,8 +8,11 @@ function openEditDialog(id) {
     var buttons = {};
     buttons[getMessage('Ok')] = function() {
         if ($('#editForm').valid()) {
-            ajaxSubmitForm($('#editForm'), '结果');
-            freshTableAndPage();
+        	var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editForm'), '结果', undefined,
+                undefined, afterSuccessCallback);
             $(this).remove();
         }
     };
@@ -36,15 +39,21 @@ function openNewDialog() {
     buttons[getMessage('Add Next')] = function() {
         if ($('#editForm').valid()) {
             openNewDialog();
-            ajaxSubmitForm($('#editForm'), '结果');
-            freshTableAndPage();
+            var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editForm'), '结果', undefined,
+                undefined, afterSuccessCallback);
             $(this).remove();
         }
     };
     buttons[getMessage('Ok')] = function() {
         if ($('#editForm').valid()) {
-            ajaxSubmitForm($('#editForm'), '结果');
-            freshTableAndPage();
+        	var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editForm'), '结果', undefined,
+                undefined, afterSuccessCallback);
             $(this).remove();
         }
     };

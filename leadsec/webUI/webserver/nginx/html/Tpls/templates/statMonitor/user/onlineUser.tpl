@@ -1,4 +1,4 @@
-<{include file='layout/search.tpl' tableId='userOnlineTable'}>
+<{include file='layout/search.tpl'}>
 <table class="column_95 textMid tablesorter" id="userOnlineTable">
     <caption>在线用户</caption>
     <thead>

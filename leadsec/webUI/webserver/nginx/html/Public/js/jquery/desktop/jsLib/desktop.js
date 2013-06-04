@@ -157,7 +157,7 @@ myLib.desktop.deskIcon={
 					        'pmenu':data.pmenu,
 							'smenu':data.smenu
 							});
-		addFlag_time=0;
+		addFlag_time = 0;
 		}
 		_this.init();
 	},
@@ -319,7 +319,7 @@ myLib.desktop.deskIcon={
  						}	
 					});
 		 //单击添加应用
-		 $deskIcon.find("li.add_icon").unbind("click");//modify by xiaozl 解决绑定多次单击事件
+		 $deskIcon.find("li.add_icon").unbind("click");
 		 $deskIcon
 		 .find("li.add_icon")
 		 .click(function(){
@@ -337,7 +337,7 @@ myLib.desktop.deskIcon={
 							  $(this).removeClass("desktop_icon_over");
 							 })
 		 .not("li.add_icon")
-		 .click(function(){//双击图标打开窗口
+ 		 .click(function(){//双击图标打开窗口
 						   var data=$(this).data("iconData"),id=this.id;
 						   var path={
 								'1':data.pmenu,

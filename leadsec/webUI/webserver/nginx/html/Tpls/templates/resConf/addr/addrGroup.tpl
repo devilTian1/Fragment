@@ -1,4 +1,4 @@
-<{include file='layout/search.tpl' tableId='addrGroupTable'}>
+<{include file='layout/search.tpl' colNames='name,comment'}>
 <table class="column_95 textMid tablesorter" id="addrGroupTable">
     <caption>
   	地址组

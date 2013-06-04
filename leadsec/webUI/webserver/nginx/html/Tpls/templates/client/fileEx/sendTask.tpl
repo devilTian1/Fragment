@@ -1,4 +1,4 @@
-<{include file='layout/search.tpl' tableId='sendTaskTable'}>
+<{include file='layout/search.tpl' colNames='ip,interval,task_id'}>
 <table class="column_95 textMid tablesorter" id="sendTaskTable">
     <caption>信息列表</caption>
     <thead>

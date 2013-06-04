@@ -9,7 +9,7 @@
         <br class="clearFloat"/>
         <div class="row">
             <label for="lockTime">锁定时间(单位:秒):</label>
-            <input type="text" name="lockTime" id="lockTime"
+            <input type="text" name="lockTime" id="lockTime" class="width132"
                 value="<{$lockTime}>"/>
         </div>
     </fieldset>

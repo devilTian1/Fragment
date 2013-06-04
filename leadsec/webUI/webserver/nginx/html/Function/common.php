@@ -69,14 +69,12 @@
 		$result = array(
     		'0' =>array('id' => 'homepage',   'img' => 'top_icon_1.png',  'name' => '首页'),
     		'1' =>array('id' => 'fastconf',   'img' => 'top_icon_3.png',  'name' => '快捷配置'),
-    		'2' =>array('id' => 'save',   	  'img' => 'top_icon_4.png',  'name' => '保存配置'),		
+    		'2' =>array('id' => 'save',   	  'img' => 'top_icon_4.png',  'name' => '保存配置'),
     		'3' =>array('id' => 'exportconf', 'img' => 'top_icon_14.png',  'name' => '导出配置'),
-			'4' =>array('id' => 'exportlog',  'img' => 'top_icon_8.png',  'name' => '导出日志'),	    		
-    		'5' =>array('id' => 'refresh',    'img' => 'top_icon_6.png',  'name' => '刷新'),    	
+			'4' =>array('id' => 'exportlog',  'img' => 'top_icon_8.png',  'name' => '导出日志'),
+    		'5' =>array('id' => 'refresh',    'img' => 'top_icon_6.png',  'name' => '刷新'),
     		'6' =>array('id' => 'first',       'img' => 'top_icon_9.png',  'name' => '上一步'),
-    		'7' =>array('id' => 'next',        'img' => 'top_icon_10.png', 'name' => '下一步'),			
-    	//	'8' =>array('id' => 'help',       'img' => 'top_icon_11.png', 'name' => '在线帮助'),
-		//    '9' =>array('id' => 'exit',       'img' => 'top_icon_7.png', 'name' => '退出'),    	    	
+    		'7' =>array('id' => 'next',        'img' => 'top_icon_10.png', 'name' => '下一步')
     	);
         // generate smarty instance
         V::getInstance()->assign('result', $result)

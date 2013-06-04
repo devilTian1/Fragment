@@ -5,8 +5,15 @@
         $tpl =  'resConf/user/authTable.tpl';
         $db  = new dbsqlite(DB_PATH . '/uma_auth.db');
 	    $sql = 'SELECT auth_policy_name, ip, netmask, ingress, port, sa_type,' .
-            ' active, auth_policy_id, sa_id FROM auth_policy ' . $where;	    
-        $result = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
+            ' active, auth_policy_id, sa_id FROM auth_policy';	    
+        $params = array();
+        if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
+            $data   = getWhereStatement($db, $_GET['cols'], $_GET['keyword']);
+            $sql   .= $data['sql'];
+            $params = $data['params'];
+        }
+        $sql .=  ' ' . $where;
+        $result = $db->query($sql, $params)->getAllData(PDO::FETCH_ASSOC);
         $policycount = getDataCount();
         for($i = 0;$i < $policycount;$i++)
         {
@@ -171,10 +178,23 @@
     	return $cArr;
     }
     
+    function getWhereStatement($db, $cols, $keyword) {
+    	$value = '%' . $keyword . '%';
+    	$params = array_fill(0, count(explode(',', $cols)), $value);
+    	return array('sql'    => ' WHERE (' .
+    			$db->getWhereStatement($cols, 'OR', 'like') . ')',
+    			'params' => $params);
+    }
+    
     function getDataCount() {
     	$sql = 'SELECT auth_policy_id FROM auth_policy';
         $db  = new dbsqlite(DB_PATH . '/uma_auth.db');
-        return $db->query($sql)->getCount();
+        if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
+            $data   = getWhereStatement($db, $_GET['cols'], $_GET['keyword']);
+            $sql   .= $data['sql'];
+            $params = $data['params'];
+        }
+        return $db->query($sql, $params)->getCount();
     }
 
     if (isset($_GET['serverConf'])) {    	
@@ -226,7 +246,7 @@
     	$cmd = "auth config forcemodify $forceModify pwdcomplex $pwdComplex maxloadtimes $maxLoadTimes unlocktime $unlockTime pwdperiod $pwdPeriod pwdremind $pwdRemind idletime $idleTime";
     	$cli = new cli();
     	$cli->setLog('资源配置的用户的认证配置认证参数配置')->run($cmd);
-    	echo json_encode(array('msg' => '修改成功.'));
+    	echo json_encode(array('msg' => '修改成功。'));
     }else if(isset($_POST['addNewAuthPolicy'])){
     	// Open add new auth policy dialog
     	$result = array();
@@ -271,30 +291,30 @@
         $cli = new cli();
         $cmd = getCmdStr('set');
         $cli->setLog($cmd['log'])->run($cmd['cmd']);
-        echo json_encode(array('msg' => '修改成功.'));
+        echo json_encode(array('msg' => '修改成功。'));
     }else if ('add' === $_POST['type']) {
     	// Add new auth policy
     	$cli = new cli();
     	$cmd = getCmdStr('add');
     	$cli->setLog($cmd['log'])->run($cmd['cmd']);
-    	echo json_encode(array('msg' => '添加成功.'));
+    	echo json_encode(array('msg' => '添加成功。'));
     }else if ($name = $_POST['delName']) {
         // Delete specified auth policy
         $cli = new cli();
         $cli->setLog('删除资源配置的用户的认证配置认证策略'.$name)->run("auth-policy del policyname $name");
-        echo json_encode(array('msg' => '删除成功.'));
+        echo json_encode(array('msg' => '删除成功。'));
     }else if (!empty($_POST['delAllAuthPolicy'])) {
         // Delete All auth policy
         $cli = new cli();
         $cli->setLog('全部删除资源配置的用户的认证配置认证策略')->run('auth-policy del all');
-        echo json_encode(array('msg' => '已清空认证策略.'));
+        echo json_encode(array('msg' => '已清空认证策略。'));
     }else if ($policys = $_POST['delSpecAuthPolicy']) {
         // Batch Delete spec auth policy
         $cli = new cli();
         foreach ($policys as $name) {
             $cli->setLog('删除资源配置的用户的认证配置认证策略'.$name)->run("auth-policy del policyname $name");
         }
-        echo json_encode(array('msg' => '批量删除成功.'));
+        echo json_encode(array('msg' => '批量删除成功。'));
     }else if ($action = $_POST['action']) {
         // Switch specified physical device
         $name = $_POST['switch_name'];
@@ -302,13 +322,13 @@
         if ($action === 'disable') {
             $cmd = "auth-policy active policyname \"$name\" off";
             $cli->setLog('停止资源配置的用户的认证配置认证策略'.$name)->run($cmd);
-            echo json_encode(array('msg' => "[$name]已停止."));
+            echo json_encode(array('msg' => "[$name]已停止。"));
         } else if ($action === 'enable') {
             $cmd = "auth-policy active policyname \"$name\" on";
             $cli->setLog('启动资源配置的用户的认证配置认证策略'.$name)->run($cmd);
-            echo json_encode(array('msg' => "[$name]已启用."));
+            echo json_encode(array('msg' => "[$name]已启用。"));
         } else {
-            echo json_encode(array('status' => -1, 'msg' => '执行动作错误.'));
+            echo json_encode(array('status' => -1, 'msg' => '执行动作错误。'));
         }
     }else if ($orderStatement = $_POST['orderStatement']) {
         // fresh and resort list

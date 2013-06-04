@@ -4,39 +4,40 @@
         <legend>管理员帐号维护</legend>
         <div class="row">
             <label for="account">帐号:<em class="required">*</em></label>
-            <input type="text" name="account" maxlength="15" value="<{$account}>" id="account"/>
+            <input type="text" class="width132" name="account" maxlength="15" value="<{$account}>" id="account"/>
             <input type="hidden" name="oldAccount" value="<{$account}>"/>
         </div>
         <br class="clearFloat"/>
         <div class="row">
             <label for="passwd">口令:<em class="required">*</em></label>
-            <input type="password" name="passwd" maxlength="15" value="<{$passwd}>" id="passwd"/>
+            <input type="password" class="width132" name="passwd" maxlength="15" value="<{$passwd}>" id="passwd"/>
         </div>
         <br class="clearFloat"/>
         <div class="row">
             <label for="passwd_again">确认口令:<em class="required">*</em>
             </label>
-            <input type="password" name="passwd_again" maxlength="15" value="<{$passwd}>" id="passwd_again"/>
+            <input type="password" class="width132" name="passwd_again" maxlength="15" value="<{$passwd}>" id="passwd_again"/>
         </div>
         <br class="clearFloat"/>
-		<{if $isEditRole === true}>
+		<{if $isEditRole eq 'yes' or $type eq 'add'}>
         <div class="row">
             <label>帐号类型:</label>
-            <input class="checkbox roles" type="checkbox" name="confAdmin" <{$isConf}> id="confAdmin"/>
+            <input class="checkbox roles" type="radio" name="role" <{$isConf}>
+                id="confAdmin" value="manager"/>
             <label for="confAdmin">配置管理员</label>
         </div>
         <br class="clearFloat"/>
         <div class="row">
             <label>&nbsp;</label>
-            <input class="checkbox roles" type="checkbox"
-                name="policyAdmin" <{$isPolicyer}> id="policyAdmin"/>
+            <input class="checkbox roles" type="radio" name="role"
+                <{$isPolicyer}> id="policyAdmin" value="policyer"/>
             <label for="policyAdmin">策略管理员</label>
         </div>
         <br class="clearFloat"/>
         <div class="row">
             <label>&nbsp;</label>
-            <input class="checkbox roles" type="checkbox" name="logAdmin" 
-                <{$isLoger}> id="logAdmin"/>
+            <input class="checkbox roles" type="radio" name="role" 
+                <{$isLoger}> id="logAdmin" value="auditor"/>
             <label for="logAdmin">日志审计员</label>
         </div>
         <br class="clearFloat"/>

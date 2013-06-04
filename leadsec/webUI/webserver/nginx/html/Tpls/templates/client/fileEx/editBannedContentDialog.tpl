@@ -6,7 +6,7 @@
         <legend>添加内容黑名单</legend>
         <div class="row">
             <label for="FECCname">名称:<em class="required">*</em></label>
-            <input type="text" name="FECCname" value="<{$data.name}>"
+            <input class="width10em" type="text" name="FECCname" value="<{$data.name}>"
                 <{if $type ==='edit'}>disabled="disabled"<{/if}>/>
             <{if $type ==='edit'}>
                 <input type="hidden" name="FECCname" value="<{$data.name}>"/>
@@ -14,7 +14,7 @@
         </div>
         <div class="row">
             <label for="FEcontext">禁止的内容:</label>
-            <input type="text" name="FEcontext" id="FEcontext"/>
+            <input class="width10em" type="text" name="FEcontext" id="FEcontext"/>
         </div>
         <div class="row paraminfo">
             <ul>
@@ -46,7 +46,7 @@
                     onClick="rmBFlist()"> &lt;&lt;
                 </button>
             </div>
-            <div class="column column_25">
+            <div class="column column_65">
                 <{html_options class='multiSelect' size="5" multiple="multiple"
                     name="FEbflist[]" id="bflist"
                     output=$data.bflist values=$data.bflist}>
@@ -55,7 +55,7 @@
 
         <div class="row">
             <label for="comment">备注:</label>            
-            <input class="comment" name="comment" id="comment" value="<{$data.comment|escape}>"/>
+            <input class="width10em comment" name="comment" id="comment" value="<{$data.comment|escape}>"/>
         </div>
     </fieldset>
 </form>

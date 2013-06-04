@@ -7,21 +7,40 @@
 
         $tpl =  'client/safeBrowse/generalVisitTable.tpl';
         $db  = new dbsqlite(DB_PATH . '/netgap_http.db');
-	    $sql = "SELECT * FROM acl WHERE transparent=0 $where";
-        $result = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
+	    $sql = "SELECT * FROM acl WHERE transparent=0";
+        $params = array();
+        if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
+            $data   = getWhereStatement($db, $_GET['cols'], $_GET['keyword']);
+            $sql   .= $data['sql'];
+            $params = $data['params'];
+        }
+        $sql .=  ' ' . $where;
+        $result = $db->query($sql, $params)->getAllData(PDO::FETCH_ASSOC);
         foreach ($result as $key => $arr) {
         	$result[$key]['sip']= addrNameDelPreffix($arr['sip']);
         }
         echo V::getInstance()->assign('GeneralAcc', $result)
-            ->assign('beginId', $offset)
-            ->assign('pageCount', 10)
             ->fetch($tpl);
+    }
+    
+    function getWhereStatement($db, $cols, $keyword) {
+        $value  = '%' . $keyword . '%';
+        $params = array_fill(0, count(explode(',', $cols)), $value);
+        return array('sql'    => ' AND (' .
+                              $db->getWhereStatement($cols, 'OR', 'like') . ')',
+                     'params' => $params);
     }
 
     function getDataCount() {
     	$sql = "SELECT id FROM acl WHERE transparent=0";
         $db  = new dbsqlite(DB_PATH . '/netgap_http.db');
-        return $db->query($sql)->getCount();
+        $params = array();
+        if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
+            $data   = getWhereStatement($db, $_GET['cols'], $_GET['keyword']);
+            $sql   .= $data['sql'];
+            $params = $data['params'];
+        }
+        return $db->query($sql, $params)->getCount();
     }
 
     function getCmd() {
@@ -84,7 +103,7 @@
         $sql = "SELECT * FROM acl WHERE id = '$id'";
         $result = $db->query($sql)->getFirstData(PDO::FETCH_ASSOC);       
         $result = V::getInstance()
-        	->assign('addrOptions', netGapRes::getInstance()->getAddr())
+        	->assign('addrOptions', netGapRes::getInstance()->getAddr(true))
             ->assign('timeList', netGapRes::getInstance()->getTimeList())
             ->assign('roleList', netGapRes::getInstance()->getRoleList())
         	->assign('editGeneralAcc', $result)
@@ -94,7 +113,7 @@
         // Open a new safepass dialog
         $tpl = $_POST['tpl'];
         $result = V::getInstance()
-            ->assign('addrOptions', netGapRes::getInstance()->getAddr())
+            ->assign('addrOptions', netGapRes::getInstance()->getAddr(true))
             ->assign('timeList', netGapRes::getInstance()->getTimeList())
             ->assign('roleList', netGapRes::getInstance()->getRoleList())
             ->assign('type', 'add')->fetch($tpl);

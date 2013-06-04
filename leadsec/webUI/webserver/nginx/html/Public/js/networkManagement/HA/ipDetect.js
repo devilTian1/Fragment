@@ -7,16 +7,22 @@ function openNewipDialog() {
     var buttons = {};
     buttons['添加下一条'] = function() {
         if ($('#editIpDetectForm').valid()) {
-            openNewipDialog()
-            ajaxSubmitForm($('#editIpDetectForm'), '结果');
-            freshTableAndPage();
+			openNewipDialog();
+            var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editIpDetectForm'), '结果',undefined,
+				undefined,afterSuccessCallback);
             $(this).remove();
         }
     };
     buttons['确定'] = function() {
         if ($('#editIpDetectForm').valid()) {
-            ajaxSubmitForm($('#editIpDetectForm'), '结果');
-            freshTableAndPage();
+			var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editIpDetectForm'), '结果',undefined,
+				undefined,afterSuccessCallback);
             $(this).remove();
         }
     };
@@ -42,8 +48,11 @@ function openIpDetectDialog(ip) {
     var buttons = {};
     buttons['确定'] = function() {
         if ($('#editIpDetectForm').valid()) {
-            ajaxSubmitForm($('#editIpDetectForm'), '结果');
-            freshTableAndPage();
+			var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editIpDetectForm'), '结果',undefined,
+				undefined,afterSuccessCallback);
             $(this).remove();
         }
     };
@@ -66,7 +75,7 @@ function delIpDetect(ip) {
     };
     var title  = '删除虚拟地址';
     var buttons = {};
-    buttons['Ok'] = function() {
+    buttons[getMessage('Ok')] = function() {
         freshTableAndPage();
         $(this).remove();
     };
@@ -82,12 +91,12 @@ function delIpDetect(ip) {
 function openDelIpDetectDialog(ip) {
     var dialog  = loadingScreen('删除IP探测列表');
     var buttons = {};
-    buttons['Confirm'] = function() {
+    buttons[getMessage('Ok')] = function() {
         delIpDetect(ip);
         $(this).remove();
         freshTableAndPage();
     };
-    buttons['Cancel']  = function() {
+    buttons[getMessage('Cancel')]  = function() {
         $(this).remove();
     };
     var dialogParams = {

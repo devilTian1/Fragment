@@ -24,8 +24,13 @@
         // 下载配置
         $cmd = "ha_sync_ctl getcfg";       	         	 	      	
         $cli = new cli(); 
-        $cli->setLog("双机热备 配置同步 服务器设置 下载配置")->run($cmd); 
-        echo json_encode(array('msg' => '下载配置成功.'));
+        list($status,$result) = $cli->setLog("双机热备 配置同步 服务器设置 下载配			置")->execCmdGetStatus($cmd); 
+		if ($status>0) {
+			echo json_encode(array('msg' => '下载配置失败,请检查服务器IP与端口的配置是否正确.'));
+		} else {
+			echo json_encode(array('msg' => '配置下载成功,请配置相关网络接口地址后保存配置并重
+			启网闸以生效新配置.'));
+		}
     } else if (!empty($_POST['rollbackConf'])) {
         // 回滚配置
         $cmd = "ha_sync_ctl rollback";       	         	 	      	
@@ -60,19 +65,23 @@
         $cli->setLog("双机热备 配置同步  修改本地设置")->run($cmd);
         echo json_encode(array('msg' => '修改本地设置成功.'));
    }else if (!empty($_POST['startConf'])) {
-        // 启动配置
+        // 启动服务
         $cmd = "ha_sync_ctl reconfigure";         	         	 	      	
         $cli = new cli(); 
         $cli->setLog("双机热备 配置同步  启动本地设置")->run($cmd);
         $cmd1 = "ha_sync_ctl start 1>/dev/null"; 
         $cli->setLog("开启高可用性 配置同步 配置")->run($cmd1);	       
-        echo json_encode(array('msg' => '配置已启动.'));
+        echo json_encode(array('msg' => '服务已启动.'));
     } else if (!empty($_POST['stopConf'])) {
-        // 停止配置
-        $cmd = "ha_sync_ctl stop";       	         	 	      	
+        // 停止服务
+        $cmd = "ha_sync_ctl stop 1>/dev/null";       	         	 	      	
         $cli = new cli(); 
-        $cli->setLog("双机热备 配置同步  停止本地设置")->run($cmd);	      
-        echo json_encode(array('msg' => '配置已停止.'));
+		list($status,$result) = $cli->setLog($msg_log)->execCmdGetStatus($cmd);
+		if ($status > 0) {
+			echo json_encode(array('msg' => '服务停止失败!'));
+		} else {
+			echo json_encode(array('msg' => '服务已停止!'));
+		}
     } else if (!empty($_POST['downDialog'])) {
         // 下载历史记录       
         $tpl = 'networkManagement/HA/downHistory.tpl';

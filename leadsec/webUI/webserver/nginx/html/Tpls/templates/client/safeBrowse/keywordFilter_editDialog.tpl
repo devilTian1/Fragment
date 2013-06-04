@@ -5,7 +5,7 @@
     	<legend>管理关键字过滤</legend>
     	<div class="row">
     		<label>名称:<em class="required">*</em></label>
-    		<input type="text" name="keyName" value="<{$editKey.name}>" size="15" maxlength="15"
+    		<input type="text" name="keyName" value="<{$editKey.name}>" size="15" maxlength="15"  class="width132"
     		<{if $type === 'edit'}>disabled="disabled"<{/if}>/>
     		<{if $type === 'edit'}><input type="hidden" name="keyName" value="<{$editKey.name}>"><{/if}>
     	</div>

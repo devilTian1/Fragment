@@ -6,15 +6,15 @@
     <thead>
     <tr>
       <th class="column_10" name = "id">任务号</th>
-      <th class="column_10">源地址</th>
-      <th class="column_10">本机地址</th>
-      <th class="column_10">本地端口</th>
-      <th class="column_10">认证/加密</th>
-      <th class="column_5">公共名</th>
+      <th class="column_10" name = "sa">源地址</th>
+      <th class="column_10" name = "lip">本机地址</th>
+      <th class="column_10" name = "lport">本地端口</th>
+      <th class="column_10" >认证/加密</th>
+      <th class="column_5" name = "commname">公共名</th>
       <th class="column_10">病毒扫描</th>
       <th class="column_10">是否启动</th>
       <th class="column_10">生效时间</th>
-      <th class="column_5">备注</th>
+      <th class="column_5" name = "comment">备注</th>
       <th class="column_20">操作</th>
     </tr>
     </thead>

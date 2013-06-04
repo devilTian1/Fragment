@@ -9,11 +9,11 @@
         <td>
             <form action="Function/client/db/transVisit.php" method="POST"
                 id="switchClientCommForm_<{$value.id}>" onSubmit="return false;">
-                <input type="hidden" name="clientTransId" value="<{$value.id}>"/>
+                <input type="hidden" name="cdbTransId" value="<{$value.id}>"/>
                 <input type="hidden" name="dbType" value="<{$value.dbtype}>"/>
                 <input type="hidden" name="sAddress" value="<{$value.sa}>"/>
                 <input type="hidden" name="lAddress" value="<{$value.da}>"/>
-                <input type="hidden" name="cliTransPortReq" value="<{$value.dport}>"/>
+                <input type="hidden" name="cdbTransLport" value="<{$value.dport}>"/>
                 <input type="hidden" name="filter" value="<{$value.filter}>"/>
                 <input type="hidden" name="active" value="<{$value.active}>"/>
                 <input type="hidden" name="timeList" value="<{$value.time}>"/>
@@ -44,5 +44,5 @@
         </td>
     </tr>
 <{foreachelse}>
-    <tr><td colspan='10'>No Data</td></tr>
+    <tr><td colspan='10'>无数据</td></tr>
 <{/foreach}>

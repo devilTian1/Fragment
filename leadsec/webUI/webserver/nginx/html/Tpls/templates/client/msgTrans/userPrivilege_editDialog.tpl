@@ -1,5 +1,6 @@
 <form action="Function/client/msgTrans/userPrivilege.php" method="POST" id="editUserPriTableForm" onSubmit="return false;">
 	<input type="hidden" name="type" value="<{$type|default: 'add'}>"/>
+	<input type="hidden" name="oldpw" value="<{$editUsrMng.password}>"/>
 	<fieldset>
     	<legend>用户权限</legend>
     	<div class="row">

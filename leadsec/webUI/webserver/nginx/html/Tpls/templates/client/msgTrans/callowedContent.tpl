@@ -1,4 +1,4 @@
-<{include file='layout/search.tpl' tableId='allowedContentTable'}>
+<{include file='layout/search.tpl'}>
 <form action="Function/client/msgTrans/callowedContent.php" method="POST"
     id="whilistChkForm" onSubmit="return false;">
     <label for="banlist">

@@ -11,6 +11,7 @@
                 <{html_options output=$rdNameArr values=$rdNameArr
                     selected=$res.external_name|default: 'rd1'}>
             </select>
+            <{if $res.external_name}><input type="hidden" name="external_name" value="<{$res.external_name}>"/><{/if}>
         </div>
         <div class="row"><label for="workmode">工作模式:</label>
             <{html_options name="workmode" id="workmode" class="select"
@@ -22,9 +23,9 @@
           </select>
         </div>
         <div id="ipaddr_type_div" <{if $type==='edit' && $res.ipaddr_type neq 1}>class="hide"<{/if}>>
-            <div class="row"><label for="devIpv4">IPV4地址：</label>
-                <input class="ipv4" type="text" name="devIpv4" value="<{$res.ip}>" /><label class="maskLabel">/</label>
-                <input class="ipv4Netmask" type="text" name="ipv4Netmask" value="<{$res.mask}>"/>
+            <div class="row"><label for="redundanceIpv4">IPV4地址：</label>
+                <input class="ipv4" type="text" name="redundanceIpv4" value="<{$res.ip}>" /><label class="maskLabel">/</label>
+                <input class="ipv4Netmask" type="text" name="redundanceMask" value="<{$res.mask}>"/>
             </div>
         </div>
         

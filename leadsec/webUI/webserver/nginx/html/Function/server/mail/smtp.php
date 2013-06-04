@@ -10,9 +10,9 @@
         } else {
             throw new Exception('fatal action: [' . $type . '].');
         }
-        $id        = intval($_POST['smtpId']);
+        $id        = intval($_POST['smtpGeneralId']);
         $sip       = $_POST['serverIp'];
-        $sport     = $_POST['sportReq'];
+        $sport     = $_POST['smtpGeneralSport'];
         if (!empty($_POST['action'])) {
             $active = $_POST['action'] === 'enable' ? 'on' : 'off';
         } else {
@@ -35,17 +35,37 @@
     function appendSmtpCommServerAclData($where) {
         $tpl =  'server/mail/smtpTable.tpl';
         $db  = new dbsqlite(DB_PATH . '/netgap_mail.db');
-        $sql = "SELECT * FROM smtp_comm_server_acl $where";
-        $result = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
+        $sql = "SELECT * FROM smtp_comm_server_acl";
+        $params = array();
+        if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
+        	$data   = getWhereStatement($db, $_GET['cols'], $_GET['keyword']);
+        	$sql   .= $data['sql'];
+        	$params = $data['params'];
+        }
+        $sql .=  ' ' . $where;
+        $result = $db->query($sql, $params)->getAllData(PDO::FETCH_ASSOC);
         echo V::getInstance()->assign('smtpCommServerAcl', $result)
             ->assign('pageCount', 10)
             ->fetch($tpl);
     }
 
+    function getWhereStatement($db, $cols, $keyword) {
+    	$value = '%' . $keyword . '%';
+    	$params = array_fill(0, count(explode(',', $cols)), $value);
+    	return array('sql'    => ' WHERE (' .
+    			$db->getWhereStatement($cols, 'OR', 'like') . ')',
+    			'params' => $params);
+    }
+    
     function getDataCount() {
         $sql = 'SELECT id FROM smtp_comm_server_acl';
         $db  = new dbsqlite(DB_PATH . '/netgap_mail.db');
-        return $db->query($sql)->getCount();
+        if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
+            $data   = getWhereStatement($db, $_GET['cols'], $_GET['keyword']);
+            $sql   .= $data['sql'];
+            $params = $data['params'];
+        }
+        return $db->query($sql, $params)->getCount();
     }
 
     if ($id = $_POST['editId']) {
@@ -63,13 +83,13 @@
         $cli = new cli();
         $cmdArr =  getCmd();
         $cli->setLog($cmdArr['log'])->run($cmdArr['cmd']);
-        echo json_encode(array('msg' => '修改成功.'));
+        echo json_encode(array('msg' => '修改成功。'));
     } else if ('add' === $_POST['type']) {
         // Add a new smtp general server data
         $cli = new cli();
         $cmdArr =  getCmd();
         $cli->setLog($cmdArr['log'])->run($cmdArr['cmd']);
-        echo json_encode(array('msg' => '添加成功.'));
+        echo json_encode(array('msg' => '添加成功。'));
     } else if (!empty($_POST['openAddDialog'])) {
         // Open new smtp comm server dialog
         $tpl    = 'server/mail/smtp_editDialog.tpl';
@@ -81,7 +101,7 @@
         $cmd  = "smtpctl del task type server mode comm id $id";
         $cli  = new cli();
         $cli->setLog('删除服务端的邮件访问的SMTP访问,任务号为'.$id)->run($cmd);
-        echo json_encode(array('msg' => "删除成功."));
+        echo json_encode(array('msg' => "删除成功。"));
     } else if ($action = $_POST['action']) {
         // enable or disable specified acl
         $cli = new cli();
@@ -92,7 +112,7 @@
         }
         $cmdArr =  getCmd();
         $cli->setLog($cmdArr['log'])->run($cmdArr['cmd']);
-        echo json_encode(array('msg' => $msg .'成功.'));
+        echo json_encode(array('msg' => $msg .'成功。'));
     } else if ($orderStatement = $_POST['orderStatement']) {
         // fresh and resort smtp_comm_server_acl table
         appendSmtpCommServerAclData($orderStatement);

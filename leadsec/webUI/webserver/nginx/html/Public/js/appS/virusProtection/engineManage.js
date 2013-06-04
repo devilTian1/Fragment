@@ -6,15 +6,24 @@ function setServiceForm() {
 	}
 	var resultDialog  = loadingScreen(title);
 	var buttons = {};
-    	buttons['Ok'] = function() {    	
+    	buttons['关闭'] = function() {    	
         resultDialog.close();
     }
+        var dialogParamsEnable = {
+            width : 250,
+            height: 170,
+            buttons : buttons,
+            closeOnEscape: true,
+            position : jQuery.getDialogPosition('250','170')
+        };
+        //dialog.setOptions(dialogParamsDisable);
     resultDialog.setOptions({
         width : 250,
         height: 170,
-        buttons: buttons,
+        closeOnEscape: false,
         position : jQuery.getDialogPosition('250','170')
     });
+    $(".ui-dialog-titlebar-close").hide();
     var successCallback = function(result, textStatus) {
         if (result.status == '0') { 
             if ($("#stopService").val() == 'disable') {   
@@ -38,6 +47,8 @@ function setServiceForm() {
             }
         }
         resultDialog.setContent($('<p>' + result.msg + '</p>'));        
+        resultDialog.setOptions(dialogParamsEnable);
+            $(".ui-dialog-titlebar-close").show();      
     };
     var dialog = ajaxSubmitForm($('#setEngineManageForm'), '结果',
         successCallback);

@@ -15,7 +15,7 @@
                 <input type="hidden" name="smbUser" value="<{$r.user}>"/>
                 <input type="hidden" name="smbPwd" value="<{$r.password}>"/>
                 <input type="hidden" name="lip" value="<{$r.lip}>"/>
-                <input type="hidden" name="portReq" value="<{$r.port}>"/>
+                <input type="hidden" name="receiveTaskPort" value="<{$r.port}>"/>
                 <{if $r.active eq 1 || $r.active eq 'Y'}>
                     <a href="#" onClick="switchReceiveTaskAcl('<{$r.task_id}>', 'disable')">
                         <img src="<{$smarty.const.THEME_PATH}>/images/icon/select.png" width="16" height="16"/>
@@ -38,5 +38,5 @@
         </td>
     </tr>
 <{foreachelse}>
-    <tr><td colspan='6'>No Data</td></tr>
+    <tr><td colspan='6'>无数据</td></tr>
 <{/foreach}>

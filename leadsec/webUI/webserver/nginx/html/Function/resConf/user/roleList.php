@@ -5,8 +5,15 @@
         $tpl = 'resConf/user/roleListTable.tpl';
         $db  = new dbsqlite(DB_PATH . '/uma_auth.db');
         $sql = "SELECT role_id, role_name, create_by, create_time, time
-            FROM role $where";
-        $result = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
+            FROM role";
+        $params = array();
+        if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
+            $data   = getWhereStatementRole($db, $_GET['cols'], $_GET['keyword']);
+            $sql   .= $data['sql'];
+            $params = $data['params'];
+        }
+        $sql .=  ' ' . $where;
+        $result = $db->query($sql, $params)->getAllData(PDO::FETCH_ASSOC);
         echo V::getInstance()->assign('roleList', $result)
             ->assign('pageCount', 10)
             ->fetch($tpl);
@@ -20,8 +27,7 @@
             'FROM user, user_role_map, role ' .
             'WHERE user.user_id = user_role_map.User_id AND ' .
             'user_role_map.Role_id = role.role_id AND role.role_id = ' .
-            $_GET['roleId'] . " $where";
-        $data = array();
+            $_GET['roleId'] .' ' .$where;
         $data = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
 
         $authType = array('VIP', 'local pwd',     'local cert',
@@ -106,11 +112,42 @@
             return false;
         }
     }
+    
+    function getWhereStatementRole($db, $cols, $keyword) {
+        $value  = '%' . $keyword . '%';
+        $params = array_fill(0, count(explode(',', $cols)), $value);
+        return array('sql'    => ' WHERE (' .
+                              $db->getWhereStatement($cols, 'OR', 'like') . ')',
+                     'params' => $params);
+    }
+    
+    function getWhereStatementUser($db, $cols, $keyword) {
+        $value  = '%' . $keyword . '%';
+        $params = array_fill(0, count(explode(',', $cols)), $value);
+        return array('sql'    => ' AND (' .
+                              $db->getWhereStatement($cols, 'OR', 'like') . ')',
+                     'params' => $params);
+    }
 
     function getDataCount() {
-        $db  = new dbsqlite(DB_PATH . '/uma_auth.db');
-        $sql = "SELECT count(role_id) as sum FROM role";
-        $result = $db->query($sql)->getFirstData(PDO::FETCH_ASSOC);
+        $db = new dbsqlite(DB_PATH . '/uma_auth.db');
+        $params = array();
+        if (strpos($_POST['dataCountFunc'], '?') !== false) {
+            $getStr = substr($_POST['dataCountFunc'],
+                strpos($_POST['dataCountFunc'], '?') + 1);
+            list(, $roleId) = explode('=', $getStr, 2);
+            $sql = 'SELECT count(User_id) as sum FROM user_role_map ' .
+                "WHERE Role_id = $roleId";
+        } else {
+            $sql = "SELECT count(role_id) as sum FROM role";
+            if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
+                $data   =
+                    getWhereStatementRole($db, $_GET['cols'], $_GET['keyword']);
+                $sql   .= $data['sql'];
+                $params = $data['params'];
+            }
+        }
+        $result = $db->query($sql, $params)->getFirstData(PDO::FETCH_ASSOC);
         return $result['sum'];
     }
 
@@ -147,8 +184,14 @@
     } else if ($name = $_POST['delRoleName']) {
         // Delete specified role
         $cli = new cli();
-        $cli->setLog("删除角色{$name}")->run("role del rolename \"$name\"");
-        echo json_encode(array('msg' => '删除成功.'));
+		list($status,$result) = $cli->setLog("删除角色{$name}")
+				->execCmdGetStatus("role del rolename \"$name\"");
+        //$cli->setLog("删除角色{$name}")->run("role del rolename \"$name\"");
+		if ($status>0) {
+			echo json_encode(array('msg' => '该角色名称被用户引用.'));
+		} else {
+			echo json_encode(array('msg' => '删除成功.'));
+		}
     } else if (!empty($_POST['delAllRoles'])) {
         // Delete All roles
          $cli = new cli();
@@ -201,6 +244,11 @@
             }
         } 
         echo "false";
+    } else if ($_GET['checkExistRoleName']) {
+         $roles = $_GET['roleName'];
+         $sql = "SELECT role_id FROM role WHERE role_name='$roles'";
+         $db = new dbsqlite(DB_PATH . '/uma_auth.db');
+          echo $db->query($sql)->getCount() > 0 ? 'false' : 'true';
     } else if ($order = $_POST['orderStatement']) { 
         if (!empty($_GET['roleId'])) {
             // Fresh and resort user list Table for spec role

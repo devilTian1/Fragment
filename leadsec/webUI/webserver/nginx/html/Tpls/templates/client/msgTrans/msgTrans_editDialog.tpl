@@ -4,31 +4,29 @@
         <!--<legend></legend>-->
         <div class="row">
           <label >任务号:<em class="required">*</em></label>
-          <input class="id" type="text" id="msgTransId" name="msgTransId" id="msgTransId" value="<{$res.id}>" 
+          <input class="id" type="text" id="cmsgGeneralId" name="cmsgGeneralId"  value="<{$res.id}>" 
            <{if $type ==='edit'}>disabled="disabled"<{/if}>
            size="4" maxlength="4" />(同一端的任务号必须唯一)
          <{if $type ==='edit'}>
-             <input type="hidden" name="msgTransId" value="<{$res.id}>"/>
+             <input type="hidden" name="cmsgGeneralId" value="<{$res.id}>"/>
          <{/if}>
         </div>
 
         <div class="row">
-          <label>源地址:</label>
-          <{html_options  class="select sa" name="sAddress" id="sAddress"
-                    output=$addrOptions values=$addrOptionsvalue
-                    selected=$res.sa|default: $res.sa}>
+            <label for="sa">源地址:</label>
+            <{html_options class="select sa" name="cmsgsAddress" id="cmsgsAddress"
+                options=$addrOptions selected=$res.sa|default: 'any'}>
         </div>
-        
         <div class="row">
           <label>本机地址:<em class="required">*</em></label>
-          <{html_options  class="w150" name="cmsgLip" id="cmsgLip"
+          <{html_options  class="w150" name="cmsgGeneralLip" id="cmsgGeneralLip"
                     output=$localIp values=$localIp
                     selected=$res.lip|default: 'any'}>
         </div>
         
   		<div class="row">
           <label>本机端口:<em class="required">*</em></label>
-          <input class="port" type="text" name="cmsglportReq" value="<{$res.lport}>" size="5" maxlength="5"/>
+          <input class="port" type="text" name="cmsgGeneralLport" id="cmsgGeneralLport" value="<{$res.lport}>" size="5" maxlength="5"/>
         </div>
         
        <div class="row">

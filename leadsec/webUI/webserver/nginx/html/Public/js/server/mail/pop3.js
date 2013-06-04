@@ -7,8 +7,11 @@ function editPop3CommServerAclDialog(id) {
     var buttons = {};
     buttons['确定'] = function() {
         if ($('#editPop3CommServerAclForm').valid()) {
-            ajaxSubmitForm($('#editPop3CommServerAclForm'), '结果');
-            freshTableAndPage();
+        	var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editPop3CommServerAclForm'), '结果', undefined,
+                undefined, afterSuccessCallback);   
             $(this).remove();
         }
     };
@@ -34,15 +37,21 @@ function openNewPop3CommServerAclDialog() {
     buttons['添加下一条'] = function() {
         if ($('#editPop3CommServerAclForm').valid()) {
             openNewPop3CommServerAclDialog();
-            ajaxSubmitForm($('#editPop3CommServerAclForm'), '结果');
-            freshTableAndPage();
+            var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editPop3CommServerAclForm'), '结果', undefined,
+                undefined, afterSuccessCallback);   
             $(this).remove();
         }
     };
     buttons['确定'] = function() {
         if ($('#editPop3CommServerAclForm').valid()) {
-            ajaxSubmitForm($('#editPop3CommServerAclForm'), '结果');
-            freshTableAndPage();
+        	var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editPop3CommServerAclForm'), '结果', undefined,
+                undefined, afterSuccessCallback);   
             $(this).remove();
         }
     };
@@ -104,8 +113,11 @@ function switchPop3CommServerAcl(id, action) {
     var dialog  = loadingScreen(title);
     var buttons = {};
     buttons[getMessage('Confirm')] = function() {
-        ajaxSubmitForm($('#switchPop3CommServerForm_' + id), '结果');
-        freshTableAndPage();
+    	var afterSuccessCallback = function() {
+            freshTableAndPage();
+        };
+        ajaxSubmitForm($('#switchPop3CommServerForm_' + id), '结果', undefined,
+            undefined, afterSuccessCallback);   
         $(this).remove();
     };
     buttons[getMessage('Cancel')] = function() {

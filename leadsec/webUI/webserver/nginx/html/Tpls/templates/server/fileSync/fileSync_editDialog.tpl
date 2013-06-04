@@ -4,8 +4,8 @@
     <fieldset>
         <legend>添加服务端文件同步</legend>
         <div class="row">
-            <label for="fsId">任务号:<em class="required">*</em></label>
-            <input class="id" type="text" name="fsId" value="<{$data.id}>"
+            <label for="sfileSyncTaskId">任务号:<em class="required">*</em></label>
+            <input class="id" type="text" name="sfileSyncTaskId" id="sfileSyncTaskId" value="<{$data.id}>"
                 <{if $type === 'edit'}>disabled="disabled"<{/if}>
                 size="4" maxlength="4"/>
             (同一端的任务号必须唯一)
@@ -16,13 +16,14 @@
         
         <div class="row">
             <label for="serverIp">服务器地址:<em class="required">*</em></label>
-            <input type="text" name="serverIp" id="serverIp"
+            <input type="text" class="width132" name="serverIp"
                 value="<{$data.serverip}>"/>
         </div>
         
         <div class="row">
             <label for="lport">服务器端口:<em class="required">*</em></label>
-            <input class="port" type="text" name="sportReq" value="<{$data.sport}>" size="5" maxlength="5"/>
+            <input class="port" type="text" name="lport"
+			value="<{$data.sport}>" size="5" maxlength="5"/>
         </div>
 
         <div class="row">
@@ -43,7 +44,7 @@
         
         <div class="row cNameDiv">
             <label>客户端证书公共名:<em class="required">*</em></label>
-            <input type="text" name="commname" value="<{$data.commname}>"/>
+            <input class="width132" type="text" name="commname" value="<{$data.commname}>"/>
         </div>
         <!--
         <div class="row">
@@ -57,7 +58,7 @@
         -->
         <div class="row">
             <label for="comment">备注:</label>            
-            <input class="comment" name="comment" id="comment" value="<{$data.comment}>"/>
+            <input class="width132" class="comment" name="comment" id="comment" value="<{$data.comment}>"/>
         </div>
     </fieldset>
 </form>

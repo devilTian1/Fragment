@@ -3,34 +3,19 @@ function switchService(name, action,formId) {
     var dialog  = loadingScreen(title);
     var buttons = {};   
     buttons[getMessage('Ok')] = function() {
-        var resultDialog  = loadingScreen(title);
-        var successCallback = function(result, textStatus) {
-            var buttons = {};
-            buttons[getMessage('Ok')] = function() {
-                resultDialog.close();
-            }
-            resultDialog.setOptions({
-                width : 250,
-                height: 170,
-                buttons: buttons,
-                position: jQuery.getDialogPosition(250,170)
-            });
-            var content = result.msg;         
-            resultDialog.setContent($('<p>' + content + '</p>'));        
+        var afterSuccessCallback = function(result, textStatus) {
             if (result.status =='0') { 
                 if ($('#action_' + formId).val() =='disable') {   
                     $('#img_' + formId).attr("src","Public/default/images/icon/stop.png");
                     $('#action_' + formId).attr("value","enable");
-                }else {
+                } else {
                     $('#img_' + formId).attr("src","Public/default/images/icon/select.png");
                     $('#action_' + formId).attr("value","disable");
-                }	 
-            }    		
+                }
+            }
         }
-        var returnDialog = 
-            ajaxSubmitForm($('#switchServiceForm_' + formId), '结果',
-        	    successCallback);
-        returnDialog.close();
+        ajaxSubmitForm($('#switchServiceForm_' + formId), '结果', undefined,
+            undefined, afterSuccessCallback);
         $(this).remove();
     };
     buttons[getMessage('Cancel')] = function() {

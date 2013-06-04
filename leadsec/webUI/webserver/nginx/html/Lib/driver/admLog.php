@@ -46,12 +46,6 @@
             return $result['hostname'];
         }
 
-        private function getPreInfo() {
-            $process = 'webui';
-            $now     = date("M d H:i:s");
-            return "$now {$this->hostname} $process: ";
-        }
-
         private function getPublicInfo() {
             $date = date('Y/m/d H:i:s', $this->time);
             $mod  = 'webui';
@@ -71,12 +65,13 @@
         }
 
         protected function record() {
-            $prependInfo = $this->getPreInfo();
             $publicInfo  = $this->getPublicInfo();
             $privateInfo = $this->getPrivateInfo();
 
-            $msg = $prependInfo . $publicInfo . $privateInfo;
-            file_put_contents(LOG_PATH, $msg . PHP_EOL, FILE_APPEND);
+            $msg = $publicInfo . $privateInfo;
+            $msg = str_replace('"', '\\"',$msg);
+            $cli = new cli();                                    
+            $cli->setIsRec(false)->run("logger \"$msg\"");
             return self;
         }
     }

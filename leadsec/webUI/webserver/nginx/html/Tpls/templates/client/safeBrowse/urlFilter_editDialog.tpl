@@ -5,7 +5,7 @@
     	<legend>管理URL过滤</legend>
     	<div class="row">
     		<label>URL:<em class="required">*</em></label>
-    		<input type="text" name="url_list" value="<{$editUrl.list}>" size="50" maxlength="1023"/>
+    		<input type="text" name="url_list" value="<{$editUrl.list}>" size="50" maxlength="1023" class="width132"/>
     		<br class="clearFloat">(域名前加"."表示禁止该域名及其子域名，否则表示只禁止该域名)
     	</div>
     

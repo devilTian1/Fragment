@@ -4,14 +4,14 @@
 
 body{ background:url(../images/login_bg.gif) repeat-x; font-size:12px}
 #login_bg{ width:1000px; height:auto; margin:0 auto;}
-#login_left{background:url(../images/login_bg_l.gif) no-repeat; width:290px; height:500px; float:left}
+#login_left{background:url(../images/login_bg_l.gif) no-repeat; width:290px; height:528px; float:left}
 
 #login_center{width:420px; height:100%; float:left}
 #login_c_bg{background:url(../images/login_bg_t.gif) no-repeat;height:190px;}
 #login_top{background:url(../images/login_top.gif) no-repeat;height:109px;}
 #login_nav{background:url(../images/login_nav.gif) no-repeat;height:31px;}
 	#login_nav a img{ border:none;}
-	#login_nav #nav_name{ float:left; font:12px; color:#FFF; height:31px; line-height:31px; padding-left:34px; letter-spacing:1px;}
+	#login_nav #nav_name{ float:left; font:12px; color:#333; height:31px; line-height:31px; padding-left:34px; letter-spacing:1px;}
 	#login_nav #nav_lang{ height:31px; line-height:31px; padding-right:25px; float:right}
 	#nav_lang  #nav_lang_flag{ display:block; float:left; padding:8px 3px 0 3px;}
 	#nav_lang  #nav_lang_c{ color:#ffcc6a; display:block; float:left; letter-spacing:1px;}
@@ -33,5 +33,5 @@ body{ background:url(../images/login_bg.gif) repeat-x; font-size:12px}
 #login_bottom{background:url(../images/login_bottom.gif) no-repeat;height:28px;}
 #login_b_bg{background:url(../images/login_bg_b.gif) no-repeat;height:auto;}
 
-#login_right{background:url(../images/login_bg_r.gif) no-repeat; width:290px; height:500px; float:left}
+#login_right{background:url(../images/login_bg_r.gif) no-repeat; width:290px; height:528px; float:left}
 #switch_lang{ cursor:pointer}

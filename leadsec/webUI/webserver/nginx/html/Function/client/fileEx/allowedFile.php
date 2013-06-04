@@ -4,17 +4,37 @@
     function appendAllowedFileData($where) {
         $tpl =  'client/fileEx/allowedFileTable.tpl';
         $db  = new dbsqlite(DB_PATH . '/netgap_fs.db');
-        $sql = "SELECT * FROM allowedfile $where";
-        $result = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
+        $sql = "SELECT * FROM allowedfile";
+        $params = array();
+        if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
+        	$data   = getWhereStatement($db, $_GET['cols'], $_GET['keyword']);
+        	$sql   .= $data['sql'];
+        	$params = $data['params'];
+        }
+        $sql .=  ' ' . $where;
+        $result = $db->query($sql, $params)->getAllData(PDO::FETCH_ASSOC);
         echo V::getInstance()->assign('allowedFile', $result)
             ->assign('pageCount', 10)
             ->fetch($tpl);
+    }
+    
+    function getWhereStatement($db, $cols, $keyword) {
+    	$value = '%' . $keyword . '%';
+    	$params = array_fill(0, count(explode(',', $cols)), $value);
+    	return array('sql'    => ' WHERE (' .
+    			$db->getWhereStatement($cols, 'OR', 'like') . ')',
+    			'params' => $params);
     }
 
     function getDataCount() {
         $sql = 'SELECT id FROM allowedfile';
         $db  = new dbsqlite(DB_PATH . '/netgap_fs.db');
-        return $db->query($sql)->getCount();
+        if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
+            $data   = getWhereStatement($db, $_GET['cols'], $_GET['keyword']);
+            $sql   .= $data['sql'];
+            $params = $data['params'];
+        }
+        return $db->query($sql, $params)->getCount();
     }
     
     function checkFile(){
@@ -45,7 +65,7 @@
         $cli = new cli();
         $cli->setLog('删除客户端的文件交换的文件名控制,id号为'.$id)->run("fsctl del allowedfile id \"$id\"");
         $cli->setLog('添加客户端的文件交换的文件名控制,任务名为'.$name)->run($cmd);
-        echo json_encode(array('msg' => '修改成功.'));
+        echo json_encode(array('msg' => '修改成功。'));
     } else if ('add' === $_POST['type']) {
         // add a new allowed file data
         $name        = $_POST['FEname'];
@@ -55,17 +75,17 @@
             " comment \"$comment\"";
         $cli = new cli();
         $cli->setLog('添加客户端的文件交换的文件名控制,id号为'.$id)->run($cmd);
-        echo json_encode(array('msg' => '添加成功.'));
+        echo json_encode(array('msg' => '添加成功。'));
     } else if ($id = $_POST['delId']) {
         // delete specified allowed file data
         $cmd = "fsctl del allowedfile id \"$id\"";
         $rc = checkFile();
         if($rc != 0){
-        	echo json_encode(array('msg' => "此文件名控制策略被引用,不能被删除."));
+        	echo json_encode(array('msg' => "此文件名控制策略被引用，不能被删除。"));
         }else{
             $cli = new cli();
             $cli->setLog('删除客户端的文件交换的文件名控制,id号为'.$id)->run($cmd);
-            echo json_encode(array('msg' => '删除成功.'));
+            echo json_encode(array('msg' => '删除成功。'));
         }
     } else if (!empty($_POST['openAddDialog'])) {
         // Display dialog to add allowed file

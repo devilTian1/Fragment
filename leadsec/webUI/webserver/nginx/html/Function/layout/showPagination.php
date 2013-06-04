@@ -6,7 +6,7 @@
         $func = $_POST['dataCountFunc'];
         $pos  = strpos($func, '?');
         if (false !== $pos) {
-            $func = substr($func, 0, $pos);
+            $func   = substr($func, 0, $pos);
         }
         require_once($_SERVER['DOCUMENT_ROOT'] . "/$func");
         $dataCount = getDataCount();

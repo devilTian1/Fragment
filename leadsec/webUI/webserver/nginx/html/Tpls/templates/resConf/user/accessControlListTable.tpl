@@ -9,7 +9,7 @@
         </td>
     </tr>
 <{foreachelse}>
-    <tr><td colspan='4'>No Rule List Data</td></tr>
+    <tr><td colspan='4'>没有接入控制信息</td></tr>
 <{/foreach}>
 <script type="text/javascript"> 
     $(document).ready(function() {

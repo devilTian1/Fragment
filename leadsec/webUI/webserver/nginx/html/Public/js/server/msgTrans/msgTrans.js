@@ -7,8 +7,11 @@ function openEditDialog(id) {
     var buttons = {};
     buttons[getMessage('Ok')] = function() {
         if ($('#editForm').valid()) {
-            ajaxSubmitForm($('#editForm'), '结果');
-            freshTableAndPage();
+        	var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editForm'), '结果', undefined,
+                undefined, afterSuccessCallback);
             $(this).remove();
         }
     };
@@ -32,32 +35,25 @@ function openNewDialog() {
     };   
     var buttons = {};
     buttons[getMessage('Add Next')] = function() {
-    	var value = $('#msgTransId').val();
-    	var key=value.indexOf(".");
-    	if(key !== -1){
-    		showErrorDialog('任务号中请不要出现字符"."');
-    	}else{
-    		if ($('#editForm').valid()) {
-                openNewDialog();
-                ajaxSubmitForm($('#editForm'), '结果');
+    	if ($('#editForm').valid()) {
+            openNewDialog();
+            var afterSuccessCallback = function() {
                 freshTableAndPage();
-                $(this).remove();
-            }
-    	}
-        
+            };
+            ajaxSubmitForm($('#editForm'), '结果', undefined,
+                undefined, afterSuccessCallback);
+            $(this).remove();
+        }        
     };
     buttons[getMessage('Ok')] = function() {
-    	var value = $('#msgTransId').val();
-    	var key=value.indexOf(".");
-    	if(key !== -1){
-    		showErrorDialog('任务号中请不要出现字符"."');
-    	}else{
-    		if ($('#editForm').valid()) {
-                ajaxSubmitForm($('#editForm'), '结果');
+    	if ($('#editForm').valid()) {
+            var afterSuccessCallback = function() {
                 freshTableAndPage();
-                $(this).remove();
-            }
-    	}        
+            };
+            ajaxSubmitForm($('#editForm'), '结果', undefined,
+                undefined, afterSuccessCallback);
+            $(this).remove();
+        }      
     };
     buttons[getMessage('Cancel')] = function() {
         $(this).remove();
@@ -116,8 +112,11 @@ function switchServerMsg(id, action) {
     var dialog  = loadingScreen(title);
     var buttons = {};
     buttons[getMessage('Ok')] = function() {
-        ajaxSubmitForm($('#switchServerMsgForm_' + id), '结果');
-        freshTableAndPage();
+    	var afterSuccessCallback = function() {
+            freshTableAndPage();
+        };
+        ajaxSubmitForm($('#switchServerMsgForm_' + id), '结果', undefined,
+            undefined, afterSuccessCallback);
         $(this).remove();
     };
     buttons[getMessage('Cancel')] = function() {

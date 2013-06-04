@@ -5,14 +5,30 @@
                'PWD',  'MKD',  'RNFR', 'RMD', 'APPE');
     $r = array('dir', 'delete', 'ls',     'cd',    'get',   'put',
                'pwd', 'mkdir',  'rename', 'rmdir', 'append');
-
+    
+    function getWhereStatement($db, $cols, $keyword) {
+    	$value = '%' . $keyword . '%';
+    	$params = array_fill(0, count(explode(',', $cols)), $value);
+    	return array('sql'    => ' WHERE (' .
+    			$db->getWhereStatement($cols, 'OR', 'like') . ')',
+    			'params' => $params);
+    }
+    
     function appendFtpFliterOptionsData($where) {
         global $s, $r;
         $tpl =  'client/ftp/ftpTable.tpl';
         $db  = new dbsqlite(DB_PATH . '/gateway_ftp.db');
 	    $sql = 'SELECT id, name, user_info, user_act, cmd_info, cmd_act, ' .
-            "virus, comment FROM options $where";
-        $data = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
+            "virus, comment FROM options ";
+	    $params = array();
+        if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
+        	$dataSearch   = getWhereStatement($db, $_GET['cols'], $_GET['keyword']);
+        	$sql   .= $dataSearch['sql'];
+        	$params = $dataSearch['params'];
+        }
+        $where = $db->replaceAlp($where, 'name');
+        $sql .=  ' ' . $where;     	    
+        $data = $db->query($sql, $params)->getAllData(PDO::FETCH_ASSOC);
         foreach ($data as &$d) {
             $d['cmd_info'] = str_replace($s, $r, $d['cmd_info']);
         }
@@ -32,12 +48,7 @@
             'chk_down_forbid';
         $userAct    = $_POST['userAct'] === '1' ? 'chk_allow' : 'chk_forbid';
         $uploadAct  = $_POST['uploadAct'] === '1' ? 'chk_up_allow' :
-            'chk_up_forbid';
-        if (!empty($_POST['fileSize'])) {
-            $fileSize = $_POST['fileSize'];
-        } else {
-            $fileSize = '""';
-        }
+            'chk_up_forbid';       
         if (!empty($_POST['cmdInfo'])) {
             $cmdInfo = join(',', $_POST['cmdInfo']);
         } else {
@@ -57,8 +68,7 @@
             $userInfo = $_POST['userInfo'];
         } else {
             $userInfo = '""';
-        }
-        $virus = $_POST['virus'] === 'N' ? 'off' : 'on';   
+        }       
         $cmdAct_upload = $_POST['cmdAct_upload'] === '1' ? 'chk_up_allow' :
             'chk_up_forbid';        
         if (!empty($_POST['cmdInfo_upload'])) {
@@ -76,8 +86,8 @@
         
         $cmd = "cftpctl add option id $id name $name user_info $userInfo " .
             "user_act $userAct up_info $uploadInfo up_act $uploadAct " .
-            "down_info $downInfo down_act $downAct file_size $fileSize " .
-            " file_act forbid cmd_info $cmdInfo cmd_act $cmdAct virus $virus ".
+            "down_info $downInfo down_act $downAct " .
+            " file_act forbid cmd_info $cmdInfo cmd_act $cmdAct ".
             "upload_str $cmdInfo_upload upload_str_act $cmdAct_upload ".
             "download_str $cmdInfo_download download_str_act $cmdAct_download ";
         if (!empty($banner)) {
@@ -95,18 +105,15 @@
         echo $db->query($sql)->getCount() > 0 ? 'false' : 'true';
     }
     
-    function checkExistTaskAndPort() {
-    	$sql    = 'SELECT id FROM ftp_trans_client_acl WHERE (id+dport) = ' .
-            $_GET['idPlusPort'] . ' AND id != ' . $_GET['taskId'];
-        $db     = new dbsqlite(DB_PATH . '/gateway_ftp.db');
-        $result = $db->query($sql)->getCount() > 0 ? 'false' : 'true';
-        echo $result;
-    } 
-    
     function getDataCount() {
     	$sql = 'SELECT id FROM options';
         $db  = new dbsqlite(DB_PATH . '/gateway_ftp.db');
-        return $db->query($sql)->getCount();
+        if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
+        	$data   = getWhereStatement($db, $_GET['cols'], $_GET['keyword']);
+        	$sql   .= $data['sql'];
+        	$params = $data['params'];
+        }        
+        return $db->query($sql, $params)->getCount();
     }
 
     function checkFilterUsed($id) {
@@ -131,7 +138,6 @@
         $data =  $db->query($sql)->getFirstData(PDO::FETCH_ASSOC);
         return intval($data['id']) + 1;
     }
-
     if ($id = $_POST['editId']) {
         // Open Edit dialog for show specified ftp filter conf.
         $tpl =  'client/ftp/editFtpDialog.tpl';
@@ -152,17 +158,34 @@
             ->assign('type', 'edit')->fetch($tpl);
         echo json_encode(array('msg' => $result));
     } else if ('edit' === $_POST['type']) {
-        // Edit a specified ftp filter options data
-        $id = $_POST['id'];
+        $id = $_POST['id'];       
+    	if(checkFilterUsed($id))
+        {
+        	 echo json_encode(array('msg' => '无法编辑,该过滤配置正在使用中！'));
+        }
+        else
+        {    	
+    	// Edit a specified ftp filter options data
         $cli = new cli();
-        $cli->run("cftpctl del option id $id");
-        $cli->setLog("修改一条FTP过滤配置,名称为".$_POST['ftpFilterOptName'])->run(getCmd());
+        $cli->setIsRec(false)->run("cftpctl del option id $id");
+        $cli->setIsRec(true)->setLog("修改一条FTP过滤配置,名称为".$_POST['ftpFilterOptName'])->run(getCmd());
         echo json_encode(array('msg' => '修改成功.'));
+        }
     } else if ('add' === $_POST['type']) {
-        // Add a new ftp filter options
-        $cli = new cli();        
-        $cli->setLog("添加一条新的FTP过滤配置,名称为".$_POST['ftpFilterOptName'])->run(getCmd());
-        echo json_encode(array('msg' => '添加成功.'));
+        // Add a new ftp filter options        
+    	$sql    = 'SELECT name FROM options';
+        $db     = new dbsqlite(DB_PATH . '/gateway_ftp.db');
+        $result = $db->query($sql)->getCount();
+        if($result>999)
+        {
+        	 echo json_encode(array('msg' => '无法添加，配置已经达到上限1000条！'));
+        }
+    	else 
+    	{    	
+	        $cli = new cli();        
+	        $cli->setLog("添加一条新的FTP过滤配置,名称为".$_POST['ftpFilterOptName'])->run(getCmd());
+	        echo json_encode(array('msg' => '添加成功.'));
+    	}
     } else if ($id = $_POST['delId']) {
         // Delete the specified ftp filter options data
         if (checkFilterUsed($id)) {
@@ -181,10 +204,6 @@
     } else if (!empty($_GET['checkExistName'])) {
         // check the new name existed or not
         checkExistName($_GET['ftpFilterOptName']);
-    } else if (!empty($_GET['checkExistTaskAndPort'])) {
-        // check the new name existed or not
-        checkExistTaskAndPort();
-        return true;
     } else if (!empty($_POST['selectList'])) {
         // fresh ftp select list
         $db  = new dbsqlite(DB_PATH . '/gateway_ftp.db');

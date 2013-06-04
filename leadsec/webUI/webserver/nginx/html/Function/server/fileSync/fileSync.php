@@ -4,22 +4,33 @@
     function appendFileSyncServerAclData($where) {
         $tpl = 'server/fileSync/fileSyncTable.tpl';
         $db  = new dbsqlite(DB_PATH . '/netgap_new_fs.db');
-        $sql = "SELECT * FROM sync_file_server $where";
-        $result = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
+        $sql = "SELECT * FROM sync_file_server";
+		$params = array();
+        if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
+            $data   = getWhereStatement($db, $_GET['cols'], $_GET['keyword']);
+            $sql   .= $data['sql'];
+            $params = $data['params'];
+        }
+		$sql .=  ' ' . $where;
+        $result = $db->query($sql,$params)->getAllData(PDO::FETCH_ASSOC);
         echo V::getInstance()->assign('fileSyncServerAcl', $result)
             ->assign('pageCount', 10)
             ->fetch($tpl);
     }
 
     function getCmd($action) {
-        $id      = intval($_POST['fsId']);
+		if (!empty($_POST['sfileSyncTaskId'])) {
+			$id = intval($_POST['sfileSyncTaskId']);
+		} else {
+			$id = intval($_POST['fsId']);
+		}
         $sip     = $_POST['serverIp'];
         if (validateIpv4Format($sip)) {
             $ipver = 'ipver ipv4';
         } else {
             $ipver = 'ipver ipv6';
         }
-        $sport   = $_POST['sportReq'];
+        $sport   = $_POST['lport'];
         if ($_POST['ssl'] === 'Y') {
             $ssl   = 'yes';
             $cname = $_POST['commname']; 
@@ -34,10 +45,24 @@
         return $result;
     }
 
+	function getWhereStatement($db, $cols, $keyword) {
+        $value  = '%' . $keyword . '%';
+        $params = array_fill(0, count(explode(',', $cols)), $value);
+        return array('sql'    => ' WHERE (' .
+                              $db->getWhereStatement($cols, 'OR', 'like') . ')',
+                     'params' => $params);
+    }
+
     function getDataCount() {
         $sql = 'SELECT id FROM sync_file_server';
         $db  = new dbsqlite(DB_PATH . '/netgap_new_fs.db');
-        return $db->query($sql)->getCount();
+		$params = array();
+        if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
+            $data   = getWhereStatement($db, $_GET['cols'], $_GET['keyword']);
+            $sql   .= $data['sql'];
+            $params = $data['params'];
+        }
+        return $db->query($sql, $params)->getCount();
     }
 
     if ($id = $_POST['editId']) {
@@ -80,16 +105,6 @@
             ->assign('roleList', netGapRes::getInstance()->getRoleList())
             ->assign('type', 'add')->fetch($tpl);
         echo json_encode(array('msg' => $result));
-    } else if (!empty($_GET['checkExistLport'])) {
-        // Check the same lport exist or not
-        $sql = 'SELECT id FROM sync_file_server WHERE lport = ' .
-            $_GET['fslportReq'] . ' AND lip = "' . $_GET['fslip'] . '"';
-        $db  = new dbsqlite(DB_PATH . '/netgap_new_fs.db');
-        echo $db->query($sql)->getCount() > 0 ? 'false' : 'true';
-    } else if (!empty($_GET['checkExistId'])) {
-        // Check the same id exist or not
-        echo netGapRes::getInstance()->checkExistTaskId('fileSync',
-            $_GET['fsId']);
     } else if ($orderStatement = $_POST['orderStatement']) {
         // fresh and resort file sync server table data
         appendFileSyncServerAclData($orderStatement);

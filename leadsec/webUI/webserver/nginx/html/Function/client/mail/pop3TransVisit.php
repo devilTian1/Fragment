@@ -4,17 +4,37 @@
     function appendPop3TransClientAclData($where) {
         $tpl  =  'client/mail/pop3TransVisitTable.tpl';
         $db   = new dbsqlite(DB_PATH . '/netgap_mail.db');
-	    $sql  = "SELECT * FROM pop3_trans_client_acl $where";
-        $data = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
-        echo V::getInstance()->assign('pop3TransClientAcl', $data)
+	    $sql  = "SELECT * FROM pop3_trans_client_acl";
+	    $params = array();
+	    if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
+	    	$data   = getWhereStatement($db, $_GET['cols'], $_GET['keyword']);
+	    	$sql   .= $data['sql'];
+	    	$params = $data['params'];
+	    }
+	    $sql .=  ' ' . $where;
+	    $result = $db->query($sql, $params)->getAllData(PDO::FETCH_ASSOC);
+        echo V::getInstance()->assign('pop3TransClientAcl', $result)
             ->assign('pageCount', 10)
             ->fetch($tpl);
+    }
+    
+    function getWhereStatement($db, $cols, $keyword) {
+    	$value = '%' . $keyword . '%';
+    	$params = array_fill(0, count(explode(',', $cols)), $value);
+    	return array('sql'    => ' WHERE (' .
+    			$db->getWhereStatement($cols, 'OR', 'like') . ')',
+    			'params' => $params);
     }
     
     function getDataCount() {
     	$sql = "SELECT id FROM pop3_trans_client_acl";
         $db  = new dbsqlite(DB_PATH . '/netgap_mail.db');
-        return $db->query($sql)->getCount();
+        if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
+            $data   = getWhereStatement($db, $_GET['cols'], $_GET['keyword']);
+            $sql   .= $data['sql'];
+            $params = $data['params'];
+        }
+        return $db->query($sql, $params)->getCount();
     }
 
     function getCmd($action) {
@@ -26,7 +46,7 @@
         $id      = intval($_POST['pop3TransId']);
         $sa      = $_POST['sa'];
         $da      = $_POST['da'];
-        $dport   = $_POST['pop3TransdportReq'];
+        $dport   = $_POST['pop3TranslportReq'];
         $comment = $_POST['comment'];
         $time    = $_POST['time'];
         $filter  = $_POST['filter'];
@@ -48,13 +68,7 @@
         $result .= " comment \"$comment\"";
         return $result;
     }
-	function checkExistTaskAndPort() {
-    	$sql    = 'SELECT id FROM pop3_trans_client_acl WHERE (id+dport) = ' .
-            $_GET['idPlusPort']. ' AND id != ' . $_GET['taskId'];
-        $db     = new dbsqlite(DB_PATH . '/netgap_mail.db');
-        $result = $db->query($sql)->getCount() > 0 ? 'false' : 'true';
-        echo $result;
-    } 
+	
     if ($id = $_POST['editId']) {
         // Show Dialog to get specified pop3 trans client acl data
 	    $sql  = "SELECT * FROM pop3_trans_client_acl WHERE id = $id";
@@ -62,7 +76,8 @@
         $data = $db->query($sql)->getFirstData(PDO::FETCH_ASSOC);
         $tpl  = 'client/mail/pop3TransVisit_editDialog.tpl';
         $result = V::getInstance()
-            ->assign('addrOptions', netGapRes::getInstance()->getAddr())
+            ->assign('saddrOptions', netGapRes::getInstance()->getAddr(true))
+            ->assign('daddrOptions', netGapRes::getInstance()->getAddr())
             ->assign('ifList', netGapRes::getInstance()->getInterface())
             ->assign('timeList', netGapRes::getInstance()->getTimeList())
             ->assign('filterOptions',
@@ -77,27 +92,27 @@
         $id  = $_POST['pop3TransId'];
         $cli->setLog("修改邮件访问下的pop3透明访问任务, 任务号为{$id}")
             ->run(getCmd('set'));
-        echo json_encode(array('msg' => "任务[$id]修改成功."));
+        echo json_encode(array('msg' => "任务[$id]修改成功。"));
     } else if ('add' === $_POST['type']) {
         // Add a new pop3 trans client acl
         $cli = new cli();
         $id  = intval($_POST['pop3TransId']);
         $cli->setLog("添加邮件访问下的pop3透明访问任务, 任务号为{$id}")
             ->run(getCmd('add'));
-        echo json_encode(array('msg' => "任务[$id]添加成功."));
+        echo json_encode(array('msg' => "任务[$id]添加成功。"));
     } else if ($id = $_POST['delId']) {
         // Delete the specified pop3 trans client acl
         $cli = new cli();
-        $id  = $_POST['pop3TransId'];
         $cli->setLog("删除邮件访问下的pop3透明访问任务, 任务号为{$id}")
             ->run('pop3ctl del task type client mode trans id '. $id);
         echo json_encode(array('msg' =>
-            '任务[' . $id . ']删除成功.'));
+            '任务[' . $id . ']删除成功。'));
     } else if (!empty($_POST['openAddDialog'])) {
         // Display add new pop3 trans client acl dialog
         $tpl    = 'client/mail/pop3TransVisit_editDialog.tpl';
         $result = V::getInstance()
-            ->assign('addrOptions', netGapRes::getInstance()->getAddr())
+            ->assign('saddrOptions', netGapRes::getInstance()->getAddr(true))
+            ->assign('daddrOptions', netGapRes::getInstance()->getAddr())
             ->assign('ifList', netGapRes::getInstance()->getInterface())
             ->assign('timeList', netGapRes::getInstance()->getTimeList())
             ->assign('filterOptions',
@@ -116,14 +131,7 @@
         }
         $cli->setLog("{$msg}邮件访问下的pop3透明访问任务, 任务号为{$id}")
             ->run(getCmd('set'));
-        echo json_encode(array('msg' => $msg . '成功.'));
-    } else if (!empty($_GET['checkExistTaskAndPort'])) {
-        // check the new name existed or not
-        checkExistTaskAndPort();
-        return true;
-    } else if (!empty($_GET['checkExistId'])) {
-        // Check the same id exist or not
-        echo netGapRes::getInstance()->checkExistTaskId('pop3',intval($_GET['pop3TransId']));
+        echo json_encode(array('msg' => $msg . '成功。'));
     } else if ($orderStatement = $_POST['orderStatement']) {
         // fresh and resort pop3 trans client list
         appendPop3TransClientAclData($orderStatement);

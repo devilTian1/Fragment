@@ -28,10 +28,15 @@
         $fs    = new fileUpload($_FILES, $dPath);
         $fs->upload();
         // run cli
-        $cmd = '/usr/local/sbin/manufact produce ' . $_FILES['manuFile']['name'];
+        $cmd = '/usr/local/sbin/manufact produce ' .
+            $_FILES['manuFile']['name'];
         $cli = new cli();
-        $cli->setIsRec(false)->run($cmd);
-        $msg = 'success';
+        list($status, $lines) = $cli->setIsRec(false)->execCmdGetStatus($cmd);
+        if ($status == 0) {
+            $msg = 'success';
+        } else {
+            $msg = join('<br/>', $lines);
+        }
     } else if (!empty($_POST['download'])) {
         // Export manufact result
         header('Content-Type:download-force');
@@ -95,6 +100,7 @@
                             </div>
                             <br class="clear_float"/>
                             <?php if('success' !== $msg) {?>
+                            <em style="color:red;font-weight:bold"><?php echo $msg?></em>
                             <form method="POST" id="uploadManuFileForm" enctype="multipart/form-data">
                             <div class="row">
                                 <label for="manuFile">配置文件 :</label>

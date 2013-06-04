@@ -5,7 +5,7 @@
     </caption>
     <thead>
     <tr>
-      <th class="column_15" name="id">序号</th>
+      <th class="column_15" name="id">任务号</th>
       <th class="column_20" name="sip">源地址</th>
       <th class="column_20" name="time">生效时段</th>
       <th class="column_15" name="usergrp">认证用户组</th>
@@ -30,6 +30,6 @@
     $(document).ready(function() {
         renderStandardUi();
         freshTable('Function/client/safeBrowse/generalVisit.php', $('#generalVisitTable'), 'ORDER BY sip ASC LIMIT 10');
-        sortTableInit($('#generalVisitTable'), {0: {sorter: false},5: {sorter: false}}, [[1,0]]);
+        sortTableInit($('#generalVisitTable'), {5: {sorter: false}}, [[0, 0],[1,0]]);
     });
 </script>

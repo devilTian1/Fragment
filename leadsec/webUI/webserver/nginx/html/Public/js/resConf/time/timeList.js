@@ -14,12 +14,16 @@ function openNewTimeListDialog() {
     	var key2=str2.indexOf(first);
     	if(key !== -1 || key2 !== -1){    		
     		if ($('#editTimeListForm').valid()) {
-                ajaxSubmitForm($('#editTimeListForm'), '结果');
-                freshTableAndPage();
+    			openNewTimeListDialog();
+    			var afterSuccessCallback = function() {
+                    freshTableAndPage();
+                };
+                ajaxSubmitForm($('#editTimeListForm'), '结果', undefined,
+                    undefined, afterSuccessCallback);
                 $(this).remove();
             }
     	}else{
-    		showErrorDialog('名称首位请填写字母');
+    		showErrorDialog('名称首位请填写字母。');
     	}           
     };
     buttons[getMessage('Ok')] = function() {
@@ -31,12 +35,15 @@ function openNewTimeListDialog() {
     	var key2=str2.indexOf(first);
     	if(key !== -1 || key2 !== -1){    		
     		if ($('#editTimeListForm').valid()) {
-                ajaxSubmitForm($('#editTimeListForm'), '结果');
-                freshTableAndPage();
+    			var afterSuccessCallback = function() {
+                    freshTableAndPage();
+                };
+                ajaxSubmitForm($('#editTimeListForm'), '结果', undefined,
+                    undefined, afterSuccessCallback);
                 $(this).remove();
             }
     	}else{
-    		showErrorDialog('名称首位请填写字母');
+    		showErrorDialog('名称首位请填写字母。');
     	}        
     };
     buttons[getMessage('Cancel')] = function() {
@@ -61,8 +68,11 @@ function openEditTimeListDialog(name) {
     var buttons = {};
     buttons[getMessage('Ok')] = function() {
         if ($('#editTimeListForm').valid()) {
-            ajaxSubmitForm($('#editTimeListForm'), '结果');
-            freshTableAndPage();
+        	var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editTimeListForm'), '结果', undefined,
+                undefined, afterSuccessCallback);
             $(this).remove();
         }
     };

@@ -45,21 +45,21 @@
         <tr>
         	<td class="tdheader" width="250">服务器IP地址:<em class="required">*</em></td>
             <td class="tdbody">
-                <input class='floatLeft' type="text" name="radiusSIp" value="<{$usrAuthen.radius_ip}>" maxlength="15"/>
+                <input class='floatLeft width149' type="text" name="radiusSIp" value="<{$usrAuthen.radius_ip}>" maxlength="39"/>
             </td>
         </tr>
         
         <tr>
         	<td class="tdheader" width="250">端口:<em class="required">*</em></td>
             <td class="tdbody">
-                <input class='floatLeft' type="text" name="radiusPort" value="<{$usrAuthen.radius_port}>" size="5" maxlength="5"/>
+                <input class='floatLeft width44' type="text" name="radiusPort" value="<{$usrAuthen.radius_port}>" size="5" maxlength="5"/>
             </td>
         </tr>
         
         <tr>
         	<td class="tdheader" width="250">共享密钥:<em class="required">*</em></td>
             <td class="tdbody">
-                <input class='floatLeft' type="text" name="sharedKey" value="<{$usrAuthen.radius_passwd}>" maxlength="15"/>
+                <input class='floatLeft width149' type="text" name="sharedKey" value="<{$usrAuthen.radius_passwd}>" maxlength="15"/>
             </td>
         </tr>
         
@@ -81,14 +81,14 @@
         <tr>
         	<td class="tdheader" width="250">LDAP服务器地址:<em class="required">*</em></td>
             <td class="tdbody">
-                <input class='floatLeft' type="text" name="ldapSIp" value="<{$usrAuthen.ldap_ip}>" maxlength="15"/>
+                <input class='floatLeft width149' type="text" name="ldapSIp" value="<{$usrAuthen.ldap_ip}>" maxlength="39"/>
             </td>
         </tr>
         
         <tr>
         	<td class="tdheader" width="250">LDAP DN:<em class="required">*</em></td>
             <td class="tdbody">
-                <input class='floatLeft' type="text" name="ldapDN" value="<{$usrAuthen.ldap_dn}>" maxlength="30"/>
+                <input class='floatLeft width149' type="text" name="ldapDN" value="<{$usrAuthen.ldap_dn}>" maxlength="30"/>
             </td>
         </tr>
         

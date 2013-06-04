@@ -5,7 +5,7 @@
     </caption>
     <thead>
     <tr>
-      <th class="column_10">序号</th>
+      <th class="column_10" name="id">任务号</th>
       <th class="column_15" name="sip">源地址</th>
       <th class="column_15" name="dip">目的地址</th>
       <th class="column_10" name="port">目的端口</th>
@@ -33,6 +33,6 @@
     $(document).ready(function() {
         renderStandardUi();
         freshTable('Function/client/safeBrowse/transVisit.php', $('#transVisitTable'), 'ORDER BY sip ASC LIMIT 10');
-        sortTableInit($('#transVisitTable'), {0: {sorter: false},8: {sorter: false}}, [[1,0]]);
+        sortTableInit($('#transVisitTable'), {8: {sorter: false}}, [[0, 0], [1,0]]);
     });
 </script>

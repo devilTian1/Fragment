@@ -30,8 +30,9 @@
 	}
 	
 	function getSoftNum() { //get softnum 
-		$db = new dbsqlite(DB_PATH . '/private.db');
-        $result = $db->query("SELECT up_version FROM upgrade_history ORDER BY up_time DESC")
+		$db  = new dbsqlite(DB_PATH . '/private.db');
+        $sql = 'SELECT up_version FROM upgrade_history ORDER BY up_time ASC';
+        $result = $db->query($sql)
                      ->getFirstData(PDO::FETCH_ASSOC);
 		if (!empty($result)) {
 			return $result['up_version'];

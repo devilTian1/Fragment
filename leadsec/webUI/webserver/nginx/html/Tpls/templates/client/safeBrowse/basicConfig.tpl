@@ -13,7 +13,7 @@
         <tr>
             <td class="tdheader">本机监听端口:</td>
             <td class="tdbody">
-            	<input class='floatLeft' type="text" name="nativePort" 
+            	<input class='floatLeft width44' type="text" name="nativePort"
             	value="<{$editBasicConfig.service_port|default:'80'}>" size="5" maxlength="5"/>
             </td>
         </tr>
@@ -35,13 +35,31 @@
         <tr>
             <td class="tdheader">Http协议可访问端口:<em class="required">*</em></td>
             <td class="tdbody">
-            	<input class='floatLeft' type="text" name="httpPort" value="<{$httpPort}>" size="50"/>
+            	<input class='floatLeft width359' type="text" name="httpPort" value="<{$httpPort}>" size="50"/>
             </td>
         </tr>
         <tr>
             <td class="tdheader">Https协议可访问端口:<em class="required">*</em></td>
             <td class="tdbody">
-            	<input class='floatLeft' type="text" name="httpsPort" value="<{$httpsPort}>" size="50"/>
+            	<input class='floatLeft width359' type="text" name="httpsPort" value="<{$httpsPort}>" size="50"/>
+            </td>
+        </tr>
+        <tr>
+            <td class="tdheader">缓存文件上限:<em class="required">*</em></td>
+            <td class="tdbody">
+            	<input class='floatLeft width44' type="text" name="memoryMax" value="<{$editBasicConfig.cache_mem}>" size="5" maxlength="5"/>M
+            </td>
+        </tr>
+        <tr>
+            <td class="tdheader">HTTP请求头部上限:<em class="required">*</em></td>
+            <td class="tdbody">
+            	<input class='floatLeft width44' type="text" name="httpRequestMax" value="<{$editBasicConfig.reqhead}>" size="5" maxlength="5"/>KB
+            </td>
+        </tr>
+        <tr>
+            <td class="tdheader">开启病毒扫描:</td>
+             <td class="tdbody">
+            	<input type="checkbox" class="checkbox" name="virusScan" <{if $virusScan eq 1}>checked="checked"<{/if}>/>
             </td>
         </tr>
         <tr>

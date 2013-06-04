@@ -78,7 +78,8 @@ $(document).ready(function (){
                 renderTo: 'zoompic',
                 type: 'spline',
                 zoomType: 'x',
-                marginRight: 10
+                marginRight: 10,
+                width: 950
             },
             series: [
                     {
@@ -137,7 +138,8 @@ $(document).ready(function (){
                     renderTo: 'zoompic',
                     type: 'spline',
                     zoomType: 'x',
-                    marginRight: 10
+                    marginRight: 10,
+                    width: 950
                 },
                 series: [
                         { 

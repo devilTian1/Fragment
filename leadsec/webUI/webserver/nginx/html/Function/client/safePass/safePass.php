@@ -4,8 +4,15 @@
     function appendFastPassData($where) {
         $tpl =  'client/safePass/safePassTable.tpl';
         $db  = new dbsqlite(DB_PATH . '/netgap_fastpass.db');
-	    $sql = "SELECT * FROM fastpass_client_acl $where";
-        $result = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
+	    $sql = "SELECT * FROM fastpass_client_acl";
+        $params = array();
+        if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
+            $data   = getWhereStatement($db, $_GET['cols'], $_GET['keyword']);
+            $sql   .= $data['sql'];
+            $params = $data['params'];
+        }
+        $sql .=  ' ' . $where;
+        $result = $db->query($sql, $params)->getAllData(PDO::FETCH_ASSOC);
         foreach ($result as $key => $arr) {
         	$result[$key]['sa'] = addrNameDelPreffix($arr['sa']);
         	if ($arr['samenet'] === 'no') {
@@ -16,11 +23,25 @@
             ->assign('pageCount', 10)
             ->fetch($tpl);
     }
+    
+    function getWhereStatement($db, $cols, $keyword) {
+        $value  = '%' . $keyword . '%';
+        $params = array_fill(0, count(explode(',', $cols)), $value);
+        return array('sql'    => ' WHERE (' .
+                              $db->getWhereStatement($cols, 'OR', 'like') . ')',
+                     'params' => $params);
+    }
 
     function getDataCount() {
     	$sql = "SELECT id FROM fastpass_client_acl";
         $db  = new dbsqlite(DB_PATH . '/netgap_fastpass.db');
-        return $db->query($sql)->getCount();
+        $params = array();
+        if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
+            $data   = getWhereStatement($db, $_GET['cols'], $_GET['keyword']);
+            $sql   .= $data['sql'];
+            $params = $data['params'];
+        }
+        return $db->query($sql, $params)->getCount();
     }
 
     function getCmd() {
@@ -87,7 +108,8 @@
         $sql = "SELECT * FROM fastpass_client_acl WHERE id = '$id'";
         $result = $db->query($sql)->getFirstData(PDO::FETCH_ASSOC);       
         $result = V::getInstance()
-        	->assign('addrOptions', netGapRes::getInstance()->getAddr())
+        	->assign('saddrOptions', netGapRes::getInstance()->getAddr(true))
+        	->assign('daddrOptions', netGapRes::getInstance()->getAddr())
             ->assign('timeList', netGapRes::getInstance()->getTimeList())
             ->assign('roleList', netGapRes::getInstance()->getRoleList())
             ->assign('interfaceList', netGapRes::getInstance()->getInterface())
@@ -98,7 +120,8 @@
         // Open a new safepass dialog
         $tpl = $_POST['tpl'];
         $result = V::getInstance()
-            ->assign('addrOptions', netGapRes::getInstance()->getAddr())
+            ->assign('saddrOptions', netGapRes::getInstance()->getAddr(true))
+            ->assign('daddrOptions', netGapRes::getInstance()->getAddr())
             ->assign('timeList', netGapRes::getInstance()->getTimeList())
             ->assign('roleList', netGapRes::getInstance()->getRoleList())
             ->assign('interfaceList', netGapRes::getInstance()->getInterface())

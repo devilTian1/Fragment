@@ -29,9 +29,16 @@
                         width="16" height="16"/>
                         <input type="hidden" name="action" value="enable"/>
                     </a>
-                <{/if}>
+                <{/if}> 
             </form>
-        </td>
+        </td>        
+        <td> 
+                <{if $r.virus === 'Y' || $r.virus === '1'}>
+           			 开
+            	<{else}>
+            		关
+          		  <{/if}>
+         </td>  
         <td class="no_search">
             <a href="#" class="edit"
                 onclick="editFtpTransClientAclDialog('<{$r.id}>')">编辑</a>
@@ -41,5 +48,5 @@
         </td>
     </tr>
 <{foreachelse}>
-    <tr><td colspan='8'>没有任务.</td></tr>
+    <tr><td colspan='8'>无数据.</td></tr>
 <{/foreach}>

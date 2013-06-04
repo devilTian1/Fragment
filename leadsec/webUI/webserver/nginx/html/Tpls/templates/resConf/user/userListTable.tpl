@@ -52,7 +52,7 @@
         </td>
     </tr>
 <{foreachelse}>
-    <tr><td colspan='10'>No User List Data</td></tr>
+    <tr><td colspan='10'>没有用户信息</td></tr>
 <{/foreach}>
 <script type="text/javascript"> 
     $(document).ready(function() {

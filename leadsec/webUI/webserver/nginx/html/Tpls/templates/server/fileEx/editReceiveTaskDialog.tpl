@@ -5,7 +5,7 @@
         <legend>接收任务</legend>
         <div class="row">
             <label for="receiveTaskId">任务号:<em class="required">*</em></label>
-            <input class="id" type="text" name="receiveTaskId" value="<{$data.task_id}>"
+            <input class="id" type="text" name="receiveTaskId" id="receiveTaskId" value="<{$data.task_id}>"
                 <{if $type ==='edit'}>disabled="disabled"<{/if}>/>
             <{if $type ==='edit'}>
                 <input type="hidden" name="receiveTaskId"
@@ -15,12 +15,12 @@
 
         <div class="row">
             <label for="sip">服务器地址:<em class="required">*</em></label>
-            <input type="text" name="sip" id="sip" value="<{$data.ip}>"/>
+            <input class="width10em" type="text" name="sip" id="sip" value="<{$data.ip}>"/>
         </div>
 
         <div class="row">
             <label for="shareName">服务器共享名:<em class="required">*</em></label>
-            <input type="text" name="shareName" id="shareName"
+            <input class="width10em" type="text" name="shareName" id="shareName"
                 value="<{$data.share_name}>"/>
         </div>
 
@@ -32,8 +32,8 @@
         </div>
 
 		<div class="row">
-            <label for="portReq">端口:<em class="required">*</em></label>
-            <input class="port" type="text" name="portReq"
+            <label for="receiveTaskPort">端口:<em class="required">*</em></label>
+            <input class="port" type="text" name="receiveTaskPort" id="receiveTaskPort"
                 value="<{$data.port|default: 445}>" size="5" maxlength="5"/>
         </div>
 

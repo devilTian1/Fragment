@@ -42,9 +42,9 @@ function openEditTransAccessCtrlDialog(id) {
     };
     var dialogParams = {
         width   : 680,
-        height  : 380,
+        height  : 440,
         buttons : buttons,
-        position : jQuery.getDialogPosition('680','380')
+        position : jQuery.getDialogPosition('680','440')
     };
     showDialogByAjax(url, data, title, dialogParams);
 }
@@ -74,9 +74,9 @@ function openNewTransAccessCtrlDialog() {
     };
     var dialogParams = {
         width   : 680,
-        height  : 380,
+        height  : 440,
         buttons : buttons,
-        position : jQuery.getDialogPosition('680','380')
+        position : jQuery.getDialogPosition('680','440')
     };    
     showDialogByAjax(url, data, title, dialogParams);
 }

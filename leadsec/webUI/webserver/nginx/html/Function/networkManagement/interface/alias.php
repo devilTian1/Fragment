@@ -5,9 +5,16 @@
         $tpl =  'networkManagement/interface/aliasTable.tpl';
         $db  = new dbsqlite(DB_PATH . '/configs.db');
         $sql = 'SELECT external_name, ip, mask, ipv6, ipv6_mask, phy_device,' .
-            " alias_id, enable FROM interface WHERE alias_id != -1 $where";
-        $result = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
-        echo V::getInstance()->assign('list', $result)
+            " alias_id, enable FROM interface WHERE alias_id != -1";
+        $params = array();
+        if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
+            $data   = getWhereStatement($db, $_GET['cols'], $_GET['keyword']);
+            $sql   .= $data['sql'];
+            $params = $data['params'];
+        }
+        $sql .=  ' ' . $where;
+        $result = $db->query($sql, $params)->getAllData(PDO::FETCH_ASSOC);
+          echo V::getInstance()->assign('list', $result)
         	->assign('pageCount', 10)
             ->fetch($tpl);
     }
@@ -51,7 +58,7 @@
         if ($action === 'add') {
             $alias = "bind_if $name alias_id $id";
         } else { //set
-            $alias = "if {$name}_{$id}";
+            $alias = "if {$name}";
         } 
         $result = "interface $action alias $alias " .
             "active $enable $ipParams admin $adm ping $ping " .
@@ -59,10 +66,24 @@
         return $result;
     }
 
+    function getWhereStatement($db, $cols, $keyword) {
+        $value  = '%' . $keyword . '%';
+        $params = array_fill(0, count(explode(',', $cols)), $value);
+        return array('sql'    => ' AND (' .
+                              $db->getWhereStatement($cols, 'OR', 'like') . ')',
+                     'params' => $params);
+    }
+    
     function getDataCount() {
         $sql = "SELECT external_name FROM interface where alias_id!=-1";
         $db  = new dbsqlite(DB_PATH . '/configs.db');
-        return $db->query($sql)->getCount();
+        $params = array();
+        if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
+            $data   = getWhereStatement($db, $_GET['cols'], $_GET['keyword']);
+            $sql   .= $data['sql'];
+            $params = $data['params'];
+        }
+        return $db->query($sql, $params)->getCount();
     }
     
     function isInUseCheck($name) {
@@ -108,8 +129,13 @@
         // Add the specified Alias
         $cmd = getCmd('add');
         $cli = new cli();
-        $cli->setLog("添加别名设备".$_POST['external_name'])->run($cmd);
-        echo json_encode(array('msg' => '添加成功.'));
+		list($status,$result) = $cli->setLog("添加别名设备".$_POST['external_name'])->execCmdGetStatus($cmd);
+        //$cli->setLog("添加别名设备".$_POST['external_name'])->run($cmd);
+		if ($status>0) {
+			echo json_encode(array('msg' => '该别名设备被占用,添加失败!'));
+		} else {
+			echo json_encode(array('msg' => '添加成功.'));
+		} 
     } else if (!empty($_POST['delName'])) {
         // Delete specified Alias data
         $name = $_POST['delName'];
@@ -133,7 +159,12 @@
         }
     } else if ($_GET['isInUseCheck']) {
         $name = $_GET['checkName'];
-        if(isInUseCheck($name)) {
+        /*if(isInUseCheck($name)) {
+            echo "true";
+        } else {
+            echo "false";
+        }*/        
+        if(netGapRes::getInstance()->checkAliasUsed($name) === 'true') {
             echo "true";
         } else {
             echo "false";

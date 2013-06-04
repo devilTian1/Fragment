@@ -4,14 +4,14 @@
      <fieldset>
         <legend>SMTP客户端普通访问</legend>
         <div class="row">
-            <label for="smtpId">任务号:<em class="required">*</em></label>
-            <input class="id" type="text" name="smtpId"
+            <label for="smtpGeneralId">任务号:<em class="required">*</em></label>
+            <input class="id" type="text" name="smtpGeneralId" id="smtpGeneralId"
                 value="<{$data.id}>"
                 <{if $type ==='edit'}>disabled="disabled"<{/if}>
                 size="4" maxlength="4"/>
             (同一端的任务号必须唯一)
             <{if $type ==='edit'}>
-            <input type="hidden" name="smtpId" value="<{$data.id}>"/>
+            <input type="hidden" name="smtpGeneralId" id="smtpGeneralId" value="<{$data.id}>"/>
             <{/if}>
         </div>
 
@@ -32,13 +32,13 @@
 
         <div class="row">
             <label for="lip">本机地址:</label>
-            <{html_options class="select lip" name="smtplip"
+            <{html_options class="select lip" name="smtpGeneralLip" id="smtpGeneralLip"
                 options=$ifList selected=$data.lip}>
         </div>
 
         <div class="row">
             <label for="lport">本机端口:<em class="required">*</em></label>
-            <input class="port" type="text" name="smtplportReq" id="smtplportReq"
+            <input class="port" type="text" name="smtpGeneralLport" id="smtpGeneralLport"
                 value="<{$data.lport|default: 25}>" size="5" maxlength="5"/>
         </div>
         
@@ -71,7 +71,7 @@
 		<div class="row">
     		<label>病毒扫描:</label>
     		<{html_radios class="radio" name=fileav label_ids=true values=array('on', 'off')
-              output=array('开', '关') selected=$editFilter.fileav|default: 'on'
+              output=array('开', '关') selected=$editFilter.fileav|default: 'off'
             }>
     	</div>
 
@@ -83,11 +83,11 @@
 
         <div class="row">
             <label for="comment">备注:</label>
-            <input class="comment" name="comment" id="comment" value="<{$data.comment|escape}>"/>
+            <input class="width10em comment" name="comment" id="comment" value="<{$data.comment|escape}>"/>
         </div>
     </fieldset>
 </form>
-<script type="text/javascript" src="Public/js/client/mail/filter.js"></script>
+<script type="text/javascript" src="Public/js/client/mail/mailfilter.js"></script>
 <script type="text/javascript" src="Public/js/client/mail/smtpGeneralVisit.js"></script>
 <script type="text/javascript">
     $(document).ready(function() {

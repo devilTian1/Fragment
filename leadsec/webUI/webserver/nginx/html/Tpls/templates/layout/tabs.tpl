@@ -9,7 +9,6 @@
         id="show_text<{$t@index}>">
         <{$t.breadCrumbs}>&nbsp;&nbsp;&nbsp;&nbsp;<{$t.note}>
         </span>
-        
     <{/foreach}>
     </div>
     <div class="tabinfo_right"></div>
@@ -30,19 +29,33 @@
                     class="visitedTab"
                 <{/if}>
                 name="<{$tab.link}>" title="<{$tab.title}>"
-                onClick="showPageByAjax('<{$baseurl|cat:'/'|cat:$tab.link|cat:'.php'}>')">
+                onClick="freshModStat('<{$baseurl}>', '<{$tab.link}>');showPageByAjax('<{$baseurl|cat:'/'|cat:$tab.link|cat:'.php'}>')">
                 <{$tab.name}>
                 </li>
             <{/foreach}>
         <{/if}>
     </ul>
-    <!--<span id="modelchk" class="modelchk_off"></span>-->
-    <span id="modelchk" class="modelchk_on"></span>
+    <{if $modStat['active'] eq 'on'}>
+        <span name="modechk|<{$modStat['mod']}>|<{$modStat['serv']}>"
+            id="modechk" class="modelchk_on"
+            onClick="switchModStat()"></span>
+    <{else if $modStat['active'] eq 'off'}>
+        <span name="modechk|<{$modStat['mod']}>|<{$modStat['serv']}>"
+            id="modechk" class="modelchk_off"
+            onClick="switchModStat()"></span>
+    <{/if}>
 </div>
 <script type="text/javascript">
- <{if isset($tabs) && count($tabs) != 0}>
-	 showPageByAjax("<{$baseurl|cat:'/'|cat:$tabs[$tabnum|default:0].link|cat:'.php'}>");
- <{/if}>
- var mainZoneWidth=document.getElementById("mainZone").scrollWidth;
- document.getElementById("tabinfo_cen").style.width=(mainZoneWidth-200)+"px";
+    <{if isset($tabs) && count($tabs) != 0}>
+        showPageByAjax("<{$baseurl|cat:'/'|cat:$tabs[$tabnum|default:0].link|cat:'.php'}>");
+    <{/if}>
+    var mainZoneWidth=document.getElementById("mainZone").scrollWidth;
+    document.getElementById("tabinfo_cen").style.width=(mainZoneWidth-200)+"px";
+    <{if $modStat['active'] eq 'on'}>
+        $("#modechk").attr("title","点击后将关闭服务");
+        $("#modechk").tooltip();
+    <{else if $modStat['active'] eq 'off'}>
+        $("#modechk").attr("title","点击后将启动服务");
+        $("#modechk").tooltip();
+    <{/if}>    
 </script>

@@ -2,28 +2,27 @@
 
 <script type="text/javascript">
 $(document).ready(function () {
-	var dw=dh=cd=ch=0;
-	<{if $count == 0}>
-		dw=400,dh=300;
-		cd=350;ch=190;
-	<{elseif $count == 1}>
-		dw=400,dh=300;
-		cd=350;ch=190;
-	<{elseif $count == 2}>
-		dw=500,dh=300;
-		cd=450;ch=190;
-	<{elseif $count == 3}>
-		dw=650,dh=300;
-		cd=600;ch=190;
-	<{elseif $count == 4}>
-		dw=850,dh=300;
-		cd=800;ch=190;
-	<{elseif $count > 4}>
-		dw=850,dh=560;
-		cd=800;ch=450;
-	<{/if}>
-	parent.setConOption(dw,dh);
-	
+    var dw=dh=cd=ch=0;
+    <{if $count == 0}>
+        dw = 400, dh = 300;
+        cd = 350, ch = 190;
+    <{elseif $count == 1}>
+        dw = 400, dh = 300;
+        cd = 350, ch = 190;
+    <{elseif $count == 2}>
+        dw = 500, dh = 300;
+        cd = 450, ch = 190;
+    <{elseif $count == 3}>
+        dw = 650, dh = 300;
+        cd = 600, ch = 190;
+    <{elseif $count == 4}>
+        dw = 850, dh = 300;
+        cd = 800, ch = 190;
+    <{elseif $count > 4}>
+        dw = 850, dh = 560;
+        cd = 800, ch = 450;
+    <{/if}>
+    parent.setConOption(dw, dh);
     var mulCoreUpIntval = 5000;
     var chartx = new Highcharts.Chart({
             chart: {
@@ -90,22 +89,20 @@ $(document).ready(function () {
                     outerRadius: '105%',
                     innerRadius: '103%'
                 }],
-				
-				<{if $i <= 4 and $count == 1}>
-                 	center: [<{($i-1)*200+165}>, 85],
-				<{elseif $i <= 4 and $count == 2}>
-					center: [<{($i-1)*200+120}>, 85],
-				<{elseif $i <= 4 and $count == 3}>
-					center: [<{($i-1)*200+95}>, 85],
-				<{elseif $i <= 4 and $count == 4}>
-					center: [<{($i-1)*200+90}>, 85],
-				<{elseif $i <= 4 and $count > 4}>
-					center: [<{($i-1)*200+90}>, 100],
-				<{else}>
-                	center: [<{($i-5)*200+90}>, 300],
-				<{/if}>
-				
-				size: 170
+                <{if $i <= 4 and $count == 1}>
+                    center: [<{($i-1)*200+165}>, 85],
+                <{elseif $i <= 4 and $count == 2}>
+                    center: [<{($i-1)*200+120}>, 85],
+                <{elseif $i <= 4 and $count == 3}>
+                    center: [<{($i-1)*200+95}>, 85],
+                <{elseif $i <= 4 and $count == 4}>
+                    center: [<{($i-1)*200+90}>, 85],
+                <{elseif $i <= 4 and $count > 4}>
+                    center: [<{($i-1)*200+90}>, 100],
+                <{else}>
+                    center: [<{($i-5)*200+90}>, 300],
+                <{/if}>
+                size: 170
                 }
                 <{if $i != $count}>
                 ,

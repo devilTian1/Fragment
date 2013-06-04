@@ -4,31 +4,31 @@
     <fieldset>
         <legend>添加UDP透明访问</legend>
         <div class="row">
-            <label for="cusUdpTransId">任务号:<em class="required">*</em></label>
-            <input class="id" type="text" name="cusUdpTransId" id="cusUdpTransId" value="<{$data.id}>"
+            <label for="customUdpTransId">任务号:<em class="required">*</em></label>
+            <input class="id" type="text" name="customUdpTransId" id="customUdpTransId" value="<{$data.id}>"
                 <{if $type ==='edit'}>disabled="disabled"<{/if}>
                 size="4" maxlength="4"/>
             (同一端的任务号必须唯一)
             <{if $type ==='edit'}>
-            <input type="hidden" name="cusUdpTransId" value="<{$data.id}>"/>
+            <input type="hidden" name="customUdpTransId" value="<{$data.id}>"/>
             <{/if}>
         </div>
 
         <div class="row">
             <label for="sa">源地址:</label>
             <{html_options class="select sa" name="sa"
-                options=$addrOptions selected=$data.sa|default: 'any'}>
+                options=$saaddrOptions selected=$data.sa|default: 'any'}>
         </div>
         
         <div class="row">
             <label for="da">目的地址:</label>
             <{html_options class="select da" name="da"
-                options=$addrOptions selected=$data.da|default: 'any'}>
+                options=$daaddrOptions selected=$data.da|default: 'any'}>
         </div>
         
         <div class="row">
             <label for="dport">目的端口:<em class="required">*</em></label>
-            <input class="port" type="text" name="udpTranslportReq" value="<{$data.dport}>" size="5" maxlength="5"/>
+            <input class="port" type="text" name="customUdpTransLport" id="customUdpTransLport" value="<{$data.dport}>" size="5" maxlength="5"/>
         </div>
         
         <div class="row">
@@ -54,7 +54,7 @@
         <div class="row">
             <label for="active">是否启动:</label>
             <{html_radios class="radio" name=active label_ids=true values=array('Y', 'N')
-                output=array('开', '关') selected=$data.active|default: 'N'}>
+                output=array('开', '关') selected=$data.active|default: 'Y'}>
         </div>
 
         <div class="row">

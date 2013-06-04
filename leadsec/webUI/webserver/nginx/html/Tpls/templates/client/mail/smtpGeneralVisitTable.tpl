@@ -10,10 +10,10 @@
             <form action="Function/client/mail/smtpGeneralVisit.php"
                 method="POST" id="switchSmtpCommClientForm_<{$r.id}>"
                 onSubmit="return false;">
-                <input type="hidden" name="smtpId" value="<{$r.id}>"/>
+                <input type="hidden" name="smtpGeneralId" value="<{$r.id}>"/>
                 <input type="hidden" name="sa" value="<{$r.sa}>"/>
-                <input type="hidden" name="smtplip" value="<{$r.lip}>"/>
-                <input type="hidden" name="smtplportReq" value="<{$r.lport}>"/>
+                <input type="hidden" name="smtpGeneralLip" value="<{$r.lip}>"/>
+                <input type="hidden" name="smtpGeneralLport" value="<{$r.lport}>"/>
                 <input type="hidden" name="time" value="<{$r.time}>"/>
                 <input type="hidden" name="filter" value="<{$r.filter}>"/>
                 <input type="hidden" name="usergrp" value="<{$r.usergrp}>"/>
@@ -43,5 +43,5 @@
         </td>
     </tr>
 <{foreachelse}>
-    <tr><td colspan='9'>No Data</td></tr>
+    <tr><td colspan='9'>无数据</td></tr>
 <{/foreach}>

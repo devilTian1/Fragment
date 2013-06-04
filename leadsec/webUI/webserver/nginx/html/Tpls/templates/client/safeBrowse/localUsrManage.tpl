@@ -1,11 +1,11 @@
-<{include file='layout/search.tpl' tableId='localUsrManageTable'}>
+<{include file='layout/search.tpl'}>
 <table class="column_95 textMid tablesorter" id="localUsrManageTable">
     <caption>
            信息列表
     </caption>
     <thead>
     <tr>
-      <th class="column_10" name="id">序号</th>
+      <th class="column_10">序号</th>
       <th class="column_20" name="name">用户名</th>
       <th class="column_40" name="comment">备注</th>
       <th class="column_30">操作</th>
@@ -28,6 +28,6 @@
     $(document).ready(function() {
         renderStandardUi();
         freshTable('Function/client/safeBrowse/localUsrManage.php', $('#localUsrManageTable'), 'ORDER BY name ASC LIMIT 10');
-        sortTableInit($('#localUsrManageTable'), {3: {sorter: false}}, [[1,0]]);
+        sortTableInit($('#localUsrManageTable'), {0: {sorter: false},3: {sorter: false}}, [[1,0]]);
     });
 </script>

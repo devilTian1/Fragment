@@ -1,4 +1,4 @@
-<{include file='layout/search.tpl' tableId='addrTable'}>
+<{include file='layout/search.tpl' colNames='name,ip,comment'}>
 <table class="column_95 textMid tablesorter" id="addrTable">
     <caption>
   	地址列表
@@ -30,6 +30,6 @@
     $(document).ready(function() {
         renderStandardUi();
         freshTable('Function/resConf/addr/addrList.php', $('#addrTable'), 'ORDER BY id ASC LIMIT 10');
-        sortTableInit($('#addrTable'), {4: {sorter: false}}, [[0,0]]);
+        sortTableInit($('#addrTable'), {0: {sorter: false},4: {sorter: false}}, [[0,0]]);
     });
 </script>

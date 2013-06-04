@@ -5,7 +5,7 @@
         <legend>发送任务</legend>
         <div class="row">
             <label for="sendTaskId">任务号:<em class="required">*</em></label>
-            <input class="id" type="text" name="sendTaskId" value="<{$data.task_id}>"
+            <input class="id" type="text" name="sendTaskId" id="sendTaskId" value="<{$data.task_id}>"
                 <{if $type ==='edit'}>disabled="disabled"<{/if}>/>
             <{if $type ==='edit'}>
                 <input type="hidden" name="sendTaskId"
@@ -15,12 +15,12 @@
 
         <div class="row">
             <label for="sip">服务器地址:<em class="required">*</em></label>
-            <input type="text" name="sip" id="sip" value="<{$data.ip}>"/>
+            <input class="width10em" type="text" name="sip" id="sip" value="<{$data.ip}>"/>
         </div>
 
         <div class="row">
             <label for="shareName">服务器共享名:<em class="required">*</em></label>
-            <input type="text" name="shareName" id="shareName"
+            <input class="width10em" type="text" name="shareName" id="shareName"
                 value="<{$data.share_name}>"/>
         </div>
 
@@ -32,20 +32,20 @@
         </div>
 
 		<div class="row">
-            <label for="portReq">端口:<em class="required">*</em></label>
-            <input class="port" type="text" name="portReq"
+            <label for="sendTaskPort">端口:<em class="required">*</em></label>
+            <input class="port" type="text" name="sendTaskPort" id="sendTaskPort" 
                 value="<{$data.port|default: 445}>" size="5" maxlength="5"/>
         </div>
 
         <div class="row smbDiv">
             <label for="smbUser">用户名:</label>
-            <input type="text" name="smbUser" id="smbUser"
+            <input class="width10em" type="text" name="smbUser" id="smbUser"
                 value="<{$data.user}>"/>
         </div>
 
         <div class="row smbDiv">
             <label for="smbPwd">密码:</label>
-            <input type="password" name="smbPwd" id="smbPwd"
+            <input class="width10em" type="password" name="smbPwd" id="smbPwd"
                 value="<{$data.password}>"/>
         </div>
 
@@ -60,13 +60,13 @@
 
         <div class="row changenameDiv">
             <label for="readyString">源名标识:<em class="required">*</em></label>
-            <input type="text" name="readyString" id="readyString"
+            <input class="width10em" type="text" name="readyString" id="readyString"
                 value="<{$data.ready_string}>"/>
         </div>
 
         <div class="row changenameDiv">
             <label for="completeString">完成后标识:<em class="required">*</em></label>
-            <input type="text" name="completeString" id="completeString"
+            <input class="width10em" type="text" name="completeString" id="completeString"
                 value="<{$data.complete_string}>"/>
         </div>
 
@@ -87,7 +87,7 @@
 
         <div class="row">
             <label for="internal">同步间隔(单位:秒):<em class="required">*</em></label>
-            <input type="text" name="interval" id="interval"
+            <input class="width10em" type="text" name="interval" id="interval"
                 value="<{$data.interval}>"/>
         </div>
     

@@ -10,10 +10,10 @@
             <form action="Function/client/ftp/generalVisit.php"
                 method="POST" id="switchFtpCommClientForm_<{$r.id}>"
                 onSubmit="return false;">
-                <input type="hidden" name="ftpId" value="<{$r.id}>"/>
+                <input type="hidden" name="ftpGeneralId" value="<{$r.id}>"/>
                 <input type="hidden" name="sa" value="<{$r.sa}>"/>
-                <input type="hidden" name="lip" value="<{$r.lip}>"/>
-                <input type="hidden" name="ftplportReq" value="<{$r.lport}>"/>
+                <input type="hidden" name="ftpGeneralLip" value="<{$r.lip}>"/>
+                <input type="hidden" name="ftpGeneralLport" value="<{$r.lport}>"/>
                 <input type="hidden" name="time" value="<{$r.time}>"/>
                 <input type="hidden" name="filter" value="<{$r.filter}>"/>
                 <input type="hidden" name="usergrp" value="<{$r.usergrp}>"/>
@@ -33,6 +33,13 @@
                 <{/if}>
             </form>
         </td>
+        <td> 
+                <{if $r.virus === 'Y' || $r.virus === '1'}>
+           			 开
+            	<{else}>
+            		关
+          		  <{/if}>
+        </td>  
         <td class="no_search">
             <a href="#" class="edit"
                 onclick="editFtpCommClientAclDialog('<{$r.id}>')">编辑</a>
@@ -42,5 +49,5 @@
         </td>
     </tr>
 <{foreachelse}>
-    <tr><td colspan='8'>没有任务.</td></tr>
+    <tr><td colspan='8'>无数据.</td></tr>
 <{/foreach}>

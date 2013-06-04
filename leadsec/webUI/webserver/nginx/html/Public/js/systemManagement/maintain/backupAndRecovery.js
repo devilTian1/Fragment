@@ -12,6 +12,7 @@ function submitForm(form) {
     }
 }
 
+/*
 function getUploadFileName(filepath) {
 	var filepath = Trim(filepath);
 	if (filepath =='ngconfig_in'||filepath =='ngconfig_out') {
@@ -22,6 +23,7 @@ function getUploadFileName(filepath) {
 		return false;
 	}
 }
+*/
 
 //去除首尾空格
 function Trim(str){
@@ -30,6 +32,7 @@ function Trim(str){
 
 function importConfigFile() {
 	var form = $('#importFileForm');
+	/*
 	var file = Trim($("input[name='importFile']").val());
 	var stag = file.lastIndexOf('\\');
 	// for IE,chorm 
@@ -38,33 +41,25 @@ function importConfigFile() {
 		var filepath = file.substr(substr_stag);
 	} else {
 		var filepath = file;	
-	}
-	
-	if (getUploadFileName(filepath)==false) {
-		showErrorDialog(filepath+'的配置文件格式错误');
-	} else if (getUploadFileName(filepath)=='empty'){
-		showErrorDialog('上传文件不能为空');
-	} else {
-		var successCallback = function(result, textStatus) {
-		var content = result.msg;
-			var dialog  = loadingScreen('导入配置文件');
-			var buttons = {};
-				buttons['确定'] = function() {
-					$(this).remove();
-				};
-			var dialogParams = {
-					width: 400,
-					height: 400,
-					buttons: buttons
-				};
-				dialog.setContent(content);
-				dialog.setOptions(dialogParams); 
-		};
-		
-		if (form.valid()) {
-			var dialogcmd = ajaxSubmitForm(form, '结果',successCallback);
-			dialogcmd.close();
-		}
+	}*/
+	var successCallback = function(result, textStatus) {
+	var content = result.msg;
+		var dialog  = loadingScreen('导入配置文件');
+		var buttons = {};
+			buttons['确定'] = function() {
+				$(this).remove();
+			};
+		var dialogParams = {
+				width: 200,
+				height: 200,
+				buttons: buttons
+			};
+			dialog.setContent(content);
+			dialog.setOptions(dialogParams); 
+	};
+	if (form.valid()) {
+		var dialogcmd = ajaxSubmitForm(form, '结果',successCallback);
+		dialogcmd.close();
 	}
 }
 

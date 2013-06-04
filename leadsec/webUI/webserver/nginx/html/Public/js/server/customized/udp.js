@@ -7,8 +7,11 @@ function editUdpCommServerAclDialog(id) {
     var buttons = {};
     buttons[getMessage('Ok')] = function() {
         if ($('#editUdpCommServerAclForm').valid()) {
-            ajaxSubmitForm($('#editUdpCommServerAclForm'), '结果');
-            freshTableAndPage();
+        	var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editUdpCommServerAclForm'), '结果', undefined,
+                undefined, afterSuccessCallback);
             $(this).remove();
         }
     };
@@ -34,15 +37,21 @@ function openNewUdpCommServerAclDialog() {
     buttons[getMessage('Add Next')] = function() {
         if ($('#editUdpCommServerAclForm').valid()) {
             openNewUdpCommServerAclDialog();
-            ajaxSubmitForm($('#editUdpCommServerAclForm'), '结果');
-            freshTableAndPage();
+            var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editUdpCommServerAclForm'), '结果', undefined,
+                undefined, afterSuccessCallback);
             $(this).remove();
         }
     };
     buttons[getMessage('Ok')] = function() {
         if ($('#editUdpCommServerAclForm').valid()) {
-            ajaxSubmitForm($('#editUdpCommServerAclForm'), '结果');
-            freshTableAndPage();
+        	var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editUdpCommServerAclForm'), '结果', undefined,
+                undefined, afterSuccessCallback);
             $(this).remove();
         }
     };
@@ -104,8 +113,11 @@ function switchUdpCommServerAcl(id, action) {
     var dialog  = loadingScreen(title);
     var buttons = {};
     buttons[getMessage('Ok')] = function() {
-        ajaxSubmitForm($('#switchUdpCommServerForm_' + id), '结果');
-        freshTableAndPage();
+    	var afterSuccessCallback = function() {
+            freshTableAndPage();
+        };
+        ajaxSubmitForm($('#switchUdpCommServerForm_' + id), '结果', undefined,
+            undefined, afterSuccessCallback);
         $(this).remove();
     };
     buttons[getMessage('Cancel')] = function() {

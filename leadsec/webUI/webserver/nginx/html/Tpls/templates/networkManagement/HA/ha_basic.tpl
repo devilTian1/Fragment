@@ -44,7 +44,7 @@
 			<td valign="middle" class="tdheader">对端网口HA地址:</td>
 				<td class="tdbody">
 					<div class="margintop3"> 
-						<input name="ha_ip" id="peer_ha_ip" type="text" 
+						<input class="width149" name="ha_ip" id="peer_ha_ip" type="text" 
 						value="<{$data.peer_ha_ip}>"/>
 					</div>
         		</td>
@@ -66,7 +66,7 @@
 			</td>
 			<td class="tdbody">
 				<div class=""tdbody"">
-					<input id="haTime" type="text" value="<{$data.interval}>" name="haTime">
+					<input class="width149" id="haTime" type="text" value="<{$data.interval}>" name="haTime">
 				</div>
         	</td>
     	</tr>

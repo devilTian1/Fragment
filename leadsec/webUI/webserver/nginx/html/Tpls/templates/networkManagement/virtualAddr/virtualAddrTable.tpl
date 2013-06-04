@@ -12,5 +12,5 @@
         </td>
     </tr>
 <{foreachelse}>
-    <tr><td colspan='4'>No Virtual Addr Data</td></tr>
+    <tr><td colspan='4'>无数据</td></tr>
 <{/foreach}>

@@ -4,17 +4,45 @@
     function appendUserManageData($where) {
         $tpl =  'client/safeBrowse/localUsrManageTable.tpl';
         $db  = new dbsqlite(DB_PATH . '/netgap_http.db');
-	    $sql = "SELECT * FROM user $where";
-        $result = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);        
+	    $sql = "SELECT * FROM user";
+        $params = array();
+        if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
+            $data   = getWhereStatement($db, $_GET['cols'], $_GET['keyword']);
+            $sql   .= $data['sql'];
+            $params = $data['params'];
+        }
+        $sql .=  ' ' . $where;
+        $result = $db->query($sql, $params)->getAllData(PDO::FETCH_ASSOC);
+        // get offset
+        $pos = stripos($where,"offset ");
+        if ($pos) {
+            $offset = substr($where,$pos+7);
+        } else {
+            $offset = 0;
+        }
         echo V::getInstance()->assign('UsrMng', $result)
-            ->assign('pageCount', 10)
+            ->assign('offset', $offset)
             ->fetch($tpl);
+    }
+    
+    function getWhereStatement($db, $cols, $keyword) {
+        $value  = '%' . $keyword . '%';
+        $params = array_fill(0, count(explode(',', $cols)), $value);
+        return array('sql'    => ' WHERE (' .
+                              $db->getWhereStatement($cols, 'OR', 'like') . ')',
+                     'params' => $params);
     }
 
     function getDataCount() {
     	$sql = "SELECT name FROM user";
         $db  = new dbsqlite(DB_PATH . '/netgap_http.db');
-        return $db->query($sql)->getCount();
+        $params = array();
+        if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
+            $data   = getWhereStatement($db, $_GET['cols'], $_GET['keyword']);
+            $sql   .= $data['sql'];
+            $params = $data['params'];
+        }
+        return $db->query($sql, $params)->getCount();
     }
 
     function getCmd() {

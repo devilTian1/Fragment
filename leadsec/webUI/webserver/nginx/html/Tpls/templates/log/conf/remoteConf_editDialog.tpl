@@ -4,7 +4,7 @@
         <!--<legend></legend>-->
         <div class="row">
           <label >服务器IP:<em class="required">*</em></label>
-          <input type="text"  name="remoteLogIp" value="<{$res.logsrv}>" 
+          <input type="text" class="w150" name="remoteLogIp" value="<{$res.logsrv}>" 
               <{if $type ==='edit'}>disabled="disabled"<{/if}> />             
          <{if $type ==='edit'}>
              <input type="hidden" name="remoteLogIp" value="<{$res.logsrv}>"/>

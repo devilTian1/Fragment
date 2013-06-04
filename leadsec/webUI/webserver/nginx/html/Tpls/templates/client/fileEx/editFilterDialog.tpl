@@ -8,7 +8,7 @@
         <legend>文件属性控制</legend>
         <div class="row">
             <label for="FEfilterName">名称:<em class="required">*</em></label>
-            <input type="text" name="FEfilterName" value="<{$data.name}>"
+            <input class="width10em" type="text" name="FEfilterName" value="<{$data.name}>"
                 <{if $type ==='edit'}>disabled="disabled"<{/if}>/>
             <{if $type ==='edit'}>
                 <input type="hidden" name="FEfilterName"    
@@ -70,19 +70,14 @@
         <div class="row">
             <label for="timemin">文件修改时间:</label>
             <label class="simpleLabel" for="timemin">下限:</label>
-            <input type="text" name="timemin" id="timemin"
+            <input class="width12em" type="text" name="timemin" id="timemin"
                 value="<{$data.timemin}>" onkeyup="$('#editFilterForm').validate().element($('#timemax'));"/>
         </div>
         <div class="row">
             <label for="timemax">&nbsp;</label>
             <label class="simpleLabel" for="timemax">上限:</label>
-            <input type="text" name="timemax" id="timemax"
+            <input class="width12em" type="text" name="timemax" id="timemax"
                 value="<{$data.timemax}>" onkeyup="$('#editFilterForm').validate().element($('#timemin'));"/>
-        </div>
-
-        <div class="row">
-            <label for="comment">备注:</label>           
-            <input class="comment" name="comment" id="comment" value="<{$data.comment}>"/>
         </div>
     </fieldset>
 </form>

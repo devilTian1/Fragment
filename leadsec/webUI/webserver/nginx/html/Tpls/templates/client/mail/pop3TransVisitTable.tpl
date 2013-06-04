@@ -13,7 +13,7 @@
                 <input type="hidden" name="pop3TransId" value="<{$r.id}>"/>
                 <input type="hidden" name="sa" value="<{$r.sa}>"/>
                 <input type="hidden" name="da" value="<{$r.da}>"/>
-                <input type="hidden" name="pop3TransdportReq" value="<{$r.dport}>"/>
+                <input type="hidden" name="pop3TranslportReq" value="<{$r.dport}>"/>
                 <input type="hidden" name="time" value="<{$r.time}>"/>
                 <input type="hidden" name="filter" value="<{$r.filter}>"/>
                 <input type="hidden" name="usergrp" value="<{$r.usergrp}>"/>
@@ -42,5 +42,5 @@
         </td>
     </tr>
 <{foreachelse}>
-    <tr><td colspan='9'>No Data</td></tr>
+    <tr><td colspan='9'>无数据</td></tr>
 <{/foreach}>

@@ -7,8 +7,11 @@ function editPop3CommClientAclDialog(id) {
     var buttons = {};
     buttons[getMessage('Ok')] = function() {
         if ($('#editPop3CommClientAclForm').valid()) {
-            ajaxSubmitForm($('#editPop3CommClientAclForm'), '结果');
-            freshTableAndPage();
+        	var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editPop3CommClientAclForm'), '结果', undefined,
+                undefined, afterSuccessCallback);    
             $(this).remove();
         }
     };
@@ -34,15 +37,21 @@ function openNewPop3CommClientAclDialog() {
     buttons[getMessage('Add Next')] = function() {
         if ($('#editPop3CommClientAclForm').valid()) {
             openNewPop3CommClientAclDialog();
-            ajaxSubmitForm($('#editPop3CommClientAclForm'), '结果');
-            freshTableAndPage();
+            var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editPop3CommClientAclForm'), '结果', undefined,
+                undefined, afterSuccessCallback);    
             $(this).remove();
         }
     };
     buttons[getMessage('Ok')] = function() {
         if ($('#editPop3CommClientAclForm').valid()) {
-            ajaxSubmitForm($('#editPop3CommClientAclForm'), '结果');
-            freshTableAndPage();
+        	var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editPop3CommClientAclForm'), '结果', undefined,
+                undefined, afterSuccessCallback);    
             $(this).remove();
         }
     };
@@ -104,8 +113,11 @@ function switchPop3CommClientAcl(id, action) {
     var dialog  = loadingScreen(title);
     var buttons = {};
     buttons[getMessage('Ok')] = function() {
-        ajaxSubmitForm($('#switchPop3CommClientForm_' + id), '结果');
-        freshTableAndPage();
+    	var afterSuccessCallback = function() {
+            freshTableAndPage();
+        };
+        ajaxSubmitForm($('#switchPop3CommClientForm_' + id), '结果', undefined,
+            undefined, afterSuccessCallback);    
         $(this).remove();
     };
     buttons[getMessage('Cancel')] = function() {
@@ -126,7 +138,7 @@ function switchPop3CommClientAcl(id, action) {
 function filterRes() {
     var type    = $('input:radio[name="ipType"]:checked').val();
     var saOpts  = $('select[name="sa"]');
-    var lipOpts = $('select[name="pop3lip"]');
+    var lipOpts = $('select[name="pop3GeneralLip"]');
     saOpts.showOption();
     lipOpts.showOption();
     if (type === 'ipv4') {

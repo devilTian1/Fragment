@@ -127,8 +127,11 @@ function switchSafePassActive(id, action) {
     var dialog  = loadingScreen(title);
     var buttons = {};
     buttons['确定'] = function() {
-        ajaxSubmitForm($('#switchSafePassActiveForm_' + id), '结果');
-        freshTableAndPage();
+        var afterSuccessCallback = function() {
+                freshTableAndPage();
+        };
+        ajaxSubmitForm($('#switchSafePassActiveForm_' + id), '结果', undefined,
+                undefined, afterSuccessCallback);
         $(this).remove();
     };
     buttons['取消'] = function() {
@@ -215,7 +218,7 @@ function portOnCtrl() {
 		$("#sPortDiv").addClass("hide");
 		$("#dPortDiv").addClass("hide");
 	}
-	if (service == "any") {
+	/*if (service == "any") {
 	    $("#icmpDiv").removeClass("hide");
 	    $("#pingDiv").removeClass("hide");
 	    
@@ -225,7 +228,7 @@ function portOnCtrl() {
             $("#icmpFloodTxt").attr("disabled",'disabled');
             $("#icmpDiv").addClass("hide");
 	    $("#pingDiv").addClass("hide");
-        }
+        }*/
 }
 
 function freshTableAndPage() {

@@ -1,6 +1,6 @@
 <{foreach $TransAcc as $key => $array }>
     <tr>
-        <td><{$beginId++}></td>        
+        <td><{$array.id}></td>        
         <td><{$array.sip}></td>
         <td><{$array.dip}></td>
         <td><{$array.port}></td>
@@ -27,5 +27,5 @@
         </td>
     </tr>
 <{foreachelse}>
-    <tr><td colspan='8'>No Data</td></tr>
+    <tr><td colspan='8'>无数据</td></tr>
 <{/foreach}>

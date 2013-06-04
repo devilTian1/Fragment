@@ -1,4 +1,4 @@
-<{include file='layout/search.tpl' tableId='generalVisitTable'}>
+<{include file='layout/search.tpl'}>
 <table class="column_95 textMid tablesorter" id="generalVisitTable">
     <caption>
            信息列表

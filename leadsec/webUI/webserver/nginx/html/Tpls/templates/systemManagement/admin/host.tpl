@@ -2,8 +2,8 @@
     <caption>管理主机</caption>
     <thead>
         <tr>
-            <th class="column_10">序号</th>
-            <th class="column_20">管理主机IP</th>
+            <th class="column_10" name = "id">序号</th>
+            <th class="column_20" name = "ip">管理主机IP</th>
             <th class="column_20">子网掩码</th>
             <th class="column_30">说明</th>
             <th class="column_20">操作</th>
@@ -21,5 +21,7 @@
    	$(document).ready(function(){
         renderStandardUi();
         freshHostList();
+		freshTable('Function/systemManagement/admin/host.php',$('#hostTable'),'ORDER BY id ASC');
+		sortTableInit($('#hostTable'), {4: {sorter: false}}, [[0,0]]);
     });
 </script>

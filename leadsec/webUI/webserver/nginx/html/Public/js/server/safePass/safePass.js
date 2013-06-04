@@ -127,8 +127,11 @@ function switchSafePassActive(id, action) {
     var dialog  = loadingScreen(title);
     var buttons = {};
     buttons['确定'] = function() {
-        ajaxSubmitForm($('#switchSafePassServerActiveForm_' + id), '结果');
-        freshTableAndPage();
+        var afterSuccessCallback = function() {
+                freshTableAndPage();
+        };
+        ajaxSubmitForm($('#switchSafePassServerActiveForm_' + id), '结果', undefined,
+                undefined, afterSuccessCallback);
         $(this).remove();
     };
     buttons['取消'] = function() {
@@ -161,9 +164,11 @@ function filterRes() {
 function portOnCtrl() {
 	var service = $("select[name='serviceList'] option:selected").val();
 	if (service == "tcp_any" || service== "udp_any") {
-		$("#sPortDiv").removeClass("hide");		
+		$("#sPortDiv").removeClass("hide");	
+		$("#inPortDiv").removeClass("hide");				
 	} else {
-		$("#sPortDiv").addClass("hide");	
+		$("#sPortDiv").addClass("hide");
+		$("#inPortDiv").addClass("hide");
 	}
 }
 

@@ -14,7 +14,11 @@
         $dataCount = $_POST['dataCount'];
     }
     $rowsCount = $_POST['rowsCount'];
-    $pageCount = $_POST['pageCount'];
+    if ($rowsCount === 'all') {
+        $pageCount = 1;
+    } else {
+        $pageCount = ceil($dataCount/$rowsCount);
+    }
     $clickedPageNo = $_POST['pageNum'];
     if ($clickedPageNo === 1) {
 	    $prev = 1;

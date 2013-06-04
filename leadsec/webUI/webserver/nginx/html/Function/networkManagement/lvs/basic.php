@@ -6,11 +6,11 @@
         $cli = new cli();
         if ('on' === $_POST['switch']) {
         	$cli->setLog('网络管理的基本配置启用')->run('lvsctl start');
-            $msg = '服务已启动.';
+            $msg = '服务已启动。';
         } else {
             // stop start
             $cli->setLog('网络管理的基本配置停止')->run('lvsctl stop');
-            $msg = '服务已停止.';
+            $msg = '服务已停止。';
         }
         echo json_encode(array('msg' => $msg));
     } else if ('1' === $_GET['r']) {
@@ -23,7 +23,7 @@
             $r = 'node';
         }
         $cli->setLog('修改网络管理的基本配置:'.$r)->run("lvsctl set basic role $r");
-        echo json_encode(array('msg' => '修改成功.'));
+        echo json_encode(array('msg' => '修改成功。'));
     } else {
         // init page data
         $cli     = new cli();

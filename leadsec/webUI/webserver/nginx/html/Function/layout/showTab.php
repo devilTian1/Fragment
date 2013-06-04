@@ -2,7 +2,7 @@
     require_once('../common.php');
 
     // display tab content
-    if ($_POST['action']) { 	
+    if ($_POST['action']) {
     	$action = $_POST['action'];    
     	if($action=='first')
     	{
@@ -51,7 +51,8 @@
         V::getInstance()->assign('tabs',    $tabs)
                         ->assign('tabinfo', $tabinfo)
                         ->assign('baseurl', join('/', $path))
-                        ->assign('tabnum',$tabnum)
+                        ->assign('tabnum',  $tabnum)
+                        ->assign('modStat', getCurModStat($path))
                         ->display('layout/tabs.tpl');
     } else if ($_POST['tabNum']) {
         $tabnum = $_POST['tabNum'];
@@ -66,7 +67,8 @@
         V::getInstance()->assign('tabs',    $tabs)
                         ->assign('tabinfo', $tabinfo)
                         ->assign('baseurl', join('/', $path))
-                        ->assign('tabnum',$tabnum)
+                        ->assign('tabnum',  $tabnum)
+                        ->assign('modStat', getCurModStat($path))
                         ->display('layout/tabs.tpl');
     } else {
         $path = $_POST['tabPath'];
@@ -80,6 +82,7 @@
         V::getInstance()->assign('tabs',    $tabs)
                         ->assign('tabinfo', $tabinfo)
                         ->assign('baseurl', join('/', $path))
+                        ->assign('modStat', getCurModStat($path))
                         ->display('layout/tabs.tpl');
     }
 ?>

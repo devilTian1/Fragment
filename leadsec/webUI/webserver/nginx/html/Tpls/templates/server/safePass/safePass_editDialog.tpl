@@ -4,7 +4,7 @@
 		<legend>安全通道</legend>
       	<div class="row">
       		<label>任务号:<em class="required">*</em></label>
-      		<input class="id" type="text" name="safePassId" value="<{$editSafePass.id}>" 
+      		<input class="id" type="text" name="safePassId" id="safePassId" value="<{$editSafePass.id}>" 
       			<{if $type ==='edit'}>disabled="disabled"<{/if}> size="4" maxlength="4" />
       		(同一端的任务号必须唯一)
             <{if $type ==='edit'}>
@@ -22,7 +22,7 @@
     		<input class="id" type="text" name="serverPort" value="<{$editSafePass.sport}>" size="5" maxlength="11"/>    		
     	</div>
     	
-    	<div class="row">
+    	<div class="row" id="inPortDiv">
     		<label>公开端口:</label>
     		<input class="id" type="text" name="publicPort" value="<{$editSafePass.inport}>" size="5" maxlength="11"/>  
     		(如填写，需与客户端目的端口一致)   		
@@ -37,13 +37,13 @@
 		<div class="row">
         	<label>服务类型:<em class="required">*</em></label>
         	<{html_options class="select" name="serviceList" onChange="portOnCtrl()"
-                 output=array('RemoteDesk','tcp_any','udp_any','Syslog','dns','http','https'
+                 output=array('tcp_any','udp_any','RemoteDesk','Syslog','dns','http','https'
                  ,'oicq','pop3','smtp','snmp','telnet','ftp','h323','h323_gk'
                  ,'irc','mms','rtsp','sip','tftp','tns') 
-                 values=array('RemoteDesk','tcp_any','udp_any','Syslog','dns','http','https'
+                 values=array('tcp_any','udp_any','RemoteDesk','Syslog','dns','http','https'
                  ,'oicq','pop3','smtp','snmp','telnet','ftp','h323','h323_gk'
                  ,'irc','mms','rtsp','sip','tftp','tns') 
-                  selected=$editSafePass.service|default: 'RemoteDesk'}>
+                  selected=$editSafePass.service|default: 'tcp_any'}>
         </div>
         
          <div class="row">

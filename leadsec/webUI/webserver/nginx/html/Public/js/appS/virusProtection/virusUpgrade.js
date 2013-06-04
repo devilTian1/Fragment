@@ -70,7 +70,7 @@ function submitUpForm(form){
     {
         var dialog = loadingScreen('结果');
         var buttons = {};
-        buttons['Ok'] = function() {
+        buttons['关闭'] = function() {
             dialog.close();
         };
         var dialogParamsDisable = {

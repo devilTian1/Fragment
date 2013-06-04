@@ -7,8 +7,11 @@ function editTcpCommClientAclDialog(id) {
     var buttons = {};
     buttons[getMessage('Ok')] = function() {
         if ($('#editTcpCommClientAclForm').valid()) {
-            ajaxSubmitForm($('#editTcpCommClientAclForm'), '结果');
-            freshTableAndPage();
+        	var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editTcpCommClientAclForm'), '结果', undefined,
+                undefined, afterSuccessCallback);
             $(this).remove();
         }
     };
@@ -34,15 +37,21 @@ function openNewTcpCommClientAclDialog() {
     buttons[getMessage('Add Next')] = function() {
         if ($('#editTcpCommClientAclForm').valid()) {
             openNewTcpCommClientAclDialog();
-            ajaxSubmitForm($('#editTcpCommClientAclForm'), '结果');
-            freshTableAndPage();
+            var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editTcpCommClientAclForm'), '结果', undefined,
+                undefined, afterSuccessCallback);
             $(this).remove();
         }
     };
     buttons[getMessage('Ok')] = function() {
         if ($('#editTcpCommClientAclForm').valid()) {
-            ajaxSubmitForm($('#editTcpCommClientAclForm'), '结果');
-            freshTableAndPage();
+        	var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editTcpCommClientAclForm'), '结果', undefined,
+                undefined, afterSuccessCallback);
             $(this).remove();
         }
     };
@@ -104,8 +113,11 @@ function switchTcpCommClientAcl(id, action) {
     var dialog  = loadingScreen(title);
     var buttons = {};
     buttons[getMessage('Ok')] = function() {
-        ajaxSubmitForm($('#switchTcpCommClientForm_' + id), '结果');
-        freshTableAndPage();
+    	var afterSuccessCallback = function() {
+            freshTableAndPage();
+        };
+        ajaxSubmitForm($('#switchTcpCommClientForm_' + id), '结果', undefined,
+            undefined, afterSuccessCallback);
         $(this).remove();
     };
     buttons[getMessage('Cancel')] = function() {
@@ -126,7 +138,7 @@ function switchTcpCommClientAcl(id, action) {
 function filterRes() {
     var type    = $('input:radio[name="ipType"]:checked').val();
     var saOpts  = $('select[name="sa"]');
-    var lipOpts = $('select[name="lip"]');
+    var lipOpts = $('#tcpGeneralLip');
     saOpts.showOption(); 
     lipOpts.showOption(); 
     if (type === 'ipv4') {

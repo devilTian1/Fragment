@@ -10,6 +10,7 @@
 		    <form action="Function/header.php" method="POST"
 	            id="headerFormId_<{$header.id}>" onSubmit="return false;">
 	        <input type="hidden" name="headerName_<{$header.id}>" value="<{$header.name}>"/>
+	        <{if $header.id === 'exportconf'}><input type="hidden" name="export_format" value="normal"/><{/if}>
             <a class="dock-item2" href="#" onClick="headerSpan('<{$header.name}>','<{$header.id}>')"><span class="black"><{$header.name}></span><img src="<{$smarty.const.THEME_PATH}>/images/<{$header.img}>" alt="<{$header.name}>"/></a>
             </form>
         <{/foreach}> 

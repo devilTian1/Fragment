@@ -5,14 +5,14 @@
     	<legend>关键字设置</legend>
     	<div class="row">
     		<label>名称:<em class="required">*</em></label>
-    		<input type="text" name="keywordName" value="<{$editKeyword.name}>" size="15" maxlength="15"
+    		<input class="width10em" type="text" name="keywordName" value="<{$editKeyword.name}>" size="15" maxlength="15"
     		<{if $type === 'edit'}>disabled="disabled"<{/if}>/>
     		<{if $type === 'edit'}><input type="hidden" name="keywordName" value="<{$editKeyword.name}>"><{/if}>
     	</div>
     	
     	<div class="row">
     		<label>关键字:</label>
-    		<input type="text" name="keyword_txt" id="keyword_txt" value="" size="30" maxlength="30"/>    		
+    		<input class="width10em" type="text" name="keyword_txt" id="keyword_txt" value="" size="30" maxlength="30"/>    		
     	</div>
     	<div class="row paraminfo">
             <ul>
@@ -45,7 +45,7 @@
     
         <div class="row">
         	<label>备注:</label>
-        	<input class="comment" name="comment" id="comment" value="<{$editKeyword.comment|escape}>"/>        	
+        	<input class="width10em comment" name="comment" id="comment" value="<{$editKeyword.comment|escape}>"/>        	
         </div>
 	</fieldset>
 </form>
@@ -58,6 +58,7 @@ $(document).ready(function() {
 		if($("#editKeywordForm").validate().element("#keyword_txt")) {
 			var keyword=$("#keyword_txt").val(),
 			flag=0;
+			$("#keyword_txt").val('');
 			$("#keywordList option").each(function(){
 				if($(this).val()==keyword){
 					flag=1;

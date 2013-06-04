@@ -5,21 +5,32 @@
         $tpl =  'client/fileSync/fileSyncTable.tpl';
         $db  = new dbsqlite(DB_PATH . '/netgap_new_fs.db');
         $sql = 'SELECT id, sa, lip, lport, ssl, commname, mode, killvirus, ' .
-            "time, comment FROM sync_file_client $where";
-        $result = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
-	foreach ($result as $key => $arr) {
-        	$result[$key]['sa'] = addrNameDelPreffix($arr['sa']);
+            "time, comment FROM sync_file_client";
+		$params = array();
+        if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
+            $data   = getWhereStatement($db, $_GET['cols'], $_GET['keyword']);
+            $sql   .= $data['sql'];
+            $params = $data['params'];
         }
-        echo V::getInstance()->assign('fileSyncClientAcl', $result)
-            ->assign('pageCount', 10)
-            ->fetch($tpl);
-    }
+        $sql .=  ' ' . $where;
+        $result = $db->query($sql,$params)->getAllData(PDO::FETCH_ASSOC);
+		foreach ($result as $key => $arr) {
+				$result[$key]['sa'] = addrNameDelPreffix($arr['sa']);
+			}
+			echo V::getInstance()->assign('fileSyncClientAcl', $result)
+				->assign('pageCount', 10)
+				->fetch($tpl);
+		}
 
     function getCmd($action) {
-        $id      = intval($_POST['fsId']);
+		if (!empty($_POST['clientFileSyncTaskId'])) {
+			$id = intval($_POST['clientFileSyncTaskId']);
+		} else {
+			$id = intval($_POST['fsId']);
+		}
         $sa      = $_POST['sa'];
-        $lip     = $_POST['fslip'];
-        $lport   = $_POST['fslportReq'];
+        $lip     = $_POST['clientFileSyncLip'];
+        $lport   = $_POST['clientFileSyncLport'];
         if ($_POST['ssl'] === 'Y') {
             $ssl   = 'yes';
             $cname = $_POST['commname']; 
@@ -40,10 +51,24 @@
         return $result;
     }
 
+	function getWhereStatement($db, $cols, $keyword) {
+        $value  = '%' . $keyword . '%';
+        $params = array_fill(0, count(explode(',', $cols)), $value);
+        return array('sql'    => ' WHERE (' .
+                              $db->getWhereStatement($cols, 'OR', 'like') . ')',
+                     'params' => $params);
+    }
+
     function getDataCount() {
         $sql = 'SELECT id FROM sync_file_client';
         $db  = new dbsqlite(DB_PATH . '/netgap_new_fs.db');
-        return $db->query($sql)->getCount();
+		$params = array();
+        if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
+            $data   = getWhereStatement($db, $_GET['cols'], $_GET['keyword']);
+            $sql   .= $data['sql'];
+            $params = $data['params'];
+        }
+        return $db->query($sql,$params)->getCount();
     }
 
     function addrNameDelPreffix($name) {
@@ -91,20 +116,6 @@
             ->assign('roleList', netGapRes::getInstance()->getRoleList())
             ->assign('type', 'add')->fetch($tpl);
         echo json_encode(array('msg' => $result));
-    } else if (!empty($_GET['checkExistLport'])) {
-        // Check the same lport exist or not
-		$id  = intval($_GET['fsId']);
-        $sql = 'SELECT id FROM sync_file_client WHERE lport = ' .
-            $_GET['fslportReq'] . ' AND lip = "' . $_GET['fslip'] . '"';
-		if ($id != -1) {
-			$sql .= " AND id != $id";
-		}
-        $db  = new dbsqlite(DB_PATH . '/netgap_new_fs.db');
-        echo $db->query($sql)->getCount() > 0 ? 'false' : 'true';
-    } else if (!empty($_GET['checkExistId'])) {
-        // Check the same id exist or not
-        echo netGapRes::getInstance()->checkExistTaskId('fileSync',
-            $_GET['fsId']);
     } else if ($orderStatement = $_POST['orderStatement']) {
         // fresh and resort file sync client table data
         appendFileSyncClientAclData($orderStatement);

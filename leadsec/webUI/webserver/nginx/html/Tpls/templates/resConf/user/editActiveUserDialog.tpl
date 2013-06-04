@@ -3,7 +3,7 @@
         <legend>动态密码同步</legend>
         <div class="row">
             <label for="activePwd">动态密码:</label>
-            <input type="text" name="activePwd" id="activePwd"
+            <input type="text" name="activePwd" id="activePwd" class="width132"
                 value=""/>
             <input type="hidden" name="activeName" value="<{$name}>"/>
         </div>

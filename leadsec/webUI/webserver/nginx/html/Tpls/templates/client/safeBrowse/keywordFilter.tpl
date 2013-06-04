@@ -1,11 +1,11 @@
-<{include file='layout/search.tpl' tableId='keywordFilterTable'}>
+<{include file='layout/search.tpl'}>
 <table class="column_95 textMid tablesorter" id="keywordFilterTable">
     <caption>
            信息列表
     </caption>
     <thead>
     <tr>
-      <th class="column_10" name="id">序号</th>
+      <th class="column_10">序号</th>
       <th class="column_15" name="name">名称</th>
       <th class="column_30" name="context">禁止以下内容</th>
       <th class="column_30" name="comment">备注</th>
@@ -29,6 +29,6 @@
     $(document).ready(function() {
         renderStandardUi();
         freshTable('Function/client/safeBrowse/keywordFilter.php', $('#keywordFilterTable'), 'ORDER BY name ASC LIMIT 10');
-        sortTableInit($('#keywordFilterTable'), {4: {sorter: false}}, [[1,0]]);
+        sortTableInit($('#keywordFilterTable'), {0: {sorter: false},4: {sorter: false}}, [[1,0]]);
     });
 </script>

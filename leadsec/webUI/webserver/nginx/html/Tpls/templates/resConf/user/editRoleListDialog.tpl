@@ -3,8 +3,8 @@
     <fieldset>
         <legend>角色列表维护</legend>
         <div class="row">
-            <label for="roleName">用户名称:<em class="required">*</em></label>
-            <input type="text" name="roleName" id="roleName" value="<{$roleData.role_name}>"/>
+            <label for="roleName">角色名称:<em class="required">*</em></label>
+            <input type="text" name="roleName" id="roleName" class="width132" value="<{$roleData.role_name}>"/>
         </div>
         <br class="clearFloat"/>
         <div class="row">
@@ -21,7 +21,7 @@
         </div>
         <div class="row">
             <label for='allocatedTime'>分配时间:</label>
-            <input type="text" name="allocatedTime" id="allocatedTime"
+            <input type="text" name="allocatedTime" id="allocatedTime" class="width132"
                 value="<{$roleData.time|default:0}>"/>
         </div>
         <br class="clearFloat"/>

@@ -4,17 +4,37 @@
     function appendBannedContentData($where) {
         $tpl =  'client/fileEx/bannedContentTable.tpl';
         $db  = new dbsqlite(DB_PATH . '/netgap_fs.db');
-        $sql = "SELECT * FROM context WHERE allow = 0 $where";
-        $result = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
+        $sql = "SELECT * FROM context WHERE allow = 0";
+        $params = array();
+        if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
+        	$data   = getWhereStatement($db, $_GET['cols'], $_GET['keyword']);
+        	$sql   .= $data['sql'];
+        	$params = $data['params'];
+        }
+        $sql .=  ' ' . $where;
+        $result = $db->query($sql, $params)->getAllData(PDO::FETCH_ASSOC);
         echo V::getInstance()->assign('bannedContent', $result)
             ->assign('pageCount', 10)
             ->fetch($tpl);
+    }
+    
+    function getWhereStatement($db, $cols, $keyword) {
+    	$value = '%' . $keyword . '%';
+    	$params = array_fill(0, count(explode(',', $cols)), $value);
+    	return array('sql'    => ' AND (' .
+    			$db->getWhereStatement($cols, 'OR', 'like') . ')',
+    			'params' => $params);
     }
 
     function getDataCount() {
         $sql = 'SELECT id FROM context WHERE allow = 0';
         $db  = new dbsqlite(DB_PATH . '/netgap_fs.db');
-        return $db->query($sql)->getCount();
+        if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
+            $data   = getWhereStatement($db, $_GET['cols'], $_GET['keyword']);
+            $sql   .= $data['sql'];
+            $params = $data['params'];
+        }
+        return $db->query($sql, $params)->getCount();
     }
     
     function checkBannedContent(){
@@ -45,7 +65,7 @@
         $cli = new cli();
         $cli->setLog('删除客户端的文件交换的内容黑名单,id号为'.$id)->run("fsctl del unallowedcontext  id \"$id\"");
         $cli->setLog('添加客户端的文件交换的内容黑名单,名称为'.$name)->run($cmd);
-        echo json_encode(array('msg' => '修改成功.'));
+        echo json_encode(array('msg' => '修改成功。'));
     } else if ('add' === $_POST['type']) {
         // add a new banned content data
         $name    = $_POST['FECCname'];
@@ -55,17 +75,17 @@
             "\"$bfArr\" comment \"$comment\"";
         $cli = new cli();
         $cli->setLog('添加客户端的文件交换的内容黑名单,名称为'.$name)->run($cmd);
-        echo json_encode(array('msg' => '添加成功.'));
+        echo json_encode(array('msg' => '添加成功。'));
     } else if ($id = $_POST['delId']) {
         // delete specified banned content data
         $cmd = "fsctl del unallowedcontext id \"$id\"";
         $rc = checkBannedContent();
         if($rc != 0){
-        	echo json_encode(array('msg' => "此内容黑名单策略被引用,不能被删除."));
+        	echo json_encode(array('msg' => "此内容黑名单策略被引用，不能被删除。"));
         }else{
         	$cli = new cli();
         	$cli->setLog('删除客户端的文件交换的内容黑名单,id号为'.$id)->run($cmd);
-        	echo json_encode(array('msg' => '删除成功.'));
+        	echo json_encode(array('msg' => '删除成功。'));
         }
     } else if (!empty($_POST['openAddDialog'])) {
         // Display dialog to add banned content data

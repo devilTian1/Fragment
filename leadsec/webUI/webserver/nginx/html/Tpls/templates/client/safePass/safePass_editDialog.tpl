@@ -4,7 +4,7 @@
     	<legend>安全通道</legend>
     	<div class="row">
       		<label>任务号:<em class="required">*</em></label>
-      		<input class="id" type="text" name="safePassId" value="<{$editSafePass.id}>" 
+      		<input class="id" type="text" name="safePassId" id="safePassId" value="<{$editSafePass.id}>" 
       			<{if $type ==='edit'}>disabled="disabled"<{/if}> size="4" maxlength="4" />
       		(同一端的任务号必须唯一)
             <{if $type ==='edit'}>
@@ -22,7 +22,7 @@
     	<div class="row">
     		<label>源地址:</label>
     		<{html_options  class="select" name="srcIpList"
-                 options=$addrOptions selected=$editSafePass.sa|default: 'any_ipv4'}>
+                 options=$saddrOptions selected=$editSafePass.sa|default: 'any_ipv4'}>
     	</div>
     
     	<div class="row" id="sPortDiv">
@@ -38,7 +38,7 @@
             </div>
             <div id="div_destIp_trans">
             	<{html_options class="select" name="destIpList_trans"
-                options=$addrOptions selected=$editSafePass.da|default: 'any_ipv4'}>
+                options=$daddrOptions selected=$editSafePass.da|default: 'any_ipv4'}>
             </div>
     	</div>
     
@@ -50,13 +50,13 @@
 		<div class="row">
         	<label>服务类型:<em class="required">*</em></label>
         	<{html_options class="select" name="serviceList" onChange="portOnCtrl()"
-                 output=array('any','tcp_any','udp_any','RemoteDesk','Syslog','dns','http','https'
+                 output=array('tcp_any','udp_any','RemoteDesk','Syslog','dns','http','https'
                  ,'oicq','pop3','smtp','snmp','telnet','ftp','h323','h323_gk'
                  ,'irc','mms','rtsp','sip','tftp','tns') 
-                 values=array('any','tcp_any','udp_any','RemoteDesk','Syslog','dns','http','https'
+                 values=array('tcp_any','udp_any','RemoteDesk','Syslog','dns','http','https'
                  ,'oicq','pop3','smtp','snmp','telnet','ftp','h323','h323_gk'
                  ,'irc','mms','rtsp','sip','tftp','tns') 
-                  selected=$editSafePass.service|default: 'any'}>
+                  selected=$editSafePass.service|default: 'tcp_any'}>
         </div>
     
         <div class="row">
@@ -89,7 +89,8 @@
             		抗UDP Flood
                 </label>
                 <input name="udpFloodTxt" id="udpFloodTxt" type="text" class="id" size="7" maxlength="7"/>个/秒
-                <span id="icmpDiv">
+                <!--
+				<span id="icmpDiv">
               	<br class="clearFloat"/>
               	<label for="icmpFloodChk">
             	    <input class="checkbox" name="icmpFloodChk" id="icmpFloodChk" type="checkbox"/>
@@ -97,6 +98,7 @@
                 </label>                
                 <input name="icmpFloodTxt" id="icmpFloodTxt" type="text" class="id" size="7" maxlength="7"/>个/秒
               	</span>
+				-->
               	<span id="pingDiv">
                   	<br class="clearFloat"/>
                   	<label for="pingFloodChk">

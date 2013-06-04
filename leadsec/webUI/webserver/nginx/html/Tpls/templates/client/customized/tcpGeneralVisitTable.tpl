@@ -9,10 +9,10 @@
             <form action="Function/client/customized/tcpGeneralVisit.php"
                 method="POST" id="switchTcpCommClientForm_<{$r.id}>"
                 onSubmit="return false;">
-                <input type="hidden" name="customId" value="<{$r.id}>"/>
+                <input type="hidden" name="customTcpGeneralId" value="<{$r.id}>"/>
                 <input type="hidden" name="sa" value="<{$r.sa}>"/>
-                <input type="hidden" name="lip" value="<{$r.lip}>"/>
-                <input type="hidden" name="tcplportReq" value="<{$r.lport}>"/>
+                <input type="hidden" name="tcpGeneralLip" value="<{$r.lip}>"/>
+                <input type="hidden" name="tcpGeneralLport" value="<{$r.lport}>"/>
                 <input type="hidden" name="time" value="<{$r.time}>"/>
                 <input type="hidden" name="usergrp" value="<{$r.usergrp}>"/>
                 <input type="hidden" name="killVirus" value="<{$r.killvirus}>"/>
@@ -39,5 +39,5 @@
         </td>
     </tr>
 <{foreachelse}>
-    <tr><td colspan='8'>没有任务</td></tr>
+    <tr><td colspan='8'>无数据</td></tr>
 <{/foreach}>

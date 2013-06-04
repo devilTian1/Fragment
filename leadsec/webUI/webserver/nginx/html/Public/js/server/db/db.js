@@ -8,8 +8,11 @@ function openEditDVUserDialog(id) {
     var buttons = {};
     buttons[getMessage('Ok')] = function() {
         if ($('#serverEditForm').valid()) {
-            ajaxSubmitForm($('#serverEditForm'), '结果');
-            freshTableAndPage();
+        	var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#serverEditForm'), '结果', undefined,
+                undefined, afterSuccessCallback);
             $(this).remove();
         }
     };
@@ -34,34 +37,25 @@ function openDbDialog() {
     };
     var buttons = {};
     buttons[getMessage('Add Next')] = function() {
-    	var value = $('#clientId').val();
-    	var key=value.indexOf(".");
-    	var zero=value.indexOf("0");
-    	if(key !== -1){
-    		showErrorDialog('任务号中请不要出现字符"."');
-    	}else{
-    		if ($('#serverEditForm').valid()) {
-                openDbDialog();
-                ajaxSubmitForm($('#serverEditForm'), '结果');
+    	if ($('#serverEditForm').valid()) {
+            openDbDialog();
+            var afterSuccessCallback = function() {
                 freshTableAndPage();
-                $(this).remove();
-            }
-    	}
-        
+            };
+            ajaxSubmitForm($('#serverEditForm'), '结果', undefined,
+                undefined, afterSuccessCallback);
+            $(this).remove();
+        }        
     };
     buttons[getMessage('Ok')] = function() {
-    	var value = $('#clientId').val();
-    	var key=value.indexOf(".");
-    	var zero=value.indexOf("0");
-    	if(key !== -1){
-    		showErrorDialog('任务号中请不要出现字符"."');
-    	}else{
-    		if ($('#serverEditForm').valid()) {
-                ajaxSubmitForm($('#serverEditForm'), '结果');
+    	if ($('#serverEditForm').valid()) {
+    		var afterSuccessCallback = function() {
                 freshTableAndPage();
-                $(this).remove();
-            }
-    	}        
+            };
+            ajaxSubmitForm($('#serverEditForm'), '结果', undefined,
+                undefined, afterSuccessCallback);
+            $(this).remove();
+        }       
     };
     buttons[getMessage('Cancel')] = function() {
         $(this).remove();
@@ -101,7 +95,6 @@ function openDelDVUserDialog(id) {
     buttons[getMessage('Ok')] = function() {
         del(id);
         $(this).remove();
-        freshTableAndPage();
     };
     buttons[getMessage('Cancel')]  = function() {
         $(this).remove();
@@ -120,8 +113,11 @@ function switchServerCommSer(id, action) {
     var dialog  = loadingScreen(title);
     var buttons = {};
     buttons[getMessage('Ok')] = function() {
-        ajaxSubmitForm($('#switchServerCommForm_' + id), '结果');
-        freshTableAndPage();
+    	var afterSuccessCallback = function() {
+            freshTableAndPage();
+        };
+        ajaxSubmitForm($('#switchServerCommForm_' + id), '结果', undefined,
+            undefined, afterSuccessCallback);
         $(this).remove();
     };
     buttons[getMessage('Cancel')] = function() {

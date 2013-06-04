@@ -7,8 +7,11 @@ function openEditPhysicalDialog(external_name) {
     var buttons = {};
     buttons['确定'] = function() {
         if ($('#editPhysicalForm').valid()) {
-            ajaxSubmitForm($('#editPhysicalForm'), '结果');
-            freshTableAndPage();
+            var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editPhysicalForm'), '结果', undefined,
+                undefined, afterSuccessCallback);
             $(this).remove();
         }
     };
@@ -30,8 +33,11 @@ function switchPhysicalDev(name, action, formId) {
     var dialog  = loadingScreen(title);
     var buttons = {};
     buttons['确定'] = function() {
-        ajaxSubmitForm($('#switchPhyDevForm_' + formId), '结果');
-        freshTableAndPage();
+        var afterSuccessCallback = function() {
+                freshTableAndPage();
+        };
+        ajaxSubmitForm($('#switchPhyDevForm_' + formId), '结果', undefined,
+                undefined, afterSuccessCallback);
         $(this).remove();
     };
     buttons['取消'] = function() {

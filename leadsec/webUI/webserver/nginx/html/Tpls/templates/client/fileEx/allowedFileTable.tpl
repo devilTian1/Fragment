@@ -2,7 +2,7 @@
     <tr>
         <td><{$r.id}></td>
         <td><{$r.name}></td>
-        <td><{$r.filename}></td>
+        <td title="<{$r.filename|escape}>"><{$r.filename|escape|truncate:30:"... ..."}></td>
         <td title="<{$r.comment|escape}>"><{$r.comment|escape|truncate:30:"... ..."}></td>
         <td class="no_search">
             <a href="#" class="edit"
@@ -14,5 +14,5 @@
 
     </tr>
 <{foreachelse}>
-    <tr><td colspan='5'>No Data</td></tr>
+    <tr><td colspan='5'>无数据</td></tr>
 <{/foreach}>

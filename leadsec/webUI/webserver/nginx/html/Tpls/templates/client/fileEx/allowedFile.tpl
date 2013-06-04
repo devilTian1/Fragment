@@ -1,4 +1,4 @@
-<{include file='layout/search.tpl' tableId='allowedFileTable'}>
+<{include file='layout/search.tpl' colNames='name,filename,comment'}>
 <table class="column_95 textMid tablesorter" id="allowedFileTable">
     <caption>文件名控制</caption>
     <thead>

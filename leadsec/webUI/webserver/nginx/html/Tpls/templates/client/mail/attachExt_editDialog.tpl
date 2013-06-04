@@ -5,14 +5,14 @@
     	<legend>附件扩展名设置</legend>
     	<div class="row">
     		<label>名称:<em class="required">*</em></label>
-    		<input type="text" name="attachName" value="<{$editAtt.name}>" size="15" maxlength="15"
+    		<input class="width10em" type="text" name="attachName" value="<{$editAtt.name}>" size="15" maxlength="15"
     		<{if $type === 'edit'}>disabled="disabled"<{/if}>/>
     		<{if $type === 'edit'}><input type="hidden" name="attachName" value="<{$editAtt.name}>"><{/if}>
     	</div>
     	
     	<div class="row">
     		<label>扩展名:</label>
-    		<input type="text" name="attach_txt" id="attach_txt" value="" size="30" maxlength="30"/>    		
+    		<input class="width10em" type="text" name="attach_txt" id="attach_txt" value="" size="30" maxlength="30"/>    		
     	</div>
     	
     	<div class="row">
@@ -31,7 +31,7 @@
     
         <div class="row">
         	<label>备注:</label>        	
-        	<input class="comment" name="comment" id="comment" value="<{$editAtt.comment|escape}>"/>        	
+        	<input class="width10em comment" name="comment" id="comment" value="<{$editAtt.comment|escape}>"/>        	
         </div>
 	</fieldset>
 </form>
@@ -43,6 +43,7 @@ $(document).ready(function() {
 		if($("#editAttachExtForm").validate().element("#attach_txt")) {
 			var attachExt=$("#attach_txt").val(),
 			flag=0;
+			$("#attach_txt").val('');
 			$("#attachList option").each(function(){
 				if($(this).val()==attachExt){
 					flag=1;

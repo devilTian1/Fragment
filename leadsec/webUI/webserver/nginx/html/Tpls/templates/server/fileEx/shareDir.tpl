@@ -1,10 +1,10 @@
-<{include file='layout/search.tpl' tableId='shareDirTable'}>
+<{include file='layout/search.tpl' colNames='task_id,ip,share_name,fs'}>
 <table class="column_95 textMid tablesorter" id="shareDirTable">
     <caption>信息列表</caption>
     <thead>
         <tr>
             <th class="column_10" name="task_id">任务号</th>
-            <th class="column_20" name="mode">发送/接受</th>
+            <th class="column_20" name="mode">发送/接收</th>
             <th class="column_20" name="ip">服务器IP</th>
             <th class="column_20" name="share_name">服务器共享名</th>
             <th class="column_20" name="fs">文件系统</th>

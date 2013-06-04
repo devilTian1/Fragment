@@ -1,4 +1,4 @@
-<{include file='layout/search.tpl' tableId='serverDbIdTable'}>
+<{include file='layout/search.tpl' colNames='id,dbtype,serverip,sport,comment'}>
 <table class="column_95 textMid tablesorter" id="serverDbIdTable">
     <caption>
            信息列表

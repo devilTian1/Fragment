@@ -6,7 +6,7 @@
 		<td><{$val.up_time}></td>
 	</tr>
 <{foreachelse}>
-    <tr><td colspan='4'>No Data</td></tr>
+    <tr><td colspan='4'>ÎÞÊý¾Ý</td></tr>
 <{/foreach}>
 
 <script type="text/javascript"> 

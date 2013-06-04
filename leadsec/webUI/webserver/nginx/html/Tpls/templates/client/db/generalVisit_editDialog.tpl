@@ -4,19 +4,19 @@
         <!--<legend></legend>-->
         <div class="row">
           <label >任务号:<em class="required">*</em></label>
-          <input class="id" type="text" id = "clientId" name="clientId" value="<{$res.id}>" 
+          <input class="id" type="text" id = "cdbGeneralId" name="cdbGeneralId" value="<{$res.id}>" 
               <{if $type ==='edit'}>disabled="disabled"<{/if}>
               size="4" maxlength="4"/>
           (同一端的任务号必须唯一)
          <{if $type ==='edit'}>
-             <input type="hidden" name="clientId" value="<{$res.id}>"/>
+             <input type="hidden" name="cdbGeneralId" value="<{$res.id}>"/>
          <{/if}>
         </div>       
         <div class="row">
          	<label >数据库类型:<em class="required">*</em></label>
          	<{if $type === 'add'}>
           		<{html_options  class="w150" name="dbType" id="dbType"
-                    output=array('oracle','mysql','DB2','sybase','sqlserver2000','sqlserver2005','sqlserver2008','sqlserver2012') 
+                    output=array('oracle','mysql','DB2','sybase','sqlserver2000','sqlserver2005(sp3)','sqlserver2008','sqlserver2012') 
                     values=array('oracle','mysql','DB2','sybase','sqlserver2000','sqlserver2005','sqlserver2008','sqlserver2012')
                     selected=$res.dbtype|default: 'oracle'  }>
         	<{else}>
@@ -35,16 +35,14 @@
                 selected=$res.ip_ver|default: 'ipv4'
                 onClick="filterRes()"}>
         </div>
-        <div class="row">
-          <label >源地址:<em class="required">*</em></label>
-          <{html_options  class="select sa" name="sAddress" id="sAddress"
-                    output=$addrOptions values=$addrOptionsvalue
-                    selected=$res.sa|default: 'any'}>
+         <div class="row">
+            <label for="sa">源地址:<em class="required">*</em></label>
+            <{html_options class="select sa" name="cdbGeneralsAddress" id="cdbGeneralsAddress"
+                options=$addrOptions selected=$res.sa|default: 'any'}>
         </div>
-        
          <div class="row">
           <label >本机地址:<em class="required">*</em></label>
-          <{html_options  class="select lip" name="cdblip" id="cdblip"
+          <{html_options  class="select lip" name="cdbGeneralLip" id="cdbGeneralLip"
                     output=$localIp values=$localIp
                     selected=$res.lip|default: 'any'}>
         </div>
@@ -52,7 +50,7 @@
 
         <div class="row">
             <label for="dportReq">目的端口:<em class="required">*</em></label>
-            <input class="port" type="text" name="cdblportReq"
+            <input class="port" type="text" name="cdbGeneralLport" id="cdbGeneralLport"
                 value="<{$res.lport}>" size="5" maxlength="5"/>
         </div>
         <div class="row">

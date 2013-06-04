@@ -13,8 +13,11 @@ function openNewFtpFilterOptionsDialog(flag) {
         if ($('#editFtpFilterOptionForm').valid()) {
         	if (!flag) {  		
         		openNewFtpFilterOptionsDialog();
-                ajaxSubmitForm($('#editFtpFilterOptionForm'), '结果');
-                freshTableAndPage();
+        		var afterSuccessCallback = function() {
+                    freshTableAndPage();
+                };
+                ajaxSubmitForm($('#editFtpFilterOptionForm'), '结果', undefined,
+                    undefined, afterSuccessCallback);
          	} else {
          		openNewFtpFilterOptionsDialog(flag);
          		var dialog = loadingScreen(title);
@@ -29,10 +32,11 @@ function openNewFtpFilterOptionsDialog(flag) {
          	        buttons: buttons,
          	       position: jQuery.getDialogPosition(250,170)
          	    });
+         	    var ftpFilterOptName = $("input[name='ftpFilterOptName']").val(); 
          		var successResult = function(result, textStatus) {
          		        var content = result.msg;
          	            dialog.setContent($('<p>' + content + '</p>'));
-         	            freshPrePage('Function/client/ftp/ftp.php', $('#filter'));
+         	            freshPrePage('Function/client/ftp/ftp.php', $('#filter'),ftpFilterOptName);
          	        }    		
          		var dialog_c= ajaxSubmitForm($('#editFtpFilterOptionForm'), '结果',successResult);
          		dialog_c.close();
@@ -43,8 +47,11 @@ function openNewFtpFilterOptionsDialog(flag) {
     buttons[getMessage('Ok')] = function() {
         if ($('#editFtpFilterOptionForm').valid()) {
         	if (!flag) {  		
-               ajaxSubmitForm($('#editFtpFilterOptionForm'), '结果');
-               freshTableAndPage();
+        		var afterSuccessCallback = function() {
+                    freshTableAndPage();
+                };
+                ajaxSubmitForm($('#editFtpFilterOptionForm'), '结果', undefined,
+                    undefined, afterSuccessCallback);
         	} else {
         		var dialog = loadingScreen(title);
         	    dialog.dialog('moveToTop');
@@ -58,10 +65,11 @@ function openNewFtpFilterOptionsDialog(flag) {
         	        buttons: buttons,
         	        position: jQuery.getDialogPosition(250,170)
         	    });
+        	    var ftpFilterOptName = $("input[name='ftpFilterOptName']").val(); 
         		var successResult = function(result, textStatus) {
         		        var content = result.msg;
         	            dialog.setContent($('<p>' + content + '</p>'));
-        	            freshPrePage('Function/client/ftp/ftp.php', $('#filter'));
+        	            freshPrePage('Function/client/ftp/ftp.php', $('#filter'),ftpFilterOptName);
         	        }    		
         		var dialog_c= ajaxSubmitForm($('#editFtpFilterOptionForm'), '结果',successResult);
         		dialog_c.close();
@@ -100,8 +108,11 @@ function editFtpFilterOptionsDialog(id, flag) {
 		var buttons = {};
 		buttons[getMessage('Ok')] = function() {
 			if ($('#editFtpFilterOptionForm').valid()) {
-				ajaxSubmitForm($('#editFtpFilterOptionForm'), '结果');
-				freshTableAndPage();
+				var afterSuccessCallback = function() {
+                    freshTableAndPage();
+                };
+                ajaxSubmitForm($('#editFtpFilterOptionForm'), '结果', undefined,
+                    undefined, afterSuccessCallback);
 				$(this).remove();
 			}
 		};
@@ -143,7 +154,8 @@ function delFtpFilterOptionsDialog(id, name) {
     var buttons = {};
     buttons[getMessage('Ok')] = function() {
         delFtpFilterOptions(id);
-        freshTableAndPage();
+        //rm this row~!!!!!
+        //freshTableAndPage();
         $(this).remove();
     };
     buttons[getMessage('Cancel')]  = function() {

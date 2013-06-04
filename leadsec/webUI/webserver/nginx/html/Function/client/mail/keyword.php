@@ -4,17 +4,37 @@
     function appendKeywordData($where) {
         $tpl =  'client/mail/keywordTable.tpl';
         $db  = new dbsqlite(DB_PATH . '/netgap_mail.db');
-	    $sql = "SELECT * FROM keyword $where";
-        $result = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
+	    $sql = "SELECT * FROM keyword";
+	    $params = array();
+	    if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
+	    	$data   = getWhereStatement($db, $_GET['cols'], $_GET['keyword']);
+	    	$sql   .= $data['sql'];
+	    	$params = $data['params'];
+	    }
+	    $sql .=  ' ' . $where;
+	    $result = $db->query($sql, $params)->getAllData(PDO::FETCH_ASSOC);
         echo V::getInstance()->assign('keyword', $result)
             ->assign('pageCount', 10)
             ->fetch($tpl);
+    }
+    
+    function getWhereStatement($db, $cols, $keyword) {
+    	$value = '%' . $keyword . '%';
+    	$params = array_fill(0, count(explode(',', $cols)), $value);
+    	return array('sql'    => ' WHERE (' .
+    			$db->getWhereStatement($cols, 'OR', 'like') . ')',
+    			'params' => $params);
     }
 
     function getDataCount() {
     	$sql = "SELECT id FROM keyword";
         $db  = new dbsqlite(DB_PATH . '/netgap_mail.db');
-        return $db->query($sql)->getCount();
+        if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
+            $data   = getWhereStatement($db, $_GET['cols'], $_GET['keyword']);
+            $sql   .= $data['sql'];
+            $params = $data['params'];
+        }
+        return $db->query($sql, $params)->getCount();
     }
     
     function getCmd($type) {
@@ -31,7 +51,7 @@
     	}
     	$name = $_POST['keywordName'];    	
     	$keywordArr = $_POST['keywordList'];
-        $keyword = join(',',$keywordArr);
+        $keyword = join(',', $keywordArr);
         $keywordType = $_POST['keywordType'] === 'subject' ? 'subject' : 'context';
         $comment = $_POST['comment'];
     	$cmd = "mailresource $action keyword name $name value $keyword type $keywordType comment $comment";
@@ -71,25 +91,25 @@
     	$name = $_POST['keywordName'];
         $cli->setLog("修改邮件访问模块下的内容关键字, 名称为{$name}")
             ->run(getCmd('edit'));
-        echo json_encode(array('msg' => '修改成功.'));
+        echo json_encode(array('msg' => '修改成功。'));
     } else if ('add' === $_POST['type']) {
         // Add a new keywordFilter data
         $cli = new cli();
     	$name = $_POST['keywordName'];
         $cli->setLog("添加邮件访问模块下的内容关键字, 名称为{$name}")
             ->run(getCmd('add'));
-        echo json_encode(array('msg' => '添加成功.'));
+        echo json_encode(array('msg' => '添加成功。'));
     } else if (!empty($_POST['delId'])) {
         // Delete the specified keywordFilter data 
     	$rc = checkKeyword();
     	if($rc != 0){
-    		echo json_encode(array('msg' => "此内容关键字策略被引用,不能被删除."));
+    		echo json_encode(array('msg' => "此内容关键字策略被引用，不能被删除。"));
     	}else{
     		$cli = new cli();
     		$id  = $_POST['delId'];
     		$cli->setLog("删除邮件访问模块下的内容关键字, id为{$id}")
     		->run(getCmd('del'));
-    		echo json_encode(array('msg' => "删除成功."));
+    		echo json_encode(array('msg' => "删除成功。"));
     	}
    } else if ($orderStatement = $_POST['orderStatement']) {
         // fresh and resort keywordFilter list

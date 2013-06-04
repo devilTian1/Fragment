@@ -1,4 +1,4 @@
-<{include file='layout/search.tpl' tableId='filterTable'}>
+<{include file='layout/search.tpl' colNames='name,protocol,attachmaxsize,allowext,allowsender,allowrecv,skeyword,ckeyword,fileav'}>
 <table class="column_95 textMid tablesorter" id="filterTable">
     <caption>
            信息列表
@@ -28,13 +28,13 @@
     onclick="openNewFilterDialog()">添加
 </button>
 <div class="pager floatRight">
-    <{include file='layout/pagination.tpl' func='Function/client/mail/filter.php'}>
+    <{include file='layout/pagination.tpl' func='Function/client/mail/mailfilter.php'}>
 </div>
-<script type="text/javascript" src="Public/js/client/mail/filter.js"></script>
+<script type="text/javascript" src="Public/js/client/mail/mailfilter.js"></script>
 <script type="text/javascript"> 
     $(document).ready(function() {
         renderStandardUi();
-        freshTable('Function/client/mail/filter.php', $('#filterTable'), 'ORDER BY name ASC LIMIT 10');
+        freshTable('Function/client/mail/mailfilter.php', $('#filterTable'), 'ORDER BY name ASC LIMIT 10');
         sortTableInit($('#filterTable'), {10: {sorter: false}}, [[1,0]]);
     });
 </script>

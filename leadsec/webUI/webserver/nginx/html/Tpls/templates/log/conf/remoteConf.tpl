@@ -1,3 +1,4 @@
+<{include file='layout/search.tpl'}>
 <table class="column_95 textMid tablesorter" id="remoteLogServerTable">
     <caption>
           远程日志服务器

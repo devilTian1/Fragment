@@ -1,6 +1,6 @@
 <{foreach $addrList as $addr }>
     <tr>
-        <td><{$addr.id}></td>
+        <td><{$beginId++}></td>
         <td><{$addr.name}></td>
         <td>
         	<{if $addr.name == 'any'}>
@@ -22,5 +22,5 @@
         </td>
     </tr>
 <{foreachelse}>
-    <tr><td colspan='5'>No Address Data.</td></tr>
+    <tr><td colspan='5'>无数据</td></tr>
 <{/foreach}>

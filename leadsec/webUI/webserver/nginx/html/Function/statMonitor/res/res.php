@@ -57,12 +57,12 @@
     	$cli = new cli();
     	$type = $active === 'on' ? '启用' : '停止';
     	$cli->setLog('状态监控的资源状态服务'.$type)->run($cmd);
-        echo json_encode(array('msg' => '修改成功.'));
+        echo json_encode(array('msg' => '修改成功。'));
     } else if (!empty($_POST['clearData'])){
     	$cmd = 'sysmon -c';
     	$cli = new cli();
     	$cli->setLog('状态监控的资源状态清除')->run($cmd);
-    	echo json_encode(array('msg' => '修改成功.'));
+    	echo json_encode(array('msg' => '修改成功。'));
     }else if (!empty($_POST['info'])){
     	if($_POST['info'] === 'mem'){
     		$cli = new cli();
@@ -139,11 +139,12 @@
 
     	$memused = getMem();
     	$devused = preg_split('/[\s]+/',getDev());
+		$deveused_rate = round(((float)$devused[4]/100)*100,2).'.00';
     	$cpuused = getCpu();
     	$active = getStatus();
     	V::getInstance()->assign('cpuused', $cpuused)
     	                ->assign('memused', $memused)
-    	                ->assign('devused', $devused[4])
+    	                ->assign('devused', $deveused_rate.'%')
     	                ->assign('active', $active);
     }
     	

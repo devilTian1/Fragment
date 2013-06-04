@@ -1,6 +1,6 @@
 <?php
     require_once($_SERVER['DOCUMENT_ROOT'] . '/Function/common.php');
-    require WEB_PATH.'/Conf/leftmenu.php';
+    require(WEB_PATH . '/Conf/leftmenu.php');
     //get one arr
     function getArrFromID($ID){
     	global $leftmenuArr;
@@ -12,7 +12,6 @@
     	
     	$pid=$leftmenuArr[$ID]['pid'];
     	$parr=$leftmenuArr[$pid];
-    	
     	if($parr['pid']!==0){
     		return 0;
     	}else {
@@ -80,7 +79,7 @@
     	$strcon="";
     	if(file_exists($pathfile)){
     		$filecontent=file_get_contents($pathfile);
-    		if(stripos($filecontent,$id)===false){
+    		if(false === stripos($filecontent, $id)){
 	    		$arr_temp=explode(";",$filecontent);
 	    		foreach ($arr_temp as $key=>$arr_val){
 	    			if ($index==$key+1){

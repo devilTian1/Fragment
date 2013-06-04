@@ -105,12 +105,18 @@
         	"interface \"$interface\"";                
         	$cmdArr[] = "hactl reconfigure";
         	$cli    = new cli();
-        	$cli->setLog("添加目的地址为".$_POST['ip']."的静态路由")->run($cmd[0]);
-        	$cli->setLog("修改高可用性配置")->run($cmd[1]);
-        	echo json_encode(array('msg' => "添加成功."));
+        	// $cli->setLog("添加目的地址为".$_POST['ip']."的静态路由")->run($cmdArr[0]);
+			list($status,$result) = $cli->setLog("添加目的地址为".$_POST['ip']."的静态路由")
+				->execCmdGetStatus($cmdArr[0]);
+			if ($status>0) {
+				echo json_encode(array('msg' => "添加失败,请检查配置"));	
+			} else {
+        		$cli->setLog("修改高可用性配置")->run($cmdArr[1]);
+        		echo json_encode(array('msg' => "添加成功。"));
+			}
         }else {       	
         	$msg = "下一跳地址 \"$nexthopip\"不能生效，请配置与接口\"$interface\"".
-        		"的IP同一地址段的地址 .";
+        		"的IP同一地址段的地址 。";
         	echo json_encode(array('msg' => $msg));
         }                                            
     }elseif (!empty($_POST['sid'])) {
@@ -136,20 +142,20 @@
         	$cli    = new cli();
         	$cmdArr[]="/usr/local/bin/route set default ip none";
         	$cmdArr[] = "hactl reconfigure";
-        	$cli->setLog("设置默认网关为空")->run($cmd[0]);
-        	$cli->setLog("修改高可用性配置")->run($cmd[1]);
-        	echo json_encode(array('msg' => "默认网关为空."));	
+        	$cli->setLog("设置默认网关为空")->run($cmdArr[0]);
+        	$cli->setLog("修改高可用性配置")->run($cmdArr[1]);
+        	echo json_encode(array('msg' => "默认网关为空。"));	
         }else{
         	if(checkIfDefaultRoute($gateway)) {
 	        	$cmdArr   = array();
 	        	$cmdArr[] = "/usr/local/bin/route set default ip \"$gateway\"";
 	        	$cmdArr[] = "hactl reconfigure";
 	        	$cli    = new cli();
-	        	$cli->setLog("设置默认网关为".$gateway)->run($cmd[0]);
-        		$cli->setLog("修改高可用性配置")->run($cmd[1]);
-	        	echo json_encode(array('msg' => "默认网关添加成功."));	
+	        	$cli->setLog("设置默认网关为".$gateway)->run($cmdArr[0]);
+        		$cli->setLog("修改高可用性配置")->run($cmdArr[1]);
+	        	echo json_encode(array('msg' => "默认网关添加成功。"));	
         	}else {       	
-        		$msg ="默认网关 \"$gateway\"不能生效，请检查网关地址是否有效 .";
+        		$msg ="默认网关 \"$gateway\"不能生效，请检查网关地址是否有效 。";
         		echo json_encode(array('msg' => $msg));
         	}
         }
@@ -173,12 +179,12 @@
         		"\"$interface\"";        	           	    
         	$cmdArr[] = "hactl reconfigure";
         	$cli    = new cli();
-        	$cli->setLog("编辑目的地址为".$_POST['ip']."的静态路由")->run($cmd[0]);
-        	$cli->setLog("修改高可用性配置")->run($cmd[1]);
-        	echo json_encode(array('msg' => "修改成功."));
+        	$cli->setLog("编辑目的地址为".$_POST['ip']."的静态路由")->run($cmdArr[0]);
+        	$cli->setLog("修改高可用性配置")->run($cmdArr[1]);
+        	echo json_encode(array('msg' => "修改成功。"));
         }else {
         	$msg = "下一跳地址 \"$nexthopip\"不能生效，请配置与接口\"$interface\"".
-        		"的IP同一地址段的地址 .";
+        		"的IP同一地址段的地址。";
         	echo json_encode(array('msg' => $msg));
         }
         
@@ -187,9 +193,9 @@
         $id  = $_POST['delid'];              
         $cmdArr   = array("route del static id \"$id\"", "hactl reconfigure");
         $cli    = new cli();
-        $cli->setLog("删除目的地址为".$_POST['delid']."的静态路由")->run($cmd[0]);
-        $cli->setLog("修改高可用性配置")->run($cmd[1]);      
-        echo json_encode(array('msg' => "删除成功."));
+        $cli->setLog("删除ID号为".$_POST['delid']."的静态路由")->run($cmdArr[0]);
+        $cli->setLog("修改高可用性配置")->run($cmdArr[1]);      
+        echo json_encode(array('msg' => "删除成功。"));
     }elseif (isset($_POST['changeid'])) {
         // del static_static
         $id  = $_POST['changeid'];
@@ -203,9 +209,9 @@
         $cmdArr[] = "route set static id \"$id\" active $argu";
         $cmdArr[] = "hactl reconfigure";
         $cli    = new cli();
-        $cli->setLog("$act id为".$_POST['changeid']."的静态路由")->run($cmd[0]);
-        $cli->setLog("修改高可用性配置")->run($cmd[1]);     
-        echo json_encode(array('msg' => "状态改变成功."));
+        $cli->setLog("$act id为".$_POST['changeid']."的静态路由")->run($cmdArr[0]);
+        $cli->setLog("修改高可用性配置")->run($cmdArr[1]);     
+        echo json_encode(array('msg' => "状态改变成功。"));
     }elseif ($orderStatement = $_POST['orderStatement']) {
         // fresh and resort static Table
         freshStaticRoute($orderStatement);

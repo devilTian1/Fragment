@@ -1,11 +1,11 @@
-<form action="Function/client/mail/filter.php" method="POST"  id="editFilterForm" onSubmit="return false;">
+<form action="Function/client/mail/mailfilter.php" method="POST"  id="editFilterForm" onSubmit="return false;">
 	<input type="hidden" name="type" value="<{$type|default: 'add'}>"/>
 	<input type="hidden" name="id" value="<{$editFilter.id}>">
 	<fieldset>
     	<legend>过滤选项集配置</legend>
     	<div class="row">
     		<label>名称:<em class="required">*</em></label>
-    		<input type="text" name="MfilterName" value="<{$editFilter.name}>" size="15" maxlength="15"
+    		<input class="width10em" type="text" name="MfilterName" value="<{$editFilter.name}>" size="15" maxlength="15"
     		<{if $type === 'edit'}>disabled="disabled"<{/if}>/>
     		<{if $type === 'edit'}><input type="hidden" name="MfilterName" value="<{$editFilter.name}>"><{/if}>
     	</div>
@@ -38,7 +38,7 @@
     	<div class="row">
     		<label>发件人过滤类别:</label>
     		<{html_radios class="radio" name=sendfilter label_ids=true values=array('white', 'black')
-              output=array('white', 'black') selected=$editFilter.sflag|default: 'white'
+              output=array('白名单', '黑名单') selected=$editFilter.sflag|default: 'white'
             }>  		
     	</div>
     	
@@ -51,7 +51,7 @@
     	<div class="row">
     		<label>收件人过滤类别:</label>
     		<{html_radios class="radio" name=recvfilter label_ids=true values=array('white', 'black')
-              output=array('white', 'black') selected=$editFilter.rflag|default: 'white'
+              output=array('白名单', '黑名单') selected=$editFilter.rflag|default: 'white'
             }>      		 		
     	</div>
     	
@@ -76,7 +76,11 @@
     
         <div class="row">
         	<label>备注:</label>        	
-        	<input class="comment" name="comment" id="comment" value="<{$editFilter.comment|escape}>"/>       
+        	<input class="width10em comment" name="comment" id="comment" value="<{$editFilter.comment|escape}>"/>       
+        </div>
+        
+        <div class="row">      	
+        	<span class="tip">注意:发件人地址组、收件人地址组选择“无”表示该过滤项的白名单和黑名单无效</span>
         </div>
 	</fieldset>
 </form>

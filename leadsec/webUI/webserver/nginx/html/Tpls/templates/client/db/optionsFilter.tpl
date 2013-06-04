@@ -1,4 +1,4 @@
-<{include file='layout/search.tpl' tableId='dataVisit_optionsTable'}>
+<{include file='layout/search.tpl' colNames='name,usergrp,sqlgrp,comment'}>
 <table class="column_95 textMid tablesorter" id="dataVisit_optionsTable">
     <caption>
            过滤选项集

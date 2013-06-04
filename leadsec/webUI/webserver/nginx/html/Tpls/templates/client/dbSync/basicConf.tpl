@@ -11,7 +11,7 @@
                 </label>
             </td>
             <td>
-                <input class="floatLeft" type="file" name="CAcert" id="CAcert" size="30"/>
+                <{include file='layout/upload.tpl' name='CAcert' id='CAcert'}>
             </td>
         </tr>
         
@@ -23,7 +23,7 @@
                 </label>
             </td>
             <td>
-                <input class="floatLeft" type="file" name="SIScert" id="SIScert" size="30"/>
+                <{include file='layout/upload.tpl' name="SIScert" id="SIScert" }>
             </td>
         </tr>
         <tr>
@@ -34,7 +34,7 @@
                 </label>
             </td>
             <td>
-                <input class="floatLeft" type="file" name="SISkey" id="SISkey" size="30"/>
+                <{include file='layout/upload.tpl' name="SISkey" id="SISkey" }>
             </td>
         </tr>
         <tr>
@@ -45,7 +45,7 @@
                 </label>
             </td>
             <td>
-                <input type="password" name="userKeyWord" id="userKeyWord" size="34" />
+                <input class="w200" type="password" name="userKeyWord" id="userKeyWord" size="34" />
                    
             </td>
         </tr>
@@ -83,6 +83,8 @@
 $(document).ready(function(){
 	renderStandardUi();	
 	validateForm($("#fileCertConfForm"));
+    var uploadWid =  $('#CAcert').width();
+    $('.uploadText').width(uploadWid - 75);
 	freshTable('Function/client/dbSync/basicConf.php', $('#certListTable'));
 });
 </script>

@@ -14,8 +14,12 @@ function openEditCustomTestDialog(id,active) {
 		var buttons = {};
 		buttons[getMessage('Ok')] = function() {
 			if ($('#editCustomTestForm').valid()) {
-				ajaxSubmitForm($('#editCustomTestForm'), '结果');
-				freshTableAndPage();
+				var afterSuccessCallback = function() {
+					freshTableAndPage();
+				};
+				ajaxSubmitForm($('#editCustomTestForm'), '结果',undefined,
+					undefined,afterSuccessCallback);
+				
 				$(this).remove();
 			}
 		};
@@ -43,15 +47,21 @@ function openNewCustomTestDialog() {
     buttons[getMessage('Add Next')] = function() {
         if ($('#editCustomTestForm').valid()) {
             openNewCustomTestDialog();
-            ajaxSubmitForm($('#editCustomTestForm'), '结果');
-            freshTableAndPage();
+			var afterSuccessCallback = function() {
+				freshTableAndPage();
+			};
+            ajaxSubmitForm($('#editCustomTestForm'), '结果',undefined,
+				undefined,afterSuccessCallback);
             $(this).remove();
         }
     };
     buttons[getMessage('Ok')] = function() {
         if ($('#editCustomTestForm').valid()) {
-            ajaxSubmitForm($('#editCustomTestForm'), '结果');
-            freshTableAndPage();
+			var afterSuccessCallback = function() {
+				freshTableAndPage();
+			};
+            ajaxSubmitForm($('#editCustomTestForm'), '结果',undefined,
+				undefined,afterSuccessCallback);
             $(this).remove();
         }
     };
@@ -118,8 +128,11 @@ function switchPhysicalDev(name, action, formId) {
     var dialog  = loadingScreen(title);
     var buttons = {};
     buttons[getMessage('Ok')] = function() {
-        ajaxSubmitForm($('#switchPhyDevForm_' + formId), '结果');
-        freshTableAndPage();
+		var afterSuccessCallback = function() {
+			freshTableAndPage();
+		};
+        ajaxSubmitForm($('#switchPhyDevForm_' + formId), '结果',undefined,
+			undefined,afterSuccessCallback);
         $(this).remove();
     };
     buttons[getMessage('Cancel')]  = function() {

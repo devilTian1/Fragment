@@ -6,7 +6,7 @@ function openAllCpuDialog() {
 		openDualCoreDialog: true
     };
     var buttons = {};
-    buttons['取消'] = function() {
+    buttons[getMessage('Cancel')] = function() {
         $(this).remove();
     };
     var dialogParams = {
@@ -14,18 +14,23 @@ function openAllCpuDialog() {
         height  : 560,
         buttons : buttons,
         position: ['left', 'top']
-    };    
-    opendialog=showDialogByAjax(url, data, title, dialogParams,"",successCallback);
-	function successCallback(result,textStatus){
-		opendialog.setContent(result.msg);
-	}
+    };
+    function successCallback(result, textStatus) {
+        opendialog.setContent(result.msg);
+    }
+    opendialog = showDialogByAjax(url, data, title, dialogParams,
+        '', successCallback);
 }
 
-function setConOption(w,h){
-	if(!w) w=850;
-	if(!h) h=560;
-	var buttons = {};
-    buttons['取消'] = function() {
+function setConOption(w, h) {
+    if (!w) {
+        w = 850;
+    }
+    if (!h) {
+        h = 560;
+    }
+    var buttons = {};
+    buttons[getMessage('Cancel')] = function() {
         $(this).remove();
     };
     var dialogParams = {
@@ -33,6 +38,7 @@ function setConOption(w,h){
         height  : h,
         buttons : buttons,
         position: ['left', 'top']
-    };   
-	opendialog.setOptions(dialogParams)
+    }
+    opendialog.setOptions(dialogParams);
 }
+

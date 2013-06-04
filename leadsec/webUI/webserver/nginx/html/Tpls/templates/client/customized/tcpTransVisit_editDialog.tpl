@@ -4,31 +4,31 @@
     <fieldset>
         <legend>添加TCP透明访问</legend>
         <div class="row">
-            <label for="customId">任务号:<em class="required">*</em></label>
-            <input class="id" type="text" name="cusTcpTransId" id="cusTcpTransId" value="<{$data.id}>"
+            <label for="customTcpTransId">任务号:<em class="required">*</em></label>
+            <input class="id" type="text" name="customTcpTransId" id="customTcpTransId" value="<{$data.id}>"
                 <{if $type ==='edit'}>disabled="disabled"<{/if}>
                 size="4" maxlength="4"/>
             (同一端的任务号必须唯一)
             <{if $type ==='edit'}>
-            <input type="hidden" name="cusTcpTransId" value="<{$data.id}>"/>
+            <input type="hidden" name="customTcpTransId" value="<{$data.id}>"/>
             <{/if}>
         </div>
 
         <div class="row">
             <label for="sa">源地址:</label>
             <{html_options class="select sa" name="sa"
-                options=$addrOptions selected=$data.sa|default: 'any'}>
+                options=$saaddrOptions selected=$data.sa|default: 'any'}>
         </div>
         
          <div class="row">
             <label for="da">目的地址:</label>
             <{html_options class="select da" name="da"
-                options=$addrOptions selected=$data.da|default: 'any'}>
+                options=$daaddrOptions selected=$data.da|default: 'any'}>
         </div>
         
         <div class="row">
             <label for="dport">目的端口:<em class="required">*</em></label>
-            <input class="port" type="text" name="tcpTranslportReq" value="<{$data.dport}>" size="5" maxlength="5"/>
+            <input class="port" type="text" name="customtcpTransLport" id="customtcpTransLport" value="<{$data.dport}>" size="5" maxlength="5"/>
         </div>
         
         <div class="row">

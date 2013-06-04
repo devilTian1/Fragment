@@ -3,9 +3,9 @@
     <caption>IP探测信息列表</caption>
     <thead>
         <tr>
-            <th class="column_10" name="id">序号</th>
+            <th class="column_10">序号</th>
             <th class="column_20" name="ip">探测IP</th>
-            <th class="column_50">备注</th>
+            <th class="column_50" name="comment">备注</th>
             <th class="column_20">操作</th>
         </tr>
     </thead>

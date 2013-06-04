@@ -25,7 +25,7 @@ function checkIpv4Mask(value) {
         }
         frag[i] = parseInt(frag[i]);
     }
-    var maskFragArr = [128, 192, 224, 240, 248, 252, 254, 255];
+    var maskFragArr = "128, 192, 224, 240, 248, 252, 254, 255";
     for (var i = 3; i >= 0; i--) {
         if (frag[i] != 0) {
             if (maskFragArr.indexOf(frag[i]) === -1) {
@@ -41,6 +41,56 @@ function checkIpv4Mask(value) {
     return true;
 }
 
+function setCustomErrMsg(dom, errMsg) {
+    dom.data('errMsg', errMsg);
+    return true;
+}
+
+function getCustomErrMsg(dom) {
+    return getMessage(dom.data('errMsg')) + '.';
+}
+
+function hideBindDom(doms) {
+    for (var i in doms) {
+        doms[i].removeClass('errorLabel').next('.errorLabel').hide();
+    }
+}
+
+function showBindDom(doms) {
+    for (var i in doms) {
+        doms[i].addClass('errorLabel').next('.errorLabel').show();
+    }
+}
+
+function getDefaultOptionVal(element) {
+    var optsDom = $('fieldset #' + element.id + ' option');
+    var length  = optsDom.length;
+    for (var i = 0; i < length; i++) {
+        if (optsDom[i].defaultSelected) {
+            return optsDom[i].value;
+        }
+    }
+    return optsDom[0].value;
+}
+
+function sValidate(url, data, dom) {
+    var isValid = false;
+    var ajaxParams = {
+        async: false,
+        dataType: 'JSON',
+        success: function(result) {
+            if (result.msg.length != 0) {
+                isValid = false;
+                dom.data('errMsg', result.msg.join('.<br/>'))
+            } else {
+                isValid = true;
+            }
+        }
+    };
+    loadAjax(url, data, ajaxParams);
+    return isValid;
+}
+
 // Custom Validation Method Params
 var validMethodParams = {
     letterValidParam: {
@@ -52,6 +102,17 @@ var validMethodParams = {
         },
         msg: jQuery.format("{0}至{1}位英文字母")
     },
+    adminPwdValidParam: {
+        name: 'adminPwd',
+        validMethod: function(value, element, params) {
+            var regexp =
+	        new RegExp("^[a-zA-Z0-9]{" + params[0] + "," + params[1] + "}$");
+            return this.optional(element) || (regexp.test(value) && 
+                /[a-zA-Z]+/.test(value) && /[0-9]+/.test(value));
+        },
+        msg: jQuery.format("{0}至{1}位字母和数字")
+    },
+
     passwdValidParam: {
         name: 'passwd',
         validMethod: function(value, element, params) {
@@ -138,6 +199,14 @@ var validMethodParams = {
         },
         msg: '1-15个字母、数字、减号、下划线、点的组合.'
     },
+    domainAddrNameValidParam: {
+    	name: 'domainAddrName',
+        validMethod: function(value, element, params) {
+            return this.optional(element) ||
+            /^[a-zA-Z][a-zA-Z0-9\-_\.]{0,14}$/.test(value);
+        },
+        msg: '1-15个字母、数字、减号、下划线、点的组合，首字符必须为字母.'
+    },
     realNameValidParam: {
         name: 'realName',
         validMethod: function(value, element, params) {
@@ -146,6 +215,15 @@ var validMethodParams = {
         },
         msg: '1-15个字母、数字、减号、下划线的组合.'
     },
+	realContext_txtValidParam: {
+		name: 'realContext_txt',
+		validMethod: function(value, element, params) {
+            return this.optional(element) ||
+            ///^[a-zA-Z0-9\-_(\u4E00-\U9FA5)]{1,30}$/.test(value);
+			/^[a-zA-Z0-9_\一-\龥]{1,30}$/.test(value);
+        },
+        msg: '中文、字母、数字、减号、下划线的组合.'
+	},
     userNameListValidParam: {
         name: 'userFilterName',
         validMethod: function(value, element, params) {
@@ -203,15 +281,15 @@ var validMethodParams = {
             }
             var hms_s = sv.split(':');
             var hms_e = ev.split(':');
-            if (hms_s[0] < hms_e[0]) {
+            if (parseInt(hms_s[0]) < parseInt(hms_e[0])) {
                 return true;
-            } else if (hms_s[0] == hms_e[0]) {
-                if (hms_s[1] < hms_e[1]) {
+            } else if (parseInt(hms_s[0]) == parseInt(hms_e[0])) {
+                if (parseInt(hms_s[1]) < parseInt(hms_e[1])) {
                     return true;
-                } else if (hms_s[1] == hms_e[1]) {
+                } else if (parseInt(hms_s[1]) == parseInt(hms_e[1])) {
                     var s_s = hms_s[2] === undefined ? 0 : hms_s[2];
                     var s_e = hms_e[2] === undefined ? 0 : hms_e[2];
-                    if (s_s < s_e) {
+                    if (parseInt(s_s) < parseInt(s_e)) {
                         return true;
                     } else {
                         return false;
@@ -236,17 +314,17 @@ var validMethodParams = {
         name: 'ftpFilterOptUserInfo',
         validMethod: function(value, element, params) {
             return this.optional(element) ||
-                /^([^,\s]+,)*[^,\s]+$/g.test(value)
+                /^([^\（\）\(\)\×\*,\s]{1,255},)*[^\（\）\(\)\×\*,\s]{1,255}$/g.test(value)
         },
-        msg: '多个用户类型用","分开'
+        msg: '不能填写星号和小括号, 多个用户类型用","分开.'
     },
     ftpFilterOptUploadOrDownInfoValidParam: {
         name: 'ftpFilterOptUploadOrDownInfo',
         validMethod: function(value, element, params) {
             return this.optional(element) ||
-            /^(\.([^,\s\.\\\/:\*\?"<>\|'%]+)?,)*\.([^,\s\.\\\/:\*\?"<>\|'%]+)?$/g.test(value)
+            /^(\.([^_\(\)，\u4e00-\u9fa5,\s\.\\\/:\*\?"<>\|'%]+)?,)*\.([^_\(\)，\u4e00-\u9fa5,\s\.\\\/:\*\?"<>\|'%]+)?$/g.test(value)
         },
-        msg: '多个文件类型用"，"分开，单个"."表示所有的没有后缀的文件。例 .exe,.txt'
+        msg: '多个文件类型用","分开, 单个"."表示所有的没有后缀的文件. 例.exe, .txt'
     },
     serviceListValidParam: {
         name: 'serviceList',
@@ -259,12 +337,12 @@ var validMethodParams = {
              	return false;
             } else if ($('#udpFloodChk').attr("checked") == 'checked' 
              	&& selectedOption != 'udp_any' && selectedOption != 'Syslog'
-                && selectedOption != 'tftp' && selectedOption != 'any') {
+                && selectedOption != 'tftp') {              // && selectedOption != 'any'
              	return false;
-            } else if ($('#icmpFloodChk').attr("checked") == 'checked' && selectedOption != 'any') {
-                return false;
-            } else if ($('#pingFloodChk').attr("checked") == 'checked' && selectedOption != 'any') {
-                return false;
+            //} else if ($('#icmpFloodChk').attr("checked") == 'checked' && selectedOption != 'any') {
+            //    return false;
+            //} else if ($('#pingFloodChk').attr("checked") == 'checked' && selectedOption != 'any') {
+             //   return false;
             }
             return true;
         },
@@ -301,9 +379,8 @@ var validMethodParams = {
     urlFilterValidParam: {
         name: 'urlFilter',
         validMethod: function(value, element, params) {
-            var urlregex = new RegExp("^[a-z0-9_-]*(\\.([a-z0-9_-])+)+$","i");
             return this.optional(element) ||
-            urlregex.test(value)
+            /^\.?(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(\#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i.test(value)
         },
         msg: 'URL格式错误.'
     },
@@ -513,81 +590,513 @@ var validMethodParams = {
         },
         msg: jQuery.format("1-20 个ASCII字符.")
     },
-    portPlusIdParam: {
-        name: 'portPlusId',
+    transIdParams: {
+        name: 'transId',
         validMethod: function(value, element, params) {
-            var id = 0;
-            if ($(params[1]).val() !== '') {
-                id = parseInt($(params[1]).val()); 
+            var dialogType = $('input:hidden[name="type"]').val();
+            var dom        = $('fieldset #' + element.id);
+            var defaultVal = dom[0].defaultValue;
+            dom.data('errMsg', '');
+
+            var lportDom   = $(params[1]);
+            var lportVal   = parseInt(lportDom.val());
+            if (!lportVal) {
+                lportVal = 0;
             }
-            if (value === '') {
-                value = 0;
-            }
-            var p = id + parseInt(params[0]) +
-                parseInt(value);
-            if (p > 65535) {
+            var idPlusPort = parseInt(value) + lportVal;
+            hideBindDom([lportDom]);
+            if (value === '' && setCustomErrMsg(dom, 'Required')) {
                 return false;
+            } else if (!/^\d+$/.test(value) &&
+                setCustomErrMsg(dom, 'Please enter only digits')) {
+                return false;
+            } else if (!(value >= 1 && value <= 1000) &&
+                setCustomErrMsg(dom, 'Task id range between 1 and 1000')) {
+                return false;
+            } else if ((65535 <= (params[3] + idPlusPort)) &&
+                setCustomErrMsg(dom, 'This id has been used')) {
+                return false;
+            }
+            if (dialogType === 'add' || defaultVal !== value) {
+                if (params[2] === undefined) {
+                    var url = 'Function/client/validation.php';
+                } else {
+                    var url = params[2];
+                }
+                var data = {};
+                data[params[0] + 'ClientTaskAndPort'] = idPlusPort;
+                data[params[0] + 'TransId'] = value;
+                sValidate(url, data, dom);
+            }
+            return dom.data('errMsg').length === 0;
+        },
+        msg: function(result, element) {
+            return getCustomErrMsg($('fieldset #' + element.id));
+        }
+    },
+    transLportParam: {
+        name: 'transLport',
+        validMethod: function(value, element, params) {
+            var dialogType = $('input:hidden[name="type"]').val();
+            var dom        = $('fieldset #' + element.id);
+            var defaultVal = dom[0].defaultValue;
+            dom.data('errMsg', '');
+            
+            var taskIdDom  = $(params[1]);
+            var taskIdVal  = parseInt(taskIdDom.val());
+            if (!taskIdVal) {
+                taskIdVal = 0;
+            }
+            var idPlusPort = parseInt(value) + taskIdVal;
+            hideBindDom([taskIdDom]);
+            if (value === '' && setCustomErrMsg(dom, 'Required')) {
+                return false;
+            } else if (!/^\d+$/.test(value)) {
+                setCustomErrMsg(dom, 'Please enter only digits');
+                return false;
+            } else if (!(value >= 1 && value <= 65535) &&
+                setCustomErrMsg(dom, 'Port range between 1 and 65535')) {
+                return false;
+            } else if ((65535 <= (params[3] + idPlusPort)) &&
+                setCustomErrMsg(dom, 'This port has been used')) {
+                return false;
+            }
+            if (dialogType === 'add' || defaultVal !== value) {
+                if (params[2] === undefined) {
+                    var url = 'Function/client/validation.php';
+                } else {
+                    var url = params[2];
+                }
+                var data = {};
+                data[params[0] + 'ClientTaskAndPort'] = idPlusPort;
+                sValidate(url, data, dom);
+            }
+            return dom.data('errMsg').length === 0;
+        },
+        msg: function(result, element) {
+            return getCustomErrMsg($('fieldset #' + element.id));
+        }
+    },
+    generalIdParams: {
+        name: 'generalId',
+        validMethod: function(value, element, params) {
+            var dom  = $('fieldset #' + element.id);
+            dom.data('errMsg', '');
+            if (value === '' && setCustomErrMsg(dom, 'Required')) {
+                return false;
+            } else if (!/^\d+$/.test(value) &&
+                setCustomErrMsg(dom, 'Please enter only digits')) {
+                return false;
+            } else if (!(value >= 1 && value <= 1000) &&
+                setCustomErrMsg(dom, 'Task id range between 1 and 1000')) {
+                return false;
+            }
+            var data = {};
+            data[params[0] + 'GeneralId'] = value;
+            if (params[1] === undefined) {
+                var url = 'Function/client/validation.php';
             } else {
-                return true;
+                var url = params[1];
             }
+            sValidate(url, data, dom);
+            return dom.data('errMsg').length === 0;
         },
-        msg: jQuery.format('任务号+端口号+{0}超过65535.')
+        msg: function(result, element) {
+            return getCustomErrMsg($('fieldset #' + element.id));
+        }
     },
-    portPlusIdUniqueParam: {
-        name: 'portPlusIdUnique',
+    generalLipParams: {
+        name: 'generalLip',
         validMethod: function(value, element, params) {
-            var id = 0;
-            if ($(params[0]).val() !== '') {
-                id = parseInt($(params[0]).val()); 
+            var dialogType = $('input:hidden[name="type"]').val();
+            var dom        = $('fieldset #' + element.id);
+            var lportDom   = $(params[1]);
+            var defaultVal = getDefaultOptionVal(element);
+            dom.data('errMsg', '');
+            hideBindDom([lportDom]);
+            if (value === '' && setCustomErrMsg(dom, 'Required')) {
+                return false;
             }
-            if (value === '') {
-                value = 0;
+            if (dialogType === 'add' || defaultVal !== value) {
+                if (params[2] === undefined) {
+                    var url = 'Function/client/validation.php';
+                } else {
+                    var url = params[2];
+                }
+                var data = {};
+                data['lip'] = value;
+                data[params[0] + 'GeneralLport'] = lportDom.val();
+                sValidate(url, data, dom);
+            }
+            return dom.data('errMsg').length === 0;
+        },
+        msg: function(result, element) {
+            return getCustomErrMsg($('fieldset #' + element.id));
+        }
+    },
+    generalLportParams: {
+        name: 'generalLport',
+        validMethod: function(value, element, params) {
+            var dialogType = $('input:hidden[name="type"]').val();
+            var dom        = $('fieldset #' + element.id);
+            var defaultVal = dom[0].defaultValue;
+            dom.data('errMsg', '');
+            hideBindDom([$(params[1])]);
+            if (value === '' && setCustomErrMsg(dom, 'Required')) {
+                return false;
+            } else if (!/^\d+$/.test(value) &&
+                setCustomErrMsg(dom, 'Please enter only digits')) {
+                return false;
+            } else if (!(value >= 1 && value <= 65535) &&
+                setCustomErrMsg(dom, 'Port range between 1 and 65535')) {
+                return false;
+            }
+            if (dialogType === 'add' || defaultVal !== value) {
+                if (params[2] === undefined) {
+                    var url = 'Function/client/validation.php';
+                } else {
+                    var url = params[2];
+                }
+                var data = {};
+                data['lip'] = $(params[1] + ' option:selected').val();
+                data[params[0] + 'GeneralLport'] = value;
+                sValidate(url, data, dom);
+            }
+            return dom.data('errMsg').length === 0;
+        },
+        msg: function(result, element) {
+            return getCustomErrMsg($('fieldset #' + element.id));
+        }
+    },
+    customTcpGeneralIdParams: {
+        name: 'customTcpGeneralId',
+        validMethod: function(value, element, params) {
+            var dom  = $('fieldset #' + element.id);
+            dom.data('errMsg', '');
+            if (value === '' && setCustomErrMsg(dom, 'Required')) {
+                return false;
+            } else if (!/^\d+$/.test(value) &&
+                setCustomErrMsg(dom, 'Please enter only digits')) {
+                return false;
+            } else if (!(value >= 1 && value <= 1000) &&
+                setCustomErrMsg(dom, 'Task id range between 1 and 1000')) {
+                return false;
             }
             var data = {
-                checkExistTaskAndPort: true,
-                taskId: id,
-                idPlusPort: id + parseInt(value)
+            		customTcpGeneralId: value
             };
-            var isValid = false;
-            var ajaxParams = {
-                async: false,
-                success: function(result) {
-                    isValid = result === 'true' ? true : false;
-                }
-            };
-            loadAjax(params[1], data, ajaxParams);
-            return isValid;
+            sValidate('Function/client/validation.php', data, dom);
+            return dom.data('errMsg').length === 0;
         },
-        msg: jQuery.format('任务号+端口号的和已存在.')
+        msg: function(result, element) {
+            return getCustomErrMsg($('fieldset #' + element.id));
+        }
     },
-    idPlusPortUniqueParam: {
-        name: 'idPlusPortUnique',
+    tcpGeneralLipParams: {
+        name: 'tcpGeneralLip',
         validMethod: function(value, element, params) {
-            var port = 0;
-            if ($(params[0]).val() !== '') {
-                port = parseInt($(params[0]).val()); 
+            var dialogType    = $('fieldset input:hidden[name="type"]').val();
+
+            var dom        = $('fieldset #' + element.id);
+            var lportDom   = $('fieldset #tcpGeneralLport');
+            var defaultVal = getDefaultOptionVal(element);
+            dom.data('errMsg', '');
+            hideBindDom([lportDom]);
+            if (value === '' && setCustomErrMsg(dom, 'Required')) {
+                return false;
             }
-            var id = 0;
-            if (value !== '') {
-                id = parseInt(value);
+            if (dialogType === 'add' || defaultVal !== value) {
+                var url  = 'Function/client/validation.php';
+                var data = {
+                	tcpGeneralLport: lportDom.val(),
+                    lip: value
+                };
+                sValidate(url, data, dom);
+            }
+            return dom.data('errMsg').length === 0;
+        },
+        msg: function(result, element) {
+            return getCustomErrMsg($('fieldset #' + element.id));
+        }
+    },
+    tcpGeneralLportParams: {
+        name: 'tcpGeneralLport',
+        validMethod: function(value, element, params) {
+            var dialogType    = $('fieldset input:hidden[name="type"]').val();
+
+            var dom        = $('fieldset #' + element.id);
+            var defaultVal = dom[0].defaultValue;
+            dom.data('errMsg', '');
+            hideBindDom([$('fieldset #tcpGeneralLip')]);
+            if (value === '' && setCustomErrMsg(dom, 'Required')) {
+                return false;
+            } else if (!/^\d+$/.test(value) &&
+                setCustomErrMsg(dom, 'Please enter only digits')) {
+                return false;
+            } else if (!(value >= 1 && value <= 65535) &&
+                setCustomErrMsg(dom, 'Port range between 1 and 65535')) {
+                return false;
+            }
+            if (dialogType === 'add' || defaultVal !== value) {
+                var url  = 'Function/client/validation.php';
+                var data = {
+                	tcpGeneralLport: value,
+                    lip: $('fieldset #tcpGeneralLip option:selected').val()
+                };
+                sValidate(url, data, dom);
+            }
+            return dom.data('errMsg').length === 0;
+        },
+        msg: function(result, element) {
+            return getCustomErrMsg($('fieldset #' + element.id));
+        }
+    },
+    customUdpGeneralIdParams: {
+        name: 'customUdpGeneralId',
+        validMethod: function(value, element, params) {
+            var dom  = $('fieldset #' + element.id);
+            dom.data('errMsg', '');
+            if (value === '' && setCustomErrMsg(dom, 'Required')) {
+                return false;
+            } else if (!/^\d+$/.test(value) &&
+                setCustomErrMsg(dom, 'Please enter only digits')) {
+                return false;
+            } else if (!(value >= 1 && value <= 1000) &&
+                setCustomErrMsg(dom, 'Task id range between 1 and 1000')) {
+                return false;
             }
             var data = {
-                checkExistTaskAndPort: true,
-                taskId: id,
-                idPlusPort: port + id
+            		customUdpGeneralId: value
             };
-            var isValid = false;
-            var ajaxParams = {
-                async: false,
-                success: function(result) {
-                    isValid = result === 'true' ? true : false;
-                }
-            };
-            loadAjax(params[1], data, ajaxParams);
-            return isValid;
+            sValidate('Function/client/validation.php', data, dom);
+            return dom.data('errMsg').length === 0;
         },
-        msg: jQuery.format('任务号+端口号的和已存在.')
+        msg: function(result, element) {
+            return getCustomErrMsg($('fieldset #' + element.id));
+        }
     },
+    udpGeneralLipParams: {
+        name: 'udpGeneralLip',
+        validMethod: function(value, element, params) {
+            var dialogType    = $('fieldset input:hidden[name="type"]').val();
+
+            var dom        = $('fieldset #' + element.id);
+            var lportDom   = $('fieldset #udpGeneralLport');
+            var defaultVal = getDefaultOptionVal(element);
+            dom.data('errMsg', '');
+            hideBindDom([lportDom]);
+            if (value === '' && setCustomErrMsg(dom, 'Required')) {
+                return false;
+            }
+            if (dialogType === 'add' || defaultVal !== value) {
+                var url  = 'Function/client/validation.php';
+                var data = {
+                	udpGeneralLport: lportDom.val(),
+                    lip: value
+                };
+                sValidate(url, data, dom);
+            }
+            return dom.data('errMsg').length === 0;
+        },
+        msg: function(result, element) {
+            return getCustomErrMsg($('fieldset #' + element.id));
+        }
+    },
+    udpGeneralLportParams: {
+        name: 'udpGeneralLport',
+        validMethod: function(value, element, params) {
+            var dialogType    = $('fieldset input:hidden[name="type"]').val();
+
+            var dom        = $('fieldset #' + element.id);
+            var defaultVal = dom[0].defaultValue;
+            dom.data('errMsg', '');
+            hideBindDom([$('fieldset #udpGeneralLip')]);
+            if (value === '' && setCustomErrMsg(dom, 'Required')) {
+                return false;
+            } else if (!/^\d+$/.test(value) &&
+                setCustomErrMsg(dom, 'Please enter only digits')) {
+                return false;
+            } else if (!(value >= 1 && value <= 65535) &&
+                setCustomErrMsg(dom, 'Port range between 1 and 65535')) {
+                return false;
+            }
+            if (dialogType === 'add' || defaultVal !== value) {
+                var url  = 'Function/client/validation.php';
+                var data = {
+                	udpGeneralLport: value,
+                    lip: $('fieldset #udpGeneralLip option:selected').val()
+                };
+                sValidate(url, data, dom);
+            }
+            return dom.data('errMsg').length === 0;
+        },
+        msg: function(result, element) {
+            return getCustomErrMsg($('fieldset #' + element.id));
+        }
+    },                                                                                                                                                                                                                                                                                                      
+   customTcpTransIdParams: {
+   	name: 'customTcpTransId',
+       validMethod: function(value, element, params) {                     
+           var dialogType    = $('fieldset input:hidden[name="type"]').val();
+           var dom        = $('#' + element.id);                           
+           var defaultVal = dom[0].defaultValue;                           
+           dom.data('errMsg', '');                                         
+                                                                      
+           var lportDom   = $('fieldset #customtcpTransLport');                           
+           var lportVal   = parseInt(lportDom.val());                      
+           if (!lportVal) {                                                
+               lportVal = 0;                                               
+           }                                                               
+           var idPlusPort = parseInt(value) + lportVal;                    
+           hideBindDom([lportDom]);                                        
+           if (value === '' && setCustomErrMsg(dom, 'Required')) {         
+               return false;                                               
+           } else if (!/^\d+$/.test(value) &&                              
+               setCustomErrMsg(dom, 'Please enter only digits')) {         
+               return false;                                               
+           } else if (!(value >= 1 && value <= 1000) &&                    
+               setCustomErrMsg(dom, 'Task id range between 1 and 1000')) { 
+               return false;                                               
+           } else if ((65535 <= (54000 + idPlusPort)) &&                   
+               setCustomErrMsg(dom, 'Task Id + dport + 54000 >= 65535')) { 
+               return false;                                               
+           }                                                               
+           if (dialogType === 'add' || defaultVal !== value) {             
+               var url  = 'Function/client/validation.php';                
+               var data = {                                                
+                   customTcpTransClientTaskAndPort: idPlusPort,                          
+                   customTcpTransId: value                                          
+               };                                                          
+               sValidate(url, data, dom);                                  
+           }                                                               
+           return dom.data('errMsg').length === 0;                         
+       },                                                                  
+       msg: function(result, element) {                                    
+           return getCustomErrMsg($('fieldset #' + element.id));
+       }                                                                   
+   },                                                                      
+   customtcpTransLportParam: {
+   	 name: 'customtcpTransLport',
+        validMethod: function(value, element, params) {                    
+            var dialogType    = $('fieldset input:hidden[name="type"]').val();
+                                                                      
+            var dom        = $('fieldset #' + element.id);
+            var defaultVal = dom[0].defaultValue;
+            dom.data('errMsg', '');
+                                                                           
+            var taskIdDom  = $('fieldset #customTcpTransId');                
+            var taskIdVal  = parseInt(taskIdDom.val());                    
+            if (!taskIdVal) {                                              
+                taskIdVal = 0;                                             
+            }                                                              
+            var idPlusPort = parseInt(value) + taskIdVal;                  
+            hideBindDom([taskIdDom]);                                      
+            if (value === '' && setCustomErrMsg(dom, 'Required')) {        
+                return false;                                              
+            } else if (!/^\d+$/.test(value)) {                             
+                setCustomErrMsg(dom, 'Please enter only digits');          
+                return false;                                              
+            } else if (!(value >= 1 && value <= 65535) &&
+                    setCustomErrMsg(dom, 'Port range between 1 and 65535')) {
+                return false;
+            } else if ((65535 <= (54000 + idPlusPort)) &&                  
+                setCustomErrMsg(dom, 'Task Id + dport + 54000 >= 65535')) {
+                return false;
+            }                                                              
+            if (dialogType === 'add' || defaultVal !== value) {            
+                var url  = 'Function/client/validation.php';            
+                var data = {                                               
+                	customTcpTransClientTaskAndPort: idPlusPort
+                };                                                         
+                sValidate(url, data, dom);                                 
+            }                                                              
+            return dom.data('errMsg').length === 0;                        
+        },                                                                 
+        msg: function(result, element) {                                   
+            return getCustomErrMsg($('fieldset #' + element.id)); 
+        }                                                                  
+   },
+   customUdpTransIdParams: {
+	   	name: 'customUdpTransId',
+	       validMethod: function(value, element, params) {                     
+	           var dialogType = $('fieldset input:hidden[name="type"]').val(); 
+	           var dom        = $('#' + element.id);                           
+	           var defaultVal = dom[0].defaultValue;                           
+	           dom.data('errMsg', '');
+
+	           var lportDom   = $('fieldset #customUdpTransLport');                           
+	           var lportVal   = parseInt(lportDom.val());                      
+	           if (!lportVal) {                                                
+	               lportVal = 0;                                               
+	           }                                                               
+	           var idPlusPort = parseInt(value) + lportVal;                    
+	           hideBindDom([lportDom]);                                        
+	           if (value === '' && setCustomErrMsg(dom, 'Required')) {         
+	               return false;                                               
+	           } else if (!/^\d+$/.test(value) &&                              
+	               setCustomErrMsg(dom, 'Please enter only digits')) {         
+	               return false;                                               
+	           } else if (!(value >= 1 && value <= 1000) &&                    
+	               setCustomErrMsg(dom, 'Task id range between 1 and 1000')) { 
+	               return false;                                               
+	           } else if ((65535 <= (idPlusPort)) &&                   
+	               setCustomErrMsg(dom, 'Task Id + dport >= 65535')) { 
+	               return false;                                               
+	           }                                                               
+	           if (dialogType === 'add' || defaultVal !== value) {             
+	               var url  = 'Function/client/validation.php';                
+	               var data = {                                                
+	            	   customUdpTransClientTaskAndPort: idPlusPort,                          
+	               	   customUdpTransId: value                                          
+	               };                                                          
+	               sValidate(url, data, dom);                                  
+	           }                                                               
+	           return dom.data('errMsg').length === 0;                         
+	       },                                                                  
+	       msg: function(result, element) {                                    
+	           return getCustomErrMsg($('fieldset #' + element.id));
+	       }                                                                   
+	   },                                                                      
+	   customUdpTransLportParam: {
+	   	 name: 'customUdpTransLport',
+	        validMethod: function(value, element, params) {                    
+	            var dialogType = $('fieldset input:hidden[name="type"]').val();
+	            var dom        = $('fieldset #' + element.id);
+	            var defaultVal = dom[0].defaultValue;
+  
+	            dom.data('errMsg', '');
+	            var taskIdDom  = $('fieldset #customUdpTransId');
+	            var taskIdVal  = parseInt(taskIdDom.val());                    
+	            if (!taskIdVal) {                                              
+	                taskIdVal = 0;                                             
+	            }                                                              
+	            var idPlusPort = parseInt(value) + taskIdVal;                  
+	            hideBindDom([taskIdDom]);                                      
+	            if (value === '' && setCustomErrMsg(dom, 'Required')) {        
+	                return false;                                              
+	            } else if (!/^\d+$/.test(value)) {                             
+	                setCustomErrMsg(dom, 'Please enter only digits');          
+	                return false;                                              
+	            } else if (!(value >= 1 && value <= 65535) &&
+	                    setCustomErrMsg(dom, 'Port range between 1 and 65535')){
+	                return false;
+	            } else if ((65535 <= (idPlusPort)) &&                  
+	                setCustomErrMsg(dom, 'Task Id + dport >= 65535')) {
+	                return false;
+	            }                                                              
+	            if (dialogType === 'add' || defaultVal !== value) {            
+	                var url  = 'Function/client/validation.php';               
+	                var data = {                                               
+	                	customUdpTransClientTaskAndPort: idPlusPort
+	                };                                                         
+	                sValidate(url, data, dom);                                 
+	            }                                                              
+	            return dom.data('errMsg').length === 0;                        
+	        },                                                                 
+	        msg: function(result, element) {                                   
+	            return getCustomErrMsg($('fieldset #' + element.id));
+	        }                                                                  
+	   },
     StartTimeLessThanEndTimeParam: {
         name: 'StartTimeLessThanEndTime',
         validMethod: function(value, element, params) {
@@ -612,6 +1121,143 @@ var validMethodParams = {
             !urlregex.test(value)
         },
         msg: '名称不能包含\'#\'特殊字符.'
+    },
+    safePassIdParams: {
+        name: 'safePassId',
+        validMethod: function(value, element, params) {
+            var dialogType    = $('fieldset input:hidden[name="type"]').val();
+
+            var dom        = $('fieldset #' + element.id);
+            var defaultVal = dom[0].defaultValue;
+            dom.data('errMsg', '');
+
+            if (value === '') {
+                setCustomErrMsg(dom, 'Required');
+                return false;
+            } else if (!/^\d+$/.test(value)) {
+                setCustomErrMsg(dom, 'Please enter only digits');
+                return false;
+            } else if (!(value >= 1 && value <= 200)) {
+                setCustomErrMsg(dom, 'Task id range between 1 and 200');
+                return false;
+            }
+            if (dialogType === 'add' || defaultVal !== value) {
+                var url  = 'Function/client/validation.php';
+                var data = {
+                    safePassId: value
+                };
+                sValidate(url, data, dom);
+            }
+            return dom.data('errMsg').length === 0;
+        },
+        msg: function(result, element) {
+            return getCustomErrMsg($('fieldset #' + element.id));
+        }
+    },
+    realAddrParams: {
+        name: 'realAddr',
+        validMethod: function(value, element, params) {
+            if(value == "")
+                return true;
+            for (i=1 ; i<=16 ; i++) {
+                var realAddrKey = "realAddr" + i;                
+                if (realAddrKey != element.id) {
+                    var getRealAddrValue = $("input[name='"+ realAddrKey +"']").val();
+                    if(getRealAddrValue == value) {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        },
+        msg: function(result, element) {
+            return "真实地址不能重复.";
+        }
+    },
+    vipParams:{
+        name: 'viprequired',
+        validMethod: function(value, element, params) {
+            if($("input[name='authType']:checked").val() != "vip"){            
+                return true;
+            }
+            if($("#bindMac").val() != "" || $("#bindIp").val() != ""){
+                return true;
+            }
+            if(value == "")
+                return false;
+            return true;
+        },
+        msg: function(result, element) {
+            return "vip用户必须绑定IP或MAC地址.";
+        }
+    },
+    dbTransAddressParams: {
+        name: 'dbTransAddress',
+        validMethod: function(value, element) {
+            var sa = $('#sAddress').val();
+            var la = $('#lAddress').val();
+            return !(sa === 'any_ipv4' && la === 'any_ipv4');
+        },
+        msg: function(result) {
+            return "源地址不能与目的地址同时为'any'.";
+        }
+    },
+    extensionParams: {
+        name: 'fileExtension',
+        validMethod: function(value, element, params) {
+            for (var i in params) {
+                var ext = params[i];
+                if (value.indexOf(ext, value.length - ext.length) !== -1) {
+                    return true;
+                }
+            }
+            return false;
+        },
+        msg: function(result) {
+            return '后缀名称不正确.';
+        }
+    },
+    mailAddrParams: {
+    	name: 'mailAddr',
+        validMethod: function(value, element, params) {
+        	if(!this.optional(element)){
+        		var emailstr = value.split('@');
+            	if(emailstr.length == 2){
+            		if(/^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))$/i.test(emailstr[0])){
+            			var ipv4regex = new RegExp(perlipv4regex);
+            	        var ipv6regex = new RegExp(perlipv6regex);
+            	        if(ipv4regex.test(emailstr[1]) || ipv6regex.test(emailstr[1]) || /^fe80/i.test(emailstr[1])){
+            	        	return true;
+            	        }else if(/^((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))$/i.test(emailstr[1])){
+            	        	return true;
+            	        }
+            	        return false;
+            		}
+            		return false;
+            	}
+            	return false;
+        	}else{
+        		return true;
+        	}        	
+        },
+        msg: function(result) {
+            return '请输入有效的邮件地址.';
+        }
+    },
+    realPortParams: {
+    	name: 'realPort',
+        validMethod: function(value, element, params) {
+        	if(value == "")
+                return true;
+        	var vPort = $('input[name="virtualPort"]').val();
+        	if(value !== vPort){
+        		return false;
+        	}
+        	return true;
+        },
+        msg: function(result) {
+                return '虚拟端口和真实端口必须一致。';
+        }                
     }
 };
 for (var i in validMethodParams) {
@@ -642,20 +1288,29 @@ var validRules = {
     },
     account: {
         required: true,
-        letters: [1, 15]
+        letters: [1, 15],
+		remote: {
+            url: 'Function/systemManagement/admin/account.php',
+            data: {
+                checkExistAccountName: true              
+            }
+        }
     },
     passwd: {
         required: true,
-        passwd: [8, 15]
+        adminPwd: [8, 15]
     },
     passwd_again: {
         required: true,
         equalTo: "#passwd"
     },
-    logAdmin: {
+    role: {
         required: function() {
             return (countUnchecked($('.roles')) === 3);
         }
+    },
+    defaultGateway: {
+	    ip: true
     },
     ip: {
         required: true,
@@ -687,9 +1342,33 @@ var validRules = {
         remote: {
             url: 'Function/networkManagement/interface/physical.php',
             data: {
-                checkIpExist: 'ipv4'
+                checkIpExist: 'ipv4',
+                exName: function() {
+                        return $('input[name="external_name"]').val();
+                }
             }
         }
+    },
+    devIpv4Netmask: {
+        required: 'input[name="devIpv4"]:filled',
+        ipv4Netmask: true
+    },
+    redundanceIpv4:{
+        required: true,
+        ipv4: true,
+        remote: {
+            url: 'Function/networkManagement/interface/redundance.php',
+            data: {
+                checkIpExist: 'ipv4',
+                exName: function() {
+                        return $('input[name="external_name"]').val();
+                }
+            }
+        }
+    },
+    redundanceMask:{
+        required: 'input[name="redundanceIpv4"]:filled',
+        ipv4Netmask: true
     },
     devIpv6: {
         required: 'input[name="devIpv4"]:blank',
@@ -697,9 +1376,16 @@ var validRules = {
         remote: {
             url: 'Function/networkManagement/interface/physical.php',
             data: {
-                checkIpExist: 'ipv6'
+                checkIpExist: 'ipv6',
+                exName: function() {
+                    return $('input[name="external_name"]').val();
+                }
             }
         }
+    },
+    devIpv6Netmask: {
+        required: 'input[name="devIpv6"]:filled',
+        ipv6Netmask: true
     },
     ipAddr_r: {
         required: true,
@@ -718,7 +1404,23 @@ var validRules = {
     },
     addrName: {
         required: true,
-        addrName: true
+        addrName: true,
+        remote: {
+            url: 'Function/resConf/addr/addrList.php',
+            data: {
+            	checkExistAddrName: true
+            }
+        }
+    },
+    domainAddrName: {
+        required: true,
+        domainAddrName: true,
+        remote: {
+            url: 'Function/resConf/addr/addrList.php',
+            data: {
+            	checkExistAddrName: true
+            }
+        }
     },
     addrGrpName : {
         required: true,
@@ -903,11 +1605,16 @@ var validRules = {
     realName: {
         realName: true
     },
+	context_txt: {
+		realContext_txt: true	
+	},
     bindIp: {
-        ip: true
+        ip: true,
+        viprequired: true
     },
     bindMac: {
-        mac: true
+        mac: true,
+        viprequired: true
     },
     passwd_user: {
         required: true,
@@ -918,7 +1625,27 @@ var validRules = {
     },
     userListName: {
         required: true,
-        realName: true
+        realName: true,
+        remote: {
+            url: 'Function/resConf/user/userList.php',
+            data: {
+            	checkExistUserName: true
+            }
+        }
+    },
+    authUserListName: {
+        required: true,
+        realName: true,
+        remote: {
+            url: 'auth_check_login.php',
+            data: {
+            	checkExistUserName: true
+            }
+        }
+    },
+
+    activePwd: {
+        required: true
     },
     'rolesMember[]': {
         required: function() {
@@ -976,7 +1703,13 @@ var validRules = {
     },
     roleName: {
         required: true,
-        realName: true
+        realName: true,
+        remote: {
+            url: 'Function/resConf/user/roleList.php',
+            data: {
+            	checkExistRoleName: true
+            }
+        }
     },
     allocatedTime: {
         range: [0, 525600],
@@ -1040,6 +1773,13 @@ var validRules = {
     upAddr: {
     	required: true
     },
+    file: {
+    	required: true
+    },
+    uploadLicense: {
+    	required: true,
+        fileExtension: ['dat']
+    },
     updateFile: {
     	required: true
     },
@@ -1050,12 +1790,25 @@ var validRules = {
     userInfo: {
     	ftpFilterOptUserInfo:true
     },    
+    ftpId: {
+        generalId: ['ftp']
+    },
     uploadInfo: {
     	ftpFilterOptUploadOrDownInfo: true
     },
     downInfo: {
     	ftpFilterOptUploadOrDownInfo: true
-    },  
+    }, 
+	hostIp: {
+		required: true,
+		ip: true,
+		remote: {
+            url: 'Function/systemManagement/admin/host.php',
+            data: {
+                checkExistIp: true
+            }
+        }
+	},
     customId: {
         required: true,
         digits: true,
@@ -1063,18 +1816,6 @@ var validRules = {
         digits: true,
         remote: {
             url: 'Function/client/customized/tcpGeneralVisit.php',
-            data: {
-                checkExistId: true
-            }
-        }
-    },
-    ftpId: {
-        required: true,
-        digits: true,
-        range: [1, 1000],
-        digits: true,
-        remote: {
-            url: 'Function/client/ftp/generalVisit.php',
             data: {
                 checkExistId: true
             }
@@ -1115,27 +1856,6 @@ var validRules = {
             }
         }
     },
-    ftplportReq: {
-        required: true,
-        range: [1, 65535],
-        digits: true,
-        remote: {
-            url: 'Function/client/ftp/generalVisit.php',
-            data: {
-                checkExistLport: true,
-                taskId: function() {
-                    if ($('input[name="type"]').val() === 'edit') {
-                        return $('fieldset input[name="ftpId"]').val();
-                    } else {
-                        return -1;
-                    }
-                },
-                lip: function() {   
-                    return $('select[name="lip"] option:selected').val();
-                }
-            }
-        }
-    },   
     fslip: {
         required: true,
         isFilled: ['input[name="fslportReq"]', '请填写本机端口.'],
@@ -1176,48 +1896,6 @@ var validRules = {
             }
         }
     },
-    ftpTranslportReq: {
-        required: true,
-        range: [1, 65535],
-        digits: true,
-        portPlusId: [60000, '#ftpTransId', 'Function/client/ftp/ftp.php'],
-        portPlusIdUnique: ['#ftpTransId', 'Function/client/ftp/ftp.php']
-    },
-    cliTransPortReq: {
-        required: true,
-        range: [1, 65535],
-        digits: true,
-        portPlusId: [48000, '#clientTransId', 'Function/client/db/transVisit.php'],
-        portPlusIdUnique: ['#clientTransId', 'Function/client/db/transVisit.php']
-    },
-    tcpTranslportReq: {
-        required: true,
-        range: [1, 65535],
-        digits: true,
-        portPlusId: [54000, '#cusTcpTransId', 'Function/client/customized/tcpTransVisit.php'],
-        portPlusIdUnique: ['#cusTcpTransId', 'Function/client/customized/tcpTransVisit.php']
-    },
-    udpTranslportReq: {
-        required: true,
-        range: [1, 65535],
-        digits: true,
-        portPlusId: [54000, '#cusUdpTransId', 'Function/client/customized/udpTransVisit.php'],
-        portPlusIdUnique: ['#cusUdpTransId', 'Function/client/customized/udpTransVisit.php']
-    },
-    pop3TransdportReq: {
-        required: true,
-        range: [1, 65535],
-        digits: true,
-        portPlusId: [42000, '#pop3TransId', 'Function/client/mail/pop3TransVisit.php'],
-        portPlusIdUnique: ['#pop3TransId', 'Function/client/mail/pop3TransVisit.php']
-    },
-    smtpTransdportReq: {
-        required: true,
-        range: [1, 65535],
-        digits: true,
-        portPlusId: [36000, '#smtpTransId', 'Function/client/mail/smtpTransVisit.php'],
-        portPlusIdUnique: ['#smtpTransId', 'Function/client/mail/smtpTransVisit.php']
-    },
     sportReq: {
         required: true,
         range: [1, 65535],
@@ -1253,16 +1931,7 @@ var validRules = {
         ipv4: true
     },
     safePassId: {
-    	required: true,
-    	digits: true,
-        range: [1, 200],
-    	digits: true,
-        remote: {
-            url: 'Function/client/safePass/safePass.php',
-            data: {
-                checkExistId: true
-            }
-        }
+        safePassId:true
     },
     safePassSrcPort: {
         unrequiredPortRange: true
@@ -1292,13 +1961,16 @@ var validRules = {
         serviceList: true
     },
     synFloodTxt: {
-    	required: "#synFloodChk:checked"
+    	required: "#synFloodChk:checked",
+    	digits: true
     },
     udpFloodTxt: {
-    	required: "#udpFloodChk:checked"
+    	required: "#udpFloodChk:checked",
+    	digits:true
     },
     icmpFloodTxt: {
-    	required: "#icmpFloodChk:checked"
+    	required: "#icmpFloodChk:checked",
+    	digits:true
     },
     
 	clientDbId: {
@@ -1364,96 +2036,155 @@ var validRules = {
             }
         }
     },
+	clientFileSyncTaskId: {
+        generalId: ['clientFileSync']
+    },
+	clientFileSyncLip : {
+		generalLip: ['cs', 'fieldset #clientFileSyncLport']	
+	},
+	clientFileSyncLport: {
+		generalLport: ['cs','fieldset #clientFileSyncLip']
+	},
+	clientDbSyncTaskId: {
+		generalId: ['clientDbSync']
+	},
+	clientDbSyncLip: {
+		generalLip: ['cdbs','fieldset #clientDbSyncLport']
+	},
+	clientDbSyncLport: {
+		generalLport: ['cdbs','fieldset #clientDbSyncLip']
+	},
+	sfileSyncTaskId: {
+		generalId: ['sfileSync','Function/server/validation.php']
+	},
+	serverDbSyncTaskId: {
+		generalId: ['serverDbSync','Function/server/validation.php']
+	},
     ftpTransId: {
-        required: true,
-        digits: true,
-        range: [1, 1000],
-        portPlusId: [60000, 'fieldset input[name="ftpTranslportReq"]',
-            'Function/client/ftp/ftp.php'],
-        idPlusPortUnique: ['fieldset input[name="ftpTranslportReq"]',
-            'Function/client/ftp/ftp.php'],
-        remote: {
-            url: 'Function/client/ftp/transVisit.php',
-            data: {
-                checkExistId: true
-            }
-        }
+        transId: ['ftp', 'fieldset #ftpTranslportReq', undefined, 60000]
     },
-    clientTransId: {
-    	required: true,
-        range: [1, 1000],
-        digits: true,
-        portPlusId: [48000, 'fieldset input[name="cliTransPortReq"]',
-            'Function/client/db/transVisit.php'],
-        idPlusPortUnique: ['fieldset input[name="cliTransPortReq"]',
-            'Function/client/db/transVisit.php'],
-        remote: {
-            url: 'Function/client/db/transVisit.php',
-            data: {
-            	checkExistId: true
-            }
-        }
+    ftpTranslportReq: {
+        transLport: ['ftp', 'fieldset #ftpTransId', undefined, 60000]
     },
-    cusTcpTransId: {
-    	required: true,
-        range: [1, 1000],
-        digits: true,
-        portPlusId: [54000, 'fieldset input[name="tcpTranslportReq"]',
-            'Function/client/customized/tcpTransVisit.php'],
-        idPlusPortUnique: ['fieldset input[name="tcpTranslportReq"]',
-            'Function/client/customized/tcpTransVisit.php'],
-        remote: {
-            url: 'Function/client/customized/tcpTransVisit.php',
-            data: {
-            	checkExistId: true
-            }
-        }
+    ftpGeneralId: {
+        generalId: ['ftp']
     },
-    cusUdpTransId: {
-    	required: true,
-        range: [1, 1000],
-        digits: true,
-        portPlusId: [54000, 'fieldset input[name="udpTranslportReq"]',
-            'Function/client/customized/udpTransVisit.php'],
-        idPlusPortUnique: ['fieldset input[name="udpTranslportReq"]',
-            'Function/client/customized/udpTransVisit.php'],
-        remote: {
-            url: 'Function/client/customized/udpTransVisit.php',
-            data: {
-            	checkExistId: true
-            }
-        }
+    ftpGeneralLip: {
+        generalLip: ['ftp', 'fieldset #ftpGeneralLport']
+    },
+    ftpGeneralLport: {
+        generalLport: ['ftp', 'fieldset #ftpGeneralLip']
+    },
+    customTcpGeneralId: {
+    	customTcpGeneralId: true
+    },
+    tcpGeneralLip: {
+    	tcpGeneralLip: true
+    },
+    tcpGeneralLport: {
+    	tcpGeneralLport: true
+    },
+    customUdpGeneralId: {
+    	customUdpGeneralId: true
+    },
+    udpGeneralLip: {
+    	udpGeneralLip: true
+    },
+    udpGeneralLport: {
+    	udpGeneralLport: true
     },
     pop3TransId: {
-    	required: true,
-        range: [1, 1000],
-        digits: true,
-        portPlusId: [42000, 'fieldset input[name="pop3TransdportReq"]',
-            'Function/client/mail/pop3TransVisit.php'],
-        idPlusPortUnique: ['fieldset input[name="pop3TransdportReq"]',
-            'Function/client/mail/pop3TransVisit.php'],
-        remote: {
-            url: 'Function/client/mail/pop3TransVisit.php',
-            data: {
-            	checkExistId: true
-            }
-        }
+    	transId: ['pop3', 'fieldset #pop3TranslportReq', undefined, 42000]
+    },
+    pop3TranslportReq: {
+    	transLport: ['pop3', 'fieldset #pop3TransId', undefined, 42000]
+    },
+    pop3GeneralId: {
+    	generalId: ['pop3']
+    },
+    pop3GeneralLip: {
+    	generalLip: ['pop3', 'fieldset #pop3GeneralLport']
+    },
+    pop3GeneralLport: {
+    	generalLport: ['pop3', 'fieldset #pop3GeneralLip']
     },
     smtpTransId: {
-    	required: true,
-        range: [1, 1000],
-        digits: true,
-        portPlusId: [36000, 'fieldset input[name="smtpTransdportReq"]',
-            'Function/client/mail/smtpTransVisit.php'],
-        idPlusPortUnique: ['fieldset input[name="smtpTransdportReq"]',
-            'Function/client/mail/smtpTransVisit.php'],
-        remote: {
-            url: 'Function/client/mail/smtpTransVisit.php',
-            data: {
-            	checkExistId: true
-            }
-        }
+    	transId: ['smtp', 'fieldset #smtpTranslportReq', undefined, 36000]
     },
+    smtpTranslportReq: {
+    	transLport: ['smtp', 'fieldset #smtpTransId', undefined, 36000]
+    },
+    smtpGeneralId: {
+    	generalId: ['smtp']
+    },
+    smtpGeneralLip: {
+    	generalLip: ['smtp', 'fieldset #smtpGeneralLport']
+    },
+    smtpGeneralLport: {
+    	generalLport: ['smtp', 'fieldset #smtpGeneralLip']
+    },
+    sendTaskId: {
+    	generalId: ['send']
+    },
+    sendTaskPort: {
+    	required: true,
+        range: [1, 65535],
+    	digits: true
+    },
+    receiveTaskId: {
+    	generalId: ['receive','Function/server/validation.php']
+    },
+    receiveTaskPort: {
+    	required: true,
+        range: [1, 65535],
+    	digits: true
+    },
+    pop3GeneralSport: {
+    	required: true,
+        range: [1, 65535],
+    	digits: true
+    },
+    smtpGeneralSport: {
+    	required: true,
+        range: [1, 65535],
+    	digits: true
+    },
+    cdbGeneralId: {
+    	generalId: ['cdb']  
+    },
+    cdbGeneralLip: {
+    	generalLip: ['cdb', 'fieldset #cdbGeneralLport']  
+    },                     
+    cdbGeneralLport: {     
+    	generalLport: ['cdb', 'fieldset #cdbGeneralLip']
+    },                     
+    cdbTransId: {          
+    	transId: ['cdb', 'fieldset #cdbTransLport', undefined, 2000]
+    },                     
+    cdbTransLport: {       
+        transLport: ['cdb', 'fieldset #cdbTransId', undefined, 2000]
+    },                     
+    cmsgGeneralId: {         
+    	generalId: ['cmsg']    
+    },                     
+    cmsgGeneralLip: {        
+    	generalLip: ['cmsg', 'fieldset #cmsgGeneralLport']   
+    },                     
+    cmsgGeneralLport: {      
+    	generalLport: ['cmsg', 'fieldset #cmsgGeneralLip'] 
+    },
+    customTcpTransId: {       
+    	customTcpTransId: true  
+    },                     
+    customtcpTransLport: {         
+    	customtcpTransLport: true    
+    },                     
+    customUdpTransId: {        
+    	customUdpTransId: true   
+    },                     
+    customUdpTransLport: {      
+    	customUdpTransLport: true 
+    },   
     FEname: {
         required: true,
         addrName: true,
@@ -1465,7 +2196,8 @@ var validRules = {
         }
     },
     FEfilename: {
-        filename: true
+        filename: true,
+        maxlength: 255
     },
     'FEfilenames[]': {
         required: function() {
@@ -1538,34 +2270,12 @@ var validRules = {
     psswd2: {
     	equalTo: "#psswd1"
     },
-    sendTaskId: {
-        required: true,
-        range: [1, 1000],
-        digits: true,
-        remote: {
-            url: 'Function/client/fileEx/sendTask.php',
-            data: {
-            	checkExistId: true
-            }
-        }
-    },
-    receiveTaskId: {
-        required: true,
-        range: [1, 1000],
-        digits: true,
-        remote: {
-            url: 'Function/server/fileEx/receiveTask.php',
-            data: {
-            	checkExistId: true
-            }
-        }
-    },
     readyString: {
-        required: '#sendMethod_changename:checked',
+        required: '#sendMethod_C:checked',
         maxlength: 15
     },
     completeString: {
-        required: '#sendMethod_changename:checked',
+        required: '#sendMethod_C:checked',
         maxlength: 15
     },
     radiusSIp: {
@@ -1593,8 +2303,7 @@ var validRules = {
     },
     shareName: {
         required: true,
-        shareNameParam: true,
-        maxlength: 15
+        shareNameParam: true
     },
     smbUser: {
         maxlength: 20
@@ -1665,6 +2374,10 @@ var validRules = {
             return $('#contextList option').length === 0;
         }
     },
+    nativePort: {
+        range: [1,65535],
+        digits: true
+    },
     httpPort: {
     	required: true,
     	httpPort: true
@@ -1673,50 +2386,13 @@ var validRules = {
     	required: true,
     	httpPort: true
     },
-    pop3Id: {
+    memoryMax: {
         required: true,
-        range: [1, 1000],
-        digits: true,
-    	remote: {
-    		url: 'Function/client/mail/pop3GeneralVisit.php',
-            data: {
-            	checkExistId: true
-            }
-    	}   
+        range: [10,256]
     },
-    pop3lportReq: {
+    httpRequestMax: {
         required: true,
-        range: [1, 65535],
-        digits: true,
-        remote: {
-            url: 'Function/client/mail/pop3GeneralVisit.php',
-            data: {
-                checkExistLport: true,
-                pop3Id: function() {
-                    if ($('input[name="type"]').val() === 'edit') {
-                        return $('fieldset input[name="pop3Id"]').val();
-                    } else {
-                        return -1;
-                    }
-                },
-                pop3lip: function() {
-                    return $('select[name="pop3lip"] option:selected').val();
-                }
-            }
-        }   
-    },
-    pop3lip: {
-        required: true,
-        isFilled: ['input[name="pop3lportReq"]', '请填写本机端口.'],
-        remote: {
-            url: 'Function/client/mail/pop3GeneralVisit.php',
-            data: {
-                checkExistLport: true,
-                pop3lportReq: function() {
-                    return $('input[name="pop3lportReq"]').val();
-                }
-            }
-        }
+        range: [1,64]
     },
     mailName: {
     	required: true,
@@ -1729,7 +2405,7 @@ var validRules = {
     	}
     },
     mailAddr_txt: {
-    	email: true
+    	mailAddr: true
     },
     'mailList[]': {
         required: function() {
@@ -1772,28 +2448,49 @@ var validRules = {
     cfilename: {
         required: true,
         filename: true,
+        maxlength: 128,
         remote: {
             url: 'Function/client/msgTrans/callowedFile.php',
             data: {
-                checkExistcFileName: true
+                checkExistcFileName: true,
+                type: function() {
+            		return $("input[name='type']").val();
+            	},
+            	hi_list: function() {
+            		return $("input[name='hid_list']").val();
+            	}
             }
         }
     },
     cblacklist: {
         required: true,
+        maxlength: 64,
         remote: {
             url: 'Function/client/msgTrans/cbannedContent.php',
             data: {
-            	checkExistcBlacklist: true
+            	checkExistcBlacklist: true,
+            	type: function() {
+            		return $("input[name='type']").val();
+            	},
+            	hi_list: function() {
+            		return $("input[name='hid_list']").val();
+            	}
             }
         }
     },
     cwhitelist: {
         required: true,
+        maxlength: 64,
         remote: {
             url: 'Function/client/msgTrans/callowedContent.php',
             data: {
-            	checkExistcWhitelist: true
+            	checkExistcWhitelist: true,
+            	type: function() {
+            		return $("input[name='type']").val();
+            	},
+            	hi_list: function() {
+            		return $("input[name='hid_list']").val();
+            	}
             }
         }
     },
@@ -1814,17 +2511,6 @@ var validRules = {
             	checkExistUserPriName: true
             }
         }
-    },
-    smtpId: {
-        required: true,
-        range: [1, 1000],
-        digits: true,
-    	remote: {
-    		url: 'Function/client/mail/smtpGeneralVisit.php',
-            data: {
-            	checkExistId: true
-            }
-    	}   
     },
     fslportReq: {
         required: true,
@@ -1868,45 +2554,11 @@ var validRules = {
             }
         }
     },
-    smtplip: {
-        required: true,
-        isFilled: ['input[name="smtplportReq"]', '请填写本机端口.'],
-        remote: {
-            url: 'Function/client/mail/smtpGeneralVisit.php',
-            data: {
-                checkExistLport: true,
-                smtplportReq: function() {
-                    return $('input[name="smtplportReq"]').val();
-                }
-            }
-        }
-    },
-    smtplportReq: {
-        required: true,
-        range: [1, 65535],
-        digits: true,
-        remote: {
-            url: 'Function/client/mail/smtpGeneralVisit.php',
-            data: {
-                checkExistLport: true,
-                smtpId: function() {
-                    if ($('input[name="type"]').val() === 'edit') {
-                        return $('fieldset input[name="smtpId"]').val();
-                    } else {
-                        return -1;
-                    }
-                },
-                smtplip: function() {
-                    return $('select[name="smtplip"] option:selected').val();
-                }
-            }
-        }
-    },
     MfilterName: {
         required: true,
         realName: true,
         remote: {
-            url: 'Function/client/mail/filter.php',
+            url: 'Function/client/mail/mailfilter.php',
             data: {
                 checkExistName: true
             }
@@ -1976,21 +2628,12 @@ var validRules = {
                 checkExistLip: true           
             }
         }
+    }, 
+    sAddress: {
+        dbTransAddress: true
     },
     lAddress: {
-        required: true,
-        remote: {
-            url: 'Function/client/db/transVisit.php',
-            data: {
-                checkSameLAddressAndSAddress: true,
-                sAddress: function() {
-                	return $('#sAddress option:selected').val();                	
-                },
-                lAddress: function() {
-                	return $('#lAddress option:selected').val();                	
-                }
-            }
-        }
+        dbTransAddress: true
     },
     cmsglportReq: {
         required: true,
@@ -2086,6 +2729,9 @@ var validRules = {
         range: [1,1000],
     	digits: true
     },
+    ignoreIp: {
+    	autoip: true
+    },
     virtualAddr: {
         required: true
     },
@@ -2157,7 +2803,8 @@ var validRules = {
         autoip: true
     },
     redirectUrl: {
-    	required: true
+    	required: true,
+        url: true
     },
     authPort: {
         required: true,
@@ -2222,42 +2869,6 @@ var validRules = {
 	},
     fileSize: {
         range: [1, 60]
-    },
-    pop3dportReq: {
-        required: true,
-        range: [1, 65535],
-        digits: true,
-        portPlusId: [42000, '#pop3Id'],
-        remote: {
-            url: 'Function/client/mail/pop3TransVisit.php',
-            data: {
-                checkExistTaskAndPort: true,
-                pop3Id: function() {
-                    return $('fieldset input[name="pop3Id"]').val();
-                },
-                type: function() {
-                	return $('input[name="type"]').val();
-                }
-            }
-        }
-    },
-    smtpdportReq: {
-        required: true,
-        range: [1, 65535],
-        digits: true,
-        portPlusId: [36000, '#smtpId'],
-        remote: {
-            url: 'Function/client/mail/smtpTransVisit.php',
-            data: {
-                checkExistTaskAndPort: true,
-                smtpId: function() {
-                    return $('fieldset input[name="smtpId"]').val();
-                },
-                type: function() {
-                	return $('input[name="type"]').val();
-                }
-            }
-        }
     }
 };
 
@@ -2268,13 +2879,14 @@ var validMsg = {
     limitErrNum: '登录错误次数不能小于1次或超过10次',
     limitErrTime: '间隔时间不能小于10秒或超过86400秒(24小时)',
     account: {
-        required: '请填写帐号名.'
+        required: '请填写帐号名.',
+		remote: '该用户名已存在，请重新填写.'
     },
     passwd: {
         required: '请填写密码.'
     },
     passwd_again: '两次密码不一致.',
-    logAdmin: '请至少选择一个帐号类型.',
+    role: '请至少选择一个帐号类型.',
     ip: {
         required: '请填写IP地址.'
     },
@@ -2283,7 +2895,12 @@ var validMsg = {
     },
     comment: '您最多能够输入250个字符.',
     addrName: {
-        required: '请填写地址名称.'
+        required: '请填写地址名称.',
+        remote: '此名称已在地址列表/地址组里存在，请重新填写.'
+    },
+    domainAddrName: {
+        required: '请填写域名地址名称.',
+        remote: '此名称已在地址列表/地址组里存在，请重新填写.'
     },
     addrGrpName: {
         required: '请填写地址组名称.',
@@ -2369,10 +2986,10 @@ var validMsg = {
         required: '请填写时间组名称.'
     },
 	destip: {
-        required: '目的地此不能为空'
+        required: '目的地址不能为空'
     },
 	nexthopip: {
-        required: '下一跳地此不能为空'
+        required: '下一跳地址不能为空'
     },
     mac_address: {
         required: '请填写MAC地址.'
@@ -2388,7 +3005,15 @@ var validMsg = {
     },
     passwd_user_again: '两次密码不一致.',
     userListName: {
-        required: '用户名称不允许为空.'
+        required: '用户名称不允许为空.',
+        remote: '用户名称已存在.'
+    },
+    authUserListName: {
+        required: '用户名称不允许为空.',
+        remote: '用户名称已存在.'
+    },
+    activePwd: {
+        required: '动态密码不能为空.'
     },
     'rolesMember[]': '所属角色不能为空.',
     authType: {
@@ -2428,7 +3053,8 @@ var validMsg = {
     sport: '源端口范围1 - 65535',
     dport: '目的端口1 - 65535',
     roleName: {
-        required: '请输入用户名称.'        
+        required: '请输入用户名称.',        
+        remote: '角色名称已存在.'
     },
     allocatedTime: '分配时间在0 - 525600之间',
     dnssrv: {
@@ -2470,23 +3096,39 @@ var validMsg = {
     ipv6Netmask : {
         required: '请填写IPV6地址的子网掩码.'
     },
+    redundanceIpv4:{
+        required: '请填写IPV4地址.',
+        remote: '此ip地址已被使用.'
+    },
+    redundanceMask:{
+        required: '请填写IPV4地址的子网掩码.'
+    },
+    devIpv4Netmask : {
+        required: '请填写IPV4地址的子网掩码.'
+    },
+    devIpv6Netmask : {
+        required: '请填写IPV6地址的子网掩码.'
+    },
     upPort: {
     	required: '请输入服务器端口.',
     	range: '无效的升级服务器端口.',
     	digits: '请填写有效数字'
     },
     upAddr: '请输入升级服务器地址.',
+    file: '请选择要升级的文件',
+    uploadLicense: {
+        required: '请选择要升级的文件'
+    },
     updateFile: '请选择要升级的文件',
     gateway : {
         required: '请填写IP地址.'
     },
+	hostIp:{
+		required: '请输入IP地址.',
+		ip : 'IP格式错误',
+		remote :'此IP地址已存在'
+	},	
     customId: {
-        required: '请输入任务号.',
-        digits: '请填写有效数字.',
-        range: '任务号范围为1-1000',
-        remote: '任务号已存在.'
-    },
-    ftpId: {
         required: '请输入任务号.',
         digits: '请填写有效数字.',
         range: '任务号范围为1-1000',
@@ -2504,24 +3146,7 @@ var validMsg = {
         range: '任务号范围为1-1000',
         remote: '任务号已存在.'
     },
-    pop3TransId: {
-        required: '请输入任务号.',
-        digits: '请填写有效数字.',
-        range: '任务号范围为1-1000',
-        remote: '任务号已存在.'
-    },
-    smtpTransId: {
-        required: '请输入任务号.',
-        digits: '请填写有效数字.',
-        range: '任务号范围为1-1000',
-        remote: '任务号已存在.'
-    },
     cliTransPortReq: {
-    	required: '请输入端口号.',
-    	range: '目的端口1 - 65535.',   
-    	digits: '请填写有效数字.'
-    },
-    ftpTranslportReq: {
     	required: '请输入端口号.',
     	range: '目的端口1 - 65535.',   
     	digits: '请填写有效数字.'
@@ -2563,23 +3188,11 @@ var validMsg = {
         digits: '请填写有效数字.',
         remote: '此本机端口已被使用.'
     },
-    smtpTransdportReq: {
-        required: '请填写本机端口.',
-        range: '本机端口1 - 65535.',
-        digits: '请填写有效数字.',
-        remote: '此本机端口已被使用.'
-    },
     udplportReq: {
         required: '请填写本机端口.',
         range: '本机端口1 - 65535.',
         digits: '请填写有效数字.',
         remote: '此本机端口已被使用.'
-    },
-    ftplportReq: {
-        required: '请填写本机端口.',
-        range: '本机端口1 - 65535.',
-        digits: '请填写有效数字.',
-        remote: '此本机地址和端口的组合已被使用.'
     },
     fslip: {
         required: '请填写本机端口.',
@@ -2602,18 +3215,12 @@ var validMsg = {
         remote: '此本机端口已被使用.'
     },
     sportReq: {
-    	required: '请输入端口号.',
+    	required: '必填.',
     	range: '服务器端口1 - 65535.',
     	digits: '请填写有效数字.'
     },
     serverIp: {
-        required: '请输入服务器地址.'
-    },
-    safePassId: {
-    	required: '请输入任务号.',
-    	digits:'请填写有效数字.',
-        range: '任务号范围为1-200',
-        remote: '任务号已存在.'
+        required: '必填.'
     },
     safePassDestPort: {
     	required: '请输入目的端口.'
@@ -2628,16 +3235,19 @@ var validMsg = {
 		required: '请选择目的地址.'
 	},
 	synFloodTxt: {
-    	required: '请输入抗synflood阈值.'
+    	required: '请输入抗synflood阈值.',
+    	digits: '请输入有效数字.'
     },
     udpFloodTxt: {
-    	required: '请输入抗udpflood阈值.'
+    	required: '请输入抗udpflood阈值.',
+    	digits: '请输入有效数字.'
     },
     icmpFloodTxt: {
-    	required: '请输入抗icmpflood阈值.'
+    	required: '请输入抗icmpflood阈值.',
+    	digits: '请输入有效数字.'
     },
     ftpId: {
-        required: '请输入任务号.',
+        required: '必填.',
         digits: '请填写有效数字.',
         range: '任务号范围为1-1000',
         remote: '任务号已存在.'
@@ -2655,7 +3265,7 @@ var validMsg = {
         remote: '任务号已存在.'
 	},
     ftpFilterOptName: {
-        required: '请输入名称.',
+        required: '必填.',
         remote: '名称已存在.'
     },
     banner: '您最多能够输入250个字符.',
@@ -2691,15 +3301,12 @@ var validMsg = {
         digits: '请填写有效数字.',
         remote: '任务号已存在.'
     },
-    ftpTransId: {
-    	required: '请输入任务号.',
-        range: '任务号范围为1-1000',
-        digits: '请填写有效数字.',
-        remote: '任务号已存在.'
-    },
     FEname: {
         required: '必填.',
         remote: '文件名已存在.'
+    },
+    'FEfilename': {
+        maxlength: '不得超过255个字符.'
     },
     'FEfilenames[]': '内容不能为空.',
     'FEbflist[]': '内容不能为空.',
@@ -2726,18 +3333,6 @@ var validMsg = {
     	required: '请输入密码.'
     },
     psswd2:  '两次输入密码不一致.',
-    sendTaskId: {
-        required: '必填.',
-        range: '1-1000的整数.',
-        digits: '请填写有效数字.',
-        remote: '任务号已存在.'
-    },
-    receiveTaskId: {
-        required: '必填.',
-        range: '1-1000的整数.',
-        digits: '请填写有效数字.',
-        remote: '任务号已存在.'
-    },
     readyString: {
         required: '必填.',
         maxlength: '不得超过15个字符.'
@@ -2763,8 +3358,7 @@ var validMsg = {
         required: '必填.'
     },
     shareName: {
-        required: '必填.',
-        maxlength: '不得超过15个字符.'
+        required: '必填.'
     },
     smbUser: '不得超过20个字符.',
     smbPwd: '不得超过20个字符.',
@@ -2774,7 +3368,6 @@ var validMsg = {
     },
     postfix_list: {
         required: '请输入文件后缀名.',
-        ftpFilterOptUploadOrDownInfo: '输入的文件后缀名非法.',
         remote: '文件后缀名已存在.'
     },
     portReq: {
@@ -2792,30 +3385,27 @@ var validMsg = {
     	remote: '名称已存在.'
     },
     'contextList[]': '请输入禁止的内容.',
+    nativePort: {
+        range: '端口范围1-65535',
+        digits: '请填写有效数字.'
+    },
     httpPort: {
     	required: '请输入Http协议可访问端口.'
     },
     httpsPort: {
     	required: '请输入Https协议可访问端口.'
     },
-    pop3Id: {
-    	required: '请输入任务号.',
-        range: '任务号范围为1-1000',
-        digits: '请填写有效数字.',
-        remote: '任务号已存在.'
+    memoryMax: {
+        required: '请输入缓存文件上限.',
+        range: '缓存文件上限范围为10-256M'
     },
-    pop3lportReq: {
-    	required: '必填.',
-        range: '范围为1-65535',
-        digits: '请填写有效数字.',
-        remote: '端口已经被使用.'
+    httpRequestMax: {
+        required: '请输入HTTP请求头部上限.',
+        range: 'HTTP请求头部上限范围为1-64KB'
     },
     mailName: {
     	required: '请输入名称.',
     	remote: '名称已存在.'
-    },
-    mailAddr_txt: {
-    	email: '请输入有效的邮件地址.'
     },    
     'mailList[]': '请输入邮件地址.',
     keywordName: {
@@ -2833,15 +3423,18 @@ var validMsg = {
     attach_txt: '请输入正确的扩展名.如:.exe',
     cfilename: {
         required: '必填.',
-        remote: '文件名已存在.'
+        remote: '文件名已存在.',
+        maxlength: '您最多能够输入128个字符.'
     },
     cblacklist: {
         required: '必填.',
-        remote: '文件名已存在.'
+        remote: '文件名已存在.',
+        maxlength: '您最多能够输入64个字符.'
     },
     cwhitelist: {
         required: '必填.',
-        remote: '文件名已存在.'
+        remote: '文件名已存在.',
+        maxlength: '您最多能够输入64个字符.'
     },
     userAuthenName: {
         required: '必填.',
@@ -2850,32 +3443,6 @@ var validMsg = {
     UserPriName: {
         required: '必填.',
         remote: '文件名已存在.'
-    },
-    pop3lip: {
-        required: '请填写本机端口.',
-        remote: '此本机端口已被使用.'
-    },
-    pop3lportReq: {
-    	required: '必填.',
-        range: '范围为1-65535',
-        digits: '请填写有效数字.',
-        remote: '端口已经被使用.'
-    },
-    smtpId: {
-    	required: '请输入任务号.',
-        range: '任务号范围为1-1000',
-        digits: '请填写有效数字.',
-        remote: '任务号已存在.'
-    },
-    smtplip: {
-        required: '请填写本机端口.',
-        remote: '此本机端口已被使用.'
-    },
-    smtplportReq: {
-    	required: '必填.',
-        range: '范围为1-65535',
-        digits: '请填写有效数字.',
-        remote: '端口已经被使用.'
     },
     MfilterName: {
         required: '必填.',
@@ -2886,7 +3453,7 @@ var validMsg = {
     recvfilter: '请选择收件人过滤类型.',
     resTimeName: {
         required: '必填.',
-        remote: '文件名已存在.'
+        remote: '此名称已在时间列表/时间组里存在，请重新添加.'
     },
     ifname: {
         required: '必填.'
@@ -2904,10 +3471,6 @@ var validMsg = {
     cdblip: {
     	required: '请填写本机地址.',
         remote: '请填写本机地址.'
-    },
-    lAddress: {
-    	  required: "目的地址不能与源地址同时为'any'.",
-        remote: "目的地址不能与源地址同时为'any'."
     },
     cmsglportReq: {
         required: '请填写本机端口.',
@@ -3017,7 +3580,8 @@ var validMsg = {
         digits: '请填写有效数字.'
     },
     redirectUrl: {
-    	required: '请输入URL.'
+    	required: '请输入URL.',
+        url: '不正确的URL格式.'
     },
     authPort: {
     	required: '请填写认证端口.',
@@ -3069,7 +3633,7 @@ var validMsg = {
     },
 	ha_ip: {
 		required: '必填',
-		ipv4: 'ip格式错误.'
+		ipv4: 'IPV4格式错误.'
 	},
 	ipaddress: {
 		required: '请填写IP地址',
@@ -3097,6 +3661,26 @@ var validMsg = {
     	digits: '请填写有效数字.',
     	remote: '任务号与端口号的和已存在，请重新添加.'
     },
+    sendTaskPort: {
+    	required: '请输入端口号.',
+    	range: '端口范围1 - 65535.',
+    	digits: '请填写有效数字.'
+    },
+    receiveTaskPort: {
+    	required: '请输入端口号.',
+    	range: '端口范围1 - 65535.',
+    	digits: '请填写有效数字.'
+    },
+    pop3GeneralSport: {
+    	required: '请输入端口号.',
+    	range: '端口范围1 - 65535.',
+    	digits: '请填写有效数字.'
+    },
+    smtpGeneralSport: {
+    	required: '请输入端口号.',
+    	range: '端口范围1 - 65535.',
+    	digits: '请填写有效数字.'
+    },
     fileSize: '范围在1-60之间.'
 };
 
@@ -3107,20 +3691,26 @@ for (var i = 1; i <= 16; i++) {
     if (i < 3) {
         validRules[realAddrKey] = {
             required: true,
-            ipv4: true
+            ipv4: true,
+            realAddr:true
         };
         validRules[realPortKey] = {
             required: true,
-            range: [1, 65535]
+            range: [1, 65535],
+            digits: true,
+            realPort: true
         }; 
     } else {
         validRules[realAddrKey] = {
             required: 'input[name="'+realPortKey+'"]:filled',
-            ipv4: true
+            ipv4: true,
+            realAddr: true
         };
         validRules[realPortKey] = {
             required: 'input[name="'+realAddrKey+'"]:filled',
-            range: [1, 65535]
+            range: [1, 65535],
+            digits: true,
+            realPort: true
         }; 
     }
     validMsg[realAddrKey] = {
@@ -3129,7 +3719,8 @@ for (var i = 1; i <= 16; i++) {
     };
     validMsg[realPortKey] = {
         required: '请填写真实端口' + i + '.',
-        range: '真实端口' + i + '的范围是1至65535.'
+        range: '真实端口' + i + '的范围是1至65535.',
+        digits: '请填写有效数字.'
     }; 
 }
 

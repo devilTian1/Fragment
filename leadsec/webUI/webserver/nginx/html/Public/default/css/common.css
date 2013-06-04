@@ -41,12 +41,40 @@ a:hover {
     width: 350px;
 }
 
+input.width149 {
+	width: 149px;
+}
+
+input.width10em {
+	width: 10em;
+}
+
+input.width12em {
+	width: 12em;
+}
+
+input.width132 {
+	width: 132px;
+}
+
 input.width150 {
     width: 150px;
 }
 
 input.width80 {
     width: 80px;
+}
+
+input.width149{
+    width: 149px;
+}
+
+input.width44{
+    width: 44px;
+}
+
+input.width359{
+    width: 359px;
 }
 
 .pager {
@@ -56,7 +84,7 @@ input.width80 {
 img {
     border-width: 0px;
 	display: inline;
-	
+    vertical-align:middle;
 }
 
 .policy {
@@ -212,6 +240,11 @@ label.errorLabel {
 .required {
     color: red;
     font-size: 0.75em;
+}
+
+.tip {
+    color: red;
+    font-weight:bold;
 }
 
 /* LAYOUT */
@@ -403,6 +436,7 @@ label.errorLabel {
 	height: 22px;
 	width: 140px;
 	margin: 9px 0px 0px 13px;
+	margin: 0px 0px 0px 13px\0/;
 	padding-left: 42px;
 	font-weight: bold;
 	color:#000;
@@ -435,8 +469,13 @@ label.errorLabel {
 
 
 /* TAB & CONTENT */
-/* tabs */ 
-#tab label{ height:69px; display:block; line-height:69px; padding-left:20px;}
+/* tabs */
+#tab label {
+    height: 69px;
+    display: block;
+    line-height: 69px;
+    padding-left: 20px;
+}
 #tab .tabs {
 	width: 99.5%;
 	float: left;
@@ -613,10 +652,10 @@ label.errorLabel {
 	text-align:right;
 }
 
-.edit{background: url(../images/icon/edit.gif) no-repeat left; padding-left:20px;}
-.delete{background: url(../images/icon/delete.png) no-repeat left; padding-left:20px;}
-.reflesh{background: url(../images/icon/reflesh.png) no-repeat left; padding-left:20px;}
-.status{background: url(../images/icon/select.png) no-repeat left; padding-left:20px;}
+.edit{background: url(../images/icon/edit.gif) no-repeat left; padding-left:18px;}
+.delete{background: url(../images/icon/delete.png) no-repeat left; padding-left:18px;}
+.reflesh{background: url(../images/icon/reflesh.png) no-repeat left; padding-left:18px;}
+.status{background: url(../images/icon/select.png) no-repeat left; padding-left:18px;}
 .margintop3{ margin-top:3px;}
 .w200{ width:200px;}
 .h200{ height: 200px;}
@@ -625,8 +664,8 @@ label.errorLabel {
 .multiSelect{ width:100px;}
 .pl50{ padding-left:50px;}
 
-.modelchk_on{background:url(../images/icochk.png) no-repeat -23px 0px; width:17px; height:19px; display:block; float:left; margin-left:10px;}
-.modelchk_off{background:url(../images/icochk.png) no-repeat left 0px; width:17px; height:19px; display:block; float:left; margin-left:10px;}
+.modelchk_on{background:url(../images/icochk.png) no-repeat -23px 0px; width:17px; height:19px; display:block; float:left; margin-left:10px;cursor: pointer;}
+.modelchk_off{background:url(../images/icochk.png) no-repeat left 0px; width:17px; height:19px; display:block; float:left; margin-left:10px;cursor: pointer;}
 
 #stepTabDiv{ width:700px; height:36px;}
 .stepTabDivImg4_1{ background:url(../images/steptab4.jpg) no-repeat left 0px;}

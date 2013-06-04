@@ -1,4 +1,4 @@
-<{include file='layout/search.tpl' tableId='tcpCommServerTable'}>
+<{include file='layout/search.tpl' colNames='id,serverip,sport,comment'}>
 <table class="column_95 textMid tablesorter" id="tcpCommServerTable">
     <caption>信息列表</caption>
     <thead>

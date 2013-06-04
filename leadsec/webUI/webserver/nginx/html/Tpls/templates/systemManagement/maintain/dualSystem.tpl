@@ -65,15 +65,19 @@
                 <td class="tdbody column_40">将备份系统(<{$backupOs}>)恢复至</td>
                 <td>
                     <div class="column column_80">
-                        <div class="column column_50"><input type="radio" name="recoverSystem" value="systemA" checked="checked"/>systemA</div>
-                        <input type="radio" name="recoverSystem" value="systemB"/>systemB
+                        <div class="column column_50">
+						<input type="radio" name="recoverSystem" value="systemA" checked="checked"/>systemA</div>
+                        <input type="radio" name="recoverSystem" onclick = "changeMode()" value="systemB"/>systemB
                     </div>
                 </td>
             </tr>            
 	    <tr>
-                <td colspan="2">
-                    <button class="inputbtn standard" type="button" onClick="submitRecoverForm($('#recoverForm'))">恢复</button>
-                </td>
+			<td colspan="2">
+				<button class="inputbtn standard" type="button" name="buttonBackUp"
+				onClick="submitRecoverForm($('#recoverForm'))">
+				恢复
+				</button>
+			</td>
 	    </tr>
 	</tbody>
     </table>
@@ -87,12 +91,24 @@
     });
     
     function init() {
+		var backup_os = '<{$backupOs}>';
+		if (backup_os == '') {
+			$("button[name='buttonBackUp']").button({disabled: true});
+		}	
         var systemaObj = $("input:radio[name='defaultStart']:eq(0)");
         var systembObj = $("input:radio[name='defaultStart']:eq(1)");
         if(systemaObj.val() == '<{$default_os}>') {
             systemaObj.attr("checked",'checked');
         } else {
-            systembObj.attr("checked",'checked');
+			systemaObj.removeAttr("disabled",'disabled');
         }
+		if('<{$versionA}>'==='') {
+			systemaObj.attr("disabled",'disabled');
+			systembObj.removeAttr("disabled",'disabled');
+		} else if ('<{$versionB}>'==='') {
+			systembObj.attr("disabled",'disabled');
+			systemaObj.removeAttr("disabled",'disabled');
+		}
     }
+
 </script>

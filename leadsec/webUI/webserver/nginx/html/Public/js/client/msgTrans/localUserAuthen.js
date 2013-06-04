@@ -8,8 +8,11 @@ function openEditLocalUsrAuthenDialog(name) {
     buttons[getMessage('Ok')] = function() {
     	if($('#modifyEnable').attr("checked") === 'checked'){
     		if ($('#editLocalUsrAuthenForm').valid()) {
-                ajaxSubmitForm($('#editLocalUsrAuthenForm'), '结果');
-                freshTableAndPage();
+    			var afterSuccessCallback = function() {
+    				freshTableAndPage();
+    		    };
+                ajaxSubmitForm($('#editLocalUsrAuthenForm'), '结果', undefined,
+                    undefined, afterSuccessCallback);
                 $(this).remove();
             }
         }else {        	 
@@ -37,15 +40,21 @@ function openNewLocalUsrAuthenDialog() {
     buttons[getMessage('Add Next')] = function() {
         if ($('#editLocalUsrAuthenForm').valid()) {
         	openNewLocalUsrAuthenDialog();
-            ajaxSubmitForm($('#editLocalUsrAuthenForm'), '结果');
-            freshTableAndPage();
+			var afterSuccessCallback = function() {
+				freshTableAndPage();
+		    };
+            ajaxSubmitForm($('#editLocalUsrAuthenForm'), '结果', undefined,
+                undefined, afterSuccessCallback);
             $(this).remove();
         }
     };
     buttons[getMessage('Ok')] = function() {
         if ($('#editLocalUsrAuthenForm').valid()) {
-            ajaxSubmitForm($('#editLocalUsrAuthenForm'), '结果');
-            freshTableAndPage();
+			var afterSuccessCallback = function() {
+				freshTableAndPage();
+		    };
+            ajaxSubmitForm($('#editLocalUsrAuthenForm'), '结果', undefined,
+                undefined, afterSuccessCallback);
             $(this).remove();
         }
     };

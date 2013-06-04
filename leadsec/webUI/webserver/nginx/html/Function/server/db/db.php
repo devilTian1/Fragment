@@ -4,18 +4,36 @@
     function freshServerCommData($where) {
         $tpl =  'server/db/dbTable.tpl';
         $db  = new dbsqlite(DB_PATH . '/netgap_db.db');
-	    $sql = "SELECT * FROM db_comm_server_acl $where";
-        $result = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
+	    $sql = "SELECT * FROM db_comm_server_acl ";
+        $params = array();
+        if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
+            $data   = getWhereStatement($db, $_GET['cols'], $_GET['keyword']);
+            $sql   .= $data['sql'];
+            $params = $data['params'];
+        }
+        $sql .=  ' ' . $where;
+        $result = $db->query($sql, $params)->getAllData(PDO::FETCH_ASSOC); 
        
         echo V::getInstance()->assign('serverComm', $result)
             ->assign('pageCount', 10)
             ->fetch($tpl);
     }
-
+	function getWhereStatement($db, $cols, $keyword) {
+        $value = '%' . $keyword . '%';
+        $params = array_fill(0, count(explode(',', $cols)), $value);
+        return array('sql'    => ' where (' .
+                              $db->getWhereStatement($cols, 'OR', 'like') . ')',
+                     'params' => $params);
+    }
     function getDataCount() {
     	$sql = "SELECT id FROM db_comm_server_acl";
         $db  = new dbsqlite(DB_PATH . '/netgap_db.db');
-        return $db->query($sql)->getCount();
+        if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
+            $data   = getWhereStatement($db, $_GET['cols'], $_GET['keyword']);
+            $sql   .= $data['sql'];
+            $params = $data['params'];
+        }
+        return $db->query($sql, $params)->getCount();
     }
             
 	function getCmd() {
@@ -33,7 +51,7 @@
         $serverIp  = $_POST['ip'];
         $sportReq = $_POST['sportReq'];;
         $comment   = $_POST['comment']; 
-        $result = "dbctl $action task db $dbType type server mode comm id $id "
+        $result = "/usr/local/bin/dbctl $action task db $dbType type server mode comm id $id "
         	." sip $serverIp sport $sportReq ";         	          
         $result .= " comment \"$comment\"";
         return $result;
@@ -57,7 +75,7 @@
  		$cmd = getCmd();
  		$cmd .= " active $active";
         $cli->setLog("编辑一条id为".$_POST['clientId']."的服务端数据库访问")->run($cmd);
-        echo json_encode(array('msg' => '修改成功.'));	                  
+        echo json_encode(array('msg' => '修改成功。'));	                  
     }  else if (!empty($_POST['delId'])) {
         // Delete the specified  data
         $delId    = $_POST['delId'];
@@ -67,13 +85,13 @@
         foreach ($result as $d) {              
             $dbType = $d;           
         }
-        $cmd  = "dbctl del task db $dbType type server mode comm id $delId";
+        $cmd  = "/usr/local/bin/dbctl del task db $dbType type server mode comm id $delId";
         $cli  = new cli();
         $sql = "delete FROM db_comm_server_acl WHERE id =''";    
         $result = $db->query($sql)->getFirstData(PDO::FETCH_ASSOC);
         $result = $db->close();
         $cli->setLog("删除一条id为".$_POST['delId']."的服务端数据库访问")->run($cmd);
-        echo json_encode(array('msg' => "删除成功."));
+        echo json_encode(array('msg' => "删除成功。"));
     } else if ('add' === $_POST['type']) {
         // Add a new data
         $active    = $_POST['active'] === 'Y' ? 'on' : 'off';    
@@ -81,7 +99,7 @@
  		$cmd = getCmd();
  		$cmd .= " active $active";
         $cli->setLog("添加一条id为".$_POST['clientId']."的服务端数据库访问")->run($cmd);
-        echo json_encode(array('msg' => '任务[' . intval($_POST['clientId']) . ']添加成功.'));	                      
+        echo json_encode(array('msg' => '任务[' . intval($_POST['clientId']) . ']添加成功。'));	                      
     }else if (!empty($_POST['openDialog'])) {
         // Display add server comm dialog
         $tpl = 'server/db/db_editDialog.tpl';
@@ -103,7 +121,7 @@
         $cmd = getCmd();
         $cmd .= " active $active";
         $cli->setLog("$act id为".$_POST['clientId']."的服务端数据库访问")->run($cmd);
-        echo json_encode(array('msg' => '成功.'));
+        echo json_encode(array('msg' => '成功。'));
     } else if ($orderStatement = $_POST['orderStatement']) {
         // fresh and resort  list
         freshServerCommData($orderStatement);

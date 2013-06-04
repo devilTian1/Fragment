@@ -21,6 +21,9 @@ function getOrderRules(pageDom) {
         var pageNum = pageDom.find('ol.pagination>li.selected').attr('name');
         var dataCount = pageDom.find('input[name="dataCount"]').val();
     }
+    if ($('#isInitSearch').val() === '1') {
+        pageNum = 1;
+    }
     // check page number boundaries
     var bound =  Math.ceil(dataCount/rowsCount);
     if (pageNum > bound && bound > 0) {
@@ -94,7 +97,8 @@ function freshTable(url, tableDom, orderStatement, pageDom) {
             tableDom.trigger("update", [true]);
         }
     };
-    loadEmbedPage(url, data, tableDom.children('tbody'), params);
+    loadEmbedPage(addQueryParams(url, tableDom.attr('id')), data,
+        tableDom.children('tbody'), params);
 }
 
 function freshPagination(funcUrl, displayDom, tableDom) {
@@ -106,7 +110,9 @@ function freshPagination(funcUrl, displayDom, tableDom) {
     data['dataCountFunc'] = funcUrl;
     if (tableDom !== undefined) {
         data['tableDom'] = "$('" + tableDom.selector + "')";
+    } else {
+        tableDom = $('table.tablesorter');
     }
     data['pageDom'] = "$('" + displayDom.selector + "')";
-    loadEmbedPage(url, data, displayDom);
+    loadEmbedPage(addQueryParams(url, tableDom.attr('id')), data, displayDom);
 }

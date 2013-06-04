@@ -5,17 +5,37 @@
         $tpl = 'client/fileEx/filterTable.tpl';
         $db  = new dbsqlite(DB_PATH . '/netgap_fs.db');
         $sql = 'SELECT id, name, filename, blacklist, whitelist FROM ' .
-            "filter $where";
-        $result = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);        
+            "filter";
+        $params = array();
+        if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
+        	$data   = getWhereStatement($db, $_GET['cols'], $_GET['keyword']);
+        	$sql   .= $data['sql'];
+        	$params = $data['params'];
+        }
+        $sql .=  ' ' . $where;
+        $result = $db->query($sql, $params)->getAllData(PDO::FETCH_ASSOC);
         echo V::getInstance()->assign('filter', $result)
             ->assign('pageCount', 10)
             ->fetch($tpl);
+    }
+    
+    function getWhereStatement($db, $cols, $keyword) {
+    	$value = '%' . $keyword . '%';
+    	$params = array_fill(0, count(explode(',', $cols)), $value);
+    	return array('sql'    => ' WHERE (' .
+    			$db->getWhereStatement($cols, 'OR', 'like') . ')',
+    			'params' => $params);
     }
 
     function getDataCount() {
         $sql = 'SELECT id FROM filter';
         $db  = new dbsqlite(DB_PATH . '/netgap_fs.db');
-        return $db->query($sql)->getCount();
+        if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
+            $data   = getWhereStatement($db, $_GET['cols'], $_GET['keyword']);
+            $sql   .= $data['sql'];
+            $params = $data['params'];
+        }
+        return $db->query($sql, $params)->getCount();
     }
 
     function getCmd() {
@@ -58,11 +78,10 @@
         } else {
             $tmin = str_replace(' ', '-', $tmin);
         }
-        $comment = $_POST['comment'];
         $cmd = array();
         $cmd['cmd'] = "fsctl add filter name $name filename $fn blacklist $bl" .
             " whitelist $wl action $act type $type timemin $tmin timemax " .
-            "$tmax sizemin $smin sizemax $smax comment $comment";
+            "$tmax sizemin $smin sizemax $smax";
         $cmd['log'] = '添加客户端的文件交换的文件属性控制'.$name;       
         return $cmd;
     }
@@ -127,23 +146,23 @@
         $cli->setLog('删除客户端的文件交换的文件属性控制,id号为'.$id)->run("fsctl del filter id $id");
         $cmd = getCmd();
         $cli->setLog($cmd['log'])->run($cmd['cmd']);
-        echo json_encode(array('msg' => '修改成功.'));
+        echo json_encode(array('msg' => '修改成功。'));
     } else if ('add' === $_POST['type']) {
         // add a new filter conf data
         $cli = new cli();
         $cmd = getCmd();
         $cli->setLog($cmd['log'])->run($cmd['cmd']);
-        echo json_encode(array('msg' => '添加成功.'));
+        echo json_encode(array('msg' => '添加成功。'));
     } else if ($id = $_POST['delId']) {
         // delete specified filter conf data
         $cmd = "fsctl del filter id $id";
         $rc = checkFilter();
         if($rc != 0){
-        	echo json_encode(array('msg' => "此文件属性控制策略被引用,不能被删除."));
+        	echo json_encode(array('msg' => "此文件属性控制策略被引用，不能被删除。"));
         }else{
             $cli = new cli();
             $cli->setLog('删除客户端的文件交换的文件属性控制,id号为'.$id)->run($cmd);
-            echo json_encode(array('msg' => '删除成功.'));
+            echo json_encode(array('msg' => '删除成功。'));
         }
     } else if (!empty($_POST['openAddDialog'])) {
         // Display dialog to add filter data

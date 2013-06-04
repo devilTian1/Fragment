@@ -11,7 +11,7 @@ function OpenTipsDialog(external_name) {
         buttons: buttons,
         position : jQuery.getDialogPosition('300','160')
     };
-    dialog.setContent('<p>用户['+external_name+']在线，不能对此用户进行任何操作.</p>');
+    dialog.setContent('<p>用户['+external_name+']在线，不能对此用户进行任何操作。</p>');
     dialog.setOptions(dialogParams);
 }
 
@@ -97,16 +97,22 @@ function openNewUserListDialog() {
         if ($('#editUserListForm').valid()) {
             $('#rolesMember option').attr('selected', 'selected');
             openNewUserListDialog();
-            ajaxSubmitForm($('#editUserListForm'), '结果');
-            freshTableAndPage();
+            var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editUserListForm'), '结果', undefined,
+                undefined, afterSuccessCallback);
             $(this).remove();
         }
     };
     buttons['确定'] = function() {
         if ($('#editUserListForm').valid()) {
             $('#rolesMember option').attr('selected', 'selected');
-            ajaxSubmitForm($('#editUserListForm'), '结果');
-            freshTableAndPage();
+            var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editUserListForm'), '结果', undefined,
+                undefined, afterSuccessCallback);
             $(this).remove();
         }
     };
@@ -115,9 +121,9 @@ function openNewUserListDialog() {
         $(this).remove();
     };
     var dialogParams = {
-        width   : 620,
+        width   : 690,
         height  : 600,
-        position : jQuery.getDialogPosition('620','600'),
+        position : jQuery.getDialogPosition('690','600'),
         buttons : buttons
     };
     showDialogByAjax(url, data, title, dialogParams);
@@ -133,8 +139,11 @@ function openEditSpecUserDialog(name) {
     buttons['确定'] = function() {
         if ($('#editUserListForm').valid()) {
             $('#rolesMember option').attr('selected', 'selected');
-            ajaxSubmitForm($('#editUserListForm'), '结果');
-            freshTableAndPage();
+            var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editUserListForm'), '结果', undefined,
+                undefined, afterSuccessCallback);
             $(this).remove();
         }
     };
@@ -143,9 +152,9 @@ function openEditSpecUserDialog(name) {
         $(this).remove();
     };
     var dialogParams = {
-        width   : 620,
+        width   : 690,
         height  : 600,
-        position : jQuery.getDialogPosition('620','600'),
+        position : jQuery.getDialogPosition('690','600'),
         buttons : buttons
     };
     var successCallback = function(result, textStatus) {
@@ -266,8 +275,11 @@ function openImportSnFileDialog(name) {
     var buttons = {};
     buttons['确定'] = function() {
         if ($('#editImportSnFileForm').valid()) {
-            ajaxSubmitForm($('#editImportSnFileForm'), '结果');
-            freshTableAndPage();
+            var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editImportSnFileForm'), '结果', undefined,
+                undefined, afterSuccessCallback);
             $(this).remove();
         }
     };
@@ -293,8 +305,11 @@ function openActiveSpecUserDialog(name) {
     var buttons = {};
     buttons['确定'] = function() {
         if ($('#editActiveUserForm').valid()) {
-            ajaxSubmitForm($('#editActiveUserForm'), '结果');
-            freshTableAndPage();
+            var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editActiveUserForm'), '结果', undefined,
+                undefined, afterSuccessCallback);
             $(this).remove();
         }
     };
@@ -383,8 +398,11 @@ function openLockSpecUserDialog(name) {
     var buttons = {};
     buttons['确定'] = function() {
         if ($('#editLockTimeForm').valid()) {
-            ajaxSubmitForm($('#editLockTimeForm'), '结果');
-            freshTableAndPage();
+            var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editLockTimeForm'), '结果', undefined,
+                undefined, afterSuccessCallback);
             $(this).remove();
         }
     };
@@ -410,8 +428,11 @@ function openResetSpecUserPwdDialog(name) {
     var buttons = {};
     buttons['确定'] = function() {
         if ($('#editResetPwdForm').valid()) {
-            ajaxSubmitForm($('#editResetPwdForm'), '结果');
-            freshTableAndPage();
+            var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editResetPwdForm'), '结果', undefined,
+                undefined, afterSuccessCallback);
             $(this).remove();
         }
     };
@@ -550,8 +571,11 @@ function switchUserActive(id, action,name) {
     var dialog  = loadingScreen(title);
     var buttons = {};
     buttons['确定'] = function() {
-        ajaxSubmitForm($('#switchUserActiveForm_' + id), '结果');
-        freshTableAndPage();
+        var afterSuccessCallback = function() {
+                freshTableAndPage();
+        };
+        ajaxSubmitForm($('#switchUserActiveForm_' + id), '结果', undefined,
+                undefined, afterSuccessCallback);
         $(this).remove();
     };
     buttons['取消'] = function() {

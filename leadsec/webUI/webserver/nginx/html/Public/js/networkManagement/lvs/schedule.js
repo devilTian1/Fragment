@@ -5,22 +5,28 @@ function openNewRealAddrDialog() {
         openNewRealAddrDialog: true
     };
     var buttons = {};
-    buttons['添加下一条'] = function() {
+    buttons[getMessage('Add Next')] = function() {
         if ($('#editRealAddrForm').valid() && ($("#erroDiv").attr("class")=='hide')) {
             openNewRealAddrDialog();
-            ajaxSubmitForm($('#editRealAddrForm'), '结果');
-            freshTableAndPage();
+            var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editRealAddrForm'), '结果', undefined,
+                undefined, afterSuccessCallback);
             $(this).remove();
         }
     };
-    buttons['确定'] = function() {
+    buttons[getMessage('Ok')] = function() {
         if ($('#editRealAddrForm').valid() && ($("#erroDiv").attr("class")=='hide')) {
-            ajaxSubmitForm($('#editRealAddrForm'), '结果');
-            freshTableAndPage();
+        	var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editRealAddrForm'), '结果', undefined,
+                undefined, afterSuccessCallback);
             $(this).remove();
         }
     };
-    buttons['取消'] = function() {
+    buttons[getMessage('Cancel')] = function() {
         $(this).remove();
     };
     var dialogParams = {
@@ -41,14 +47,17 @@ function openEditRealAddrDialog(ip,port) {
         rport: port
     };
     var buttons = {};
-    buttons['确定'] = function() {
+    buttons[getMessage('Ok')] = function() {
         if ($('#editRealAddrForm').valid()) {
-            ajaxSubmitForm($('#editRealAddrForm'), '结果');
-            freshTableAndPage();
+        	var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editRealAddrForm'), '结果', undefined,
+                undefined, afterSuccessCallback);
             $(this).remove();
         }
     };
-    buttons['取消'] = function() {
+    buttons[getMessage('Cancel')] = function() {
         $(this).remove();
     };
     var dialogParams = {
@@ -69,7 +78,7 @@ function delAddr(ip,port) {
     };
     var title  = '删除配置';
     var buttons = {};
-    buttons['Ok'] = function() {
+    buttons[getMessage('Ok')] = function() {
         freshTableAndPage();
         $(this).remove();
     };
@@ -84,12 +93,12 @@ function delAddr(ip,port) {
 function openDelRealAddrDialog(ip,port) {
     var dialog  = loadingScreen('删除配置');
     var buttons = {};
-    buttons['确定'] = function() {
+    buttons[getMessage('Ok')] = function() {
         delAddr(ip,port);
         $(this).remove();
         freshTableAndPage();
     };
-    buttons['取消']  = function() {
+    buttons[getMessage('Cancel')]  = function() {
         $(this).remove();
     };
     var dialogParams = {

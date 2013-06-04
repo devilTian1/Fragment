@@ -5,7 +5,7 @@
         static public $instance;
 
         // including addList, addrGrp, domainAddr
-        public function getAddr() {
+        public function getAddr($isSA = false) {
             $db     = new dbsqlite(DB_PATH . '/rule.db');
             $sql    = 'SELECT name FROM address UNION SELECT name FROM addrgrp';
             $data   = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
@@ -20,28 +20,52 @@
                     $result[$key] = $val;
                 } 
             }
-            $sql = 'SELECT name FROM domain_property';
-            $data = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
-            foreach ($data as $d) {
-                $key = $d['name'];
-                $val = substr($key, 0, -5);
-                $result[$key] = $val;
-            }
-            if (count($result) === 0) {
-                return array('' => '无');
+            if (!$isSA) {
+                $sql = 'SELECT name FROM domain_property';
+                $data = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
+                foreach ($data as $d) {
+                    $key = $d['name'];
+                    $val = substr($key, 0, -5);
+                    $result[$key] = $val;
+                }
+                if (count($result) === 0) {
+                    return array('' => '无');
+                }
             }
             return $result;
         }
         
-    public function getAddrList() {
+     public function getAddrAndGroup($isSA = false) {
             $db     = new dbsqlite(DB_PATH . '/rule.db');
-            $sql    = 'SELECT name FROM address';
-            $data   = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);           
+            $sql    = 'SELECT name FROM address UNION SELECT name FROM addrgrp';
+            $data   = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
+            $result = array();
             foreach ($data as $d) {
                 // delete suffix,eg: _ipv4 or ipv6
                 $key = $d['name'];
                 if ($key === 'any_ipv4' || $key === 'any_ipv6') {
-                  //  $result = array_merge(array($key => 'any'), $result);
+                 //   $result = array_merge(array($key => 'any'), $result);
+                } else {
+                    $val = substr($key, 0, -5);
+                    $result[$key] = $val;
+                } 
+            }          
+            return $result;
+        }
+        
+        
+    public function getAddrList($isSA = false) {
+            $db     = new dbsqlite(DB_PATH . '/rule.db');
+            $sql    = 'SELECT name FROM address';
+            $data   = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);  
+            $result = array();         
+            foreach ($data as $d) {
+                // delete suffix,eg: _ipv4 or ipv6
+                $key = $d['name'];
+                if ($key === 'any_ipv4' || $key === 'any_ipv6') {
+                  if ($isSA) {
+                    $result = array_merge(array($key => 'any'), $result);
+                  }
                 } else {
                     $val = substr($key, 0, -5);
                     $result[$key] = $val;
@@ -51,7 +75,8 @@
                 return array('' => '无');
             } 
             return $result;
-        }
+        }     
+       
         
 
         public function getTimeList() {
@@ -223,6 +248,41 @@
                 throw new Exception("Can`t check [$modName]");
             }
             return $db->query($sql)->getCount() > 0 ? 'false' : 'true';
+        }
+        
+        public function checkAliasUsed($aliasName) {
+            $checkBuf = Array();
+            
+            $checkBuf[] = array('type'=>'ifname','dbPath'=>'/netgap_ha.db','table'=>'haif','colname'=>'ifname');
+            $checkBuf[] = array('type'=>'ip','dbPath'=>'/gateway_ftp.db','table'=>'ftp_comm_client_acl','colname'=>'lip');
+            $checkBuf[] = array('type'=>'ip','dbPath'=>'/netgap_custom.db','table'=>'tcp_comm_client_acl','colname'=>'lip');
+            $checkBuf[] = array('type'=>'ip','dbPath'=>'/netgap_custom.db','table'=>'udp_comm_client_acl','colname'=>'lip');
+            $checkBuf[] = array('type'=>'ip','dbPath'=>'/netgap_fastpass.db','table'=>'fastpass_client_acl','colname'=>'da');
+            $checkBuf[] = array('type'=>'ip','dbPath'=>'/netgap_fastpass.db','table'=>'fastpass_server_acl','colname'=>'eip');
+            $checkBuf[] = array('type'=>'ip','dbPath'=>'/netgap_db.db','table'=>'db_comm_client_acl','colname'=>'lip');
+            $checkBuf[] = array('type'=>'ip','dbPath'=>'/netgap_msg.db','table'=>'msg_client_task','colname'=>'lip');
+			$checkBuf[] = array('type'=>'ip','dbPath'=>'/netgap_mail.db','table'=>'pop3_comm_client_acl','colname'=>'lip');
+            $checkBuf[] = array('type'=>'ip','dbPath'=>'/netgap_mail.db','table'=>'smtp_comm_client_acl','colname'=>'lip');
+			$checkBuf[] = array('type'=>'ip','dbPath'=>'/netgap_db_swap.db','table'=>'db_swap_client_acl','colname'=>'lip');
+			$checkBuf[] = array('type'=>'ip','dbPath'=>'/netgap_new_fs.db','table'=>'sync_file_client','colname'=>'lip');
+            foreach($checkBuf as $arr) {
+                if($arr['type'] === 'ip') {
+                    $db  = new dbsqlite(DB_PATH . '/configs.db');
+                    $sql = "SELECT ip,ipv6 FROM interface WHERE external_name='$aliasName'";
+                    $result = $db->query($sql)->getFirstData(PDO::FETCH_ASSOC);
+                    $ip = $result['ip'];
+                    $ipv6 = $result['ipv6'];
+                    $sql = "SELECT {$arr['colname']} FROM {$arr['table']} WHERE {$arr['colname']}='$ip' OR {$arr['colname']}='$ipv6'";
+                } else if ($arr['type'] === 'ifname') {                    
+                    $sql = "SELECT {$arr['colname']} FROM {$arr['table']} WHERE {$arr['colname']}='$aliasName'";                    
+                }
+                $db  = new dbsqlite(DB_PATH . $arr['dbPath']);
+                $result = $db->query($sql)->getCount() > 0 ? 'true' : 'false';
+                if($result === 'true') {
+                    return 'true';
+                }
+            }
+            return 'false';
         }
 
         private function __clone() {}

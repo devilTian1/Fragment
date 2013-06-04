@@ -1,4 +1,4 @@
-<{include file='layout/search.tpl' tableId='keywordTable'}>
+<{include file='layout/search.tpl' colNames='name,value,type,comment'}>
 <table class="column_95 textMid tablesorter" id="keywordTable">
     <caption>
            信息列表

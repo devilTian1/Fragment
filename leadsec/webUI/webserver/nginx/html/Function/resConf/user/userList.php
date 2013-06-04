@@ -43,18 +43,39 @@
         return $result;       
     }
 
+    function getWhereStatement($db, $cols, $keyword) {
+        $value  = '%' . $keyword . '%';
+        $params = array_fill(0, count(explode(',', $cols)), $value);
+        return array('sql'    => ' WHERE (' .
+                              $db->getWhereStatement($cols, 'OR', 'like') . ')',
+                     'params' => $params);
+    }
+
     function getDataCount() {
         $db  = new dbsqlite(DB_PATH . '/uma_auth.db');
         $sql = "SELECT count(user_id) as sum FROM user";
-        $result = $db->query($sql)->getFirstData(PDO::FETCH_ASSOC);
+        $params = array();
+        if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
+            $data   = getWhereStatement($db, $_GET['cols'], $_GET['keyword']);
+            $sql   .= $data['sql'];
+            $params = $data['params'];
+        }
+        $result = $db->query($sql, $params)->getFirstData(PDO::FETCH_ASSOC);
         return $result['sum'];
     }
 
     function freshUserList($where) {
         $tpl  = 'resConf/user/userListTable.tpl';
         $db  = new dbsqlite(DB_PATH . '/uma_auth.db');
-        $sql = "SELECT user_id, user_name,auth_type, true_name, active, validtime, dyn_sn FROM user $where";
-        $result = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
+        $sql = "SELECT user_id, user_name,auth_type, true_name, active, validtime, dyn_sn FROM user";
+        $params = array();
+        if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
+            $data   = getWhereStatement($db, $_GET['cols'], $_GET['keyword']);
+            $sql   .= $data['sql'];
+            $params = $data['params'];
+        }
+        $sql .=  ' ' . $where;
+        $result = $db->query($sql, $params)->getAllData(PDO::FETCH_ASSOC);
         echo V::getInstance()->assign('userList', $result)
             ->assign('pageCount', 10)
             ->fetch($tpl);
@@ -320,6 +341,11 @@
             }
         } 
         echo "false";
+    } else if ($_GET['checkExistUserName']) {
+        $name = $_GET['userListName'];
+        $db  = new dbsqlite(DB_PATH . '/uma_auth.db');
+        $sql = "SELECT user_id FROM user where user_name='$name'";
+        echo $db->query($sql)->getCount() > 0 ? 'false' : 'true';
     } else if ($order = $_POST['orderStatement']) { 
         // Fresh and resort user list Table
         freshUserList($order);

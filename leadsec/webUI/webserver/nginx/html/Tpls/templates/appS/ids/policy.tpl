@@ -17,6 +17,7 @@
 		<form action="Function/appS/ids/policy.php" method="POST" 
 			id="switchForm_<{$val@index}>" onSubmit="return false;">
 		<input type="hidden" name="policyName" value="<{$val.EnglishName}>"/>
+		<input type="hidden" name="policyName_c" value="<{$val.ChineseName}>"/>
 		<{if $val.status == Y}>
 			<a href="#" onClick="switchPhysicalDev('<{$val.ChineseName}>', 'disable', '<{$val@index}>')">
 			<img class = "policy" id="img_<{$val@index}>" src="<{$smarty.const.THEME_PATH}>/images/icon/select.png" 
@@ -33,7 +34,7 @@
 		</td>
     </tr>
 <{foreachelse}>
-    <tr><td colspan='11'>No Data</td></tr>
+    <tr><td colspan='11'>无数据</td></tr>
 <{/foreach}>
     </tr>
     </tbody>

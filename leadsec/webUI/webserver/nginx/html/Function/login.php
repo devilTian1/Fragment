@@ -18,8 +18,9 @@
         if (DEBUG || @$_SESSION[$account] >= LIMITERR_NUM &&
             !chkLimitErrTime($account)) {
             $_SESSION['limitErrTime'] = time();
-            $errMsg = '错误登录次数超过' . LIMITERR_NUM . '次<br/>请等待' .
-                LIMITERR_TIME . '秒';
+            //$errMsg = '错误登录次数超过' . LIMITERR_NUM . '次<br/>请等待' .
+            //    LIMITERR_TIME . '秒';
+			$errMsg = "输错密码超过规定次数,账号".$account."已被封锁!";
             $msg = "用户[$account]" . str_replace('<br/>', ', ', $errMsg) .
                 "地址来自[$cIp].";
             $set = array(
@@ -31,6 +32,7 @@
         }
         //管理主机ip检测
         $db = new dbsqlite(DB_PATH . '/configs.db');
+        /*
         if (checkAdminIpv4s() === false) {
             $msg = '管理主机限制登录.';
             $set = array(
@@ -41,6 +43,7 @@
             $admLog->add($set);
             DEBUG || exit($msg);
         }
+        */
         // check allow to serveral admins to login or not
         $sql = "SELECT allow FROM allow_multiple";
         $result = $db->query($sql)->getFirstData();
@@ -61,7 +64,7 @@
         $result = $db->query($sql)->getFirstData();
         if ($result === false) {
             $_SESSION[$account]++;
-            $msg = '用户名与密码错误!';
+            $msg = '用户名或密码错误!';
             $set = array(
                 'time' => time(), 'account' => $account, 'pri' => 3,
                 'act' => 'login', 'msg'     => $msg. " 用户[$account], 地址" .
@@ -196,6 +199,9 @@
         $db      = new dbsqlite(DB_PATH . '/configs.db');
         $cIp     = get_client_ip();
         if (strtolower($cIp) === 'localhost' || $cIp === '127.0.0.1') {
+            return true;
+        }
+        if ($db->query('SELECT ip FROM adminips')->getCount() === 0) {
             return true;
         }
         $cIpFrag = explode('.', trim($cIp));

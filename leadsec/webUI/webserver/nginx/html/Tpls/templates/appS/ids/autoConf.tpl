@@ -12,7 +12,7 @@
      <tr>
       <td width="250" class="tdheader">阻断间隔:</td>
       <td class="tdbody"><label>
-          <input type="text" name="timeLimit" id="timeLimit" value="<{$time}>"/>
+          <input class="width10em" type="text" name="timeLimit" id="timeLimit" value="<{$time}>"/>
        秒</label></td>
     </tr>
     <tr>

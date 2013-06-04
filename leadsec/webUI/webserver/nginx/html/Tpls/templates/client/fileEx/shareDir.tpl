@@ -1,4 +1,4 @@
-<{include file='layout/search.tpl' tableId='shareDirTable'}>
+<{include file='layout/search.tpl' colNames='task_id,ip,share_name,fs'}>
 <table class="column_95 textMid tablesorter" id="shareDirTable">
     <caption>信息列表</caption>
     <thead>

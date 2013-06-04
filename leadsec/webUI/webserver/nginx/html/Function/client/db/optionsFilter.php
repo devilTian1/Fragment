@@ -4,16 +4,35 @@
     function freshOptionsFilterData($where) {
         $tpl =  'client/db/optionsFilterTable.tpl';
         $db  = new dbsqlite(DB_PATH . '/netgap_db.db');
-	    $sql = "SELECT id, name, usergrp, sqlgrp, comment FROM db_option_list $where";
-        $result = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);     
+	    $sql = "SELECT id, name, usergrp, sqlgrp, comment FROM db_option_list ";
+        $params = array();
+        if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
+            $data   = getWhereStatement($db, $_GET['cols'], $_GET['keyword']);
+            $sql   .= $data['sql'];
+            $params = $data['params'];
+        }
+        $sql .=  ' ' . $where;
+        $result = $db->query($sql, $params)->getAllData(PDO::FETCH_ASSOC);   
         echo V::getInstance()->assign('res', $result)
             ->assign('pageCount', 10)
             ->fetch($tpl);
     }
+    function getWhereStatement($db, $cols, $keyword) {
+        $value = '%' . $keyword . '%';
+        $params = array_fill(0, count(explode(',', $cols)), $value);
+        return array('sql'    => ' where (' .
+                              $db->getWhereStatement($cols, 'OR', 'like') . ')',
+                     'params' => $params);
+    }
     function getDataCount() {
     	$sql = "SELECT id FROM db_option_list";
         $db  = new dbsqlite(DB_PATH . '/netgap_db.db');
-        return $db->query($sql)->getCount();
+        if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
+            $data   = getWhereStatement($db, $_GET['cols'], $_GET['keyword']);
+            $sql   .= $data['sql'];
+            $params = $data['params'];
+        }
+        return $db->query($sql, $params)->getCount(); 
     }
     function getUserFilterList() {
    	   //获得用户名过滤组
@@ -115,14 +134,14 @@
         $cmd = getCmd();
         $cli  = new cli();
         $cli->setLog("编辑名称为".$_POST['optionName']."的过滤选项集")->run($cmd);
-        echo json_encode(array('msg' => "[$name]修改成功."));
+        echo json_encode(array('msg' => "[$name]修改成功。"));
     } else if ('add' === $_POST['type']) {
         // Add a new  data
         $name        = $_POST['optionName'];
         $cmd = getCmd();
         $cli  = new cli();
         $cli->setLog("添加名称为".$_POST['optionName']."的过滤选项集")->run($cmd);
-        echo json_encode(array('msg' => "[$name]添加成功."));	       
+        echo json_encode(array('msg' => "[$name]添加成功。"));	       
     } else if (!empty($_POST['delName'])) {
         // Delete the specified  data
         $id = $_POST['delName'];
@@ -133,13 +152,13 @@
 			$flag = getOptionFilterInUse($r['name']);
     	}
         if ($flag == 1) {       	
-        	$msg = "序号为".$id."的过滤选项集被引用，无法删除";
+        	$msg = "序号为".$id."的过滤选项集被引用，无法删除。";
         	echo json_encode(array('msg' => $msg));
         } else {
         	$cmd  = "dbctl del filter id \"$id\"";
         	$cli  = new cli();
         	$cli->setLog("删除序号为".$_POST['delName']."的过滤选项集")->run($cmd);
-        	echo json_encode(array('msg' => "删除成功."));
+        	echo json_encode(array('msg' => "删除成功。"));
         }              
     } else if (!empty($_POST['openDialog'])) {
         // Display add dialog

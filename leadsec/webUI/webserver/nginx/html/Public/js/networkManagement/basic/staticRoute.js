@@ -11,14 +11,17 @@ function openEditStaticRouteDialog(sid) {
     };
     var title   = '修改静态路由';
     var buttons = {};
-    buttons['确定'] = function() {
+    buttons[getMessage('Ok')] = function() {
         if ($('#editStaticRouteForm').valid()) {
-            ajaxSubmitForm($('#editStaticRouteForm'), '结果');
-            freshTableAndPage();
+        	var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editStaticRouteForm'), '结果', undefined,
+                undefined, afterSuccessCallback);
             $(this).remove();
         }
     };
-    buttons['取消'] = function() {
+    buttons[getMessage('Cancel')] = function() {
         $(this).remove();
     };
     var dialogParams = {
@@ -38,22 +41,28 @@ function openNewStaticRouteDialog() {
 		type: 'showAdd'
     };
     var buttons = {};
-    buttons['添加下一条'] = function() {
+    buttons[getMessage('Add Next')] = function() {
         if ($('#editStaticRouteForm').valid()) {
             openNewStaticRouteDialog();
-            ajaxSubmitForm($('#editStaticRouteForm'), '结果');
-            freshTableAndPage();
+            var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editStaticRouteForm'), '结果', undefined,
+                undefined, afterSuccessCallback);
             $(this).remove();
         }
     };
-    buttons['确定'] = function() {
+    buttons[getMessage('Ok')] = function() {
         if ($('#editStaticRouteForm').valid()) {
-            ajaxSubmitForm($('#editStaticRouteForm'), '结果');
-            freshTableAndPage();
+        	var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editStaticRouteForm'), '结果', undefined,
+                undefined, afterSuccessCallback);
             $(this).remove();
         }
     };
-    buttons['取消'] = function() {
+    buttons[getMessage('Cancel')] = function() {
         $(this).remove();
     };
     var dialogParams = {
@@ -72,7 +81,7 @@ function delStaticRoute(delid) {
     };
     var title  = '删除静态路由';
     var buttons = {};
-    buttons['Ok'] = function() {
+    buttons[getMessage('Ok')] = function() {
         freshTableAndPage();
         $(this).remove();
     };
@@ -88,12 +97,12 @@ function delStaticRoute(delid) {
 function openDelStaticRouteDialog(id) {
     var dialog  = loadingScreen('删除静态路由');
     var buttons = {};
-    buttons['Confirm'] = function() {
+    buttons[getMessage('Ok')] = function() {
         delStaticRoute(id);
         $(this).remove();
         freshTableAndPage();
     };
-    buttons['Cancel']  = function() {
+    buttons[getMessage('Cancel')] = function() {
         $(this).remove();
     };
     var dialogParams = {
@@ -114,7 +123,7 @@ function changeStaticRouteActive(changeid,argu) {
     };
     var title  = '改变静态路由状态';
     var buttons = {};
-    buttons['Ok'] = function() {
+    buttons[getMessage('Ok')] = function() {
         freshTableAndPage();
         $(this).remove();
     };

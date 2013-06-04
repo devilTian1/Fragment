@@ -49,5 +49,8 @@
         $('#timeGroup').dblclick(function(){
         	moveToTimeGrpMember();
         });
+        $('#timeGrpMember').dblclick(function(){
+        	moveToTimeGroup();
+        });
     });
 </script>

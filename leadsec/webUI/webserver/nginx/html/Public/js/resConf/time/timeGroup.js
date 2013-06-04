@@ -14,13 +14,17 @@ function openNewTimeGroupDialog() {
     	var key2=str2.indexOf(first);
     	if(key !== -1 || key2 !== -1){    			    	
     		if ($('#editTimeGroupForm').valid()) {
+    			openNewTimeGroupDialog();
                 $('#timeGrpMember option').attr('selected', 'selected');
-                ajaxSubmitForm($('#editTimeGroupForm'), '结果');
-                freshTableAndPage();
+                var afterSuccessCallback = function() {
+                    freshTableAndPage();
+                };
+                ajaxSubmitForm($('#editTimeGroupForm'), '结果', undefined,
+                        undefined, afterSuccessCallback);
                 $(this).remove();
             }
     	}else{
-    		showErrorDialog('名称首位请填写字母');
+    		showErrorDialog('名称首位请填写字母。');
     	}       
     };
     buttons[getMessage('Ok')] = function() {
@@ -33,12 +37,15 @@ function openNewTimeGroupDialog() {
     	if(key !== -1 || key2 !== -1){    			    	
     		if ($('#editTimeGroupForm').valid()) {
                 $('#timeGrpMember option').attr('selected', 'selected');
-                ajaxSubmitForm($('#editTimeGroupForm'), '结果');
-                freshTableAndPage();
+                var afterSuccessCallback = function() {
+                    freshTableAndPage();
+                };
+                ajaxSubmitForm($('#editTimeGroupForm'), '结果', undefined,
+                        undefined, afterSuccessCallback);
                 $(this).remove();
             }
     	}else{
-    		showErrorDialog('名称首位请填写字母');
+    		showErrorDialog('名称首位请填写字母。');
     	}        
     };
     buttons[getMessage('Cancel')] = function() {
@@ -64,8 +71,11 @@ function openEditTimeGroupDialog(name) {
     buttons[getMessage('Ok')] = function() {
         if ($('#editTimeGroupForm').valid()) {
             $('#timeGrpMember option').attr('selected', 'selected');
-            ajaxSubmitForm($('#editTimeGroupForm'), '结果');
-            freshTableAndPage();
+            var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editTimeGroupForm'), '结果', undefined,
+                    undefined, afterSuccessCallback);
             $(this).remove();
         }
     };
@@ -125,6 +135,7 @@ function openDelTimeGroupDialog(name) {
 function freshTableAndPage() {
     var url = 'Function/resConf/time/timeGroup.php';
     freshTable(url, $('#timeGroupTable'));
+    freshPagination(url, $('.pager'));
 }
 
 

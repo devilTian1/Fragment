@@ -4,17 +4,35 @@
     function appendBannedContentData($where) {
         $tpl =  'client/msgTrans/cbannedContentTable.tpl';
         $db  = new dbsqlite(DB_PATH . '/netgap_msg.db');
-        $sql = "SELECT * FROM msg_filter_blacklist $where";
-        $result = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
+        $sql = "SELECT * FROM msg_filter_blacklist ";
+        $params = array();
+        if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
+            $data   = getWhereStatement($db, $_GET['cols'], $_GET['keyword']);
+            $sql   .= $data['sql'];
+            $params = $data['params'];
+        }
+        $sql .=  ' ' . $where;
+        $result = $db->query($sql, $params)->getAllData(PDO::FETCH_ASSOC);
         echo V::getInstance()->assign('bannedContent', $result)
             ->assign('pageCount', 10)
             ->fetch($tpl);
     }
-
+	function getWhereStatement($db, $cols, $keyword) {
+        $value = '%' . $keyword . '%';
+        $params = array_fill(0, count(explode(',', $cols)), $value);
+        return array('sql'    => ' where (' .
+                              $db->getWhereStatement($cols, 'OR', 'like') . ')',
+                     'params' => $params);
+    }
     function getDataCount() {
         $sql = 'SELECT blacklist FROM msg_filter_blacklist';
         $db  = new dbsqlite(DB_PATH . '/netgap_msg.db');
-        return $db->query($sql)->getCount();
+        if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
+            $data   = getWhereStatement($db, $_GET['cols'], $_GET['keyword']);
+            $sql   .= $data['sql'];
+            $params = $data['params'];
+        }
+        return $db->query($sql, $params)->getCount();
     }
 
     if ($blacklist = $_POST['editId']) {
@@ -32,29 +50,29 @@
         $blacklist  = $_POST['cblacklist'];
         $editname = $_POST['editname'];
         $cmdArr = array("msgctl del blacklist \"$editname\"",
-        	"msgctl add blacklist \"$blacklist\"","msgctl restart 1>/dev/null");         	 	      	
+        	"msgctl add blacklist \"$blacklist\"","/usr/local/bin/msgctl restart 1>/dev/null");         	 	      	
         $cli = new cli(); 
-    	$cli->setLog("删除名称为".$_POST['editname']."的内容黑名单")->run($cmd[0]);
-    	$cli->setLog("添加名称为".$_POST['cblacklist']."的内容黑名单")->run($cmd[1]);
-        $cli->setLog("重新启动消息传输服务")->run($cmd[2]);      
-        echo json_encode(array('msg' => '修改成功.'));
+    	$cli->setLog("删除名称为".$_POST['editname']."的内容黑名单")->run($cmdArr[0]);
+    	$cli->setLog("添加名称为".$_POST['cblacklist']."的内容黑名单")->run($cmdArr[1]);
+        $cli->setLog("重新启动消息传输服务")->run($cmdArr[2]);      
+        echo json_encode(array('msg' => '修改成功。'));
     } else if ('add' === $_POST['type']) {
         // add a new banned content data
         $blacklist  = $_POST['cblacklist'];
         $cmdArr = array("msgctl add blacklist \"$blacklist\"",
-        	"msgctl restart 1>/dev/null");        	
+        	"/usr/local/bin/msgctl restart 1>/dev/null");        	
         $cli = new cli(); 
-    	$cli->setLog("添加名称为".$_POST['cblacklist']."的内容黑名单")->run($cmd[0]);
-        $cli->setLog("重新启动消息传输服务")->run($cmd[1]);
-        echo json_encode(array('msg' => '添加成功.'));
+    	$cli->setLog("添加名称为".$_POST['cblacklist']."的内容黑名单")->run($cmdArr[0]);
+        $cli->setLog("重新启动消息传输服务")->run($cmdArr[1]);
+        echo json_encode(array('msg' => '添加成功。'));
     } else if ($blacklist = $_POST['delId']) {
         // delete specified banned content data
         $cmdArr = array("msgctl del blacklist \"$blacklist\"",
-        	"msgctl restart 1>/dev/null");        	      	
+        	"/usr/local/bin/msgctl restart 1>/dev/null");        	      	
         $cli = new cli(); 
-    	$cli->setLog("删除名称为".$_POST['delId']."的内容黑名单")->run($cmd[0]);
-        $cli->setLog("重新启动消息传输服务")->run($cmd[1]);
-        echo json_encode(array('msg' => '删除成功.'));
+    	$cli->setLog("删除名称为".$_POST['delId']."的内容黑名单")->run($cmdArr[0]);
+        $cli->setLog("重新启动消息传输服务")->run($cmdArr[1]);
+        echo json_encode(array('msg' => '删除成功。'));
     } else if (!empty($_POST['openAddDialog'])) {
         // Display dialog to add banned content data
         $tpl =  'client/msgTrans/ceditBannedContentDialog.tpl';
@@ -65,24 +83,42 @@
         $sql = 'SELECT blacklist FROM msg_filter_blacklist WHERE blacklist = "' .
             $_GET['cblacklist'] . '"';
         $db  = new dbsqlite(DB_PATH . '/netgap_msg.db');
-        echo $db->query($sql)->getCount() > 0 ? 'false' : 'true';
+    	$data = $db->query($sql)->getFirstData(PDO::FETCH_ASSOC);
+        $flag = '';
+    	if(count($data) > 0 && $_GET['type']==='edit' && $_GET['hi_list'] ===
+    		$_GET['cblacklist'] && $_GET['cblacklist'] ===$data['blacklist']){
+        	$flag = 0;
+        }
+        if(count($data) > 0 && $_GET['type']==='edit' && $_GET['hi_list'] !==
+        	$_GET['cblacklist'] && $_GET['cblacklist'] ===$data['blacklist']){
+        	$flag = 1;
+        }        
+    	if($db->query($sql)->getCount() > 0 && $_GET['type']==='add'){
+        	$flag = 1;
+        }
+        echo $flag > 0 ? 'false' : 'true';
+        //echo $db->query($sql)->getCount() > 0 ? 'false' : 'true';
     } else if ($orderStatement = $_POST['orderStatement']) {
         // fresh and resort file sync client table data
         appendBannedContentData($orderStatement);
     } else if ($action_chk = $_POST['action_chk']) {
         // 黑名单控制服务  
         if ($action_chk === 'off') {
-           	$cmd = "/usr/local/bin/msgctl set basic blacklist off";         
+        	$cmdArr = array("/usr/local/bin/msgctl set basic blacklist off",
+        			"/usr/local/bin/msgctl restart 1>/dev/null");      
             $cli = new cli();
-            $cli->setLog("关闭黑名单控制服务")->run($cmd);
-            echo json_encode(array('status' => 0, 'msg' => "黑名单控制服务已关闭."));
+            $cli->setLog("关闭黑名单控制服务")->run($cmdArr[0]);
+            $cli->setLog("重新启动消息传输服务")->run($cmdArr[1]);
+            echo json_encode(array('status' => 0, 'msg' => "黑名单控制服务已关闭。"));
         } else if ($action_chk === 'on') {
-            $cmd = "/usr/local/bin/msgctl set basic blacklist on"; 
+        	$cmdArr = array("/usr/local/bin/msgctl set basic blacklist on",
+        			"/usr/local/bin/msgctl restart 1>/dev/null"); 
             $cli = new cli();
-            $cli->setLog("启动黑名单控制服务")->run($cmd);
-            echo json_encode(array('status' => 0, 'msg' => "黑名单控制服务已启动."));
+            $cli->setLog("启动黑名单控制服务")->run($cmdArr[0]);
+            $cli->setLog("重新启动消息传输服务")->run($cmdArr[1]);
+            echo json_encode(array('status' => 0, 'msg' => "黑名单控制服务已启动。"));
         } else {        	
-            echo json_encode(array('status' => -1, 'msg' => '执行动作错误.'));
+            echo json_encode(array('status' => -1, 'msg' => '执行动作错误。'));
         }
     } else {
         // init page data

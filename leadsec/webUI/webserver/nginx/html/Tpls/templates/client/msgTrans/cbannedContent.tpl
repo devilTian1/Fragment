@@ -1,4 +1,4 @@
-<{include file='layout/search.tpl' tableId='bannedContentTable'}>
+<{include file='layout/search.tpl'}>
 <form action="Function/client/msgTrans/cbannedContent.php" method="POST"
     id="blackListForm" onSubmit="return false;">
     <label for="banlist">

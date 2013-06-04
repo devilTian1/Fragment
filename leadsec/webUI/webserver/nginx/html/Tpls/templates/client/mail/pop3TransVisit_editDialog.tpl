@@ -4,7 +4,7 @@
      <fieldset>
         <legend>POP3客户端透明访问</legend>
         <div class="row">
-            <label for="pop3Id">任务号:<em class="required">*</em></label>
+            <label for="pop3TransId">任务号:<em class="required">*</em></label>
             <input class="id" type="text" name="pop3TransId" id="pop3TransId" value="<{$data.id}>"
                 <{if $type ==='edit'}>disabled="disabled"<{/if}>
                 size="4" maxlength="4"/>
@@ -17,18 +17,18 @@
         <div class="row">
             <label for="sa">源地址:</label>
             <{html_options class="select sa" name="sa"
-                options=$addrOptions selected=$data.sa|default: 'any'}>
+                options=$saddrOptions selected=$data.sa|default: 'any'}>
         </div>
 
         <div class="row">
             <label for="sa">目的地址:</label>
             <{html_options class="select da" name="da"
-                options=$addrOptions selected=$data.da|default: 'any'}>
+                options=$daddrOptions selected=$data.da|default: 'any'}>
         </div>
 
         <div class="row">
-            <label for="pop3dportReq">目的端口:<em class="required">*</em></label>
-            <input class="port" type="text" name="pop3TransdportReq"
+            <label for="pop3TranslportReq">目的端口:<em class="required">*</em></label>
+            <input class="port" type="text" name="pop3TranslportReq" id="pop3TranslportReq"
                 value="<{$data.dport|default: 110}>" size="5" maxlength="5"/>
         </div>
         
@@ -72,11 +72,11 @@
 		
         <div class="row">
             <label for="comment">备注:</label>
-            <input class="comment" name="comment" id="comment" value="<{$data.comment|escape}>"/>
+            <input class="width10em comment" name="comment" id="comment" value="<{$data.comment|escape}>"/>
         </div>
     </fieldset>
 </form>
-<script type="text/javascript" src="Public/js/client/mail/filter.js"></script>
+<script type="text/javascript" src="Public/js/client/mail/mailfilter.js"></script>
 <script type="text/javascript" src="Public/js/client/mail/pop3TransVisit.js"></script>
 <script type="text/javascript">
     $(document).ready(function() {

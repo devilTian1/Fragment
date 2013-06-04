@@ -1,4 +1,7 @@
 <{foreach $menuArr as $l1}>
+    <!--[if IE 8]>
+    <p style="margin: 0px; padding: 0px; height: 9px;"></p>
+    <![endif]-->
     <div class="l1 l1_close_<{$l1.link}>" name="<{$l1.link}>">
         <span><{$l1.name}></span>
     </div>

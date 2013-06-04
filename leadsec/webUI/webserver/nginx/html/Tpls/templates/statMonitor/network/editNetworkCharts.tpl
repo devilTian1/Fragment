@@ -89,7 +89,8 @@ $(document).ready(function (){
                 renderTo: 'zoompic',
                 type: 'spline',
                 zoomType: 'x',
-                marginRight: 10
+                marginRight: 10,
+                width: 950
             },
             series: [
                     {
@@ -178,19 +179,20 @@ $(document).ready(function (){
                     renderTo: 'zoompic',
                     type: 'spline',
                     zoomType: 'x',
-                    marginRight: 10
+                    marginRight: 10,
+                    width: 950
                 },
                 series: [
                         { 
                             name: result.msg+'|接收流量',
                             pointInterval: timeInterval,
-                        pointStart: Number(result.inline[0].x),
+                            pointStart: Number(result.inline[0].x),
                             data:  datain
                         },
                         {
                            name: result.msg+'|发送流量', 
                            pointInterval: timeInterval,
-                        pointStart: Number(result.inline[0].x),
+                            pointStart: Number(result.inline[0].x),
                             data: dataout
                         }
                 ]

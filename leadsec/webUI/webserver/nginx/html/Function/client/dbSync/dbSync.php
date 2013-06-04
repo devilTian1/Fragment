@@ -5,8 +5,15 @@
     function appendDbSyncinformation($where) {
         $tpl =  'client/dbSync/dbSyncTable.tpl';
         $db  = new dbsqlite(DB_PATH . '/netgap_db_swap.db');
-	    $sql = "SELECT * FROM db_swap_client_acl $where";
-        $result = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
+	    $sql = "SELECT * FROM db_swap_client_acl";
+		$params = array();
+        if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
+            $data   = getWhereStatement($db, $_GET['cols'], $_GET['keyword']);
+            $sql   .= $data['sql'];
+            $params = $data['params'];
+        }
+        $sql .=  ' ' . $where;
+        $result = $db->query($sql,$params)->getAllData(PDO::FETCH_ASSOC);
         	foreach ($result as $key => $arr) {
         	$result[$key]['sa'] = addrNameDelPreffix($arr['sa']);
         }
@@ -18,20 +25,38 @@
     function getDataCount() {
     	$sql = "SELECT id FROM db_swap_client_acl $where";
         $db  = new dbsqlite(DB_PATH . '/netgap_db_swap.db');
-        return $db->query($sql)->getCount();
+		$params = array();
+        if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
+            $data   = getWhereStatement($db, $_GET['cols'], $_GET['keyword']);
+            $sql   .= $data['sql'];
+            $params = $data['params'];
+        }
+        return $db->query($sql,$params)->getCount();
+    }
+
+	function getWhereStatement($db, $cols, $keyword) {
+        $value  = '%' . $keyword . '%';
+        $params = array_fill(0, count(explode(',', $cols)), $value);
+        return array('sql'    => ' WHERE (' .
+                              $db->getWhereStatement($cols, 'OR', 'like') . ')',
+                     'params' => $params);
     }
 
 	function getCmd($action) {
 		//任务号
-        $id = intval($_POST['clientDbId']);
+		if (!empty($_POST['clientDbSyncTaskId'])) {
+			$id = intval($_POST['clientDbSyncTaskId']);
+		} else {
+			$id = intval($_POST['clientDbId']);
+		}
 		//源地址
 		$sa = $_POST['sa'];
 		//ip类型
 		$ipver   = $_POST['ipType'];
 		//本机地址
-        $lip     = $_POST['cslip'];
+        $lip     = $_POST['clientDbSyncLip'];
 		//本机端口
-        $lport   = $_POST['cslportReq'];
+        $lport   = $_POST['clientDbSyncLport'];
         if ($_POST['ssl'] === 'Y') {
 		//身份认证及传输加密,若加密则客户端证书有名称
             $ssl   = 'yes';
@@ -157,21 +182,7 @@
 			$cli->setLog($msg_log)->run($cmd);
 			echo json_encode(array('msg' => "任务[$id]已开启！"));
 		}
-	} else if (!empty($_GET['checkExistId'])) {
-		// Check the same receive task id exist or not
-		echo netGapRes::getInstance()->checkExistTaskId('dbSync',
-            $_GET['clientDbId']);
-	} else if (!empty($_GET['checkExistLport'])) {
-		//Check the same lport exist or not
-		$id  = intval($_GET['clientDbId']);
-        $sql = 'SELECT id FROM db_swap_client_acl WHERE lport = ' .
-            $_GET['cslportReq'] . ' AND lip = "' . $_GET['cslip'] . '"';
-        if($id != -1) {
-        	$sql .= " and id != $id";
-        }
-        $db  = new dbsqlite(DB_PATH . '/netgap_db_swap.db');
-        echo $db->query($sql)->getCount() > 0 ? 'false' : 'true';
-	}else {
+	} else {
         // init page data
         $result = getDataCount();
         V::getInstance()->assign('dataCount', $result)

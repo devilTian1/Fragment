@@ -22,7 +22,7 @@
 		</tr>
 		<{foreachelse}>
 		<tr>
-			<td colspan='5'>No Data</td>
+			<td colspan='5'>无数据</td>
 		</tr>
 		<{/foreach}>
 	</tdbody>

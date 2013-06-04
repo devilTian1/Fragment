@@ -1,4 +1,4 @@
-<{include file='layout/search.tpl' tableId='dataVisit_sqlTable'}>
+<{include file='layout/search.tpl' colNames='name,allow,sqllist,comment'}>
 <table class="column_95 textMid tablesorter" id="dataVisit_sqlTable">
  <caption>
    SQL语句过滤

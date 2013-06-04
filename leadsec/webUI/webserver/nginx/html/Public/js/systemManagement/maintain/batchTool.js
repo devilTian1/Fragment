@@ -116,8 +116,8 @@ function performBatchProcessingForm() {
 	var dialog  = loadingScreen('命令批处理');
 	var successCallback = function(result, textStatus) {
 		var content = result.msg;
-		if (content==='empty') {
-			(dialog.setContent('<p>请先提交需要进行批处理的命令!</p>'));
+		if (content == 0) {
+			(dialog.setContent('<p>文件内容为空!</p>'));
 		} else {
 			var buttons = {};
 			buttons['确定'] = function() {
@@ -128,13 +128,14 @@ function performBatchProcessingForm() {
 				height: 400,
 				buttons: buttons
 			};
-			var numcmd = content.length;
-			var i ;
-			var result = '';
-			for (i=1; i < numcmd; i++){
-				result += content[i] + '<br/>';
-			}
-			dialog.setContent(result+'<br/>'+"<p>一共执行了"+content[0]+"条命令</p>");
+			//var numcmd = content.length;
+			//var i ;
+			//var result = '';
+			//for (i=1; i < numcmd; i++){
+			//	result += content[i] + '<br/>';
+			//}
+			//dialog.setContent(result+'<br/>'+"<p>一共执行了"+content[0]+"条命令</p>");
+			dialog.setContent("<p>执行成功!一共执行了"+content+"条命令</p>");
 			dialog.setOptions(dialogParams); 
 		}
 		renderStandardUi();

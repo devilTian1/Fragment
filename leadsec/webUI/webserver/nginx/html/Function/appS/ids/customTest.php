@@ -13,33 +13,36 @@
 		$arr_serch = array('"',';',')');
         $tpl =  'appS/ids/customTestTable.tpl';
         $filePath = "/usr/local/lxnids/local.rules";
-		$fp     = @fopen($filePath, 'r');
-		$buffer = fgets($fp, 4096);
-		$includeFunc = includeFunc($buffer);
-		$array_new = fileLinesToArr($filePath,'', 1,'includeFunc',NULL);
-		$result = array();
-		foreach ($array_new as $key =>$val) {
-			$val = preg_split("/[\s,]+/", $array_new[$key]);
-				if (strpos($val[0],'#')!== false) {
-					$result[] =	array('source_address'=>$val[2],'source_port'=>$val[3],
-						'link_mode'=>$val[1],'target_address'=>$val[5],
-						'target_port'=>$val[6],'txt_msg'=>str_replace($arr_serch,'',$val[8]),
-						'active'=>'off','rule_id'=>$key+1);
-				} else {
-					$result[] =	array('source_address'=>$val[2],'source_port'=>$val[3],
-						'link_mode'=>$val[1],'target_address'=>$val[5],
-						'target_port'=>$val[6],'txt_msg'=>str_replace($arr_serch,'',$val[8]),
-						'active'=>'on','rule_id'=>$key+1);
-				}
+		$isExisted = file_exists($filePath);
+		if ($isExisted) {
+			$fp     = @fopen($filePath, 'r');
+			$buffer = fgets($fp, 4096);
+			$includeFunc = includeFunc($buffer);
+			$array_new = fileLinesToArr($filePath,'', 1,'includeFunc',NULL);
+			$result = array();
+			foreach ($array_new as $key =>$val) {
+				$val = preg_split("/[\s,]+/", $array_new[$key]);
+					if (strpos($val[0],'#')!== false) {
+						$result[] =	array('source_address'=>$val[2],'source_port'=>$val[3],
+							'link_mode'=>$val[1],'target_address'=>$val[5],
+							'target_port'=>$val[6],'txt_msg'=>str_replace($arr_serch,'',substr($val[8],0,-5)),
+							'active'=>'off','rule_id'=>$key+1);
+					} else {
+						$result[] =	array('source_address'=>$val[2],'source_port'=>$val[3],
+							'link_mode'=>$val[1],'target_address'=>$val[5],
+							'target_port'=>$val[6],'txt_msg'=>str_replace($arr_serch,'',substr($val[8],0,-5)),
+							'active'=>'on','rule_id'=>$key+1);
+					}
+			}
+			echo V::getInstance()->assign('list', $result)
+				->assign('pageCount', 10)
+				->fetch($tpl);
 		}
-        echo V::getInstance()->assign('list', $result)
-        	->assign('pageCount', 10)
-            ->fetch($tpl);
     }
 
     function getCmd($type) {
         $sourceAddr = $_POST['source_address'];
-        $sourcePort = $_POST['source_address_port1'].":".$_POST['source_address_port1'];
+        $sourcePort = $_POST['source_address_port1'].":".$_POST['source_address_port2'];
         $destAddr   = $_POST['target_address'];
         $destPort   = $_POST['target_port1'].":".$_POST['target_port2'];
 		$editId     = $_POST['editId'];
@@ -52,15 +55,79 @@
 				$protocal = 'icmp';break;
 		}
 		$msg = $_POST['txt_msg'];
+		$tos = $_POST['txt_ipID'];
+		if (isset($_POST['chk_case'])) {
+			$nocase = '';
+		} else {
+			$nocase = 'nocase';
+		}
+		$content = $_POST['txt_content'];
+		$ttl = $_POST['txt_ipTTL'];
+		$datasize = $_POST['txt_dsize'];
+		$ack = $_POST['txt_tcpACKnum'];
+		$seq = $_POST['txt_tcpSEQnum'];
+		$offset = $_POST['txt_offset'];
+		$depth = $_POST['txt_depth'];
+		if (isset($_POST['retain_1'])) {
+			$retain_1 = '1';
+		} else {
+			$retain_1 = '';
+		}
+		if (isset($_POST['retain_2'])) {
+			$retain_2 = '2';
+		} else {
+			$retain_2 = '';
+		}
+		if (isset($_POST['urg'])) {
+			$flagUrg = 'U';
+		} else {
+			$flagUrg = '';
+		}
+		if (isset($_POST['ack'])) {
+			$flagAck = 'A';
+		} else {
+			$flagAck = '';
+		}
+		if (isset($_POST['psh'])) {
+			$flagPsh = 'P';
+		} else {
+			$flagPsh = '';
+		}
+		if (isset($_POST['rst'])) {
+			$flagRst = 'R';
+		} else {
+			$flagRst = '';
+		}
+		if (isset($_POST['syn'])) {
+			$flagSyn = 'S';
+		} else {
+			$flagSyn = '';
+		}
+		if (isset($_POST['fin'])) {
+			$flagFin = 'F';
+		} else {
+			$flagFin = '';
+		}
+		if (isset($_POST['empty'])) {
+			$flagStr = '';
+		} else {
+			$flagStr = $retain_1.$retain_2.$flagUrg.$flagAck.$flagPsh.$flagRst.$flagSyn.$flagFin;
+		}
 		switch ($type) {
 			case 'add':
 				$result = "ids $type"."local $sourceAddr" .
-            " $sourcePort $destAddr $destPort $protocal '$msg' ";break;
+            " $sourcePort $destAddr $destPort $protocal '$msg'" .
+			" 'tos:$tos; $nocase; content:\"$content\"; offset:$offset; depth:$depth; ttl:$ttl;" .
+			" datasize:$datasize; ack:$ack; seq:$seq; flags:$flagStr;'";
+				break;
 			case 'set':
 				$result = "ids $type"."local $editId $sourceAddr" .
-            " $sourcePort $destAddr $destPort $protocal '$msg' ";break;
-			
+            " $sourcePort $destAddr $destPort $protocal '$msg'" . 
+			" 'tos:$tos; $nocase; content:\"$content\"; offset:$offset; depth:$depth; ttl:$ttl;" .
+			" datasize:$datasize; ack:$ack; seq:$seq; flags:$flagStr'";
+				break;
 		}
+		
         return $result;
     }
 
@@ -91,12 +158,12 @@
 				if (strpos($val[0],'#')!== false) {
 					$result[] =	array('source_address'=>$val[2],'source_port'=>$val[3],
 						'link_mode'=>$val[1],'target_address'=>$val[5],
-						'target_port'=>$val[6],'txt_msg'=>str_replace($arr_serch,'',$val[8]),
+						'target_port'=>$val[6],'txt_msg'=>str_replace($arr_serch,'',substr($val[8],0,-5)),
 						'active'=>'off','rule_id'=>$key+1);
 				} else {
 					$result[] =	array('source_address'=>$val[2],'source_port'=>$val[3],
 						'link_mode'=>$val[1],'target_address'=>$val[5],
-						'target_port'=>$val[6],'txt_msg'=>str_replace($arr_serch,'',$val[8]),
+						'target_port'=>$val[6],'txt_msg'=>str_replace($arr_serch,'',substr($val[8],0,-5)),
 						'active'=>'on','rule_id'=>$key+1);
 				}
 		}

@@ -5,8 +5,15 @@
         $result = array();
         $tpl =  'networkManagement/HA/ipDetectTable.tpl';
         $db  = new dbsqlite(DB_PATH . '/netgap_ha_ip_dct.db');
-        $sql = "SELECT * FROM ha_ip_detect $where";
-        $data = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
+        $sql = "SELECT * FROM ha_ip_detect";
+		$params = array();
+        if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
+            $data   = getWhereStatement($db, $_GET['cols'], $_GET['keyword']);
+            $sql   .= $data['sql'];
+            $params = $data['params'];
+        }
+        $sql .=  ' ' . $where;
+        $data = $db->query($sql,$params)->getAllData(PDO::FETCH_ASSOC);
         foreach ($data as $d) {
             $result[] = array(
                 'ip'     => $d['ip'],
@@ -30,10 +37,24 @@
         return $result;
     }
   
+	function getWhereStatement($db, $cols, $keyword) {
+        $value  = '%' . $keyword . '%';
+        $params = array_fill(0, count(explode(',', $cols)), $value);
+        return array('sql'    => ' WHERE (' .
+                              $db->getWhereStatement($cols, 'OR', 'like') . ')',
+                     'params' => $params);
+    }
+
     function getDataCount() {
         $sql = 'SELECT ip FROM ha_ip_detect';
         $db  = new dbsqlite(DB_PATH . '/netgap_ha_ip_dct.db');
-        return $db->query($sql)->getCount();
+		$params = array();
+        if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
+            $data   = getWhereStatement($db, $_GET['cols'], $_GET['keyword']);
+            $sql   .= $data['sql'];
+            $params = $data['params'];
+        }
+        return $db->query($sql,$params)->getCount();
     }    
 
 	function getSameIpCount($ip) {
@@ -69,7 +90,7 @@
 		if ($count > 0){
 			echo json_encode(array('msg' =>$ip."地址已存在,不能重复添加!"));
 		} else {
-			$cmd = "haipdctctl add ip $ip comment $comment";
+			$cmd = "haipdctctl add ip $ip comment \"$comment\"";
 			$msg_log = "网络管理下的双机热备模块下添加了对".$ip."的探测";
 			$cli = new cli();
 			$cli->setLog($msg_log)->run($cmd);

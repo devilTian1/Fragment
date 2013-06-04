@@ -1,7 +1,7 @@
 function setServiceForm(action) {
 	var resultDialog  = loadingScreen('结果');
 	var buttons = {};
-    	buttons['Ok'] = function() {    	
+    	buttons[getMessage('Ok')] = function() {    	
         resultDialog.close();
     }
     resultDialog.setOptions({

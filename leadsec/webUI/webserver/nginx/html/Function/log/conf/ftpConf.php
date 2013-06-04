@@ -14,13 +14,13 @@
         list($ip, $ftpMode, $ftpName, $ftpPasswd, $ftpPort) = getParam();
         $connId = @ftp_connect($ip, $ftpPort, 5);
         if (!$connId) {
-            echo json_encode(array('msg' => "无法连接到$ip."));
+            echo json_encode(array('msg' => "无法连接到$ip。"));
             return ;
         }
         if (@ftp_login($connId, $ftpName, $ftpPasswd)) {
-            echo json_encode(array('msg' => '测试成功.'));
+            echo json_encode(array('msg' => '测试成功。'));
         } else {
-            echo json_encode(array('msg' => '测试失败.'));
+            echo json_encode(array('msg' => '测试失败。'));
         }
     } else if ('conf' === $_POST['action']) {
         // modify dns ip
@@ -29,23 +29,43 @@
         	"mode $ftpMode user $ftpName pass $ftpPasswd";
         $cli = new cli();
         $cli->setLog("修改Ftp相关配置")->run($cmd);
-        echo json_encode(array('msg' => '修改成功.'));
+        echo json_encode(array('msg' => '修改成功。'));
     } else if (isset($_GET['auto'])) {  	
 		$autoUpload  = $_POST['autoUpload'] === 'on' ? 'yes':'no';
-        $ftpMinute = $_POST['ftpMinute'];
-        $ftpHour = $_POST['ftpHour'];
-        $ftpDay = $_POST['ftpDay'];
+    	if($_POST['upWay'] === '1'){
+    		// 按时间长度，每N小时上传一次    			
+    		$hour = $_POST['hour'];
+    		$timeStr = "upway h hour $hour";
+    	}
+    	else if($_POST['upWay'] === '2'){
+    		// 按固定时间，每天N点上传
+    		$day = $_POST['day'];
+    		$timeStr = "upway d day $day";
+    	}
+    	else if($_POST['upWay'] === '3'){
+    		// 按每周时间，每周星期M，N点上传
+    		$week = $_POST['week'];
+    		$whour = $_POST['whour'];
+    		$timeStr = "upway w week $week w_hour $whour";
+    	}
         $cmd = "/usr/local/bin/logserver set autoupload enable $autoUpload ".
-        	"minute $ftpMinute hour $ftpHour day $ftpDay";
+        	$timeStr;
         $cli = new cli();
         $cli->setLog("修改自动上传日志配置")->run($cmd);
-        echo json_encode(array('msg' => '修改成功.'));
+        echo json_encode(array('msg' => '修改成功。'));
    } else if (isset($_GET['log'])) {
         // 立即上传日志
         $cmd = "/usr/local/bin/logserver ftplog";       	         	 	      	
         $cli = new cli(); 
-        $cli->setLog("立即上传日志")->run($cmd); 
-        echo json_encode(array('msg' => '上传日志成功.'));
+        //$cli->setLog("立即上传日志")->run($cmd);
+        $cmdInfo = $cli->setLog("立即上传日志")->execCmdGetStatus($cmd);
+        if($cmdInfo[0] != '0'){
+        	echo json_encode(array('msg' => '上传日志失败，请确认配置是否正确。'));
+        }else{
+        	echo json_encode(array('msg' => '上传日志成功。'));
+        }
+        
+        
     }else {
         // init page data
         $db = new dbsqlite(DB_PATH . '/configs.db');
@@ -61,10 +81,12 @@
 		$result1 = $db->query('SELECT * FROM logupload')
                      ->getAllData(PDO::FETCH_ASSOC);
         foreach($result1 as $r1){
-        	$auto['minute']=$r1['minute'];
-        	$auto['hour']=$r1['hour'];
-        	$auto['day']=$r1['day'];
         	$auto['enable']=$r1['enable'];
+        	$auto['upway']=$r1['upway'];
+        	$auto['shour']=$r1['hour'];
+        	$auto['sday']=$r1['day'];
+        	$auto['sweek']=$r1['week'];
+        	$auto['swh']=$r1['w_hour'];
         }
         V::getInstance()->assign('ftp', $ftp)
         				->assign('auto', $auto);

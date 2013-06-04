@@ -50,5 +50,5 @@
         </td>
     </tr>
 <{foreachelse}>
-    <tr><td colspan='10'>No Data</td></tr>
+    <tr><td colspan='10'>无数据</td></tr>
 <{/foreach}>

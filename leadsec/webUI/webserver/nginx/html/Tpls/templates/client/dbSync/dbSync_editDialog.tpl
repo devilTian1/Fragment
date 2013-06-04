@@ -6,8 +6,8 @@
     <input type="hidden" name="type" value="<{$type|default: 'add'}>"/>
      <fieldset>
         <div class="row">
-            <label for="clientDbId">任务号:<em class="required">*</em></label>
-            <input class="id" type="text" name="clientDbId" value="<{$data.id}>"
+            <label for="clientDbSyncTaskId">任务号:<em class="required">*</em></label>
+            <input class="id" type="text" name="clientDbSyncTaskId" id="clientDbSyncTaskId" value="<{$data.id}>"
                 <{if $type === 'edit'}>disabled="disabled"<{/if}>
                 size="4" maxlength="4"/>
             (同一端的任务号必须唯一)
@@ -32,14 +32,14 @@
         </div>
         
         <div class="row">
-            <label for="lip">本机地址:</label>
-            <{html_options class="select lip" name="cslip"
+            <label for="clientDbSyncLip">本机地址:</label>
+            <{html_options class="select lip" name="clientDbSyncLip" id="clientDbSyncLip"
                 options=$ifList selected=$data.lip|default: '无'}>
         </div>
         
         <div class="row">
-            <label for="cslportReq">本地端口:<em class="required">*</em></label>
-            <input class="port" type="text" name="cslportReq" id="cslportReq"
+            <label for="clientDbSyncLport">本地端口:<em class="required">*</em></label>
+            <input class="port" type="text" name="clientDbSyncLport" id="clientDbSyncLport"
 			value="<{$data.lport}>" size="5" maxlength="5"/>
         </div>
         
@@ -53,7 +53,7 @@
         
          <div class="row cNameDiv">
             <label>客户端证书公共名:<em class="required">*</em></label>
-            <input type="text" name="commname" value="<{$data.commname}>"/>
+            <input type="text" class="width132" name="commname" value="<{$data.commname}>"/>
         </div>
        
 
@@ -81,7 +81,7 @@
         
         <div class="row">
             <label for="comment">备注:</label>           
-            <input class="comment" name="comment" id="comment" value="<{$data.comment}>"/>
+            <input class="comment" class="width132" name="comment" id="comment" value="<{$data.comment}>"/>
         </div>
     </fieldset>
 </form>
@@ -90,15 +90,16 @@
 		filterRes();
 		toggleCNameDiv();
 		validateForm($("#editForm"));	
-		$('select[name="cslip"]').click(function() {
-            $('#cslportReq').rules('remove', 'remote');
-            $(this).rules('add', {remote: validRules.cslip.remote});
+		/*
+		$('select[name="clientDbSyncLip"]').click(function() {
+            $('#clientDbSyncLport').rules('remove', 'remote');
+            $(this).rules('add', {remote: validRules.clientDbSyncLip.remote});
         });
     
-        $('#cslportReq').keypress(function() {
-            $('select[name="cslip"]').rules('remove', 'remote');
-            $(this).rules('add', {remote : validRules.cslportReq.remote});
-        });
+        $('#clientDbSyncLport').keypress(function() {
+            $('select[name="clientDbSyncLip"]').rules('remove', 'remote');
+            $(this).rules('add', {remote : validRules.clientDbSyncLport.remote});
+        });*/
 	});
 
 </script>

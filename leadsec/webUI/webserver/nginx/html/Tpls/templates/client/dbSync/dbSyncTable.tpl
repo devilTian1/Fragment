@@ -33,12 +33,12 @@
 			</form>
 		</td>
 		<td><{$val.time}></td>
-		<td><{$val.comment}></td>
+        <td title="<{$val.comment|escape}>"><{$val.comment|escape|truncate:30:"... ..."}></td>
         <td class="no_search">
             <a href="#" class="edit" onclick="openEditDialog('<{$val.id}>')">编辑</a>
             <a href="#" class="delete" onclick="openDelDialog('<{$val.id}>')">删除</a> 
         </td>
     </tr>
 <{foreachelse}>
-    <tr><td colspan='11'>No Data</td></tr>
+    <tr><td colspan='11'>无数据</td></tr>
 <{/foreach}>

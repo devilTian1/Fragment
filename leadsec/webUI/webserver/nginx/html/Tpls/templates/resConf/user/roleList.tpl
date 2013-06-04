@@ -1,4 +1,4 @@
-<{include file='layout/search.tpl' tableId='roleListTable'}>
+<{include file='layout/search.tpl'}>
 <table class="column_95 textMid tablesorter" id="roleListTable">
     <caption>用户组</caption>
     <thead>

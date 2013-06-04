@@ -30,5 +30,5 @@
 		<a href="#" class="delete" onclick="openDelAliasDialog('<{$value.rule_id}>','<{$value.active}>')">删除</a></td>
     </tr>
 <{foreachelse}>
-    <tr><td colspan='9'>No Address Data</td></tr>
+    <tr><td colspan='9'>没有策略信息</td></tr>
 <{/foreach}>

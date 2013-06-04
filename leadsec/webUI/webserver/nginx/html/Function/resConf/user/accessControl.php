@@ -4,8 +4,15 @@
     function freshRuleList($where) {
         $tpl = 'resConf/user/accessControlListTable.tpl';
         $db  = new dbsqlite(DB_PATH . '/uma_auth.db');
-        $sql = "SELECT * FROM connect_rule $where";
-        $result = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
+        $sql = "SELECT * FROM connect_rule";
+		$params = array();
+        if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
+            $data   = getWhereStatement($db, $_GET['cols'], $_GET['keyword']);
+            $sql   .= $data['sql'];
+            $params = $data['params'];
+        }
+        $sql .=  ' ' . $where;
+        $result = $db->query($sql,$params)->getAllData(PDO::FETCH_ASSOC);
         echo V::getInstance()->assign('ruleList', $result)
             ->assign('pageCount', 10)
             ->fetch($tpl);
@@ -106,10 +113,24 @@
         return $result['sum'];
     }
 
+    function getWhereStatement($db, $cols, $keyword) {
+        $value  = '%' . $keyword . '%';
+        $params = array_fill(0, count(explode(',', $cols)), $value);
+        return array('sql'    => ' WHERE (' .
+                              $db->getWhereStatement($cols, 'OR', 'like') . ')',
+                     'params' => $params);
+    }
+
     function getDataCount() {
         $db  = new dbsqlite(DB_PATH . '/uma_auth.db');
         $sql = "SELECT count(rule_name) as sum FROM connect_rule";
-        $result = $db->query($sql)->getFirstData(PDO::FETCH_ASSOC);
+		$params = array();
+        if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
+            $data   = getWhereStatement($db, $_GET['cols'], $_GET['keyword']);
+            $sql   .= $data['sql'];
+            $params = $data['params'];
+        }
+        $result = $db->query($sql,$params)->getFirstData(PDO::FETCH_ASSOC);
         return $result['sum'];
     }
 

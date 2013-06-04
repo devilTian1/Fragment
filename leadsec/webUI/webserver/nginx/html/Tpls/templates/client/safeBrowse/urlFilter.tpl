@@ -1,11 +1,11 @@
-<{include file='layout/search.tpl' tableId='urlFilterTable'}>
+<{include file='layout/search.tpl'}>
 <table class="column_95 textMid tablesorter" id="urlFilterTable">
     <caption>
            信息列表
     </caption>
     <thead>
     <tr>
-      <th class="column_10" name="id">序号</th>
+      <th class="column_10">序号</th>
       <th class="column_30" name="list">URL</th>
       <th class="column_40" name="comment">备注</th>
       <th class="column_20">操作</th>
@@ -28,6 +28,6 @@
     $(document).ready(function() {
         renderStandardUi();
         freshTable('Function/client/safeBrowse/urlFilter.php', $('#urlFilterTable'), 'ORDER BY list ASC LIMIT 10');
-        sortTableInit($('#urlFilterTable'), {3: {sorter: false}}, [[1,0]]);
+        sortTableInit($('#urlFilterTable'), {0: {sorter: false},3: {sorter: false}}, [[1,0]]);
     });
 </script>

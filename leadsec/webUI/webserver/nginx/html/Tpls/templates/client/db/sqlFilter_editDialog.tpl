@@ -37,7 +37,7 @@
        </div>       
        <div class="row">
                  说明:
-           <div class="pl50"><span class="red">注：禁用SELECT命令会造成数据库连接不成功</span></div>
+           <div class="pl50"><span class="red">注：禁用SELECT命令会造成数据库连接不成功<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;若过滤模式选择允许，建议SELECT、DELETE、ALTER、DROP全部选择</span></div>
        </div>
        <hr />
        <div class="row">

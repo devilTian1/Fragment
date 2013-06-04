@@ -19,7 +19,7 @@
             <label class="e_time" for="endTime_log">至</label>
             <input name="endTime_log" id="endTime_log" value=""/>
 
-            <button type="button" class="standard floatLeft" onclick="search()" id="searchBtn">
+            <button type="button" class="standard" onclick="search()" id="searchBtn">
                 查询
             </button>
 
@@ -64,6 +64,19 @@
             </tr>
         </tbody>
 </table>
+<!--  
+<form class="inline" action="Function/log/view/bizLog.php" method="POST">
+	<input type="hidden" name="action" value="exportFwlog"/>
+	<button class="inputbtn standard" type="submit">
+		导出</button>
+</form>-->
+<form class="inline" action="Function/log/view/admLog.php" method="POST"
+    id="cleanLogForm">
+	<input type="hidden" name="action" value="cleanFwlog"/>
+    <button class="inputbtn standard" type="button" onclick="cleanLog()">
+        清空</button>
+</form>
+
 <div class="pager floatRight">
     <{include file='log/view/pagination.tpl' func='Function/log/view/bizLog.php'}>
 </div>

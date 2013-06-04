@@ -41,7 +41,7 @@ caption a {
 }
 
 * html caption a {
-	margin-top:-20px;
+    margin-top: -20px;
 }
 
 .textMid th, .textMid td {

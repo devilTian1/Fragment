@@ -1,4 +1,4 @@
-<{include file='layout/search.tpl' tableId='tcpTransVisitTable'}>
+<{include file='layout/search.tpl' colNames='id,sa,da,dport,time,comment'}>
 <table class="column_95 textMid tablesorter" id="tcpTransVisitTable">
     <caption>
            信息列表

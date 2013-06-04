@@ -31,7 +31,7 @@ function OpenTipsDialog(external_name) {
         buttons: buttons,
         position : jQuery.getDialogPosition('300','160')
     };
-    dialog.setContent('<p>别名设备[' + external_name  + ']正被虚拟地址引用，不能修改或删除此别名.</p>');
+    dialog.setContent('<p>别名设备[' + external_name  + ']正被引用，不能修改或删除此别名。</p>');
     dialog.setOptions(dialogParams);
 }
 
@@ -47,8 +47,11 @@ function openEditAliasDialog(external_name) {
         if ($('#editAliasForm').valid()) {
             $('#external_name').removeAttr('disabled');
             $('#aliasId').removeAttr('disabled');
-            ajaxSubmitForm($('#editAliasForm'), '结果');
-            freshTableAndPage();
+            var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editAliasForm'), '结果', undefined,
+                undefined, afterSuccessCallback);
             $(this).remove();
         }
     };
@@ -76,15 +79,21 @@ function openNewAliasDialog() {
     buttons['添加下一条'] = function() {
         if ($('#editAliasForm').valid()) {
             openNewAliasDialog();
-            ajaxSubmitForm($('#editAliasForm'), '结果');
-            freshTableAndPage();
+            var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editAliasForm'), '结果', undefined,
+                undefined, afterSuccessCallback);
             $(this).remove();
         }
     };
     buttons['确定'] = function() {
         if ($('#editAliasForm').valid()) {
-            ajaxSubmitForm($('#editAliasForm'), '结果');
-            freshTableAndPage();
+            var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editAliasForm'), '结果', undefined,
+                undefined, afterSuccessCallback);
             $(this).remove();
         }
     };
@@ -167,8 +176,11 @@ function switchAliasDev(name, action, formId) {
     var dialog  = loadingScreen(title);
     var buttons = {};
     buttons['确定'] = function() {
-        ajaxSubmitForm($('#switchAliasDevForm_' + formId), '结果');
-        freshTableAndPage();
+        var afterSuccessCallback = function() {
+                freshTableAndPage();
+        };
+        ajaxSubmitForm($('#switchAliasDevForm_' + formId), '结果', undefined,
+                undefined, afterSuccessCallback);
         $(this).remove();
     };
     buttons['取消'] = function() {

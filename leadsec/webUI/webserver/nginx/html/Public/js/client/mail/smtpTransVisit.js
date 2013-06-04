@@ -7,8 +7,11 @@ function editSmtpTransClientAclDialog(id) {
     var buttons = {};
     buttons[getMessage('Ok')] = function() {
         if ($('#editSmtpTransClientAclForm').valid()) {
-            ajaxSubmitForm($('#editSmtpTransClientAclForm'), '结果');
-            freshTableAndPage();
+        	var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editSmtpTransClientAclForm'), '结果', undefined,
+                undefined, afterSuccessCallback);   
             $(this).remove();
         }
     };
@@ -34,15 +37,21 @@ function openNewSmtpTransClientAclDialog() {
     buttons[getMessage('Add Next')] = function() {
         if ($('#editSmtpTransClientAclForm').valid()) {
             openNewSmtpTransClientAclDialog();
-            ajaxSubmitForm($('#editSmtpTransClientAclForm'), '结果');
-            freshTableAndPage();
+            var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editSmtpTransClientAclForm'), '结果', undefined,
+                undefined, afterSuccessCallback); 
             $(this).remove();
         }
     };
     buttons[getMessage('Ok')] = function() {
         if ($('#editSmtpTransClientAclForm').valid()) {
-            ajaxSubmitForm($('#editSmtpTransClientAclForm'), '结果');
-            freshTableAndPage();
+        	var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editSmtpTransClientAclForm'), '结果', undefined,
+                undefined, afterSuccessCallback); 
             $(this).remove();
         }
     };
@@ -104,8 +113,11 @@ function switchSmtpTransClientAcl(id, action) {
     var dialog  = loadingScreen(title);
     var buttons = {};
     buttons[getMessage('Ok')] = function() {
-        ajaxSubmitForm($('#switchSmtpTransClientForm_' + id), '结果');
-        freshTableAndPage();
+    	var afterSuccessCallback = function() {
+            freshTableAndPage();
+        };
+        ajaxSubmitForm($('#switchSmtpTransClientForm_' + id), '结果', undefined,
+            undefined, afterSuccessCallback); 
         $(this).remove();
     };
     buttons[getMessage('Cancel')] = function() {

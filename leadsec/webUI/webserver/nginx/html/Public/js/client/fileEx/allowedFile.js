@@ -5,15 +5,18 @@ function editAllowedFileDialog(id) {
 		editId: id
     };
     var buttons = {};
-    buttons['确定'] = function() {
+    buttons[getMessage('Ok')] = function() {
         if ($('#editAllowedFileForm').valid()) {
             $('#filenames option').attr('selected', 'selected');
-            ajaxSubmitForm($('#editAllowedFileForm'), '结果');
-            freshTableAndPage();
+            var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editAllowedFileForm'), '结果', undefined,
+                undefined, afterSuccessCallback);
             $(this).remove();
         }
     };
-    buttons['取消'] = function() {
+    buttons[getMessage('Cancel')] = function() {
         $(this).remove();
     };
     var dialogParams = {
@@ -33,7 +36,7 @@ function delAllowedFile(id, name) {
     };
     var title  = '删除文件名控制';
     var buttons = {};
-    buttons['确定'] = function() {
+    buttons[getMessage('Ok')] = function() {
         freshTableAndPage();
         $(this).remove();
     };
@@ -49,12 +52,12 @@ function delAllowedFile(id, name) {
 function delAllowedFileDialog(id, name) {
     var dialog  = loadingScreen('删除客户端文件交换');
     var buttons = {};
-    buttons['确定'] = function() {
+    buttons[getMessage('Ok')] = function() {
         delAllowedFile(id, name);
         freshTableAndPage();
         $(this).remove();
     };
-    buttons['取消']  = function() {
+    buttons[getMessage('Cancel')]  = function() {
         $(this).remove();
     };
     var dialogParams = {
@@ -78,20 +81,26 @@ function openNewAllowedFileDialog() {
         if ($('#editAllowedFileForm').valid()) {
             $('#filenames option').attr('selected', 'selected');
             openNewAllowedFileDialog();
-            ajaxSubmitForm($('#editAllowedFileForm'), '结果');
-            freshTableAndPage();
+            var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editAllowedFileForm'), '结果', undefined,
+                undefined, afterSuccessCallback);
             $(this).remove();
         }
     };
-    buttons['确定'] = function() {
+    buttons[getMessage('Ok')] = function() {
         if ($('#editAllowedFileForm').valid()) {
             $('#filenames option').attr('selected', 'selected');
-            ajaxSubmitForm($('#editAllowedFileForm'), '结果');
-            freshTableAndPage();
+            var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editAllowedFileForm'), '结果', undefined,
+                undefined, afterSuccessCallback);
             $(this).remove();
         }
     };
-    buttons['取消'] = function() {
+    buttons[getMessage('Cancel')] = function() {
         $(this).remove();
     };
     var dialogParams = {
@@ -106,6 +115,10 @@ function openNewAllowedFileDialog() {
 function moveToFileNames() {
     var val          = $('#filename').val();
     var filenamesDom = $('#filenames');
+    var isValid = $('#editAllowedFileForm').validate().element('#filename');
+    if (!isValid) {
+        return false;
+    }
     $('#filename').val('');
     if (val === '') {
         return false;
@@ -118,7 +131,7 @@ function moveToFileNames() {
         }
     });
     if (!isExisted) {
-        $('<option value="' + val + '">' + val + '</option>')
+        $('<option title="' + val +'" value="' + val + '">' + val + '</option>')
             .appendTo(filenamesDom);
     }
 }
@@ -126,7 +139,7 @@ function moveToFileNames() {
 function rmFileName() {
     var selectedDom = $('#filenames option:selected');
     if (selectedDom.length === 0 ) {
-        showErrorDialog(getMessage('请选择要删除的文件名.'));
+        showErrorDialog(getMessage('请选择要删除的文件名。'));
         return false;
     } else {
         selectedDom.remove();

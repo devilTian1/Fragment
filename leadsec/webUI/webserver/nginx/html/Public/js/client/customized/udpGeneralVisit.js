@@ -7,8 +7,11 @@ function editUdpCommClientAclDialog(id) {
     var buttons = {};
     buttons[getMessage('Ok')] = function() {
         if ($('#editUdpCommClientAclForm').valid()) {
-            ajaxSubmitForm($('#editUdpCommClientAclForm'), '结果');
-            freshTableAndPage();
+        	var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editUdpCommClientAclForm'), '结果', undefined,
+                undefined, afterSuccessCallback);
             $(this).remove();
         }
     };
@@ -34,15 +37,21 @@ function openNewUdpCommClientAclDialog() {
     buttons[getMessage('Add Next')] = function() {
         if ($('#editUdpCommClientAclForm').valid()) {
             openNewUdpCommClientAclDialog();
-            ajaxSubmitForm($('#editUdpCommClientAclForm'), '结果');
-            freshTableAndPage();
+            var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editUdpCommClientAclForm'), '结果', undefined,
+                undefined, afterSuccessCallback);
             $(this).remove();
         }
     };
     buttons[getMessage('Ok')] = function() {
         if ($('#editUdpCommClientAclForm').valid()) {
-            ajaxSubmitForm($('#editUdpCommClientAclForm'), '结果');
-            freshTableAndPage();
+        	var afterSuccessCallback = function() {
+                freshTableAndPage();
+            };
+            ajaxSubmitForm($('#editUdpCommClientAclForm'), '结果', undefined,
+                undefined, afterSuccessCallback);
             $(this).remove();
         }
     };
@@ -104,8 +113,11 @@ function switchUdpCommClientAcl(id, action) {
     var dialog  = loadingScreen(title);
     var buttons = {};
     buttons[getMessage('Ok')] = function() {
-        ajaxSubmitForm($('#switchUdpCommClientForm_' + id), '结果');
-        freshTableAndPage();
+    	var afterSuccessCallback = function() {
+            freshTableAndPage();
+        };
+        ajaxSubmitForm($('#switchUdpCommClientForm_' + id), '结果', undefined,
+            undefined, afterSuccessCallback);
         $(this).remove();
     };
     buttons[getMessage('Cancel')] = function() {
@@ -126,7 +138,7 @@ function switchUdpCommClientAcl(id, action) {
 function filterRes() {
     var type    = $('input:radio[name="ipType"]:checked').val();
     var saOpts  = $('select[name="sa"]');
-    var lipOpts = $('select[name="lip"]');
+    var lipOpts = $('#udpGeneralLip');
     saOpts.showOption(); 
     lipOpts.showOption(); 
     if (type === 'ipv4') {

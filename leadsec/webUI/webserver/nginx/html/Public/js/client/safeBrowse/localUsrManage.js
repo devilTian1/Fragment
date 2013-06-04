@@ -42,9 +42,9 @@ function openEditLocalUsrManageDialog(name) {
     };
     var dialogParams = {
         width   : 680,
-        height  : 300,
+        height  : 310,
         buttons : buttons,
-        position : jQuery.getDialogPosition('680','300')
+        position : jQuery.getDialogPosition('680','310')
     };
     showDialogByAjax(url, data, title, dialogParams);
 }
@@ -74,9 +74,9 @@ function openNewLocalUsrManageDialog() {
     };
     var dialogParams = {
         width   : 680,
-        height  : 300,
+        height  : 310,
         buttons : buttons,
-        position : jQuery.getDialogPosition('680','300')
+        position : jQuery.getDialogPosition('680','310')
     };    
     showDialogByAjax(url, data, title, dialogParams);
 }

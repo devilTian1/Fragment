@@ -14,7 +14,7 @@ define('DB_PATH', '/usr/local/conf');
 define('DEFAULT_LOCALE', 'zh_CN.UTF-8');
 
 // Expired Time, second
-define('EXPIRED_TIME',86400);
+define('EXPIRED_TIME',1200);
 
 // Limited Error Login Num
 define('LIMITERR_NUM', 3);
@@ -32,4 +32,6 @@ define('UPLOAD_PATH', '/tmp/upload');
 // Val 0：Firewall，1：IDS、2：VPN、 3：NetGap
 define('LOG_DEVID', 3); 
 define('LOG_PATH', '/var/log/fw.log');
+
+define('HIDE_SUPER', false);
 ?>

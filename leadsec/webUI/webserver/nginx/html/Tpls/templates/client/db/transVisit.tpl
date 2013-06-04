@@ -1,5 +1,5 @@
 <{include file='client/db/transOracleDataIpTable.tpl' func='Function/client/db/transVisit.php'}>
-<{include file='layout/search.tpl' tableId='transVisitTable'}>
+<{include file='layout/search.tpl'}>
 <table class="column_95 textMid tablesorter" id="transVisitTable">
 <caption>
            信息列表

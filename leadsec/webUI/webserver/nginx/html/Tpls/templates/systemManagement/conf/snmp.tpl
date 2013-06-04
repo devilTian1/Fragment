@@ -127,6 +127,35 @@ onSubmit='return false;'>
 		</tbody>
 	</table>
 </form>
+<br/><br/>
+<form action="Function/systemManagement/conf/snmp.php?reconf=1" method="POST" id="SnmpStatusForm">
+<table class="column_95">
+    <input type="hidden" name="switch" id="switch" value='<{if $status eq 'on'}>off<{else}>on<{/if}>'/>
+    <caption>snmp代理控制</caption>
+    <tbody>
+    <tr>
+        <td class="tdheader column_40">当前snmp代理服务状态:</td>
+        <td class="tdbody"><span id="status">
+           <{if $status eq 'on'}>
+                启动
+           <{else}>
+                停止
+           <{/if}></span>
+        </td>
+    </tr>
+
+    <tr>
+        <td class="tdheader"></td>
+        <td class="tdbody">
+            <button type="button" name="buttonOn" class="inputbtn standard" onclick="setServiceForm('on')"
+                <{if $status eq 'on'}> disabled="disabled"<{/if}>>启动snmp代理</button>
+            <button type="button" name="buttonOff" class="inputbtn standard" onclick="setServiceForm('off')"
+                <{if $status eq 'off'}> disabled="disabled"<{/if}>>停止snmp代理</button>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</form>
 <script type="text/javascript" src="Public/js/systemManagement/conf/snmp.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {

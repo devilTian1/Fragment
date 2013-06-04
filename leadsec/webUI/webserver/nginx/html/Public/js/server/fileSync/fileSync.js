@@ -8,15 +8,21 @@ function openNewFileSyncDialog() {
     buttons[getMessage('Add Next')] = function() {
         if ($('#editFileSyncServerAclForm').valid()) {
             openNewFileSyncDialog();
-            ajaxSubmitForm($('#editFileSyncServerAclForm'), '结果');
-            freshTableAndPage();
+			var afterSuccessCallback = function() {
+				freshTableAndPage();
+			};
+            ajaxSubmitForm($('#editFileSyncServerAclForm'), '结果',undefined,
+				undefined,afterSuccessCallback);
             $(this).remove();
         }
     };
     buttons[getMessage('Ok')] = function() {
         if ($('#editFileSyncServerAclForm').valid()) {
-            ajaxSubmitForm($('#editFileSyncServerAclForm'), '结果');
-            freshTableAndPage();
+			var afterSuccessCallback = function() {
+				freshTableAndPage();
+			};
+            ajaxSubmitForm($('#editFileSyncServerAclForm'), '结果',undefined,
+				undefined,afterSuccessCallback);
             $(this).remove();
         }
     };
@@ -41,8 +47,11 @@ function editFileSyncServerAclDialog(id) {
     var buttons = {};
     buttons[getMessage('Ok')] = function() {
         if ($('#editFileSyncServerAclForm').valid()) {
-            ajaxSubmitForm($('#editFileSyncServerAclForm'), '结果');
-            freshTableAndPage();
+			var afterSuccessCallback = function() {
+				freshTableAndPage();
+			};
+            ajaxSubmitForm($('#editFileSyncServerAclForm'), '结果',undefined,
+				undefined,afterSuccessCallback);
             $(this).remove();
         }
     };

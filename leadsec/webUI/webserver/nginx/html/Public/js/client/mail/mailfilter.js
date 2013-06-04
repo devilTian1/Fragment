@@ -2,40 +2,26 @@ function addOrEditFilter(type, title) {
     if (type === 'next') {
         openNewFilterDialog();
     }
-    var resultDialog  = loadingScreen(title);
-    resultDialog.dialog('moveToTop');
-    var buttons = {};
-    buttons[getMessage('Ok')] = function() {    	
-        resultDialog.close();
-    }
-    resultDialog.setOptions({
-        width : 250,
-        height: 170,
-        buttons: buttons,
-        position : jQuery.getDialogPosition('250','170')
-    });
-    var successCallback = function(result, textStatus) {
-        resultDialog.setContent($('<p>' + result.msg + '</p>'));
-        freshTableAndPage();        
-    }
-    var dialog = ajaxSubmitForm($('#editFilterForm'), '结果',
-        successCallback);
-    dialog.close();
+    var afterSuccessCallback = function() {
+        freshTableAndPage();
+    };
+    ajaxSubmitForm($('#editFilterForm'), '结果', undefined,
+        undefined, afterSuccessCallback);    
 }
 
 function openEditFilterDialog(id,flag) {
 	if (id.length===0){
 		showErrorDialog('过滤选项不能为空');
     } else {
-	var url  = 'Function/client/mail/filter.php';
+	var url  = 'Function/client/mail/mailfilter.php';
 	if(!flag){
 		var data  = {
-				tpl: 'client/mail/filter_editDialog.tpl',
+				tpl: 'client/mail/mailfilter_editDialog.tpl',
 				editId: id
 			};
 	} else {
 		var data  = {
-				tpl: 'client/mail/filter_editDialog.tpl',
+				tpl: 'client/mail/mailfilter_editDialog.tpl',
     			editId: id,
     			plug:true
     	    };
@@ -45,8 +31,11 @@ function openEditFilterDialog(id,flag) {
     buttons[getMessage('Ok')] = function() {
         if ($('#editFilterForm').valid()) {
         	if (!flag) {  		
-                ajaxSubmitForm($('#editFilterForm'), '结果');
-                freshTableAndPage();
+        		var afterSuccessCallback = function() {
+        	        freshTableAndPage();
+        	    };
+        	    ajaxSubmitForm($('#editFilterForm'), '结果', undefined,
+        	        undefined, afterSuccessCallback);    
          	} else {
          		var dialog = loadingScreen(title);
          	    dialog.dialog('moveToTop');
@@ -60,11 +49,12 @@ function openEditFilterDialog(id,flag) {
          	        buttons: buttons,
          	        position : jQuery.getDialogPosition('250','170')
          	    });
+         	    var MfilterName = $("input[name='MfilterName']").val(); 
          		var successResult = function(result, textStatus) {
          		        var content = result.msg;
          	            dialog.setContent($('<p>' + content + '</p>'));
-         	           var urldata = 'Function/client/mail/filter.php?flag='+flag;
-        	            freshPrePage(urldata, $('#filter'));
+         	           var urldata = 'Function/client/mail/mailfilter.php?flag='+flag;
+        	            freshPrePage(urldata, $('#filter'),MfilterName);
          	        }    		
          		var dialog_c= ajaxSubmitForm($('#editFilterForm'), '结果',successResult);
          		dialog_c.close();
@@ -86,7 +76,7 @@ function openEditFilterDialog(id,flag) {
 }
 
 function openNewFilterDialog(flag) {
-    var url   = 'Function/client/mail/filter.php';
+    var url   = 'Function/client/mail/mailfilter.php';
     var title = '管理过滤选项集配置';
     var data  = {
 		openAddDialog: true
@@ -96,8 +86,11 @@ function openNewFilterDialog(flag) {
         if ($('#editFilterForm').valid()) {
         	if (!flag) {  		
         		openNewFilterDialog();
-                ajaxSubmitForm($('#editFilterForm'), '结果');
-                freshTableAndPage();
+        		var afterSuccessCallback = function() {
+        	        freshTableAndPage();
+        	    };
+        	    ajaxSubmitForm($('#editFilterForm'), '结果', undefined,
+        	        undefined, afterSuccessCallback);    
          	} else {
          		openNewFilterDialog(flag);
          		var dialog = loadingScreen(title);
@@ -112,11 +105,12 @@ function openNewFilterDialog(flag) {
          	        buttons: buttons,
          	        position : jQuery.getDialogPosition('250','170')
          	    });
+         	    var MfilterName = $("input[name='MfilterName']").val(); 
          		var successResult = function(result, textStatus) {
          		        var content = result.msg;
          	            dialog.setContent($('<p>' + content + '</p>'));
-         	            var urldata = 'Function/client/mail/filter.php?flag='+flag;
-         	            freshPrePage(urldata, $('#filter'));
+         	            var urldata = 'Function/client/mail/mailfilter.php?flag='+flag;
+         	            freshPrePage(urldata, $('#filter'),MfilterName);
          	        }    		
          		var dialog_c= ajaxSubmitForm($('#editFilterForm'), '结果',successResult);
          		dialog_c.close();
@@ -127,8 +121,11 @@ function openNewFilterDialog(flag) {
     buttons[getMessage('Ok')] = function() {
         if ($('#editFilterForm').valid()) {
         	if (!flag) {  		
-                ajaxSubmitForm($('#editFilterForm'), '结果');
-                freshTableAndPage();
+        		var afterSuccessCallback = function() {
+        	        freshTableAndPage();
+        	    };
+        	    ajaxSubmitForm($('#editFilterForm'), '结果', undefined,
+        	        undefined, afterSuccessCallback);    
          	} else {
          		var dialog = loadingScreen(title);
          	    dialog.dialog('moveToTop');
@@ -142,11 +139,12 @@ function openNewFilterDialog(flag) {
          	        buttons: buttons,
          	        position : jQuery.getDialogPosition('250','170')
          	    });
+         	    var MfilterName = $("input[name='MfilterName']").val(); 
          		var successResult = function(result, textStatus) {
          		        var content = result.msg;
          	            dialog.setContent($('<p>' + content + '</p>'));
-         	           var urldata = 'Function/client/mail/filter.php?flag='+flag;
-        	            freshPrePage(urldata, $('#filter'));
+         	           var urldata = 'Function/client/mail/mailfilter.php?flag='+flag;
+        	            freshPrePage(urldata, $('#filter'),MfilterName);
          	        }    		
          		var dialog_c= ajaxSubmitForm($('#editFilterForm'), '结果',successResult);
          		dialog_c.close();
@@ -167,7 +165,7 @@ function openNewFilterDialog(flag) {
 }
 
 function delFilter(id, name) {
-    var url  = 'Function/client/mail/filter.php';
+    var url  = 'Function/client/mail/mailfilter.php';
     var data = {
         delId: id,
         delName:name
@@ -208,7 +206,7 @@ function openDelFilterDialog(id, name) {
 }
 
 function freshTableAndPage() {
-    var url = 'Function/client/mail/filter.php';
+    var url = 'Function/client/mail/mailfilter.php';
     freshTable(url, $('#filterTable'));
     freshPagination(url, $('.pager'));
 }

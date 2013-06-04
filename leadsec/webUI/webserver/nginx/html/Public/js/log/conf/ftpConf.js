@@ -36,7 +36,11 @@ function logTransBtn() {
 			buttons: buttons,
 			position: jQuery.getDialogPosition(300,160)
 		};
-		dialog.setContent("<p>确定要设置自动上传日志功能吗?</p>");
+		var active = "设置";
+		if($("#autoUploadChk").attr('checked') !== 'checked'){
+			active = "取消";
+		}
+		dialog.setContent("<p>确定要"+active+"自动上传日志功能吗?</p>");
 		dialog.setOptions(dialogParams); 
 	}
 }
@@ -46,22 +50,15 @@ function set() {
     var autoUpload = $('#autoUploadChk').attr("checked") === 'checked' ? 'on':'off';
     var data = {
     	autoUpload: autoUpload,
-    	ftpMinute: $('#ftpMinute').val(),
-    	ftpHour: $('#ftpHour').val(),
-    	ftpDay: $('#ftpDay').val()
+    	upWay: $("input[name='upWay']:checked").val(),
+    	hour:  $('#selectLengthList').val(),
+    	day:   $('#selectTimeList').val(),
+    	week:  $('#selectDayList').val(),
+    	whour: $('#selectHourList').val()
     };
     var title  = '设置自动上传日志';
     var buttons = {};
     buttons[getMessage('Ok')] = function() {
-    	 if ($('#ftpMinute').val() =='0') {   
-             $('#ftpMinute').attr("value","");
-         }
-         if ($('#ftpHour').val() =='0') {   
-             $('#ftpHour').attr("value","");
-         }
-         if ($('#ftpDay').val() =='0') {   
-             $('#ftpDay').attr("value","");
-         }
         $(this).remove();
     };
     var dialogParams = {
@@ -109,4 +106,27 @@ function download() {
         position: jQuery.getDialogPosition(250,170)
     };
     showDialogByAjax(url, data, title, dialogParams);
+}
+function upWayTimeCtrl(){
+	if($("input[name='upWay']:checked").val() == "1")
+	{
+		$("#selectLengthList").removeAttr("disabled");
+		$("#selectTimeList").attr("disabled",'disabled');
+		$("#selectDayList").attr("disabled",'disabled');
+		$("#selectHourList").attr("disabled",'disabled');
+	}
+	else if($("input[name='upWay']:checked").val() == "2")
+	{
+		$("#selectLengthList").attr("disabled",'disabled');
+		$("#selectTimeList").removeAttr("disabled");
+		$("#selectDayList").attr("disabled",'disabled');
+		$("#selectHourList").attr("disabled",'disabled');
+	}
+	else if($("input[name='upWay']:checked").val() == "3")
+	{
+		$("#selectLengthList").attr("disabled",'disabled');
+		$("#selectTimeList").attr("disabled",'disabled');
+		$("#selectDayList").removeAttr("disabled");
+		$("#selectHourList").removeAttr("disabled");
+	}
 }

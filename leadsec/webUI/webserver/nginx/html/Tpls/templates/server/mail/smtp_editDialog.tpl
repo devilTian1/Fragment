@@ -4,25 +4,25 @@
     <fieldset>
         <legend>添加SMTP普通访问</legend>
         <div class="row">
-            <label for="smtpId">任务号:<em class="required">*</em></label>
-            <input class="id" type="text" name="smtpId" value="<{$data.id}>"
+            <label for="smtpGeneralId">任务号:<em class="required">*</em></label>
+            <input class="id" type="text" name="smtpGeneralId" id="smtpGeneralId" value="<{$data.id}>"
                 <{if $type ==='edit'}>disabled="disabled"<{/if}>
                 size="4" maxlength="4"/>
             (同一端的任务号必须唯一)
             <{if $type ==='edit'}>
-            <input type="hidden" name="smtpId" value="<{$data.id}>"/>
+            <input type="hidden" name="smtpGeneralId" value="<{$data.id}>"/>
             <{/if}>
         </div>
 
         <div class="row">
             <label for="serverIp">服务器地址:<em class="required">*</em></label>
-            <input type="text" name="serverIp" id="serverIp"
+            <input class="width10em" type="text" name="serverIp" id="serverIp"
                 value="<{$data.serverip}>"/>
         </div>
         
         <div class="row">
-            <label for="lport">服务器端口:<em class="required">*</em></label>
-            <input class="port" type="text" name="sportReq" value="<{$data.sport|default: 25}>" size="5" maxlength="5"/>
+            <label for="smtpGeneralSport">服务器端口:<em class="required">*</em></label>
+            <input class="port" type="text" name="smtpGeneralSport" id="smtpGeneralSport" value="<{$data.sport|default: 25}>" size="5" maxlength="5"/>
         </div>
 
         <div class="row">
@@ -33,7 +33,7 @@
 
         <div class="row">
             <label for="comment">备注:</label>
-            <input class="comment" name="comment" id="comment" value="<{$data.comment|escape}>"/>
+            <input class="width10em comment" name="comment" id="comment" value="<{$data.comment|escape}>"/>
         </div>
     </fieldset>
 </form>

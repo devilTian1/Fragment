@@ -36,6 +36,75 @@
         },
         'Do you confirm to delete account [%1s]?': {
             'zh_CN': '确定要删除用户[%1s]吗?'
+        },
+        'Switch Module': {
+            'zh_CN': '模块启停'
+        },
+        'Do you confirm to start this service': {
+            'zh_CN': '确定要启动此服务吗'
+        },
+        'Do you confirm to stop this service': {
+            'zh_CN': '确定要停止此服务吗'
+        },
+        'Required': {
+            'zh_CN': '必填'
+        },
+        'Please enter only digits': {
+            'zh_CN': '请填写有效数字'
+        },
+        'Task id range between 1 and 1000': {
+            'zh_CN': '任务号范围是1至1000'
+        },
+        'This id has been used': {
+            'zh_CN': '此任务号已被使用'
+        },
+        'This port has been used': {
+            'zh_CN': '此端口号已被使用'
+        },
+        'Task id plus dport exist': {
+            'zh_CN': '任务号+目的端口号的和已存在'
+        },
+        'Port range between 1 and 65535': {
+            'zh_CN': '端口号范围是1至65535'
+        },
+        'The combination of lip and lport has been used': {
+            'zh_CN': '此本机地址和端口的组合已被使用'
+        },
+        'Task id range between 1 and 200': {
+            'zh_CN': '任务号范围是1至200'
+        },
+        'normal format': {
+            'zh_CN': '正常格式'
+        },
+        'encrypt format': {
+            'zh_CN': '加密格式'
+        },
+        'readable format': {
+            'zh_CN': '可读格式'
+        },
+        'config file format': {
+            'zh_CN': '配置文件的保存格式?'
+        },
+        'Task Id + dport  >= 65535': {
+            'zh_CN': '任务号 + 目的地址 >= 65535'
+        },
+        'Result' : {
+            'zh_CN': '结果'
+        },
+        'ERROR' : {
+            'zh_CN': '错误'
+        },
+        'AJAX error': {
+            'zh_CN': '异步请求出错'
+        },
+        'Respone text': {
+            'zh_CN': '返回信息'
+        },
+        'error msg': {
+            'zh_CN': '错误信息'
+        },
+        'errorThrown': {
+            'zh_CN': '捕捉的错误对象'
         }
     };
 

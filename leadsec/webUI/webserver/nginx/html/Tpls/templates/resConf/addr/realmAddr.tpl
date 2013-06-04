@@ -1,4 +1,4 @@
-<{include file='layout/search.tpl' tableId='realmAddrTable'}>
+<{include file='layout/search.tpl' colNames='name,domain'}>
 <table class="column_95 textMid tablesorter" id="realmAddrTable">
     <caption>
   	    域名地址

@@ -1,15 +1,13 @@
 <!-- Put 3rd party js libraries first -->
 <script type="text/javascript">
-//正试运行中，屏蔽ie错误提示。
-var track_errors=1;
-function noError()
-{
-	if (track_errors==1)
-	{
-	return true;
-	}
-}
-window.onerror = noError;
+//it`s loading, so hide error msg of ie.
+    var track_errors = 1;
+    function noError() {
+        if (track_errors = 1) {
+            return true;
+        }
+    }
+    window.onerror = noError;
 </script>
 <script type="text/javascript" src="Public/js/jquery/jquery-1.8.1.min.js"></script>
 <script type="text/javascript" src="Public/js/jquery/jquery-ui-1.8.23.custom.min.js"></script>
@@ -24,6 +22,7 @@ window.onerror = noError;
 <!-- Put our libraries next -->
 <script type="text/javascript" src="Public/js/common.js"></script>
 <script type="text/javascript" src="Public/js/localize.js"></script>
+<script type="text/javascript" src="Public/js/modStat.js"></script>
 <script type="text/javascript" src="Public/js/ui.standard.js"></script>
 <script type="text/javascript" src="Public/js/validation.js"></script>
 <script type="text/javascript" src="Public/js/tabs.js"></script>
@@ -55,7 +54,8 @@ window.onerror = noError;
         //set height/width of content_inner
         $("#mainZone").width($("#content").width()-$("#content>.secondary").width()+20);
         var mainZoneWidth = $("#mainZone").width();
-		$("#header .right_nav").width(mainZoneWidth-210)
+        var logoWidth     = $('#header .logo').width();
+		$("#header .right_nav").width($(window).innerWidth() - logoWidth);
         // end init layout
         //$("#leftmenu").outerHeight($("#mainContent").outerHeight());
 		$("#leftmenu").outerHeight($("#mainContent").outerHeight()+21);
@@ -136,11 +136,10 @@ window.onerror = noError;
                 var mzWidth = mainZoneWidth + "px";
             }
 			$("#mainZone").width(mzWidth);
-			//alert(mainZoneWidth);
-			$("#header .right_nav").width(mainZoneWidth-210);
-			var cheight=$(window).height()-250
-			$("#leftmenu").height(cheight+37);
-			$("#mainContent").height(cheight);
+			$("#header .right_nav").width(mainZoneWidth-210)
+            var cheight = $(window).height() - 250;
+            $('#leftmenu').height(cheight + 37);
+            $('#mainContent').height(cheight);
 		});
 		//init header tip
 		$("#header .right_nav .top_icon ul li").mousemove(function() {
@@ -165,11 +164,12 @@ window.onerror = noError;
 		//beautify scroll html
 		$("html").niceScroll({cursorborder:"",cursorcolor:"#4d8fc7",boxzoom:true});
 		$("#mainContent").niceScroll({cursorborder:"",cursorcolor:"#4d8fc7",boxzoom:true});
-		$("#leftmenu").niceScroll({cursorborder:"",cursorcolor:"#4d8fc7",boxzoom:true});
-		setTimeout(function() {
-			 var cheight=$(window).height()-250;
-			 $("#leftmenu").height(cheight+37);
-			 $("#mainContent").height(cheight);
-    	}, 500);
+        $('#leftmenu').niceScroll({cursorborder: "", cursorcolor: "#4d8fc7",
+                                   boxzoom: true});
+        setTimeout(function() {
+            var cheight = $(window).height() - 250;
+            $('#leftmenu').height(cheight + 37);
+            $('#mainContent').height(cheight);
+        }, 500);
     });
 </script>

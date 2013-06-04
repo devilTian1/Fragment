@@ -1,4 +1,4 @@
-<{include file='layout/search.tpl' tableId='dataVisit_userTable'}>
+<{include file='layout/search.tpl' colNames='name,allow,usrnamelist,comment'}>
 <table class="column_95 textMid tablesorter" id="dataVisit_userTable">
  <caption>
    用户过滤
@@ -28,7 +28,7 @@
 <script type="text/javascript"> 
     $(document).ready(function() {
         renderStandardUi();
-        freshTable('Function/client/db/userFilter.php', $('#dataVisit_userTable'), 'ORDER BY id ASC LIMIT 10');
+        freshTable('Function/client/db/userFilter.php', $('#dataVisit_userTable'), 'ORDER BY name ASC LIMIT 10');
         sortTableInit($('#dataVisit_userTable'), {3: {sorter: false},4: {sorter: false}}, [[0,0]]);
     });
 </script>

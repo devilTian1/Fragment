@@ -1,6 +1,14 @@
 <?php
     require_once($_SERVER['DOCUMENT_ROOT'] . '/Function/common.php');
-
+    
+     function getWhereStatement($db, $cols, $keyword) {
+    	$value = '%' . $keyword . '%';
+    	$params = array_fill(0, count(explode(',', $cols)), $value);
+    	return array('sql'    => ' WHERE (' .
+    			$db->getWhereStatement($cols, 'OR', 'like') . ')',
+    			'params' => $params);
+    }
+    
     function getCmd() {
         $type = $_POST['type'];
         if ($type === 'add') {
@@ -27,8 +35,16 @@
         $tpl =  'server/ftp/generalVisitTable.tpl';
         $db  = new dbsqlite(DB_PATH . '/gateway_ftp.db');
         $sql = 'SELECT id, serverip, sport, active, comment ' .
-            "FROM ftp_comm_server_acl $where";
-        $result = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
+            "FROM ftp_comm_server_acl ";        
+        $params = array();
+        if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
+        	$dataSearch   = getWhereStatement($db, $_GET['cols'], $_GET['keyword']);
+        	$sql   .= $dataSearch['sql'];
+        	$params = $dataSearch['params'];
+        }
+        $sql .=  ' ' . $where;  
+        
+        $result = $db->query($sql, $params)->getAllData(PDO::FETCH_ASSOC);
         echo V::getInstance()->assign('ftpCommServerAcl', $result)
             ->assign('pageCount', 10)
             ->fetch($tpl);
@@ -37,7 +53,12 @@
     function getDataCount() {
         $sql = 'SELECT id FROM ftp_comm_server_acl';
         $db  = new dbsqlite(DB_PATH . '/gateway_ftp.db');
-        return $db->query($sql)->getCount();
+         if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
+        	$data   = getWhereStatement($db, $_GET['cols'], $_GET['keyword']);
+        	$sql   .= $data['sql'];
+        	$params = $data['params'];
+        }     
+        return $db->query($sql, $params)->getCount();
     }
 
     if ($id = $_POST['editId']) {

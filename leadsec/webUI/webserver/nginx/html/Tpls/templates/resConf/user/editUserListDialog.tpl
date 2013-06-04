@@ -5,7 +5,7 @@
         <legend>用户列表维护</legend>
         <div class="row">
             <label for="userListName">用户名称:<em class="required">*</em></label>
-            <input type="text" name="userListName" maxlength="15" value="<{$userList.user_name}>"
+            <input type="text" name="userListName" maxlength="15" value="<{$userList.user_name}>" class="width132"
             <{if $type === 'edit'}>readonly="readonly"<{/if}> id="userListName"/>
         </div>
         <br class="clearFloat"/>
@@ -36,19 +36,19 @@
     	<{/if}>
         <div class="row">
             <label for="passwd">登录密码:</label>
-            <input type="password" name="passwd_user" id="passwd_user"
+            <input type="password" name="passwd_user" id="passwd_user" class="width132"
                 <{if $type === 'edit'}> disabled="disabled" <{/if}> value="<{$userList.passwd}>"/>
         </div>
         <br class="clearFloat"/>
         <div class="row">
             <label for="passwd_again">重复密码:</label>
-            <input type="password" name="passwd_user_again"
+            <input type="password" name="passwd_user_again" class="width132"
                 <{if $type === 'edit'}> disabled="disabled" <{/if}> id="passwd_user_again" value="<{$userList.passwd}>"/>
         </div>
         <br class="clearFloat"/>
         <div class="row">
             <label for="sn">导入SN文件:</label>
-            <input class="uploadFile" type="file" name="sn" id="sn"/>
+            <{include file='layout/upload.tpl' name='sn' id='sn'}>
         </div>
         <br class="clearFloat"/>
         <hr/>
@@ -79,19 +79,19 @@
         <hr/>
         <div class="row">
             <label for="realName">真实名称:</label>
-            <input type="text" name="realName" id="realName"
+            <input type="text" name="realName" id="realName" class="width132"
                 value="<{$userList.true_name}>"/>
         </div>
         <br class="clearFloat"/>
         <div class="row">
             <label for="bindIp">绑定IP:</label>
-            <input type="text" name="bindIp" id="bindIp"
+            <input type="text" name="bindIp" id="bindIp" class="width132"
                 value="<{$userList.bind_ip4}>"/>
         </div>
         <br class="clearFloat"/>
         <div class="row">
             <label for="bindMac">绑定MAC:</label>
-            <input type="text" name="bindMac" id="bindMac"
+            <input type="text" name="bindMac" id="bindMac" class="width132"
                 value="<{$userList.bind_mac}>"/>
         </div>
         <br class="clearFloat"/>
@@ -113,13 +113,13 @@
         </div>        
         <div id="userValidTimeDiv" class="row">
             <label for="validTime">用户有效时间(单位:天):</label>
-            <input type="text" name="validTime" id="validTime"
+            <input type="text" name="validTime" id="validTime" class="width132"
                 value="<{$userList.validtime|default: '0'}>"/>
             <br class="clearFloat"/>
         </div>        
         <div id="psswdValidTimeDiv" class="row">
             <label for="validTime_pwd">密码有效时间(单位:天):</label>
-            <input type="text" name="validTime_pwd" id="validTime_pwd"
+            <input type="text" name="validTime_pwd" id="validTime_pwd" class="width132"
                 value="<{$userList.passvaliddate|default: '0'}>"/>
             <br class="clearFloat"/>
         </div>        
@@ -153,5 +153,13 @@ $(document).ready(function() {
     $(':radio[name="authType"]').click(function() {
         changeAuthType();
     });
+    var uploadWid =  $('#sn').width();
+    $('.uploadText').width(uploadWid - 75);
+    $('#allRoles').dblclick(function(){
+        	moveToSpecRole();
+        });
+        $('#rolesMember').dblclick(function(){
+        	moveToAllRoles();
+        });
 });
 </script>

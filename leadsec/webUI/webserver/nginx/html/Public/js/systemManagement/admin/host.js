@@ -8,8 +8,11 @@ function openEditHostDialog(hostId) {
     var buttons = {};
     buttons['确定'] = function() {
         if ($('#editHostForm').valid()) {
-            ajaxSubmitForm($('#editHostForm'), '结果');
-            freshHostList();
+			var afterSuccessCallback = function() {
+					freshTable(url, $('#hostTable'));
+			};
+            ajaxSubmitForm($('#editHostForm'), '结果',undefined,
+				undefined,afterSuccessCallback);
             $(this).remove();
         }
     };
@@ -25,38 +28,54 @@ function openEditHostDialog(hostId) {
     showDialogByAjax(url, data, title, dialogParams);
 }
 
+
 function openNewHostDialog() {
-    var url   = 'Function/layout/showDialog.php';
-    var data  = {
-        tpl : 'systemManagement/admin/editHostDialog.tpl'
-    };
-    var title   = '添加管理主机';
-    var buttons = {};
-    buttons['添加下一条'] = function() {
-        if ($('#editHostForm').valid()) {
-            openNewHostDialog();
-            ajaxSubmitForm($('#editHostForm'), '结果');
-            freshHostList();
-            $(this).remove();
-        }
-    };
-    buttons['确定'] = function() {
-        if ($('#editHostForm').valid()) {
-            ajaxSubmitForm($('#editHostForm'), '结果');
-            freshHostList();
-            $(this).remove();
-        }
-    };
-    buttons['取消'] = function() {
-        $(this).remove();
-    };
-    var dialogParams = {
-        width   : 650,
-        height  : 284,
-        buttons : buttons,
-		position: jQuery.getDialogPosition(650,284)
-    };
-    showDialogByAjax(url, data, title, dialogParams);
+	var num = $("#hostnum").val();
+	if (num >=6) {
+		showErrorDialog('管理主机不能超过6条记录!');
+	} else {
+		var title   = '添加管理主机';
+		var url    = 'Function/systemManagement/admin/host.php';
+		var data   = {
+			openAddDialog: true
+		};
+		var buttons = {};
+		buttons['添加下一条'] = function() {
+			if ($('#editHostForm').valid()) {
+				var afterSuccessCallback = function() {
+					freshTable(url, $('#hostTable'));
+				};
+				openNewHostDialog();
+				ajaxSubmitForm($('#editHostForm'), '结果',undefined,undefined,
+					afterSuccessCallback);
+				//freshHostList();
+				freshTable(url, $('#hostTable'));
+				$(this).remove();
+			}
+		};
+		buttons['确定'] = function() {
+			if ($('#editHostForm').valid()) {
+				var afterSuccessCallback = function() {
+					freshTable(url, $('#hostTable'));
+				};
+				ajaxSubmitForm($('#editHostForm'), '结果',undefined,undefined,
+					afterSuccessCallback);
+				//freshHostList();
+				//freshTable(url, $('#hostTable'));
+				$(this).remove();
+			}
+		};
+		buttons['取消'] = function() {
+			$(this).remove();
+		};
+		var dialogParams = {
+			width   : 650,
+			height  : 284,
+			buttons : buttons,
+			position: jQuery.getDialogPosition(650,284)
+		};
+		showDialogByAjax(url, data, title, dialogParams);
+	}
 }
 
 function openDelHostDialog(ip, netmask) {
@@ -88,7 +107,8 @@ function delHost(ip, netmask) {
     var title  = '删除主机';
     var buttons = {};
     buttons['Ok'] = function() {
-        freshHostList();
+       // freshHostList();
+		freshTable(url, $('#hostTable'));
         $(this).remove();
     };
     var dialogParams = {
@@ -120,3 +140,4 @@ function freshHostList() {
     };
     loadEmbedPage(url, data, $('#hostTable>tbody'));
 }
+

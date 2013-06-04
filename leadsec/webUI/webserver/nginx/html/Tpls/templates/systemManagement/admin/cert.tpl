@@ -12,7 +12,7 @@
                 </label>
             </td>
             <td>
-                <input class="floatLeft" type="file" name="CAcert" id="CAcert"/>
+                <{include file='layout/upload.tpl' name='CAcert' id='CAcert'}>
             </td>
         </tr>
         <tr>
@@ -23,7 +23,7 @@
                 </label>
             </td>
             <td>
-                <input class="floatLeft" type="file" name="SIScert" id="SIScert"/>
+                <{include file='layout/upload.tpl' name='SIScert' id='SIScert'}>
             </td>
         </tr>
         <tr>
@@ -34,7 +34,7 @@
                 </label>
             </td>
             <td>
-                <input class="floatLeft" type="file" name="SISkey" id="SISkey"/>
+                <{include file='layout/upload.tpl' name='SISkey' id='SISkey'}>
             </td>
         </tr>
         <tr>
@@ -48,6 +48,9 @@
 $(document).ready(function() {
     $(".button").button();
     validateForm($("#CACertForm"));
+
+    var uploadWid =  $('#CAcert').width();
+    $('.uploadText').width(uploadWid - 75);
 });
 </script>
 <script type="text/javascript" src="Public/js/systemManagement/admin/cert.js"></script>

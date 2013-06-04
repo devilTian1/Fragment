@@ -5,7 +5,7 @@ function showShareDirDialog(id) {
         taskId: id
     };
     var buttons = {};
-    buttons['取消'] = function() {
+    buttons[getMessage('Ok')] = function() {
         $(this).remove();
     };
     var dialogParams = {

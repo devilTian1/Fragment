@@ -33,8 +33,8 @@
                 <{else}>
                 	<input type="hidden" name="destIpList_trans" value="<{$array.da}>_ipv4"/>
                 <{/if}>
-                <input type="hidden" name="srcPort" value="<{$array.sport}>"/>
-                <input type="hidden" name="destPort" value="<{$array.dport}>"/>
+                <input type="hidden" name="safePassSrcPort" value="<{$array.sport}>"/>
+                <input type="hidden" name="safePassDestPort" value="<{$array.dport}>"/>
                 <input type="hidden" name="timeList" value="<{$array.time}>"/>
                 <input type="hidden" name="logChk" value="<{$array.log}>"/>
                 <input type="hidden" name="serviceList" value="<{$array.service}>"/>
@@ -65,5 +65,5 @@
         </td>
     </tr>
 <{foreachelse}>
-    <tr><td colspan='11'>No Data</td></tr>
+    <tr><td colspan='11'>无数据</td></tr>
 <{/foreach}>

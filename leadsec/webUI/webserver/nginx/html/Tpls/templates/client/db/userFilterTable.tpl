@@ -1,7 +1,7 @@
 <{foreach $res as $value }>
     <tr>
         <td><{$value.name}></td>
-        <td title="<{$value.usrnamelist|escape}>" ><{$value.usrnamelist|escape|truncate:100:"... ..."}></td>
+        <td title="<{$value.usrnamelist|escape}>" ><{$value.usrnamelist|escape|truncate:90:"... ..."}></td>
         <td>
             <{if $value.allow == 'A'}>
                                           允许           
@@ -17,5 +17,5 @@
         </td>
     </tr>
 <{foreachelse}>
-    <tr><td colspan='5'>No Data</td></tr>
+    <tr><td colspan='5'>无数据</td></tr>
 <{/foreach}>

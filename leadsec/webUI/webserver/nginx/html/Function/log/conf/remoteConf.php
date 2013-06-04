@@ -1,16 +1,35 @@
 <?php
     require_once($_SERVER['DOCUMENT_ROOT'] . '/Function/common.php');
-  
+    
+	function getWhereStatement($db, $cols, $keyword) {
+        $value = '%' . $keyword . '%';
+        $params = array_fill(0, count(explode(',', $cols)), $value);
+        return array('sql'    => ' where (' .
+                              $db->getWhereStatement($cols, 'OR', 'like') . ')',
+                     'params' => $params);
+    }
     function getDataCount() {
     	$sql = "SELECT logsrv FROM logsrv";
         $db  = new dbsqlite(DB_PATH . '/configs.db');
-        return $db->query($sql)->getCount();
+        if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
+            $data   = getWhereStatement($db, $_GET['cols'], $_GET['keyword']);
+            $sql   .= $data['sql'];
+            $params = $data['params'];
+        }
+        return $db->query($sql, $params)->getCount();
     }
     function freshRemoteLogIPData($where) {
         $tpl =  'log/conf/remoteConfTable.tpl';
         $db  = new dbsqlite(DB_PATH . '/configs.db');
-	    $sql = "SELECT * FROM logsrv $where";
-        $result = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);     	
+	    $sql = "SELECT * FROM logsrv ";
+        $params = array();
+        if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
+            $data   = getWhereStatement($db, $_GET['cols'], $_GET['keyword']);
+            $sql   .= $data['sql'];
+            $params = $data['params'];
+        }
+        $sql .=  ' ' . $where;
+        $result = $db->query($sql, $params)->getAllData(PDO::FETCH_ASSOC);     	
         echo V::getInstance()->assign('remote', $result)
             ->assign('pageCount', 10)
             ->fetch($tpl);
@@ -51,20 +70,20 @@
  		$cli = new cli();
  		$cmd = getCmd();
         $cli->setLog("编辑服务器IP为".$_POST['remoteLogIp']."的远程配置")->run($cmd);
-        echo json_encode(array('msg' => '修改成功.'));	                
+        echo json_encode(array('msg' => '修改成功。'));	                
     }  else if (!empty($_POST['delId'])) {
         // Delete the specified  data 
         $delIP = $_POST['delId'];      
         $cmd  = "/usr/local/bin/logserver del ip $delIP ";
         $cli  = new cli();       
         $cli->setLog("编辑服务器IP为".$_POST['delId']."的远程配置")->run($cmd);
-        echo json_encode(array('msg' => "删除成功."));
+        echo json_encode(array('msg' => "删除成功。"));
     } else if ('add' === $_POST['type']) {
         // Add a new addr group data         
  		$cli = new cli();
  		$cmd = getCmd();
         $cli->setLog("添加服务器IP为".$_POST['remoteLogIp']."的远程配置")->run($cmd);
-        echo json_encode(array('msg' => '添加成功.'));	                     
+        echo json_encode(array('msg' => '添加成功。'));	                     
     }else if (!empty($_POST['openDialog'])) {
         // Display add client comm dialog       
         $tpl = 'log/conf/remoteConf_editDialog.tpl';

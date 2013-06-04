@@ -3,6 +3,10 @@
 
     function getAllIpAddr() {
     	$path = "/usr/local/lxnids/idsauto.ignore";
+    	$fp = @fopen($path, 'r');
+    	if (!$fp) {
+    		throw New Exception("Can not read file [$path]");
+    	}
     	$str = file_get_contents($path);    	
     	$IpListArr = explode(PHP_EOL,$str);
     	$IpListArr = array_diff($IpListArr, array(''));
@@ -38,7 +42,7 @@
     		$cli = new cli();
     		$cli->setLog('应用防护的入侵检测的自动响应配置启用')->run($cmd);
     	}
-    	echo json_encode(array('msg' => '修改成功.'));
+    	echo json_encode(array('msg' => '修改成功。'));
  
     }
     else if(isset($_GET['clear']))
@@ -46,7 +50,7 @@
     	$cmd = 'ids setauto on 1 ""';
     	$cli = new cli();
     	$cli->setLog('应用防护的入侵检测的自动响应配置清除')->run($cmd);
-    	echo json_encode(array('msg' => '修改成功.'));
+    	echo json_encode(array('msg' => '修改成功。'));
     }
     else
     {    	

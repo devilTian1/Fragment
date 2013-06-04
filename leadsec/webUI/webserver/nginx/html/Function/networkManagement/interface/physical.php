@@ -3,7 +3,7 @@
  	
     function freshPhysical($where) {
         $workmodeArr = array('未指定',   '路由模式',
-                             '透明模式', '冗余设备模式');
+                             '透明模式', '冗余模式');
         $propertyArr = array('未指定',  'HA接口', '管理接口',
                             '网络接口', '网络扩展口');
         $ipaddrArr = array('未指定', '静态指定',
@@ -11,9 +11,15 @@
         $tpl = 'networkManagement/interface/physicalTable.tpl';
         $db  = new dbsqlite(DB_PATH . '/configs.db');
         $sql = "SELECT external_name, ip, mask, ipv6, ipv6_mask, if_property,
-            ipaddr_type, enable, workmode FROM interface WHERE device_type = 1
-            $where";
-        $result = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
+            ipaddr_type, enable, workmode FROM interface WHERE device_type = 1";
+        $params = array();
+        if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
+            $data   = getWhereStatement($db, $_GET['cols'], $_GET['keyword']);
+            $sql   .= $data['sql'];
+            $params = $data['params'];
+        }
+        $sql .=  ' ' . $where;
+        $result = $db->query($sql, $params)->getAllData(PDO::FETCH_ASSOC);
         foreach ($result as $key => $arr) {
             if($arr['workmode'] === "3") {
                 $sql = "SELECT ipaddr_type FROM interface WHERE device_type=6 AND interface_list LIKE '%" . $arr['external_name'] . "%'";
@@ -65,10 +71,10 @@
         }
         if ($_POST['ipaddr_type'] === '1' && $_POST['workmode'] !== '3') {
             $ipv4     = $_POST['devIpv4'];
-            $ipv4Mask = $_POST['ipv4Netmask'];
+            $ipv4Mask = $_POST['devIpv4Netmask'];
             $ipv4Mask = !empty($ipv4Mask) ? convertToIpv4Mask($ipv4Mask) : '';
             $ipv6     = $_POST['devIpv6'];
-            $ipv6Mask = $_POST['ipv6Netmask'];
+            $ipv6Mask = $_POST['devIpv6Netmask'];
             $ipType   = 'ipaddr_type static ';
             if (!empty($ipv4)) {
                 $ipType .= "ip $ipv4 netmask $ipv4Mask";
@@ -132,10 +138,24 @@
         }
     }
 
+    function getWhereStatement($db, $cols, $keyword) {
+        $value  = '%' . $keyword . '%';
+        $params = array_fill(0, count(explode(',', $cols)), $value);
+        return array('sql'    => ' AND (' .
+                              $db->getWhereStatement($cols, 'OR', 'like') . ')',
+                     'params' => $params);
+    }
+
     function getDataCount() {
-        $sql = "SELECT external_name FROM interface WHERE device_type = 1";
         $db  = new dbsqlite(DB_PATH . '/configs.db');
-        return $db->query($sql)->getCount();
+        $sql = "SELECT external_name FROM interface WHERE device_type = 1";
+        $params = array();
+        if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
+            $data   = getWhereStatement($db, $_GET['cols'], $_GET['keyword']);
+            $sql   .= $data['sql'];
+            $params = $data['params'];
+        }
+        return $db->query($sql, $params)->getCount();
     }
 
     if (!empty($_POST['name'])) {
@@ -207,11 +227,11 @@
         $db     = new dbsqlite(DB_PATH . '/configs.db');
         if ($ipType === 'ipv4') {
             $sql  = "SELECT external_name FROM interface " .
-                "WHERE ip = '{$_GET['devIpv4']}'";
+                "WHERE ip = '{$_GET['devIpv4']}' AND external_name!='{$_GET['exName']}'";
             echo $db->query($sql)->getCount() > 0 ? 'false' : 'true';
         } else if ($ipType === 'ipv6') {
             $sql  = "SELECT external_name FROM interface " .
-                "WHERE ipv6 = '{$_GET['devIpv6']}'";
+                "WHERE ipv6 = '{$_GET['devIpv6']}' AND external_name!='{$_GET['exName']}'";
             echo $db->query($sql)->getCount() > 0 ? 'false' : 'true';
         } else {
             throw new Exception("Can`t valid the ip type:  $ipvType.");

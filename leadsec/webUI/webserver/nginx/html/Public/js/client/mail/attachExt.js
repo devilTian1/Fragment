@@ -16,25 +16,11 @@ function addOrEditAttachExt(type, title) {
     if (type === 'next') {
         openNewAttachExtDialog();
     }
-    var resultDialog  = loadingScreen(title);
-    resultDialog.dialog('moveToTop');
-    var buttons = {};
-    buttons[getMessage('Ok')] = function() {    	
-        resultDialog.close();
-    }
-    resultDialog.setOptions({
-        width : 250,
-        height: 170,
-        buttons: buttons,
-        position : jQuery.getDialogPosition('250','170')
-    });
-    var successCallback = function(result, textStatus) {
-        resultDialog.setContent($('<p>' + result.msg + '</p>'));
-        freshTableAndPage();        
-    }
-    var dialog = ajaxSubmitForm($('#editAttachExtForm'), '结果',
-        successCallback);
-    dialog.close();
+    var afterSuccessCallback = function() {
+        freshTableAndPage();
+    };
+    ajaxSubmitForm($('#editAttachExtForm'), '结果', undefined,
+        undefined, afterSuccessCallback);
 }
 
 function openEditAttachExtDialog(id) {

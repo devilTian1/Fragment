@@ -1,27 +1,27 @@
 <?php
   $leftmenuArr = array(
     // level 1
-    'sm' => array('pid' => 0, 'name' => '系统管理', 'link' => 'systemManagement', 'ban' => 'policyer,auditor'),
-    'nm' => array('pid' => 0, 'name' => '网络管理', 'link' => 'networkManagement', 'ban' => 'policyer,auditor'),
+    'sm' => array('pid' => 0, 'name' => '系统管理', 'link' => 'systemManagement'),
+    'nm' => array('pid' => 0, 'name' => '网络管理', 'link' => 'networkManagement', 'ban' => 'policyer,auditor,super'),
     'rc' => array('pid' => 0, 'name' => '资源配置', 'link' => 'resConf',
-                  'ban' => 'manager, auditor'),
+                  'ban' => 'manager, auditor, super'),
     'c' => array('pid' => 0, 'name' => '客户端', 'link' => 'client',
-                  'ban' => 'manager, auditor'),
+                  'ban' => 'manager, auditor, super'),
     's' => array('pid' => 0, 'name' => '服务端', 'link' => 'server',
-                  'ban' => 'manager, auditor'),
+                  'ban' => 'manager, auditor, super'),
     'as' => array('pid' => 0, 'name' => '应用防护', 'link' => 'appS',
-                  'ban' => 'manager, auditor'),
+                  'ban' => 'manager, auditor, super'),
     'stm' => array('pid' => 0, 'name' => '状态监控', 'link' => 'statMonitor',
-                  'ban' => 'manager, policyer'),
+                  'ban' => 'manager, policyer, super'),
     'log' => array('pid' => 0, 'name' => '日志与报表', 'link' => 'log',
-                   'ban' => 'manager, policyer'),
+                   'ban' => 'manager, policyer, super'),
 
     //level2 sysManage
     'sm_o' => array('pid' => 'sm', 'name' => '系统概览', 'link' => 'overview'),
-    'sm_q' => array('pid' => 'sm', 'name' => '快捷配置', 'link' => 'quick'),
-    'sm_c' => array('pid' => 'sm', 'name' => '系统配置', 'link' => 'conf'),
-    'sm_a' => array('pid' => 'sm', 'name' => '管理员设置', 'link' => 'admin'),
-    'sm_m' => array('pid' => 'sm', 'name' => '系统维护', 'link' => 'maintain'),
+    'sm_q' => array('pid' => 'sm', 'name' => '快捷配置', 'link' => 'quick', 'ban' => 'policyer,auditor,super'),
+    'sm_c' => array('pid' => 'sm', 'name' => '系统配置', 'link' => 'conf', 'ban' => 'policyer,auditor,super'),
+    'sm_a' => array('pid' => 'sm', 'name' => '管理员设置', 'link' => 'admin', 'ban' => 'policyer,auditor'),
+    'sm_m' => array('pid' => 'sm', 'name' => '系统维护', 'link' => 'maintain', 'ban' => 'policyer,auditor,super'),
 
     //level2 netManage
     'nm_i' => array('pid' => 'nm', 'name' => '网络接口', 'link' => 'interface'),
@@ -86,10 +86,10 @@
     'sm_c_s' => array('pid' => 'sm_c', 'name' => '集中管理', 'link' => 'snmp', 'title' => ''),
 
     //level3 systemManagement/admin
-    'sm_a_a' => array('pid' => 'sm_a', 'name' => '管理员帐号', 'link' => 'account', 'title' => ''),
-    'sm_a_h' => array('pid' => 'sm_a', 'name' => '管理主机', 'link' => 'host', 'title' => ''),
-    'sm_a_c' => array('pid' => 'sm_a', 'name' => '管理证书', 'link' => 'cert', 'title' => ''),
-    'sm_a_m' => array('pid' => 'sm_a', 'name' => '管理方式', 'link' => 'mode', 'title' => ''),
+    'sm_a_a' => array('pid' => 'sm_a', 'name' => '管理员帐号', 'link' => 'account', 'title' => '', 'ban' => 'manager'),
+    'sm_a_h' => array('pid' => 'sm_a', 'name' => '管理主机', 'link' => 'host', 'title' => '', 'ban' => 'super'),
+    'sm_a_c' => array('pid' => 'sm_a', 'name' => '管理证书', 'link' => 'cert', 'title' => '', 'ban' => 'super'),
+    'sm_a_m' => array('pid' => 'sm_a', 'name' => '管理方式', 'link' => 'mode', 'title' => '', 'ban' => 'super'),
 
     //level3 systemManagement/maintain
     'sm_m_u' => array('pid' => 'sm_m', 'name' => '系统更新', 'link' => 'upgrade'),
@@ -179,7 +179,7 @@
   	'c_m_ma'=> array('pid' => 'c_m', 'name' => '邮件地址',  'link' => 'mailAddr'),
   	'c_m_k'=> array('pid' => 'c_m', 'name' => '内容关键字',  'link' => 'keyword'),
   	'c_m_ae'=> array('pid' => 'c_m', 'name' => '附件扩展名',  'link' => 'attachExt'),
-  	'c_m_f'=> array('pid' => 'c_m', 'name' => '过滤选项集',  'link' => 'filter'),
+  	'c_m_f'=> array('pid' => 'c_m', 'name' => '过滤选项集',  'link' => 'mailfilter'),
     
     //levev3 client/db
     'c_db_t' => array('pid' => 'c_db', 'name' => '透明访问','link' => 'transVisit'),
@@ -212,9 +212,11 @@
 
   
   	//levev3 server/fileSync
+	's_fs_ba' => array('pid' => 's_fs', 'name' => '基本配置', 'link' => 'basicConf'),
   	's_fs_fe' => array('pid' => 's_fs', 'name' => '文件同步', 'link' => 'fileSync'),
 	
 	//leve3 server/dbSync
+	's_d_ba' => array('pid' => 's_d', 'name' => '基本配置','link' => 'basicConf'),
 	's_d_d' => array('pid' => 's_d', 'name' => '数据库同步','link' => 'dbSync'),
 
     //levev3 server/safeBrowse
@@ -238,6 +240,7 @@
 	's_sp_sp' => array('pid' => 's_sp', 'name' => '安全通道', 'link' => 'safePass'),
 
   	//levev3 client/msgTrans
+	's_mt_ba' => array('pid' => 's_mt', 'name' => '基本配置', 'link' => 'basicConf'),
   	's_mt_mt' => array('pid' => 's_mt', 'name' => '消息传输', 'link' => 'msgTrans'),
   
     //level3 appS/ids
@@ -263,6 +266,7 @@
     'stm_ns' => array('pid' => 'stm_n', 'name' => '网络状态', 'link' => 'network'),
         //level3 statMonitor/resconf
     'stm_rs' => array('pid' => 'stm_r', 'name' => '资源状态', 'link' => 'res'),
+  	'stm_ts' => array('pid' => 'stm_t', 'name' => '网络测试', 'link' => 'test'),
     //level3 log/conf
     'log_c_b' => array('pid' => 'log_c', 'name' => '基本配置', 'link' => 'basicConf'),
   	'log_c_r' => array('pid' => 'log_c', 'name' => '远程配置', 'link' => 'remoteConf'),

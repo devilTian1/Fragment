@@ -16,14 +16,18 @@
         $cmd = "upgrade package \"{$_FILES['upgradeFile']['name']}\"";
 		$msg_log = "系统管理下系统维护模块下的系统更新中的升级文件".$_FILES['upgradeFile']['name'];
         $cli = new cli();
-        $cli->setLog($msg_log)->run($cmd);
-        echo json_encode(array('msg' => '升级成功'));
+		list($status,$result) = $cli->setLog($msg_log)->execCmdGetStatus($cmd);
+		if ($status == 0) {
+			echo json_encode(array('msg' => '升级成功.'));
+		} else {
+			echo json_encode(array('msg' => '升级失败.'));
+		}
     } else if (!empty($_GET['reboot'])) {
         // Reboot system
 		$msg_log = "系统管理下系统维护模块下对网闸进行重启";
         $cli = new cli();
         $cli->setLog($msg_log)->run('/sbin/reboot');
-        echo json_encode(array('msg' => '重启成功'));
+        echo json_encode(array('msg' => '安全隔离网闸正在重启,将耗时2-3分钟.请不要进行任何操作,请重新登录'));
     } else if ('exportUpgradeHistory' === $_POST['action']) {
         $db = new dbsqlite(DB_PATH . '/private.db');
         $result_list = $db->query("SELECT * FROM  upgrade_history ORDER BY up_time DESC")
@@ -56,6 +60,10 @@
 		freshList($order);
    
     } else {
-		
+		//init date
+		$db = new dbsqlite(DB_PATH . '/private.db');
+        $sql = 'SELECT * FROM upgrade_history';
+        $result = $db->query($sql)->getFirstData(PDO::FETCH_ASSOC);
+        V::getInstance()->assign('lastestVersion', $result['up_version']);
 	}
 ?>

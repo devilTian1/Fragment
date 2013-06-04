@@ -37,5 +37,5 @@
         </td>
     </tr>
 <{foreachelse}>
-    <tr><td colspan='6'>No Alias Data</td></tr>
+    <tr><td colspan='6'>没有别名设备信息</td></tr>
 <{/foreach}>

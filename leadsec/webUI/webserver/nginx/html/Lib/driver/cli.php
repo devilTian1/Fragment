@@ -61,12 +61,14 @@
         /**
          * Execute system command, read the status and output.
          * @param $cmd. System command to execute.
+         * @param $isSetGetResult. whether to get return status.
          * @return associate array.
          *  $status.Integer. Status returned from the command.
          *  $lines.Array. Output of the Command
          */
-        public function execCmdGetStatus($cmd) {
+        public function execCmdGetStatus($cmd, $isSetGetResult = true) {
             $this->cmd = $cmd;
+            $this->setGetResult($isSetGetResult);
             $this->setCmdSuffix();
             list($status, $lines) = $this->exec($this->cmd);
             if ($this->isRec) {

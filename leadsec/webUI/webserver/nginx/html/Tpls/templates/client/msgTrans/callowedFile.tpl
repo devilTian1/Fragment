@@ -1,4 +1,4 @@
-<{include file='layout/search.tpl' tableId='allowedFileTable'}>
+<{include file='layout/search.tpl'}>
 <form action="Function/client/msgTrans/callowedFile.php" method="POST"
     id="filelistForm" onSubmit="return false;">
     <input type="hidden" name="ctl" value="1">

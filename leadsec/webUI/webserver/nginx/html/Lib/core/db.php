@@ -11,7 +11,7 @@
         /**
          * only for select query data
          */
-        abstract public function query($sql);
+        abstract public function query($sql, $params = array());
 
         /**
          * insert/update/delete data

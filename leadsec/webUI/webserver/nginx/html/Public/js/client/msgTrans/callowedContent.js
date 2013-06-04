@@ -17,7 +17,7 @@ function editAllowedContentDialog(whitelist) {
     };
     var dialogParams = {
         width   : 660,
-        height  : 300,
+        height  : 360,
         buttons : buttons,
         position: jQuery.getDialogPosition(660,300)
     };
@@ -92,7 +92,7 @@ function openNewAllowedContentDialog() {
     };
     var dialogParams = {
         width   : 660,
-        height  : 300,
+        height  : 360,
         buttons : buttons,
         position: jQuery.getDialogPosition(660,300)
     };
@@ -119,7 +119,8 @@ function switchChk(action) {
             resultDialog.setOptions({
                 width : 250,
                 height: 170,
-                buttons: buttons
+                buttons: buttons,
+                position: jQuery.getDialogPosition(250,170)
             });
             var content = result.msg;         
             resultDialog.setContent($('<p>' + content + '</p>'));        

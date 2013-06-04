@@ -195,8 +195,12 @@ function processRequest(cmdstr){
 	     {
 			 for(var i = 0;i < cmdstr.length;i++)
 			 {
-			     
-				 rem+=(cmdstr[i].split(' ')).join('&nbsp;')+'<br/>';
+			     if($.browser.mozilla){
+			    	 rem+=(cmdstr[i].split(' ')).join('&nbsp;')+'<br/>';
+			     }else{
+			    	 rem+=(cmdstr[i].split(' ')).join('&nbsp;&nbsp;')+'<br/>';
+			     }
+				 
 			 } 
 	     }
 		 else

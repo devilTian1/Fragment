@@ -140,8 +140,39 @@ function headerSpan(name,formId) {
 	}
 	else if(formId=='exportconf')
 	{
+	    var title   = '导出格式';
+	    var dialog  = loadingScreen(title);
+	    var buttons = {};   
+	    buttons[getMessage('normal format')] = function() {
+	       $("input[name='export_format']").val('normal');	      
 		headerFormId_exportconf.action = "Function/header.php";   
-	    headerFormId_exportconf.submit();  	    
+	        headerFormId_exportconf.submit();  
+	        $(this).remove();
+	    }
+	    buttons[getMessage('encrypt format')] = function() {
+	        $("input[name='export_format']").val('encrypt');
+	        headerFormId_exportconf.action = "Function/header.php";   
+	        headerFormId_exportconf.submit(); 
+	        $(this).remove();
+	    };
+	    buttons[getMessage('readable format')] = function() {
+	        $("input[name='export_format']").val('readable');
+	        headerFormId_exportconf.action = "Function/header.php";   
+	        headerFormId_exportconf.submit(); 
+	        $(this).remove();
+	    };
+	    buttons[getMessage('Cancel')] = function() {
+	        $(this).remove();
+	    };    
+	    var dialogParams = {
+	        width: 400,
+	        height: 160,
+	        buttons: buttons,
+	        position: jQuery.getDialogPosition(400,160)
+	    };
+	    var content = getMessage('config file format');
+	    dialog.setContent('<p>'+content+'</p>');
+	    dialog.setOptions(dialogParams);
 	}
 	else if(formId=='exportlog')
 	{			
