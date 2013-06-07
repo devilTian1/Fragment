@@ -11,9 +11,6 @@
 <link rel="stylesheet" href="Public/js/jquery/fishEye/fishEye.css" type="text/css" />
 <!--[if IE]>
 <link rel="stylesheet" href="<{$smarty.const.THEME_PATH}>/css/ie.css" type="text/css" />
-<style type="text/css">
-    .uploadBtn {display: none;}
-</style>
 <![endif]-->
 <!--[if lt IE 7]>
 <style type="text/css">
