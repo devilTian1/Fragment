@@ -7,7 +7,8 @@
 <!--[if IE 6]>
 <script type="text/javascript" src="Public/js/jquery/desktop/jsLib/DD_belatedPNG_0.0.8a.js" ></script>
 <script type="text/javascript">
-	DD_belatedPNG.fix('#navBar,.icon img,.desktop_icon .text,.desktop_icon .text s');
+	//解决第一次加载时不透明问题
+	setTimeout(function(){DD_belatedPNG.fix('#navBar,.icon img,.desktop_icon .text,.desktop_icon .text s');},500)
 </script>
 <![endif]-->
 <script type="text/javascript">
@@ -40,14 +41,14 @@ $(function(){
 		   myLib.desktop.desktopPanel();
  		   
 		   //初始化桌面背景
-		   myLib.desktop.wallpaper.init("");
+		   myLib.desktop.wallpaper.init(null);
 		   
 		   //初始化桌面图标
 		   myLib.desktop.deskIcon.init(deskIconData);
 		   
 		   //初始化桌面导航栏
-		   myLib.desktop.navBar.init();
-  		  
+		  //解决chrome中导航第一次加载时显示在中间的问题
+		  setTimeout(function(){ myLib.desktop.navBar.init();},500)
 		  });		
 
 //添加应用函数

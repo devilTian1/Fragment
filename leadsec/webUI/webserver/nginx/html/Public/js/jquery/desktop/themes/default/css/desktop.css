@@ -1,6 +1,7 @@
 @charset "utf-8";
 /*页面基础样式*/
 #mainContent{
+	position:relative;
 	overflow:hidden;
 }
 a {
@@ -38,11 +39,13 @@ a:active {
 #navBar{
 	width:140px;
 	height:32px;
+	float:left;
 	line-height:32px;
 	position:absolute;
 	left:50%;
 	margin-left:-100px;
-	top:190px;
+	/*top:190px;*/
+	top:0px;
 	background:url(../images/navBg0.png) no-repeat center center;
 	text-align:center;
 	z-index:99;
