@@ -1,4 +1,25 @@
-<!-- Put 3rd party js libraries first -->
+<?php /* Smarty version Smarty-3.1.11, created on 2013-07-08 18:57:55
+         compiled from "D:\leadsec\Fragment\leadsec\webUI\webserver\nginx\html\Tpls\templates\layout\js.tpl" */ ?>
+<?php /*%%SmartyHeaderCode:3008851da9b33b2cb94-59897145%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+$_valid = $_smarty_tpl->decodeProperties(array (
+  'file_dependency' => 
+  array (
+    'f9a94ef1e3a69f09e119da3c141d8125fe496638' => 
+    array (
+      0 => 'D:\\leadsec\\Fragment\\leadsec\\webUI\\webserver\\nginx\\html\\Tpls\\templates\\layout\\js.tpl',
+      1 => 1373281036,
+      2 => 'file',
+    ),
+  ),
+  'nocache_hash' => '3008851da9b33b2cb94-59897145',
+  'function' => 
+  array (
+  ),
+  'has_nocache_code' => false,
+  'version' => 'Smarty-3.1.11',
+  'unifunc' => 'content_51da9b33b51be6_76060345',
+),false); /*/%%SmartyHeaderCode%%*/?>
+<?php if ($_valid && !is_callable('content_51da9b33b51be6_76060345')) {function content_51da9b33b51be6_76060345($_smarty_tpl) {?><!-- Put 3rd party js libraries first -->
 <script type="text/javascript">
 //it`s loading, so hide error msg of ie.
     var track_errors = 1;
@@ -111,11 +132,13 @@
         var arrowImg = $("#ImgArrow");
 		var arrowImgFlag=1;//open，close flag 1:open,0:close
         var leftArrow = {
-            src : "<{$smarty.const.THEME_PATH}>/images/switch_left.gif",
+            src : "<?php echo @THEME_PATH;?>
+/images/switch_left.gif",
             title : "隐藏左侧导航栏"
         };
         var rightArrow = {
-            src : "<{$smarty.const.THEME_PATH}>/images/switch_right.gif",
+            src : "<?php echo @THEME_PATH;?>
+/images/switch_right.gif",
             title : "显示左侧导航栏"
         };
         arrowImg.click(function() {
@@ -199,3 +222,4 @@
         }, 500);
     });
 </script>
+<?php }} ?>
