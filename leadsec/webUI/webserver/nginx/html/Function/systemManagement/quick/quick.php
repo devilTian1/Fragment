@@ -79,7 +79,9 @@
     	$strcon="";
     	if(file_exists($pathfile)){
     		$filecontent=file_get_contents($pathfile);
-    		if(false === stripos($filecontent, $id)){
+    		if((false === stripos($filecontent, $id.";"))&&
+    		   (false === stripos($filecontent, $id.","))&&
+    		   (false === stripos($filecontent, $id." "))){
 	    		$arr_temp=explode(";",$filecontent);
 	    		foreach ($arr_temp as $key=>$arr_val){
 	    			if ($index==$key+1){
