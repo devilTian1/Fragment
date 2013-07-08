@@ -1,0 +1,22 @@
+ol.pagination {
+    margin: 0px 50px 0px 0px;
+    padding: 0px;
+    list-style-type: none;
+}
+
+ol.pagination li {
+    float: left;
+    margin-right: 0.6em;
+}
+
+ol.pagination a, ol.pagination li.selected {
+    display: block;
+    padding: 0.2em 0.5em;
+    border: 1px solid #ccc;
+    text-decoration: none;
+}
+
+ol.pagination a:hover, ol.pagination a:focus, ol.pagination li.selected {
+    background-color: #0099CC;
+    color: white;
+}
