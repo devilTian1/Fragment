@@ -1,4 +1,6 @@
 <?php
+    // Load Global Conf Param
+    require_once dirname(__file__) . '/Conf/global.php';
     // Enable/Disable Development Environment
     DEBUG && error_reporting(E_ALL);
 
@@ -6,8 +8,7 @@
         include dirname(__file__) . '/Application/Loader.php';
         include dirname(__file__) . '/Application/bootstrap.php';
     } catch (Exception $exception) {
-        if (defined('APPLICATION_ENVIRONMENT')
-            && APPLICATION_ENVIRONMENT != 'production') {
+        if (DEBUG) {
             echo '<html><body><center>' .
                 'An exception occured while bootstrapping the application.' .
                 '<br /><br />' . $exception->getMessage() . '<br />' .

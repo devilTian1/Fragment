@@ -1,26 +1,35 @@
 <?php
-    // Load Global Conf Param
-    require_once dirname(__file__) . '/../' . '/Conf/global.php';
-
+    // Include common driver
+    // Exception driver
+    require_once(WEB_PATH . '/Lib/driver/exception.php');
+    // Template engine, smarty
+    require_once(WEB_PATH . '/Lib/driver/smarty.php');
+    // core controller
+    require_once(WEB_PATH . '/Application/Controllers/common.php');
 
     function setLang() {
         // set time zone
         date_default_timezone_set('Asia/chongqing');
-        if ($_COOKIE['web_locale']) {
+        if (isset($_COOKIE['web_locale'])) {
             $lo = $_COOKIE['web_locale'];
         } else {
             $lo = DEFAULT_LOCALE;
             $_COOKIE['web_locale'] = $lo;
         }
+        if (isset($_GET['lang'])) {
+            setlocale(LC_ALL, '');
+        } else {
+            setlocale(LC_ALL, DEFAULT_LOCALE);
+        }
+        putenv('LC_ALL=' . DEFAULT_LOCALE);
         setlocale(LC_CTYPE, DEFAULT_LOCALE);
-        setcookie('web_locale', $lo, 0, "/");
+        setcookie('web_locale', $lo, 0, '/');
 
-        list($lang, $null) = explode('.', $lo, 2);
-        $moFile = WEB_PATH . "/Lang/$lang/message.mo";
+        bindtextdomain('message', WEB_PATH . '/Lang');
+        textdomain('message');
     }
     setLang();
 
-
-    new Loader();
-
+    $loader = new Loader();
+    $loader->loaderController(0);
 ?>

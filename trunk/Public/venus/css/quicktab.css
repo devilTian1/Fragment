@@ -1,0 +1,43 @@
+li,ul{margin:0;padding:0;list-style-type:0}
+li img{vertical-align:bottom;border:0px}
+
+#con {
+	FONT-SIZE: 12px; MARGIN: 0px auto; WIDTH: 800px
+}
+#tags {
+	margin:0 0 0 10px;WIDTH: 800px; PADDING-TOP: 0px; HEIGHT: 23px
+}
+#tags li {
+	BACKGROUND: url(../images/tagleft.gif) no-repeat left bottom; FLOAT: left; MARGIN-RIGHT: 1px; liST-STYLE-TYPE: none; HEIGHT: 23px
+}
+#tags li A {
+	PADDING-RIGHT: 10px; PADDING-LEFT: 10px; BACKGROUND: url(../images/tagright.gif) no-repeat right bottom; FLOAT: left; PADDING-BOTTOM: 0px; COLOR: #999; liNE-HEIGHT: 23px; PADDING-TOP: 0px; HEIGHT: 23px; TEXT-DECORATION: none
+}
+#tags li.emptyTag {
+	BACKGROUND: none transparent scroll repeat 0% 0%; WIDTH: 4px
+}
+#tags li.selectTag {
+	BACKGROUND-POSITION: left top; MARGIN-BOTTOM: -2px; POSITION: relative; HEIGHT: 25px
+}
+#tags li.selectTag A {
+	BACKGROUND-POSITION: right top; COLOR: #000; liNE-HEIGHT: 25px; HEIGHT: 25px
+}
+#tagContent {
+	BORDER-RIGHT: #aecbd4 1px solid; PADDING-RIGHT: 1px; BORDER-TOP: #aecbd4 1px solid; PADDING-LEFT: 1px; PADDING-BOTTOM: 1px; BORDER-LEFT: #aecbd4 1px solid; PADDING-TOP: 1px; BORDER-BOTTOM: #aecbd4 1px solid; BACKGROUND-COLOR: #fff
+}
+.tagContent {
+	PADDING-RIGHT: 10px; DISPLAY: none; PADDING-LEFT: 10px; BACKGROUND: url(../images/bg.gif) repeat-x; PADDING-BOTTOM: 10px; WIDTH: 776px; COLOR: #474747; PADDING-TOP: 10px; HEIGHT: 400px
+}
+#tagContent div.selectTag {
+	DISPLAY: block
+}
+
+
+.dhooo_tab{width:100%; margin:0;background:#fff url(../images/main_bg.gif) repeat-x 0 100%; border:1px solid #aaa;position:relative; float:left;}
+.tab_btn li{float:left; width:66px}
+.tab_btn li {font-size:12px;display:block; padding:10px 0 10px 10px;margin-right:5px; zoom:1;text-decoration:none; color:#fff;line-height:50%; cursor:pointer;}
+.tab_btn li.hot {background:#fff;color:#333;font-weight:bold;cursor:pointer;}
+.tab_btn{overflow:hidden;height:28px; padding-left:20px; padding-top:5px; background:url(../images/tabbar.gif) repeat-x ; }
+.shell{width:99999px; height:100%; }
+.shell li{float:left; width:760px; height:100%; list-style:none}
+.main{width:760px;height:350px; overflow:hidden;  margin:10px auto; text-align:left;font-size:12px;}
