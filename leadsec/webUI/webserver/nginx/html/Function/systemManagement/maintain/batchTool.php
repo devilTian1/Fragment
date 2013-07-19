@@ -8,8 +8,8 @@
 			$lines  = fileLinesToArr('/tmp/webui.cmd.log', '', 1);
 			$num    = count($lines);
 			for ($i = $num-1; $i >= 0; $i-=2) {
-                $result[] = str_replace(PHP_EOL, "\r\n", $lines[$i-1]);
-                $result[] = str_replace(PHP_EOL, "\r\n", $lines[$i]);
+                $result[] = str_replace("\n", "<br/>", $lines[$i-1]);
+                $result[] = str_replace("\n", "<br/>", $lines[$i]);
 			}
 			echo json_encode(array('status' => true,'msg' => $result));
 		}

@@ -4,9 +4,10 @@
   </caption>
 	<tr>
 		<td width="100%">
-			<textarea id="textareaA" cols="45" rows="8" 
+			<!--<textarea id="textareaA" cols="45" rows="8" 
 			 readonly="readonly">
-			</textarea>
+			</textarea>-->
+            <div id="textareaA" style="overflow:auto; padding:0 0 0 5px; width:800px; height:120px; border:#09C solid 1px;"></div>
 		</td>
 		<td>
             <input class="inputbtn standard" type="submit" onclick="cleanUp()" value="清空"/><br/><br/>
@@ -70,6 +71,7 @@
 </table>
 <script type="text/javascript" src="Public/js/systemManagement/maintain/batchTool.js"></script>
 <script type="text/javascript">
+
 $(document).ready(function() {
 	renderStandardUi();
     function testTextAreaB() {
@@ -80,8 +82,10 @@ $(document).ready(function() {
     }
     testTextAreaB();
 	validateForm($("#batchToolExportForm"));
+	$("#textareaA").width($("#textareaB").width());
 	show();
 	var uploadWid =  $('#batchToolExportFile').width();
     $('.uploadText').width(uploadWid - 75);
+	
 });
 </script>
