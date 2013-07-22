@@ -80,13 +80,13 @@ function getLicense($link) {
                       'ftp_status'      => 'ftp_access',
                       'status'          => 'fastpass_access'
                 );
-    $db  = new dbsqlite(DB_PATH . '/private.db');
-    $app = $modTable[$link];
+    $db  = new dbsqlite('private', DB_PATH . '/private.db');
+    $app = @$modTable[$link];
     if (empty($app)) {
         return true;
     }
     $sql = "SELECT value FROM license WHERE application = '$app'";
-    $result = $db->query($sql)->getFirstData(PDO::FETCH_ASSOC);
+    $result = $db->getInstance('private')->query($sql)->getFirstData(PDO::FETCH_ASSOC);
     return $result['value'] !== '0' ? true : false;
 }
 

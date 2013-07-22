@@ -45,8 +45,9 @@
         }
 
         private function getHostname() {
-            $db = new dbsqlite(DB_PATH . '/configs.db');
-            $result = $db->query("SELECT hostname FROM hostname")
+            $db = new dbsqlite('configs', DB_PATH . '/configs.db');
+            $result = $db->getInstance('configs')
+                         ->query("SELECT hostname FROM hostname")
                          ->getFirstData(PDO::FETCH_ASSOC);
             return $result['hostname'];
         }

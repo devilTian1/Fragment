@@ -31,5 +31,5 @@
     setLang();
 
     $loader = new Loader();
-    $loader->loaderController(0);
+    $loader->loader();
 ?>

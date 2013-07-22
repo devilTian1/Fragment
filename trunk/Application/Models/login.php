@@ -2,24 +2,28 @@
     require_once WEB_PATH . '/Lib/driver/dbsqlite.php';
     require_once WEB_PATH . '/Lib/driver/admLog.php';
     require_once WEB_PATH . '/Application/Models/user.php';
+    // Menu
+    require_once(WEB_PATH . '/Lib/driver/leftmenu.php');
 
     class LoginModel {
         private $db;
         private $admLog;
         private $uTool;
 
-        public function __construct($p = null) {
-            $this->db     = new dbsqlite(DB_PATH . '/configs.db');
-            $this->admLog = new admLog();
-            $this->uTool  = new User();
-        }
+        private $errMsg;
 
-        function b() {
-            $sql = "SELECT allow FROM allow_multiple";
-            $result = $this->db->query($sql)->getFirstData(PDO::FETCH_ASSOC);
-            var_dump($result);
-            echo '<br/>' . _('one') . '<br/>';
-            printf(_('1 + %d = 3|'), 2);
+        public $isValidUser;
+        public $hostStatus;
+        public $leftmenu;
+
+        public function __construct() {
+            $this->uTool  = new User();
+            $this->admLog = new admLog();
+            $this->db     = new dbsqlite('configs', DB_PATH . '/configs.db');
+            $this->db->setInstance('system', DB_PATH . '/netgap_system.db');
+            
+            $this->isValidUser = false;
+            $this->errMsg      = '';
         }
 
         /*
@@ -31,9 +35,9 @@
             if (@$_SESSION[$account] >= LIMITERR_NUM &&
                 !chkLimitErrTime($account)) {
                 $_SESSION['limitErrTime'] = time();
-                $errMsg = "输错密码超过规定次数,账号".$account."已被封锁!";
-                $msg = "用户[$account]" . str_replace('<br/>', ', ', $errMsg) .
-                    "地址来自[$cIp].";
+                $this->errMsg = "输错密码超过规定次数,账号$account" .
+                    '已被封锁!';
+                $msg = "用户[$account]{$this->errMsg}地址来自[$cIp].";
                 $logParam = array(
                     'time' => time(), 'account' => $account, 'pri' => 3,
                     'act' => 'login', 'msg'     => $msg
@@ -53,11 +57,13 @@
 
             $isAllow = false;
             $sql     = 'SELECT allow FROM allow_multiple';
-            $data    = $this->db->query($sql)->getFirstData(PDO::FETCH_ASSOC);
+            $data    = $this->loginDb['configs']->query($sql)
+                            ->getFirstData(PDO::FETCH_ASSOC);
             $isAllow = $data['allow'] === '1' ? true : false;
             if (!$isAllow &&
                 $this->isOnlineUser($account)) {
-                $msg = "禁止多管理员同时登录. 用户[$account], 地址来自[$cIp].";
+                $this->errMsg = '禁止多管理员同时登录.'; 
+                $msg = "{$this->errMsg} 用户[$account], 地址来自[$cIp].";
                 $logParam = array(
                     'time' => time(),  'account' => $account, 'pri' => 3,
                     'act'  => 'login', 'msg'     => $msg
@@ -76,10 +82,12 @@
             list($account, $passwd) = $this->uTool->getLoggedInUserInfo();
             $sql  = 'SELECT * FROM accounts ' .
                 "WHERE account = '$account' AND passwd='$passwd'";
-            $data = $this->db->query($sql)->getFirstData(PDO::FETCH_ASSOC);
+            $data = $this->db->getInstance('configs')->query($sql)
+                         ->getFirstData(PDO::FETCH_ASSOC);
             if (count($data) === 0 || $data === false) {
                 //$_SESSION[$account]++;
-                $msg = "用户名或密码错误! 用户[$account], 地址来自[$cIp].";
+                $this->errMsg = '用户名或密码错误!';
+                $msg = "{$this->errMsg} 用户[$account], 地址来自[$cIp].";
                 $logParam = array(
                     'time' => time(),  'account' => $account, 'pri' => 3,
                     'act'  => 'login', 'msg'     => $msg
@@ -100,15 +108,32 @@
                 return true;
             }
         }
-
+        
         /*
          * Validate user name and password.
          */
-        public function login() {   
-            if (true === $this->validUserAndPwd()) {
+        public function login() {
+            //if ($this->chkLimitErrTime() && $this->allowMulAdm() &&
+            //    $this->validUserAndPwd()) {
+            if ($this->validUserAndPwd()) {
+                $this->isValidUser = true;
+                $this->leftmenu    = leftmenu::instance()->sort();
+                $this->getOutOrInHost();
             } else {
-                V::getInstance()->display('login/login.tpl');
+                $this->isValidUser = false;
             }
+        }
+
+        public function getErrMsg() {
+            return $this->errMsg;
+        }
+
+        // 'I' or 'O'
+        public function getOutOrInHost() {
+            $data = $this->db->getInstance('system')
+                             ->query('SELECT host FROM system')
+                             ->getFirstData(PDO::FETCH_ASSOC);
+            $this->hostStatus = $data['host'];
         }
 
         /*

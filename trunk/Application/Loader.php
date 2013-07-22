@@ -3,41 +3,47 @@
     //  corresponding class and methos.
     class Loader {
         private $frags;
-        private $class;
+        private $viewClass;
+        private $modelClass;
+        private $controllerClass;
 
-        private function getClassPath($name, $t) {
-            if ($t === 'M') {
-                return WEB_PATH . '/Application/Models/' .
-                    strtolower($name) . '.php';
-            } else if ($t === 'C') {
-                return WEB_PATH . '/Application/Controllers/' .
-                    strtolower($name) . '.php';
-            } else {
-                throw new Exception("Can`t get class[$name] path, type [$t].");
-            }
+        private function getModelClassPath() {
+            return WEB_PATH . '/Application/Models/' .
+                $this->frags[0] . '.php';
         }
 
-        private function getRawClassName($name) {
-            return ucfirst(strtolower($name));
-        }
-        private function getControllerClassName($name) {
-            return ucfirst(strtolower($name)) . 'Controller';
-        }
-        private function getModelClassName($name) {
-            return ucfirst(strtolower($name)) . 'Model';
+        private function getViewClassPath() {
+            return WEB_PATH . '/Application/Views/' .
+                $this->frags[0] . '.php';
         }
 
-        private function getFuncName($name) {
-            return strtolower($name);
+        private function getControllerClassPath() {
+            return WEB_PATH . '/Application/Controllers/' .
+                $this->frags[0] . '.php';
+        }
+
+        private function getRawClassName() {
+            return ucfirst(strtolower($this->frags[0]));
+        }
+
+        private function getControllerClassName() {
+            return ucfirst(strtolower($this->frags[0])) . 'Controller';
+        }
+
+        private function getViewClassName() {
+            return ucfirst(strtolower($this->frags[0])) . 'View';
+        }
+
+        private function getModelClassName() {
+            return ucfirst(strtolower($this->frags[0])) . 'Model';
+        }
+
+        private function getFuncName() {
+            return strtolower($this->frags[1]);
         }
 
         private function formatRequest() {
-            foreach ($this->frags as &$frag) {
-                $frag = explode('/', $frag, 3);
-                $frag[0] = $this->getRawClassName($frag[0]);
-                $frag[1] = $this->getFuncName($frag[1]);
-            }
-            unset($frag);
+            $this->frags = explode('/', $this->frags, 2);
         }
 
         /*
@@ -51,10 +57,7 @@
             } else if (isset($_POST['R'])) {
                 $frags = $_POST['R'];
             } else {
-                $frags = 'login/login';
-            }
-            if (!is_array($frags)) {
-                $frags = array($frags);
+                $frags = 'login/index';
             }
             $this->frags = $frags;
             $this->formatRequest();
@@ -62,87 +65,78 @@
         }
 
         /*
-         * Load the requested class.
-         * @param $path String. class full path.
-         * @param $className String.
-         * @param $params Mixed. params which be used in construct func.
-         *
+         * Load the requested function of specified controller class.
          */
-        private function loadClass($path, $className, $params = null) {
-            try {
-                if (count($this->class) > 10) {
-                    throw new Exception('Load Class number is more than 10.');
-                } 
-                if (empty($this->class[$className])) {
-                    include_once $path;
-                    if (isset($params)) {
-                        $this->class[$className] = new $className($params);
-                    } else {
-                        $this->class[$className] = new $className();
-                    }
-                }
-            } catch (Exception $exception) {
-                $msg = "Can`t Load this Class[$className].";
-                throw new Exception($msg, 0, $exception);
-            }
-        }
-
-        /*
-         * Load the requested function of specified class.
-         * @param $funcName String. functon name in class "$className".
-         * @param $className String.
-         */
-        private function loadFunction($funcName, $className) {
+        private function loaderFunction() {
+            $className = $this->getControllerClassName();
+            $funcName  = $this->frags[1];
             try {
                 // return the return value of the callback or FALSE on error.
-                call_user_func(array($this->class[$className],
+                call_user_func(array($this->controllerClass,
                                      $funcName));
             } catch (Exception $e) {
-                $msg = "Can`t execute function[{$className}::{$funcName}]." .
-                    "Reason: {$e->getMessage()}";
+                $msg = "Can`t execute controller function" .
+                    "[{$className}::{$funcName}].<br/>{$e->getMessage()}";
                 throw new Exception($msg);
             }
         }
 
-        private function loader($path, $className, $funcName, $initParam) {
-            $this->loadClass($path, $className, $initParam);
-            $this->loadFunction($funcName, $className);
-            return $this;
-        }
-
-        /**
-         * Remove specified class res from param. purpose: clean mem.
-         * @param $className String.
-         */
-        public function unsetClass($className) {
-            unset($this->class[$className]);
-        }
-
-        public function loaderModel($frag) {
-            $path      = $this->getClassPath($frag[0], 'M');
-            $className = $this->getModelClassName($frag[0]);
-            $funcName  = $frag[1];
-            $initParam = @$frag[2];
-
-            $this->loader($path, $className, $funcName, $initParam);
-            return $this;
-        }
-
-        public function loaderController($index = 0) {
-            $path      = $this->getClassPath($this->frags[$index][0], 'C');
-            $className = $this->getControllerClassName($this->frags[$index][0]);
-            $funcName  = $this->frags[$index][1];
-            $initParam = @$this->frags[$index][2];
-
-            $this->loader($path, $className, $funcName, $initParam);
-            return $this;
-        }
-
-        public function loaderAllModel() {
-            foreach($this->frags as $f) {
-                $this->loaderModel($f);
+        private function loaderModel() {
+            $path      = $this->getModelClassPath();
+            $className = $this->getModelClassName();
+            try {
+                include_once $path;
+                $this->modelClass = new $className();
+            } catch (Exception $exception) {
+                $msg = "Can`t generate this Model Class[$className].<br/>" .
+                    $exception->getMessage();
+                throw new Exception($msg);
             }
-            return $this;
+        }
+
+        private function loaderView() {
+            $path      = $this->getViewClassPath();
+            $className = $this->getViewClassName();
+            try {
+                include_once $path;
+                $this->viewClass = new $className($this);
+            } catch (Exception $exception) {
+                $msg = "Can`t generate this View Class[$className].<br/>" .
+                    $exception->getMessage();
+                throw new Exception($msg);
+            }   
+        }
+
+        private function loaderController() {
+            $path      = $this->getControllerClassPath();
+            $className = $this->getControllerClassName();
+            try {
+                include_once $path;
+                $this->controllerClass = new $className($this);
+                return $this;
+            } catch (Exception $exception) {
+                $msg = "Can`t generate this Controller Class[$className].<br/>".
+                    $exception->getMessage();
+                throw new Exception($msg);
+            }
+        }
+
+        public function getModelClass() {
+            return $this->modelClass;
+        }
+
+        public function getControllerClass() {
+            return $this->controllerClass;
+        }
+
+        public function getViewClass() {
+            return $this->viewClass;
+        }
+
+        public function loader() {
+            $this->loaderModel();
+            $this->loaderView();
+            $this->loaderController()->loaderFunction();
         }
     }
 ?>

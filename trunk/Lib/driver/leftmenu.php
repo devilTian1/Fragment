@@ -1,5 +1,4 @@
 <?php
-    @session_start();
     require_once(WEB_PATH . '/Lib/core/menu.php');
     /**
      *
@@ -39,7 +38,9 @@
         // hide this item for specified ban role
         private function displayNode($node) {
             $curUserRoles = $this->getCurUserRoles();
-            $banRolesStr  = $node['ban'];
+            if (isset($node['ban'])) {
+                $banRolesStr = $node['ban'];
+            }
             if (!empty($banRolesStr)) {
                 $banRolesArr = array();
                 $banRolesTmp = explode(',', $banRolesStr);
@@ -75,7 +76,7 @@
             }
             // romote non-root node
             foreach ( $this->menu as $key => $node ) {
-                if ( $node['pid'] !== 0 ) {
+                if ( isset($node['pid']) && $node['pid'] !== 0 ) {
                     unset($this->menu[$key]);
                 }
             }
@@ -162,7 +163,7 @@
             echo "<ul>";
             foreach ( $menu as $key => $root ) {
                 echo "<li>{$root['name']}</li>\n";
-                $children = $root['children'];
+                $children = @$root['children'];
                 if ( is_array( $children ) ) {
                     $this->showMenuByUl($children);
                 }

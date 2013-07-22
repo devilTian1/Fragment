@@ -1,18 +1,15 @@
 <?php
+    //require_once WEB_PATH . 'Application/Models/login.php';
     class commonController {
-
+        protected $view;
+        protected $model;
+        protected $controller;
+    
         public function __construct(Loader $loader) {
-            if (!empty($_REQUEST['R'])) {
-                // check whether the user timout.
-                $loader = $loader->loaderModel(array('login', 'chklogin'));
-                if ($loader->getResult('default', 0)) {
-                    $loader->loaderController()->loaderAllModel();
-                } else {
-
-                }
-            } else {
-                $loader->loaderController()->loaderAllModel();
-            }
+            $this->view       = $loader->getViewClass();
+            $this->model      = $loader->getModelClass();
+            $this->controller = $loader->getControllerClass();
+            //$this->isTimeout = $loginClass->chklogin();
         }
 
        /**
@@ -21,16 +18,15 @@
          * @param $index Integer. the index of returned result set. default is
          *   the first result.
          */
-        public function getResult($type = 'json', $index = 0) {
+        public function getFilterResult($result) {
             switch($type) {
                 case 'json':
-                    $result = $this->result[$index];
                     if (!is_array($result)) {
                         $result = array($result);
                     }
                     return json_encode($result);
                 default:
-                    return $this->result[$index];
+                    return $result;
             }
         }
 

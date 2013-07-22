@@ -4,25 +4,39 @@
      *
      */
     class dbsqlite extends DB {
+        private $key;
+
         private function trace($info) {
             $file = '/tmp/webui.log';
             DEBUG && file_put_contents($file, "$info\n", FILE_APPEND | LOCK_EX);
         }
 
-        public function __construct($path) {
+        public function __construct($key, $path) {
+            $this->key = $key;
             if (!file_exists($path)) {
                 throw new DBException('No dsn');
             }
-            if (empty(self::$db) || self::$dsn != "sqlite:$path") {
+            if (empty(self::$db[$key]) || self::$dsn[$key] != "sqlite:$path") {
                 try {
-                    self::$dsn = "sqlite:$path";
-                    self::$db = new PDO(self::$dsn);
-                    self::$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                    self::$dsn[$key] = "sqlite:$path";
+                    self::$db[$key]  = new PDO(self::$dsn[$key]);
+                    self::$db[$key]->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                 } catch (Exception $e) {
                     throw new DBException($e->getMessage(), $e->getCode());
                 } 
             }
+            return $this;
             $this->trace($path);
+        }
+
+        public function setInstance($key, $path) {
+            new dbsqlite($key, $path);
+            return $this;
+        }
+
+        public function getInstance($key) {
+            $this->key = $key;
+            return $this;
         }
 
         /**
@@ -32,11 +46,11 @@
             $this->trace($sql);
             try {
                 if (!empty($params)) {
-                    $st = self::$db->prepare($sql);
+                    $st = self::$db[$this->key]->prepare($sql);
                     $st->execute($params);
                     $this->queryResult = $st;
                 } else {
-                    $this->queryResult = self::$db->query($sql);
+                    $this->queryResult = self::$db[$this->key]->query($sql);
                 }
                 return $this;
             } catch (Exception $e) {
@@ -56,11 +70,11 @@
             try {
                 if (!empty($params)) {
                     // get PDO Statement
-                    $st = self::$db->prepare($sql);
+                    $st = self::$db[$this->key]->prepare($sql);
                     $st->execute($params);
                     $rowCount = $st->rowCount();
                 } else {
-                    $rowCount = self::$db->exec($sql);
+                    $rowCount = self::$db[$this->key]->exec($sql);
                 }
                 return $rowCount;
             } catch (Exception $e) {
@@ -71,7 +85,7 @@
         public function execByTransaction($sqls, $paramArr = array()) {
             $result = array();
             try {
-                self::$db->beginTransaction();
+                self::$db[$this->key]->beginTransaction();
                 if (empty($paramArr)) {
                     foreach ($sqls as $sql) {
                         $result[] = $this->exec($sql);
@@ -85,10 +99,10 @@
                         $result[] = $this->exec($sqls[$key], $param);
                     }
                 }
-                self::$db->commit();
+                self::$db[$this->key]->commit();
                 return $result;
             } catch (Exception $e) {
-                self::$db->rollback();
+                self::$db[$this->key]->rollback();
                 throw new DBException('Database problem: ' . $e->getMessage());
             }
         }
@@ -118,7 +132,7 @@
         }
 
         public function getLastInsertId() {
-            return self::$db->lastInsertId();
+            return self::$db[$this->key]->lastInsertId();
         }
 
         public function replaceAlp($sql, $name) {
@@ -148,7 +162,7 @@
         }
 
         public function close() {
-            self::$db = NULL;
+            self::$db[$this->key] = NULL;
             return true;
         }
     }

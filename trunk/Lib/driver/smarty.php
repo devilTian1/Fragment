@@ -7,10 +7,10 @@ class V {
     private function __construct() {
         $smarty = new Smarty();
 
-        $smarty->setTemplateDir(WEB_PATH.'/Application/Views/templates/');
-        $smarty->setCompileDir(WEB_PATH.'/Application/Views/templates_c/');
-        $smarty->setConfigDir(WEB_PATH.'/Application/Views/config/');
-        $smarty->setCacheDir(WEB_PATH.'/Application/Views/cache/');
+        $smarty->setTemplateDir(WEB_PATH.'/Tpls/templates/');
+        $smarty->setCompileDir(WEB_PATH.'/Tpls/templates_c/');
+        $smarty->setConfigDir(WEB_PATH.'/Tpls/config/');
+        $smarty->setCacheDir(WEB_PATH.'/Tpls/cache/');
 
         $smarty->compile_check = true;
         $smarty->force_compile = false;

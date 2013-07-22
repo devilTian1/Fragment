@@ -1,12 +1,17 @@
 <?php
     session_start();
     class LoginController extends commonController {
-        function __construct() {
+        public function __construct(Loader $loader) {
+            parent::__construct($loader);
         }
 
-        function login() {
-            var_dump($this);
-            echo 'CCC';
+        public function index() {
+            $this->view->showLoginPage();
+        }
+
+        public function login() {
+            $this->model->login();
+            $this->view->showLoginPage();
         }
     }
 ?>
