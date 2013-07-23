@@ -164,7 +164,8 @@
         $("#leftmenu a").click(function() {
             var path = {
                 'l1' : $(this).parents("div.l2").attr("name"),
-                'l2' : $(this).parents("ul.l3").attr("name")
+                'l2' : $(this).parents("ul.l3").attr("name"),
+                'l3' : $(this).attr('name')
             }
             $("#leftmenu a").removeClass("link");
             $(this).addClass("link");

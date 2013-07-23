@@ -362,7 +362,7 @@ function showTabByAjax(path) {
 }
 
 function showPageByAjax(tpl) {
-    var url = 'index.php?R=layout/showContent'
+    var url = 'index.php?R=layout/showMainContent'
     var data = {
         tpl : tpl
     };

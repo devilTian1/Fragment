@@ -8,14 +8,12 @@
         private $modelClass;
         private $controllerClass;
 
-        private function getModelClassPath() {
-            return WEB_PATH . '/Application/Models/' .
-                $this->frags[0] . '.php';
+        private function getModelClassPath($name) {
+            return WEB_PATH . "/Application/Models/$name.php";
         }
 
-        private function getViewClassPath() {
-            return WEB_PATH . '/Application/Views/' .
-                $this->frags[0] . '.php';
+        private function getViewClassPath($name) {
+            return WEB_PATH . "/Application/Views/$name.php";
         }
 
         private function getControllerClassPath() {
@@ -23,20 +21,16 @@
                 $this->frags[0] . '.php';
         }
 
-        private function getRawClassName() {
-            return ucfirst($this->frags[0]);
+        private function getModelClassName($name) {
+            return ucfirst($name) . 'Model';
+        }
+
+        private function getViewClassName($name) {
+            return ucfirst($name) . 'View';
         }
 
         private function getControllerClassName() {
             return ucfirst($this->frags[0]) . 'Controller';
-        }
-
-        private function getViewClassName() {
-            return ucfirst($this->frags[0]) . 'View';
-        }
-
-        private function getModelClassName() {
-            return ucfirst($this->frags[0]) . 'Model';
         }
 
         private function getFuncName() {
@@ -82,32 +76,6 @@
             }
         }
 
-        private function loaderModel() {
-            $path      = $this->getModelClassPath();
-            $className = $this->getModelClassName();
-            try {
-                include_once $path;
-                $this->modelClass = new $className();
-            } catch (Exception $exception) {
-                $msg = "Can`t generate this Model Class[$className].<br/>" .
-                    $exception->getMessage();
-                throw new Exception($msg);
-            }
-        }
-
-        private function loaderView() {
-            $path      = $this->getViewClassPath();
-            $className = $this->getViewClassName();
-            try {
-                include_once $path;
-                $this->viewClass = new $className($this);
-            } catch (Exception $exception) {
-                $msg = "Can`t generate this View Class[$className].<br/>" .
-                    $exception->getMessage();
-                throw new Exception($msg);
-            }   
-        }
-
         private function loaderController() {
             $path      = $this->getControllerClassPath();
             $className = $this->getControllerClassName();
@@ -122,6 +90,35 @@
             }
         }
 
+        public function loaderModel($name) {
+            $path      = $this->getModelClassPath($name);
+            $className = $this->getModelClassName($name);
+            try {
+                include_once $path;
+                $this->modelClass = new $className();
+                return $this;
+            } catch (Exception $exception) {
+                $msg = "Can`t generate this Model Class[$className].<br/>" .
+                    $exception->getMessage();
+                throw new Exception($msg);
+            }
+        }
+
+        public function loaderView($name) {
+            $path      = $this->getViewClassPath($name);
+            $className = $this->getViewClassName($name);
+            try {
+                include_once $path;
+                $this->viewClass = new $className($this);
+                return $this;
+            } catch (Exception $exception) {
+                $msg = "Can`t generate this View Class[$className].<br/>" .
+                    $exception->getMessage();
+                throw new Exception($msg);
+            }   
+        }
+
+
         public function getModelClass() {
             return $this->modelClass;
         }
@@ -135,8 +132,6 @@
         }
 
         public function loader() {
-            $this->loaderModel();
-            $this->loaderView();
             $this->loaderController()->loaderFunction();
         }
     }

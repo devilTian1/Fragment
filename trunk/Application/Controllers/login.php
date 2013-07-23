@@ -6,12 +6,16 @@
         }
 
         public function index() {
-            $this->view->showLoginPage();
+            $model = $this->getModel('login');
+            $view  = $this->getView('login');
+            $view->showLoginPage();
         }
 
         public function login() {
-            $this->model->login();
-            $this->view->showLoginPage();
+            $model = $this->getModel('login');
+            $view  = $this->getView('login');
+            $model->login();
+            $view->showLoginPage();
         }
     }
 ?>

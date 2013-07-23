@@ -9,6 +9,16 @@
                 ->assign('baseurl', join('/', $this->model->level))
                 //->assign('modStat', getCurModStat($path))
                 ->display('layout/tabs.tpl');
-        }   
+        }
+        
+        public function showMainContain() {
+            try {
+                V::getInstance()->assign('initData', $this->model->initData)
+                                ->display($this->model->tpl);
+            } catch(SmartyException $e) {
+                $msg = "Unable to display mainContain tpl[{$e->getMessage()}].";
+                throw new Exception($msg);
+            }
+        }
     }
 ?>

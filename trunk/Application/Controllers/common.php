@@ -1,15 +1,22 @@
 <?php
-    //require_once WEB_PATH . 'Application/Models/login.php';
     class commonController {
+        protected $loader;
         protected $view;
         protected $model;
         protected $controller;
     
         public function __construct(Loader $loader) {
-            $this->view       = $loader->getViewClass();
-            $this->model      = $loader->getModelClass();
+            $this->loader     = $loader;
             $this->controller = $loader->getControllerClass();
             //$this->isTimeout = $loginClass->chklogin();
+        }
+
+        protected function getModel($model) {
+            return $this->loader->loaderModel($model)->getModelClass();
+        }
+
+        protected function getView($view) {
+            return $this->loader->loaderView($view)->getViewClass();
         }
 
        /**

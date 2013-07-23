@@ -6,8 +6,18 @@
         private $level;
 
         public function showTab() {
-            $this->model->getSpecTab();
-            $this->view->showTab();
+            $model = $this->getModel('layout');
+            $view  = $this->getView('layout');
+            $model->getSpecTab();
+            $view->showTab();
+        }
+
+        public function showMainContent() {
+            $model = $this->getModel('layout');
+            $view  = $this->getView('layout');
+            $model->getInitData();
+            $view->showMainContain();
+
         }
     }
 ?>

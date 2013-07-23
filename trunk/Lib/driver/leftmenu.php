@@ -130,8 +130,20 @@
                     if ($node['link'] === $link) {
                         $this->breadCrumbs[] = $node['name'];
                         if ($count === $level+1) {
-                            $result = array(
-                                $this->getTabinfo($node['children']), $node);
+                            if (empty($node['children'])) {
+                                $childrens = array($node);
+                                $flag      = ' >> ';
+                                $bc        = join($flag, $this->breadCrumbs);
+                                $note      =
+                                    isset($node['title']) ? $node['title'] : '';
+                                $tabinfo[] = array('breadCrumbs' => $bc,
+                                                    'note'       => $note);
+                                $result = array($tabinfo, $node);
+                            } else {
+                                $childrens = $node['children'];
+                                $result =
+                                    array($this->getTabinfo($childrens), $node);
+                            }
                             return $result;
                         }
                         $menu = $node['children'];

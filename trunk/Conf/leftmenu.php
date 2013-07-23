@@ -13,14 +13,14 @@
 		
 	//level 2 statusMonitor
 	'smt_s' => array('pid'=>'stm','name'=>'系统状态','link'=>'systemStatus'),
-	'smt_o' => array('pid'=>'stm','name'=>'在线状态','link'=>'onlineUser'),
-	'smt_t' => array('pid'=>'stm','name'=>'隧道状态','link'=>'tunelStatus'),
+	'smt_o' => array('pid'=>'stm','name'=>'在线用户','link'=>'onlineUser'),
+	'smt_t' => array('pid'=>'stm','name'=>'隧道状态','link'=>'tunnelStatus'),
 	'smt_a' => array('pid'=>'stm','name'=>'告警日志','link'=>'alarmLog'),
 	
 	//level 3 statusMonitor/
 	'smt_s_p' => array('pid' => 'smt_s', 'name' => '状态面板', 'link' => 'statusPanal'),
 	'smt_o_o' => array('pid'=>'smt_o','name'=>'在线用户','link'=>'onlineUser'),
-	'smt_t_t' => array('pid'=>'smt_t','name'=>'隧道状态','link'=>'tunelStatus'),
+	'smt_t_t' => array('pid'=>'smt_t','name'=>'隧道状态','link'=>'tunnelStatus'),
 	'smt_a_a' => array('pid'=>'smt_a','name'=>'告警日志','link'=>'alarmLog'),
 
 	//level 2 systemManagement
@@ -49,7 +49,7 @@
 	//level 3 PKI
 	'ua_p_c' => array('pid'=>'ua_p','name'=>'CA属性','link'=>'CA'),
 	'ua_p_l' => array('pid'=>'ua_p','name'=>'本地CA','link'=>'localCA'),
-	'ua_p_t' => array('pid'=>'ua_p','name'=>'地三方CA','link'=>'thirdCA'),
+	'ua_p_t' => array('pid'=>'ua_p','name'=>'第三方CA','link'=>'thirdCA'),
 
 	//level 3 SAML
 	'ua_s_b' => array('pid'=>'ua_s','name'=>'基本配置','link'=>'basicConf'),
@@ -87,17 +87,17 @@
 
 	//level 2 IPSECVPN
 	'iv_c' => array('pid'=>'iv','name'=>'基本配置','link'=>'basicConf'),
-	'iv_t' => array('pid'=>'iv','name'=>'隧道配置','link'=>'tunelConf'),
-	'iv_m' => array('pid'=>'iv','name'=>'隧道监控','link'=>'tunelMonitor'),
+	'iv_t' => array('pid'=>'iv','name'=>'隧道配置','link'=>'tunnelConf'),
+	'iv_m' => array('pid'=>'iv','name'=>'隧道监控','link'=>'tunnelMonitor'),
 
 	//level 3 
 	'iv_c_b' => array('pid'=>'iv_c','name'=>'基本配置','link'=>'basicConf'),
 	'iv_t_r' => array('pid'=>'iv_t','name'=>'VPN规则','link'=>'VPNRules'),
 	'iv_t_i' => array('pid'=>'iv_t','name'=>'IKE配置','link'=>'IKEConf'),
-	'iv_t_g' => array('pid'=>'iv_t','name'=>'网关隧道配置','link'=>'tunelConf'),
+	'iv_t_w' => array('pid'=>'iv_t','name'=>'网关隧道配置','link'=>'tunnelConf'),
 	'iv_t_c' => array('pid'=>'iv_t','name'=>'客户端隧道配置','link'=>'clientConf'),
-	'iv_t_g' => array('pid'=>'iv_t','name'=>'隧道组','link'=>'tunelGroup'),
-	'iv_m_m' => array('pid'=>'iv_m','name'=>'隧道监控','link'=>'tunelMonitor'),
+	'iv_t_g' => array('pid'=>'iv_t','name'=>'隧道组','link'=>'tunnelGroup'),
+	'iv_m_m' => array('pid'=>'iv_m','name'=>'隧道监控','link'=>'tunnelMonitor'),
 
 
 	//level 2 VPDN
@@ -116,7 +116,7 @@
 	'fw_t' => array('pid'=>'fw','name'=>'时间','link'=>'time'),
 	'fw_b' => array('pid'=>'fw','name'=>'带宽','link'=>'bandwidth'),
 	'fw_k' => array('pid'=>'fw','name'=>'黑名单','link'=>'blacklist'),
-	'fw_d' => array('pid'=>'fw','name'=>'地址绑定','link'=>'addrbind'),
+	'fw_d' => array('pid'=>'fw','name'=>'地址绑定','link'=>'addrBind'),
 	'fw_o' => array('pid'=>'fw','name'=>'安全选项','link'=>'safeOpions'),
 
 	//level 3
@@ -152,7 +152,7 @@
 	'ha_a_b' => array('pid'=>'ha_h','name'=>'基本配置','link'=>'basicConf'),
 	'ha_l_s' => array('pid'=>'ha_l','name'=>'SSLVPN负载均衡','link'=>'SSLVPN'),
 	'ha_l_i' => array('pid'=>'ha_l','name'=>'IPSECVPN负载均衡','link'=>'IPSECVPN'),
-	'ha_d_b' => array('pid'=>'ha_d','name'=>'基本配置','link'=>'dconf'),
+	'ha_d_b' => array('pid'=>'ha_d','name'=>'基本配置','link'=>'dConf'),
 	'ha_r_b' => array('pid'=>'ha_r','name'=>'基本配置','link'=>'routing'),
 
 
@@ -166,7 +166,7 @@
 	'la_c_c' => array('pid'=>'la_c','name'=>'日志配置','link'=>'logConf'),
 	'la_c_a' => array('pid'=>'la_c','name'=>'邮件报警','link'=>'mailAlarm'),
 	'la_c_t' => array('pid'=>'la_c','name'=>'邮件测试','link'=>'mailTest'),
-	'la_c_a' => array('pid'=>'la_c','name'=>'日志分类存储设置','link'=>'logSave'),
+	'la_c_v' => array('pid'=>'la_c','name'=>'日志分类存储设置','link'=>'logSave'),
 
 	'la_s_s' => array('pid'=>'la_s','name'=>'日志查看','link'=>'logShow'),
 	'la_a_a' => array('pid'=>'la_a','name'=>'日志审计','link'=>'logAudit'),
