@@ -1,6 +1,5 @@
 <?php
     require_once WEB_PATH . '/Lib/driver/leftmenu.php';
-    require_once WEB_PATH . '/Application/Models/common.php';
 
     class LayoutModel {
 

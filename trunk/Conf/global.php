@@ -4,7 +4,7 @@ define('COMPANY_NAME', '');
 define('PRODUCT_NAME', '安全隔离与信息交换系统');
 
 // install path of sis webui
-define('WEB_PATH', '/usr/local/webserver/nginx/html/new');
+define('WEB_PATH', '/usr/local/webserver/nginx/html');
 
 // database dir path  
 // chmod 766
