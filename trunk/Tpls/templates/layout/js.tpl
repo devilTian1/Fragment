@@ -202,8 +202,9 @@
 		//init index page
 		(function(){
 			var path = {
-			    'l1':"statusMonitor",
-				'l2':"systemStatus"
+			    'l1' : 'statusMonitor',
+				'l2' : 'systemStatus',
+                'l3' : 'statusPanal'
 			}
 			showTabByAjax(path);
 		})();

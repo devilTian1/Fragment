@@ -117,7 +117,7 @@
             //    $this->validUserAndPwd()) {
             if ($this->validUserAndPwd()) {
                 $this->isValidUser = true;
-                $this->leftmenu    = leftmenu::instance()->sort();
+                $this->leftmenu    = leftmenu::instance()->sort()->getMenu();
                 $this->getOutOrInHost();
             } else {
                 $this->isValidUser = false;

@@ -17,7 +17,6 @@
             $view  = $this->getView('layout');
             $model->getInitData();
             $view->showMainContain();
-
         }
     }
 ?>

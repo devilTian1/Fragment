@@ -7,5 +7,9 @@
         public function __construct(Loader $loader) {
             $this->model = $loader->getModelClass();
         }
+
+        public function showConfSuccess() {
+            echo json_encode(array('msg' => '修改成功。'));
+        }
     }
 ?>

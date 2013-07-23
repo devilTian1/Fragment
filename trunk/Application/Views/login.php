@@ -25,18 +25,19 @@
             $hostStatus = $this->model->hostStatus === 'I' ? '内网' : '外网';
             // generate smarty instance
             V::getInstance()->assign('headerNav', $headerNav)
-                            ->assign('leftmenu', $this->model->leftmenu->getMenu())
+                            ->assign('leftmenu', $this->model->leftmenu)
                             ->assign('hostStatus', $hostStatus)
                             ->assign('loginname', $_SESSION['account'])
                             ->display('index.tpl');
         }
 
         public function showLoginPage() {
-            if (isset($this->model->isValidUser) && false === $this->model->isValidUser) {
+            if (isset($this->model->isValidUser) &&
+                true === $this->model->isValidUser) {
+                $this->showHomePage();
+            } else {
                 V::getInstance()->assign('errMsg', $this->model->getErrMsg())
                                 ->display('login/login.tpl');
-            } else {
-                $this->showHomePage();
             }
         }
     }

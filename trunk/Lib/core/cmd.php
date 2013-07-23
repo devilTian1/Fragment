@@ -1,5 +1,6 @@
 <?php
-    
+    require_once WEB_PATH . '/Lib/driver/admLog.php';
+    require_once WEB_PATH . '/Lib/driver/function.php';
     /**
      * CMD base class
      * format

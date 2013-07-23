@@ -1,4 +1,4 @@
-<form action="Function/networkManagement/basic/dns.php" method="POST"
+<form action="index.php?R=networkConf/setDns" method="POST"
     id="setDnsForm" onSubmit="return false;">
     <table class="column_95">
         <caption>域名服务器</caption>
@@ -7,14 +7,14 @@
             <td class="tdheader" width="250">域名服务器IP1:</td>
             <td class="tdbody">
                 <input class='floatLeft' type="text" name="dnssrv"
-                    id="dnssrv" value=""/>
+                    id="dnssrv" value="<{$initData.dnssrv}>"/>
             </td>
         </tr>
         <tr>
             <td class="tdheader">域名服务器IP2:</td>
             <td class="tdbody">
             <input class='floatLeft' type="text" name="dnssrv2"
-                id="dnssrv2" value=""
+                id="dnssrv2" value="<{$initData.dnssrv2}>"
                 onChange="$('#setDnsForm').valid()"/>
             </td>
         </tr>

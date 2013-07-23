@@ -6,7 +6,7 @@
         public function showTab() {
             V::getInstance()->assign('tabs', $this->model->tabs)
                 ->assign('tabinfo', $this->model->tabinfo)
-                ->assign('baseurl', join('/', $this->model->level))
+                ->assign('baseurl', $this->model->baseurl)
                 //->assign('modStat', getCurModStat($path))
                 ->display('layout/tabs.tpl');
         }

@@ -1,8 +1,6 @@
 <?php
     class commonController {
         protected $loader;
-        protected $view;
-        protected $model;
         protected $controller;
     
         public function __construct(Loader $loader) {
