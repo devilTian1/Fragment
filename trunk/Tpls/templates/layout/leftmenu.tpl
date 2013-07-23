@@ -1,4 +1,4 @@
-<{foreach $menuArr as $l1}>
+<{foreach $leftmenu as $l1}>
     <!--[if IE 8]>
     <p style="margin: 0px; padding: 0px; height: 9px;"></p>
     <![endif]-->
@@ -8,13 +8,17 @@
     <div class="l2" name="<{$l1.link}>">
         <ul>
         <{foreach $l1.children as $l2}>
-            <span name="<{$l2.link}>" title="<{$l2.name}>"><{$l2.name}></span>
             <li>
-            <{foreach $l2.children as $l3}>
-                <ul>
+                <span class="l2span" name="<{$l2.link}>" title="<{$l2.name}>">
+                    <{$l2.name}>
+                </span>
+                <ul class="l3" name="<{$l2.link}>">
+                <{foreach $l2.children as $l3}>
+                    <li>
                     <a name="<{$l3.link}>" title="<{$l3.name}>"><{$l3.name}></a>
+                    </li>
+                <{/foreach}>
                 </ul>
-            <{/foreach}>
             </li>
         <{/foreach}>
         </ul>

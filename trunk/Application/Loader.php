@@ -1,4 +1,5 @@
 <?php
+    session_start();
     // Analyze the GET/POST request params and load 
     //  corresponding class and methos.
     class Loader {
@@ -23,23 +24,23 @@
         }
 
         private function getRawClassName() {
-            return ucfirst(strtolower($this->frags[0]));
+            return ucfirst($this->frags[0]);
         }
 
         private function getControllerClassName() {
-            return ucfirst(strtolower($this->frags[0])) . 'Controller';
+            return ucfirst($this->frags[0]) . 'Controller';
         }
 
         private function getViewClassName() {
-            return ucfirst(strtolower($this->frags[0])) . 'View';
+            return ucfirst($this->frags[0]) . 'View';
         }
 
         private function getModelClassName() {
-            return ucfirst(strtolower($this->frags[0])) . 'Model';
+            return ucfirst($this->frags[0]) . 'Model';
         }
 
         private function getFuncName() {
-            return strtolower($this->frags[1]);
+            return $this->frags[1];
         }
 
         private function formatRequest() {

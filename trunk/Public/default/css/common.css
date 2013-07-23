@@ -365,31 +365,35 @@ label.errorLabel {
 	background: url(../images/l1.gif) 0 0 no-repeat;
 	width:150px; height:22px;
 }
-#leftmenu .l1_close_networkManagement{
+#leftmenu .l1_close_statusMonitor{
 	background: url(../images/l1.gif) 0 -22px no-repeat;
 	width:150px; height:22px;
 }
-#leftmenu .l1_close_resConf{
+#leftmenu .l1_close_userAuthentication{
 	background: url(../images/l1.gif) 0 -44px no-repeat;
 	width:150px; height:22px;
 }
-#leftmenu .l1_close_client{
+#leftmenu .l1_close_SSLVPN{
 	background: url(../images/l1.gif) 0 -66px no-repeat;
 	width:150px; height:22px;
 }
-#leftmenu .l1_close_server{
+#leftmenu .l1_close_IPSECVPN{
 	background: url(../images/l1.gif) 0 -88px no-repeat;
 	width:150px; height:22px;
 }
-#leftmenu .l1_close_appS{
+#leftmenu .l1_close_VPDN{
 	background: url(../images/l1.gif) 0 -110px no-repeat;
 	width:150px; height:22px;
 }
-#leftmenu .l1_close_statMonitor{
+#leftmenu .l1_close_firewall{
 	background: url(../images/l1.gif) 0 -132px no-repeat;
 	width:150px; height:22px;
 }
-#leftmenu .l1_close_log{
+#leftmenu .l1_close_highAvailability{
+	background: url(../images/l1.gif) 0 -154px no-repeat;
+	width:150px; height:22px;
+}
+#leftmenu .l1_close_logAudit{
 	background: url(../images/l1.gif) 0 -154px no-repeat;
 	width:150px; height:22px;
 }
@@ -402,31 +406,35 @@ label.errorLabel {
 	background: url(../images/l1.gif) 0 -176px no-repeat;
 	width:150px; height:22px;
 }
-#leftmenu .l1_open_networkManagement {
+#leftmenu .l1_open_statusMonitor {
 	background: url(../images/l1.gif) 0 -198px no-repeat;
 	width:150px; height:22px;
 }
-#leftmenu .l1_open_resConf {
+#leftmenu .l1_open_userAuthentication {
 	background: url(../images/l1.gif) 0 -220px no-repeat;
 	width:150px; height:22px;
 }
-#leftmenu .l1_open_client {
+#leftmenu .l1_open_SSLVPN {
 	background: url(../images/l1.gif) 0 -242px no-repeat;
 	width:150px; height:22px;
 }
-#leftmenu .l1_open_server {
+#leftmenu .l1_open_IPSECVPN {
 	background: url(../images/l1.gif) 0 -264px no-repeat;
 	width:150px; height:22px;
 }
-#leftmenu .l1_open_appS {
+#leftmenu .l1_open_VPDN {
 	background: url(../images/l1.gif) 0 -286px no-repeat;
 	width:150px; height:22px;
 }
-#leftmenu .l1_open_statMonitor {
+#leftmenu .l1_open_firewall {
 	background: url(../images/l1.gif) 0 -308px no-repeat;
 	width:150px; height:22px;
 }
-#leftmenu .l1_open_log {
+#leftmenu .l1_open_highAvailability {
+	background: url(../images/l1.gif) 0 -330px no-repeat;
+	width:150px; height:22px;
+}
+#leftmenu .l1_open_logAudit {
 	background: url(../images/l1.gif) 0 -330px no-repeat;
 	width:150px; height:22px;
 }
@@ -445,6 +453,7 @@ label.errorLabel {
 }
 
 #leftmenu .l2 {
+	cursor:pointer;
 	margin: 0 auto;
 }
 

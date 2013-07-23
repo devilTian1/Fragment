@@ -18,7 +18,7 @@
 	'smt_a' => array('pid'=>'stm','name'=>'告警日志','link'=>'alarmLog'),
 	
 	//level 3 statusMonitor/
-	'smt_s_p' => array('pid'=>'smt_s','name'=>'状态面板','link'=>'statusPanal'),
+	'smt_s_p' => array('pid' => 'smt_s', 'name' => '状态面板', 'link' => 'statusPanal'),
 	'smt_o_o' => array('pid'=>'smt_o','name'=>'在线用户','link'=>'onlineUser'),
 	'smt_t_t' => array('pid'=>'smt_t','name'=>'隧道状态','link'=>'tunelStatus'),
 	'smt_a_a' => array('pid'=>'smt_a','name'=>'告警日志','link'=>'alarmLog'),
@@ -128,7 +128,7 @@
 	'fw_a_g' => array('pid'=>'fw_a','name'=>'地址组','link'=>'地址组'),
 
 	'fw_s_s' => array('pid'=>'fw_s','name'=>'服务','link'=>'services'),
-	'fw_s_g' => array('pid'=>'fw_g','name'=>'服务组','link'=>'servicesGroup'),
+	'fw_s_g' => array('pid'=>'fw_s','name'=>'服务组','link'=>'servicesGroup'),
 
 	'fw_t_t' => array('pid'=>'fw_t','name'=>'时间','link'=>'time'),
 	'fw_t_g' => array('pid'=>'fw_t','name'=>'时间组','link'=>'timeGroup'),

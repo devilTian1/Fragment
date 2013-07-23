@@ -91,18 +91,37 @@
             var pname = $(this).attr("name");
             var l2Dom = $("#leftmenu>.l2[name='" + pname + "']");
 			$("#leftmenu>.l1").not(function(){
-									var cname=$(this).attr("name");
-									if(pname!=cname){
-										$(this).removeClass('l1_open_'+cname).addClass('l1_close_'+cname);	
-									}
-								});
+		        var cname=$(this).attr("name");
+				if (pname != cname) {
+				    $(this).removeClass('l1_open_' + cname)
+                           .addClass('l1_close_' + cname);	
+				}
+			});
             $("#leftmenu>.l2").not(l2Dom).slideUp();
+            $("#leftmenu li>.l3").slideUp();
             if ( l2Dom.css('display') == 'none' ) {
                 l2Dom.slideDown('slow');
             } else {
                 l2Dom.slideUp('slow');
             }
             $(this).toggleClass('l1_open_'+pname+' l1_close_'+pname);
+        });
+        $("#leftmenu span.l2span").click(function() {
+            var pname = $(this).attr("name");
+            var l3Dom = $("#leftmenu ul.l3[name='" + pname + "']");
+			$("#leftmenu span.l2span").not(function() {
+		        var cname = $(this).attr("name");
+				if (pname != cname) {
+				    $(this).removeClass('l1_open_' + cname)
+                           .addClass('l1_close_' + cname);	
+				}
+			});
+            $("#leftmenu ul.l3").not(l3Dom).slideUp();
+            if ( l3Dom.css('display') == 'none' ) {
+                l3Dom.slideDown('slow');
+            } else {
+                l3Dom.slideUp('slow');
+            }
         });
        
 
@@ -144,8 +163,8 @@
         // refresh content
         $("#leftmenu a").click(function() {
             var path = {
-                '1' : $(this).parents("div.l2").attr("name"),
-                '2' : $(this).attr("name")
+                'l1' : $(this).parents("div.l2").attr("name"),
+                'l2' : $(this).parents("ul.l3").attr("name")
             }
             $("#leftmenu a").removeClass("link");
             $(this).addClass("link");
@@ -181,10 +200,10 @@
 		
 		//init index page
 		(function(){
-			var path={
-				'1':"systemManagement",
-				'2':"overview"
-					}
+			var path = {
+			    'l1':"statusMonitor",
+				'l2':"systemStatus"
+			}
 			showTabByAjax(path);
 		})();
 		//beautify scroll html

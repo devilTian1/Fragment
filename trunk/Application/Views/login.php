@@ -1,11 +1,8 @@
 <?php
-    class loginView {
-        private $model;
+    require_once WEB_PATH . '/Application/Views/common.php';
 
-        public function __construct(Loader $loader) {
-            $this->model = $loader->getModelClass();
-        }
-
+    class loginView extends commonView {
+   
         private function showHomePage() {
             $headerNav = array(
                 '0' => array('id'   => 'homepage',   'img' => 'top_icon_1.png',
@@ -28,7 +25,7 @@
             $hostStatus = $this->model->hostStatus === 'I' ? '内网' : '外网';
             // generate smarty instance
             V::getInstance()->assign('headerNav', $headerNav)
-                            ->assign('menuArr', $this->model->leftmenu->getMenu())
+                            ->assign('leftmenu', $this->model->leftmenu->getMenu())
                             ->assign('hostStatus', $hostStatus)
                             ->assign('loginname', $_SESSION['account'])
                             ->display('index.tpl');

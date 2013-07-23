@@ -60,7 +60,8 @@
                 $pid    = $node['pid'];
                 $isShow = $this->displayNode($node);
                 if ( $pid !== 0 ) {
-                    if (!$isShow || !getLicense($node['link'])) {
+                    if (!$isShow) {
+                    //if (!$isShow || !getLicense($node['link'])) {
                         continue;
                     }
                     // add array for storing child nodes
@@ -128,7 +129,7 @@
                 foreach ($menu as $node) {
                     if ($node['link'] === $link) {
                         $this->breadCrumbs[] = $node['name'];
-                        if ($count === $level) {
+                        if ($count === $level+1) {
                             $result = array(
                                 $this->getTabinfo($node['children']), $node);
                             return $result;

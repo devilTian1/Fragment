@@ -357,14 +357,16 @@ function ajaxSubmitForm(formEle, title, successCallback, errorCallback,
 }
 
 function showTabByAjax(path) {
-    var url  = 'Function/layout/showTab.php';
-    var data = {tabPath : path};
-    loadEmbedPage(url, data, $("#tab"));
+    var url  = 'index.php?R=layout/showTab';
+    loadEmbedPage(url, path, $("#tab"));
 }
 
-function showPageByAjax(url) {
-    var data = {func : url};
-    loadEmbedPage('Function/view.php', data, $("#mainContent"));
+function showPageByAjax(tpl) {
+    var url = 'index.php?R=layout/showContent'
+    var data = {
+        tpl : tpl
+    };
+    loadEmbedPage(url, data, $("#mainContent"));
 }
 
 function showStepPageByAjax(url) {

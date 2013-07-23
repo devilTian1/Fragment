@@ -35,6 +35,7 @@
             <{/foreach}>
         <{/if}>
     </ul>
+    <!--
     <{if $modStat['active'] eq 'on'}>
         <span name="modechk|<{$modStat['mod']}>|<{$modStat['serv']}>"
             id="modechk" class="modelchk_on"
@@ -44,18 +45,21 @@
             id="modechk" class="modelchk_off"
             onClick="switchModStat()"></span>
     <{/if}>
+    -->
 </div>
 <script type="text/javascript">
     <{if isset($tabs) && count($tabs) != 0}>
-        showPageByAjax("<{$baseurl|cat:'/'|cat:$tabs[$tabnum|default:0].link|cat:'.php'}>");
+        showPageByAjax("<{$baseurl|cat:'/'|cat:$tabs[$tabnum|default:0].link|cat:'.tpl'}>");
     <{/if}>
     var mainZoneWidth=document.getElementById("mainZone").scrollWidth;
     document.getElementById("tabinfo_cen").style.width=(mainZoneWidth-200)+"px";
+    /*
     <{if $modStat['active'] eq 'on'}>
         $("#modechk").attr("title","点击后将关闭服务");
         $("#modechk").tooltip();
     <{else if $modStat['active'] eq 'off'}>
         $("#modechk").attr("title","点击后将启动服务");
         $("#modechk").tooltip();
-    <{/if}>    
+    <{/if}>
+    */
 </script>
