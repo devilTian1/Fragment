@@ -3,6 +3,16 @@
     require_once WEB_PATH . '/Lib/driver/cli.php';
 
     class NetworkConfModel {
+
+        private $cli;
+
+        public function __construct() {
+            $this->setCli(new cli());
+        }
+
+        public function setCli(cli $cli) {
+            $this->cli = $cli;
+        }
         
         public function getDns() {
             $this->db = new dbsqlite('configs', DB_PATH . '/configs.db');
@@ -13,7 +23,6 @@
         }
 
         public function setDns() {
-            $cli     = new cli();
             $dnssrv  = $_POST['dnssrv'];
             $dnssrv2 = $_POST['dnssrv2'];
 
@@ -24,7 +33,7 @@
                 $cmd = "dns set ip $dnssrv $dnssrv2";
                 $log = '设置域名服务器IP';
             }
-            $cli->setLog($log)->run($cmd);
+            $this->cli->setLog($log)->run($cmd);
         }
     }
 ?>

@@ -9,7 +9,7 @@
 
     function setLang() {
         // set time zone
-        date_default_timezone_set('Asia/chongqing');
+        date_default_timezone_set('Asia/Chongqing');
         if (isset($_COOKIE['web_locale'])) {
             $lo = $_COOKIE['web_locale'];
         } else {
