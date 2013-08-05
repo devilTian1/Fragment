@@ -49,8 +49,14 @@
     <{if isset($tabs) && count($tabs) != 0}>
         showPageByAjax("<{$baseurl|cat:'/'|cat:$tabs[$tabnum|default:0].link|cat:'.php'}>");
     <{/if}>
-    var mainZoneWidth=document.getElementById("mainZone").scrollWidth;
-    document.getElementById("tabinfo_cen").style.width=(mainZoneWidth-200)+"px";
+	function resetWidth(){
+		 var mainZoneWidth=document.getElementById("mainZone").scrollWidth;
+    	document.getElementById("tabinfo_cen").style.width=(mainZoneWidth-200)+"px";
+	}
+    resetWidth();
+	$(window).resize(function(){
+			resetWidth();
+		})
     <{if $modStat['active'] eq 'on'}>
         $("#modechk").attr("title","点击后将关闭服务");
         $("#modechk").tooltip();

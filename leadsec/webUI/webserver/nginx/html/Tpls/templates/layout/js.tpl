@@ -103,6 +103,7 @@
                 l2Dom.slideUp('slow');
             }
             $(this).toggleClass('l1_open_'+pname+' l1_close_'+pname);
+			setTimeout(function(){$("#leftmenu").getNiceScroll().resize();},500);
         });
        
 

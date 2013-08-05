@@ -251,10 +251,12 @@ function getInitData(intval) {
 
 $(document).ready(function () {
     //动态改变宽度
-    var widbox = $("#zoomboxtd").width();
-    $(".zoombox").width(widbox);
-    $("#zoompoc").width(widbox);
-
+	$(window).resize(function(){
+		var widbox = $(".dev_info_table").width();
+		 	$("#zoompic div").width(widbox*2-40);
+			$("#useRatio div").width(widbox-40);
+	})
+	
 		var setTimeout_flag = -1;
 		var setTimeIntval   = 3000;//多少时间更新一次
 	    Highcharts.setOptions({
@@ -529,14 +531,18 @@ $(document).ready(function () {
                 }
             }]
         });
+	/*$("#mainContent").css({"position": "relative"});
+	$("#mainContent").css({"z-index": "8"});
+	$(".footer").css({"position": "relative"});
+	$(".footer").css({"z-index": "8"});*/
 	//IE6下面滚动条优化
-	if($.browser.msie&&($.browser.version == "6.0")&&!$.support.style){
+	/*if($.browser.msie&&($.browser.version == "6.0")&&!$.support.style){
         //设定z-index遮盖vml
         $("#mainContent").css({"position": "relative"});
         $("#mainContent").css({"z-index": "8"});
         $(".footer").css({"position": "relative"});
         $(".footer").css({"z-index": "8"});
-	}
+	}*/
 /******************************************************************************/
     setHighcharts();
     for (var i in chart.series) {
