@@ -18,7 +18,7 @@
          */
         abstract public function getSubMenu($path);
         
-        abstract public function sort();
+        abstract protected function sort();
         
         abstract public function show();
     }

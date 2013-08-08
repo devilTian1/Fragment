@@ -125,13 +125,18 @@
 	'fw_p_b' => array('pid'=>'fw_p','name'=>'带宽策略','link'=>'bandwidthPolicy'),
 
 	'fw_a_a' => array('pid'=>'fw_a','name'=>'地址','link'=>'address'),
-	'fw_a_g' => array('pid'=>'fw_a','name'=>'地址组','link'=>'地址组'),
+	'fw_a_g' => array('pid'=>'fw_a','name'=>'地址组','link'=>'addrGroup'),
+	'fw_a_p' => array('pid'=>'fw_a','name'=>'地址池','link'=>'addrPool'),
+	'fw_a_d' => array('pid'=>'fw_a','name'=>'域名资源','link'=>'dnSource'),
 
-	'fw_s_s' => array('pid'=>'fw_s','name'=>'服务','link'=>'services'),
-	'fw_s_g' => array('pid'=>'fw_s','name'=>'服务组','link'=>'servicesGroup'),
-
+	'fw_s_p' => array('pid'=>'fw_s','name'=>'预定义服务','link'=>'default'),
+	'fw_s_d' => array('pid'=>'fw_s','name'=>'动态服务','link'=>'dynamic'),
+	'fw_s_i' => array('pid'=>'fw_s','name'=>'ICMP服务','link'=>'ICMP'),
+	'fw_s_b' => array('pid'=>'fw_s','name'=>'基本服务','link'=>'basic'),
+	'fw_s_g' => array('pid'=>'fw_s','name'=>'服务组','link'=>'servGroup'),
+	
 	'fw_t_t' => array('pid'=>'fw_t','name'=>'时间','link'=>'time'),
-	'fw_t_g' => array('pid'=>'fw_t','name'=>'时间组','link'=>'timeGroup'),
+	'fw_t_g' => array('pid'=>'fw_t','name'=>'时间列表','link'=>'timeList'),
 
 	'fw_b_n' => array('pid'=>'fw_b','name'=>'非共享带宽','link'=>'nonsharedBandwidth'),
 	'fw_b_s' => array('pid'=>'fw_b','name'=>'共享带宽','link'=>'sharedBandwidth'),
@@ -174,7 +179,7 @@
 
 	//level 3 systemManagement/systemConf
 	'sm_s_i' => array('pid'=>'sm_s','name'=>'系统信息','link'=>'systemInformation'),
-	'sm_s_c' => array('pid'=>'sm_s','name'=>'管理设置','link'=>'managementConf'),
+	'sm_s_c' => array('pid'=>'sm_s','name'=>'管理员设置','link'=>'adminConf'),
 	'sm_s_m' => array('pid'=>'sm_s','name'=>'系统维护','link'=>'systemMaintaining'),
 
 	//level 4 systemManagement/systemConf/systemInformation
@@ -200,9 +205,11 @@
 
 	//level 3 systemManagement/networkConf
 	'sm_n_i' => array('pid'=>'sm_n','name'=>'接口设置','link'=>'interfaceConf'),
+	'sm_n_b' => array('pid'=>'sm_n','name'=>'基本配置','link'=>'basicConf'),
 	'sm_n_r' => array('pid'=>'sm_n','name'=>'路由设置','link'=>'routingConf'),
 	'sm_n_n' => array('pid'=>'sm_n','name'=>'网络服务','link'=>'networkService'),
-
+	
+	
 	//level 4 /interfaceConf
 	'sm_n_i_p' => array('pid'=>'sm_n_i','name'=>'物理设备','link'=>'physical'),
 	'sm_n_i_v' => array('pid'=>'sm_n_i','name'=>'VLAN设备','link'=>'VLAN'),
@@ -213,7 +220,10 @@
 	'sm_n_i_w' => array('pid'=>'sm_n_i','name'=>'无线设备','link'=>'wireless'),
 	'sm_n_i_3' => array('pid'=>'sm_n_i','name'=>'3G设备','link'=>'3G'),
 	'sm_n_i_g' => array('pid'=>'sm_n_i','name'=>'GRE设备','link'=>'GRE'),
-
+	
+	//level 4 /basicConf
+	'sm_n_b_d' =>array('pid'=>'sm_n_b','name'=>'域名服务器','link'=>'dns'),
+	
 	//level 4 //routingConf
 	'sm_n_r_d' => array('pid'=>'sm_n_r','name'=>'默认路由','link'=>'default'),
 	'sm_n_r_s' => array('pid'=>'sm_n_r','name'=>'静态路由','link'=>'static'),

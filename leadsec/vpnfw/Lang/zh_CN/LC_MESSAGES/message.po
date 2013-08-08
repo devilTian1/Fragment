@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-15 23:50-0700\n"
+"POT-Creation-Date: 2013-07-31 02:26-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,11 +17,47 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: Application/Models/login.php:7
-msgid "one"
-msgstr "一"
+#: Application/Views/login/login.php:40
+msgid "Chinese"
+msgstr "中文"
 
-#: Application/Models/login.php:8
+#: Application/Views/login/login.php:40
+msgid "English"
+msgstr "英文"
+
+#: Application/Views/login/login.php:41
+msgid "Account"
+msgstr "账户"
+
+#: Application/Views/login/login.php:41
+msgid "Password"
+msgstr "密码"
+
+#: Application/Views/login/login.php:45
 #, php-format
-msgid "1 + %d = 3|"
-msgstr "一加上%d等于三|"
+msgid "Welcome to use %s"
+msgstr "欢迎使用%s"
+
+#: Conf/product.php:3
+msgid "SIS-3000"
+msgstr "安全隔离与信息交换系统"
+
+#: Application/Views/login/login.php:42
+msgid "confirm"
+msgstr "确认"
+
+#: Application/Views/login/login.php:42
+msgid "cancel"
+msgstr "取消"
+
+#: Application/Views/login/login.php:43
+msgid "User Required"
+msgstr "账户必填"
+
+#: Application/Views/login/login.php:44
+msgid "Password Required"
+msgstr "密码必填"
+
+#: Application/Models/login/login.php:89
+msgid "account or password is wrong."
+msgstr "用户名或密码错误"

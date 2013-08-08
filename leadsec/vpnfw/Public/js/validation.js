@@ -1325,7 +1325,22 @@ var validMethodParams = {
             }          
         },
         msg: "源名标识与完成后标识不能相同。"
-    }
+    },
+	
+	ipListParam: {
+		name:'ipList',
+		validMethod: function(value,element,params) {
+				var obj = document.getElementById("iplist");
+				var length = obj.length;
+				if(length > 0){
+					return true;
+				}else{
+					return false;
+				}
+		},
+		msg: "ip地址不能为空。"
+	}
+	
 };
 for (var i in validMethodParams) {
     addValidMethod(validMethodParams[i]);
@@ -1333,6 +1348,9 @@ for (var i in validMethodParams) {
 
 // rule
 var validRules = {
+	'iplist[]' : {
+        ipList: true		
+	},
     expTime: {
         required: true,
         range: [1, 1440],
@@ -1404,18 +1422,18 @@ var validRules = {
         ipv6Netmask: true
     },
     devIpv4: {
-        required: 'input[name="devIpv6"]:blank',
+        required: true,
 		ipv4:true,
-	    ipv4Dev: true,
-        remote: {
-            url: 'Function/networkManagement/interface/physical.php',
+	    ipv4Dev: true
+        /*remote: {
+            url: 'index.php?R=systemManagement/networkConf/interfaceConf/physical/checkIpv4Exist',
             data: {
                 checkIpExist: 'ipv4',
                 exName: function() {
                         return $('input[name="external_name"]').val();
                 }
             }
-        }
+        }*/
     },
     devIpv4Netmask: {
         required: 'input[name="devIpv4"]:filled',
@@ -1653,7 +1671,7 @@ var validRules = {
     },
     mtu: {
         required: true,
-        range: [64, 16128],
+        range: [68, 9216],
         digits: true
     },
     manuFile: {
@@ -1842,10 +1860,6 @@ var validRules = {
     	minlength: 8,
     	maxlength: 32
     },
-    serverip: {
-		required: true,
-    	ip: true
-    },
     upPort: {
     	required: true,
         range: [1, 65535],
@@ -2009,6 +2023,10 @@ var validRules = {
     lip: {
         required: true
     },
+    serverip: {
+		//required: true,
+    	ip: true
+    },	
     serverIp: {
         required: true,
         ip: true
@@ -2992,11 +3010,24 @@ var validRules = {
 	},
     fileSize: {
         range: [1, 60]
+    },
+    remark_name: {
+        realname: true
+    },
+    DHCPAddr: {
+        autoip: true,
+        required: true
+    },
+    vlan_id: {
+        range: [1,4094]
     }
 };
 
 // message
 var validMsg = {
+	'iplist[]':{
+		ipList: 'ip列表不能为空。'
+	},
     expTime: '不能小于1分钟或超过1440分钟(24小时)',
 	haTime: '不能小于15秒或超过120秒',
     limitErrNum: '登录错误次数不能小于1次或超过5次',
@@ -3117,7 +3148,7 @@ var validMsg = {
     mac_address: {
         required: '请填写MAC地址。'
     },
-    mtu: '千兆设备的范围是64-16128',
+    mtu: '千兆设备的范围是68-9216',
     manuFile: '请选择要上传的配置文件',
     upgradeFile:'请选择要升级的文件',
     CAcert:'请选择CA中心证书。',
@@ -3203,7 +3234,7 @@ var validMsg = {
     authPhrase: '认证密码不能超过32个字符且不能少于8个字符',
     privPhrase: '加秘密码不能超过32个字符且不能少于8个字符',
     serverip: {
-		required: '必填。',
+		//required: '必填。',
 		ip:'管理主机 IP格式错误。'
 	},
     ipv4: {
@@ -3834,7 +3865,14 @@ var validMsg = {
     	range: '端口范围1 - 65535。',
     	digits: '请填写有效数字。'
     },
-    fileSize: '范围在1-60之间。'
+    fileSize: '范围在1-60之间。',
+    DHCPAddr: {
+        required: '请输入DHCP服务器地址。'
+    },
+    vlan_id: {
+        range: 'Native VLAN ID范围1-4094。',
+        required: '请输入Native VLAN ID。'
+    }
 };
 
 // special for lvs/schedule

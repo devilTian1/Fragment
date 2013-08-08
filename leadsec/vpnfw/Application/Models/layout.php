@@ -32,7 +32,7 @@
         public function getSpecTab() {
             $level = $this->getNodePath();
             list($this->tabinfo, $subMenu) =
-                leftmenu::instance()->sort()->getSubMenu($level);
+                leftmenu::instance()->getSubMenu($level);
             if (!empty($subMenu['children'])) {
                 $this->tabs    = $subMenu['children'];
                 $this->baseurl = join('/', $level);
@@ -43,25 +43,18 @@
             }
         }
 
-        public function getInitData() {
+        public function getInitPageData() {
             $this->tpl = $_POST['tpl'];
-            $tpl = substr($this->tpl, 0, -4); // rm '.tpl' suffix
-            $classMap = array(
-                'statusMonitor/systemStatus/statusPanal' =>
-                    array('getDns', 'networkConf')
-            );
-            if (!empty($classMap[$tpl])) {
-                list($function, $class) = $classMap[$tpl];
-                try {
-                    require_once WEB_PATH . "/Application/Models/$class.php";
-                    $className = ucfirst($class) . 'Model';
-                    $model     = new $className();
-                    $this->initData = $model->$function();
-                } catch (Exception $e) {
-                    $msg = 'Can`t get the page initialization info.' .
-                        "[{$e->getMessage()}]";
-                    throw new Exception($msg);
-                }
+            $path      = substr($this->tpl, 0, -4); // rm '.tpl' suffix
+            try {
+                require_once WEB_PATH . "/Application/Models/$path.php";
+                $className = ucfirst(array_pop(explode('/', $path))) .'Model';
+                $model     = new $className();
+                $this->initData = $model->getInitPageData();
+            } catch (Exception $e) {
+                $msg = 'Can`t get the page initialization info.' .
+                    "[{$e->getMessage()}]";
+                throw new Exception($msg);
             }
         }
     }

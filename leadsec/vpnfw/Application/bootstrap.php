@@ -6,29 +6,31 @@
     require_once(WEB_PATH . '/Lib/driver/smarty.php');
     // core controller
     require_once(WEB_PATH . '/Application/Controllers/common.php');
+    // core view
+    require_once(WEB_PATH . '/Application/Views/common.php');
 
     function setLang() {
         // set time zone
         date_default_timezone_set('Asia/Chongqing');
-        if (isset($_COOKIE['web_locale'])) {
+        if (isset($_GET['lang'])) {
+            $lo = $_GET['lang'];
+            setcookie('web_locale', $lo, 0, '/');
+            $_COOKIE['web_locale'] = $lo;
+        } else if (isset($_COOKIE['web_locale'])) {
             $lo = $_COOKIE['web_locale'];
         } else {
             $lo = DEFAULT_LOCALE;
-            $_COOKIE['web_locale'] = $lo;
+            setcookie('web_locale', $lo, 0, '/');
         }
-        if (isset($_GET['lang'])) {
-            setlocale(LC_ALL, '');
-        } else {
-            setlocale(LC_ALL, DEFAULT_LOCALE);
-        }
-        putenv('LC_ALL=' . DEFAULT_LOCALE);
-        setlocale(LC_CTYPE, DEFAULT_LOCALE);
-        setcookie('web_locale', $lo, 0, '/');
+        setlocale(LC_ALL, $lo);
+        putenv('LC_ALL=' . $lo);
+        setlocale(LC_CTYPE, $lo);
 
         bindtextdomain('message', WEB_PATH . '/Lang');
         textdomain('message');
     }
     setLang();
+    include_once WEB_PATH . '/Conf/product.php';
 
     $loader = new Loader();
     $loader->loader();

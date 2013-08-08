@@ -50,8 +50,8 @@
                 $this->record($status, $this->cmd, $this->msg);
             }
             if ($status != 0) {
-                //$errMsg = "[{$this->cmd}]" . join(', ', $lines);
-                $errMsg = "[执行命令错误]" . join(', ', $lines);
+                $errMsg = DEBUG ? "[{$this->cmd}]" . join(', ', $lines) :
+                    "[执行命令错误]" . join(', ', $lines);
                 throw new ExecCmdException($errMsg);
             }
             if ($this->getResult) {

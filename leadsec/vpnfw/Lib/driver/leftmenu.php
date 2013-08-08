@@ -55,7 +55,7 @@
             return true;
         }
 
-        public function sort() {
+        protected function sort() {
             foreach ( $this->menu as $key => $node ) {
                 $pid    = $node['pid'];
                 $isShow = $this->displayNode($node);
@@ -82,6 +82,48 @@
                 }
             }
             return self::$instance;
+        }
+        
+        public function getLeftmenuHtml() {
+            $this->sort();
+            $result = '';
+            foreach ($this->menu as $l1) {
+                $result .= <<<EOD
+<div class='l1 l1_close_{$l1['link']}' name='{$l1['link']}'>
+    <span>{$l1['name']}</span>
+</div>
+<div class="l2" name="{$l1['link']}">
+    <ul>
+EOD;
+                foreach ($l1['children'] as $l2) {
+                    $result .= '<li>';
+                    $isContainL4 = false;
+                    $l3Htmls     = '';
+                    foreach ($l2['children'] as $l3) {
+                        if (!empty($l3['children'])) {
+                            $isContainL4 = true;
+                        }
+                        $l3Htmls .= "<li><a name='{$l3['link']}' " .
+                            "title='{$l3['name']}'>{$l3['name']}</a></li>";
+                    }
+                    if ($isContainL4) {
+                        $result .= <<<EOD
+<span class="l2span" name='{$l2['link']}' title='{$l2['name']}'>
+    {$l2['name']}
+</span>
+<ul class="l3" name='{$l2['link']}'>
+    $l3Htmls
+</ul>
+EOD;
+                    } else {
+                        $result .= "<a name='{$l2['link']}' " .
+                            "title='{$l2['name']}'>{$l2['name']}</a>";
+                    }
+                    $result .= '</li>';
+                }
+                $result .= '</ul></div>';
+            }
+            return $result;
         }
         
         public function getMenu() {
@@ -119,6 +161,7 @@
          * @return @result associated array.
          */
         public function getSubMenu($path) {
+            $this->sort();
             $subMenu = array();
             $result  = array($this->breadCrumbs, $subMenu);
 

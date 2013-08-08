@@ -1,4 +1,4 @@
-<form action="index.php?R=networkConf/setDns" method="POST"
+<form action="index.php?R=statusMonitor/systemStatus/statusPanal/setDns" method="POST"
     id="setDnsForm" onSubmit="return false;">
     <table class="column_95">
         <caption>域名服务器</caption>

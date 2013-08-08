@@ -1,6 +1,4 @@
 <?php
-    require_once WEB_PATH . '/Application/Views/common.php';
-
     class commonView {
         protected $model;
 
@@ -11,5 +9,18 @@
         public function showConfSuccess() {
             echo json_encode(array('msg' => '修改成功。'));
         }
+		
+		/**
+		 * public function for all moduels to show msg
+		 */
+		public function showMsg() {
+			$msg = $this->model->msg;
+			if(is_string($msg)){
+				echo json_encode(array('msg'=>$msg));
+			} elseif (is_array($msg)) {
+				echo json_encode($msg);
+			}
+			
+		}
     }
 ?>

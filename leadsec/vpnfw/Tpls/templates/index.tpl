@@ -21,7 +21,7 @@
                     </div>
                     <!-- switch btn -->
                     <div class="switchpic">
-                        <img src="<{$smarty.const.THEME_PATH}>/images/switch_left.gif" title="隐藏左侧导航栏" id="ImgArrow"/>
+                        <img src="<{$smarty.const.THEME_PATH}>/<{$smarty.cookies.web_locale}>/images/switch_left.gif" title="隐藏左侧导航栏" id="ImgArrow"/>
                     </div>
                 </div>
                 <!-- content -->

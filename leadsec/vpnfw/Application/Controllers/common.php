@@ -1,19 +1,22 @@
 <?php
     class commonController {
+        protected $view;
+        protected $model;
         protected $loader;
         protected $controller;
-    
+
         public function __construct(Loader $loader) {
+            $this->model      = null;
+            $this->view       = null;
             $this->loader     = $loader;
             $this->controller = $loader->getControllerClass();
-            //$this->isTimeout = $loginClass->chklogin();
         }
 
-        protected function getModel($model) {
+        protected function getModel($model=null) {
             return $this->loader->loaderModel($model)->getModelClass();
         }
 
-        protected function getView($view) {
+        protected function getView($view=null) {
             return $this->loader->loaderView($view)->getViewClass();
         }
 

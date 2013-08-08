@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title><{$smarty.const.COMPANY_NAME}> <{$smarty.const.PRODUCT_NAME}></title>
-<link href="<{$smarty.const.THEME_PATH}>/css/login.css" rel="stylesheet" type="text/css" />
+<link href="<{$smarty.const.THEME_PATH}>/<{$smarty.cookies.web_locale}>/css/login.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
 <div id="login_bg">
@@ -12,26 +12,28 @@
     	<div id="login_c_bg"></div>
         <div id="login_top"></div>
       <div id="login_nav">
-       	<div id="nav_name">欢迎使用<{$smarty.const.PRODUCT_NAME}></div>
+       	<div id="nav_name"><{$n.welcome}></div>
         <div id="nav_lang">
-       	  		<span id="nav_lang_c">中文</span>
-                <span id="nav_lang_flag"><span id="switch_lang" class="zhc"><img src="<{$smarty.const.THEME_PATH}>/images/login_zhc.gif"/></span></span>
-       			<span id="nav_lang_e" >英文</span>
+            	<input name="lang" type="hidden" value="<{$smarty.cookies.web_locale|default: 'zh_CN.UTF-8'}>" id="lang"/>
+       	  		<span id="nav_lang_c"><{$n.langZh}></span>
+                <span id="nav_lang_flag"><span id="switch_lang" class="zhc"><img src="<{$smarty.const.THEME_PATH}>/<{$smarty.cookies.web_locale}>/images/login_<{$smarty.cookies.web_locale}>.gif"/></span></span>
+       			<span id="nav_lang_e" ><{$n.langUs}></span>
         </div>
         </div>
         <div id="login_cen">
-            <form action="index.php?R=login/login" method="post" id="loginform">
-            	<input name="lang" type="hidden" value="zhc" id="lang" />
+            <form action="index.php?R=login/login/login" method="post" id="loginform">
                 <div id="cen_input">
-                    <label><span>账号</span><input type="text" name="account" id="account" /></label>
-                    <label><span>密码</span><input type="password" name="passwd" id="passwd" /></label>
+                    <label><span><{$n.account}></span><input type="text" name="account" id="account" /></label>
+                    <label><span><{$n.passwd}></span><input type="password" name="passwd" id="passwd" /></label>
                     <div id="user_error"></div>
                     <div id="passwd_error"></div>
                     <div id="login_error"><{$errMsg}></div>
                  </div>
                  <div id="btn">
-                    <input type="submit" value="" id="submitbtn" name="提交">
-                    <input type="reset" value=""  id="resetbtn" name="重置">
+                    <input type="submit" value="" id="submitbtn"
+                        name="<{$n.submitBtn}>">
+                    <input type="reset" value=""  id="resetbtn"
+                        name="<{$n.resetBtn}>">
                  </div>
              </form>
         </div>
@@ -51,13 +53,11 @@
 		$('#loginform').submit(function() {
             var isValid = true;
 			if ($("#account").val()=="") {
-				$('#user_error').html("用户名不能为空").show();
-				$('#user_error').fadeOut(3000);
+				$('#user_error').html('<{$n.userReq}>').show();
                 isValid = false;
 			}
             if ($("#passwd").val() == "") {
-				$('#passwd_error').html("密码不能为空").show();
-				$('#passwd_error').fadeOut(3000);
+				$('#passwd_error').html('<{$n.pwdReq}>').show();
                 isValid = false;
 			}
             if (isValid) {
@@ -67,14 +67,18 @@
             }
 		});
 		$("#switch_lang").click(function(){
-			var lang=$("#lang").val();
-			    if(lang=="zhc"){
-					$("#lang").val("en");
-					$("#switch_lang img").attr("src","<{$smarty.const.THEME_PATH}>/images/login_en.gif")
-				}else if(lang=="en"){
-					$("#lang").val("zhc");
-					$("#switch_lang img").attr("src","<{$smarty.const.THEME_PATH}>/images/login_zhc.gif")
-				}
-			})
+			var lang    = $("#lang").val();
+            var newLang = 'zh_CN.UTF-8';
+            if (lang == 'zh_CN.UTF-8') {
+                newLang = 'en_US.UTF-8';
+            }
+            var imgPath = '<{$smarty.const.THEME_PATH}>/' +
+                '<{$smarty.cookies.web_locale}>/images/login_' +
+                newLang + '.gif';
+            $("#lang").val(newLang);
+            $("#switch_lang img").attr("src", imgPath);
+            window.location.href =
+                'index.php?R=developTools/lang/switchLang&lang=' + newLang;
+		});
 	}); 
 </script>

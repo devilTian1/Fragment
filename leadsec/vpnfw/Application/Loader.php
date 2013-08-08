@@ -18,14 +18,24 @@
 
         private function getControllerClassPath() {
             return WEB_PATH . '/Application/Controllers/' .
-                $this->frags[0] . '.php';
+                $this->frags['path'] . '/' . $this->frags[0] . '.php';
         }
 
-        private function getModelClassName($name) {
+        private function getModelClassName($p) {
+            if (false !== strpos($p, '/')) {
+                $name = array_pop(explode('/', $p));
+            } else {
+                $name = $p;
+            }
             return ucfirst($name) . 'Model';
         }
 
-        private function getViewClassName($name) {
+        private function getViewClassName($p) {
+            if (false !== strpos($p, '/')) {
+                $name = array_pop(explode('/', $p));
+            } else {
+                $name = $p;
+            }
             return ucfirst($name) . 'View';
         }
 
@@ -37,8 +47,12 @@
             return $this->frags[1];
         }
 
-        private function formatRequest() {
-            $this->frags = explode('/', $this->frags, 2);
+        private function formatRequest($frags) {
+            $fragArr   = explode('/', $frags);
+            $funcName  = array_pop($fragArr);
+            $className = array_pop($fragArr);
+            $classPath = join('/', $fragArr);
+            $this->frags = array($className, $funcName, 'path' => $classPath);
         }
 
         /*
@@ -52,10 +66,9 @@
             } else if (isset($_POST['R'])) {
                 $frags = $_POST['R'];
             } else {
-                $frags = 'login/index';
+                $frags = 'login/login/index';
             }
-            $this->frags = $frags;
-            $this->formatRequest();
+            $this->formatRequest($frags);
             return $this;
         }
 
@@ -90,7 +103,10 @@
             }
         }
 
-        public function loaderModel($name) {
+        public function loaderModel($name=null) {
+            if ($name === null) {
+                $name =  $this->frags['path'] . '/' . $this->frags[0];
+            }
             $path      = $this->getModelClassPath($name);
             $className = $this->getModelClassName($name);
             try {
@@ -105,6 +121,9 @@
         }
 
         public function loaderView($name) {
+            if ($name === null) {
+                $name =  $this->frags['path'] . '/' . $this->frags[0];
+            }
             $path      = $this->getViewClassPath($name);
             $className = $this->getViewClassName($name);
             try {
@@ -117,7 +136,6 @@
                 throw new Exception($msg);
             }   
         }
-
 
         public function getModelClass() {
             return $this->modelClass;

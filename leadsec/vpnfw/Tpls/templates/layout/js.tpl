@@ -130,11 +130,11 @@
         var arrowImg = $("#ImgArrow");
 		var arrowImgFlag=1;//open，close flag 1:open,0:close
         var leftArrow = {
-            src : "<{$smarty.const.THEME_PATH}>/images/switch_left.gif",
+            src : "<{$smarty.const.THEME_PATH}>/<{$smarty.cookies.web_locale}>/images/switch_left.gif",
             title : "隐藏左侧导航栏"
         };
         var rightArrow = {
-            src : "<{$smarty.const.THEME_PATH}>/images/switch_right.gif",
+            src : "<{$smarty.const.THEME_PATH}>/<{$smarty.cookies.web_locale}>/images/switch_right.gif",
             title : "显示左侧导航栏"
         };
         arrowImg.click(function() {
@@ -162,10 +162,17 @@
 
         // refresh content
         $("#leftmenu a").click(function() {
+            var l1   = $(this).parents('div.l2').attr("name");
+            var l2   = $(this).parents('ul.l3').attr("name");
+            var cur  = $(this).attr('name');
             var path = {
-                'l1' : $(this).parents("div.l2").attr("name"),
-                'l2' : $(this).parents("ul.l3").attr("name"),
-                'l3' : $(this).attr('name')
+                'l1' : l1
+            }
+            if (l2 === undefined) {
+                path['l2'] = cur;
+            } else {
+                path['l2'] = l2;
+                path['l3'] = cur;
             }
             $("#leftmenu a").removeClass("link");
             $(this).addClass("link");

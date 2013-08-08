@@ -7,7 +7,6 @@
             V::getInstance()->assign('tabs', $this->model->tabs)
                 ->assign('tabinfo', $this->model->tabinfo)
                 ->assign('baseurl', $this->model->baseurl)
-                //->assign('modStat', getCurModStat($path))
                 ->display('layout/tabs.tpl');
         }
         
