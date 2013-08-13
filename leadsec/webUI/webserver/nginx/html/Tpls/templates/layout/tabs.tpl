@@ -50,8 +50,8 @@
         showPageByAjax("<{$baseurl|cat:'/'|cat:$tabs[$tabnum|default:0].link|cat:'.php'}>");
     <{/if}>
 	function resetWidth(){
-		 var mainZoneWidth=document.getElementById("mainZone").scrollWidth;
-    	document.getElementById("tabinfo_cen").style.width=(mainZoneWidth-200)+"px";
+		 var mainZoneWidth=$("#mainZone").width();
+		 $("#tabinfo_cen").width(mainZoneWidth-200);
 	}
     resetWidth();
 	$(window).resize(function(){

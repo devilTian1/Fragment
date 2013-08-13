@@ -282,6 +282,8 @@ label.errorLabel {
     height: 40px;
     padding-top: 6px;
 	background:#e1e9f1;
+	position:relative;
+	z-index:8;
 }
 
 /* HEADER */
@@ -477,7 +479,7 @@ label.errorLabel {
     padding-left: 20px;
 }
 #tab .tabs {
-	width: 99.5%;
+	width: 99%;
 	float: left;
 	padding: 0px 0px 0px 8px;
 	background:#e1e9f1;
@@ -509,7 +511,7 @@ label.errorLabel {
 }
 
 #tab .tabinfo {
-	width: 99.5%;
+	width: 99%;
 	float: left;
 	clear:both;
 	text-align:left;
@@ -553,6 +555,8 @@ label.errorLabel {
 	margin:0;
 	padding:8px 0px;
 	overflow: auto;
+	position:relative;
+	z-index:8;
 }
 #mainContent button {
     margin: auto 5px;
