@@ -12,6 +12,7 @@
         
         public function showMainContain() {
             try {
+            	//var_dump($this->model->initData);
                 V::getInstance()->assign('initData', $this->model->initData)
                                 ->display($this->model->tpl);
             } catch(SmartyException $e) {

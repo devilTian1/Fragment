@@ -105,7 +105,7 @@ function freshPagination(funcUrl, displayDom, tableDom) {
     if (displayDom === undefined) {
         displayDom = $('.pager');
     }
-    var url  = 'Function/layout/showPagination.php';
+    var url  = 'index.php?R=layout/showPagination';
     var data = getOrderRules(displayDom);
     data['dataCountFunc'] = funcUrl;
     if (tableDom !== undefined) {
