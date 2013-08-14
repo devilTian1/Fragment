@@ -29,7 +29,7 @@
         
         <div class="row" id="workmode_div" <{if $res.workmode eq 2}> class="hide" <{/if}>>
             <label for="mtu">MTU:</label>
-            <input type="text" name="mtu" value="<{$res.mtu}>" class="width132"/>
+            <input type="text" name="mtu" value="<{$res.mtu}>" class="width132"/>(IPV6地址要求MTU至少为1280)
         </div>
         
         <div class="row">
@@ -41,11 +41,9 @@
 
         <div id="unRedundanceDiv" <{if $res.workmode eq 3}> class="hide" <{/if}>>
             <div class="row"><label for="ipaddr_type">IP地址获取:</label>
-                <{html_options name="ipaddr_type" id="ipaddr_type" class="select"
-                output=array('静态IP地址','DHCP获得') values=array(1,3)
-                selected=$res.ipaddr_type }>
+                <span>静态IP地址</span>
             </div>
-            <div id="ipaddr_type_div" <{if $res.ipaddr_type neq 1}> class="hide" <{/if}>>
+            <div id="ipaddr_type_div">
                 <div class="row"><label for="ipv4">IPV4地址：</label>
                     <input type="text" name="devIpv4" id="devIpv4" value="<{$res.ip}>" class="ipv4"/><label class="maskLabel">/</label>
                     <input class="ipv4Netmask" type="text" name="devIpv4Netmask" value="<{$res.mask}>"/>

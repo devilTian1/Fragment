@@ -1,14 +1,20 @@
 <form action="Function/networkManagement/basic/staticRoute.php" method="POST" id="defaultRouteForm"
     onSubmit="return false;">
 <div class="defaultGateway">
-   &nbsp; &nbsp;  默认网关：
-    <input type="text" name="defaultGateway" id="defaultGateway" value="<{$route.defaultroute}>"/>&nbsp;          
+   &nbsp; &nbsp;  IPv4默认网关：
+    <input type="text" name="defaultGateway" id="defaultGateway" class="ipv4" value="<{$route.defaultroute}>"/>&nbsp;          
     <button type="button" class="standard" style="margin: auto 0; position: static"
         onClick="defaultGatewayData()"
         id="defaultGatewayBtn">确定</button>
+    &nbsp; &nbsp;&nbsp; &nbsp;  IPv6默认网关：
+    <input type="text" name="defaultGateway6" id="defaultGateway6" class="ipv6" value="<{$route.defaultroute6}>"/>&nbsp;          
+    <button type="button" class="standard" style="margin: auto 0; position: static"
+        onClick="defaultGatewayData6()"
+        id="defaultGatewayBtn6">确定</button>
 </div>  
 <div class="clearFloat"></div>
 </form>
+
 <table class="column_95 textMid tablesorter" id="staticRouteTable">
 	<caption>
        静态路由

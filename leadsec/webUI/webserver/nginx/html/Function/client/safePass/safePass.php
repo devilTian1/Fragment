@@ -25,19 +25,20 @@
     }
     
     function getWhereStatement($db, $cols, $keyword) {
-        $value  = '%' . $keyword . '%';
+        $value  = $keyword ;
         $params = array_fill(0, count(explode(',', $cols)), $value);
         return array('sql'    => ' WHERE (' .
                               $db->getWhereStatement($cols, 'OR', 'like') . ')',
-                     'params' => $params);
+                     'params' => $db->getFilterParams($params));
     }
 
     function getDataCount() {
     	$sql = "SELECT id FROM fastpass_client_acl";
         $db  = new dbsqlite(DB_PATH . '/netgap_fastpass.db');
         $params = array();
+		$keyword='/'.$_GET['keyword'];
         if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
-            $data   = getWhereStatement($db, $_GET['cols'], $_GET['keyword']);
+            $data   = getWhereStatement($db, $_GET['cols'], $keyword);
             $sql   .= $data['sql'];
             $params = $data['params'];
         }
@@ -59,7 +60,7 @@
         }
         $id     = intval($_POST['safePassId']);
         $acessType = $_POST['accessType'];
-        $sa 	   = $_POST['srcIpList'];
+        $sa 	   = $_POST['srcIpList_safePass'];
         $da 	   = $acessType==='yes' ? $_POST['destIpList_normal'] : $_POST['destIpList_trans'];
         $service   = $_POST['serviceList'];
     	if (empty($_POST['safePassSrcPort']) || $_POST['safePassSrcPort'] === '----') {
@@ -145,9 +146,9 @@
     } else if ($_POST['activeSwitch']) {
     	// active on/off a safepass
     	$cli = new cli();
-    	$activeLog = $_POST['activeChk']==='ok'?'开启':'关闭';
+    	$activeLog = $_POST['activeChk']==='ok'?'开启':'停止';
         $cli->setLog($activeLog."任务号为".$_POST['safePassId']."的安全通道")->run(getCmd());
-        echo json_encode(array('msg' => '成功.'));
+        echo json_encode(array('msg' => $activeLog.'成功。'));
     } else if (!empty($_GET['checkExistId'])) {
         // Check the same id exist or not
         echo netGapRes::getInstance()->checkExistTaskId('safepass',intval($_GET['safePassId']));

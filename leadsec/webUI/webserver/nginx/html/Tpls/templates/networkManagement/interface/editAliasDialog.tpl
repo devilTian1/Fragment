@@ -3,7 +3,7 @@
     <fieldset>
         <legend>定义别名设备</legend>
         <div class="hide" id="summary"></div>
-		<div class="row"><label for="external_name">选择绑定设备:<em class="required">*</em></label>
+		<div class="row"><label for="external_name">选择绑定设备:</label>
             <select class="select" name="external_name" id="external_name"
                 <{if $res.phy_device}>disabled="disabled"<{/if}>>
             <{html_options output=$res.bindDev values=$res.bindDev selected=$res.phy_device}>
@@ -11,7 +11,7 @@
             <{if $res.phy_device}><input type="hidden" name="external_name" value="<{$res.phy_device}>_<{$res.alias_id}>"/><{/if}>
         </div>
         
-        <div class="row"><label for="aliasId">选择别名ID:<em class="required">*</em></label>
+        <div class="row"><label for="aliasId">选择别名ID:</label>
             <select class="select" name="aliasId" id="aliasId" <{if $res.phy_device}>disabled="disabled"<{/if}>>
                 <{for $i=0 to 252}>
                     <{if $res.alias_id eq $i}>
@@ -23,12 +23,12 @@
             </select>
         </div>
         
-        <div class="row"><label for="ipv4">IPV4地址:<em class="required">*</em></label>
+        <div class="row"><label for="ipv4">IPV4地址:</label>
             <input class="ipv4" type="text" name="devIpv4" value="<{$res.ip}>" /><label class="simpleLabel">/</label>
             <input class="ipv4Netmask" type="text" name="ipv4Netmask" value="<{$res.mask}>"/>
         </div>
 
-        <div class="row"><label for="ipv6">IPV6地址:<em class="required">*</em></label>
+        <div class="row"><label for="ipv6">IPV6地址:</label>
             <input class="ipv6" type="text" name="devIpv6" value="<{$res.ipv6}>" /><label class="simpleLabel">/</label>
             <input class="ipv6Netmask" type="text" name="ipv6Netmask" value="<{$res.ipv6_mask}>"/>
         </div>
@@ -47,6 +47,10 @@
         
         <div class="row"><label for="enable">是否启用:</label>
           <input type="checkbox" name="enable" class="checkbox" <{if $res.enable eq 1}> checked="checked" <{/if}> />
+      	</div>
+      	
+      	<div class="row"><label for="trunk">别名通告:</label>
+          <input type="checkbox" name="trunk" class="checkbox" <{if $res.trunk eq 1}> checked="checked" <{/if}> />
       	</div>
   </fieldset>
 </form>

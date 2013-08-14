@@ -17,9 +17,12 @@
         </tr>
     </tbody>
 </table>
-<button class="standard floatLeft" style="position: static"
-    onclick="openNewReceiveTaskDialog()">添加
-</button>
+<form action="Function/server/fileEx/receiveTask.php"
+	method="POST" id="switchReceiveTaskAddButton" onSubmit="return false;">
+    <button class="standard floatLeft" style="position: static"
+        onclick="openNewReceiveTaskDialog()">添加
+    </button>
+</form>
 <div class="pager floatRight">
     <{include file='layout/pagination.tpl'
         func='Function/server/fileEx/receiveTask.php'}>

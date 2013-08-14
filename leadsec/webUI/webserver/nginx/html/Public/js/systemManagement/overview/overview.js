@@ -42,3 +42,23 @@ function setConOption(w, h) {
     opendialog.setOptions(dialogParams);
 }
 
+function getInitData(intval, curStampTime) {
+    // generate an array of random data
+    intval /= 1000;
+    var data = [], i;
+    for (i = -20; i < intval; i+=intval) {
+        data.push({
+            x: curStampTime * 1000 + i * 1000,
+            y: 0
+        });
+    }
+    return data;
+}
+
+function updateUsedStatus(cpuUsed, memUsed, chart1) {
+    var left  = chart1.series[0].points[0];
+    var right = chart1.series[1].points[0];
+    left.update(cpuUsed, false);
+    right.update(memUsed, false);
+    chart1.redraw();
+}

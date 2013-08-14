@@ -30,8 +30,8 @@
             $_GET['roleId'] .' ' .$where;
         $data = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
 
-        $authType = array('VIP', 'local pwd',     'local cert',
-                          '',    '2-fa/ cert+pw', '2-fa / dyn + pw');
+        $authType = array('免认证', '本地密码认证',     '本地证书认证',
+                          '',    '2-fa/ cert+pw', '双因子认证');
 
         $result   = array();
         foreach ($data as $d) {
@@ -122,11 +122,11 @@
     }
     
     function getWhereStatementUser($db, $cols, $keyword) {
-        $value  = '%' . $keyword . '%';
+        $value  =$keyword ;
         $params = array_fill(0, count(explode(',', $cols)), $value);
         return array('sql'    => ' AND (' .
                               $db->getWhereStatement($cols, 'OR', 'like') . ')',
-                     'params' => $params);
+                     'params' => $db->getFilterParams($params));
     }
 
     function getDataCount() {
@@ -141,8 +141,9 @@
         } else {
             $sql = "SELECT count(role_id) as sum FROM role";
             if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
+				$keyword='/'.$_GET['keyword'];
                 $data   =
-                    getWhereStatementRole($db, $_GET['cols'], $_GET['keyword']);
+                    getWhereStatementRole($db, $_GET['cols'], $keyword);
                 $sql   .= $data['sql'];
                 $params = $data['params'];
             }
@@ -173,6 +174,11 @@
         echo json_encode(array('msg' => '修改成功。'));
     } else if ('add' === $_POST['type']) {
         // Add new role
+        if (getDataCount() >= RESCONF_LIMIT) {
+            $msg = '资源数达到上限[' . RESCONF_LIMIT . ']。';
+        	echo json_encode(array('msg' => $msg));
+        	return;
+        }
         $cli = new cli();
         $cli->setLog("添加角色".$_POST['roleName'])->run(getCmdStr('add'));
         $db  = new dbsqlite(DB_PATH . '/uma_auth.db');
@@ -188,7 +194,7 @@
 				->execCmdGetStatus("role del rolename \"$name\"");
         //$cli->setLog("删除角色{$name}")->run("role del rolename \"$name\"");
 		if ($status>0) {
-			echo json_encode(array('msg' => '该角色名称被用户引用。'));
+			echo json_encode(array('msg' => '此角色名称被用户引用，不能删除。<br>要先将此角色下的用户删除，或改为其他角色，才能删除此角色。'));
 		} else {
 			echo json_encode(array('msg' => '删除成功。'));
 		}
@@ -218,32 +224,43 @@
     } else if ($_GET['isInUseCheck']) {
     // check whether the spec role is in using
         $name = $_GET['checkName'];
-        if(isInUseCheck($name)) {
-            echo "true";
+        $result = netGapRes::getInstance()->checkRoleUsed($name); 
+        if (count($result) > 0) {
+            echo json_encode(array('msg' => $result));
         } else {
-            echo "false";
+            echo json_encode(array('msg' => 'false'));
         }
     } else if ($_GET['checkAll']) {
         // check ether role is in using
-        $sql = "SELECT usergrp FROM acl where usergrp!=''";
-        $db  = new dbsqlite(DB_PATH . '/netgap_http.db');
-        $num = $db->query($sql)->getCount();
-        if(intval($num) > 0) {
-            $result = $db->query($sql)->getFirstData(PDO::FETCH_ASSOC);
-            echo $result['usergrp'];
+        $result = array();
+        $sql = 'SELECT role_name FROM role';
+        $db  = new dbsqlite(DB_PATH . '/uma_auth.db');
+        $nameBuf = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
+        foreach ($nameBuf as $name) {
+            $checkResult = netGapRes::getInstance()->checkRoleUsed($name['role_name']);
+            if (count($checkResult) > 0) {
+                $result[] = array('name'=>$name['role_name'],'content'=>$checkResult); 
+            }
+        }
+        if (count($result) > 0) {
+            echo json_encode(array('msg' => $result));
         } else {
-            echo "false";
+            echo json_encode(array('msg' => 'false'));
         }
     } else if ($_GET['checkSpecRoles']) {
     // check delete roles is in using
         $roles = $_GET['rolesArray'];
-        foreach($roles as $name) {
-            if(isInUseCheck($name)) {
-                echo $name;
-                return;
+        foreach ($roles as $name) {
+            $checkResult = netGapRes::getInstance()->checkRoleUsed($name);
+            if (count($checkResult) > 0) {
+                $result[] = array('name'=>$name,'content'=>$checkResult); 
             }
-        } 
-        echo "false";
+        }
+        if (count($result) > 0) {
+            echo json_encode(array('msg' => $result));
+        } else {
+            echo json_encode(array('msg' => 'false'));
+        }
     } else if ($_GET['checkExistRoleName']) {
          $roles = $_GET['roleName'];
          $sql = "SELECT role_id FROM role WHERE role_name='$roles'";

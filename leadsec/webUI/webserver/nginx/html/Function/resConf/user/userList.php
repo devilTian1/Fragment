@@ -5,9 +5,10 @@
         $db  = new dbsqlite(DB_PATH . '/uma_auth.db');
         $sql = "SELECT rule_name FROM connect_rule";
         $data = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
-        $result = array();
+        $result = array('' => '无');
         foreach ($data as $d) {
-            $result[] = $d['rule_name'];
+            $index = $d['rule_name'];
+            $result[$index] = $d['rule_name'];
         }
         return $result;
     }
@@ -44,19 +45,20 @@
     }
 
     function getWhereStatement($db, $cols, $keyword) {
-        $value  = '%' . $keyword . '%';
+        $value  = $keyword ;
         $params = array_fill(0, count(explode(',', $cols)), $value);
         return array('sql'    => ' WHERE (' .
                               $db->getWhereStatement($cols, 'OR', 'like') . ')',
-                     'params' => $params);
+                     'params' => $db->getFilterParams($params));
     }
 
     function getDataCount() {
         $db  = new dbsqlite(DB_PATH . '/uma_auth.db');
         $sql = "SELECT count(user_id) as sum FROM user";
         $params = array();
+		$keyword='/'.$_GET['keyword'];
         if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
-            $data   = getWhereStatement($db, $_GET['cols'], $_GET['keyword']);
+            $data   = getWhereStatement($db, $_GET['cols'], $keyword);
             $sql   .= $data['sql'];
             $params = $data['params'];
         }
@@ -164,10 +166,19 @@
         }
     }
     
+    function freshParamsConfData() {
+    	$db  = new dbsqlite(DB_PATH . '/auth_server.db');
+    	$sql = 'SELECT * FROM auth_config_info';
+    	$result = $db->query($sql)->getFirstData(PDO::FETCH_ASSOC);
+    	return $result;
+    }
+    
     if ($_POST['addNewUser'] === 'true') {
         // Open add new user dialog
         $tpl = 'resConf/user/editUserListDialog.tpl';
+        $presult = freshParamsConfData();
         $result = V::getInstance()->assign('allRolesArr', getAllRoles())
+            ->assign('paramsConf', $presult)
             ->assign('mpa_on',    'checked="checked"')
             ->assign('fcp_off',   'checked="checked"')
             ->assign('active_on', 'checked="checked"')
@@ -176,14 +187,27 @@
         echo json_encode(array('msg' => $result));
     } else if ('add' === $_POST['type']) {
         // Open new user dialog
+        if (getDataCount() >= RESCONF_LIMIT) {
+            $msg = '资源数达到上限[' . RESCONF_LIMIT . ']。';
+        	echo json_encode(array('msg' => $msg));
+        	return;
+        }
         $cmd = getAddOrEditCmd('add');
         $cli = new cli();
 		list($status,$result) = $cli->setLog("添加用户".$_POST['userListName'])
 				->execCmdGetStatus($cmd);
-		if ($status == 150) {
-			echo json_encode(array('msg' => '添加失败!SN文件已被使用。'));
+		if ($status == 103) {
+			echo json_encode(array('msg' => '添加失败！登陆密码不符合密码复杂度要求。'));
+	         } else if ($status == 150) {
+			echo json_encode(array('msg' => '添加失败！SN文件已被使用。'));
+		} else if ($status == 107) {
+			echo json_encode(array('msg' => '添加失败！MAC地址错误。'));
 		} else {
-			echo json_encode(array('status'=>$status,'msg' => '添加成功，请同步密码。'));
+			if($_POST['authType'] === 'dyn-pwd') {
+				echo json_encode(array('status'=>$status,'msg' => '添加成功，请导入SN文件和同步密码。'));
+			} else {
+				echo json_encode(array('status'=>$status,'msg' => '添加成功。'));
+			}
 		}
         //$cli->setLog("添加用户".$_POST['userListName'])->run($cmd);
         //echo json_encode(array('msg' => '添加成功。'));
@@ -240,10 +264,12 @@
                 throw New Exception('error: Auth Type.'. $userList['auth_type']);
         }
         $rolesMemberArr = getSpecRolesByUserName($specUser);
+        $presult = freshParamsConfData();
         $result = V::getInstance()
             ->assign('userList', $userList)
             ->assign('allRolesArr', array_diff(getAllRoles(), $rolesMemberArr))
             ->assign('rolesMemberArr', $rolesMemberArr)
+            ->assign('paramsConf', $presult)
             ->assign($mpa, 'checked="checked"')
             ->assign($fcp, 'checked="checked"')
             ->assign($active, 'checked="checked"')
@@ -256,8 +282,18 @@
         // Edit a specified user data
         $cmd = getAddOrEditCmd('set');
         $cli = new cli();
-        $cli->setLog("修改用户".$_POST['userListName'])->run($cmd);
-        echo json_encode(array('msg' => '修改成功。'));
+        list($status,$result) = $cli->setLog("修改用户".$_POST['userListName'])
+				->execCmdGetStatus($cmd);
+		if ($status == 103) {
+			echo json_encode(array('msg' => '修改失败！登陆密码不符合密码复杂度要求。'));
+		} else if ($status == 150) {
+			echo json_encode(array('msg' => '修改失败！SN文件已被使用。'));
+		} else if ($status == 107) {
+			echo json_encode(array('msg' => '修改失败！MAC地址错误。'));
+		} else {
+		    echo json_encode(array('msg' => '修改成功。'));
+		}
+        //$cli->setLog("修改用户".$_POST['userListName'])->run($cmd);        
     } else if (isset($_POST['lockTime'])) {
         // Set lock time for specified user
         $time = $_POST['lockTime'];
@@ -290,8 +326,12 @@
     // set import sn file of specified user
     	$cmd = 'user set username "' . $name . '" syndynpass ' . $pwd . ' dyntime 0 dynclock 0';
         $cli  = new cli();
-        $cli->setLog("用户{$name}同步动态密码为{$pwd}")->run($cmd);
-        echo json_encode(array('msg' => '同步成功。'));
+        list($status,$result) = $cli->setLog("用户{$name}同步动态密码为{$pwd}")->execCmdGetStatus($cmd);
+	if($status !== 0) {
+	    echo json_encode(array('msg' => '同步失败，动态密码错误。'));
+	} else {
+            echo json_encode(array('msg' => '同步成功。'));
+        }
     } else if ($name = $_POST['showImportSnFileName']) {
         // Show import sn file dialog
         $tpl  = 'resConf/user/editImportSnFileDialog.tpl';

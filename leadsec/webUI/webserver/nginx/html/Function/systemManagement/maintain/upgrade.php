@@ -13,14 +13,14 @@
         // Upgrade System and then upgrage
         $uploadfs = new fileUpload($_FILES);
         $uploadfs->upload();
-        $cmd = "upgrade package \"{$_FILES['upgradeFile']['name']}\"";
+        $cmd = "upgrade package \"{$_FILES['file']['name']}\"";
 		$msg_log = "系统管理下系统维护模块下的系统更新中的升级文件".$_FILES['upgradeFile']['name'];
         $cli = new cli();
 		list($status,$result) = $cli->setLog($msg_log)->execCmdGetStatus($cmd);
 		if ($status == 0) {
-			echo json_encode(array('msg' => '升级成功.'));
+			echo json_encode(array('msg' => '升级成功。'));
 		} else {
-			echo json_encode(array('msg' => '升级失败.'));
+			echo json_encode(array('msg' => '升级失败。'));
 		}
     } else if (!empty($_GET['reboot'])) {
         // Reboot system

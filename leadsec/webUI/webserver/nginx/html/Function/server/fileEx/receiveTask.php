@@ -19,7 +19,7 @@
             ->fetch($tpl);
     }
 
-    function getCmd() {
+    function getCmd($action='add') {
         $id        = intval($_POST['receiveTaskId']);
         $ip        = $_POST['sip'];
         $shareName = $_POST['shareName'];
@@ -34,11 +34,9 @@
 		} else {
 			$active = $_POST['active'] === 'Y' ? 'on' : 'off';
 		}
-        $port = $_POST['receiveTaskPort'];
-        $cmd = array();       
-        $cmd['cmd']  = "fsctl add task id $id mode server ip $ip port $port share $shareName" .
-		" filesystem $fs active $active";
-        $cmd['log']  = '添加服务端的文件交换的接收任务,id号为'.$id;        
+        $port = $_POST['receiveTaskPort'];     
+        $cmd = "fsctl $action task id $id mode server ip $ip port $port share $shareName" .
+		" filesystem $fs active $active";        
         return $cmd;
     }
     
@@ -61,6 +59,12 @@
         return $db->query($sql, $params)->getCount();
     }
 
+    function getTaskNumber() {
+    	$sql = "SELECT task_id FROM dir_info" ;           
+        $db  = new dbsqlite(DB_PATH . '/netgap_fs.db');
+        return $db->query($sql)->getCount();
+    }
+    
 	function getStatusInfo($status) {
 		switch ($status) {
 			case 1:
@@ -96,19 +100,19 @@
     } else if ('edit' === $_POST['type']) {
         // Edit specified receive task data
         $cli = new cli();
-        $cli->setLog('删除服务端的文件交换的接收任务'. $_POST['receiveTaskId'])->run('fsctl del task id ' . $_POST['receiveTaskId']);
-        $cmdArr =  getCmd();
-        $cli->setLog($cmdArr['log'])->run($cmdArr['cmd']);
-        echo json_encode(array('msg' => '修改成功。'));
+        $log = '编辑服务端的文件交换的接收任务,id号为'.$_POST['receiveTaskId'];		
+        $cmd =  getCmd('set');
+		list($status, $result) = $cli->setLog($log)
+                                     ->execCmdGetStatus($cmd, false);
+		echo json_encode(array('msg' => getStatusInfo($status)));
     } else if ('add' === $_POST['type']) {
         // add a new receive task data
         $cli = new cli();
-        $cmdArr =  getCmd();
-		list($status, $result) = $cli->setLog($cmdArr['log'])
-                                     ->execCmdGetStatus($cmdArr['cmd'], false);
+        $cmd =  getCmd();
+		$log = '添加服务端的文件交换的接收任务,id号为'.$_POST['receiveTaskId'];	
+		list($status, $result) = $cli->setLog($log)
+                                     ->execCmdGetStatus($cmd, false);
 		echo json_encode(array('msg' => getStatusInfo($status)));
-        //$cli->setLog($cmdArr['log'])->run($cmdArr['cmd']);
-        //echo json_encode(array('msg' => '添加成功.'));
     } else if ($id = $_POST['delId']) {
         // delete specified allowed file data
         $cli = new cli();
@@ -116,6 +120,11 @@
         echo json_encode(array('msg' => '删除成功。'));
     } else if (!empty($_POST['openAddDialog'])) {
         // Display dialog to add receive task data
+        if (getTaskNumber() >= 20) {
+            echo json_encode(array('status' => -1,
+                                   'msg' => '添加任务数目已达上限20条，已无法添加。'));
+            return false;
+        }
         $tpl =  'server/fileEx/editReceiveTaskDialog.tpl';
         $result = V::getInstance()
             ->assign('ifList', netGapRes::getInstance()->getInterface())
@@ -124,14 +133,15 @@
     } else if ($action = $_POST['action']) {
         // enable or disable specified acl
         $cli = new cli();
-        $cli->setLog('删除服务端的文件交换的接收任务'. $_POST['receiveTaskId'])->run('fsctl del task id ' . $_POST['receiveTaskId']);
-        $cmdArr =  getCmd();
-        $cli->setLog($cmdArr['log'])->run($cmdArr['cmd']);
+        $cmd =  getCmd('set');
         if ($action === 'enable') {
+			$log = '启动服务端的文件交换的接收任务,id号为'.$_POST['receiveTaskId'];
             $msg = "启动成功。";
         } else {
+			$log = '停止服务端的文件交换的接收任务,id号为'.$_POST['receiveTaskId'];
             $msg = "停止成功。";
         }
+		 $cli->setLog($log)->run($cmd);
         echo json_encode(array('msg' => $msg));
     } else if ($orderStatement = $_POST['orderStatement']) {
         // fresh and resort receive task table data

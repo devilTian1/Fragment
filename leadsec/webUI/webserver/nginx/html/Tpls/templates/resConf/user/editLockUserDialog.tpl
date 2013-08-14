@@ -8,9 +8,9 @@
         </div>
         <br class="clearFloat"/>
         <div class="row">
-            <label for="lockTime">锁定时间(单位:秒):</label>
+            <label for="lockTime">锁定时间:</label>
             <input type="text" name="lockTime" id="lockTime" class="width132"
-                value="<{$lockTime}>"/>
+                value="<{$lockTime}>"/>(单位:分钟, 0:永久锁定)
         </div>
     </fieldset>
 </form>

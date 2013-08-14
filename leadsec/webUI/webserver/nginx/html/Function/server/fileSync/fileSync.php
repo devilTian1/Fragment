@@ -30,7 +30,7 @@
         } else {
             $ipver = 'ipver ipv6';
         }
-        $sport   = $_POST['lport'];
+        $sport   = $_POST['serverFileSyncPort'];
         if ($_POST['ssl'] === 'Y') {
             $ssl   = 'yes';
             $cname = $_POST['commname']; 
@@ -46,11 +46,11 @@
     }
 
 	function getWhereStatement($db, $cols, $keyword) {
-        $value  = '%' . $keyword . '%';
+        $value  = $keyword;
         $params = array_fill(0, count(explode(',', $cols)), $value);
         return array('sql'    => ' WHERE (' .
                               $db->getWhereStatement($cols, 'OR', 'like') . ')',
-                     'params' => $params);
+                     'params' => $db->getFilterParams($params));
     }
 
     function getDataCount() {
@@ -82,18 +82,21 @@
     } else if ('edit' === $_POST['type']) {
         // Edit specified file sync server data
         $cli = new cli();
-        $cli->run(getCmd('set'));
+		$msg_log = "编辑一条id为".$_POST['fsId']."的服务端文件同步的任务";
+        $cli->setLog($msg_log)->run(getCmd('set'));
         echo json_encode(array('msg' => '编辑成功。'));
     } else if ($id = $_POST['delId']) {
         // Delete spec file sync server data
         $cmd = "fs2ctl del task type server id $id";
         $cli = new cli();
-        $cli->run($cmd);
+		$msg_log = "删除一条id为".$id."的服务端文件同步任务";
+        $cli->setLog($msg_log)->run($cmd);
         echo json_encode(array('msg' => '删除成功。'));
     } else if ('add' === $_POST['type']) {
         // Add a new file sync server data
         $cli = new cli();
-        $cli->run(getCmd('add'));
+		$msg_log = "添加一条id为".$_POST['sfileSyncTaskId']."的服务端文件同步任务";
+        $cli->setLog($msg_log)->run(getCmd('add'));
         echo json_encode(array('msg' => '添加成功。'));
     } else if (!empty($_POST['openAddDialog'])) {
         // Open new file sync dialog

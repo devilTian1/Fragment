@@ -6,7 +6,7 @@
         <div class="row">
             <label for="sendTaskId">任务号:<em class="required">*</em></label>
             <input class="id" type="text" name="sendTaskId" id="sendTaskId" value="<{$data.task_id}>"
-                <{if $type ==='edit'}>disabled="disabled"<{/if}>/>
+                <{if $type ==='edit'}>disabled="disabled"<{/if}>/>(同一端的任务号必须唯一)
             <{if $type ==='edit'}>
                 <input type="hidden" name="sendTaskId"
                     value="<{$data.task_id}>"/>
@@ -77,14 +77,14 @@
                 values=array('Y', 'N')
                 selected=$data.subdir|default: 'Y'}>
         </div>
-
+       <div <{if $killVirusIsUsed eq 'off'}> class="hide"<{/if}>>
         <div class="row">
             <label for="killvirus">文件病毒扫描:</label>
             <{html_radios class="radio" name=killvirus label_ids=true
                 title="需要开启病毒防护模块" output=array('是', '否')
                 values=array('Y', 'N') selected=$data.killvirus|default: 'Y'}>
         </div>
-
+       </div>
         <div class="row">
             <label for="internal">同步间隔(单位:秒):<em class="required">*</em></label>
             <input class="width10em" type="text" name="interval" id="interval"
@@ -104,9 +104,11 @@
             <button style="position: static"
                 onclick="openNewFilterDialog('plug')">添加
             </button>&nbsp;&nbsp;
+            <{if $type === 'edit'}>
             <button style="position: static"
                 onclick="editFilterDialog($('#FEfilterOpt').val(),'plug')">修改
             </button>
+            <{/if}>
         </div>
 
         <div class="row">
@@ -118,7 +120,7 @@
         </div>
         
         <div class="row">
-            <span>注：共享名下的文件名长度不能超过512字节</span>
+            <span>注：服务器共享名下的文件名长度不能超过512字节</span>
         </div>
     </fieldset>
 </form>

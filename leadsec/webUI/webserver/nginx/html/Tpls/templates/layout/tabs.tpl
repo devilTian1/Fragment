@@ -49,19 +49,11 @@
     <{if isset($tabs) && count($tabs) != 0}>
         showPageByAjax("<{$baseurl|cat:'/'|cat:$tabs[$tabnum|default:0].link|cat:'.php'}>");
     <{/if}>
-	function resetWidth(){
-		 var mainZoneWidth=$("#mainZone").width();
-		 $("#tabinfo_cen").width(mainZoneWidth-200);
-	}
-    resetWidth();
-	$(window).resize(function(){
-			resetWidth();
-		})
     <{if $modStat['active'] eq 'on'}>
-        $("#modechk").attr("title","点击后将关闭服务");
+        $("#modechk").attr("title","点击后将关闭服务。");
         $("#modechk").tooltip();
     <{else if $modStat['active'] eq 'off'}>
-        $("#modechk").attr("title","点击后将启动服务");
+        $("#modechk").attr("title","点击后将启动服务。");
         $("#modechk").tooltip();
     <{/if}>    
 </script>

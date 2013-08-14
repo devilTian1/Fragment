@@ -22,10 +22,10 @@ function checkIpv4Mask(value) {
         return false;
     }
     for (var i = 0; i <= 3; i++) {
-        if (frag[i].indexOf('00') !== -1) {
-            return false;
-        }
         frag[i] = parseInt(frag[i]);
+    }
+    if (frag[0] === 0) {
+        return false;
     }
     var maskFragArr = "128, 192, 224, 240, 248, 252, 254, 255";
     for (var i = 3; i >= 0; i--) {
@@ -220,6 +220,14 @@ var validMethodParams = {
         },
         msg: '1-15个字母、数字、减号、下划线的组合。'
     },
+    commentValidParam: {
+        name: 'comment',
+        validMethod: function(value, element, params) {
+            return this.optional(element) ||
+            /^[a-zA-Z0-9\-_\u4E00-\u9fa5 ]{0,254}$/.test(value);
+        },
+        msg: '0-254个字母、中文、空格、数字、减号、下划线的组合。'
+    },
 	realContext_txtValidParam: {
 		name: 'realContext_txt',
 		validMethod: function(value, element, params) {
@@ -227,7 +235,7 @@ var validMethodParams = {
             ///^[a-zA-Z0-9\-_(\u4E00-\U9FA5)]{1,30}$/.test(value);
 			/^[a-zA-Z0-9_\一-\龥]{1,30}$/.test(value);
         },
-        msg: '中文、字母、数字、减号、下划线的组合。'
+        msg: '仅支持中文、字母、数字、下划线的组合。'
 	},
     userNameListValidParam: {
         name: 'userFilterName',
@@ -373,7 +381,49 @@ var validMethodParams = {
     srcIpUnequalDestIpValidParam: {
         name: 'srcIpUnequalDestIp',
         validMethod: function(value, element, params) {
-        	var srcIpOption = $("select[name='srcIpList'] option:selected").val();
+            var dom = $('fieldset #sdata');
+            dom.data('errMsg', '');
+            if (params[0] === 'trans') {
+                hideBindDom([$("select[name='srcIpList']"), $("select[name='destIpList']"), $('input[name="destPort"]')]);
+                var srcIpOption  =
+                    $("select[name='srcIpList'] option:selected").val();
+                var destIpOption =
+                    $("select[name='destIpList'] option:selected").val();
+                var destPort     = $('input[name="destPort"]').val();
+                if (destPort === '') {
+                    setCustomErrMsg(dom, 'destPort is required');
+                    return false;
+                }
+                var url = 'Function/client/safeBrowse/transVisit.php';
+                var data = {
+                    checkAddrValid: 1,
+                    srcAddr : srcIpOption,
+                    destAddr: destIpOption,
+                    destPort: destPort,
+                    id : $('input[name="transAccId"]').val()
+                };
+            } else {
+                var srcIpList_general =
+                    $("select[name='srcIpList_general'] option:selected").val();
+                var url = 'Function/client/safeBrowse/generalVisit.php';
+                var data = {
+                    checkAddrValid: 1,
+                    srcAddr : srcIpList_general,
+                    id : $('input[name="generalAccId"]').val()
+                };
+            }
+            sValidate(url, data, dom);
+            return dom.data('errMsg').length === 0;
+        },
+        //msg: '源地址,目的地址和目的端口的组合不唯一。'
+        msg: function(result, element) {
+            return getCustomErrMsg($('fieldset #sdata'));
+        }
+    },
+    safePassUnequalIpValidParam: {
+        name: 'srcIpUnequalDestIp_safePass',
+        validMethod: function(value, element, params) {
+        	var srcIpOption = $("select[name='srcIpList_safePass'] option:selected").val();
         	if ($("input[name='accessType']:checked").val()=='no') {
         		var destIpOption = $("select[name='destIpList_trans'] option:selected").val();
         		if (destIpOption == 'any_ipv4' && srcIpOption == 'any_ipv4') {
@@ -382,8 +432,8 @@ var validMethodParams = {
         	}        	
         	return true;
         },
-        msg: '源地址与目的地址不能同时为any。'
-    },
+        msg: '源地址与目的地址不能同时为any.'
+    },  
     allowedFileNameValidParam: {
         name: 'filename',
         validMethod: function(value, element, params) {
@@ -403,6 +453,14 @@ var validMethodParams = {
         validMethod: function(value, element, params) {
             return this.optional(element) ||
             /^\.?(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(\#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i.test(value)
+        },
+        msg: 'URL格式错误。'
+    },
+    urlValidParam: {
+        name: 'urlStandard',
+        validMethod: function(value, element, params) {
+            return this.optional(element) ||
+            /^(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(\#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i.test(value)
         },
         msg: 'URL格式错误。'
     },
@@ -701,6 +759,34 @@ var validMethodParams = {
             return getCustomErrMsg($('fieldset #' + element.id));
         }
     },
+    fileEXIdParams: {
+        name: 'fileEXId',
+        validMethod: function(value, element, params) {
+            var dom  = $('fieldset #' + element.id);
+            dom.data('errMsg', '');
+            if (value === '' && setCustomErrMsg(dom, 'Required')) {
+                return false;
+            } else if (!/^\d+$/.test(value) &&
+                setCustomErrMsg(dom, 'Please enter only digits')) {
+                return false;
+            } else if (!(value >= 1 && value <= 20) &&
+                setCustomErrMsg(dom, 'Task id range between 1 and 20')) {
+                return false;
+            }
+            var data = {};
+            data[params[0] + 'GeneralId'] = value;
+            if (params[1] === undefined) {
+                var url = 'Function/client/validation.php';
+            } else {
+                var url = params[1];
+            }
+            sValidate(url, data, dom);
+            return dom.data('errMsg').length === 0;
+        },
+        msg: function(result, element) {
+            return getCustomErrMsg($('fieldset #' + element.id));
+        }
+    },
     generalIdParams: {
         name: 'generalId',
         validMethod: function(value, element, params) {
@@ -802,8 +888,8 @@ var validMethodParams = {
             } else if (!/^\d+$/.test(value) &&
                 setCustomErrMsg(dom, 'Please enter only digits')) {
                 return false;
-            } else if (!(value >= 1 && value <= 1000) &&
-                setCustomErrMsg(dom, 'Task id range between 1 and 1000')) {
+            } else if (!(value >= 1 && value <= 500) &&
+                setCustomErrMsg(dom, 'Task id range between 1 and 500')) {
                 return false;
             }
             var data = {
@@ -912,8 +998,8 @@ var validMethodParams = {
             } else if (!/^\d+$/.test(value) &&
                 setCustomErrMsg(dom, 'Please enter only digits')) {
                 return false;
-            } else if (!(value >= 1 && value <= 1000) &&
-                setCustomErrMsg(dom, 'Task id range between 1 and 1000')) {
+            } else if (!(value >= 1 && value <= 500) &&
+                setCustomErrMsg(dom, 'Task id range between 1 and 500')) {
                 return false;
             }
             var data = {
@@ -1005,11 +1091,11 @@ var validMethodParams = {
            } else if (!/^\d+$/.test(value) &&                              
                setCustomErrMsg(dom, 'Please enter only digits')) {         
                return false;                                               
-           } else if (!(value >= 1 && value <= 1000) &&                    
-               setCustomErrMsg(dom, 'Task id range between 1 and 1000')) { 
+           } else if (!(value >= 1 && value <= 500) &&                    
+               setCustomErrMsg(dom, 'Task id range between 1 and 500')) { 
                return false;                                               
            } else if ((65535 <= (54000 + idPlusPort)) &&                   
-               setCustomErrMsg(dom, 'Task Id + dport + 54000 >= 65535')) { 
+               setCustomErrMsg(dom, 'Task Id + dport >= 65535')) { 
                return false;                                               
            }                                                               
            if (dialogType === 'add' || defaultVal !== value) {             
@@ -1051,7 +1137,7 @@ var validMethodParams = {
                     setCustomErrMsg(dom, 'Port range between 1 and 65535')) {
                 return false;
             } else if ((65535 <= (54000 + idPlusPort)) &&                  
-                setCustomErrMsg(dom, 'Task Id + dport + 54000 >= 65535')) {
+                setCustomErrMsg(dom, 'Task Id + dport >= 65535')) {
                 return false;
             }                                                              
             if (dialogType === 'add' || defaultVal !== value) {            
@@ -1087,8 +1173,8 @@ var validMethodParams = {
 	           } else if (!/^\d+$/.test(value) &&                              
 	               setCustomErrMsg(dom, 'Please enter only digits')) {         
 	               return false;                                               
-	           } else if (!(value >= 1 && value <= 1000) &&                    
-	               setCustomErrMsg(dom, 'Task id range between 1 and 1000')) { 
+	           } else if (!(value >= 1 && value <= 500) &&                    
+	               setCustomErrMsg(dom, 'Task id range between 1 and 500')) { 
 	               return false;                                               
 	           } else if ((65535 <= (idPlusPort)) &&                   
 	               setCustomErrMsg(dom, 'Task Id + dport >= 65535')) { 
@@ -1325,6 +1411,37 @@ var validMethodParams = {
             }          
         },
         msg: "源名标识与完成后标识不能相同。"
+    },
+    checknetmaskParam: {
+    	name: 'checknetmask',
+    	validMethod: function(value, element, params) {
+    		var ip = $(params[0]).val();
+            var ipv4regex = new RegExp(perlipv4regex);
+            var ipv6regex = new RegExp(perlipv6regex);
+            if(!this.optional(element)){
+            	if(ipv4regex.test(ip)){
+            		return checkIpv4Mask(value) || (value >=1 && value <= 32);
+            	}else if(ipv6regex.test(ip) || /^fe80/i.test(ip)){
+            		return value >=1 && value <= 128;
+            	}
+            	return true;
+            } else {
+            	return true;
+            }
+    	},
+        msg: "子网掩码格式错误。"
+    },
+    checkMTUParam: {
+        name: 'mtuRange',
+        validMethod: function(value, element, params) {
+            var ipv6 = $("#devIpv6").val();
+            if(ipv6!=null && ipv6!='') {
+                return value >=1280 && value <= 16128;
+            } else {
+                return value >=64 && value <= 16128;
+            }
+        },
+        msg: "千兆设备的范围是64-16128。IPV6地址要求MTU至少1280。"
     }
 };
 for (var i in validMethodParams) {
@@ -1335,7 +1452,7 @@ for (var i in validMethodParams) {
 var validRules = {
     expTime: {
         required: true,
-        range: [60, 86400],
+        range: [1, 1440],
         digits: true
     },
 	haTime : {
@@ -1350,7 +1467,7 @@ var validRules = {
     },
     limitErrTime: {
         required: true,
-        range: [10, 86400],
+        range: [1, 1440],
         digits: true
     },
     account: {
@@ -1377,11 +1494,18 @@ var validRules = {
         }
     },
     defaultGateway: {
-	    ip: true
+	    ipv4: true
+    },
+    defaultGateway6: {
+	    ipv6: true
     },
     ip: {
         required: true,
 	    ip: true
+    },
+    addrnetmask:{
+    	required: 'input[name="ip"]:filled',
+    	checknetmask: ['#addrip']    	
     },
     netmask: {
         required: 'input[name="hostIp"]:filled',
@@ -1392,7 +1516,7 @@ var validRules = {
 	    ipv4: true
     },
     ipv4Netmask: {
-        required: 'input[name="ipv4"]:filled',
+        required: 'input[name="devIpv4"]:filled',
         ipv4Netmask: true
     },
     ipv6: {
@@ -1400,7 +1524,7 @@ var validRules = {
 	    ipv6: true
     },
     ipv6Netmask: {
-        required: 'input[name="ipv6"]:filled',
+        required: 'input[name="devIpv6"]:filled',
         ipv6Netmask: true
     },
     devIpv4: {
@@ -1469,7 +1593,7 @@ var validRules = {
         ipv4: true
     },
     comment: {
-        maxlength: 250
+        comment: true
     },
     addrName: {
         required: true,
@@ -1478,7 +1602,8 @@ var validRules = {
             url: 'Function/resConf/addr/addrList.php',
             data: {
             	checkExistAddrName: true
-            }
+            },
+            cache: false
         }
     },
     domainAddrName: {
@@ -1587,14 +1712,14 @@ var validRules = {
         dateTime: ['hh:mm(:ss)'],
         time_s_or_e: ['#startTime_wed', '#endTime_wed']
     },
-    startTime_thur: {
-        required: '#endTime_thur:filled',
+    startTime_thu: {
+        required: '#endTime_thu:filled',
         dateTime: ['hh:mm(:ss)']
     },
-    endTime_thur: {
-        required: '#startTime_thur:filled',
+    endTime_thu: {
+        required: '#startTime_thu:filled',
         dateTime: ['hh:mm(:ss)'],
-        time_s_or_e: ['#startTime_thur', '#endTime_thur']
+        time_s_or_e: ['#startTime_thu', '#endTime_thu']
     },
     startTime_fri: {
         required: '#endTime_fri:filled',
@@ -1653,7 +1778,7 @@ var validRules = {
     },
     mtu: {
         required: true,
-        range: [64, 16128],
+        mtuRange: true,
         digits: true
     },
     manuFile: {
@@ -1843,6 +1968,7 @@ var validRules = {
     	maxlength: 32
     },
     serverip: {
+		required: true,
     	ip: true
     },
     upPort: {
@@ -1851,7 +1977,8 @@ var validRules = {
         digits: true
     },
     upAddr: {
-    	required: true
+    	required: true,
+    	urlStandard: true
     },
     file: {
     	required: true
@@ -1913,13 +2040,25 @@ var validRules = {
             }
         }
 	},
-    customId: {
+	customTcpId: {
         required: true,
         digits: true,
-        range: [1, 1000],
+        range: [1, 500],
         digits: true,
         remote: {
             url: 'Function/client/customized/tcpGeneralVisit.php',
+            data: {
+                checkExistId: true
+            }
+        }
+    },
+    customUdpId: {
+        required: true,
+        digits: true,
+        range: [1, 500],
+        digits: true,
+        remote: {
+            url: 'Function/client/customized/udpGeneralVisit.php',
             data: {
                 checkExistId: true
             }
@@ -2047,19 +2186,41 @@ var validRules = {
     serverPort:{
         unrequiredPortRange: true
     },
+	serverDbsyncPort :{
+		required: true,
+    	digits: true,
+		range: [1, 65535]
+	},
+	serverFileSyncPort:{
+        required: true,
+    	digits: true,
+		range: [1, 65535]
+    },
     publicPort:{
         unrequiredPortRange: true
     },
     srcIpList: {
     	required: true,
-    	srcIpUnequalDestIp: true
+    	srcIpUnequalDestIp: ['trans']
+    },
+    srcIpList_safePass: {
+    	required: true,
+    	srcIpUnequalDestIp_safePass: true
+    },
+    srcIpList_general: {
+    	required: true,
+    	srcIpUnequalDestIp: ['general']
+    },
+    destIpList: {
+    	required: true,
+    	srcIpUnequalDestIp: ['trans']
     },
     destIpList_normal: {
     	required: true
     },
     destIpList_trans: {
     	required: true,
-    	srcIpUnequalDestIp: true
+    	srcIpUnequalDestIp_safePass: true
     },
     serviceList: {
         serviceList: true
@@ -2129,7 +2290,8 @@ var validRules = {
     destPort: {
     	required: true,
     	range: [1,65535],
-    	digits: true
+    	digits: true,
+    	srcIpUnequalDestIp: ['trans']
     },
     clientId: {
     	required: true,
@@ -2233,7 +2395,7 @@ var validRules = {
     	generalLport: ['smtp', 'fieldset #smtpGeneralLip']
     },
     sendTaskId: {
-    	generalId: ['send']
+    	fileEXId: ['send']
     },
     sendTaskPort: {
     	required: true,
@@ -2241,7 +2403,7 @@ var validRules = {
     	digits: true
     },
     receiveTaskId: {
-    	generalId: ['receive','Function/server/validation.php']
+    	fileEXId: ['receive','Function/server/validation.php']
     },
     receiveTaskPort: {
     	required: true,
@@ -2410,7 +2572,7 @@ var validRules = {
     },
     sip: {
         required: true,
-        ipv4: true
+        ip: true
     },
     shareName: {
         required: true,
@@ -2677,7 +2839,7 @@ var validRules = {
         }
     },
     attachmax: {
-        range: [1, 65535],
+        range: [0, 10],
         digits: true
     },
     sendfilter: {
@@ -2860,6 +3022,21 @@ var validRules = {
 		required: true,
 		ipv4: true
 	},
+	txt_msg: {
+		required: true
+	},
+	txt_ipID:{
+		digits: true
+	},
+	txt_ipTTL:{
+		digits: true
+	},
+	txt_tcpACKnum:{
+		digits: true
+	},
+	txt_tcpSEQnum:{
+		digits: true
+	},
     ftpName: {
         required: true,
         addrName: true
@@ -2904,7 +3081,7 @@ var validRules = {
     },
     logLimitSize: {
         required: true,
-        range: [1, 30],
+        range: [5, 30],
     	digits: true
     },
     timeLimit: {
@@ -2965,7 +3142,11 @@ var validRules = {
         ipv4: true
     },
     userKeyWord: {
-        required: true
+        required: true,
+        maxlength: 32
+    },
+    certCommname: {
+        maxlength: 32
     },
 	ha_ip: {
 		required: true,
@@ -2986,10 +3167,10 @@ var validRules = {
 
 // message
 var validMsg = {
-    expTime: '不能小于60秒或超过86400秒(24小时)',
+    expTime: '不能小于1分钟或超过1440分钟(24小时)',
 	haTime: '不能小于15秒或超过120秒',
     limitErrNum: '登录错误次数不能小于1次或超过5次',
-    limitErrTime: '间隔时间不能小于10秒或超过86400秒(24小时)',
+    limitErrTime: '间隔时间不能小于1分钟或超过1440分钟(24小时)',
     account: {
         required: '请填写帐号名。',
 		remote: '该用户名已存在，请重新填写。'
@@ -3005,7 +3186,9 @@ var validMsg = {
     netmask: {
         required: '请填写子网掩码。'
     },
-    comment: '您最多能够输入250个字符。',
+    addrnetmask: {
+        required: '请填写子网掩码。'
+    },
     addrName: {
         required: '请填写地址名称。',
         remote: '此名称已在地址列表/地址组里存在，请重新填写。'
@@ -3106,7 +3289,9 @@ var validMsg = {
     mac_address: {
         required: '请填写MAC地址。'
     },
-    mtu: '千兆设备的范围是64-16128',
+    mtu: {
+        required: '千兆设备的范围是64-16128'
+    },
     manuFile: '请选择要上传的配置文件',
     upgradeFile:'请选择要升级的文件',
     CAcert:'请选择CA中心证书。',
@@ -3191,7 +3376,9 @@ var validMsg = {
     writeAndReady: '读写团体字符串不能超过32个字符',
     authPhrase: '认证密码不能超过32个字符且不能少于8个字符',
     privPhrase: '加秘密码不能超过32个字符且不能少于8个字符',
-    serverip: '管理主机 IP格式错误。',
+    serverip: {
+		required: '必填。'
+	},
     ipv4: {
         required: '请填写IPV4或者IPV6地址。'
     },
@@ -3230,7 +3417,10 @@ var validMsg = {
     	range: '无效的升级服务器端口。',
     	digits: '请填写有效数字'
     },
-    upAddr: '请输入升级服务器地址。',
+    upAddr: {
+        required: '请输入升级服务器地址。',
+        urlStandard: '升级服务器地址格式错误。'
+    },
     file: '请选择要升级的文件',
     uploadLicense: {
         required: '请选择要升级的文件'
@@ -3250,10 +3440,16 @@ var validMsg = {
 		ip : 'IP格式错误',
 		remote :'此IP地址已存在'
 	},	
-    customId: {
+	customTcpId: {
         required: '请输入任务号。',
         digits: '请填写有效数字。',
-        range: '任务号范围为1-1000。',
+        range: '任务号范围为1-500。',
+        remote: '任务号已存在。'
+    },
+    customUdpId: {
+        required: '请输入任务号。',
+        digits: '请填写有效数字。',
+        range: '任务号范围为1-500。',
         remote: '任务号已存在。'
     },
     cusTcpTransId: {
@@ -3273,6 +3469,11 @@ var validMsg = {
     	range: '目的端口1 - 65535。',   
     	digits: '请填写有效数字。'
     },
+	lport: {
+		required: '请输入端口号。',
+    	range: '目的端口1 - 65535。',   
+    	digits: '请填写有效数字。'
+	},
     dblocalPort: {
     	required: '请输入端口号。',
     	range: '目的端口1 - 65535。',   
@@ -3572,7 +3773,7 @@ var validMsg = {
         required: '必填。',
         remote: '此名称已存在。'
     },
-    attachmax: '范围在1-65535。',
+    attachmax: '范围在0-10。',
     sendfilter: '请选择发件人过滤类型。',
     recvfilter: '请选择收件人过滤类型。',
     resTimeName: {
@@ -3607,6 +3808,16 @@ var validMsg = {
         remote: '请填写本机地址。'
     },
     serverPortReq: {
+        required: '请填写服务器端口。',
+        range: '服务器端口1 - 65535。',
+        digits: '请填写有效数字。'
+    },
+	serverDbsyncPort: {
+		required: '请填写服务器端口。',
+        range: '服务器端口1 - 65535。',
+        digits: '请填写有效数字。'
+	},
+	serverFileSyncPort: {
         required: '请填写服务器端口。',
         range: '服务器端口1 - 65535。',
         digits: '请填写有效数字。'
@@ -3658,6 +3869,21 @@ var validMsg = {
 	target_address:{
 		required: '目的地址不能为空。'
 	},
+	txt_msg:{
+		required: '报警事件主题不能为空。'
+	},
+	txt_ipID:{
+		digits: '请填写有效数字。'
+	},
+	txt_ipTTL:{
+		digits: '请填写有效数字。'
+	},
+	txt_tcpACKnum:{
+		digits: '请填写有效数字。'
+	},
+	txt_tcpSEQnum:{
+		digits: '请填写有效数字。'
+	},
     ftpName: {
         required: '请输入用户名。'
     },
@@ -3695,7 +3921,7 @@ var validMsg = {
     },
     logLimitSize: {
         required: '请填写日志文件阈值。',
-        range: '范围1 - 30。',
+        range: '范围5 - 30。',
         digits: '请填写有效数字。'
     },
     timeLimit: {
@@ -3747,7 +3973,11 @@ var validMsg = {
         ipv4: '结束地址只支持IPV4地址。'
     },
     userKeyWord: {
-        required: '请填写用户密钥口令。'
+        required: '请填写用户密钥口令。',
+        maxlength: '您最多能够输入32个字符。'
+    },
+    certCommname: {
+        maxlength: '您最多能够输入32个字符。'
     },
     mulIp: {
         required: '必填'
@@ -3857,6 +4087,8 @@ var errorPlacement = function (error, element) {
         error.insertAfter("label[for='sendfilter_black']");
     } else if (element.attr('name') === "recvfilter") {
         error.insertAfter("label[for='recvfilter_black']");
+    } else if (element.attr('name') === "sqlCmdInfo[]") {
+        error.insertAfter("input[name='sqlCmdInfo[]']:last");
     } else {
         error.insertAfter(element);
     }

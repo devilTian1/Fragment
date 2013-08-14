@@ -74,7 +74,35 @@
         $result .= " comment \"$comment\"";
         return $result;
     }
-
+	function getUserFilterInUse($name) {
+    	 $flag = 0;
+    	 //被过滤选项集引用
+    	 $db  = new dbsqlite(DB_PATH . '/netgap_db.db');
+	     $sql = "SELECT usergrp FROM db_option_list where usergrp = '$name'";
+    	 $data = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
+    	 if(count($data) > 0){
+    	 	$flag = 1;
+    	 }
+    	 return $flag;
+    }
+    
+    function getUserFilterInUseAndEnable($name) {
+    	 $flag = 0;
+    	 //被过滤选项集引用，并且该过滤选项集被任务引用
+    	 $db  = new dbsqlite(DB_PATH . '/netgap_db.db');
+	     $sql = "SELECT db_comm_client_acl.filter FROM db_comm_client_acl,db_option_list
+	         WHERE db_option_list.usergrp = '$name' and db_option_list.name =
+	         db_comm_client_acl.filter and db_comm_client_acl.active = 'Y' 
+    	     UNION SELECT db_trans_client_acl.filter FROM db_trans_client_acl,db_option_list 
+    	     WHERE db_option_list.usergrp = '$name' and db_option_list.name =
+    	     db_trans_client_acl.filter and db_trans_client_acl.active = 'Y' ";
+    	 $data = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
+    	 if(count($data) > 0){
+    	 	$flag = 1;
+    	 }
+    	 return $flag;
+    }
+    
     if (!empty($_POST['editId'])) {
         // Get specified data
         $tpl =  'client/db/userFilter_editDialog.tpl';
@@ -91,10 +119,16 @@
     } else if ('edit' === $_POST['type']) {
         // Edit a specified addr group data
         $name = $_POST['userName'];
-        $cmd = getCmd();
-        $cli  = new cli();
-        $cli->setLog("编辑名称为".$_POST['userName']."的用户过滤")->run($cmd);
-        echo json_encode(array('msg' => "[$name]修改成功。"));
+        $flag = getUserFilterInUseAndEnable($name);
+        if ($flag == 1) {       	
+        	$msg = "名称为\"$name\"的用户过滤被引用且处于开启状态，无法编辑。";
+        	echo json_encode(array('msg' => $msg));
+        } else {
+        	$cmd = getCmd();
+        	$cli  = new cli();
+        	$cli->setLog("编辑名称为".$_POST['userName']."的用户过滤")->run($cmd);
+        	echo json_encode(array('msg' => "[$name]修改成功。"));
+        }
     } else if ('add' === $_POST['type']) {
         // Add a new  data
         $name = $_POST['userName'];
@@ -104,11 +138,17 @@
         echo json_encode(array('msg' => "[$name]添加成功。"));
     } else if (!empty($_POST['delName'])) {
         // Delete the specified  data
-        $name = $_POST['delName'];
-        $cmd  = "dbctl del usergrp name \"$name\"";
-        $cli  = new cli();
-        $cli->setLog("删除名称为".$_POST['delName']."的用户过滤")->run($cmd);
-        echo json_encode(array('msg' => "[$name]删除成功。"));
+        $name = $_POST['delName'];      
+        $flag = getUserFilterInUse($name);
+        if ($flag == 1) {       	
+        	$msg = "名称为\"$name\"的用户过滤被引用，无法删除。";
+        	echo json_encode(array('msg' => $msg));
+        } else {
+        	$cmd  = "dbctl del usergrp name \"$name\"";
+        	$cli  = new cli();
+        	$cli->setLog("删除名称为".$_POST['delName']."的用户过滤")->run($cmd);
+        	echo json_encode(array('msg' => "[$name]删除成功。"));
+        }      
     } else if (!empty($_POST['openDialog'])) {
         // Display add dialog
         $tpl =  'client/db/userFilter_editDialog.tpl';

@@ -1,6 +1,6 @@
 <{include file='layout/search.tpl' colNames='name,user_info,cmd_info,comment'}>
 <table class="column_95 textMid tablesorter" id="ftpFilterOptionsTable">
- <caption>FTP过滤选项</caption>
+ <caption>过滤配置</caption>
 	<thead> 
         <tr>
           <th class="column_10" name="id">序号</th>
@@ -29,6 +29,6 @@
         renderStandardUi();
         freshTable('Function/client/ftp/ftp.php',
             $('#ftpFilterOptionsTable'), 'ORDER BY name ASC LIMIT 10');
-        sortTableInit($('#ftpFilterOptionsTable'), {0: {sorter: false}, 5: {sorter: false}}, [[0,0]]);
+        sortTableInit($('#ftpFilterOptionsTable'), {0: {sorter: false}, 5: {sorter: false}}, [[1,0]]);
     });
 </script>

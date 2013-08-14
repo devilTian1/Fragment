@@ -69,7 +69,7 @@
         $result .= "ipver $ipver virus $virus comment \"$comment\"";
         return $result;
     }
-
+    $killVirusIsUsed = antiIsUsed();
     if ($id = $_POST['editId']) {
         // Show Dialog to get specified smtp comm client acl data
 	    $sql  = "SELECT * FROM smtp_comm_client_acl WHERE id = $id";
@@ -88,6 +88,7 @@
                 netGapRes::getInstance()->getMailFilterOpts('smtp'))
             ->assign('roleList', netGapRes::getInstance()->getRoleList())
             ->assign('data', $data)
+            ->assign('killVirusIsUsed',$killVirusIsUsed)
             ->assign('type', 'edit')->fetch($tpl);
         echo json_encode(array('msg' => $result));
     } else if ('edit' === $_POST['type']) {
@@ -127,6 +128,7 @@
             ->assign('filterOptions',
                 netGapRes::getInstance()->getMailFilterOpts('smtp'))
             ->assign('roleList', netGapRes::getInstance()->getRoleList())
+            ->assign('killVirusIsUsed',$killVirusIsUsed)
             ->assign('type', 'add')->fetch($tpl);
         echo json_encode(array('msg' => $result));
     } else if ($action = $_POST['action']) {

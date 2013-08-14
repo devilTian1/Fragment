@@ -69,18 +69,15 @@
     if (!empty($_FILES)) {
 		$uploadfs = new fileUpload();
 		$uploadfs->upload();
-		$cmd  = "config import \"{$_FILES['importFile']['name']}\"";
-		$msg_log = "系统管理下系统维护模块下导入配置文件".$_FILES['importFile']['name'];
-		$cli  = new cli();
-		list($status,$result) = $cli->setLog($msg_log)->execCmdGetStatus($cmd);
-		if ($status == 0) {
-			echo json_encode(array('msg' => '导入成功。'));
+		$cmd = "config import \"{$_FILES['importFile']['name']}\"";
+		$log = '系统管理下系统维护模块下导入配置文件' .
+            $_FILES['importFile']['name'];
+		list($status,$result) = $cli->setLog($log)->execCmdGetStatus($cmd);
+		if ($status > 0) {
+			echo json_encode(array('status'=>$status,'msg' => '导入失败，请选择正确的配置文件。'));	
 		} else {
-			echo json_encode(array('msg' => '导入失败。'));
+			echo json_encode(array('status'=>$status,'msg' => '导入成功，请重启网闸。'));
 		}
-		$cli->setLog($msg_log)->run($cmd);
-		$result = '导入成功,请重启网闸。';
-		echo json_encode(array('status' => true,'msg' => $result));
     } else if ('off' === $_POST['switch']) {
 		$path = '/tmp/download/';
 		$type = $_POST['switch'];
@@ -137,9 +134,9 @@
 		list($status,$result) = $cli->setLog($msg)->execCmdGetStatus($cmd);
         if ($status > 0) {
 			$showErrorInfo = getStatusInfo($status);
-			echo json_encode(array('msg' => $showErrorInfo));
+			echo json_encode(array('status'=>$status,'msg' => $showErrorInfo));
 		} else {
-			echo json_encode(array('msg' => '操作成功!请重启安全隔离网闸。'));
+			echo json_encode(array('status'=>$status,'msg' => '操作成功!请重启安全隔离网闸。'));
 		}
     } else if (!empty($_GET['reboot'])) {
 		$msg_log = "系统管理下恢复出厂配置后对网闸进行重启";

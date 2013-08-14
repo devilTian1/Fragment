@@ -4,9 +4,6 @@
   </caption>
 	<tr>
 		<td width="100%">
-			<!--<textarea id="textareaA" cols="45" rows="8" 
-			 readonly="readonly">
-			</textarea>-->
             <div id="textareaA" style="overflow:auto; padding:0 0 0 5px; width:800px; height:120px; border:#09C solid 1px;"></div>
 		</td>
 		<td>

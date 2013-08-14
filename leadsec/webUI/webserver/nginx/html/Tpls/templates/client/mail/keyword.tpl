@@ -1,7 +1,7 @@
 <{include file='layout/search.tpl' colNames='name,value,type,comment'}>
 <table class="column_95 textMid tablesorter" id="keywordTable">
     <caption>
-           信息列表
+           内容关键字
     </caption>
     <thead>
     <tr>

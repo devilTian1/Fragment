@@ -21,8 +21,8 @@
         </div>
         
         <div class="row">
-            <label for="lport">服务器端口:<em class="required">*</em></label>
-            <input class="port" type="text" name="lport"
+            <label for="serverFileSyncPort">服务器端口:<em class="required">*</em></label>
+            <input class="port" type="text" name="serverFileSyncPort"
 			value="<{$data.sport}>" size="5" maxlength="5"/>
         </div>
 

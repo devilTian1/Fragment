@@ -1,21 +1,51 @@
 <?php
     require_once($_SERVER['DOCUMENT_ROOT'] . '/Function/common.php');
 
-    if (isset($_POST['scanInterval']) && isset($_POST['connectTimes'])) {
+    function checkIDSStatus() {
+    	$path = "/usr/local/lxnids/lxnids.options";
+    	$idsenable = getParamFromFile($path,'/^LXNIDS_RUN=(\w{2,3})/');
+    	if($idsenable[1] === 'YES'){
+    		return 1;
+    	}else{
+    		return -1;
+    	}
+    }
+    
+    //if (isset($_POST['scanInterval']) && isset($_POST['connectTimes'])) {
+     if (isset($_GET['scanConf'])) {
         // modify
-        $enableScan = $_POST['enableScan'] === 'on' ? 'on' : 'off';
-        $interval = $_POST['scanInterval'];
-        $connectTimes = $_POST['connectTimes'];
-        $ignoreIp = $_POST['ignoreIp'];        
-        $ip = str_replace(',',' ',$ignoreIp);        
-        $cmd = "ids scanconf $enableScan $interval $connectTimes";
-        if ($ip !== '') {
-            $cmd .= ' ' . $ip;
-        }
-	$cli = new cli();
-	$cli->setLog("开启ids服务")->run('ids start');
-       	$cli->setLog("配置扫描检测")->run($cmd);
-        echo json_encode(array('msg' => '修改成功。'));
+    	$idsstatus = checkIDSStatus();
+    	if($idsstatus === 1){
+    		$enableScan = $_POST['enableScan'] === 'on' ? 'on' : 'off';
+    		$interval = $_POST['scanInterval'];
+    		$connectTimes = $_POST['connectTimes'];
+    		$ignoreIp = $_POST['ignoreIp'];
+    		$ip = str_replace(',',' ',$ignoreIp);
+    		$cmd = "ids scanconf $enableScan $interval $connectTimes";
+    		if ($ip !== '') {
+    			$cmd .= ' ' . $ip;
+    		}
+    		$cli = new cli();
+    		$cli->setLog("开启ids服务")->run('ids start');
+    		$cli->setLog("配置扫描检测")->run($cmd);
+    		echo json_encode(array('msg' => '修改成功。'));
+    	}else{    		
+			echo json_encode(array('msg' => '请先启动入侵检测。'));
+    	}    	
+    } else if(isset($_GET['clearScanConf'])) {
+    	$idsstatus = checkIDSStatus();
+    	if($idsstatus === 1){
+    		$enableScan = $_POST['enableScan'] === 'on' ? 'on' : 'off';
+        	$interval = $_POST['scanInterval'];
+        	$connectTimes = $_POST['connectTimes'];
+    		$cmd = "ids scanconf $enableScan $interval $connectTimes";
+    		$cli = new cli();
+			$cli->setLog("开启ids服务")->run('ids start');
+       		$cli->setLog("应用防护的入侵检测的扫描检测配置清除IP")->run($cmd);
+        	echo json_encode(array('msg' => 'IP清除成功。'));
+    	}else{    		
+			echo json_encode(array('msg' => '请先启动入侵检测。'));
+    	}     	
     } else {
         // init page data
         $path = '/usr/local/lxnids/lxnids.scan';

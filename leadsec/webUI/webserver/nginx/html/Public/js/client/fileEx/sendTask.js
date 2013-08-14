@@ -70,6 +70,7 @@ function delSendTaskDialog(id) {
 function openNewSendTaskDialog() {
     var url   = 'Function/client/fileEx/sendTask.php';
     var title = '配置任务';
+    var dialog = loadingScreen(title);
     var data  = {
 		openAddDialog: true
     };
@@ -104,7 +105,27 @@ function openNewSendTaskDialog() {
         buttons : buttons,
         position : jQuery.getDialogPosition('660','600')
     };
-    showDialogByAjax(url, data, title, dialogParams);
+
+    var buttonsLim = {};
+    buttonsLim[getMessage('Ok')] = function() {
+        $(this).remove();
+    };
+    var dialogParamsLim = {
+        width : 250,
+        height: 170,
+        buttons : buttonsLim
+    };
+    var successCallback = function(result, textStatus) {
+        dialog.setContent(result.msg);
+        if (result.status == -1) {
+            dialog.setOptions(dialogParamsLim);
+        } else {
+            dialog.setOptions(dialogParams);
+        }
+    }
+    var dc = showDialogByAjax(url, data, title, dialogParams, undefined,
+        successCallback);
+    dc.close();
 }
 
 function switchSendMethod() {

@@ -57,7 +57,7 @@ function openNewAddrListDialog() {
         $(this).remove();
     };
     var dialogParams = {
-        width   : 620,
+        width   : 680,
         height  : 325,
         buttons : buttons,
         position : jQuery.getDialogPosition('620','325')
@@ -109,7 +109,7 @@ function openDelAddrDialog(name, id) {
 function changeAddrType() {
     var checkedDom = $(":radio[name='addrType']:checked");
     var type       = checkedDom.val();
-    var addrDiv    = $('#addrDiv, input[name="ip"], input[name="netmask"]');
+    var addrDiv    = $('#addrDiv, input[name="ip"], input[name="addrnetmask"]');
     var rangeDiv   = $('#rangeDiv, input[name^="range_"]');
     addrDiv.addClass('hide');
     rangeDiv.addClass('hide');

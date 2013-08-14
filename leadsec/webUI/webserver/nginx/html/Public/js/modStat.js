@@ -34,7 +34,7 @@ function switchModStat() {
                     ledDom.removeClass('modelchk_off modelchk_on')
                           .addClass(ledClass);
                    var tip =
-                        active === 'start' ? '点击后将关闭服务' : '点击后将启动服务';
+                        active === 'start' ? '点击后将关闭服务。' : '点击后将启动服务。';
                     $("#modechk").removeAttr("title");
                     $("#modechk").attr("title",tip);
                     $("#modechk").tooltip();

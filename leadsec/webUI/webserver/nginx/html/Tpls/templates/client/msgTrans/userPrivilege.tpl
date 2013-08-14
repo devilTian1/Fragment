@@ -1,14 +1,14 @@
 <{include file='layout/search.tpl'}>
 <table class="column_95 textMid tablesorter" id="userPrivilegeTable">
     <caption>
-           信息列表
+          用户权限
     </caption>
     <thead>
     <tr>
       <th class="column_10" >序号</th>
       <th class="column_30" name="username">用户名</th>
       <th class="column_20" name="send_pri">发送权限</th>
-      <th class="column_20" name="recv_pri">接受权限</th>
+      <th class="column_20" name="recv_pri">接收权限</th>
       <th class="column_20">操作</th>
     </tr>
     </thead>

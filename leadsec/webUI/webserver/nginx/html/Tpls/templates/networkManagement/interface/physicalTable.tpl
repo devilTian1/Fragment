@@ -15,14 +15,14 @@
         <td>
       	    <{$propertyArr[$value.if_property]}>
         </td>
-        <td><{$ipaddrArr[$value.ipaddr_type]}></td>
+        <td>静态IP地址</td>
         <td><{$workmodeArr[$value.workmode]}></td>
         <td>
             <form action="Function/networkManagement/interface/physical.php" method="POST"
                 id="switchPhyDevForm_<{$value@index}>" onSubmit="return false;">
                 <input type="hidden" name="switch_name" value="<{$value.external_name}>"/>
             <{if $value.enable eq 1}>
-                <a href="#" onClick="switchPhysicalDev('<{$value.external_name}>', 'disable', '<{$value@index}>')">
+                <a href="#" onClick="isSwitchCheck('<{$value.external_name}>', 'disable', '<{$value@index}>',switchPhysicalDev)">
                     <img src="<{$smarty.const.THEME_PATH}>/images/icon/select.png"
                     width="16" height="16" />
                     <input type="hidden" name="action" value="disable"/>
@@ -36,7 +36,7 @@
             <{/if}>
             </form>
         </td>
-        <td><a href="#" class="edit" onclick="openEditPhysicalDialog('<{$value.external_name}>')">编辑</a></td>
+        <td><a href="#" class="edit" onclick="isInUseCheck('<{$value.external_name}>',openEditPhysicalDialog, true)">编辑</a></td>
     </tr>
 <{foreachelse}>
     <tr><td colspan='7'>No Address Data</td></tr>

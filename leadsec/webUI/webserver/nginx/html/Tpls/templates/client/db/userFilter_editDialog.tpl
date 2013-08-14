@@ -23,8 +23,8 @@
         
         <div class="row">
                  说明:
-                <div class="pl50">1.该用户名针对数据库访问用户;</div>
-                <div class="pl50">2.多个用户名之间用（",")隔开</div>
+                <div class="pl50">1.该用户名针对数据库访问用户。</div>
+                <div class="pl50">2.多个用户名之间用（",")隔开。</div>
         </div>
         <div class="row">
           <label>备注:</label>         

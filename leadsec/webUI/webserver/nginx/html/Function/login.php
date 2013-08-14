@@ -117,7 +117,9 @@
                 );
                 $admLog = new admLog($set);
 			    logout();
-                exit('timeOut'); 
+                if ('/index.php' !== $_SERVER['SCRIPT_NAME']) {
+                    exit('timeOut');
+                }
 			} else {
 			    //还没超时. 
 			    $_SESSION['session_time']=time(); 

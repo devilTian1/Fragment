@@ -28,8 +28,9 @@
     }
 
     function isdir($path) {
-        $cmd = "test -d $path && echo '1' || echo '0'";
-		$cli = new cli();
+        $path = str_replace(array('(', ')', ' '), array('\(', '\)', '\ '), $path);
+        $cmd  = "test -d $path && echo '1' || echo '0'";
+		$cli  = new cli();
 		list($status, $result) = $cli->setIsRec(false)->execCmdGetStatus($cmd);
         if ($status != 0) {
             throw new Exception("Error: incorrect cmd. [$cmd]");
@@ -81,7 +82,7 @@
             throw new Exception("ERROR：无法打开指定目录[$dir], cmd:[$cmd].");
         } else {
             if (empty($list)) {
-                return array('{}');
+                return array();
             } else {
                 foreach ($list as $file) {
                     $path = $dir . DIRECTORY_SEPARATOR . $file;
@@ -90,9 +91,11 @@
                             directoryToFileTree($path, $offset, $limit);
                         $children = join(',', $children);
                         $result[] = "{name: \"$file\", t: \"$path\", " .
-                            "children: [$children]}";
+                            "children: [$children], " .
+                            "click: \"getFileSize('$path')\"}";
                     } else {
-                        $result[] = "{name: \"$file\", t: \"$path\"}";
+                        $result[] = "{name: \"$file\", t: \"$path\", " .
+                        "click: \"getFileSize('$path')\"}";
                     }
                 }
                 if (getPathCount($dir) > $to) {
@@ -121,6 +124,7 @@
     }
   
     function getPathSize($path) {
+        $path = str_replace(array('(', ')', ' '), array('\(', '\)', '\ '), $path);
         $cmd = "du -sk $path";
         $cli = new cli();
         list($status, $result) =

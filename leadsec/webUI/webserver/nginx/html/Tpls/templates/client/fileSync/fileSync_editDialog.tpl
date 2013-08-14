@@ -63,12 +63,14 @@
             <input type="text" class="width132" name="commname" value="<{$data.commname}>"/>
         </div>
         
-        <div class="row">
-            <label>流病毒扫描:</label>
-            <{html_radios class="radio" name=killVirus label_ids=true values=array('Y', 'N')
-                output=array('是', '否') selected=$data.killvirus|default: 'Y'
-            }>
-        </div>
+		<div <{if $killVirusIsUsed eq 'off'}> class="hide"<{/if}> >
+			<div class="row">
+				<label>流病毒扫描:</label>
+				<{html_radios class="radio" name=killVirus label_ids=true values=array('Y', 'N')
+					output=array('是', '否') selected=$data.killvirus|default: 'N'
+				}>
+			</div>
+		</div>
 
         <div class="row">
             <label for="time">生效时段:</label>

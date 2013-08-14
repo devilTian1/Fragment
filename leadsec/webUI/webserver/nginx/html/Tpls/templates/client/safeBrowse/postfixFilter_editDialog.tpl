@@ -2,7 +2,7 @@
 	<input type="hidden" name="type" value="<{$type|default: 'add'}>"/>
 	<input type="hidden" name="hid_list" value="<{$editPostfix.list}>">
 	<fieldset>
-    	<legend>管理文件名过滤</legend>
+    	<legend>管理后缀名过滤</legend>
     	<div class="row">
     		<label>文件名后缀:<em class="required">*</em></label>
     		<input type="text" name="postfix_list" value="<{$editPostfix.list}>" size="50" maxlength="1023" class="width132"/>

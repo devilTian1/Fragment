@@ -13,7 +13,7 @@
                 <div class="secondary">
                     <!-- leftmenuinfo -->
                     <div id="leftmenutop">
-                    	<strong>安全隔离网闸<{$hostStatus}></strong>
+                    	<strong style="font-size:14px;">安全隔离网闸<{$hostStatus}></strong>
                     </div>
                     <!-- leftmenu -->
                     <div id="leftmenu">

@@ -60,28 +60,13 @@ function openNewOptionsDialog(flag) {
     	            undefined, afterSuccessCallback);
         	}else{
         		openNewOptionsDialog(flag);
-         		var dialog = loadingScreen(title);
-         	    dialog.dialog('moveToTop');
-         	    var buttons = {};
-         	    buttons[getMessage('Ok')] = function() {
-         	        dialog.close();
-         	    }
-         	    dialog.setOptions({
-         	        width : 250,
-         	        height: 170,
-         	        buttons: buttons,
-         	       position: jQuery.getDialogPosition(250,170)
-         	    });
          	   var optionName = $("input[name='optionName']").val(); 
          		var successResult = function(result, textStatus) {
-         		        var content = result.msg;
-         	            dialog.setContent($('<p>' + content + '</p>'));
          	            freshPrePage('Function/client/db/optionsFilter.php', $('#filter'),optionName);
          	        }    		
-         		var dialog_c= ajaxSubmitForm($('#optionFilterEditForm'), '结果',successResult);
-         		dialog_c.close();
-        	}
-        	
+         		ajaxSubmitForm($('#optionFilterEditForm'), '结果', undefined,
+        	            undefined, successResult);
+        	}        	
             $(this).remove();
         }
     };
@@ -94,26 +79,12 @@ function openNewOptionsDialog(flag) {
     	        ajaxSubmitForm($('#optionFilterEditForm'), '结果', undefined,
     	            undefined, afterSuccessCallback);
         	}else{
-        		var dialog = loadingScreen(title);
-        	    dialog.dialog('moveToTop');
-        	    var buttons = {};
-        	    buttons[getMessage('Ok')] = function() {
-        	        dialog.close();
-        	    }
-        	    dialog.setOptions({
-        	        width : 250,
-        	        height: 170,
-        	        buttons: buttons,
-        	        position: jQuery.getDialogPosition(250,170)
-        	    });
         	    var optionName = $("input[name='optionName']").val(); 
         		var successResult = function(result, textStatus) {
-        		        var content = result.msg;
-        	            dialog.setContent($('<p>' + content + '</p>'));
         	            freshPrePage('Function/client/db/optionsFilter.php', $('#filter'),optionName);
         	    }    		
-        		var dialog_c= ajaxSubmitForm($('#optionFilterEditForm'), '结果',successResult);
-        		dialog_c.close();
+        		ajaxSubmitForm($('#optionFilterEditForm'), '结果', undefined,
+        	            undefined, successResult);
         	}          
             $(this).remove();
         }

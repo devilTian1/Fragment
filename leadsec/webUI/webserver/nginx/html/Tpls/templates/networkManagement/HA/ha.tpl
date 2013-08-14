@@ -27,16 +27,22 @@
    				    </div>
                     <!--网闸未启动-->
                     <{else}>
-                    <div class="gapstatus gap_nostart">
-                    	<span>关闭</span>
+                    <div class="gapstatus gap_unusual">
+                    	<span>异常</span>
    				    </div>
                     <{/if}>
              	    <div class="role">
                     	角色:<span>主闸</span>
                     </div>
-             	    <div class="name">
-                    	当前状态:<span><{$master_in.hastatus}></span>
-                    </div>
+					<{if $master_in.hastatus neq '0'}>
+						<div class="name">
+							当前状态:<span><{$master_in.hastatus}></span>
+						</div>
+						<{else}>
+						<div class="name">
+							当前状态:<span>获取中</span>
+						</div>
+					<{/if}>
                 </div>
                 <div class="netcardtop">
                 	<{foreach from=$master_in.ifstatus item=val key=key}>
@@ -88,16 +94,24 @@
    				    </div>
                     <!--网闸未启动-->
                     <{else}>
-                    <div class="gapstatus gap_nostart">
+                    <!--<div class="gapstatus gap_nostart">-->
+					<div class="gapstatus gap_unusual">
                     	<span>异常</span>
    				    </div>
                     <{/if}>
              	    <div class="role">
                     	角色:<span>从闸</span>
                     </div>
-             	    <div class="name">
-                    	当前状态:<span><{$slave_in.hastatus}></span>
-                    </div>
+
+					<{if $slave_in.hastatus neq '0'}>
+						<div class="name">
+							当前状态:<span><{$slave_in.hastatus}></span>
+						</div>
+					<{else}>
+						<div class="name">
+							当前状态:<span>获取中</span>
+						</div>
+					<{/if}>
                 </div>
                 <div class="netcardtop">
                 	<{foreach from=$slave_in.ifstatus item=val key=key}>

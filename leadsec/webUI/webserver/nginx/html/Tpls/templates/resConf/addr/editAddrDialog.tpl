@@ -3,7 +3,6 @@
     <input type="hidden" name="id" value="<{$id}>"/>
     <fieldset>
         <legend>地址列表维护</legend>
-        <div class="hide" id="summary"></div>
         <div class="row">
             <label for="addrName">名称:<em class="required">*</em></label>
             <input class="width10em" type="text" name="addrName" maxlength="15" value="<{$addr.name}>"
@@ -24,8 +23,8 @@
         <div class="row">
             <label>IPv4或IPv6地址:<em class="required">*</em></label>
             <div class="floatLeft" id="addrDiv">
-                <input class="width10em ip" type="text" name="ip" value="<{$addr.ip}>"/><label class="maskLabel">/</label>
-                <input class="width10em netmask" type="text" name="netmask" value="<{$addr.mask}>"/>
+                <input class="width10em ip" type="text" name="ip" id="addrip" value="<{$addr.ip}>" onkeyup="$('#editAddrListForm').validate().element($('#addrnetmask'));"/><label class="maskLabel">/</label>
+                <input class="width10em netmask" type="text" name="addrnetmask" id="addrnetmask" value="<{$addr.mask}>"/>
                 <br class="clearFloat"/>
             </div>
             <div class="floatLeft" id="rangeDiv">
@@ -43,7 +42,7 @@
 </form>
 <script type="text/javascript">
     $(document).ready(function(){
-    	validateForm($("#editAddrListForm"), 'summary');
+    	validateForm($("#editAddrListForm"));
         changeAddrType();
     });
 </script>

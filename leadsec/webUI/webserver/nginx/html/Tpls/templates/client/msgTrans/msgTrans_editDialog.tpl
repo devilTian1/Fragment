@@ -19,28 +19,30 @@
         </div>
         <div class="row">
           <label>本机地址:<em class="required">*</em></label>
-          <{html_options  class="w150" name="cmsgGeneralLip" id="cmsgGeneralLip"
+          <{html_options  class="select da" name="cmsgGeneralLip" id="cmsgGeneralLip"
                     output=$localIp values=$localIp
                     selected=$res.lip|default: 'any'}>
         </div>
         
   		<div class="row">
-          <label>本机端口:<em class="required">*</em></label>
-          <input class="port" type="text" name="cmsgGeneralLport" id="cmsgGeneralLport" value="<{$res.lport}>" size="5" maxlength="5"/>
+            <label>本机端口:<em class="required">*</em></label>
+            <input class="port" type="text" name="cmsgGeneralLport" id="cmsgGeneralLport" value="<{$res.lport}>" size="5" maxlength="5"/>
         </div>
         
        <div class="row">
-            <label>HTTP身份认证及传输加密:</label>
+            <label>HTTP身份认证及传输加密:</label>            
             <{html_radios class="radio" name=ssl label_ids=true values=array('Y', 'N')
-                output=array('是', '否') selected=$res.ssl|default: 'N'}>
+               output=array('是', '否') selected=$res.ssl|default: 'N'}>
        </div>
        
-       <div class="row">
-            <label>病毒扫描:</label>
-            <{html_radios class="radio" name=scanvirus label_ids=true values=array('Y', 'N')
-                output=array('是', '否') selected=$res.scanvirus|default: 'N'}>
+       <div <{if $killVirusIsUsed eq 'off'}> class="hide"<{/if}>>
+           <div class="row">
+               <label>病毒扫描:</label>
+               <{html_radios class="radio" name=scanvirus label_ids=true values=array('Y', 'N')
+                   output=array('是', '否') selected=$res.scanvirus|default: 'N'}>
+       	   </div>
        </div>
-        
+       
        <div class="row">
             <label>本机备份:</label>
             <{html_radios class="radio" name=backup label_ids=true values=array('Y', 'N')
@@ -50,8 +52,9 @@
         
        <div class="row">
             <label>是否启动:</label>
-            <{html_radios class="radio" name=active label_ids=true values=array('ok', 'erro')
-                output=array('是', '否') selected=$res.active|default: 'ok'}>
+            <{html_radios class="radio" name=active label_ids=true 
+            values=array('ok', 'erro') output=array('是', '否')
+            selected=$res.active|default: 'ok'}>
        </div>
         
        <div class="row">

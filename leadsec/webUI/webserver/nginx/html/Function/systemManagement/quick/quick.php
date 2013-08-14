@@ -54,12 +54,16 @@
 			$subnum=0;
 			$toplink=$topval['link'];
 			foreach ($subArr as $subkey=>$subval){
-				$returnArr[$topnum]['subarr'][$subnum]['subtitle']=$subval['name'];
-				$returnArr[$topnum]['subarr'][$subnum]['id']=$subkey;
-				$returnArr[$topnum]['subarr'][$subnum]['img']=$subkey;
-				$returnArr[$topnum]['subarr'][$subnum]['pmenu']=$toplink;
-				$returnArr[$topnum]['subarr'][$subnum]['smenu']=$subval['link'];
-				$subnum+=1;
+				if (getLicense($subval['link'])) {
+					$returnArr[$topnum]['subarr'][$subnum]['subtitle']=$subval['name'];
+					$returnArr[$topnum]['subarr'][$subnum]['id']=$subkey;
+					$returnArr[$topnum]['subarr'][$subnum]['img']=$subkey;
+					$returnArr[$topnum]['subarr'][$subnum]['pmenu']=$toplink;
+					$returnArr[$topnum]['subarr'][$subnum]['smenu']=$subval['link'];
+					$subnum+=1;
+				} else {
+					continue;
+				}
 			}
 			$topnum+=1;
 		}
@@ -79,10 +83,10 @@
     	$strcon="";
     	if(file_exists($pathfile)){
     		$filecontent=file_get_contents($pathfile);
-    		if((false === stripos($filecontent, $id.";"))&&
-    		   (false === stripos($filecontent, $id.","))&&
-    		   (false === stripos($filecontent, $id." "))){
-	    		$arr_temp=explode(";",$filecontent);
+    		if((false === stripos($filecontent, $id.';'))&&
+               (false === stripos($filecontent, $id.','))&&
+               (false === stripos($filecontent, $id.' '))){
+	    	    $arr_temp=explode(";",$filecontent);
 	    		foreach ($arr_temp as $key=>$arr_val){
 	    			if ($index==$key+1){
 	    				if($arr_val==''){

@@ -47,27 +47,29 @@
         <tr>
             <td class="tdheader">缓存文件上限:<em class="required">*</em></td>
             <td class="tdbody">
-            	<input class='floatLeft width44' type="text" name="memoryMax" value="<{$editBasicConfig.cache_mem}>" size="5" maxlength="5"/>M
+            	<input class='floatLeft width44' type="text" name="memoryMax" value="<{$editBasicConfig.cache_mem}>" size="5" maxlength="5"/><span class="floatLeft">M</span>
             </td>
         </tr>
         <tr>
             <td class="tdheader">HTTP请求头部上限:<em class="required">*</em></td>
             <td class="tdbody">
-            	<input class='floatLeft width44' type="text" name="httpRequestMax" value="<{$editBasicConfig.reqhead}>" size="5" maxlength="5"/>KB
+            	<input class='floatLeft width44' type="text" name="httpRequestMax" value="<{$editBasicConfig.reqhead}>" size="5" maxlength="5"/><span class="floatLeft">KB</span>
             </td>
         </tr>
+        <{if $killVirusIsUsed eq 'on'}>
         <tr>
             <td class="tdheader">开启病毒扫描:</td>
              <td class="tdbody">
             	<input type="checkbox" class="checkbox" name="virusScan" <{if $virusScan eq 1}>checked="checked"<{/if}>/>
             </td>
         </tr>
+        <{/if}>
         <tr>
             <td class="tdheader"></td>
             <td class="tdbody">
                 <button type="button" class="inputbtn standard" onclick="setBasicConfigForm()">确定</button>
             </td>
-        </tr>
+        </tr>        
         </tbody>
     </table>
 </form>

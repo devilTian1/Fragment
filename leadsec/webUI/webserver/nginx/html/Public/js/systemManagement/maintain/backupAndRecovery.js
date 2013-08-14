@@ -32,34 +32,8 @@ function Trim(str){
 
 function importConfigFile() {
 	var form = $('#importFileForm');
-	/*
-	var file = Trim($("input[name='importFile']").val());
-	var stag = file.lastIndexOf('\\');
-	// for IE,chorm 
-	if (stag>0){
-		var substr_stag = stag + 1;
-		var filepath = file.substr(substr_stag);
-	} else {
-		var filepath = file;	
-	}*/
-	var successCallback = function(result, textStatus) {
-	var content = result.msg;
-		var dialog  = loadingScreen('导入配置文件');
-		var buttons = {};
-			buttons['确定'] = function() {
-				$(this).remove();
-			};
-		var dialogParams = {
-				width: 200,
-				height: 200,
-				buttons: buttons
-			};
-			dialog.setContent(content);
-			dialog.setOptions(dialogParams); 
-	};
 	if (form.valid()) {
-		var dialogcmd = ajaxSubmitForm(form, '结果',successCallback);
-		dialogcmd.close();
+	    ajaxSubmitForm(form, '结果');
 	}
 }
 
@@ -76,11 +50,11 @@ function restoreDialog() {
         type : 'GET',
 		dataType: 'json',
         success: function(result) {
-			var dialog_restore = loadingScreen('恢复出厂配置');
+			var dialog_restore = loadingScreen('恢复出厂配置'); 
 			dialog_restore.dialog('moveToTop');
 			dialog_restore.setContent(result.msg);
 			var buttons = {};
-			if (result.status == 0) {
+			if (parseInt(result.status) == 0) {
 				buttons[getMessage('Ok')] = function() {
 					dialog_restore.close();
 					reboot();
@@ -89,7 +63,7 @@ function restoreDialog() {
 					dialog_restore.close();
 				};
 			} else {
-				buttons[getMessage('Cancel')] = function() {
+				buttons[getMessage('Ok')] = function() {
 					dialog_restore.close();
 				};
 			}

@@ -2,14 +2,10 @@
     require_once($_SERVER['DOCUMENT_ROOT'] . '/Function/common.php');
  	
     function freshRedundance($where) {
-        $workmodeArr = array('未指定',   '路由模式',
-                             '透明模式', '冗余设备模式');
-        $ipaddrArr   = array('未指定', '静态指定',
-                             '无效',   'DHCP获取');
         $tpl =  'networkManagement/interface/redundanceTable.tpl';
         $db  = new dbsqlite(DB_PATH . '/configs.db');
-        $sql = 'SELECT external_name, ip, mask, workmode, ipaddr_type, ' .
-            "interface_list, enable FROM interface WHERE device_type = 6";
+        $sql = 'SELECT external_name, ip, mask, interface_list, enable ' .
+            'FROM interface WHERE device_type = 6';
         $params = array();
         if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
             $data   = getWhereStatement($db, $_GET['cols'], $_GET['keyword']);
@@ -19,8 +15,6 @@
         $sql .=  ' ' . $where;
         $result = $db->query($sql, $params)->getAllData(PDO::FETCH_ASSOC);
         echo V::getInstance()->assign('list', $result)
-        	->assign('workmodeArr', $workmodeArr)
-        	->assign('ipaddrArr',   $ipaddrArr)
         	->assign('pageCount', 10)
             ->fetch($tpl);
     }
@@ -50,21 +44,14 @@
     function getCmd($action) {
         $name = $_POST['external_name'];
         $ipStr = "";
-        if ($_POST['ipaddr_type'] === '1') {
-            $ipAddrTypeParam = 'ipaddr_type static';
-            $ip = $_POST['redundanceIpv4'];
-            $ipv4Mask  = $_POST['redundanceMask'];
-            if (!empty($ipv4Mask)) {
-                $ipv4Mask = convertToIpv4Mask($ipv4Mask);
-            }
-            $ipStr = "ip $ip netmask $ipv4Mask";
-        } else if ($_POST['ipaddr_type'] === '2') {
-            $ipAddrTypeParam = 'ipaddr_type invalid';
-        } else if ($_POST['ipaddr_type'] === '3') {
-            $ipAddrTypeParam = 'ipaddr_type dhcp';
-        } else { // 0
-            $ipAddrTypeParam = '';
+        $ipAddrTypeParam = 'ipaddr_type static';
+        $ip = $_POST['redundanceIpv4'];
+        $ipv4Mask  = $_POST['redundanceMask'];
+        if (!empty($ipv4Mask)) {
+            $ipv4Mask = convertToIpv4Mask($ipv4Mask);
         }
+        $ipStr = "ip $ip netmask $ipv4Mask";
+
         
         $ipC           = $_POST['ipmac_check'] === 'on' ? 'on' : 'off';
         $ipCP          = $_POST['ipmac_check_policy'] === 'on' ? 'on' : 'off';
@@ -102,19 +89,20 @@
     }
     
     function getWhereStatement($db, $cols, $keyword) {
-        $value  = '%' . $keyword . '%';
+        $value  = $keyword ;
         $params = array_fill(0, count(explode(',', $cols)), $value);
         return array('sql'    => ' AND (' .
                               $db->getWhereStatement($cols, 'OR', 'like') . ')',
-                     'params' => $params);
+                     'params' => $db->getFilterParams($params));
     }
 
     function getDataCount() {
         $sql = 'SELECT external_name FROM interface where device_type = 6';
         $db  = new dbsqlite(DB_PATH . '/configs.db');
         $params = array();
+		$keyword='/'.$_GET['keyword'];
         if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
-            $data   = getWhereStatement($db, $_GET['cols'], $_GET['keyword']);
+            $data   = getWhereStatement($db, $_GET['cols'], $keyword);
             $sql   .= $data['sql'];
             $params = $data['params'];
         }
@@ -192,15 +180,13 @@
     } else if ($name = $_POST['delName']) {
         // Delete specified Redundance Device
         $cli  = new cli();
-        //$cli->setLog("删除冗余设备{$name}")->run("interface del if $name");
-        //echo json_encode(array('msg' => "删除冗余设备[$name]成功。"));
 		$msg_log = "删除冗余设备{$name}";
 		list($status,$result) = $cli->setLog($msg_log)
 				->execCmdGetStatus("interface del if $name");
 		if ($status > 0) {
-			echo json_encode(array('status'=>$status,'msg' => '删除冗余设备[$name]被引用。'));
+			echo json_encode(array('status'=>$status,'msg' => '冗余设备['.$name.']被引用。'));
 		} else {
-			echo json_encode(array('status'=>$status,'msg' => '删除冗余设备[$name]成功。'));
+			echo json_encode(array('status'=>$status,'msg' => '删除成功。'));
 		}
     } else if ($action = $_POST['action']) {
         // Switch specified redundance device

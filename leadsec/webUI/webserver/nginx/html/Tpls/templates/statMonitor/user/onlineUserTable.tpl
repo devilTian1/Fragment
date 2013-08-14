@@ -24,11 +24,6 @@
             	强制下线
             </button>
             <button class="standard" style="position: static" type="button"
-                onclick="onlineUserToLockDialog('<{$u.user_name}>')"
-                id="resetPwdBtn">
-           		锁定
-            </button>
-            <button class="standard" style="position: static" type="button"
                 onclick="onlineUserTimeResetDialog('<{$u.user_name}>')"
                 id="resetPwdBtn">
            		 重置时间

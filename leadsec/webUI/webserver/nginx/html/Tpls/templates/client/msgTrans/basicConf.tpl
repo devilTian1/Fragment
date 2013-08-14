@@ -45,18 +45,17 @@
                 </label>
             </td>
             <td>
-                <input class="w200" type="password" name="userKeyWord" id="userKeyWord" size="34" />        
+                <input class="w200" type="password" name="userKeyWord" id="userKeyWord" size="34" maxlength="33" />        
             </td>
         </tr>
 		<tr>
             <td>
                 <label class="floatRight" for="SISkey">
-                   	对端证书公共名
-                    <em class="required">*</em>
+                   	对端证书公共名                    
                 </label>
             </td>
             <td>
-                <input class="w200" type="text" name="certCommname" id="certCommname" size="34" />        
+                <input class="w200" type="text" name="certCommname" id="certCommname" size="34" maxlength="33" />        
             </td>
         </tr>
         <tr>

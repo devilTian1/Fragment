@@ -17,8 +17,8 @@
             ->assign('pageCount', 10)
             ->fetch($tpl);
     }
-
-    function getCmd() {
+	
+    function getCmd($action) {
         $id        = intval($_POST['sendTaskId']);
         $ip        = $_POST['sip'];
         $shareName = $_POST['shareName'];
@@ -51,7 +51,7 @@
 			$active = $_POST['active'] === 'Y' ? 'on' : 'off';
 		}
         $port = $_POST['sendTaskPort'];
-        $cmd  = "fsctl add task id $id mode client ip $ip share $shareName filesystem $fs port $port method $method  subdir $subdir killvirus $kv interval $inv active $active";
+        $cmd  = "fsctl $action task id $id mode client ip $ip share $shareName filesystem $fs port $port method $method  subdir $subdir killvirus $kv interval $inv active $active";
         if (!empty($time)) {
             $cmd .=  " time $time";
         }
@@ -79,7 +79,13 @@
         }
         return $db->query($sql, $params)->getCount();
     }
-
+    
+    function getTaskNumber() {
+    	$sql = "SELECT task_id FROM dir_info" ;           
+        $db  = new dbsqlite(DB_PATH . '/netgap_fs.db');
+        return $db->query($sql)->getCount();
+    }
+    
 	function getStatusInfo($status) {
 		switch ($status) {
 			case 1:
@@ -92,14 +98,12 @@
 				return '挂载共享路径错误，请检查共享配置。';
 			case 8:
 				return '卸载错误。';
-            case 0:
-                return '添加成功。';
             default:
                 return '无法识别的错误类型[' . $status . ']。';
 		}
 		return $showErrorInfo;
 	}
-
+	$killVirusIsUsed = antiIsUsed();
     if ($id = $_POST['editId']) {
         // Display dialog of specified send task data
         $tpl  =  'client/fileEx/editSendTaskDialog.tpl';
@@ -110,55 +114,72 @@
             ->assign('timeList', netGapRes::getInstance()->getTimeList())
             ->assign('filters', netGapRes::getInstance()->getFileExFilterOpts())
             ->assign('ifList', netGapRes::getInstance()->getInterface())
+            ->assign('killVirusIsUsed',$killVirusIsUsed)
             ->assign('type', 'edit')->fetch($tpl);
         echo json_encode(array('msg' => $result));
-
     } else if ('edit' === $_POST['type']) {
         // Edit specified send task data
-		$msg = '客户端文件交换模块的发送任务修改任务号'.$_POST['sendTaskId'];
+		$msg = '客户端文件交换模块的发送任务,修改任务号为'.$_POST['sendTaskId'];
         $cli = new cli();
-        $cli->run('fsctl del task id ' . $_POST['sendTaskId']);
-        $cli->setLog($msg)->run(getCmd());
-        echo json_encode(array('msg' => '修改成功。'));
+		list($status, $result) = $cli->setLog($msg)
+                                     ->execCmdGetStatus(getCmd('set'), false);
+		if ($status > 0) {
+			echo json_encode(array('msg' => getStatusInfo($status)));
+		} else {
+			 echo json_encode(array('msg' => '修改成功。'));
+		}
     } else if ('add' === $_POST['type']) {
         // add a new send task data
         $cli = new cli();
-		$cmd = getCmd();
+		$cmd = getCmd('add');
 		$id  = intval($_POST['sendTaskId']);
 		// get the status 
-		$msg = '客户端文件交换模块的发送任务添加任务号为'.$id;
+		$msg = '客户端文件交换模块的发送任务,添加任务号为'.$id;
 		list($status, $result) = $cli->setLog($msg)
                                      ->execCmdGetStatus($cmd, false);
-		echo json_encode(array('msg' => getStatusInfo($status)));
+		if ($status > 0) {
+			echo json_encode(array('msg' => getStatusInfo($status)));
+		} else {
+			 echo json_encode(array('msg' => '添加成功。'));
+		}
     } else if ($id = $_POST['delId']) {
         // delete specified allowed file data
         $cli = new cli();
-		$msg = '客户端文件交换模块的发送任务删除任务号'.$id;
-        $cli->setLog($msg)->run('fsctl del task id ' . $id);
-        echo json_encode(array('msg' => '删除成功。'));
+		$msg = '客户端文件交换模块的发送任务,删除任务号为'.$id;
+		$cmd = 'fsctl del task id '. $id;
+        list($status, $result) = $cli->setLog($msg)->execCmdGetStatus($cmd, false);
+        if ($status > 0) {
+        	echo json_encode(array('msg' => getStatusInfo($status)));
+        } else {
+        	echo json_encode(array('msg' => '删除成功。'));
+        }
     } else if (!empty($_POST['openAddDialog'])) {
+        if (getTaskNumber() >= 20) {
+            echo json_encode(array('status' => -1,
+                                   'msg' => '添加任务数目已达上限20条，已无法添加。'));
+            return false;
+        }
         // Display dialog to add send task data
         $tpl =  'client/fileEx/editSendTaskDialog.tpl';
         $result = V::getInstance()
             ->assign('timeList', netGapRes::getInstance()->getTimeList())
             ->assign('filters', netGapRes::getInstance()->getFileExFilterOpts())
             ->assign('ifList', netGapRes::getInstance()->getInterface())
+            ->assign('killVirusIsUsed',$killVirusIsUsed)
             ->assign('type', 'add')->fetch($tpl);
         echo json_encode(array('msg' => $result));
     } else if ($action = $_POST['action']) {
         // enable or disable specified acl
         $cli = new cli();
-        $cli->run('fsctl del task id ' . $_POST['sendTaskId']);
-        //$cli->run(getCmd());
         if ($action === 'enable') {
 			$msg_log = '客户端文件交换模块的发送任务添加任务号为'.$_POST['sendTaskId'].
 				'任务由停止变为启动';
-			$cli->setLog($msg_log)->run(getCmd());
+			$cli->setLog($msg_log)->run(getCmd('set'));
             $msg = "启动成功。";
         } else {
 			$msg_log = '客户端文件交换模块的发送任务添加任务号为'.$_POST['sendTaskId'].
 				'任务由启动变为停止';
-			$cli->setLog($msg_log)->run(getCmd());
+			$cli->setLog($msg_log)->run(getCmd('set'));
             $msg = "停止成功。";
         }
         echo json_encode(array('msg' => $msg));

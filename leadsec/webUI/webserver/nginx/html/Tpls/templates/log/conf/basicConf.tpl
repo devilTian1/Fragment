@@ -31,7 +31,7 @@
           </td>
         </tr>-->
         <tr>
-          <td width="250" class="tdheader">日志文件阀值:</td>
+          <td width="250" class="tdheader">日志文件阈值:</td>
           <td class="tdbody">
               <input type="text" name="logLimitSize" value="<{$basic.sizelimit|default: '20'}>" size="3" maxlength="3"/>M          
           </td>

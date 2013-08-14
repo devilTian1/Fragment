@@ -118,12 +118,12 @@ function openDelGeneralAccessCtrlDialog(id) {
 *     中的ip，只显示支持的地址类型
 *******************************************/
 function filterRes() {
-    var saOpts  = $('select[name="srcIpList"]');
-    var daOpts  = $('select[name="destIpList"]');
+    var saOpts  = $('select[name="srcIpList_general"]');
+   // var daOpts  = $('select[name="destIpList"]');
     saOpts.showOption(); 
-	daOpts.showOption();
+	//daOpts.showOption();
     saOpts.hideOption('option[value$="_ipv6"]');
-    daOpts.hideOption('option[value$="_ipv6"]');
+   // daOpts.hideOption('option[value$="_ipv6"]');
 }
 
 function freshTableAndPage() {

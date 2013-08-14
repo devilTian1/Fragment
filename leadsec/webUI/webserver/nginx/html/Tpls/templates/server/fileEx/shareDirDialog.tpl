@@ -3,7 +3,7 @@
     <thead>
         <tr>
             <th class="column_20">任务号</th>
-            <th class="column_20">发送/接受</th>
+            <th class="column_20">发送/接收</th>
             <th class="column_20">服务器IP</th>
             <th class="column_20">服务器共享名</th>
             <th class="column_20">文件系统</th>
@@ -16,7 +16,7 @@
                 <{if $r.mode === 'C'}>
                 发送
                 <{else}>
-                接受
+                接收
                 <{/if}>
             </td>
             <td><{$r.ip}></td>
@@ -35,33 +35,31 @@
             }
         }
     };
-    var zNodes =[<{$zNodes}>];
     $(document).ready(function(){
+        var zNodes =[<{$zNodes}>];
         $.fn.zTree.init($("#fileTree"), setting, zNodes);
-        var t;
-		$("#fileTree a").live('click',function(){
-            var dialog = loadingScreen(getMessage('Result'));
-			var dom = $(this);
-			var data = {
-				path: dom.attr('title')
-			};
-			var params = {
-				type: 'POST',
-				dataType: 'JSON',
-				success: function(result, textStatus) {
-					var content = result.msg;
-					var dialogParams = {
-						width: 250,
-						height: 200,
-						position: jQuery.getDialogPosition(250,200)
-					};
-					dialog.setContent("文件大小为:"+content);
-					dialog.setOptions(dialogParams); 
-				}
-			};
-			loadAjax('Function/server/fileEx/shareDir.php', data, params);
-		});
-
+    });
+    function getFileSize(path) {
+        var dialog = loadingScreen(getMessage('Result'));
+        var data = {
+            path: path
+        };
+        var params = {
+            type: 'POST',
+            dataType: 'JSON',
+            success: function(result, textStatus) {
+                var content = result.msg;
+                var dialogParams = {
+                    width: 250,
+                    height: 200,
+                    position: jQuery.getDialogPosition(250,200)
+                };
+                dialog.setContent("大小为:"+content);
+                dialog.setOptions(dialogParams); 
+            }
+        };
+        loadAjax('Function/server/fileEx/shareDir.php', data, params);
+    }
     function addNewNodes(newNode, dom) {
         var treeObj = $.fn.zTree.getZTreeObj("fileTree");
         if (dom != undefined) {
@@ -103,6 +101,4 @@
         loadAjax(url, data, params);
         return false;
     }
-
-    });
 </script>

@@ -59,9 +59,9 @@ function openNewUserPriDialog() {
     };
     var dialogParams = {
         width   : 680,
-        height  : 520,
+        height  : 350,
         buttons : buttons,
-        position: jQuery.getDialogPosition(680,520)
+        position: jQuery.getDialogPosition(680,350)
     };
     showDialogByAjax(url, data, title, dialogParams);
 }

@@ -1,7 +1,7 @@
 <{include file='layout/search.tpl'}>
 <table class="column_95 textMid tablesorter" id="localUsrAuthenTable">
     <caption>
-           信息列表
+           本地用户认证
     </caption>
     <thead>
     <tr>

@@ -6,7 +6,7 @@
         <td><{$value.target_address}></td>
 		<td><{$value.target_port}></td>
 		<td><{$value.link_mode}></td>
-		<td><{$value.txt_msg}></td>
+		<td><{$value.msg}></td>
         <td>
             <form action="Function/appS/ids/customTest.php" method="POST"
                 id="switchPhyDevForm_<{$value@index}>" onSubmit="return false;">

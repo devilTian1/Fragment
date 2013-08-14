@@ -10,8 +10,8 @@
                            '无效',   'DHCP获取');
         $tpl = 'networkManagement/interface/physicalTable.tpl';
         $db  = new dbsqlite(DB_PATH . '/configs.db');
-        $sql = "SELECT external_name, ip, mask, ipv6, ipv6_mask, if_property,
-            ipaddr_type, enable, workmode FROM interface WHERE device_type = 1";
+        $sql = 'SELECT external_name, ip, mask, ipv6, ipv6_mask, if_property,' .
+            'enable, workmode FROM interface WHERE device_type = 1';
         $params = array();
         if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
             $data   = getWhereStatement($db, $_GET['cols'], $_GET['keyword']);
@@ -20,18 +20,6 @@
         }
         $sql .=  ' ' . $where;
         $result = $db->query($sql, $params)->getAllData(PDO::FETCH_ASSOC);
-        foreach ($result as $key => $arr) {
-            if($arr['workmode'] === "3") {
-                $sql = "SELECT ipaddr_type FROM interface WHERE device_type=6 AND interface_list LIKE '%" . $arr['external_name'] . "%'";
-                $num = $db->query($sql)->getCount();
-                if(intval($num) > 0) {
-                    $result_rd = $db->query($sql)->getFirstData(PDO::FETCH_ASSOC);
-                    $result[$key]['ipaddr_type'] = $result_rd['ipaddr_type'];
-                } else {
-                    $result[$key]['ipaddr_type'] = 0;
-                }
-            }
-        }
         echo V::getInstance()->assign('list', $result)
         	->assign('propertyArr', $propertyArr)
         	->assign('ipaddrArr', $ipaddrArr)
@@ -69,7 +57,7 @@
         } else { //0
             $workmode = '';
         }
-        if ($_POST['ipaddr_type'] === '1' && $_POST['workmode'] !== '3') {
+        if ($_POST['workmode'] !== '3') {
             $ipv4     = $_POST['devIpv4'];
             $ipv4Mask = $_POST['devIpv4Netmask'];
             $ipv4Mask = !empty($ipv4Mask) ? convertToIpv4Mask($ipv4Mask) : '';
@@ -77,20 +65,11 @@
             $ipv6Mask = $_POST['devIpv6Netmask'];
             $ipType   = 'ipaddr_type static ';
             if (!empty($ipv4)) {
-                $ipType .= "ip $ipv4 netmask $ipv4Mask";
-            }
-            if (!empty($ipv4) && !empty($ipv6)) {
-                $ipType .= ' ';
+                $ipType .= " ip $ipv4 netmask $ipv4Mask";
             }
             if (!empty($ipv6)) {
-                $ipType .= "ipv6 $ipv6 ipv6_mask $ipv6Mask";
+                $ipType .= " ipv6 $ipv6 ipv6_mask $ipv6Mask";
             }
-        //} else if ($_POST['ipaddr_type'] === '2') {
-        //    $ipType = 'ipaddr_type invalid';//TODO
-        } else if ($_POST['ipaddr_type'] === '3') {
-            $ipType = 'ipaddr_type dhcp';
-        } else {//0
-            $ipType = '';
         }
         $ipmac_check        = $_POST['ipmac_check'] === 'on' ? 'on' : 'off';
         $ipmac_check_policy =
@@ -139,19 +118,20 @@
     }
 
     function getWhereStatement($db, $cols, $keyword) {
-        $value  = '%' . $keyword . '%';
+        $value  = $keyword ;
         $params = array_fill(0, count(explode(',', $cols)), $value);
         return array('sql'    => ' AND (' .
                               $db->getWhereStatement($cols, 'OR', 'like') . ')',
-                     'params' => $params);
+                     'params' => $db->getFilterParams($params));
     }
 
     function getDataCount() {
         $db  = new dbsqlite(DB_PATH . '/configs.db');
         $sql = "SELECT external_name FROM interface WHERE device_type = 1";
         $params = array();
+		$keyword='/'.$_GET['keyword'];
         if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
-            $data   = getWhereStatement($db, $_GET['cols'], $_GET['keyword']);
+            $data   = getWhereStatement($db, $_GET['cols'], $keyword);
             $sql   .= $data['sql'];
             $params = $data['params'];
         }
@@ -235,6 +215,18 @@
             echo $db->query($sql)->getCount() > 0 ? 'false' : 'true';
         } else {
             throw new Exception("Can`t valid the ip type:  $ipvType.");
+        }
+    } else if ($_GET['isInUseCheck']) {
+        $name   = $_GET['checkName'];
+        $checkActive = false;
+        if ($_GET['checkActive'] === 'true') {
+            $checkActive = true;
+        }
+        $result = netGapRes::getInstance()->checkPhysicalUsed($name, $checkActive); 
+        if (count($result) > 0) {
+            echo json_encode(array('msg' => $result));
+        } else {
+            echo json_encode(array('msg' => 'false'));
         }
     } else {
         // init page data

@@ -40,7 +40,7 @@ $(document).ready(function() {
 	renderStandardUi();
 	validateForm($("#editKeywordFilterForm"));
 	$("#addContext").click(function() {
-		if($("#editKeywordFilterForm").validate().element("context_txt")) {
+		if($("#editKeywordFilterForm").validate().element("#context_txt")) {
 			var context=$("#context_txt").val(),
 			flag=0;
 			$("#contextList option").each(function(){

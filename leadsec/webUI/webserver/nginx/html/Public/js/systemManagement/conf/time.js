@@ -71,6 +71,7 @@ function setNTPServer() {
 
 function syncTime() {
     var buttons = {};
+	var dialog  = loadingScreen('结果');
     buttons[getMessage('Ok')] = function() {
         $(this).remove();
     }
@@ -79,6 +80,20 @@ function syncTime() {
         height: 170,
         buttons: buttons
     };
-    showDialogByAjax('Function/systemManagement/conf/time.php',
-        {syncTime: true}, '结果', dialogOptions);
+	var successCallback = function(result, textStatus) {
+		if (result.status == 0) {
+			//命令执行成功刷新网闸时间
+			var timestamp = parseInt(result.msg) * 1000;
+			if (oldServerTime != '') {
+				clearInterval(oldServerTime);
+			}
+			displayTime($('#server'), timestamp);	
+		} 
+		dialog.setContent(result.msg);
+		dialog.setOptions(dialogParams);
+
+	};
+		var dialog_c = showDialogByAjax('Function/systemManagement/conf/time.php',
+			{syncTime: true}, '', dialogOptions,'',successCallback);
+		dialog_c.close();
 }

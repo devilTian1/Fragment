@@ -1,6 +1,14 @@
 <?php
     require_once($_SERVER['DOCUMENT_ROOT'] . '/Function/common.php');
 
+	//查询接入规则是否被用户引用
+	function getRuleByUsed($ruleStrName) {
+		 $db  = new dbsqlite(DB_PATH . '/uma_auth.db');
+		 $sql = "SELECT count(connect_rule) as sum FROM user WHERE connect_rule = '$ruleStrName'";
+		 $result = $db->query($sql)->getFirstData(PDO::FETCH_ASSOC);
+		 return $result['sum'];
+	}
+
     function freshRuleList($where) {
         $tpl = 'resConf/user/accessControlListTable.tpl';
         $db  = new dbsqlite(DB_PATH . '/uma_auth.db');
@@ -13,6 +21,9 @@
         }
         $sql .=  ' ' . $where;
         $result = $db->query($sql,$params)->getAllData(PDO::FETCH_ASSOC);
+		foreach ($result as $key=>$val) {
+			$result[$key]['sum'] = getRuleByUsed($val['rule_name']);
+		}
         echo V::getInstance()->assign('ruleList', $result)
             ->assign('pageCount', 10)
             ->fetch($tpl);
@@ -77,24 +88,27 @@
             ->fetch('resConf/user/editRuleListDialog.tpl');
         echo json_encode(array('msg' => $result));
     } else if ($name = $_POST['editRuleName']) {
-        // Open edit spec role dialog
-        $ruleData =  getSpecRuleDataByName($name);
+		// Open edit spec role dialog
+		$ruleData =  getSpecRuleDataByName($name);
 		if (!empty($ruleData['c_version'])) {
 			$ruleData['names'] = explode(',',$ruleData['c_version']);
+			$checkRuleDate = '1';
+		} else {
+			$checkRuleDate = '0';
 		}
+
 		if (!empty($ruleData['c_proc_list'])) {
 			$ruleData['procs'] = explode(',',$ruleData['c_proc_list']);
-		}
-		if (!empty($ruleData['c_proc_list'])) {
 			$checkProc = '1';
 		} else {
 			$checkProc = '0';
 		}
-        $result = V::getInstance()->assign('ruleData', $ruleData)
-            ->assign('type', 'edit')
+		$result = V::getInstance()->assign('ruleData', $ruleData)
+			->assign('type', 'edit')
 			->assign('checkProc',$checkProc)
-            ->fetch('resConf/user/editRuleListDialog.tpl');
-        echo json_encode(array('msg' => $result));
+			->assign('checkRuleDate',$checkRuleDate)
+			->fetch('resConf/user/editRuleListDialog.tpl');
+		echo json_encode(array('msg' => $result));
     } else if ('edit' === $_POST['type']) {
         // Edit spec role
         $cli = new cli();
@@ -108,11 +122,17 @@
         $cli->setLog($msg_log)->run(getCmdStr('add'));
         echo json_encode(array('msg' => '添加成功。'));
     } else if ($name = $_POST['delRuleName']) {
+		//检查该规则是否被引用
+		$sum = getRuleByUsed($name);
+		if($sum > 0) {
+			throw new Exception($name.'被引用，不能被删除。');
+		} else {
         // Delete specified role
-        $cli = new cli();
-		$msg_log = "资源控制下用户模块中删除了对规则".$name."的接入控制";
-        $cli->setLog($msg_log)->run("connect-rule del rulename \"$name\"");
-        echo json_encode(array('msg' => '删除成功。'));
+			$cli = new cli();
+			$msg_log = "资源控制下用户模块中删除了对规则".$name."的接入控制";
+			$cli->setLog($msg_log)->run("connect-rule del rulename \"$name\"");
+			echo json_encode(array('msg' => '删除成功。'));
+		}
     } else if (!empty($_POST['delAllRules'])) {
         // Delete All roles
         $cli = new cli();

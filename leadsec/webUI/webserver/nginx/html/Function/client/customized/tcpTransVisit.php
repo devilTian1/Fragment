@@ -2,11 +2,12 @@
     require_once($_SERVER['DOCUMENT_ROOT'] . '/Function/common.php');
     
     function getWhereStatement($db, $cols, $keyword) {
-    	$value = '%' . $keyword . '%';
+    	//$value = '%' . $keyword . '%';
+		$value = $keyword;
     	$params = array_fill(0, count(explode(',', $cols)), $value);
     	return array('sql'    => ' WHERE (' .
     			$db->getWhereStatement($cols, 'OR', 'like') . ')',
-    			'params' => $params);
+    			'params' => $db->getFilterParams($params));
     }
     
     function appendTcpTransClientAclData($where) {
@@ -80,6 +81,8 @@
         echo $result;
     } 
     
+    $killVirusIsUsed = antiIsUsed();
+    
     if ($id = $_POST['editId']) {
         // Open dialog to show specified tcp trans client acl data
         $sql = 'SELECT id, sa, da, dport, usergrp, time, active, killvirus, ' .
@@ -89,10 +92,11 @@
         $tpl = 'client/customized/tcpTransVisit_editDialog.tpl';
         $result = V::getInstance()
             ->assign('saaddrOptions', netGapRes::getInstance()->getAddr(true))
-            ->assign('daaddrOptions', netGapRes::getInstance()->getAddrAndGroup())
+            ->assign('daaddrOptions', netGapRes::getInstance()->getAddr(true))
             ->assign('timeList', netGapRes::getInstance()->getTimeList())
             ->assign('roleList', netGapRes::getInstance()->getRoleList())
             ->assign('data', $result)
+            ->assign('killVirusIsUsed',$killVirusIsUsed)
             ->assign('type', 'edit')->fetch($tpl);
         echo json_encode(array('msg' => $result));
     } else if (!empty($_POST['openAddDialog'])) {
@@ -100,9 +104,10 @@
         $tpl    = 'client/customized/tcpTransVisit_editDialog.tpl';
         $result = V::getInstance()
             ->assign('saaddrOptions', netGapRes::getInstance()->getAddr(true))
-            ->assign('daaddrOptions', netGapRes::getInstance()->getAddrAndGroup())
+            ->assign('daaddrOptions', netGapRes::getInstance()->getAddr(true))
             ->assign('timeList', netGapRes::getInstance()->getTimeList())
             ->assign('roleList', netGapRes::getInstance()->getRoleList())
+            ->assign('killVirusIsUsed',$killVirusIsUsed)
             ->assign('type', 'add')->fetch($tpl);
         echo json_encode(array('msg' => $result));
     } else if ('edit' === $_POST['type']) {

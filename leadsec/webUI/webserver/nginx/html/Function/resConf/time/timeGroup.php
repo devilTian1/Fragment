@@ -226,6 +226,100 @@
     	 }
     	 return $flag;
     }
+    
+    function getTimeGroupInUseAndEnable($name) {
+    	 $flagEnable = 0;
+    	 //文件交换
+     	 $db  = new dbsqlite(DB_PATH . '/netgap_fs.db');
+    	 $sql = "SELECT time FROM dir_info WHERE time = '$name' and active = 'Y'";
+    	 $data = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
+    	 if(count($data) > 0){
+    	 	$flagEnable = 1;
+    	 	return $flagEnable;
+    	 }
+    	//文件同步
+     	 $db  = new dbsqlite(DB_PATH . '/netgap_new_fs.db');
+    	 $sql = "SELECT time FROM sync_file_client WHERE time = '$name'";
+    	 $data = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
+    	 if(count($data) > 0){
+    	 	$flagEnable = 1;
+    	 	return $flagEnable;
+    	 }
+    	//数据库同步
+     	 $db  = new dbsqlite(DB_PATH . '/netgap_db_swap.db');
+    	 $sql = "SELECT time FROM db_swap_client_acl WHERE time = '$name' and active = 'Y'";
+    	 $data = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
+    	 if(count($data) > 0){
+    	 	$flagEnable = 1;
+    	 	return $flagEnable;
+    	 }
+    	//安全浏览
+     	 $db  = new dbsqlite(DB_PATH . '/netgap_http.db');
+    	 $sql = "SELECT time FROM acl WHERE time = '$name'";
+    	 $data = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
+    	 if(count($data) > 0){
+    	 	$flagEnable = 1;
+    	 	return $flagEnable;
+    	 }
+    	//FTP访问
+     	 $db  = new dbsqlite(DB_PATH . '/gateway_ftp.db');
+    	 $sql = "SELECT time FROM ftp_comm_client_acl WHERE time = '$name' and active = 'Y'
+    	     UNION SELECT time FROM ftp_trans_client_acl WHERE time = '$name' and active = 'Y'";
+    	 $data = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
+    	 if(count($data) > 0){
+    	 	$flagEnable = 1;
+    	 	return $flagEnable;
+    	 }
+    	//邮件访问
+     	 $db  = new dbsqlite(DB_PATH . '/netgap_mail.db');
+    	 $sql = "SELECT time FROM pop3_comm_client_acl WHERE time = '$name' and active = 'ok' 
+    	     UNION SELECT time FROM pop3_trans_client_acl WHERE time = '$name' and active = 'ok'
+    	     UNION SELECT time FROM smtp_comm_client_acl WHERE time = '$name' and active = 'ok'
+    	     UNION SELECT time FROM smtp_trans_client_acl WHERE time = '$name' and active = 'ok'";
+    	 $data = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
+    	 if(count($data) > 0){
+    	 	$flagEnable = 1;
+    	 	return $flagEnable;
+    	 }
+    	//数据库访问
+     	 $db  = new dbsqlite(DB_PATH . '/netgap_db.db');
+    	 $sql = "SELECT time FROM db_trans_client_acl WHERE time = '$name' and active = 'Y' 
+    	     UNION SELECT time FROM db_comm_client_acl WHERE time = '$name' and active = 'Y'";
+    	 $data = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
+    	 if(count($data) > 0){
+    	 	$flagEnable = 1;
+    	 	return $flagEnable;
+    	 }
+    	//定制访问
+     	 $db  = new dbsqlite(DB_PATH . '/netgap_custom.db');
+    	 $sql = "SELECT time FROM tcp_comm_client_acl WHERE time = '$name' and active = 'Y'
+    	     UNION SELECT time FROM tcp_trans_client_acl WHERE time = '$name' and active = 'Y'
+    	     UNION SELECT time FROM udp_comm_client_acl WHERE time = '$name' and active = 'Y'
+    	     UNION SELECT time FROM udp_trans_client_acl WHERE time = '$name' and active = 'Y'";
+    	 $data = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
+    	 if(count($data) > 0){
+    	 	$flagEnable = 1;
+    	 	return $flagEnable;
+    	 }
+    	//安全通道
+     	 $db  = new dbsqlite(DB_PATH . '/netgap_fastpass.db');
+    	 $sql = "SELECT time FROM fastpass_client_acl WHERE time = '$name' and active = 'ok'";
+    	 $data = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
+    	 if(count($data) > 0){
+    	 	$flagEnable = 1;
+    	 	return $flagEnable;
+    	 }
+    	//消息传输
+     	 $db  = new dbsqlite(DB_PATH . '/netgap_msg.db');
+    	 $sql = "SELECT time FROM msg_client_task WHERE time = '$name' and active = 'ok'";
+    	 $data = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
+    	 if(count($data) > 0){
+    	 	$flagEnable = 1;
+    	 	return $flagEnable;
+    	 }
+    	 return $flagEnable;
+    }
+    
     if ($name = $_POST['name']) {
         // Get specified time group data
         $tpl = 'resConf/time/editTimeGroupDialog.tpl';
@@ -241,6 +335,11 @@
         echo json_encode(array('msg' => $result));
     } else if ('add' === $_POST['type']) {
         // Add new time group data
+        if (getDataCount() >= RESCONF_LIMIT) {
+            $msg = '资源数达到上限[' . RESCONF_LIMIT . ']。';
+        	echo json_encode(array('msg' => $msg));
+        	return;
+        }
         $name    = $_POST['resTimeName'];
         $addmbr  = $_POST['timeGrpMember'];
         $comment = $_POST['comment'];
@@ -257,9 +356,9 @@
     } else if ('edit' === $_POST['type']) {
         // Edit the specified time group data
         $name = $_POST['resTimeName'];
-        $flag = getTimeGroupInUse($name);
-        if ($flag == 1) {       	
-        	$msg = "<p>名称为\"$name\"的时间组被引用，无法编辑。</p>";
+        $flagEnable = getTimeGroupInUseAndEnable($name);
+        if ($flagEnable == 1) {       	
+        	$msg = "<p>名称为\"$name\"的时间组被引用且处于启用状态，无法编辑。</p>";
         	echo json_encode(array('status' => -1, 'msg' => $msg));
             return false;
         }

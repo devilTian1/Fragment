@@ -95,13 +95,14 @@
 		if (backup_os == '') {
 			$("button[name='buttonBackUp']").button({disabled: true});
 		}	
+		
         var systemaObj = $("input:radio[name='defaultStart']:eq(0)");
         var systembObj = $("input:radio[name='defaultStart']:eq(1)");
         if(systemaObj.val() == '<{$default_os}>') {
             systemaObj.attr("checked",'checked');
-        } else {
-			systemaObj.removeAttr("disabled",'disabled');
-        }
+        } else if (systembObj.val() == '<{$default_os}>') {
+			systembObj.attr("checked",'checked');
+		}
 		if('<{$versionA}>'==='') {
 			systemaObj.attr("disabled",'disabled');
 			systembObj.removeAttr("disabled",'disabled');

@@ -1,6 +1,6 @@
-<{include file='layout/search.tpl'}>
+<{include file='layout/search.tpl' colNames='user_id,user_name,true_name,validtime,dyn_sn,comment'}>
 <table class="column_95 textMid tablesorter" id="userListTable">
-    <caption>用户管理</caption>
+    <caption>用户列表</caption>
     <thead>
     <tr>
         <th class="column_5"><input type="checkbox" onClick="checkAllUser()" title="全选" id="checkAllUser"/></th>
@@ -8,7 +8,7 @@
         <th class="column_5" name="user_name">名称</th>
         <th class="column_10" name="true_name">真实姓名</th>
         <th class="column_5">状态</th>
-        <th class="column_10" name="validtime">有效截至日期(零点)</th>
+        <th class="column_10" name="validtime">有效截止日期</th>
         <th class="column_8">SN文件</th>
         <th class="column_8">动态密码</th>
         <th class="column_10" name="dyn_sn">唯一SN号码</th>

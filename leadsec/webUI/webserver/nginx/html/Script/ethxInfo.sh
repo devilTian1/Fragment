@@ -15,6 +15,8 @@ fi
 
 declare -a result=()
 
+declare -i interval=3
+
 declare -i in_old=0
 declare -i in_new=0
 declare -i out_old=0
@@ -44,22 +46,25 @@ do
         "B")
             unit=1
             ;;
-        "kb")
+        "KB")
             unit=1024
             ;;
-        "mb")
+        "Mb")
+            unit=131072
+            ;;
+        "MB")
             unit=1048576
             ;;
-        "gb")
+        "GB")
             unit=1073741824
             ;;
         *)
             exit 1;
             ;;
     esac
-    result[$i]=`echo "scale=2; $in_r/$unit" | bc -l | xargs printf "%.2f\n"`
+    result[$i]=`echo "scale=2; $in_r/$unit/$interval" | bc -l | xargs printf "%.2f\n"`
     i=$(($i+1))
-    result[$i]=`echo "scale=2; $out_r/$unit" | bc -l | xargs printf "%.2f\n"`
+    result[$i]=`echo "scale=2; $out_r/$unit/$interval" | bc -l | xargs printf "%.2f\n"`
     i=$(($i+1))
 done
 

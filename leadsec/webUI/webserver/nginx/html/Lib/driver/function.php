@@ -90,6 +90,17 @@ function getLicense($link) {
     return $result['value'] !== '0' ? true : false;
 }
 
+	//检查病毒防护模块是否被开启
+	function antiIsUsed() {
+		$antiIsUsed = getLicense('virusProtection');
+		if ($antiIsUsed === true) {
+			$result = 'on';
+		} else {
+			$result = 'off';
+		}
+		return $result;
+	}
+
 function getRoleName($roleArr, $glue = '/') {
     $result = array();
     if (array_search('super', $roleArr) !== false) {

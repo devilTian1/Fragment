@@ -36,31 +36,50 @@
 </script>
 <![endif]-->
 <script>
+    var setTimeout_flag = -1;
     function logout() {
         var data = {relogin : '1'}
         $.ajax({type: "GET", url: "Function/common.php", data: data});
     }
 
-    function wireUpEvents(){	
-			var validNavigation = false;
-			window.onbeforeunload = function() {
-				if (!validNavigation) {
-					logout();
-				}
-				validNavigation = false;
-			}
-			$(document).bind('keydown', function(event) {
-				if (event.keyCode = 116) {
-					validNavigation = true;
-				}
-			});
-			/*$("form").live('submit', function() {
-				validNavigation = true;
-			});*/
-			$(":submit,a,form").live('click',function() {
-				validNavigation = true;
-			});
-		}
+    function wireUpEvents() {
+        var validNavigation = false;
+        window.onbeforeunload = function() {
+            if (!validNavigation) {
+                logout();
+            }
+            validNavigation = false;
+        }
+        $(document).bind('keydown', function(e) {
+            if (e.keyCode = 116) {
+                validNavigation = true;
+            }
+        });
+        $("form").live('submit', function() {
+            validNavigation = true;
+        });
+        $("button[type='submit']").live('click', function() {
+            validNavigation = true;
+        });
+        $("input[type='submit']").live('click', function() {
+            validNavigation = true;
+        });
+        $("a").live('click', function() {
+            validNavigation = true;
+        });
+    }
+
+    // tabs
+	function resetWidth(){
+		 var mainZoneWidth=document.getElementById("mainZone").scrollWidth;
+    	document.getElementById("tabinfo_cen").style.width=(mainZoneWidth-200)+"px";
+	}
+    resetWidth();
+	$(window).resize(function(){
+	    resetWidth();
+	});
+    // end
+
     $(document).ready(function() {
         wireUpEvents();
         // init layout
@@ -103,7 +122,8 @@
                 l2Dom.slideUp('slow');
             }
             $(this).toggleClass('l1_open_'+pname+' l1_close_'+pname);
-			setTimeout(function(){$("#leftmenu").getNiceScroll().resize();},500);
+            setTimeout(function() {$('#leftmenu').getNiceScroll().resize();},
+                       500);
         });
        
 
@@ -144,6 +164,7 @@
 
         // refresh content
         $("#leftmenu a").click(function() {
+			clearInterval(setTimeout_flag);
             var path = {
                 '1' : $(this).parents("div.l2").attr("name"),
                 '2' : $(this).attr("name")
@@ -155,11 +176,6 @@
         });
 		
 		$(window).resize(function(){
-			if($(window).width()>=1200){
-				$("#dock2").width(1200)
-			}else{
-				$("#dock2").width($(window).width())
-			}
 			$("#mainZone").width($("#content").width()-$("#content>.secondary").width());
 			mainZoneWidth = $("#mainZone").width();
 			if( arrowImgFlag==0 ) { // close leftmenu
@@ -169,7 +185,7 @@
             }
 			$("#mainZone").width(mzWidth);
 			$("#header .right_nav").width(mainZoneWidth-210)
-            var cheight = $(window).height() - 255;
+            var cheight = $(window).height() - 250;
             $('#leftmenu').height(cheight + 37);
             $('#mainContent').height(cheight);
 		});
@@ -199,11 +215,11 @@
         $('#leftmenu').niceScroll({cursorborder: "", cursorcolor: "#4d8fc7",
                                    boxzoom: true});
         setTimeout(function() {
-			if($(window).width()>=1200){
-				$("#dock2").width(1200)
-			}else{
-				$("#dock2").width($(window).width())
-			}
+            if ($(window).width() >= 1200) {
+                $('#dock2').width(1200);
+            } else {
+                $('#dock2').width($(window).width());
+            }
             var cheight = $(window).height() - 256;
             $('#leftmenu').height(cheight + 37);
             $('#mainContent').height(cheight);

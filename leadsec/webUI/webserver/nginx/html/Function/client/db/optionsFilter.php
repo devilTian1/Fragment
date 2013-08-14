@@ -98,7 +98,7 @@
 	function getOptionFilterInUse($name) {
 		$flag = 0;
 	 	$db  = new dbsqlite(DB_PATH . '/netgap_db.db');
-    	$sql = "SELECT filter FROM db_trans_client_acl WHERE filter = '$name' 
+    	$sql = "SELECT filter FROM db_trans_client_acl WHERE filter = '$name'  
     	     UNION SELECT filter FROM db_comm_client_acl WHERE filter = '$name'";
     	$data = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
     	if(count($data) > 0){
@@ -106,6 +106,18 @@
     	 	return $flag;
     	}
     	return $flag;
+	}
+	function getOptionFilterInUseAndEnable($name) {
+		$flagEnable = 0;
+	 	$db  = new dbsqlite(DB_PATH . '/netgap_db.db');
+    	$sql = "SELECT filter FROM db_trans_client_acl WHERE filter = '$name' and active = 'Y' 
+    	     UNION SELECT filter FROM db_comm_client_acl WHERE filter = '$name' and active = 'Y'";
+    	$data = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
+    	if(count($data) > 0){
+    	 	$flagEnable = 1;
+    	 	return $flagEnable;
+    	}
+    	return $flagEnable;
 	}
     if (!empty($_POST['editId'])) {
         // Get specified data
@@ -131,17 +143,29 @@
     } else if ('edit' === $_POST['type']) {
         // Edit a specified addr group data
         $name = $_POST['optionName'];
-        $cmd = getCmd();
-        $cli  = new cli();
-        $cli->setLog("编辑名称为".$_POST['optionName']."的过滤选项集")->run($cmd);
-        echo json_encode(array('msg' => "[$name]修改成功。"));
+        $flagEnable = getOptionFilterInUseAndEnable($name);
+         if ($flagEnable == 1) {       	
+        	$msg = "名称为".$name."的过滤选项集被引用且处于启用状态，无法编辑。";
+        	echo json_encode(array('msg' => $msg));
+        } else {
+        	$cmd = getCmd();
+        	$cli  = new cli();
+        	$cli->setLog("编辑名称为".$_POST['optionName']."的过滤选项集")->run($cmd);
+        	echo json_encode(array('msg' => "[$name]修改成功。"));	
+        }        
     } else if ('add' === $_POST['type']) {
         // Add a new  data
-        $name        = $_POST['optionName'];
-        $cmd = getCmd();
-        $cli  = new cli();
-        $cli->setLog("添加名称为".$_POST['optionName']."的过滤选项集")->run($cmd);
-        echo json_encode(array('msg' => "[$name]添加成功。"));	       
+        $name = $_POST['optionName'];
+        $userName  = $_POST['userNameList'];
+        $sqlName   = $_POST['sqlNameList'];
+        if($userName == '无' && $sqlName == '无'){
+        	echo json_encode(array('msg' => "请至少选择一个用户名过滤组或SQL语句过滤组。"));
+        }else{
+        	$cmd = getCmd();
+        	$cli  = new cli();
+        	$cli->setLog("添加名称为".$_POST['optionName']."的过滤选项集")->run($cmd);
+        	echo json_encode(array('msg' => "[$name]添加成功。"));
+        }     
     } else if (!empty($_POST['delName'])) {
         // Delete the specified  data
         $id = $_POST['delName'];

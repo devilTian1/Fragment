@@ -1,6 +1,14 @@
 <?php
     require_once($_SERVER['DOCUMENT_ROOT'] . '/Function/common.php');
 
+	function getWhereStatement($db, $cols, $keyword) {
+        //$value  = '%' . $keyword . '%';
+		$value  = $keyword;
+        $params = array_fill(0, count(explode(',', $cols)), $value);
+        return array('sql'    => ' WHERE (' .
+                              $db->getWhereStatement($cols, 'OR', 'like') . ')',
+                     'params' => $db->getFilterParams($params));
+    }
 
     function appendDbSyncinformation($where) {
         $tpl =  'client/dbSync/dbSyncTable.tpl';
@@ -34,13 +42,6 @@
         return $db->query($sql,$params)->getCount();
     }
 
-	function getWhereStatement($db, $cols, $keyword) {
-        $value  = '%' . $keyword . '%';
-        $params = array_fill(0, count(explode(',', $cols)), $value);
-        return array('sql'    => ' WHERE (' .
-                              $db->getWhereStatement($cols, 'OR', 'like') . ')',
-                     'params' => $params);
-    }
 
 	function getCmd($action) {
 		//任务号
@@ -88,6 +89,7 @@
     	return substr($name,0,-5);    	
     }
     
+	$killVirusIsUsed = antiIsUsed();
     if ($id = ($_POST['editId'])) {
         // Get specified addrGroup data
 		$sql  = "SELECT * FROM db_swap_client_acl WHERE id = '$id'";
@@ -99,6 +101,7 @@
             ->assign('ifList', netGapRes::getInstance()->getInterface())
             ->assign('timeList', netGapRes::getInstance()->getTimeList())
             ->assign('data', $data)
+			->assign('killVirusIsUsed',$killVirusIsUsed)
             ->assign('type', 'edit')->fetch($tpl);
         echo json_encode(array('msg' => $result));
     } else if ('edit' === $_POST['type']) {
@@ -124,6 +127,7 @@
 			->assign('addrOptions', netGapRes::getInstance()->getAddr())
 			->assign('ifList', netGapRes::getInstance()->getInterface())
 			->assign('timeList', netGapRes::getInstance()->getTimeList())
+			->assign('killVirusIsUsed',$killVirusIsUsed)
             ->assign('type', 'add')->fetch($tpl);
         echo json_encode(array('msg' => $result));
     } else if ($orderStatement = $_POST['orderStatement']) {

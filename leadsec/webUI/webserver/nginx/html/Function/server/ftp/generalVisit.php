@@ -2,11 +2,11 @@
     require_once($_SERVER['DOCUMENT_ROOT'] . '/Function/common.php');
     
      function getWhereStatement($db, $cols, $keyword) {
-    	$value = '%' . $keyword . '%';
+    	$value = $keyword;
     	$params = array_fill(0, count(explode(',', $cols)), $value);
     	return array('sql'    => ' WHERE (' .
     			$db->getWhereStatement($cols, 'OR', 'like') . ')',
-    			'params' => $params);
+    			'params' => $db->getFilterParams($params));
     }
     
     function getCmd() {

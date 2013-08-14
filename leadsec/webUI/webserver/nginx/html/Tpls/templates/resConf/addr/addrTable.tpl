@@ -17,7 +17,7 @@
         <td class="no_search">
         	<{if $addr.name != 'any'}>
             	<a href="#" class="edit" onclick="openEditAddrListDialog('<{$addr.id}>')">编辑</a>
-            	<a href="#" class="delete" onclick="openDelAddrDialog('<{$addr.name}>', '<{$addr.id}>')">删除</a> 
+            	<a href="#" class="delete" onclick="openDelAddrDialog('<{$addr.fullName}>', '<{$addr.id}>')">删除</a> 
             <{/if}>
         </td>
     </tr>

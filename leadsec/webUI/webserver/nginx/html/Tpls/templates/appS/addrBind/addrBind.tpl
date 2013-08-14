@@ -70,7 +70,7 @@
 				探测
 			</button>
 			<button class="inputbtn standard" type="button" onclick="detectResultShow()">
-				探测到的IP与地址对
+				探测到的IP/MAC对
 			</button>
 		</td>
 	</tr>

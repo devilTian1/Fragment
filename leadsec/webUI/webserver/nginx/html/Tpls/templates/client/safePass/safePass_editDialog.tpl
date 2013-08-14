@@ -21,7 +21,7 @@
         
     	<div class="row">
     		<label>源地址:</label>
-    		<{html_options  class="select" name="srcIpList"
+    		<{html_options  class="select" name="srcIpList_safePass"
                  options=$saddrOptions selected=$editSafePass.sa|default: 'any_ipv4'}>
     	</div>
     
@@ -44,7 +44,7 @@
     
         <div class="row" id="dPortDiv">
         	<label>目的端口:<em class="required">*</em></label>
-        	<input class="id" type="text" name="safePassDestPort" value="<{$editSafePass.dport}>" size="5" maxlength="11"/>        	
+        	<input class="id" type="text" name="safePassDestPort" value="<{$editSafePass.dport|default:'1:65535'}>" size="5" maxlength="11"/>        	
         </div>
     
 		<div class="row">

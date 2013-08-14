@@ -67,14 +67,17 @@
         $cmd = "/usr/local/bin/logserver ftplog";       	         	 	      	
         $cli = new cli(); 
         //$cli->setLog("立即上传日志")->run($cmd);
-        $cmdInfo = $cli->setLog("立即上传日志")->execCmdGetStatus($cmd);
+        $cmdInfo = $cli->setLog("立即上传日志")->execCmdGetStatus($cmd);        
+        $msg=$cmdInfo[1];
         if($cmdInfo[0] != '0'){
-        	echo json_encode(array('msg' => '上传日志失败，请确认配置是否正确。'));
+        	echo json_encode(array('msg' => $msg));
         }else{
-        	echo json_encode(array('msg' => '上传日志成功。'));
-        }
-        
-        
+        	if(count($msg) === 0) {
+        		echo json_encode(array('msg' => '上传日志成功。'));	
+        	}else {
+        		echo json_encode(array('msg' => $msg));
+        	}        	        	
+        }                
     }else {
         // init page data
         $db = new dbsqlite(DB_PATH . '/configs.db');

@@ -19,7 +19,7 @@ function openEditPostfixFilterDialog(list) {
         tpl    : 'client/safeBrowse/postfixFilter_editDialog.tpl',
         editList : list
     };
-    var title   = '管理文件名过滤';
+    var title   = '管理后缀名过滤';
     var buttons = {};
     buttons[getMessage('Ok')] = function() {
         if ($('#editPostfixFilterForm').valid()) {
@@ -41,7 +41,7 @@ function openEditPostfixFilterDialog(list) {
 
 function openNewPostfixFilterDialog() {
     var url   = 'Function/client/safeBrowse/postfixFilter.php';
-    var title = '管理文件名过滤';
+    var title = '管理后缀名过滤';
     var data  = {
         tpl : 'client/safeBrowse/postfixFilter_editDialog.tpl',
 		openAddDialog: true

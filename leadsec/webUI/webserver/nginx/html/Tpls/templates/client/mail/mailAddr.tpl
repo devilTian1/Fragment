@@ -1,7 +1,7 @@
 <{include file='layout/search.tpl' colNames='name,value,type,comment'}>
 <table class="column_95 textMid tablesorter" id="mailAddrTable">
     <caption>
-           信息列表
+           邮件地址
     </caption>
     <thead>
     <tr>

@@ -4,7 +4,7 @@
         <td><{$array.sip}></td>
         <td><{$array.dip}></td>
         <td><{$array.port}></td>
-        <td>
+        <!--<td>
             <{if $array.https eq 1}>
                 是
             <{else if $array.https eq 0}>
@@ -12,7 +12,7 @@
             <{else}>
                 Error
             <{/if}>
-        </td>
+        </td>-->
         <td>
         	<{if $array.time != 'none'}>
         		<{$array.time}>

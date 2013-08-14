@@ -1,7 +1,7 @@
 <{include file='layout/search.tpl' tableId='transVisitTable'}>
 <table class="column_95 textMid tablesorter" id="transVisitTable">
     <caption>
-           信息列表
+           透明访问控制
     </caption>
     <thead>
     <tr>
@@ -9,7 +9,7 @@
       <th class="column_15" name="sip">源地址</th>
       <th class="column_15" name="dip">目的地址</th>
       <th class="column_10" name="port">目的端口</th>
-      <th class="column_5" name="https">Https</th>
+      <!--<th class="column_5" name="https">Https</th>-->
       <th class="column_15" name="time">生效时段</th>
       <th class="column_10" name="usergrp">认证用户组</th>
       <th class="column_10" name="comment">备注</th>

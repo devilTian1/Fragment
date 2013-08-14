@@ -18,7 +18,7 @@
 
     //level2 sysManage
     'sm_o' => array('pid' => 'sm', 'name' => '系统概览', 'link' => 'overview'),
-    'sm_q' => array('pid' => 'sm', 'name' => '快捷配置', 'link' => 'quick', 'ban' => 'policyer,auditor,super'),
+    'sm_q' => array('pid' => 'sm', 'name' => '快捷方式', 'link' => 'quick', 'ban' => 'policyer,auditor,super'),
     'sm_c' => array('pid' => 'sm', 'name' => '系统配置', 'link' => 'conf', 'ban' => 'policyer,auditor,super'),
     'sm_a' => array('pid' => 'sm', 'name' => '管理员设置', 'link' => 'admin', 'ban' => 'policyer,auditor'),
     'sm_m' => array('pid' => 'sm', 'name' => '系统维护', 'link' => 'maintain', 'ban' => 'policyer,auditor,super'),
@@ -77,12 +77,12 @@
     // level3 systemManagement/overview
     'sm_o_v' => array('pid' => 'sm_o', 'name' => '系统概览', 'link' => 'overview'),
     // level3 systemManagement/quick
-    'sm_q_c' => array('pid' => 'sm_q', 'name' => '快捷配置', 'link' => 'quick'),
+    'sm_q_c' => array('pid' => 'sm_q', 'name' => '快捷方式', 'link' => 'quick'),
 
     //level3 systemManagement/conf
+	'sm_c_f' => array('pid' => 'sm_c', 'name' => '服务状态', 'link' => 'service', 'title' => ''),
     'sm_c_t' => array('pid' => 'sm_c', 'name' => '日期时间', 'link' => 'time', 'title' => ''),
     'sm_c_p' => array('pid' => 'sm_c', 'name' => '系统参数', 'link' => 'params', 'title' => ''),
-    'sm_c_f' => array('pid' => 'sm_c', 'name' => '服务状态', 'link' => 'service', 'title' => ''),
     'sm_c_s' => array('pid' => 'sm_c', 'name' => '集中管理', 'link' => 'snmp', 'title' => ''),
 
     //level3 systemManagement/admin
@@ -123,7 +123,7 @@
     //level3 resConf/addr
     'rc_a_a' => array('pid' => 'rc_a', 'name' => '地址列表', 'link' => 'addrList'),
     'rc_a_ag' => array('pid' => 'rc_a', 'name' => '地址组',  'link' => 'addrGroup'),
-    'rc_a_r' => array('pid' => 'rc_a', 'name' => '域名地址', 'link' => 'realmAddr'),
+    //暂时裁减掉'rc_a_r' => array('pid' => 'rc_a', 'name' => '域名地址', 'link' => 'realmAddr'),
     
     //level3 resConf/time
     'rc_t_t' => array('pid' => 'rc_t', 'name' => '时间列表', 'link' => 'timeList'),
@@ -163,7 +163,7 @@
   	//'c_s_um' => array('pid' => 'c_s', 'name' => '本地用户管理', 'link' => 'localUsrManage'),
   	'c_s_fc' => array('pid' => 'c_s', 'name' => '过滤配置', 'link' => 'filterGl'),
   	'c_s_url' => array('pid' => 'c_s', 'name' => 'URL过滤', 'link' => 'urlFilter'),
-  	'c_s_pf' => array('pid' => 'c_s', 'name' => '文件名过滤', 'link' => 'postfixFilter'),
+  	'c_s_pf' => array('pid' => 'c_s', 'name' => '后缀名过滤', 'link' => 'postfixFilter'),
   	'c_s_kf' => array('pid' => 'c_s', 'name' => '关键字过滤', 'link' => 'keywordFilter'),
     
     //levev3 client/ftp
@@ -220,7 +220,7 @@
 	's_d_d' => array('pid' => 's_d', 'name' => '数据库同步','link' => 'dbSync'),
 
     //levev3 server/safeBrowse
-  	's_s_gl' => array('pid' => 's_s', 'name' => '服务管理', 'link' => 'serviceManage'),
+  	's_s_gl' => array('pid' => 's_s', 'name' => '服务端管理', 'link' => 'serviceManage'),
   
   	//levev3 server/ftp
     's_f_f' => array('pid' => 's_f', 'name' => '普通访问',  'link' => 'generalVisit'),

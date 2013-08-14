@@ -1,4 +1,4 @@
-<form action="Function/appS/ids/scanConf.php" method="POST" id="setScanConfForm"
+<form action="Function/appS/ids/scanConf.php?scanConf=1" method="POST" id="setScanConfForm"
     onSubmit="return false;">
     <table class="column_95">
         <caption>
@@ -34,7 +34,7 @@
                 <td class="tdheader">&nbsp;</td>
                 <td class="tdbody">
                     <button class="inputbtn standard" type="button" onclick="setScanConf()">确定</button>
-                </td>
+                    <button class="inputbtn standard" type="button" onclick="clearScanConfIpAddr()">清除已经阻挡的IP地址</button>                   	
             </tr>
         </tbody>
     </table>

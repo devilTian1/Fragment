@@ -1,47 +1,9 @@
-//键盘处理
- function keyEvent()
- {
-	 var textVal = $('#entryBox').val();
-		var prompt = $('#commandPrompt').html();
-		var key=0;
-		document.onkeyup = function(e){  
-			 if(e==null){
-			 key=event.keyCode;
-		 }else{
-			 key=e.which;
-		 }
-		 switch(key)
-		 {
-		   case 13:
-			 $('#commandContainer').html('');
-			 var tmpstr = "";
-			 //var cmd=encodeURIComponent(text.value);
-			 if(textVal == "")
-			 {
-				 tmpstr = prompt+textVal+'<br/>'+'ac:\>'; 
-				 $('#commandPrompt').html(tmpstr); 
-				 setFocusToEntryBox();
-			 }
-			 else
-			 {
-				 tmpstr = prompt+textVal+'<br/>'; 
-				 $('#commandPrompt').html(tmpstr);
-				 filterParam(textVal);
-			 }			 
-			 break;    
-		   default :
-			 $('#commandContainer').html(textVal);
-			 break;
-		 }
-	   }
- }  
- //调整显示位置以及聚焦
- function setFocusToEntryBox()
- {
-	var sheight = $("#consolept").get(0).scrollHeight+200;
-	$("#consolept").scrollTop(sheight);
+//调整显示位置以及聚焦
+function setFocusToEntryBox() {	
 	$("#entryBox").focus();
-	$("#entryBox").val($('#commandContainer').html()); 
+    $("#entryBox").val($('#commandContainer').html());
+    var sheight = $("#consolept").get(0).scrollHeight+200;
+	$("#consolept").scrollTop(sheight);
 }
 //检查命令行合法性
 function filterParam(cmd){
@@ -216,22 +178,29 @@ function processRequest(cmdstr){
 		 $('#commandPrompt').html(tmpstr); 
 	}	     
 	setFocusToEntryBox();
-
 }
 
 function showInforDialog(msg) {
-    var dialog = loadingScreen(getMessage('错误'));
-    dialog.setContent(msg);
+    //var dialog = loadingScreen(getMessage('错误'));
+	var dialog = StandardUiFactory.createDialog(getMessage('错误'));
     var buttons = {};
     buttons[getMessage('关闭')] = function() {
-        dialog.close();
-        setFocusToEntryBox();
-    };
+        dialog.dialog('close');
+    };    
     dialog.setOptions({
     	width : 300,
         height: 250,
     	buttons : buttons,
-    	position : jQuery.getDialogPosition('300','250')
+    	position : jQuery.getDialogPosition('300','250'),
+        close: function(event, ui) {
+            $(this).dialog('destroy');
+            $(this).remove();
+            setFocusToEntryBox();
+        }
     });
-    return dialog;
+    dialog.setContent(msg);
+    dialog.open();
+    dialog.dialog('option','buttons').focus();
+    return false;
+    //return dialog;
 }

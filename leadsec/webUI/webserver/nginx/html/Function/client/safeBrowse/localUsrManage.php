@@ -26,19 +26,20 @@
     }
     
     function getWhereStatement($db, $cols, $keyword) {
-        $value  = '%' . $keyword . '%';
+        $value  = $keyword ;
         $params = array_fill(0, count(explode(',', $cols)), $value);
         return array('sql'    => ' WHERE (' .
                               $db->getWhereStatement($cols, 'OR', 'like') . ')',
-                     'params' => $params);
+                     'params' => $db->getFilterParams($params));
     }
 
     function getDataCount() {
     	$sql = "SELECT name FROM user";
         $db  = new dbsqlite(DB_PATH . '/netgap_http.db');
         $params = array();
+		$keyword='/'.$_GET['keyword'];
         if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
-            $data   = getWhereStatement($db, $_GET['cols'], $_GET['keyword']);
+            $data   = getWhereStatement($db, $_GET['cols'], $keyword);
             $sql   .= $data['sql'];
             $params = $data['params'];
         }

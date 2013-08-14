@@ -38,7 +38,7 @@
     } else {
         // init page data
         $cli = new cli();                                                
-        $curOs = $cli->setLog('获取当前系统')->setGetResult(true)->run("vsp get current_os");  
+        $curOs = $cli->setLog('双系统页面下,获取当前系统')->setGetResult(true)->run("vsp get current_os");  
         $path = '/usr/local/vsp';
         $db = new dbsqlite($path . '/vsp.db');
         $result = $db->query('SELECT * FROM partition_table')

@@ -1,6 +1,6 @@
-<{include file='layout/search.tpl'}>
+<{include file='layout/search.tpl' colNames='role_id,role_name,create_by,create_time,time,comment'}>
 <table class="column_95 textMid tablesorter" id="roleListTable">
-    <caption>用户组</caption>
+    <caption>角色列表</caption>
     <thead>
         <tr>
             <th class="column_5"><input type="checkbox" onClick="checkAllRole()" title="全选" id="checkAllRole"/></th>
@@ -24,11 +24,11 @@
 </button>
 <button class="standard floatLeft" style="position: static"
     onclick="openDelAllRoleListDialog()"
-    id="DelAllRoleListBtn">删除所有用户
+    id="DelAllRoleListBtn">删除所有角色
 </button>
 <button class="standard floatLeft" style="position: static"
     onclick="openBatchDelSpecRoleDialog()"
-    id="DelSpecRoleListBtn">删除已选用户
+    id="DelSpecRoleListBtn">删除已选角色
 </button>
 <div class="pager floatRight" id="rolePagerDiv">
     <{include file='layout/pagination.tpl' func='Function/resConf/user/roleList.php'}>

@@ -37,9 +37,9 @@
         return $db->query($sql, $params)->getCount();
     }
     
-    function checkAllowedContent(){
+    function checkAllowedContent($name){
     	$db  = new dbsqlite(DB_PATH . '/netgap_fs.db');
-    	$sql = "SELECT * FROM filter WHERE whitelist = '".$_POST['delName']."'";
+    	$sql = "SELECT * FROM filter WHERE whitelist = '".$name."'";
     	return $db->query($sql)->getCount();
     }
 
@@ -60,12 +60,17 @@
         $name    = $_POST['FECCname'];
         $afArr   = join(',', $_POST['FEaflist']);
         $comment = $_POST['comment'];
-        $cmd     = "fsctl add allowedcontext name \"$name\" " .
-            "\"$afArr\" comment \"$comment\"";
-        $cli = new cli();
-        $cli->setLog('删除客户端的文件交换的内容白名单,id号为'.$id)->run("fsctl del allowedcontext  id \"$id\"");
-        $cli->setLog('添加客户端的文件交换的内容白名单,名称为'.$name)->run($cmd);
-        echo json_encode(array('msg' => '修改成功。'));
+        $rc = checkAllowedContent($name);
+        if($rc != 0){
+        	echo json_encode(array('msg' => "此内容白名单策略被引用，不能被修改。"));
+        }else{
+        	$cmd     = "fsctl add allowedcontext name \"$name\" " .
+        	"\"$afArr\" comment \"$comment\"";
+        	$cli = new cli();
+        	$cli->setLog('删除客户端的文件交换的内容白名单,id号为'.$id)->run("fsctl del allowedcontext  id \"$id\"");
+        	$cli->setLog('添加客户端的文件交换的内容白名单,名称为'.$name)->run($cmd);
+        	echo json_encode(array('msg' => '修改成功。'));
+        }                
     } else if ('add' === $_POST['type']) {
         // add a new allowed content data
         $name    = $_POST['FECCname'];
@@ -79,7 +84,7 @@
     } else if ($id = $_POST['delId']) {
         // delete specified allowed content data
         $cmd = "fsctl del allowedcontext id \"$id\"";
-        $rc = checkAllowedContent();
+        $rc = checkAllowedContent($_POST['delName']);
         if($rc != 0){
         	echo json_encode(array('msg' => "此内容白名单策略被引用，不能被删除。"));
         }else{

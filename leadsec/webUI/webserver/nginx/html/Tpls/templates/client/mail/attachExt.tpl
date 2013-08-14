@@ -1,7 +1,7 @@
 <{include file='layout/search.tpl' colNames='name,value,comment'}>
 <table class="column_95 textMid tablesorter" id="attachExtTable">
     <caption>
-           信息列表
+           附件扩展名
     </caption>
     <thead>
     <tr>

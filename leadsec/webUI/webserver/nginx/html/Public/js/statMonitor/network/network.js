@@ -1,26 +1,3 @@
-function setInterfacemonStatus() {
-	if ($("input[name='interfacemonActive']").val()=='0') {
-    	var title  = '启动服务';
-	} else {
-		var title  = '停止服务';
-	}
-    var afterSuccessCallback  = function(result, textStatus) {
-        if (result.status == '0') { 
-            if ($("input[name='interfacemonActive']").val()=='1') {   
-                $("button[name='interfacemonButton']").html('<span class="ui-button-text">启动</span>'); 
-                $("#monitorStatusTd").html('<img height="16" width="16" src="Public/default/images/icon/stoplink.gif">');
-                $("input[name='interfacemonActive']").val('0');
-            } else {
-                $("button[name='interfacemonButton']").html('<span class="ui-button-text">停止</span>');
-                $("#monitorStatusTd").html('<img height="16" width="16" src="Public/default/images/icon/showlink.gif">');
-                $("input[name='interfacemonActive']").val('1');
-            }
-        }      
-    };
-		ajaxSubmitForm($('#setInterfacemonForm'),title,undefined,
-			undefined,afterSuccessCallback);
-}
-
 function freshMonitorTable() {
      var url    = 'Function/statMonitor/network/network.php';
     var data = {

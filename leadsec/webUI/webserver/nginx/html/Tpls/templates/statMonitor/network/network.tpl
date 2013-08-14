@@ -28,22 +28,9 @@
                      <{/if}>
                 </td>
             </tr>
-            <tr>
-                <td width="200" class="tdheader">设备监控服务:</td>
-                <td width="80" class="tdbody" id="monitorStatusTd">
-                    <{if $interfacemon === '1'}>
-                        <img src="<{$smarty.const.THEME_PATH}>/images/icon/showlink.gif" width="16" height="16" />
-                     <{else}>
-                        <img src="<{$smarty.const.THEME_PATH}>/images/icon/stoplink.gif" width="16" height="16" />
-                     <{/if}>
-                </td>
-                <td class="tdbody">                
-                    <button name="interfacemonButton" type="button" class="standard" onClick="setInterfacemonStatus()"><{if $interfacemon === '0'}>启动<{else}>停止<{/if}></button>
-                    <button name="input3" type="button" class="standard" onClick="freshMonitorTable()">刷新</button>                    
-                </td>
-            </tr>
         </tbody>
     </table>
+     <button name="input3" type="button" class="standard" onClick="freshMonitorTable()">刷新</button>
 </form>
 <script type="text/javascript" src="Public/js/statMonitor/network/network.js"></script>
 <script type="text/javascript">

@@ -4,7 +4,7 @@ function openNewFtpFilterOptionsDialog(flag) {
         return false;
     }
     var url   = 'Function/client/ftp/ftp.php';
-    var title = '添加FTP过滤选项';
+    var title = '添加FTP过滤配置';
     var data  = {
 		openAddDialog: true
     };
@@ -20,27 +20,8 @@ function openNewFtpFilterOptionsDialog(flag) {
                     undefined, afterSuccessCallback);
          	} else {
          		openNewFtpFilterOptionsDialog(flag);
-         		var dialog = loadingScreen(title);
-         	    dialog.dialog('moveToTop');
-         	    var buttons = {};
-         	    buttons[getMessage('Ok')] = function() {
-         	        dialog.close();
-         	    }
-         	    dialog.setOptions({
-         	        width : 250,
-         	        height: 170,
-         	        buttons: buttons,
-         	       position: jQuery.getDialogPosition(250,170)
-         	    });
-         	    var ftpFilterOptName = $("input[name='ftpFilterOptName']").val(); 
-         		var successResult = function(result, textStatus) {
-         		        var content = result.msg;
-         	            dialog.setContent($('<p>' + content + '</p>'));
-         	            freshPrePage('Function/client/ftp/ftp.php', $('#filter'),ftpFilterOptName);
-         	        }    		
-         		var dialog_c= ajaxSubmitForm($('#editFtpFilterOptionForm'), '结果',successResult);
-         		dialog_c.close();
-         		}                	
+         		ajaxSubmitForm($('#editFtpFilterOptionForm'), '结果');
+         	}                	
             $(this).remove();
         }
     };
@@ -53,27 +34,8 @@ function openNewFtpFilterOptionsDialog(flag) {
                 ajaxSubmitForm($('#editFtpFilterOptionForm'), '结果', undefined,
                     undefined, afterSuccessCallback);
         	} else {
-        		var dialog = loadingScreen(title);
-        	    dialog.dialog('moveToTop');
-        	    var buttons = {};
-        	    buttons[getMessage('Ok')] = function() {
-        	        dialog.close();
-        	    }
-        	    dialog.setOptions({
-        	        width : 250,
-        	        height: 170,
-        	        buttons: buttons,
-        	        position: jQuery.getDialogPosition(250,170)
-        	    });
-        	    var ftpFilterOptName = $("input[name='ftpFilterOptName']").val(); 
-        		var successResult = function(result, textStatus) {
-        		        var content = result.msg;
-        	            dialog.setContent($('<p>' + content + '</p>'));
-        	            freshPrePage('Function/client/ftp/ftp.php', $('#filter'),ftpFilterOptName);
-        	        }    		
-        		var dialog_c= ajaxSubmitForm($('#editFtpFilterOptionForm'), '结果',successResult);
-        		dialog_c.close();
-        		}        		            
+        	    ajaxSubmitForm($('#editFtpFilterOptionForm'), '结果');
+        	}        		            
             $(this).remove();
         }
     };

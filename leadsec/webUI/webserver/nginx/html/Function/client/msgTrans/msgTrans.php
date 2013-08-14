@@ -113,6 +113,9 @@
         $result .= " comment \"$comment\"";
         return $result;
     }
+    
+    $killVirusIsUsed = antiIsUsed();
+    
     if (!empty($_POST['editId'])) {
         // Get specified  data
         $id = $_POST['editId'];
@@ -127,6 +130,7 @@
             ->assign('timeList', netGapRes::getInstance()->getTimeList())
             ->assign('localIp', netGapRes::getInstance()->getInterface())
             ->assign('res', $result)
+            ->assign('killVirusIsUsed',$killVirusIsUsed)
             ->assign('type', 'edit')->fetch($tpl);
         echo json_encode(array('msg' => $result));
     } else if ('edit' === $_POST['type']) {
@@ -160,13 +164,14 @@
             ->assign('addrOptions', netGapRes::getInstance()->getAddr(true))
             ->assign('timeList', netGapRes::getInstance()->getTimeList())
             ->assign('localIp', netGapRes::getInstance()->getInterface())
+            ->assign('killVirusIsUsed',$killVirusIsUsed)
             ->assign('type', 'add')->fetch($tpl);
         echo json_encode(array('msg' => $result));
     } else if ($action = $_POST['action']) {
         // enable or disable specified acl
     	if ($action === 'disable') {
         	$active = 'off';
-        	$act="关闭";	
+        	$act="停止";	
         }else {
         	$active = 'on';
         	$act="开启";		
@@ -175,7 +180,7 @@
         $cmd = getActionCmd();
         $cmd .= " active $active  1>/dev/null";
         $cli->setLog("$act id为".$_POST['cmsgGeneralId']."的消息传输")->run($cmd);
-        echo json_encode(array('msg' => '成功。'));
+        echo json_encode(array('msg' => $act.'成功。'));
     } else if ($orderStatement = $_POST['orderStatement']) {
         // fresh and resort list
         freshMsgTransData($orderStatement);

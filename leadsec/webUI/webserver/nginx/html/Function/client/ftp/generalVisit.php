@@ -54,7 +54,7 @@
         $usergrp = $_POST['usergrp'];
         $killVirus = $_POST['killVirus'] === 'Y' ? 'Y' : 'N';
         
-        $result = "cftpctl $action task type client mode comm id $id sa $sa " .
+        $result = "/usr/local/bin/cftpctl $action task type client mode comm id $id sa $sa " .
             " lip $lip lport $lport active $active ";
         if (!empty($usergrp)) {
             $result .= "auth $usergrp ";
@@ -70,6 +70,8 @@
         return $result;
     }
 
+	$killVirusIsUsed = antiIsUsed();
+
     if ($id = $_POST['editId']) {
         // Show Dialog to get specified ftp comm client acl data
 	    $sql  = "SELECT * FROM ftp_comm_client_acl WHERE id = $id";
@@ -84,6 +86,7 @@
                 netGapRes::getInstance()->getFtpFilterOpts())
             ->assign('roleList', netGapRes::getInstance()->getRoleList())
             ->assign('data', $data)
+			->assign('killVirusIsUsed',$killVirusIsUsed)
             ->assign('type', 'edit')->fetch($tpl);
         echo json_encode(array('msg' => $result));
     } else if ('edit' === $_POST['type']) {
@@ -109,7 +112,7 @@
     } else if ($id = $_POST['delId']) {
         // Delete the specified ftp comm client acl
         $cli = new cli();
-        $cli->setLog("删除一条FTP普通访问任务,任务号为".$id)->run('cftpctl del task type client mode comm id '. $id);
+        $cli->setLog("删除一条FTP普通访问任务,任务号为".$id)->run('/usr/local/bin/cftpctl del task type client mode comm id '. $id);
         echo json_encode(array('msg' =>
             '任务[' . $id . ']删除成功.'));
     } else if (!empty($_POST['openAddDialog'])) {
@@ -122,6 +125,7 @@
             ->assign('filterOptions',
                 netGapRes::getInstance()->getFtpFilterOpts())
             ->assign('roleList', netGapRes::getInstance()->getRoleList())
+			->assign('killVirusIsUsed',$killVirusIsUsed)
             ->assign('type', 'add')->fetch($tpl);
         echo json_encode(array('msg' => $result));
     } else if ($action = $_POST['action']) {

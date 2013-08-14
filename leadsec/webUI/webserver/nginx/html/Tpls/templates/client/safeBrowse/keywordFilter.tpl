@@ -1,7 +1,7 @@
 <{include file='layout/search.tpl'}>
 <table class="column_95 textMid tablesorter" id="keywordFilterTable">
     <caption>
-           信息列表
+           关键字过滤
     </caption>
     <thead>
     <tr>

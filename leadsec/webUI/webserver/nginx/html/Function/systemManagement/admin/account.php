@@ -14,8 +14,8 @@
             return '被删除用户在线, 请先通知其下线！';
         }
         $cmd = "admacct del name \"$username\"";
-        $cli = new cli();
-        $cli->run($cmd);
+        $log = '系统管理下管理员设置模块下删除账号'.$username;
+		$cli->setLog($log)->run($cmd);
         return '删除成功。';
     }
 
@@ -62,12 +62,12 @@
 	$user_role = getCurrentUserRole($user);
     if (!empty($_POST['expTime'])) {
         // modify expired time
-        setConf('EXPIRED_TIME', $_POST['expTime']);
+        setConf('EXPIRED_TIME', $_POST['expTime']*60);
         echo json_encode(array('msg' => '修改成功。'));
     } else if (!empty($_POST['limitErrNum']) || !empty($_POST['limitErrTime'])){
         // modify limit error login num and time
         setConf('LIMITERR_NUM',  $_POST['limitErrNum']);
-        setConf('LIMITERR_TIME', $_POST['limitErrTime']);
+        setConf('LIMITERR_TIME', $_POST['limitErrTime']*60);
         echo json_encode(array('msg' => '修改成功。'));
     } else if (!empty($_POST['editUser'])) {
         // get specified account data
@@ -108,17 +108,30 @@
         $cmd = "admacct add name \"$account\" password \"$passwd\"".
             " manager $isManager policyer $isPolicyer auditor $isAuditor";
         $cli = new cli();
-        $cli->run($cmd);
+		$log = '系统管理下管理员设置模块下添加账号'.$account;
+		$cli->setLog($log)->run($cmd);
         echo json_encode(array('msg' => '添加成功。'));
     } else if ($_POST['type'] === 'edit')  {
         // edit account
-        list($account, $passwd, $isManager, $isPolicyer, $isAuditor) =
-            getUserData();
-        $cmd = "admacct set name \"$account\" password \"$passwd\"".
-            " manager $isManager policyer $isPolicyer auditor $isAuditor";
-        $cli = new cli();
-        $cli->run($cmd);
-        echo json_encode(array('msg' => '修改成功。'));
+		$account = $_POST['account'];
+		if ($account === 'administrator') { 
+			$passwd = $_POST['passwd'];
+			$cmd = "admacct set name \"$account\" password \"$passwd\"".
+				" manager on policyer on auditor on"; 
+			$cli = new cli();
+			$log = '系统管理下管理员设置模块下修改账号'.$account;
+			$cli->setLog($log)->run($cmd);
+			echo json_encode(array('msg' => '修改成功。'));
+		} else {
+			list($account, $passwd, $isManager, $isPolicyer, $isAuditor) =
+					getUserData();
+			$cmd = "admacct set name \"$account\" password \"$passwd\"".
+				" manager $isManager policyer $isPolicyer auditor $isAuditor";
+			$cli = new cli();
+			$log = '系统管理下管理员设置模块下修改账号'.$account;
+			$cli->setLog($log)->run($cmd);
+			echo json_encode(array('msg' => '修改成功。'));
+		}
     } else if (!empty($_POST['delUser'])) {
         // delete specified account
         $msg = delSpecifiedUser($_POST['delUser']);

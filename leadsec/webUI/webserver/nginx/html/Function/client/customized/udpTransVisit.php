@@ -2,11 +2,12 @@
     require_once($_SERVER['DOCUMENT_ROOT'] . '/Function/common.php');
     
     function getWhereStatement($db, $cols, $keyword) {
-    	$value = '%' . $keyword . '%';
+    	//$value = '%' . $keyword . '%';
+		$value = $keyword;
     	$params = array_fill(0, count(explode(',', $cols)), $value);
     	return array('sql'    => ' WHERE (' .
     			$db->getWhereStatement($cols, 'OR', 'like') . ')',
-    			'params' => $params);
+    			'params' => $db->getFilterParams($params));
     }
     
     function appendUdpTransClientAclData($where) {
@@ -80,6 +81,8 @@
         echo $result;
     } 
     
+    $killVirusIsUsed = antiIsUsed();
+    
     if ($id = $_POST['editId']) {
         // Open dialog to show specified udp trans client acl data
         $sql  = 'SELECT id, sa, da, dport, usergrp, time, active, killvirus, ' .
@@ -93,6 +96,7 @@
             ->assign('timeList', netGapRes::getInstance()->getTimeList())
             ->assign('roleList', netGapRes::getInstance()->getRoleList())
             ->assign('data', $data)
+            ->assign('killVirusIsUsed',$killVirusIsUsed)
             ->assign('type', 'edit')->fetch($tpl);
         echo json_encode(array('msg' => $result));
     } else if (!empty($_POST['openAddDialog'])) {
@@ -103,6 +107,7 @@
             ->assign('daaddrOptions', netGapRes::getInstance()->getAddrList(true))
             ->assign('timeList', netGapRes::getInstance()->getTimeList())
             ->assign('roleList', netGapRes::getInstance()->getRoleList())
+            ->assign('killVirusIsUsed',$killVirusIsUsed)
             ->assign('type', 'add')->fetch($tpl);
         echo json_encode(array('msg' => $result));
     } else if ('edit' === $_POST['type']) {

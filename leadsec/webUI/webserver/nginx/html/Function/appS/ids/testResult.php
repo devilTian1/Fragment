@@ -53,13 +53,13 @@
                               "($keyword_portScanEnd): TOTAL time" .
                               '\((\d+)s\) hosts\((\d+)\) TCP\((\d+)\) ' .
                               'UDP\((\d+)\)$/',
-            'simple'       => '/^([0-9\-:\.\+A-Z]+).*' .
+            'simple'       => '/^([0-9\-:\.\+A-Z]+).*]\s(.*)\s' .
                               "\[Classification: ($keyword_simple)\]\s" .
                               '\[Priority: (.+)\]\s\{(.*)\} (.*) -> (.*)$/'
         );
         if (preg_match($regex['simple'], $line, $match)) {
             $level    = '';
-            $priority = (int)$match[3];
+            $priority = (int)$match[4];
             if ($priority > 4 && $priority < 8) {
                 $level = '中';
             } else if ($priority > 8) {
@@ -69,8 +69,8 @@
             }
             $event = $match[2];
             
-            return array('date'  => $match[1], 'sa'       => $match[5],
-                         'da'    => $match[6], 'protocol' => $match[4],
+            return array('date'  => $match[1], 'sa'       => $match[6],
+                         'da'    => $match[7], 'protocol' => $match[5],
                          'level' => $level,    'event'    => $event);
         } else if (preg_match($regex['portScanFrom'], $line, $match)) {
             $event = "端口扫描报告：发现来自<span class='red'>{$match[2]}" .

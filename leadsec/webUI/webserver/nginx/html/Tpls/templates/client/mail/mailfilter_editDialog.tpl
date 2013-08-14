@@ -19,10 +19,13 @@
     	
     	<div class="row">
     		<label>允许最大附件(MB):</label>
-    		<input class="id" type="text" name="attachmax" value="<{$editFilter.attachmaxsize|default: 100}>"
+    		<input class="id" type="text" name="attachmax" value="<{$editFilter.attachmaxsize|default: 0}>"
                 size="15" maxlength="30"/>
     	</div>
-    	
+    	<div class="row">
+    		<label>注1: 0为不限制大小</label>
+            <label class="longLabel">注2: 添加过滤选项集,附件最大允许10M</label>
+    	</div>
     	<div class="row">
     		<label>允许附件扩展名组:</label>
     		<{html_options class="filterSelect" name="allowextList"

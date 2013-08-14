@@ -25,19 +25,20 @@
     }
     
     function getWhereStatement($db, $cols, $keyword) {
-        $value  = '%' . $keyword . '%';
+        $value  = $keyword ;
         $params = array_fill(0, count(explode(',', $cols)), $value);
         return array('sql'    => ' AND (' .
                               $db->getWhereStatement($cols, 'OR', 'like') . ')',
-                     'params' => $params);
+                     'params' => $db->getFilterParams($params));
     }
 
     function getDataCount() {
     	$sql = "SELECT id FROM acl WHERE transparent=1";
         $db  = new dbsqlite(DB_PATH . '/netgap_http.db');
         $params = array();
+		$keyword='/'.$_GET['keyword'];
         if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
-            $data   = getWhereStatement($db, $_GET['cols'], $_GET['keyword']);
+            $data   = getWhereStatement($db, $_GET['cols'], $keyword);
             $sql   .= $data['sql'];
             $params = $data['params'];
         }
@@ -67,9 +68,9 @@
         $comment   = $_POST['comment'];
 
 		$str = "httpctl add transparentacl id $addId sip $srcIp dip $destIp";
-		if ($_POST['httpEnableChk'] === 'on') {
-			$str .= " https yes";
-		}
+		//if ($_POST['httpEnableChk'] === 'on') {
+		//	$str .= " https yes";
+		//}
 		if ($_POST['authUsrGrpList'] !== '') {
 			$str .= " auth ".$_POST['authUsrGrpList'];
 		}
@@ -102,33 +103,47 @@
         return $result['id']+1;
 	}
 
+	//判断是否开启病毒扫描
+	function getKillVirus(){
+        $db   = new dbsqlite(DB_PATH . '/netgap_http.db');	
+		$data = $db->query('SELECT scan_virus FROM cf_info')
+				   ->getFirstData(PDO::FETCH_ASSOC);	 
+		return $data['scan_virus'] == 1 ? 'Y' : 'N';
+	}
+	
     if (!empty($_POST['editId'])) {
-        // Open a specified safepass data
+        // Open a specified safebrowser data
         $tpl = $_POST['tpl'];
         $id  = $_POST['editId'];
         $db  = new dbsqlite(DB_PATH . '/netgap_http.db');
         $sql = "SELECT * FROM acl WHERE id = '$id'";
-        $result = $db->query($sql)->getFirstData(PDO::FETCH_ASSOC);       
+        $result = $db->query($sql)->getFirstData(PDO::FETCH_ASSOC);  
+        $killVirusIsUsed = antiIsUsed();     
         $result = V::getInstance()
         	->assign('saddrOptions', netGapRes::getInstance()->getAddr(true))
         	->assign('daddrOptions', netGapRes::getInstance()->getAddr())
             ->assign('timeList', netGapRes::getInstance()->getTimeList())
             ->assign('roleList', netGapRes::getInstance()->getRoleList())
         	->assign('editTransAcc', $result)
+        	->assign('killVirusIsUsed',$killVirusIsUsed)
+			->assign('killVirus',getKillVirus())
             ->assign('type', 'edit')->fetch($tpl);
         echo json_encode(array('msg' => $result));
      } else if (isset($_POST['openAddDialog'])) {
-        // Open a new safepass dialog
+        // Open a new safebrowser dialog
         $tpl = $_POST['tpl'];
+        $killVirusIsUsed = antiIsUsed();     
         $result = V::getInstance()
             ->assign('saddrOptions', netGapRes::getInstance()->getAddr(true))
             ->assign('daddrOptions', netGapRes::getInstance()->getAddr())
             ->assign('timeList', netGapRes::getInstance()->getTimeList())
             ->assign('roleList', netGapRes::getInstance()->getRoleList())
+            ->assign('killVirusIsUsed',$killVirusIsUsed)
+			->assign('killVirus',getKillVirus())
             ->assign('type', 'add')->fetch($tpl);
         echo json_encode(array('msg' => $result));
     } else if ('edit' === $_POST['type']) {
-        // Edit a specified safepass data
+        // Edit a specified safebrowser data
         $cmd = getCmd();
         $cli = new cli();
         $cli->setLog("删除一条id为".$_POST['transAccId']."的透明访问控制")->run($cmd[0]);
@@ -136,21 +151,36 @@
         $cli->setLog("修改安全浏览配置")->run("httpctl	reconfigure ");
         echo json_encode(array('status'=>0,'msg' => '修改成功。'));
     } else if ('add' === $_POST['type']) {
-        // Add a new safepass data
+        // Add a new safebrowser data
         $cmd = getCmd();
         $cli = new cli();
         $cli->setLog("添加一条新的透明访问控制")->run($cmd[0]);
         $cli->setLog("修改安全浏览配置")->run("httpctl reconfigure ");
         echo json_encode(array('status'=>0,'msg' => '添加成功。'));
     } else if (!empty($_POST['delId'])) {
-        // Delete the specified safepass data   
+        // Delete the specified safebrowser data   
         $cmd = getCmd();     
         $cli = new cli();
         $cli->setLog("删除一条id为".$_POST['delId']."的透明访问控制")->run($cmd[0]);
         $cli->setLog("修改安全浏览配置")->run("httpctl	reconfigure ");
         echo json_encode(array('msg' => "删除成功。"));
-   } else if ($orderStatement = $_POST['orderStatement']) {
-        // fresh and resort safepass list
+    } else if ($_GET['checkAddrValid'] == '1') {
+        $sa    = $_GET['srcAddr'];
+        $da    = $_GET['destAddr'];
+        $dport = $_GET['destPort'];
+        $sql = 'SELECT count(id) as count FROM acl ' .
+            "WHERE sip='$sa' AND dip='$da' AND port=$dport AND transparent=1";
+        if ($id = $_GET['id']) {
+            $sql .= " AND id != $id";
+        }
+        $db   = new dbsqlite(DB_PATH . '/netgap_http.db');	
+        $data = $db->query($sql)->getFirstData(PDO::FETCH_ASSOC); 
+        $msg  = $data['count'] > 0 ?
+            array('源地址,目的地址和目的端口的组合必须唯一') : array();
+        echo json_encode(array('msg' => $msg));
+        return true;
+    } else if ($orderStatement = $_POST['orderStatement']) {
+        // fresh and resort safebrowser list
         appendTransAccData($orderStatement);
     } else {
         // init page data

@@ -1,7 +1,7 @@
 <{include file='layout/search.tpl' colNames='name,allow,sqllist,comment'}>
 <table class="column_95 textMid tablesorter" id="dataVisit_sqlTable">
  <caption>
-   SQL语句过滤
+  SQL语句过滤
  </caption>
 <thead>
     <tr>
@@ -30,6 +30,6 @@
     $(document).ready(function() {
         renderStandardUi();
         freshTable('Function/client/db/sqlFilter.php', $('#dataVisit_sqlTable'), 'ORDER BY name ASC LIMIT 10');
-        sortTableInit($('#dataVisit_sqlTable'), {3: {sorter: false},4: {sorter: false}}, [[0,0]]);
+        sortTableInit($('#dataVisit_sqlTable'), {4: {sorter: false},5: {sorter: false}}, [[0,0]]);
     });
 </script>

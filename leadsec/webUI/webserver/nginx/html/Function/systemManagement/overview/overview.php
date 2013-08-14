@@ -74,7 +74,7 @@
         }
         natsort($ethArr);
         $cmd = $_SERVER['DOCUMENT_ROOT'] . '/Script/ethxInfo.sh "' .
-            join(' ', $ethArr) . '" "kb" "' . $_SESSION['ethFile'] . '"';
+            join(' ', $ethArr) . '" "Mb" "' . $_SESSION['ethFile'] . '"';
 
         $cli   = new cli();
         $data  = $cli->setGetResult(true)->setIsRec(false)->run($cmd);
@@ -104,41 +104,28 @@
 	//get license info
     function getLicenseInfo(){
     	$db     = new dbsqlite(DB_PATH . '/private.db');
-		$sql    = "SELECT function , value FROM license where function Not In ('multicast_access','stream_swap','mail_swap');";
+		$sql    = "SELECT function , value FROM license where function Not In ('multicast_access','stream_swap','mail_swap','ha');";
         $data   = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
+		$chNames=array(	 'file_swap'		=>'文件交换'
+						,'file_swap_new'	=>'文件同步'
+						,'database_swap'	=>'数据库访问'
+						,'http_access'		=>'安全浏览'
+						,'ftp_access'		=>'FTP访问'
+						,'mail_access'		=>'邮件访问'
+						,'database_access'	=>'数据库同步'
+						,'fastpass_access'	=>'安全通道'
+						,'msg_swap'			=>'消息传输'
+						,'custom_access'	=>'定制访问'
+						,'ids'				=>'入侵检测'
+						,'anti-virus'		=>'病毒防护'
+					);
 		$result = array();
-        foreach ($data as $key => $val) {
-            $result[$key]['name'] = $val['function'];
-			switch ($val['function']) {
-				case 'file_swap':
-					$result[$key]['ch_name'] = '文件交换';break;
-				case 'file_swap_new':
-					$result[$key]['ch_name'] = '文件同步';break;
-				case 'database_swap':
-					$result[$key]['ch_name'] = '数据库访问';break;
-				case 'http_access':
-					$result[$key]['ch_name'] = '安全浏览';break;
-				case 'ftp_access':
-					$result[$key]['ch_name'] = 'FTP访问';break;
-				case 'mail_access':
-					$result[$key]['ch_name'] = '邮件访问';break;
-				case 'database_access':
-					$result[$key]['ch_name'] = '数据库同步';break;
-				case 'fastpass_access':
-					$result[$key]['ch_name'] = '安全通道';break;
-				case 'msg_swap':
-					$result[$key]['ch_name'] = '消息传输';break;
-				case 'custom_access':
-					$result[$key]['ch_name'] = '定制访问';break;
-				case 'ids':
-					$result[$key]['ch_name'] = '入侵检测';break;
-				case 'ha':
-					$result[$key]['ch_name'] = '双机热备';break;
-				case 'anti-virus':
-					$result[$key]['ch_name'] = '病毒';break;
-			}
-            $result[$key]['status'] = $val['value'] > 0 ? '启用' : '停止';
-        }
+		foreach ($data as $key => $val) {
+			$result[$key]['function']	=$val['function'];
+			$result[$key]['ch_name']	=
+						array_key_exists($val['function'],$chNames)?$chNames[$val['function']]:'';
+			$result[$key]['status']		=$val['value']>0 ? '启用':'停止';
+		}
     	return $result;
     }
 
@@ -296,6 +283,17 @@
         $result = V::getInstance()->assign('count', $count)
             ->assign('result', $info)->fetch($tpl);
         echo json_encode(array('msg' => $result));
+    } else if ($_POST['action'] === 'viewProcMonitor') {
+         V::getInstance()->assign('curStampTime', time())
+            ->assign('ifsName', getActiveIfName())
+            ->assign('cpuUsed', getCpuUsed())
+            ->assign('memUsed', getMemUsed())
+            ->display('systemManagement/overview/viewProcMonitor.tpl');
+        $cmd = '/bin/cp -rf /proc/net/dev ' .
+            '/usr/local/webserver/nginx/html/Logs/ethInfo/' .
+            "{$_SESSION['ethFile']}";
+        $cli = new cli();
+        $cli->setIsRec(false)->run($cmd);
     } else {
         // init page data
         $devinfo  = getDevInfo();
@@ -303,21 +301,10 @@
         $hainfo   = getHaInfo();
         $lvsinfo  = getLvsInfo();
         $status   = getServerStatusInfo();
-        $cpuUsed  = getCpuUsed();
-        $memUsed  = getMemUsed();
         V::getInstance()->assign('devinfo', $devinfo)
-            ->assign('curStampTime', time())
         	->assign('liceinfo', $liceinfo)
-            ->assign('ifsName', getActiveIfName())
         	->assign('status', $status)
 			->assign('hainfo', $hainfo)
-			->assign('lvsinfo',$lvsinfo)
-            ->assign('cpuUsed', $cpuUsed)
-            ->assign('memUsed', $memUsed);
-        $cmd = '/bin/cp -rf /proc/net/dev ' .
-            '/usr/local/webserver/nginx/html/Logs/ethInfo/' .
-            "{$_SESSION['ethFile']}";
-        $cli = new cli();
-        $cli->setIsRec(false)->run($cmd);
+			->assign('lvsinfo',$lvsinfo);
     }
 ?>

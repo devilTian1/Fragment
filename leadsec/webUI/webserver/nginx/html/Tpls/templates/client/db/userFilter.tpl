@@ -30,6 +30,6 @@
     $(document).ready(function() {
         renderStandardUi();
         freshTable('Function/client/db/userFilter.php', $('#dataVisit_userTable'), 'ORDER BY name ASC LIMIT 10');
-        sortTableInit($('#dataVisit_userTable'), {3: {sorter: false},4: {sorter: false}}, [[0,0]]);
+        sortTableInit($('#dataVisit_userTable'), {4: {sorter: false},5: {sorter: false}}, [[0,0]]);
     });
 </script>

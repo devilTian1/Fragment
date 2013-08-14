@@ -70,7 +70,7 @@ function openEditDialog(id) {
 }
 
 function openDelDialog(id) {
-    var dialog  = loadingScreen('删除数据库同步');
+    var dialog  = loadingScreen('删除服务端数据库同步');
     var buttons = {};
     buttons[getMessage('Ok')] = function() {
         delDbSyncClient(id);
@@ -94,7 +94,7 @@ function delDbSyncClient(id) {
     var data = {
 		delId : id
     };
-    var title   = '删除客户端数据库交换';
+    var title   = '删除服务端数据库同步';
     var buttons = {};
     buttons[getMessage('Ok')] = function() {
         freshTableAndPage();
@@ -146,6 +146,6 @@ function switchPhysicalDev(id, action, formId) {
 
 function freshTableAndPage() {
     var url = 'Function/server/dbSync/dbSync.php';
-    freshTable(url, $('#dbSyncServerTable'),'ORDER BY id ASC LIMIT 10');
+    freshTable(url, $('#dbSyncServerTable'));
     freshPagination(url, $('.pager'));
 }

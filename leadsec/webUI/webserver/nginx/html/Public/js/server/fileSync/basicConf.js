@@ -56,7 +56,7 @@ function importCACert() {
 
 
 function del(name,id) {
-    var url  = 'Function/client/msgTrans/basicConf.php';
+    var url  = 'Function/server/fileSync/basicConf.php';
     var data = {
         delId: id
     };
@@ -132,6 +132,6 @@ function importCACert() {
 }*/
 
 function freshCertConf() {
-    var url = 'Function/client/msgTrans/basicConf.php';
+    var url = 'Function/server/fileSync/basicConf.php';
     freshTable(url, $('#certListTable'));
 }

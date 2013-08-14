@@ -1,4 +1,4 @@
-<{include file='layout/search.tpl'}>
+<{include file='layout/search.tpl' colNames='user_name,role_name'}>
 <table class="column_95 textMid tablesorter" id="lockUserTable">
     <caption>
            锁定用户

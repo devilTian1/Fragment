@@ -7,7 +7,7 @@
             <form action="Function/server/customized/tcp.php"
                 method="POST" id="switchTcpCommServerForm_<{$r.id}>"
                 onSubmit="return false;">
-                <input type="hidden" name="customId" value="<{$r.id}>"/>
+                <input type="hidden" name="customTcpId" value="<{$r.id}>"/>
                 <input type="hidden" name="serverIp" value="<{$r.serverip}>"/>
                 <input type="hidden" name="sportReq" value="<{$r.sport}>"/>
                 <input type="hidden" name="comment" value="<{$r.comment|escape}>"/>

@@ -2,11 +2,11 @@
     require_once($_SERVER['DOCUMENT_ROOT'] . '/Function/common.php');
     
     function getWhereStatement($db, $cols, $keyword) {
-    	$value = '%' . $keyword . '%';
+    	$value = $keyword;
     	$params = array_fill(0, count(explode(',', $cols)), $value);
     	return array('sql'    => ' WHERE (' .
     			$db->getWhereStatement($cols, 'OR', 'like') . ')',
-    			'params' => $params);
+    			'params' => $db->getFilterParams($params));
     }
     
     function getCmd() {
@@ -18,7 +18,7 @@
         } else {
             throw new Exception('fatal action: [' . $type . '].');
         }
-        $id        = intval($_POST['customId']);
+        $id        = intval($_POST['customTcpId']);
         $sip       = $_POST['serverIp'];
         $sport     = $_POST['sportReq'];
         if (!empty($_POST['action'])) {
@@ -79,12 +79,12 @@
     } else if ('edit' === $_POST['type']) {
         // Edit a specified tcp general server data
         $cli = new cli();
-        $cli->setLog("修改定制TCP普通访问服务端任务,任务号为".$_POST['customId'])->run(getCmd());
+        $cli->setLog("修改定制TCP普通访问服务端任务,任务号为".$_POST['customTcpId'])->run(getCmd());
         echo json_encode(array('msg' => '修改成功。'));
     } else if ('add' === $_POST['type']) {
         // Add a new tcp general server data
         $cli = new cli();
-        $cli->setLog("添加定制TCP普通访问服务端任务,任务号为".intval($_POST['customId']))->run(getCmd());
+        $cli->setLog("添加定制TCP普通访问服务端任务,任务号为".intval($_POST['customTcpId']))->run(getCmd());
         echo json_encode(array('msg' => '添加成功。'));
     } else if (!empty($_POST['openAddDialog'])) {
         // Open new tcp comm server dialog
@@ -101,7 +101,7 @@
     } else if ($action = $_POST['action']) {
         // enable or disable specified acl
         $cli = new cli();
-        $cli->setLog("修改定制TCP普通访问服务端任务,任务号为".$_POST['customId'])->run(getCmd());
+        $cli->setLog("修改定制TCP普通访问服务端任务,任务号为".$_POST['customTcpId'])->run(getCmd());
         echo json_encode(array('msg' => '成功。'));
     } else if ($orderStatement = $_POST['orderStatement']) {
         // fresh and resort tcp_comm_server_acl table

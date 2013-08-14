@@ -43,43 +43,44 @@
         $ping       = $_POST['ping'] === 'on' ? 'on' : 'off';
         $traceRoute = $_POST['traceroute'] === 'on' ? 'on' : 'off';
         $enable     = $_POST['enable'] === 'on' ? 'on' : 'off';
+        $trunk     = $_POST['trunk'] === 'on' ? 'on' : 'off';
         
         $ipParams   = '';
         if (!empty($ipv4)) {
-            $ipParams .= "ip $ipv4 netmask $ipv4Mask";
+            $ipParams .= " ip $ipv4 netmask $ipv4Mask";
         }
-        if (!empty($ipv4) && !empty($ipv6)) {
-            $ipParams .= ' ';
-        }
+
         if (!empty($ipv6)) {
-            $ipParams .= "ipv6 $ipv6 ipv6_mask $ipv6Mask";
+            $ipParams .= " ipv6 $ipv6 ipv6_mask $ipv6Mask";
         }
- 
+		
         if ($action === 'add') {
             $alias = "bind_if $name alias_id $id";
         } else { //set
             $alias = "if {$name}";
         } 
         $result = "interface $action alias $alias " .
-            "active $enable $ipParams admin $adm ping $ping " .
+            "active $enable$ipParams admin $adm ping $ping trunk $trunk " .
             "traceroute $traceRoute";
+		
         return $result;
     }
 
     function getWhereStatement($db, $cols, $keyword) {
-        $value  = '%' . $keyword . '%';
+        $value  = $keyword ;
         $params = array_fill(0, count(explode(',', $cols)), $value);
         return array('sql'    => ' AND (' .
                               $db->getWhereStatement($cols, 'OR', 'like') . ')',
-                     'params' => $params);
+                     'params' => $db->getFilterParams($params));
     }
     
     function getDataCount() {
         $sql = "SELECT external_name FROM interface where alias_id!=-1";
         $db  = new dbsqlite(DB_PATH . '/configs.db');
         $params = array();
+		$keyword='/'.$_GET['keyword'];
         if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
-            $data   = getWhereStatement($db, $_GET['cols'], $_GET['keyword']);
+            $data   = getWhereStatement($db, $_GET['cols'], $keyword);
             $sql   .= $data['sql'];
             $params = $data['params'];
         }
@@ -104,7 +105,7 @@
         $tpl = $_POST['tpl'];
         $db  = new dbsqlite(DB_PATH . '/configs.db');
         $sql = 'SELECT phy_device, alias_id, ip, mask, ipv6, ipv6_mask,' .
-            ' admin, ping, traceroute, enable ' .
+            ' admin, ping, traceroute, enable,trunk ' .
             "FROM interface WHERE external_name = '$name'";
         $result = $db->query($sql)->getFirstData(PDO::FETCH_ASSOC);
         $result['bindDev'] = getBindDev();
@@ -129,6 +130,7 @@
         // Add the specified Alias
         $cmd = getCmd('add');
         $cli = new cli();
+		//echo $cmd;
 		list($status,$result) = $cli->setLog("添加别名设备".$_POST['external_name'])->execCmdGetStatus($cmd);
         //$cli->setLog("添加别名设备".$_POST['external_name'])->run($cmd);
 		if ($status>0) {
@@ -159,15 +161,15 @@
         }
     } else if ($_GET['isInUseCheck']) {
         $name = $_GET['checkName'];
-        /*if(isInUseCheck($name)) {
-            echo "true";
+        $checkActive = false;
+        if ($_GET['checkActive'] === 'true') {
+            $checkActive = true;
+        }
+        $result = netGapRes::getInstance()->checkAliasUsed($name,$checkActive); 
+        if (count($result) > 0) {
+            echo json_encode(array('msg' => $result));
         } else {
-            echo "false";
-        }*/        
-        if(netGapRes::getInstance()->checkAliasUsed($name) === 'true') {
-            echo "true";
-        } else {
-            echo "false";
+            echo json_encode(array('msg' => 'false'));
         }
     } else if ($orderStatement = $_POST['orderStatement']) {
         // fresh and resort alias Table

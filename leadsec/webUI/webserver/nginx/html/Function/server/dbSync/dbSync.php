@@ -20,11 +20,11 @@
     }
 
 	function getWhereStatement($db, $cols, $keyword) {
-        $value  = '%' . $keyword . '%';
+        $value  = $keyword;
         $params = array_fill(0, count(explode(',', $cols)), $value);
         return array('sql'    => ' WHERE (' .
                               $db->getWhereStatement($cols, 'OR', 'like') . ')',
-                     'params' => $params);
+                     'params' => $db->getFilterParams($params));
     }
 
     function getDataCount() {
@@ -54,7 +54,7 @@
 			$ipver = 'ipv6';
 		}
 		//本机端口
-        $sport   = $_POST['serverport'];
+        $sport   = $_POST['serverDbsyncPort'];
         if ($_POST['ssl'] === 'Y') {
 		//身份认证及传输加密,若加密则客户端证书有名称
             $ssl   = 'yes';

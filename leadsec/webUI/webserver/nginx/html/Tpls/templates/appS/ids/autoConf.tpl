@@ -10,10 +10,10 @@
       <td class="tdbody"><input class='floatLeft' name="autoenable" type="checkbox" <{if $autoenable eq 'YES'}>checked="checked"<{/if}>/></td>
     </tr>
      <tr>
-      <td width="250" class="tdheader">阻断间隔:</td>
+      <td width="250" class="tdheader">时间间隔(单位:秒):</td>
       <td class="tdbody"><label>
           <input class="width10em" type="text" name="timeLimit" id="timeLimit" value="<{$time}>"/>
-       秒</label></td>
+       </label></td>
     </tr>
     <tr>
       <td width="250" class="tdheader"><p>忽略对以下IP地址的自动阻断:</p>

@@ -157,9 +157,20 @@
 		}
 		fclose($file);
     } else if ('cleanFwlog' === $_POST['action']) {
-        $cmd = 'sed -i "/logtype=9/d" ' . LOG_PATH;
-        $cli = new cli();
-        $cli->setLog("执行命令，清空管理日志文件。")->run($cmd);
+        if (file_exists(LOG_PATH) &&
+            false === file_put_contents(LOG_PATH, '')) {
+            throw new Exception('Can`t clean log data.');
+        }
+        // record log
+        $account = $_SESSION['account'];
+        $msg = getRoleName($_SESSION['roles']) . "管理员{$account}" .
+                "执行命令，清空日志文件。";
+        $set = array(
+            'time' => time(), 'account' => $account,
+            'pri'  => 6,      'act'     => 'set',
+            'cmd'  => '',     'msg'     => $msg
+        );
+        $admLog = new admLog($set);
         echo json_encode(array('msg' => '清空成功。'));
 	} else {
         // init page

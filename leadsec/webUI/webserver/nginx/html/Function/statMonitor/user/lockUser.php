@@ -10,7 +10,7 @@
     }
     function getDataCount() {
         $db  = new dbsqlite(DB_PATH . '/uma_auth.db');
-        $sql = "SELECT user_name FROM user where locked != 0";
+        $sql = "SELECT user.user_name FROM user,user_role_map,role where locked != 0";
         $params = array();
         if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
             $data   = getWhereStatement($db, $_GET['cols'], $_GET['keyword']);
@@ -23,10 +23,10 @@
     function freshUserList($where) {
         $tpl  = 'statMonitor/user/lockUserTable.tpl';
         $db  = new dbsqlite(DB_PATH . '/uma_auth.db');
-        $sql = "SELECT user_online.user_id, user.user_name, user.unlock_time,".
-        	"user_role_map.Role_id,role.role_name FROM user_online,user,".
-        	"user_role_map,role where user.user_id = user_online.user_id".
-        	" and user.locked != 0 and user_role_map.User_id = user_online.user_id".
+        $sql = "SELECT user.user_id, user.user_name, user.unlock_time,".
+        	"user_role_map.Role_id,role.role_name FROM user,".
+        	"user_role_map,role where user.locked != 0 and ".
+            "user_role_map.User_id = user.user_id".
         	" and role.role_id = user_role_map.Role_id  ";
         $params = array();
         if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {

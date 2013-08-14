@@ -55,6 +55,12 @@
         'Task id range between 1 and 1000': {
             'zh_CN': '任务号范围是1至1000'
         },
+        'Task id range between 1 and 500': {
+            'zh_CN': '任务号范围是1至500'
+        },
+        'Task id range between 1 and 20': {
+            'zh_CN': '任务号范围是1至20'
+        },
         'This id has been used': {
             'zh_CN': '此任务号已被使用'
         },
@@ -111,6 +117,9 @@
         },
         'None': {
             'zh_CN': '空'
+        },
+        'destPort is required': {
+            'zh_CN': '目的端口必填'
         }
     };
 

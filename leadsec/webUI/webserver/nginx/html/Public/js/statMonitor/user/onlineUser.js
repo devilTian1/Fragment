@@ -115,33 +115,6 @@ function del(name) {
     };
     showDialogByAjax(url, data, title, dialogParams);
 }
-function onlineUserToLockDialog(name) {
-    var url   = 'Function/statMonitor/user/onlineUser.php';
-    var title   = '锁定用户';
-    var data  = {
-        lockUser : name
-    };
-    var buttons = {};
-    buttons[getMessage('Ok')] = function() {
-        if ($('#editLockTimeForm').valid()) {
-            ajaxSubmitForm($('#editLockTimeForm'), '结果');
-            freshTableAndPage();
-            $(this).remove();
-        }
-    };
-    buttons[getMessage('Cancel')]  = function() {
-        freshTableAndPage();
-        $(this).remove();
-    };
-    var dialogParams = {
-        width   : 420,
-        height  : 260,
-        buttons : buttons,
-        position: jQuery.getDialogPosition(420,260)
-    };
-    showDialogByAjax(url, data, title, dialogParams);
-}
-
 function onlineUserTimeResetDialog(name) {
     var dialog  = loadingScreen('时间重置');
     var buttons = {};

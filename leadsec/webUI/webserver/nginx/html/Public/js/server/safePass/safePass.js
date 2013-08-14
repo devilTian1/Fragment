@@ -107,7 +107,7 @@ function openDelSafePassDialog(id) {
         buttons: buttons,
         position : jQuery.getDialogPosition('300','160')
     };
-    dialog.setContent("<p>确定要删除任务号为" + id + "的安全通道吗?</p>");
+    dialog.setContent("<p>确定要删除任务号为" + id + "的安全通道吗？</p>");
     dialog.setOptions(dialogParams);   
 }
 
@@ -134,7 +134,7 @@ function switchSafePassActive(id, action) {
     };
 
     var str = action === 'disable' ? '停止' : '启动';
-    dialog.setContent('<p>确定' + str + '任务[' +  id + ']吗?</p>');
+    dialog.setContent('<p>确定' + str + '任务[' +  id + ']吗？</p>');
     dialog.setOptions(dialogParams);
 }
 

@@ -109,7 +109,7 @@ function initSort() {
     fi
     
     if [ "${params['logtype']}" ]; then
-        cmd=${cmd}" | grep logtype=${params['logtype']}"
+        cmd=${cmd}" | egrep 'logtype=${params['logtype']}[[:space:]]'"
     fi
     
     if [ "${params['sa']}" ]; then

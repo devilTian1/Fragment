@@ -18,15 +18,15 @@
             <label class="s_time" for="startTime_log">时间:  从</label>
             <input name="startTime_log" id="startTime_log" value=""/>
             <label class="e_time" for="endTime_log">至</label>
-            <input name="endTime_log" id="endTime_log" value=""/>
+            <input name="endTime_log" id="endTime_log" style="position: relative;left:4px;" value=""/>
 
             <button type="button" class="standard" onclick="search()" id="searchBtn" 
-            	style="margin: auto 200; position: static">
+            	style="position: relative;left:40px;">
                 查询
             </button>
             
             <a class="advSearch floatRight" href="#" onClick="showAdvSearchDiv()" 
-            	id="advSearchLink" style="margin: auto 200; position: static">高级搜索</a>
+            	id="advSearchLink" >高级搜索</a>
         </div>
         <br class="clearFloat"/>
         <div class="hide row" id="advSearchDiv">
@@ -67,7 +67,7 @@
     id="cleanLogForm">
 	<input type="hidden" name="action" value="cleanFwlog"/>
     <button class="inputbtn standard" type="button" onclick="cleanLog()">
-        清空</button>
+        清空全部日志信息</button>
 </form>
 
 <div class="pager floatRight">

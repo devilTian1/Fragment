@@ -72,11 +72,10 @@ function openNewAddrGroupDialog() {
     showDialogByAjax(url, data, title, dialogParams);
 }
 
-function delAddrGrp(name,id) {
+function delAddrGrp(name) {
     var url  = 'Function/resConf/addr/addrGroup.php';
     var data = {
-        delName: name,
-        delId: id
+        delName: name
     };
     var title  = '删除地址组';
     var buttons = {};
@@ -93,11 +92,11 @@ function delAddrGrp(name,id) {
     showDialogByAjax(url, data, title, dialogParams);
 }
 
-function openDelAddrGroupDialog(name,id) {
+function openDelAddrGroupDialog(name) {
     var dialog  = loadingScreen('删除地址组');
     var buttons = {};
     buttons[getMessage('Ok')] = function() {
-        delAddrGrp(name,id);
+        delAddrGrp(name);
         $(this).remove();
     };
     buttons[getMessage('Cancel')]  = function() {

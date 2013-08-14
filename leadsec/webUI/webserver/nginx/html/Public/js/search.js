@@ -13,15 +13,23 @@ function getQueryCols(tableId) {
     return cols;
 }
 
+function filterKeyword(keyword) {
+    return keyword.replace('&', '%26').replace('+', '%2B')
+        .replace('#', '%23');
+}
+
 function addQueryParams(url, tableId) {
-    if ($('#search').val() !== '请输入关键字') {
+    var keyword = $('#search').val();
+    if (keyword != undefined && keyword !== '请输入关键字' &&
+        keyword != '') {
         var cols = getQueryCols(tableId);
         if (url.indexOf('?') !== -1) {
             url += '&';
         } else {
             url += '?';
         }
-        url += 'cols=' + cols + '&keyword=' + $('#search').val();
+        keyword = filterKeyword(keyword);
+        url += 'cols=' + cols + '&keyword=' + keyword;
     }
     return encodeURI(url);
 }

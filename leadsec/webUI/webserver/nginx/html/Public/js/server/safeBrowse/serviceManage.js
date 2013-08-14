@@ -1,8 +1,8 @@
 function setServiceForm() {
 	if ($("#stopService").val()=='enable') {
-    	var title  = '启动服务';
+    	var title  = '开启服务端';
 	} else {
-		var title  = '停止服务';
+		var title  = '停止服务端';
 	}
 	var resultDialog = loadingScreen(title);
 	var buttons = {};
@@ -27,7 +27,7 @@ function setServiceForm() {
 				$("button[name='buttonOn']").addClass("ui-state-disabled");
 				$("button[name='buttonOff']").removeClass("ui-button-disabled");
 				$("button[name='buttonOff']").removeClass("ui-state-disabled");
-				$("#status").html('启动');
+				$("#status").html('开启');
 			}
 		}
 		};
@@ -47,7 +47,7 @@ function setServiceForm() {
         
 			position : jQuery.getDialogPosition('250','170')
 		};
-		var str = $("#stopService").val() == 'enable' ? '启动' : '停止';
-		resultDialog.setContent('<p>确定' + str + '服务吗?</p>');
+		var str = $("#stopService").val() == 'enable' ? '开启' : '停止';
+		resultDialog.setContent('<p>确定' + str + '服务端吗?</p>');
 		resultDialog.setOptions(dialogParams);
 }

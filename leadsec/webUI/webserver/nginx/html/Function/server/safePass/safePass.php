@@ -19,19 +19,20 @@
     }
     
     function getWhereStatement($db, $cols, $keyword) {
-        $value  = '%' . $keyword . '%';
+        $value  = $keyword ;
         $params = array_fill(0, count(explode(',', $cols)), $value);
         return array('sql'    => ' WHERE (' .
                               $db->getWhereStatement($cols, 'OR', 'like') . ')',
-                     'params' => $params);
+                     'params' => $db->getFilterParams($params));
     }
 
     function getDataCount() {
     	$sql = "SELECT id FROM fastpass_server_acl";
         $db  = new dbsqlite(DB_PATH . '/netgap_fastpass.db');
         $params = array();
+		$keyword='/'.$_GET['keyword'];
         if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
-            $data   = getWhereStatement($db, $_GET['cols'], $_GET['keyword']);
+            $data   = getWhereStatement($db, $_GET['cols'], $keyword);
             $sql   .= $data['sql'];
             $params = $data['params'];
         }
@@ -105,23 +106,23 @@
         // Edit a specified safepass data
         $cli = new cli();
         $cli->setLog("修改一条任务号为".$_POST['safePassId']."的安全通道")->run(getCmd());
-        echo json_encode(array('status'=>0,'msg' => "修改成功."));
+        echo json_encode(array('status'=>0,'msg' => "修改成功。"));
     } else if ('add' === $_POST['type']) {
         // Add a new safepass data
         $cli = new cli();
         $cli->setLog("添加一条任务号为".intval($_POST['safePassId'])."的安全通道")->run(getCmd());
-        echo json_encode(array('status'=>0,'msg' => '添加成功.'));
+        echo json_encode(array('status'=>0,'msg' => '添加成功。'));
     } else if (!empty($_POST['delId'])) {
         // Delete the specified safepass data        
         $cli = new cli();
         $cli->setLog("删除一条任务号为".$_POST['delId']."的安全通道")->run(getCmd());
-        echo json_encode(array('msg' => "删除成功."));
+        echo json_encode(array('msg' => "删除成功。"));
     } else if ($_POST['activeSwitch']) {
     	// active on/off a safepass
     	$cli = new cli();
-    	$activeLog = $_POST['activeChk']==='ok'?'开启':'关闭';
+    	$activeLog = $_POST['activeChk']==='ok'?'开启':'停止';
         $cli->setLog($activeLog."任务号为".$_POST['safePassId']."的安全通道")->run(getCmd());
-        echo json_encode(array('msg' => '成功.'));
+        echo json_encode(array('msg' => $activeLog.'成功。'));
     } else if (!empty($_GET['checkExistId'])) {
         // Check the same id exist or not
         echo netGapRes::getInstance()->checkExistTaskId('safepass',intval($_GET['safePassId']));

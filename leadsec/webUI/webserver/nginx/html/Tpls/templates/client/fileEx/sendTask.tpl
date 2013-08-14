@@ -21,9 +21,13 @@
         </tr>
     </tbody>
 </table>
-<button class="standard floatLeft" style="position: static"
-    onclick="openNewSendTaskDialog()">添加
-</button>
+<form action="Function/client/fileEx/sendTask.php"
+	method="POST" id="switchSendTaskAddButton" onSubmit="return false;">                             
+    <button class="standard floatLeft" style="position: static"
+        onclick="openNewSendTaskDialog()">添加
+    </button>
+</form>
+
 <div class="pager floatRight">
     <{include file='layout/pagination.tpl'
         func='Function/client/fileEx/sendTask.php'}>

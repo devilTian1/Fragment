@@ -181,26 +181,6 @@
         $cmd = "getics";
         $cli->setLog("刷新网络状态页面")->run($cmd);
         echo json_encode(array('msg' => "已刷新。"));
-    } else if (isset($_POST['interfacemonActive'])) {
-    // enable/disable interfacemon
-        $status = 0;
-        if ($_POST['interfacemonActive'] === '1') {
-            $cmd = "monitor set module interfacemon active off";
-            $msg =  "已停止。";
-            $activeLog =  "停止";
-        } else if ($_POST['interfacemonActive'] === '0') {
-            $cmd = "monitor set module interfacemon active on";
-            $msg =  "已启动。";
-            $activeLog =  "启动";
-        } else {
-            $status = -1;
-            $msg = '执行动作错误。';
-            echo json_encode(array('msg' => $msg, 'status' => $status));
-            return;
-        }
-        $cli = new cli();
-        $cli->setLog("设备监控服务".$activeLog)->run($cmd);
-        echo json_encode(array('msg' => $msg, 'status' => $status));
     } else if ($_POST['openNetworkDialog']) {
         // open CurrentStatus Dialog        
         $deviceList = getDeviceList();

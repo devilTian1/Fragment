@@ -5,12 +5,12 @@
         <legend>添加UDP普通访问</legend>
         <div class="row">
             <label for="id">任务号:<em class="required">*</em></label>
-            <input class="id" type="text" name="customId" value="<{$data.id}>"
+            <input class="id" type="text" name="customUdpId" value="<{$data.id}>"
                 <{if $type ==='edit'}>disabled="disabled"<{/if}>
                 size="4" maxlength="4"/>
-            (同一端的任务号必须唯一)
+            (定制访问UDP的任务号必须唯一)
             <{if $type ==='edit'}>
-            <input type="hidden" name="customId" value="<{$data.id}>"/>
+            <input type="hidden" name="customUdpId" value="<{$data.id}>"/>
             <{/if}>
         </div>
         

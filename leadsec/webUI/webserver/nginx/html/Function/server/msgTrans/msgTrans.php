@@ -104,15 +104,18 @@
     } else if ($action = $_POST['action']) {
         // enable or disable specified acl
         if ($action === 'disable') {
-        	$active = 'off';	
+        	$active = 'off';
+        	$act="停止";		
         }else {
         	$active = 'on';	
+        	$act="开启";	
         }
         $cli = new cli();
         $cmd = getCmd();
         $cmd .= " active $active 1>/dev/null";
-        $cli->setGetResult(true)->run($cmd);
-        echo json_encode(array('msg' => '成功。'));
+        //$cli->setGetResult(true)->run($cmd);
+        $cli->setLog("$act id为".$_POST['msgTransId']."的服务端消息传输")->run($cmd);
+        echo json_encode(array('msg' => $act.'成功。'));
     } else if ($orderStatement = $_POST['orderStatement']) {
         // fresh and resort list
         freshMsgTransData($orderStatement);

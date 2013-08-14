@@ -8,22 +8,27 @@
                     'File-swap' => '文件同步',
                     'DB-swap'   => '数据库同步',
                     'http'      => '安全浏览',
+					'pf'        => '安全通道',
                     'ftp'       => 'FTP访问',
                     'smtp'      => '邮件访问',
                     'pop'       => '邮件访问',
                     'pop3'      => '邮件访问',
+                    'db'        => '数据库访问',
                     'oracle'    => '数据库访问<oracle>',
                     'sqlserver' => '数据库访问<sqlserver>',
                     'mysql'     => '数据库访问<mysql>',
                     'db2'       => '数据库访问<db2>',
                     'sysbase'   => '数据库访问<sysbase>',
                     'access'    => '数据库访问<access>',
-                    'ctcp'      => '定制访问<ctcp>',
-                    'cudp'      => '定制访问<cudp>',
-                    'ha'        => '双机热备',
-                    'ids'       => '入侵检测',
+                    'ctcp'      => '定制访问TCP',
+                    'cudp'      => '定制访问UDP',
+                    'tcp'       => '定制访问TCP',
+                    'udp'       => '定制访问UDP',
+                    'HA'        => '双机热备',
                     'snmp'      => '集中管理',
-                    'lvs'       => '负载均衡'
+    				'uma'       => '用户认证',
+                    'lvs'       => '负载均衡',
+                    'MSG-swap'  => '消息传输'
     );
 
     function getShellArgs($order=null) {
@@ -196,19 +201,49 @@
 		}
 		fclose($file);
     } else if ('cleanFwlog' === $_POST['action']) {
-        $cmd = 'sed -i "/logtype=9/!d" ' . LOG_PATH;
-        $cli = new cli();
-        $cli->setLog("执行命令，清空业务日志文件。")->run($cmd);
+        if (file_exists(LOG_PATH) &&
+            false === file_put_contents(LOG_PATH, '')) {
+            throw new Exception('Can`t clean log data.');
+        }
+        // record log
+        $account = $_SESSION['account'];
+        $msg = getRoleName($_SESSION['roles']) . "管理员{$account}" .
+                "执行命令，清空日志文件。";
+        $set = array(
+            'time' => time(), 'account' => $account,
+            'pri'  => 6,      'act'     => 'set',
+            'cmd'  => '',     'msg'     => $msg
+        );
+        $admLog = new admLog($set);
         echo json_encode(array('msg' => '清空成功。'));
 	} else {
         // init page
-        $logTypeVal = array('all', '3',   '8',   '301', '302', '303', '304',
-                            '305', '306', '308', '311', '312', '313', '314',
-                            '330');
-        $logTypeArr = array('所有',     '入侵检测', '集中管理',   '文件交换',
-                            '安全浏览', 'FTP访问',  '邮件访问',   '数据库访问',
-                            '定制访问', '双机热备', '数据库同步', '消息模块',
-                            '文件同步', '负载均衡', '安全通道');
+		$logTypeArr = array();
+		$logTypeVal = array();
+		$logNumForLink = array(
+			'all'=> array('link'=>'','appName'=>'所有'),
+			'8'  => array('link'=>'','appName'=>'集中管理'),
+			'301'=> array('link'=>'fileEx','appName'=>'文件交换'),
+			'302'=> array('link'=>'safeBrowse','appName'=>'安全浏览'),
+			'303'=> array('link'=>'ftp','appName'=>'FTP访问'),
+			'304'=> array('link'=>'mail','appName'=>'邮件访问'),
+			'305'=> array('link'=>'db','appName'=>'数据库访问'),
+			'306'=> array('link'=>'customized','appName'=>'定制访问'),
+			'308'=> array('link'=>'HA','appName'=>'双机热备'),
+			'311'=> array('link'=>'dbSync','appName'=>'数据库同步'),
+			'312'=> array('link'=>'msgTrans','appName'=>'消息模块'),
+			'313'=> array('link'=>'fileSync','appName'=>'文件同步'),
+			'314'=> array('link'=>'lvs','appName'=>'负载均衡'),
+			'330'=> array('link'=>'safePass','appName'=>'安全通道'),
+			'5'  => array('link'=>'','appName'=>'用户认证')
+			);
+		//查询模块中各个模块在licesne表中是否被开启
+		foreach ($logNumForLink as $key => $val) {
+			if(true === getLicense($val['link'])) {
+				$logTypeArr[] = $val['appName'];
+				$logTypeVal[] = $key;
+			}
+		}
         $result = getDataCount();
         V::getInstance()->assign('dataCount', $result)
             ->assign('logTypeArr', $logTypeArr)

@@ -7,10 +7,10 @@
             <{$value.ip}>/<{$value.mask}>
         </td>
         <td>
-            <{$workmodeArr[$value.workmode]}>
+             路由模式
         </td>
         <td>
-            <{$ipaddrArr[$value.ipaddr_type]}>
+             静态IP地址
         </td>
         <td>
             <{$value.interface_list|default: '空'}>

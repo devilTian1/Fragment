@@ -113,7 +113,7 @@
     </tbody>
 </table>
 </form>
-<{include file='layout/search.tpl' colNames='auth_policy_name,sa_type,ingress,port'}>
+<{include file='layout/search.tpl' colNames='auth_policy_name,ip,sa_type,ingress,port,comment'}>
 <table class="column_95 textMid tablesorter" id="authPolicyTable">
     <caption>认证策略</caption>
     <thead>

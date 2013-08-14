@@ -66,50 +66,6 @@ function upWayTimeCtrl(){
 	}
 }
 
-function submitUpForm(form){	
-    if(form.valid())
-    {
-        var dialog = loadingScreen('结果');
-        var buttons = {};
-        buttons['关闭'] = function() {
-            
-			dialog.close();
-        
-		};
-        var dialogParamsDisable = {
-            
-			width : 250,
-            
-			height: 170,
-            closeOnEscape: false,
-            
-			position : jQuery.getDialogPosition('250','170')
-        
-		};
-        var dialogParamsEnable = {
-            
-			width : 250,
-            
-			height: 170,
-            buttons : buttons,
-            closeOnEscape: true,
-            
-			position : jQuery.getDialogPosition('250','170')
-        };
-			dialog.setOptions(dialogParamsDisable);
-			$(".ui-dialog-titlebar-close").hide();
-        var successCallback = function(result, textStatus) {
-            
-			dialog.setContent(result.msg);
-            
-			dialog.setOptions(dialogParamsEnable);
-            $(".ui-dialog-titlebar-close").show();            
-        };
-        var dialog_c =ajaxSubmitForm(form, '结果',successCallback);
-        dialog_c.close();
-    }
-}
-
 function upVirusForm(){
 	//$("#autoUpEnable").addClass("ignore");
 	$("#flgUpNow").attr("value",'0');
@@ -152,6 +108,44 @@ function upNowForm(){
 }
 
 function updateManual(){
-	submitUpForm($('#updateManualForm'));
+	//submitUpForm($('#updateManualForm'));
+	var form = $('#updateManualForm');
+	if (form.valid()) {
+        var dialog = loadingScreen('结果');
+        var buttons = {};
+        buttons['关闭'] = function() {
+			dialog.close();
+		};
+
+        var dialogParamsDisable = {
+			width : 250,
+			height: 170,
+            closeOnEscape: false,
+			position : jQuery.getDialogPosition('250','170')
+		};
+
+        var dialogParamsEnable = {
+			width : 250,
+			height: 170,
+            buttons : buttons,
+            closeOnEscape: true,
+			position : jQuery.getDialogPosition('250','170')
+        };
+
+		dialog.setOptions(dialogParamsDisable);
+		$(".ui-dialog-titlebar-close").hide();
+
+        var successCallback = function(result) {
+            dialog.setContent(result.msg);
+            dialog.setOptions(dialogParamsEnable);
+            $(".ui-dialog-titlebar-close").show();            
+        }
+        var options = {
+            forceSync: true,
+            dataType : 'json',
+            success  : successCallback
+        };
+        form.ajaxSubmit(options);
+    }
 }
 

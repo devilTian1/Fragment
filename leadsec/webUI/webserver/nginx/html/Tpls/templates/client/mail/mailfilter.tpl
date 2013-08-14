@@ -1,7 +1,7 @@
 <{include file='layout/search.tpl' colNames='name,protocol,attachmaxsize,allowext,allowsender,allowrecv,skeyword,ckeyword,fileav'}>
 <table class="column_95 textMid tablesorter" id="filterTable">
     <caption>
-           信息列表
+          过滤选项集
     </caption>
     <thead>
     <tr>

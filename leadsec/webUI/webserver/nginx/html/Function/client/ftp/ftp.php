@@ -1,17 +1,18 @@
 <?php
     require_once($_SERVER['DOCUMENT_ROOT'] . '/Function/common.php');
 
-    $s = array('LIST', 'DELE', 'NLST', 'CWD', 'RETR', 'STOR',
+    $s = array('DELE', 'NLST', 'CWD', 'RETR', 'STOR',
                'PWD',  'MKD',  'RNFR', 'RMD', 'APPE');
-    $r = array('dir', 'delete', 'ls',     'cd',    'get',   'put',
+    $r = array('delete', 'ls',     'cd',    'get',   'put',
                'pwd', 'mkdir',  'rename', 'rmdir', 'append');
     
     function getWhereStatement($db, $cols, $keyword) {
-    	$value = '%' . $keyword . '%';
+    	//$value = '%' . $keyword . '%';
+		$value = $keyword;
     	$params = array_fill(0, count(explode(',', $cols)), $value);
     	return array('sql'    => ' WHERE (' .
     			$db->getWhereStatement($cols, 'OR', 'like') . ')',
-    			'params' => $params);
+    			'params' => $db->getFilterParams($params));
     }
     
     function appendFtpFliterOptionsData($where) {
@@ -128,6 +129,18 @@
             return $db->query($sql)->getCount() > 0 ? true : false;
         }
     }
+    function checkFilterUsedAndActive($id) {
+    	$sql = 'SELECT id FROM ftp_comm_client_acl ' .
+            "WHERE (filter = (SELECT name FROM options WHERE id = $id)) and active = 'Y'";
+        $db  = new dbsqlite(DB_PATH . '/gateway_ftp.db');
+        if ($db->query($sql)->getCount() > 0) {
+            return true;
+        } else {
+    	    $sql = 'SELECT id FROM ftp_trans_client_acl ' .
+                "WHERE (filter = (SELECT name FROM options WHERE id = $id)) and active = 'Y'";
+            return $db->query($sql)->getCount() > 0 ? true : false;
+        }
+    }
 
     function getNewId() {
         if ('edit' === $_POST['type']) {
@@ -159,7 +172,7 @@
         echo json_encode(array('msg' => $result));
     } else if ('edit' === $_POST['type']) {
         $id = $_POST['id'];       
-    	if(checkFilterUsed($id))
+    	if(checkFilterUsedAndActive($id))
         {
         	 echo json_encode(array('msg' => '无法编辑,该过滤配置正在使用中！'));
         }
@@ -191,9 +204,17 @@
         if (checkFilterUsed($id)) {
             echo json_encode(array('msg' => '此过滤配置正在被使用.'));
             return false;
-        }
+        }       
+        
+        $sql = "SELECT name FROM options WHERE id = '$id'";
+        $db   = new dbsqlite(DB_PATH . '/gateway_ftp.db');
+        $data =  $db->query($sql)->getFirstData(PDO::FETCH_ASSOC);
+        $name = $data['name'];
+        $sql = "SELECT name FROM options WHERE id = ''";       
+        $data =  $db->query($sql)->getFirstData(PDO::FETCH_ASSOC);
+        $data = $db->close();
         $cli = new cli();
-        $cli->setLog("删除一条FTP过滤配置,id 为$id")->run("cftpctl del option id $id");
+        $cli->setLog("删除一条FTP过滤配置,名称 为$name")->run("cftpctl del option id $id");    
         echo json_encode(array('msg' => '删除成功.'));
     } else if (!empty($_POST['openAddDialog'])) {
         // Display dialog to add new ftp filter options

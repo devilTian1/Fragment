@@ -69,7 +69,7 @@
         $result .= "virus $virus comment \"$comment\"";
         return $result;
     }
-	
+    $killVirusIsUsed = antiIsUsed();
     if ($id = $_POST['editId']) {
         // Show Dialog to get specified pop3 trans client acl data
 	    $sql  = "SELECT * FROM pop3_trans_client_acl WHERE id = $id";
@@ -85,6 +85,7 @@
                 netGapRes::getInstance()->getMailFilterOpts('pop3'))
             ->assign('roleList', netGapRes::getInstance()->getRoleList())
             ->assign('data', $data)
+            ->assign('killVirusIsUsed',$killVirusIsUsed)
             ->assign('type', 'edit')->fetch($tpl);
         echo json_encode(array('msg' => $result));
     } else if ('edit' === $_POST['type']) {
@@ -119,6 +120,7 @@
             ->assign('filterOptions',
                 netGapRes::getInstance()->getMailFilterOpts('pop3'))
             ->assign('roleList', netGapRes::getInstance()->getRoleList())
+            ->assign('killVirusIsUsed',$killVirusIsUsed)
             ->assign('type', 'add')->fetch($tpl);
         echo json_encode(array('msg' => $result));
     } else if ($action = $_POST['action']) {

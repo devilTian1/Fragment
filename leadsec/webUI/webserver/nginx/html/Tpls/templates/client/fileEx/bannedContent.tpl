@@ -1,6 +1,6 @@
 <{include file='layout/search.tpl' colNames='name,context,comment'}>
 <table class="column_95 textMid tablesorter" id="bannedContentTable">
-    <caption>内容控制</caption>
+    <caption>内容黑名单</caption>
     <thead>
         <tr>
             <th class="column_10" name="id">序号</th>

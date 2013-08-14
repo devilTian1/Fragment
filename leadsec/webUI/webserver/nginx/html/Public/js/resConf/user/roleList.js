@@ -1,4 +1,4 @@
-function OpenRoleTipsDialog(external_name) {
+function OpenRoleTipsDialog(external_name, result) {
     var title   = '提示';
     var dialog  = loadingScreen(title);
     var buttons = {};
@@ -6,12 +6,47 @@ function OpenRoleTipsDialog(external_name) {
         $(this).remove();
     };
     var dialogParams = {
-        width: 300,
-        Height: 160,
+        width: 350,
+        height: 400,
         buttons: buttons,
-        position : jQuery.getDialogPosition('300','160')
+        position : jQuery.getDialogPosition('350','400')
     };
-    dialog.setContent('<p>角色['+external_name+']正被引用，不能修改或删除此角色。</p>');
+    var table = '';
+     if (result.length > 0) {
+        table += '<table><tr><th>模块名称</th><th>任务号</th></tr>'
+        for (var i in result) {
+            table += '<tr><td>' + result[i].mod + '</td><td>[' +
+                result[i].id + ']</td></tr>';
+        }
+        table += '</table>';
+    }
+    dialog.setContent('<p>角色['+external_name+']已被引用，不能修改或删除。</p>'+ table);
+    dialog.setOptions(dialogParams);
+}
+
+function OpenRoleBatchTipsDialog(result) {
+    var title   = '提示';
+    var dialog  = loadingScreen(title);
+    var buttons = {};
+    buttons['关闭'] = function() {
+        $(this).remove();
+    };
+    var dialogParams = {
+        width: 350,
+        height: 400,
+        buttons: buttons,
+        position : jQuery.getDialogPosition('350','400')
+    };
+    var table = '';
+    for (var j in result) {
+     table += '<table><caption>角色[' +result[j].name+ ']被下列模块引用</caption><tr><th>模块名称</th><th>任务号</th></tr>'
+        for (var i in result[j].content) {
+            table += '<tr><td>' + result[j].content[i].mod + '</td><td>[' +
+                result[j].content[i].id + ']</td></tr>';
+        }
+        table += '</table>';
+}
+    dialog.setContent('<p>下列角色已被引用，不能修改或删除。</p>' + table);
     dialog.setOptions(dialogParams);
 }
 
@@ -22,16 +57,16 @@ function isRoleInUseCheck(external_name,func) {
         checkName : external_name
     };
         var params = {
+        dataType : 'JSON',
         type    : 'GET',
         success : function(result) {
-            if (result == 'true') {
-                OpenRoleTipsDialog(external_name);
+            if (result.msg === 'false') {
+                func(external_name);                
             } else {
-                func(external_name);
+                OpenRoleTipsDialog(external_name,result.msg);
             }
         }
     };    
-    //showDialogByAjax(url, data, title, dialogParams);    
     loadAjax(url, data, params);
 }
 
@@ -49,25 +84,25 @@ function checkRolesInUse (key,roles,func) {
     }
         var params = {
         type    : 'GET',
+        dataType : 'JSON',
         success : function(result) {
-            if (result != 'false') {
-                OpenRoleTipsDialog(result);
-            } else {
+            if (result.msg === 'false') {
                 if (key == 'all') {
                     func();
                 } else {
                     func(roles);
                 }
+            } else {
+                OpenRoleBatchTipsDialog(result.msg);               
             }
         }
     };    
-    //showDialogByAjax(url, data, title, dialogParams);    
     loadAjax(url, data, params);
 }
 
 function openNewRoleListDialog() {
     var url   = 'Function/resConf/user/roleList.php';
-    var title   = '定义角色列表';
+    var title   = '新建角色';
     var data  = {
         addNewRole : true
     };
@@ -98,7 +133,7 @@ function openNewRoleListDialog() {
         $(this).remove();
     };
     var dialogParams = {
-        width   : 522,
+        width   : 532,
         height  : 410,
         position : jQuery.getDialogPosition('522','410'),
         buttons : buttons
@@ -111,7 +146,7 @@ function delAllRoles() {
     var data = {
         delAllRoles : true
     };
-    var title  = '删除角色列表';
+    var title  = '删除所有角色';
     var buttons = {};
     buttons['关闭'] = function() {
         freshTableAndPage();
@@ -127,10 +162,10 @@ function delAllRoles() {
 }
 
 function openDelAllRoleListDialog() {
-    var dialog  = loadingScreen('删除角色列表');
+    var dialog  = loadingScreen('删除所有角色');
     var buttons = {};
     if ('0' === $("input[name='dataCount']").val()) {
-        dialog.setContent("<p>没有任何角色?</p>");
+        dialog.setContent("<p>没有任何角色？</p>");
         buttons['关闭']  = function() {
             $(this).remove();
         };
@@ -143,7 +178,7 @@ function openDelAllRoleListDialog() {
         buttons['取消']  = function() {
             $(this).remove();
         };
-        dialog.setContent("<p>确定要删除所有角色数据吗?</p>");
+        dialog.setContent("<p>确定要删除所有角色吗？</p>");
     }
     var dialogParams = {
         width: 300,
@@ -165,7 +200,7 @@ function delSpecRoles(roles) {
             delSpecRoles: roles
         };
     }
-    var title  = '删除角色列表';
+    var title  = '删除角色';
     var buttons = {};
     buttons['关闭'] = function() {
         freshTableAndPage();
@@ -188,19 +223,18 @@ function openBatchDelSpecRoleDialog() {
     var dialog  = loadingScreen('删除已选角色');
     var buttons = {};
     if (roles.length === 0) {
-        dialog.setContent("<p>没有选择任何角色?</p>");
+        dialog.setContent("<p>没有选择任何角色？</p>");
         buttons['关闭']  = function() {
             $(this).remove();
         };
     } else {
-        dialog.setContent("<p>确定要删除已选的角色数据吗?</p>");
+        dialog.setContent("<p>确定要删除已选的角色吗？</p>");
         buttons['确定'] = function() {
             if ($('#checkAllRole').attr('checked') === 'checked')  {
                 checkRolesInUse('all',roles,delSpecRoles);
             } else {
                 checkRolesInUse('spec',roles,delSpecRoles);
             }
-            //delSpecRoles(roles);
             $(this).remove();
         };
         buttons['取消']  = function() {
@@ -237,12 +271,12 @@ function openEditSpecRoleDialog(name) {
         $(this).remove();
     };
     var dialogParams = {
-        width   : 522,
+        width   : 532,
         height  : 410,
         position : jQuery.getDialogPosition('522','410'),
         buttons : buttons
     };
-    showDialogByAjax(url, data, '编辑角色列表', dialogParams);
+    showDialogByAjax(url, data, '编辑角色', dialogParams);
 }
 
 function delRole(name) {
@@ -250,7 +284,7 @@ function delRole(name) {
     var data = {
         delRoleName: name
     };
-    var title  = '删除角色列表';
+    var title  = '删除角色';
     var buttons = {};
     buttons['关闭'] = function() {
         freshTableAndPage();
@@ -266,7 +300,7 @@ function delRole(name) {
 }
 
 function openDelSpecRoleDialog(name) {
-    var dialog  = loadingScreen('删除角色列表');
+    var dialog  = loadingScreen('删除角色');
     var buttons = {};
     buttons['确定'] = function() {
         delRole(name);
@@ -281,13 +315,13 @@ function openDelSpecRoleDialog(name) {
         buttons: buttons,
         position : jQuery.getDialogPosition('300','160')
     };
-    dialog.setContent("<p>确定要删除角色名称为" + name + "的数据吗?</p>");
+    dialog.setContent("<p>确定要删除角色" + name + "吗？</p>");
     dialog.setOptions(dialogParams);
 }
 
 function showUsersDialog(id) {
     var url   = 'Function/resConf/user/roleList.php';
-    var title   = '用户显示';
+    var title   = '显示用户';
     var data  = {
         showUsersByRoleId: id
     };
@@ -296,8 +330,8 @@ function showUsersDialog(id) {
         $(this).remove();
     };
     var dialogParams = {
-        width   : 800,
-        height  : 600,
+        width   : 980,
+        height  : 430,
         position : jQuery.getDialogPosition('800','600'),
         buttons : buttons
     };

@@ -52,18 +52,18 @@
     	$cmdStr = "upgrade autoupNow ip \"$upAddr\" port $upPort";
     	$cli = new cli();
         $cli->setLog("病毒库立即升级")->run($cmdStr);
-    	echo json_encode(array('msg' => '立即升级设置成功!当前已经是最新特征库。'));
+    	echo json_encode(array('msg' => '升级成功!当前已经是最新特征库。'));
     } else if (($_GET['c'] === '1') && !empty($_FILES)) {
         // 手动升级，文件上传
         $uploadfs = new fileUpload($_FILES);
         $uploadfs->upload();
         $cmd = "upgrade avpackage \"{$_FILES['file']['name']}\"";        
         $cli = new cli();
-		list($status,$result) = $cli->setLog($msg_log)->execCmdGetStatus($cmd);
+		list($status,$result) = $cli->setLog("病毒库手动升级")->execCmdGetStatus($cmd);
 		if ($status == 0) {
-			echo json_encode(array('msg' => '病毒库升级成功.'));
+			echo json_encode(array('msg' => '病毒库升级成功。'));
 		} else {
-			echo json_encode(array('msg' => '病毒库升级失败.'));
+			echo json_encode(array('msg' => '病毒库升级失败。'));
 		}
     } else if ('exportUpgradeHistory' === $_POST['action']) {
         $db = new dbsqlite(DB_PATH . '/netgap_av.db');

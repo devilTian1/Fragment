@@ -52,9 +52,11 @@
            <button class="standard" style="position: static"
                 onclick="openNewOptionsDialog('plug')">添加
            </button>&nbsp;&nbsp;
-           <button class="standard" style="position: static"
-                onclick="openEditOptionsDialog($('#filter').val(),'plug')">修改
-           </button>
+           <{if $type === 'edit'}>
+                <button class="standard" style="position: static"
+                    onclick="openEditOptionsDialog($('#filter').val(),'plug')">修改
+                </button>
+            <{/if}>
         </div>
         
         <div class="row">
@@ -62,15 +64,18 @@
             <{html_radios class="radio" name=active label_ids=true values=array('Y', 'N')
                 output=array('开', '关') selected=$res.active|default: 'Y'}>
         </div>
-        <div class="row">
-            <label for="killVirus">病毒扫描:</label>
-            <{html_radios class="radio" name=killVirus label_ids=true values=array('Y', 'N')
-              output=array('开', '关') selected=$res.killvirus|default: 'N'
-            }>
+        <div <{if $killVirusIsUsed eq 'off'}> class="hide"<{/if}>>
+            <div class="row">
+                <label for="killVirus">病毒扫描:</label>
+                <{html_radios class="radio" name=killVirus label_ids=true 
+                    values=array('Y', 'N') output=array('开', '关') 
+                    selected=$res.killvirus|default: 'N'
+                }>
+            </div>
         </div>
-         <div class="row">
-          <label> 认证用户组:</label>
-           <{html_options  class="select time" name="roleList" id="roleList"
+        <div class="row">
+           <label> 认证用户组:</label>
+           <{html_options  class="select usergrp" name="roleList" id="roleList"
                     output=$roleList values=$roleList
                     selected=$res.usergrp|default: 'empty'}>
         </div>

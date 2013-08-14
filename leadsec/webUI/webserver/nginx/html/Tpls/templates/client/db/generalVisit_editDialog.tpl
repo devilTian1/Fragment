@@ -15,7 +15,7 @@
         <div class="row">
          	<label >数据库类型:<em class="required">*</em></label>
          	<{if $type === 'add'}>
-          		<{html_options  class="w150" name="dbType" id="dbType"
+          		<{html_options  class="w150"  name="dbType" 
                     output=array('oracle','mysql','DB2','sybase','sqlserver2000','sqlserver2005(sp3)','sqlserver2008','sqlserver2012') 
                     values=array('oracle','mysql','DB2','sybase','sqlserver2000','sqlserver2005','sqlserver2008','sqlserver2012')
                     selected=$res.dbtype|default: 'oracle'  }>
@@ -37,12 +37,12 @@
         </div>
          <div class="row">
             <label for="sa">源地址:<em class="required">*</em></label>
-            <{html_options class="select sa" name="cdbGeneralsAddress" id="cdbGeneralsAddress"
+            <{html_options class="select sa" name="cdbGeneralsAddress" 
                 options=$addrOptions selected=$res.sa|default: 'any'}>
         </div>
          <div class="row">
           <label >本机地址:<em class="required">*</em></label>
-          <{html_options  class="select lip" name="cdbGeneralLip" id="cdbGeneralLip"
+          <{html_options  class="select da" name="cdbGeneralLip" id="cdbGeneralLip"
                     output=$localIp values=$localIp
                     selected=$res.lip|default: 'any'}>
         </div>
@@ -55,15 +55,17 @@
         </div>
         <div class="row">
           <label >过滤选项:</label>
-            <{html_options  class="select time" name="filter" id="filter"
+            <{html_options  class="select filter" name="filter" id="filter"
                     options=$filterOptions
                     selected=$res.filter|default: 'empty'}> &nbsp;&nbsp;
             <button class="standard" style="position: static"
                 onclick="openNewOptionsDialog('plug')">添加
             </button>&nbsp;&nbsp;
-            <button class="standard" style="position: static"
-                onclick="openEditOptionsDialog($('#filter').val(),'plug')">修改
-            </button>
+            <{if $type === 'edit'}>
+                <button class="standard" style="position: static"
+                    onclick="openEditOptionsDialog($('#filter').val(),'plug')">修改
+                </button>
+            <{/if}>
         </div>
         
        <div class="row">
@@ -71,15 +73,18 @@
             <{html_radios class="radio" name=active label_ids=true values=array('Y', 'N')
                 output=array('开', '关') selected=$res.active|default: 'Y'}>
         </div>
-        <div class="row">
-            <label for="killVirus">病毒扫描:</label>
-            <{html_radios class="radio" name=killVirus label_ids=true values=array('Y', 'N')
-              output=array('开', '关') selected=$res.killvirus|default: 'N'
-            }>
+        <div <{if $killVirusIsUsed eq 'off'}> class="hide"<{/if}>>
+            <div class="row">
+                <label for="killVirus">病毒扫描:</label>
+                <{html_radios class="radio" name=killVirus label_ids=true 
+                    values=array('Y', 'N') output=array('开', '关') 
+                    selected=$res.killvirus|default: 'N'
+                }>
+            </div>
         </div>
-         <div class="row">
+        <div class="row">
           <label >认证用户组:</label>
-           <{html_options  class="select time" name="roleList" id="roleList"
+           <{html_options  class="select usergrp" name="roleList" id="roleList"
                     output=$roleList values=$roleList
                     selected=$res.usergrp|default: 'empty'}>
         </div>

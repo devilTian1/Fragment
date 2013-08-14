@@ -211,10 +211,10 @@
 			$cmd ="/usr/sbin/backpkg config";
 			list($status,$result) = $cli->setLog("保存导入的文件证书")->execCmdGetStatus($cmd);
 			//$cli->setLog("保存导入的文件证书")->run($cmd);
-			if ($status) {
-    			echo json_encode(array('msg' => '配置文件出现错误,导入失败!'));	
+			if ($status > 0) {
+    			echo json_encode(array('status'=>$status,'msg' => '配置文件出现错误,导入失败!'));	
 			} else {
-				echo json_encode(array('msg' => '导入成功!'));
+				echo json_encode(array('status'=>$status,'msg' => '导入成功!'));
 			}
 		}
     	
@@ -236,7 +236,7 @@
         echo json_encode(array('msg' => "删除成功。"));
     } else if (isset($_POST['orderStatement'])) {
         // 刷新页面
-        $tpl =  'client/msgTrans/basicConfTable.tpl';
+        $tpl =  'server/fileSync/basicConfTable.tpl';
      	$status = certStatus();
         echo V::getInstance()->assign('status', $status)
         		             ->fetch($tpl);      		

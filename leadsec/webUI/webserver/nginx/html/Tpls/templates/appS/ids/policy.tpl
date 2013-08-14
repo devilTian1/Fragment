@@ -1,6 +1,6 @@
 <table class="column_95">
     <caption>
-           信息列表
+           策略配置
     </caption>
     <thead>
     <tr>

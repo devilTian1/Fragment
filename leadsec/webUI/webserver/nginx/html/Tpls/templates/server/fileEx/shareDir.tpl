@@ -1,6 +1,6 @@
 <{include file='layout/search.tpl' colNames='task_id,ip,share_name,fs'}>
 <table class="column_95 textMid tablesorter" id="shareDirTable">
-    <caption>信息列表</caption>
+    <caption>共享目录</caption>
     <thead>
         <tr>
             <th class="column_10" name="task_id">任务号</th>

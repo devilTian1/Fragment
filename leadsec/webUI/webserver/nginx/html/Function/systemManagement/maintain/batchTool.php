@@ -76,15 +76,14 @@
 				$sum = 0;
 				foreach ($lines as $k => $v) {
 					list($status,$result) = $cli->setLog("[执行批处理命令]".$v)
-						->execCmdGetStatus($v,false);
-					if ($status > 0) {
+						->execCmdGetStatus(trim($v),false);//trim 函数删除命令后面的空格
+					if ($status == 0 || $status == 127) {
 						$sum = $sum + 1;
-						continue;
-					}
+					} 
+					
 				}
-				$cmd_num = $num - $sum;
 				file_put_contents('/tmp/upload/tmpbatcmd','');
-				echo json_encode(array('status' => true,'msg' =>"执行成功!一共执行了".$cmd_num."条命令。"));
+				echo json_encode(array('status' => true,'msg' =>"执行成功!一共执行了".$sum."条命令。"));
 			} else {
 				$result = 0;
 				echo json_encode(array('status'=>true,'msg' =>"文件内容为空！"));

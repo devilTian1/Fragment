@@ -17,6 +17,7 @@
         $result = $db->query($sql, $params)->getAllData(PDO::FETCH_ASSOC);
         foreach ($result as $key => $array) {
        		$result[$key]['name'] = addrNameDelPreffix($array['name']);
+       		$result[$key]['fullName'] = $array['name'];
        		$result[$key]['ip'] = ipConvert($array['ip'],$array['mask']);
     	}
         echo V::getInstance()->assign('addrList', $result)
@@ -96,107 +97,26 @@
     function getCmdArr($type) {
     	$cmdArr = array();
     	$cli  = new cli();
-    	$db   = new dbsqlite(DB_PATH . '/rule.db');
-    	$addrtype = $_POST['addrType'] === 'default' ? '1' : '2';
-    	if ($addrtype === '1') {
-    		$ip1  = $_POST['ip'];
-    		$mask = $_POST['netmask'];
-    		if (validateIpv4Format($ip1)) {
-    			$ip2 = convertToIpv4Mask($mask, 'dot');
-    		} else {
-    			$ip2 = $mask;
-    		}
-    	} else { // 2
-    		$ip1 = $_POST['range_s'];
-    		$ip2 = $_POST['range_e'];
-    	}
+    	$cmdInfo = array();
     	if ($type === 'del') {
+            $name = $_POST['delName'];
+        	$cmdArr['cmd'] = "/usr/local/bin/address del name \"$name\"";
+        	$cmdArr['log'] = '删除资源配置的地址列表' . $name;
+        	$cmdInfo = $cli->setLog($cmdArr['log'])
+                           ->execCmdGetStatus($cmdArr['cmd']);    	    
+        }else if ($type === 'edit') {
         	// 删除之前的ipset，须先读出原来的名字
-        	$db  = new dbsqlite(DB_PATH . '/rule.db');
-        	$sql = "SELECT name,id FROM address WHERE name='{$_POST['delName']}" .
-                "_ipv4' or  name='{$_POST['delName']}_ipv6'";
-        	$result = $db->query($sql)->getFirstData(PDO::FETCH_ASSOC);
-        	$cmdArr['cmd'] = "/usr/local/sbin/ipset destroy {$result['name']}";
-        	$cmdArr['log'] = '删除资源配置的地址列表'.$result['name'];
+        	$name = addrNameAddPreffix($_POST['addrName']);
+        	$cmdArr['cmd'] = "/usr/local/bin/address set name \"$name\" ip " . composeIp()." comment \"{$_POST['comment']}\"";
+            $cmdArr['log'] = '修改资源配置的地址列表'.$name.'地址';
+            $cmdInfo = $cli->setLog($cmdArr['log'])->execCmdGetStatus($cmdArr['cmd']);            
+        }else{
+        	$name = addrNameAddPreffix($_POST['addrName']);
+        	$cmdArr['cmd'] = "/usr/local/bin/address add name \"$name\" ip " . composeIp()." comment \"{$_POST['comment']}\"";
+        	$cmdArr['log'] = '添加资源配置的地址列表'.$name.'地址';
         	$cmdInfo = $cli->setLog($cmdArr['log'])->execCmdGetStatus($cmdArr['cmd']);
-    	    if($cmdInfo[0] != '0'){
-	    		$errornum = -$cmdInfo[0];
-	    		if($cmdInfo[0] == '5'){
-	    			$db  = new dbsqlite(DB_PATH . '/rule.db');
-	    			$sql    = 'DELETE FROM address WHERE id = ?';
-                    $params = array($result['id']);
-	    			$db->exec($sql, $params);
-	    		}
-	    		return $errornum;
-	    	}else{
-	    		$db  = new dbsqlite(DB_PATH . '/rule.db');
-	    		$sql    = 'DELETE FROM address WHERE id = ?';
-	    		$params = array($result['id']);
-	    		$db->exec($sql, $params);
-	    		return $result['id'];
-	    	}
-        }       
-        $name = addrNameAddPreffix($_POST['addrName']);
-        if ($type === 'edit') {
-        	// 删除之前的ipset，须先读出原来的名字
-        	$db  = new dbsqlite(DB_PATH . '/rule.db');
-        	$sql = "SELECT name,id FROM address WHERE name='{$_POST['addrName']}" .
-                "_ipv4' or  name='{$_POST['addrName']}_ipv6'";
-        	$result = $db->query($sql)->getFirstData(PDO::FETCH_ASSOC);
-            $cmdArr['cmd'] = "/usr/local/sbin/ipset destroy {$result['name']}";
-            $cmdArr['log'] = '删除资源配置的地址列表'.$result['name'];
-            $cmdInfo = $cli->setLog($cmdArr['log'])->execCmdGetStatus($cmdArr['cmd']);
-            if($cmdInfo[0] != '0'){
-            	$errornum = -$cmdInfo[0];
-            	if($cmdInfo[0] == '5'){
-            		$db  = new dbsqlite(DB_PATH . '/rule.db');
-            		$sql    = 'DELETE FROM address WHERE id = ?';
-            		$params = array($result['id']);
-            		$db->exec($sql, $params);
-            	}
-            	return $errornum;
-            }else{
-            	$db  = new dbsqlite(DB_PATH . '/rule.db');
-            	$sql    = 'DELETE FROM address WHERE id = ?';
-            	$params = array($result['id']);
-            	$db->exec($sql, $params);
-            }
         }
-        if (($_POST['addrType']==='default' && validateIpv4Format($_POST['ip'])) ||
-            ($_POST['addrType']==='range' && validateIpv4Format($_POST['range_s']))) {
-            $cmdArr['cmd'] = "/usr/local/sbin/ipset create $name hash:net";
-            $cmdArr['log'] = '添加资源配置的地址列表' . $name . '(ipv4类型)';
-        } else {
-            $cmdArr['cmd'] = "/usr/local/sbin/ipset create $name hash:net family inet6";
-            $cmdArr['log'] = '添加资源配置的地址列表' . $name . '(ipv6类型)';
-        }
-        $cmdInfo = $cli->setLog($cmdArr['log'])->execCmdGetStatus($cmdArr['cmd']);
-        if($cmdInfo[0] != '0'){
-        	$errornum = -$cmdInfo[0];
-        	return $errornum;
-        }else{
-        	$db  = new dbsqlite(DB_PATH . '/rule.db');
-        	$sql    = 'INSERT INTO address VALUES(?, ?, ?, ?, ?, ?)';
-        	$params = array(NULL, $name, '1',
-        			'', '',      $_POST['comment']);
-        	$db->exec($sql, $params);
-        }
-        $cmdArr['cmd'] = "/usr/local/sbin/ipset add $name " . composeIp();
-        $cmdArr['log'] = '添加资源配置的地址列表'.$name.'地址';
-        $cmdInfo = $cli->setLog($cmdArr['log'])->execCmdGetStatus($cmdArr['cmd']);
-        if($cmdInfo[0] != '0'){
-        	$errornum = -$cmdInfo[0];
-        	return $errornum;
-        }else{
-        	$db  = new dbsqlite(DB_PATH . '/rule.db');
-        	$sql = "UPDATE address SET type=?, ip=?, mask=? WHERE name = '". $name."'";
-        	$params = array($addrtype,$ip1, $ip2);
-        	$db->exec($sql, $params);
-        }    
-        $db  = new dbsqlite(DB_PATH . '/rule.db');
-        $sql = "SELECT id FROM address WHERE name = '". $name."'";
-        $result = $db->query($sql)->getFirstData(PDO::FETCH_ASSOC);
-        return $result['id'];
+        return $cmdInfo[0];
     }
 
     function composeIp() {
@@ -206,12 +126,14 @@
             $result = $_POST['range_s'] . '-' . $_POST['range_e'];
         } else { //default
             $ip   = $_POST['ip'];
-            $mask = $_POST['netmask'];
+            $mask = $_POST['addrnetmask'];
+            $result = $ip . '/' . $mask;
+            /*
             if (validateIpv4Format($ip)) {
                 $result = $ip . '/' . convertToIpv4Mask($mask, 'int');
             } else {
                 $result = $ip . '/' . $mask;
-            }
+            }*/
         }
         return $result;
     }
@@ -267,37 +189,10 @@
         }
         return $addrName;
 	}
-	
-	function addIpsetCmdToSql($type,$id) {
-		// 将ipset命令保存到shell.db中的ipset_addr_list中
-		if ($type === 'del') {
-            $sql = "DELETE FROM ipset_addr_list WHERE id=?";
-            $params = array($id);
-        } else {
-	        // 组装cmd字段
-	        $name = addrNameAddPreffix($_POST['addrName']);
-		    if (($_POST['addrType']==='default' && validateIpv4Format($_POST['ip'])) ||
-            ($_POST['addrType']==='range' && validateIpv4Format($_POST['range_s']))) {
-	            $cmdStr = "/usr/local/sbin/ipset create $name hash:net";
-	        } else {
-	            $cmdStr = "/usr/local/sbin/ipset create $name hash:net family inet6";
-	        }
-	        $cmdStr .= ";"."/usr/local/sbin/ipset add $name " . composeIp();
-	        if ($type === 'edit') {
-	        	$sql = "UPDATE ipset_addr_list SET cmd=? WHERE id=?";
-	        	$params = array($cmdStr,$id);
-	        } else {
-				$sql = "INSERT INTO ipset_addr_list VALUES(?, ?)";
-				$params = array($id,$cmdStr);
-	    	}
-    	}
-        $db   = new dbsqlite(DB_PATH . '/shell.db');
-        $db->exec($sql, $params);
-	}
-    
-	function checkAddress(){
+	    
+	function checkAddress($name){
 		$db  = new dbsqlite(DB_PATH . '/rule.db');
-		$sql = 'SELECT addrgrpid FROM addrmap WHERE addrid='.$_POST['delId'];
+		$sql = 'SELECT addrgrpid FROM addrmap WHERE addrid='.$name;
 		return $db->query($sql)->getCount();
 	}
 	
@@ -317,7 +212,12 @@
         echo json_encode(array('msg' => $result));
     } else if ('add' === $_POST['type']) {
         // Add new ipAddr
-        $addrName_src = $_POST['addrName'];        
+        $addrName_src = $_POST['addrName'];
+        if (getDataCount() >= RESCONF_LIMIT) {
+            $msg = '资源数达到上限[' . RESCONF_LIMIT . ']。';
+        	echo json_encode(array('msg' => $msg));
+        	return;
+        }
         // 查询新添加的地址名是否已存在
         if ($addrName_src === "any") {
         	echo json_encode(array('msg' => "[any]为内部关键字，不允许定义为名称。"));
@@ -328,13 +228,12 @@
         	return;
         }
         $id = getCmdArr('add');
-        if($id >= 0){
-        	addIpsetCmdToSql('add',$id);
+        if($id == 0){
         echo json_encode(array('msg' => "[{$_POST['addrName']}]添加成功。"));
         }else{
-        	if($id == -5){
+        	if($id == 5){
         		echo json_encode(array('msg' => "[{$_POST['addrName']}]地址不存在。"));
-        	}else if($id == -6){
+        	}else if($id == 6 || $id == 89){
         		echo json_encode(array('msg' => "[{$_POST['addrName']}]地址被引用。"));
         	}else{
         		echo json_encode(array('msg' => "[{$_POST['addrName']}]地址添加不成功。"));
@@ -342,48 +241,82 @@
         }      
     } else if ('edit' === $_POST['type']) {
         // Edit the specified ipAddr
-        $id = getCmdArr('edit');
-        if($id >= 0){
-        	addIpsetCmdToSql('edit',$id);
-        echo json_encode(array('msg' => "[{$_POST['addrName']}]修改成功。"));
-        }else{
-        	if($id == -5){
-        		echo json_encode(array('msg' => "[{$_POST['addrName']}]地址不存在。"));
-        	}else if($id == -6){
-        		echo json_encode(array('msg' => "[{$_POST['addrName']}]地址被引用。"));
-        	}else{
-        		echo json_encode(array('msg' => "[{$_POST['addrName']}]地址修改不成功。"));
+        $name = $_POST['addrName'];
+        if (($result = netGapRes::getInstance()->checkAddrResUsed($name, true))
+            && count($result) > 0) {
+            $msg  = "[$name]地址被引用。";
+            $msg .= '<table><tr><th>模块名称</th><th>任务号</th></tr>';
+            foreach ($result as $r) {
+                $msg .= '<tr><td>' . $r['mod'] . '</td><td>[' . $r['id'] .
+                ']</td></tr>';
+            }
+            $msg .= '</table>';
+        	echo json_encode(array('msg' => $msg));
+            return false;
+        }
+        $rc = checkAddress($_POST['id']);
+        if($rc != 0){
+        	echo json_encode(array('msg' => "此地址为地址组成员，不能被修改。"));
+        } else {
+        	$id = getCmdArr('edit');
+        	if($id == 0){
+        		echo json_encode(array('msg' => "[$name]修改成功。"));
+        	} else {
+        		if($id == 5){
+        			echo json_encode(array('msg' => "[$name]地址不存在。"));
+        		}else if($id == 6 || $id == 89){
+        			echo json_encode(array('msg' => "[$name]地址被引用。"));
+        		}else{
+        			echo json_encode(array('msg' => "[$name]地址修改不成功。"));
+        		}
         	}
         }       
     } else if (!empty($_POST['delId'])) {
         // Delete the specified ipAddr
-        $rc = checkAddress();
+        $name = $_POST['delName'];
+        $n    = substr($name, 0, -5);
+        if (($result = netGapRes::getInstance()->checkAddrResUsed($n)) &&
+            count($result) > 0) {
+            $msg  = "[$name]地址被引用。";
+            $msg .= '<table><tr><th>模块名称</th><th>任务号</th></tr>';
+            foreach ($result as $r) {
+                $msg .= '<tr><td>' . $r['mod'] . '</td><td>[' . $r['id'] .
+                ']</td></tr>';
+            }
+            $msg .= '</table>';
+        	echo json_encode(array('msg' => $msg));
+            return false;
+        }
+        $rc = checkAddress($_POST['delId']);
         if($rc != 0){
         	echo json_encode(array('msg' => "此地址为地址组成员，不能被删除。"));
-        }else{
+        } else {
         	$id = getCmdArr('del');
-        	if($id >= 0){
-        		addIpsetCmdToSql('del',$id);
-        	    echo json_encode(array('msg' => "[{$_POST['delName']}]删除成功。"));
+        	if($id == 0){
+        	    echo json_encode(array('msg' => "[$name]删除成功。"));
         	}else{
-        		if($id == -5){
-        			echo json_encode(array('msg' => "[{$_POST['delName']}]地址不存在。"));
-        		}else if($id == -6){
-        			echo json_encode(array('msg' => "[{$_POST['delName']}]地址被引用。"));
+        		if($id == 5){
+        			echo json_encode(array('msg' => "[$name]地址不存在。"));
+        		}else if($id == 6 || $id == 89){
+        			echo json_encode(array('msg' => "[$name]地址被引用。"));
         		}else{
-        			echo json_encode(array('msg' => "[{$_POST['delName']}]地址删除不成功。"));
+        			echo json_encode(array('msg' => "[$name]地址删除不成功。"));
         		}
         	}       	
         }              
     } else if ($_GET['checkExistAddrName']){
         // Check the same name exist or not
     	$name = $_GET['addrName'] ? $_GET['addrName'] : $_GET['domainAddrName'];
-    	$nameipv4 = $name."_ipv4";
-    	$nameipv6 = $name."_ipv6";
-        $sql = "SELECT name FROM address WHERE name = '$nameipv4' or name = '$nameipv6'
-        	UNION SELECT name FROM addrgrp WHERE name = '$nameipv4' or name = '$nameipv6'";           
-        $db  = new dbsqlite(DB_PATH . '/rule.db');
-        echo $db->query($sql)->getCount() > 0 ? 'false' : 'true';
+    	if($name == 'any_ipv4' || $name == 'any_ipv6'){
+    		echo false;
+    	}else{
+    		$nameipv4 = $name."_ipv4";
+    		$nameipv6 = $name."_ipv6";
+    		$sql = "SELECT name FROM address WHERE name = '$nameipv4' or name = '$nameipv6'
+    		UNION SELECT name FROM addrgrp WHERE name = '$nameipv4' or name = '$nameipv6'";
+    		$db  = new dbsqlite(DB_PATH . '/rule.db');
+    				echo $db->query($sql)->getCount() > 0 ? 'false' : 'true';
+    	}  	
     } else if ($orderStatement = $_POST['orderStatement']) {
         // fresh and resort addrlist Table
         freshAddrList($orderStatement);

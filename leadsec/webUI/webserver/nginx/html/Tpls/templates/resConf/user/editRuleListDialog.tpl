@@ -15,7 +15,7 @@
             <label>版本检查:</label>
             <{html_radios class="radio" name=checkVer label_ids=true
                 values=array('1','0') onClick="toggleCNameDiv()"
-                output=array('是', '否') selected=$ruleData.type|default: '0'
+                output=array('是', '否') selected=$checkRuleDate|default: '0'
             }>
         </div>
         <br class="clearFloat"/>

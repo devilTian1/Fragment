@@ -126,7 +126,7 @@ onSubmit="return false;">
     </thead>
     <{foreach $uphistory as $Array}>
 		<tr>
-			<td><{$Array.id}></td>
+			<td><{$Array@index+1}></td>
 			<td><{$Array.up_version}></td>
 			<td><{$Array.del_bugs}></td>
 			<td><{$Array.up_time}></td>

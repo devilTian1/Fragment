@@ -35,33 +35,37 @@
             }
         }
     };
-    var zNodes =[<{$zNodes}>];
     $(document).ready(function() {
+        var zNodes =[<{$zNodes}>];
         $.fn.zTree.init($("#fileTree"), setting, zNodes);
-        var t;
-		$("#fileTree a[title!='_more']").live('click',function(){
-            var dialog = loadingScreen(getMessage('Result'));
-			var dom = $(this);
-			var data = {
-				path: dom.attr('title')
-			};
-			var params = {
-				type: 'POST',
-				dataType: 'JSON',
-				success: function(result, textStatus) {
-					var content = result.msg;
-					var dialogParams = {
-						width: 250,
-						height: 200,
-						position: jQuery.getDialogPosition(250,200)
-					};
-					dialog.setContent("文件大小为:"+content);
-					dialog.setOptions(dialogParams); 
-				}
-			};
-			loadAjax('Function/client/fileEx/shareDir.php', data, params);
-		});
     });
+    
+    function getFileSize(path) {
+        var dialog = loadingScreen(getMessage('Result'));
+        var data = {
+            path: path
+        };    
+        var params = {
+            type: 'POST',
+            dataType: 'JSON',
+            success: function(result, textStatus) {                
+                var buttons = {};
+                buttons[getMessage('Ok')] = function() {
+					$(this).remove();
+                };
+                var content = result.msg;
+                var dialogParams = {
+                    width: 250,
+                    height: 200,
+                    buttons: buttons,
+                    position: jQuery.getDialogPosition(250,200)
+                };
+                dialog.setContent("大小为:"+content);
+                dialog.setOptions(dialogParams); 
+            }   
+        };
+        loadAjax('Function/client/fileEx/shareDir.php', data, params);
+    }
 
     function addNewNodes(newNode, dom) {
         var treeObj = $.fn.zTree.getZTreeObj("fileTree");

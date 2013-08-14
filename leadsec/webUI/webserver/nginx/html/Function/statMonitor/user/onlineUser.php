@@ -17,12 +17,20 @@
     }
     function getDataCount() {
         $db  = new dbsqlite(DB_PATH . '/uma_auth.db');
-        $sql = "SELECT user_id FROM user_online";
+        $sql = "SELECT user_online.user_id FROM user_online,user,user_role_map,role";       
         $params = array();
         if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
-            $data   = getWhereStatement($db, $_GET['cols'], $_GET['keyword']);
-            $sql   .= $data['sql'];
-            $params = $data['params'];
+        	if($_GET['keyword'] === '免认证'){
+        		$sql .= ' and user.auth_type=0 ';
+        	}else if($_GET['keyword'] === '本地密码认证'){
+        		$sql .= ' and user.auth_type=1 ';
+        	}else if($_GET['keyword'] === '双因子认证'){
+        		$sql .= ' and user.auth_type=5 ';
+        	}else{
+        		$data   = getWhereStatement($db, $_GET['cols'], $_GET['keyword']);
+            	$sql   .= $data['sql'];
+            	$params = $data['params'];
+        	}          
         }
         return $db->query($sql, $params)->getCount();
     }
@@ -38,9 +46,17 @@
         	"and role.role_id = user_role_map.Role_id  ";         
         $params = array();
         if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
-            $data   = getANDStatement($db, $_GET['cols'], $_GET['keyword']);
-            $sql   .= $data['sql'];
-            $params = $data['params'];
+        	if($_GET['keyword'] === '免认证'){
+        		$sql .= ' and user.auth_type=0 ';
+        	}else if($_GET['keyword'] === '本地密码认证'){
+        		$sql .= ' and user.auth_type=1 ';
+        	}else if($_GET['keyword'] === '双因子认证'){
+        		$sql .= ' and user.auth_type=5 ';
+        	}else{
+        		$data   = getANDStatement($db, $_GET['cols'], $_GET['keyword']);
+            	$sql   .= $data['sql'];
+            	$params = $data['params'];	
+        	}           
         }
         $sql .=  ' ' . $where;
         $result = $db->query($sql, $params)->getAllData(PDO::FETCH_ASSOC);
@@ -94,15 +110,6 @@
     	$cli->setLog("所有在线用户")->run($cmdArr[1]); 
     	$cli->setLog("显示在线用户")->run($cmdArr[2]);   
         echo json_encode(array('msg' => '用户下线成功。'));
-    } else if ($name = $_POST['lockUser']) {
-        //锁定用户
-        $time = getLockTimeByName($name);
-        $tpl  = 'statMonitor/user/editLockUserOnlineDialog.tpl';
-        $result = V::getInstance()
-            ->assign('name', $name)
-            ->assign('lockTime', $time)
-            ->fetch($tpl);
-        echo json_encode(array('msg' => $result));
     } else if ($name = $_POST['resetSpecUsersTime']) {
         // 时间重置
         $cli = new cli(); 

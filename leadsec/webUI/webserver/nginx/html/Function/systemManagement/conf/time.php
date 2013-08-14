@@ -16,6 +16,7 @@
         $cli->setLog($msg_log)->run($cmd);
 		$servertime = time();
 		V::getInstance()->assign('servertime',$servertime);
+		//echo json_encode(array('msg' =>$servertime));
         echo json_encode(array('msg' => '时间同步成功。'));
     } else if (!empty($_POST['syncTime'])) {
         // sync time immediately
@@ -30,7 +31,7 @@
         } else {
             $msg = join('<br/>', $lines);
         }
-        echo json_encode(array('msg' => $msg));
+        echo json_encode(array('status'=>$status,'msg' =>$msg));
     } else if ($_POST['switchNTP'] === 'on') {
         // sync ntp server
         $ip = $_POST['ip'];

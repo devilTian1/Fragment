@@ -3,7 +3,7 @@ function importCACert() {
 	var SIScert = $('#SIScert').val();
 	var SISkey  = $('#SISkey').val();
 	var userKeyWord = $('#userKeyWord').val();
-	var certCommname = $('#certCommname').val;
+	var certCommname = $('#certCommname').val();
 	if((CAcert==="" || SIScert==="" || SISkey==="") && userKeyWord===""){
 		showErrorDialog('三个文件必须同时导入，并且用户密钥口令不能为空！');
 	}else if((CAcert==="" || SIScert==="" || SISkey==="") && userKeyWord!==""){
@@ -11,42 +11,11 @@ function importCACert() {
 	}else if((CAcert!=="" && SIScert!=="" && SISkey!=="") && userKeyWord===""){
 		showErrorDialog('用户密钥口令不能为空！');
 	}else{
-		/*
-		var resultDialog  = loadingScreen('结果');
-	     	var successCallback = function(result, textStatus) {
-	            var buttons = {};
-	            buttons[getMessage('Ok')] = function() {
-		            freshCertConf();
-	                resultDialog.close();
-	            }
-	            resultDialog.setOptions({
-	                width : 250,
-	                height: 170,
-	                buttons: buttons,
-	                position: jQuery.getDialogPosition(250,170)
-	            });
-	            var content = result.msg;         
-	            resultDialog.setContent($('<p>' + content + '</p>'));
-	            $('#CAcert').attr("value","");
-	            $('#SIScert').attr("value","");
-	            $('#SISkey').attr("value","");
-	            $('#userKeyWord').attr("value","");
-				$('#certCommname').attr("value","");
-	            freshCertConf();
-	        }
-		 var dialog_d = ajaxSubmitForm($('#fileCertConfForm'), '结果',
-				 successCallback);
-		 dialog_d.close();
-		 */
 			var afterSuccessCallback = function(result, textStatus) {
 				if (result.status =='0') { 
-					$('#CAcert').attr("value","");
-					$('#SIScert').attr("value","");
-					$('#SISkey').attr("value","");
-					$('#userKeyWord').attr("value","");
-					$('#certCommname').attr("value","");
 					freshCertConf();
 				}
+				$('#fileCertConfForm').resetForm();
 			}
 			ajaxSubmitForm($('#fileCertConfForm'), '结果', undefined,
 				undefined, afterSuccessCallback);
@@ -104,32 +73,6 @@ function openDelDialog(name) {
     dialog.setOptions(dialogParams);   
 }
 
-/*
-function importCACert() {
-    if ($('#fileCertConfForm').valid()) {
-        var url  = 'Function/client/dbSync/basicConf.php';
-        var title  = '结果';
-	    var dialog = loadingScreen(title);
-        dialog.dialog('moveToTop');
-	    var buttons = {};
-        buttons[getMessage('Ok')] = function() {
-	        dialog.close();
-	    }
-	    dialog.setOptions({
-	        width : 250,
-            height: 170,
-	        buttons: buttons,
-	        position: jQuery.getDialogPosition(250,170)
-	    });
-	    var successResult = function(result, textStatus) {
-	        var content = result.msg;
-	        dialog.setContent($('<p>' + content + '</p>'));
-	        $('#fileCertConfForm').resetForm();
-	    }    
-	    var dialog_c= ajaxSubmitForm($('#fileCertConfForm'), '结果',successResult);
-	    dialog_c.close();          
-	}
-}*/
 
 function freshCertConf() {
     var url = 'Function/client/dbSync/basicConf.php';

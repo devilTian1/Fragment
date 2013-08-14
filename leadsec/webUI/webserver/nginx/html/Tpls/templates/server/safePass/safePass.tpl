@@ -1,7 +1,7 @@
 <{include file='layout/search.tpl'}>
 <table class="column_95 textMid tablesorter" id="safePassServerTable">
     <caption>
-           信息列表
+           安全通道
     </caption>
     <thead>
     <tr>

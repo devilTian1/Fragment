@@ -70,6 +70,7 @@ function delReceiveTaskDialog(id) {
 function openNewReceiveTaskDialog() {
     var url   = 'Function/server/fileEx/receiveTask.php';
     var title = '配置任务';
+    var dialog = loadingScreen(title);
     var data  = {
 		openAddDialog: true
     };
@@ -98,13 +99,33 @@ function openNewReceiveTaskDialog() {
     buttons[getMessage('Cancel')] = function() {
         $(this).remove();
     };
+
+    var buttonsLim = {};
+    buttonsLim[getMessage('Ok')] = function() {
+        $(this).remove();
+    };
+    var dialogParamsLim = {
+        width : 250,
+        height: 170,
+        buttons : buttonsLim
+    };a
     var dialogParams = {
         width   : 600,
         height  : 400,
         buttons : buttons,
         position : jQuery.getDialogPosition('600','400')
     };
-    showDialogByAjax(url, data, title, dialogParams);
+    var successCallback = function(result, textStatus) {
+        dialog.setContent(result.msg);
+        if (result.status == -1) {
+            dialog.setOptions(dialogParamsLim);
+        } else {
+            dialog.setOptions(dialogParams);
+        }
+    }
+    var dc = showDialogByAjax(url, data, title, dialogParams, undefined,
+        successCallback);
+    dc.close();
 }
 
 function switchFs() {

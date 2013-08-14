@@ -15,7 +15,7 @@
          <div class="row">
          	<label >数据库类型:<em class="required">*</em></label>
          	<{if $type === 'add'}>
-          		<{html_options  class="w150" name="dbType" id="dbType"
+          		<{html_options  class="select" name="dbType" id="dbType"
                     output=array('oracle','mysql','DB2','sybase','sqlserver2000','sqlserver2005(sp3)','sqlserver2008','sqlserver2012') 
                     values=array('oracle','mysql','DB2','sybase','sqlserver2000','sqlserver2005','sqlserver2008','sqlserver2012')
                     selected=$res.dbtype|default: 'oracle'  }>

@@ -1,7 +1,7 @@
 <{include file='layout/search.tpl'}>
 <table class="column_95 textMid tablesorter" id="urlFilterTable">
     <caption>
-           信息列表
+           URL过滤
     </caption>
     <thead>
     <tr>

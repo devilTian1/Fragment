@@ -217,10 +217,10 @@
             }           
            //取得服务名字 的全称
             if ($ser_name[$i] == 'ctcp_status' ) {
-           	    $name = '定制服务(tcp)';
+           	    $name = '定制访问(tcp)';
             }
             if ($ser_name[$i] == 'cudp_status' ) {
-           	    $name = '定制服务(udp)';
+           	    $name = '定制访问(udp)';
             }
             if ($ser_name[$i] == 'ddos_status' ) {
            	    $name = '抗DDos攻击';
@@ -275,10 +275,10 @@
             
             //取得服务名字的全称
             if ($mail_name[$i] == 'smtp_status' ) {
-           	    $name = '邮件服务(SMTP)';
+           	    $name = '邮件访问(SMTP)';
             }
         	if ($mail_name[$i] == 'pop3_status' ) {
-           	    $name = '邮件服务(pop3)';
+           	    $name = '邮件访问(pop3)';
             } 
             $list_name = array();
             $list_name['name']=$name;

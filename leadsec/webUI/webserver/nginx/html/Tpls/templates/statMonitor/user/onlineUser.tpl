@@ -1,4 +1,4 @@
-<{include file='layout/search.tpl'}>
+<{include file='layout/search.tpl' colNames='user_name,auth_type,role_name,ip,logon_time,online_time'}>
 <table class="column_95 textMid tablesorter" id="userOnlineTable">
     <caption>在线用户</caption>
     <thead>
@@ -7,9 +7,9 @@
         <th class="column_10" name="user_name">用户名称</th>
         <th class="column_10" name="auth_type">认证方式</th>
         <th class="column_10" name="role_name">所属角色</th>
-        <th class="column_10" name="ip">登陆IP</th>
+        <th class="column_10" name="ip">登录IP</th>
         <th class="column_10" name="online_time">在线时间</th>
-        <th class="column_15" name="logon_time">登陆时间</th>
+        <th class="column_15" name="logon_time">登录时间</th>
         <th class="column_25">操作</th>
     </tr>
     </thead>

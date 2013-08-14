@@ -108,6 +108,7 @@ function detectResultShow() {
     var buttons = {};
 	buttons['删除'] = function() {
 		delIpListDialog();
+		freshTable('Function/appS/addrBind/addrBind.php?tpl=detecttpl', $('#ipListTable'));
     };
     buttons['绑定'] = function() {
 		bind();
@@ -123,18 +124,21 @@ function detectResultShow() {
 		position: jQuery.getDialogPosition(650,620)
     };
     dialog.setOptions(dialogParams);
+	
 	var successCallback = function(result, textStatus) {
         dialog.setContent(result.msg);
         dialog.setOptions(dialogParams);
     };
+	
+	
     var errorCallback = function(XMLHttpRequest, textStatus, errorThrown) {
         result = 'ERROR: AJAX error. Respone text: ' +
             XMLHttpRequest.responseText + ', status:' + textStatus +
             ', errorThrown:' + errorThrown;
 		dialog.setContent($('<p>' + result + '</p>'));
     };
-    var dialog_c = showDialogByAjax(url, data, '', dialogParams, '',
-            successCallback,errorCallback);
+	
+    var dialog_c = showDialogByAjax(url, data, '', dialogParams, '',successCallback,errorCallback);
     dialog_c.close();
 	
 }
@@ -145,19 +149,6 @@ function bind() {
 	var form = $('#addrBindDialogForm');
 	if (form.valid()) {
 		var afterSuccessCallback = function(result,textStatus) {
-			var content = result.msg;
-			if (content==='3') {
-				showErrorDialog('至少要选中一条记录。');
-			} else if (content==='4') {
-				showErrorDialog('无探测到的ip/mac地址对。');
-			} else if ($.isArray(content)) {
-				for (var i =0;i<content.length;i++) {
-					showErrorDialog(content[i]+"已被绑定。");
-				}
-			} else {
-				//bindsucsess();
-				$('#accountTable tbody').html(content);
-			}
 		};
 		ajaxSubmitForm(form, '结果', undefined,undefined,afterSuccessCallback);
 		$(this).remove();
@@ -189,16 +180,13 @@ function delIpListDialog() {
 	if (form.valid()) {
 	var afterSuccessCallback = function(result,textStatus) {
 		var content = result.msg;
-		if (content==='0') {
-			showErrorDialog('至少要选中一条记录。')
-		} else if (content==='empty') {
+		if (content==='empty') {
 			showErrorDialog('无探测到的ip/mac地址对。')
 		} else {
-			//$('#ipListTable tbody').html(content);
+
 		}
 	};
-	ajaxSubmitForm(form, '结果', undefined,
-		undefined,afterSuccessCallback);
+	ajaxSubmitForm(form, '结果', undefined,undefined,afterSuccessCallback);
 	$(this).remove();
     }
 }
@@ -253,7 +241,6 @@ function del(ip) {
     var title  = '删除ip/mac地址列表';
     var buttons = {};
     buttons[getMessage('Ok')] = function() {
-		freshTableAndPage();
         $(this).remove();
     };
     var dialogParams = {
@@ -271,6 +258,7 @@ function openDelSpecIpDialog(ip) {
     var buttons = {};
     buttons['确定'] = function() {
         del(ip);
+		freshTableAndPage();
         $(this).remove();
     };
     buttons['取消']  = function() {
@@ -292,6 +280,7 @@ function openDelAllIpDialog() {
     var buttons = {};
     buttons[getMessage('Confirm')] = function() {
 		delAllIp()
+		freshTableAndPage();
         $(this).remove();
     };
     buttons[getMessage('Cancel')]  = function() {

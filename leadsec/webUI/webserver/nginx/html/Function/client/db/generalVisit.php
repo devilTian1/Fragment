@@ -26,11 +26,10 @@
             ->fetch($tpl);
     }
 	function getWhereStatement($db, $cols, $keyword) {
-        $value = '%' . $keyword . '%';
-        $params = array_fill(0, count(explode(',', $cols)), $value);
+        $params = array_fill(0, count(explode(',', $cols)), $keyword);
         return array('sql'    => ' where (' .
                               $db->getWhereStatement($cols, 'OR', 'like') . ')',
-                     'params' => $params);
+                     'params' => $db->getFilterParams($params));
     }
     function getDataCount() {
     	$sql = "SELECT id FROM db_comm_client_acl";
@@ -140,6 +139,9 @@
         $result .= " comment \"$comment\"";
         return $result;
     }
+    
+    $killVirusIsUsed = antiIsUsed();
+    
     if (!empty($_POST['editId'])) {
         // Get specified  data     	
         $id = $_POST['editId'];
@@ -157,6 +159,7 @@
             ->assign('roleList', netGapRes::getInstance()->getRoleList())
             ->assign('localIp', netGapRes::getInstance()->getInterface())
             ->assign('res', $result)
+            ->assign('killVirusIsUsed',$killVirusIsUsed)
             ->assign('type', 'edit')->fetch($tpl);
         echo json_encode(array('msg' => $result));
     } else if ('edit' === $_POST['type']) {
@@ -203,13 +206,14 @@
             ->assign('timeList', netGapRes::getInstance()->getTimeList())
             ->assign('roleList', netGapRes::getInstance()->getRoleList())
             ->assign('localIp', netGapRes::getInstance()->getInterface())
+            ->assign('killVirusIsUsed',$killVirusIsUsed)
             ->assign('type', 'add')->fetch($tpl);
         echo json_encode(array('msg' => $result));
     } else if ($action = $_POST['action']) {
         // enable or disable specified acl
         if ($action === 'disable') {
         	$active = 'off';
-        	$act="关闭";	
+        	$act="停止";	
         }else {
         	$active = 'on';
         	$act="开启";		
@@ -218,7 +222,7 @@
         $cmd = getActionCmd();
         $cmd .= " active $active";
         $cli->setLog("$act id为".$_POST['cdbGeneralId']."的数据库访问的普通访问控制")->run($cmd);
-        echo json_encode(array('msg' => '成功。'));
+        echo json_encode(array('msg' => $act.'成功。'));
     } else if ($_GET['checkExistLip']) {
         // enable or disable specified acl
     	if ($_GET['cdblip'] === "" ) {

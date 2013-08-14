@@ -6,7 +6,10 @@
         <div class="row">
             <label for="userListName">用户名称:<em class="required">*</em></label>
             <input type="text" name="userListName" maxlength="15" value="<{$userList.user_name}>" class="width132"
-            <{if $type === 'edit'}>readonly="readonly"<{/if}> id="userListName"/>
+            <{if $type === 'edit'}>disabled="disabled"<{/if}> id="userListName"/>
+            <{if $type ==='edit'}>
+            	<input type="hidden" name="userListName" value="<{$userList.user_name}>"/>
+            <{/if}>
         </div>
         <br class="clearFloat"/>
         <hr/>
@@ -97,18 +100,30 @@
         <br class="clearFloat"/>
         <div id="userModifyDiv" class="row">
             <label>用户更改密码:</label>
-            <input class="radio" type="radio" name="modifyPwdAllow" value="on" id="mpa_on" <{$mpa_on}>/>
+            <{if $paramsConf.forcemodify eq '1'}>
+                <input class="radio" type="radio" name="modifyPwdAllow" value="on" id="mpa_on" checked="checked"/>
+            <{else}>
+                <input class="radio" type="radio" name="modifyPwdAllow" value="on" id="mpa_on" <{$mpa_on}>/>
+            <{/if}>
             <label class="radioLabel" for="mpa_on">启动</label>
+            <{if $paramsConf.forcemodify neq '1'}>
             <input class="radio" type="radio" name="modifyPwdAllow" value="off" id="mpa_off" <{$mpa_off}>/>
             <label class="radioLabel" for="mpa_off">不启用</label>
+            <{/if}>
             <br class="clearFloat"/>
         </div>        
         <div id="firstModifyDiv" class="row">
             <label>首次登录密码修改:</label>
+            <{if $paramsConf.forcemodify eq '1'}>
+            <input class="radio" type="radio" name="firstChangePwd" value="on" id="fcp_on" checked="checked"/>
+            <{else}>
             <input class="radio" type="radio" name="firstChangePwd" value="on" id="fcp_on" <{$fcp_on}>/>
+            <{/if}>
             <label class="radioLabel" for="fcp_on">启动</label>
-            <input class="radio" type="radio" name="firstChangePwd" value="off" id="fcp_off" <{$fcp_off}>/>
+            <{if $paramsConf.forcemodify neq '1'}>
+            <input class="radio" type="radio" name="firstChangePwd" value="off" id="fcp_off" <{$fcp_off}>/>            
             <label class="radioLabel" for="fcp_off">不启用</label>
+            <{/if}>
             <br class="clearFloat"/>
         </div>        
         <div id="userValidTimeDiv" class="row">
@@ -126,7 +141,7 @@
         <div class="row">
             <label for="connectRule">接入控制:</label>
             <{html_options id="connectRule" name="connectRule"
-                output=$connectRuleArr values=$connectRuleArr selected=$rolesMemberArr}>
+                options=$connectRuleArr selected=$userList.connect_rule}>
         </div>
         <br class="clearFloat"/>
         <div class="row">
@@ -152,6 +167,9 @@ $(document).ready(function() {
     validateForm($("#editUserListForm"));
     $(':radio[name="authType"]').click(function() {
         changeAuthType();
+    });
+    $(':radio[name="modifyPwdAllow"]').click(function() {
+        allowPwdModify();
     });
     var uploadWid =  $('#sn').width();
     $('.uploadText').width(uploadWid - 75);

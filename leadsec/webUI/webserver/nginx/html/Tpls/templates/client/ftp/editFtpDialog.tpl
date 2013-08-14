@@ -34,7 +34,7 @@
         <div class="row">
             <label for="userInfo">用户:</label>
         	<input type="text" name="userInfo" id="userInfo" value="<{$data.user_info}>"/>
-            多个用户用(,)隔开, 不填写表示所有用户.
+            多个用户用(,)隔开, 不填写表示所有用户
         </div>
     </fieldset>
      
@@ -45,6 +45,9 @@
             <{html_radios class="radio" name=cmdAct label_ids=true
                 output=array('允许', '禁止') values=array('1', '0')
                 selected=$data.cmd_act|default: '1'}>
+        </div>
+        <div class="row">
+                命令控制动作为禁止时, 若不勾选命令行列表的任何选项，将会导致无法连接FTP
         </div>
         
         <div class="row">

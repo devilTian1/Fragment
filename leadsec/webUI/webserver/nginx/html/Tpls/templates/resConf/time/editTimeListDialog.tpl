@@ -22,7 +22,7 @@
         <div class="row oneTimeDiv">
             <label>&nbsp;</label>
             <div class="column column_75">
-                <label class="note">有效时间格式 YYYY/MM/DD hh:mm 或 YYYY/MM/DD hh:mm:ss</label>
+                                          有效时间格式 YYYY/MM/DD hh:mm(:ss) 
                 <br/><br/>
                 <label for="startTime_f">起始时间:&nbsp;</label>
                 <input  class="w200"type="text" name="startTime_f" id="startTime_f" size="19" maxlength = "19" value="<{$timeList.startTime_f}>"/>
@@ -35,7 +35,7 @@
         <div class="row weekDiv">
             <label>&nbsp;</label>
             <div class="column column_75">
-                <label class="note">有效时间格式 hh:mm 或 hh:mm:ss</label>
+                                         有效时间格式 hh:mm(:ss) 
                 <br/>
                 <{assign var=weekLabel value=['mon'=>'星期一', 'tue'=>'星期二', 'wed'=>'星期三', 'thu'=>'星期四', 'fri'=>'星期五', 'sat'=>'星期六', 'sun'=>'星期日']}>
                 <{foreach $weekLabel as $k=>$v}>

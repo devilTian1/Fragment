@@ -57,13 +57,14 @@
         </div>
        
 
-		<div class="row">
-            <label>病毒扫描:</label>
-            <{html_radios class="radio" name=killVirus label_ids=true values=array('2', '0','1')
-                output=array('全扫描', '否','二进制扫描') selected=$data.killvirus|default: '2'
-            }>
-        </div>
-
+		<div <{if $killVirusIsUsed eq 'off'}> class="hide"<{/if}>>
+			<div class="row">
+			<label>病毒扫描:</label>
+			<{html_radios class="radio" name=killVirus label_ids=true values=array('2', '0','1')
+			output=array('全扫描', '否','二进制扫描') selected=$data.killvirus|default: '0'
+			}>
+			</div>
+		</div>
         
         <div class="row">
             <label>是否启动:</label>

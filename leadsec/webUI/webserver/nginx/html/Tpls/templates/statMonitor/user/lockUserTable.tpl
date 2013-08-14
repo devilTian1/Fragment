@@ -3,7 +3,7 @@
         <td><{$array@iteration}></td>        
         <td><{$array.user_name}></td> 
         <td><{$array.role_name}></td>        
-        <td><{$array.unlock_time}></td> 
+        <td><{$array.unlock_time|date_format: '%Y/%m/%d %H:%M:%S'}></td> 
         <td class="no_search">
             <button class="standard" style="position: static" type="button"
                 onclick="unlockUserDialog('<{$array.user_name}>')"

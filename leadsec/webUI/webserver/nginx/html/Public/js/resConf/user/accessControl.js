@@ -211,34 +211,39 @@ function openBatchDelSpecRuleDialog() {
 
 }
 
-function openEditSpecRuleDialog(name) {
-    var url   = 'Function/resConf/user/accessControl.php';
-    var data  = {
-        editRuleName : name
-    };
-    var buttons = {};
-    buttons['确定'] = function() {
-        if ($('#editRuleListForm').valid()) {
-			selectedOption();
-			var afterSuccessCallback = function() {
-                freshTableAndPage();
-            };
-            ajaxSubmitForm($('#editRuleListForm'), '结果',undefined,
-				undefined,afterSuccessCallback);
-            $(this).remove();
-        }
-    };
-    buttons['取消'] = function() {
-        freshTableAndPage();
-        $(this).remove();
-    };
-    var dialogParams = {
-        width   : 522,
-        height  : 550,
-        buttons : buttons,
-		position: jQuery.getDialogPosition(522,550)
-    };
-    showDialogByAjax(url, data, '编辑接入控制列表', dialogParams);
+function openEditSpecRuleDialog(name,sum) {
+	var  sum = parseInt(sum);
+	if (sum > 0) {
+		showErrorDialog(name+'已被引用。')	;
+	} else {
+		var url   = 'Function/resConf/user/accessControl.php';
+		var data  = {
+			editRuleName : name
+		};
+		var buttons = {};
+		buttons['确定'] = function() {
+			if ($('#editRuleListForm').valid()) {
+				selectedOption();
+				var afterSuccessCallback = function() {
+					freshTableAndPage();
+				};
+				ajaxSubmitForm($('#editRuleListForm'), '结果',undefined,
+					undefined,afterSuccessCallback);
+				$(this).remove();
+			}
+		};
+		buttons['取消'] = function() {
+			freshTableAndPage();
+			$(this).remove();
+		};
+		var dialogParams = {
+			width   : 522,
+			height  : 550,
+			buttons : buttons,
+			position: jQuery.getDialogPosition(522,550)
+		};
+		showDialogByAjax(url, data, '编辑接入控制列表', dialogParams);
+	}
 }
 
 function delRule(name) {

@@ -6,7 +6,11 @@ function editFtpTransClientAclDialog(id) {
     var title   = '修改ftp客户端透明访问';
     var buttons = {};
     buttons[getMessage('Ok')] = function() {
-        if ($('#editFtpTransClientAclForm').valid()) {
+    	var name=$('#ftpTranslportReq').val();
+    	var first = name.substring(0,1); 
+    	if(first[0]==='0'){
+    		showErrorDialog('端口号不能以0开头.');
+    	} else if ($('#editFtpTransClientAclForm').valid()) {
         	var afterSuccessCallback = function() {
                 freshTableAndPage();
             };
@@ -35,10 +39,17 @@ function openNewFtpTransClientAclDialog() {
     };
     var buttons = {};
     buttons[getMessage('Add Next')] = function() {    	
-    	var value = $('#da').val();
-    	if(value === ''){
+    	var value = $('#da').val();    	
+    	var name=$('#ftpTranslportReq').val();
+    	var first = name.substring(0,1);  
+    	if(value === '')
+    	{
     		showErrorDialog('目的地址不能为空，请先定义地址对象，选择后再添加任务.');
-    	}else{    	
+    	}
+    	else if(first[0]==='0'){
+    		showErrorDialog('端口号不能以0开头.');
+    	}
+    	else{    	
 	        if ($('#editFtpTransClientAclForm').valid()) {
 	            openNewFtpTransClientAclDialog();
 	            var afterSuccessCallback = function() {
@@ -52,8 +63,12 @@ function openNewFtpTransClientAclDialog() {
     };
     buttons[getMessage('Ok')] = function() {
     	var value = $('#da').val();
+    	var name=$('#ftpTranslportReq').val();
+    	var first = name.substring(0,1);  
     	if(value === ''){
     		showErrorDialog('目的地址不能为空，请先定义地址对象，选择后再添加任务..');
+    	}else if(first[0]==='0')    	{
+    		showErrorDialog('端口号不能以0开头.');
     	}else{
 	        if ($('#editFtpTransClientAclForm').valid()) {
 	        	var afterSuccessCallback = function() {
@@ -146,7 +161,7 @@ function switchFtpTransClientAcl(id, action) {
 
 function filterRes() {
     var saOpts  = $('select[name="sa"]');
-    var daOpts = $('select[name="da"]');
+    var daOpts = $('select[name="ftpTransda"]');
     saOpts.hideOption('option[value$="_ipv6"]');
     daOpts.hideOption('option[value$="_ipv6"]');
 }

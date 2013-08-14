@@ -108,16 +108,28 @@
     	return $result;
     }
 
-    function checkMailFilter(){
+    function checkMailFilter($name,$action){
+
     	$db  = new dbsqlite(DB_PATH . '/netgap_mail.db');
-    	$sql1 = "SELECT * FROM pop3_comm_client_acl WHERE filter = '".$_POST['delName']."'";
-    	$num1 = $db->query($sql1)->getCount();
-    	$sql2 = "SELECT * FROM smtp_comm_client_acl WHERE filter = '".$_POST['delName']."'";
-    	$num2 = $db->query($sql2)->getCount();
-    	$sql3 = "SELECT * FROM pop3_trans_client_acl WHERE filter = '".$_POST['delName']."'";
-    	$num3 = $db->query($sql3)->getCount();
-    	$sql4 = "SELECT * FROM smtp_trans_client_acl WHERE filter = '".$_POST['delName']."'";
-    	$num4 = $db->query($sql4)->getCount();
+    	if($action === 'edit'){
+    		$sql1 = "SELECT * FROM pop3_comm_client_acl WHERE active = 'ok' and filter = '$name'";
+    		$num1 = $db->query($sql1)->getCount();
+    		$sql2 = "SELECT * FROM smtp_comm_client_acl WHERE active = 'ok' and filter = '$name'";
+    		$num2 = $db->query($sql2)->getCount();
+    		$sql3 = "SELECT * FROM pop3_trans_client_acl WHERE active = 'ok' and filter = '$name'";
+    		$num3 = $db->query($sql3)->getCount();
+    		$sql4 = "SELECT * FROM smtp_trans_client_acl WHERE active = 'ok' and filter = '$name'";
+    		$num4 = $db->query($sql4)->getCount();
+    	}else{
+    		$sql1 = "SELECT * FROM pop3_comm_client_acl WHERE filter = '$name'";
+    		$num1 = $db->query($sql1)->getCount();
+    		$sql2 = "SELECT * FROM smtp_comm_client_acl WHERE filter = '$name'";
+    		$num2 = $db->query($sql2)->getCount();
+    		$sql3 = "SELECT * FROM pop3_trans_client_acl WHERE filter = '$name'";
+    		$num3 = $db->query($sql3)->getCount();
+    		$sql4 = "SELECT * FROM smtp_trans_client_acl WHERE filter = '$name'";
+    		$num4 = $db->query($sql4)->getCount();
+    	}   	
     	return $num1+$num2+$num3+$num4;
     }
     
@@ -165,11 +177,16 @@
         echo json_encode(array('msg' => $result));
     } else if ('edit' === $_POST['type']) {
         // Edit a specified attachExt data
+        $name = $_POST['MfilterName'];
+        $rc = checkMailFilter($name,'edit');
+    	if($rc != 0){
+    		echo json_encode(array('msg' => "此过滤配置策略被引用，不能被修改。"));
+    	}else{
         $cli  = new cli();
-    	$name = $_POST['MfilterName'];
         $cli->setLog("修改邮件访问模块下的过滤配置, 名称为{$name}")
             ->run(getCmd('edit'));
         echo json_encode(array('msg' => '修改成功。'));
+      }
     } else if ('add' === $_POST['type']) {
         // Add a new attachExt data
         $cli  = new cli();
@@ -179,15 +196,16 @@
         echo json_encode(array('msg' => '添加成功。'));
     } else if (!empty($_POST['delId'])) {
         // Delete the specified attachExt data 
-    	$rc = checkMailFilter();
-    	if($rc != 0){
-    		echo json_encode(array('msg' => "此过滤配置策略被引用，不能被删除。"));
-    	}else{
+        $name = $_POST['delName'];
+    	$rc = checkMailFilter($name,'del');
+    	if ($rc != 0) {
+            $msg = '此过滤配置策略被引用，不能被删除。';
+    		echo json_encode(array('msg' => $msg));
+    	} else {
     		$cli = new cli();
-    		$id  = $_POST['delId'];
-    		$cli->setLog("删除邮件访问模块下的过滤配置, id为{$id}")
+    		$cli->setLog("删除邮件访问模块下的过滤配置, 名称为$name")
     		->run(getCmd('del'));
-    		echo json_encode(array('msg' => "删除成功。"));
+    		echo json_encode(array('msg' => '删除成功。'));
     	}
    } else if ($orderStatement = $_POST['orderStatement']) {
         // fresh and resort attachExt list

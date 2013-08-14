@@ -320,6 +320,8 @@ label.errorLabel {
 	float:right;
 	margin:34px 55px 0 10px;
 	padding:12px 0 0 0px;
+    position: absolute;
+    right: 10px;
 }
 #header .right_nav .top_userinfo .paddingLeft30{
     padding-left: 30px;
@@ -551,7 +553,7 @@ label.errorLabel {
    background-color:#FFFFFF;
    float:left;
     border:1px solid #B4C9C6;
-	width: 99.5%;
+	width: 99%;
 	margin:0;
 	padding:8px 0px;
 	overflow: auto;

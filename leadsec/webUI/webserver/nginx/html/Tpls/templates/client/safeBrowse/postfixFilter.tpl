@@ -1,7 +1,7 @@
 <{include file='layout/search.tpl'}>
 <table class="column_95 textMid tablesorter" id="postfixFilterTable">
     <caption>
-           信息列表
+           后缀名过滤
     </caption>
     <thead>
     <tr>

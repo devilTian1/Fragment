@@ -33,8 +33,8 @@
         }
     }
     //custom
-    if ((($id = $_GET['customTcpGeneralId']) || ($id = $_GET['customUdpGeneralId'])) &&
-        ('false' === $res->checkExistTaskId('customized', $id))) {
+    if ((($id = $_GET['customTcpGeneralId']) || ($id = $_GET['customTcpTransId'])) &&
+        ('false' === $res->checkExistTaskId('customizedtcp', $id))) {
         $errMsg[] = '任务号已存在';
     }
     if (($lport = $_GET['tcpGeneralLport']) && ($lip = $_GET['lip'])) {
@@ -52,9 +52,9 @@
         if ($db->query($sql)->getCount() > 0) {
             $errMsg[] = 'The combination of lip and lport has been used';
         }
-    }
-    if ((($id = $_GET['customTcpTransId']) || ($id = $_GET['customUdpTransId'])) &&
-        ('false' === $res->checkExistTaskId('customized', $id))) {
+    }    
+    if ((($id = $_GET['customUdpGeneralId']) || ($id = $_GET['customUdpTransId'])) &&
+        ('false' === $res->checkExistTaskId('customizedudp', $id))) {
         $errMsg[] = '任务号已存在';
     }
     if ($idPlusPort = $_GET['customTcpTransClientTaskAndPort']) {

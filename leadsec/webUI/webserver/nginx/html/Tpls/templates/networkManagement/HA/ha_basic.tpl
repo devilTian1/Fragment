@@ -2,7 +2,7 @@
     onSubmit='return false;'>
 <table class="column_95">
     <caption>
-         双机热备基本配置
+         基本配置
     </caption>
     <tbody>        
         <tr>
@@ -34,14 +34,14 @@
         			<div class="margintop3">
           	 			<{html_radios class="radio" name=ifcfg 
 						label_ids = true
-						output=array('切换虚拟ip后关闭故障网卡', '切换虚拟ip后不关闭故障网卡')
+						output=array('关闭故障网卡', '不关闭故障网卡')
 						values=array('D', 'E')
 						selected=$data.ifcfg|default: 'D'}>
         			</div>
         		</td>
     	</tr>
 		<tr>
-			<td valign="middle" class="tdheader">对端网口HA地址:</td>
+			<td valign="middle" class="tdheader">对端网闸HA地址:</td>
 				<td class="tdbody">
 					<div class="margintop3"> 
 						<input class="width149" name="ha_ip" id="peer_ha_ip" type="text" 
@@ -50,7 +50,7 @@
         		</td>
     	</tr>
 		<tr>
-			<td valign="middle" class="tdheader">对端网口HA端口:</td>
+			<td valign="middle" class="tdheader">对端网闸HA端口:</td>
 				<td class="tdbody">
 					<div class="margintop3"> 
 						<input name="logPortReq" id="peer_ha_port" type="text" 
@@ -60,7 +60,7 @@
     	</tr>
 		<tr>
 			<td valign="middle" class="tdheader">
-				<label for="haTime">同步间隔(单位:秒):
+				<label for="haTime">ARP更新时间(单位:秒):
 					<em class="required">*</em>
 				</label>
 			</td>

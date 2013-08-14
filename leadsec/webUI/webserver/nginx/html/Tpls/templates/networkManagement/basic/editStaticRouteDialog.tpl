@@ -7,12 +7,12 @@
         </div>
         <div class="row">
           <label for="ip">目的地址:<em class="required">*</em></label>
-          <input class="w150" type="text" name="ip" value="<{$res.destip}>" /><label class="maskLabel">/</label>
+          <input class="w150" type="text" name="ip" id="desIp" value="<{$res.destip}>" /><label class="maskLabel">/</label>
           <input class="w150" type="text" name="netmask" value="<{$res.destmask}>"/>
         </div>
         <div class="row">
           <label for="nexthopip">下一跳地址:<em class="required">*</em></label>
-          <input class="w150" type="text" name="nexthopip" value="<{$res.nexthopip}>" />
+          <input class="w150" type="text" name="nexthopip"  id="nexthopip" value="<{$res.nexthopip}>" />
         </div>
         
         <div class="row"><label for="interface">网络接口:<em class="required">*</em></label>

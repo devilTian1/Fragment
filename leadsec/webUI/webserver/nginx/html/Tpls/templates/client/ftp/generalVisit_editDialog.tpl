@@ -48,12 +48,14 @@
             <label for="filter">过滤选项:</label>
             <{html_options class="select filter" name="filter" id="filter"
                 options=$filterOptions selected=$data.filter|default: '无'}>&nbsp;&nbsp;
-            <button class="standard" style="position: static"
+            <button style="position: static"
                 onclick="openNewFtpFilterOptionsDialog('plug')">添加
             </button>&nbsp;&nbsp;
-            <button class="standard" style="position: static"
-                onclick="editFtpFilterOptionsDialog($('#filter').val(),'plug')">修改
-            </button>
+            <{if $type === 'edit'}>
+            	<button style="position: static"
+                	onclick="editFtpFilterOptionsDialog($('#filter').val(),'plug')">修改
+            	</button>
+            <{/if}>
         </div>
 
         <div class="row">
@@ -70,17 +72,19 @@
         </div>
         
         <div class="row">
-            <label for="active">是否启动:<em class="required">*</em></label>
+            <label for="active">是否启动:</label>
             <{html_radios class="radio" name=active label_ids=true values=array('Y', 'N')
                 output=array('开', '关') selected=$data.active|default: 'Y'}>
         </div>
         
-         <div class="row">
-            <label>文件病毒扫描:</label>
-            <{html_radios class="radio" name=killVirus label_ids=true
-            output=array('开', '关') values=array('Y', 'N')
-            selected=$data.virus|default: 'N'}>
-        </div>       
+		<div <{if $killVirusIsUsed eq 'off'}> class="hide"<{/if}>>
+			<div class="row">
+				<label>文件病毒扫描:</label>
+				<{html_radios class="radio" name=killVirus label_ids=true
+				output=array('开', '关') values=array('Y', 'N')
+				selected=$data.virus|default: 'N'}>
+			</div> 
+		</div>
        
         <div class="row">
             <label for="comment">备注:</label>           

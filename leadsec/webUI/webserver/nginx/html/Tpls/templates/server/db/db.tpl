@@ -31,6 +31,6 @@
     $(document).ready(function() {
         renderStandardUi();
         freshTable('Function/server/db/db.php', $('#serverDbIdTable'), 'ORDER BY id ASC LIMIT 10');
-        sortTableInit($('#serverDbIdTable'), {4: {sorter: false},5: {sorter: false}}, [[0,0]]);
+        sortTableInit($('#serverDbIdTable'), {4: {sorter: false},5: {sorter: false},6: {sorter: false}}, [[0,0]]);
 });
 </script>

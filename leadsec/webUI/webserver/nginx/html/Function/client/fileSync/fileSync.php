@@ -52,11 +52,12 @@
     }
 
 	function getWhereStatement($db, $cols, $keyword) {
-        $value  = '%' . $keyword . '%';
+        //$value  = '%' . $keyword . '%';
+		$value  = $keyword;
         $params = array_fill(0, count(explode(',', $cols)), $value);
         return array('sql'    => ' WHERE (' .
                               $db->getWhereStatement($cols, 'OR', 'like') . ')',
-                     'params' => $params);
+                     'params' => $db->getFilterParams($params));
     }
 
     function getDataCount() {
@@ -76,6 +77,7 @@
     	return substr($name,0,-5);    	
     }
 
+	$killVirusIsUsed = antiIsUsed();
     if ($id = $_POST['editId']) {
         // Open dialog to show specified file sync client acl data
         $sql  = "SELECT * FROM sync_file_client WHERE id = '$id'";
@@ -87,24 +89,30 @@
             ->assign('ifList', netGapRes::getInstance()->getInterface())
             ->assign('timeList', netGapRes::getInstance()->getTimeList())
             ->assign('roleList', netGapRes::getInstance()->getRoleList())
+			->assign('killVirusIsUsed',$killVirusIsUsed)
             ->assign('data', $data)
             ->assign('type', 'edit')->fetch($tpl);
         echo json_encode(array('msg' => $result));
     } else if ('edit' === $_POST['type']) {
         // Edit specified file sync client data
         $cli = new cli();
-        $cli->run(getCmd('set'));
-        echo json_encode(array('msg' => '编辑成功。'));
+		$id  = $_POST['fsId'];
+		$msg_log = "修改一条id为".$id."的客户端文件同步任务";
+        $cli->setLog($msg_log)->run(getCmd('set'));
+        echo json_encode(array('msg' => '修改成功。'));
     } else if ($id = $_POST['delId']) {
         // Delete spec file sync client data
         $cmd = "fs2ctl del task type client id $id";
         $cli = new cli();
-        $cli->run($cmd);
+		$msg_log = "删除一条id为".$id."的客户端文件同步任务";
+        $cli->setLog($msg_log)->run($cmd);
         echo json_encode(array('msg' => '删除成功。'));
     } else if ('add' === $_POST['type']) {
         // Add a new file sync client data
         $cli = new cli();
-        $cli->run(getCmd('add'));
+		$id  = $_POST['clientFileSyncTaskId'];
+		$msg_log =  "添加一条id为".$id."的客户端文件同步任务";
+        $cli->setLog($msg_log)->run(getCmd('add'));
         echo json_encode(array('msg' => '添加成功。'));
     } else if (!empty($_POST['openAddDialog'])) {
         // Open new file sync dialog
@@ -114,6 +122,7 @@
             ->assign('ifList', netGapRes::getInstance()->getInterface())
             ->assign('timeList', netGapRes::getInstance()->getTimeList())
             ->assign('roleList', netGapRes::getInstance()->getRoleList())
+			->assign('killVirusIsUsed',$killVirusIsUsed)
             ->assign('type', 'add')->fetch($tpl);
         echo json_encode(array('msg' => $result));
     } else if ($orderStatement = $_POST['orderStatement']) {

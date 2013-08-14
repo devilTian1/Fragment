@@ -2,7 +2,6 @@
     <input type="hidden" name="type" value="<{$type|default: 'add'}>"/>
     <fieldset>
         <legend>定义认证策略</legend>
-        <div id="summary"></div>
 		<div class="row"><label for="AuthPolicyName">策略名称:<em class="required">*</em></label>
             <input class="width10em" type="text" name="AuthPolicyName" id="AuthPolicyName" value="<{$autopolicy.auth_policy_name}>" <{if $type === 'edit'}>readonly="readonly"<{/if}>/>
         </div>
@@ -53,6 +52,6 @@
 $(document).ready(function() {
 	changeAddrType();
 	renderStandardUi();
-    validateForm($("#editAuthPolicyForm"), 'summary');
+    validateForm($("#editAuthPolicyForm"));
 });
 </script>

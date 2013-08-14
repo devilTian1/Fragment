@@ -1,13 +1,13 @@
-<table class="column_95 textMid tablesorter" id="userListTable">
+<table class="column_100 textMid tablesorter" id="userListTable">
     <caption></caption>
     <thead>
         <tr>
-            <th class="column_5" name="userId">序号</th>
+            <th class="column_8" name="userId">序号</th>
             <th class="column_10" name="name">名称</th>
             <th class="column_10" name="realname">真实姓名</th>
             <th class="column_15" name="authType">认证方式</th>
             <th class="column_10">所属角色</th>
-            <th class="column_15">是否在线</th>
+            <th class="column_10">是否在线</th>
             <th class="column_15">登录IP</th>
             <th class="column_20">操作</th>
         </tr>

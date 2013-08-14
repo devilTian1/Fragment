@@ -1,8 +1,26 @@
 <?php
     require_once($_SERVER['DOCUMENT_ROOT'] . '/Function/common.php');
 
+    function checkaddrObj(){
+    	$db1  = new dbsqlite(DB_PATH . '/rule.db');
+    	$sql1 = 'SELECT id FROM address WHERE name LIKE \'%'.$_GET['keyword'].'%\'';
+    	$result1 = $db1->query($sql1)->getAllData(PDO::FETCH_ASSOC);
+    	$i = 0;
+    	$addrarray = array();
+    	while($result1[$i]['id']){
+    		$addrarray[] = $result1[$i]['id'];
+    		$i++;
+    	}
+    	$addrstr = '';
+    	if(count($addrarray) != 0){
+    		$addrstr = implode(',',$addrarray);
+    	}
+    	return $addrstr;
+    }
+    
     function freshPolicyConfData($where) {
-        $tpl =  'resConf/user/authTable.tpl';
+        $tpl =  'resConf/user/authTable.tpl';       
+        $addrstr = checkaddrObj();
         $db  = new dbsqlite(DB_PATH . '/uma_auth.db');
 	    $sql = 'SELECT auth_policy_name, ip, netmask, ingress, port, sa_type,' .
             ' active, auth_policy_id, sa_id FROM auth_policy';	    
@@ -11,6 +29,9 @@
             $data   = getWhereStatement($db, $_GET['cols'], $_GET['keyword']);
             $sql   .= $data['sql'];
             $params = $data['params'];
+            if($addrstr != ''){
+            	$sql .=  ' OR sa_id in ('.$addrstr.')';
+            }         
         }
         $sql .=  ' ' . $where;
         $result = $db->query($sql, $params)->getAllData(PDO::FETCH_ASSOC);
@@ -180,19 +201,23 @@
     
     function getWhereStatement($db, $cols, $keyword) {
     	$value = '%' . $keyword . '%';
-    	$params = array_fill(0, count(explode(',', $cols)), $value);
+    	$params = array_fill(0, count(explode(',', $cols)), $value);   	
     	return array('sql'    => ' WHERE (' .
     			$db->getWhereStatement($cols, 'OR', 'like') . ')',
     			'params' => $params);
     }
     
     function getDataCount() {
+    	$addrstr = checkaddrObj();
     	$sql = 'SELECT auth_policy_id FROM auth_policy';
         $db  = new dbsqlite(DB_PATH . '/uma_auth.db');
         if (!empty($_GET['cols']) && !empty($_GET['keyword'])) {
             $data   = getWhereStatement($db, $_GET['cols'], $_GET['keyword']);
             $sql   .= $data['sql'];
             $params = $data['params'];
+            if($addrstr != ''){
+            	$sql .=  ' OR sa_id in ('.$addrstr.')';
+            }
         }
         return $db->query($sql, $params)->getCount();
     }

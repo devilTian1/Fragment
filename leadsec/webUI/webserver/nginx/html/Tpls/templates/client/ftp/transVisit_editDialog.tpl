@@ -40,9 +40,11 @@
             <button style="position: static"
                 onclick="openNewFtpFilterOptionsDialog('plug')">添加
             </button>&nbsp;&nbsp;
-            <button style="position: static"
-                onclick="editFtpFilterOptionsDialog($('#filter').val(),'plug')">修改
-            </button>
+            <{if $type === 'edit'}>
+            	<button style="position: static"
+                	onclick="editFtpFilterOptionsDialog($('#filter').val(),'plug')">修改
+            	</button>
+            <{/if}>
         </div>
 
         <div class="row">
@@ -63,14 +65,15 @@
             <{html_radios class="radio" name=active label_ids=true values=array('Y', 'N')
                 output=array('开', '关') selected=$data.active|default: 'Y'}>
         </div>         
-        
-        <div class="row">
-            <label>文件病毒扫描:</label>
-            <{html_radios class="radio" name=killVirus label_ids=true
-            output=array('开', '关') values=array('Y', 'N')
-            selected=$data.virus|default: 'N'}>
-        </div>       
-		
+        <div <{if $killVirusIsUsed eq 'off'}> class="hide"<{/if}>>
+			<div class="row" >
+				<label>文件病毒扫描:</label>
+				<{html_radios class="radio" 
+				name=killVirus label_ids=true
+				output=array('开', '关') values=array('Y', 'N') 
+				selected=$data.virus|default: 'N'}>
+			</div>       
+		</div>	
         <div class="row">
             <label for="comment">备注:</label>            
             <input class="comment" name="comment" id="comment" value="<{$data.comment|escape}>"/>

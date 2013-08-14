@@ -19,24 +19,24 @@
         $cmd = "ha_sync_ctl set client host $ip service $logPortReq";
         $cli = new cli();
         $cli->setLog("双机热备 配置同步  修改服务器设置")->run($cmd);
-        echo json_encode(array('msg' => '修改服务器设置成功.'));
+        echo json_encode(array('msg' => '服务器设置成功。'));
     } else if (!empty($_POST['downloadConf'])) {
         // 下载配置
         $cmd = "ha_sync_ctl getcfg";       	         	 	      	
         $cli = new cli(); 
         list($status,$result) = $cli->setLog("双机热备配置同步服务器设置下载配置")->execCmdGetStatus($cmd); 
 		if ($status>0) {
-			echo json_encode(array('msg' => '下载配置失败,请检查服务器IP与端口的配置是否正确.'));
+			echo json_encode(array('msg' => '下载配置失败,请检查服务器IP与端口的配置是否正确。'));
 		} else {
-			echo json_encode(array('msg' => '配置下载成功,请配置相关网络接口地址后保存配置并重' .
-			'启网闸以生效新配置.'));
+			echo json_encode(array('msg' => '配置下载成功！<br>注:请配置网络接口地址及开启相关应用服务后' .
+			'保存配置并重启网闸以生效新配置。'));
 		}
     } else if (!empty($_POST['rollbackConf'])) {
         // 回滚配置
         $cmd = "ha_sync_ctl rollback";       	         	 	      	
         $cli = new cli(); 
         $cli->setLog("双机热备 配置同步 服务器设置 回滚配置")->run($cmd);
-        echo json_encode(array('msg' => '回滚配置成功.'));
+        echo json_encode(array('msg' => '回滚配置成功。'));
     } else if (!empty($_POST['historyDialog'])) {
         // 同步历史记录       
         $tpl = 'networkManagement/HA/syncHistory.tpl';
@@ -63,7 +63,7 @@
         	"$logPortReq 1>/dev/null";
         $cli = new cli();
         $cli->setLog("双机热备 配置同步  修改本地设置")->run($cmd);
-        echo json_encode(array('msg' => '修改本地设置成功.'));
+        echo json_encode(array('msg' => '设置成功。'));
    }else if (!empty($_POST['startConf'])) {
         // 启动服务
         $cmd = "ha_sync_ctl reconfigure";         	         	 	      	
@@ -77,7 +77,7 @@
 		} else {
 			$cmd1 = "ha_sync_ctl start 1>/dev/null"; 
 			$cli->setLog("开启高可用性 配置同步 配置")->run($cmd1);	       
-			echo json_encode(array('status'=>$status,'msg' => '服务已启动.'));
+			echo json_encode(array('status'=>$status,'msg' => '服务已启动。'));
 		}
     } else if (!empty($_POST['stopConf'])) {
         // 停止服务
@@ -85,9 +85,9 @@
         $cli = new cli(); 
 		list($status,$result) = $cli->setLog($msg_log)->execCmdGetStatus($cmd);
 		if ($status > 0) {
-			echo json_encode(array('msg' => '服务停止失败!'));
+			echo json_encode(array('msg' => '服务停止失败。'));
 		} else {
-			echo json_encode(array('msg' => '服务已停止!'));
+			echo json_encode(array('msg' => '服务已停止。'));
 		}
     } else if (!empty($_POST['downDialog'])) {
         // 下载历史记录       

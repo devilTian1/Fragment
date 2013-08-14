@@ -13,8 +13,11 @@
         $httpsPort = $_POST['httpsPort'];
         $memoryMax = $_POST['memoryMax'];
         $httpRequestMax = $_POST['httpRequestMax'];
-        $virusScan  = $_POST['virusScan']   === 'on' ? 'on' : 'off';
-        $virusMsg = $_POST['virusScan']   === 'on' ? '开启' : '关闭';
+        $killVirusIsUsed = antiIsUsed();
+        if($killVirusIsUsed === 'on') {
+            $virusScan  = $_POST['virusScan']   === 'on' ? 'on' : 'off';
+            $virusMsg = $_POST['virusScan']   === 'on' ? '开启' : '关闭';
+        }
         
         $cmd = Array();
         $msg = Array();
@@ -30,8 +33,10 @@
         $msg[] = "设置Http请求头部上限{$httpRequestMax}";
         $cmd[] = "/usr/local/bin/httpctl set cachemem $memoryMax";
         $msg[] = "设置缓存文件上限为{$memoryMax}";
-        $cmd[] = "httpctl set cf virus $virusScan";
-        $msg[] = "设置病毒扫描为{$virusMsg}";
+        if($killVirusIsUsed === 'on') {
+            $cmd[] = "httpctl set cf virus $virusScan";
+            $msg[] = "设置病毒扫描为{$virusMsg}";
+        }
         $cli = new cli();
         $i = 0;
         foreach ($cmd as $arr) {
@@ -80,6 +85,9 @@
 		$httpsPortStr = join(',',$httpsPort);
 	$virus_scan = $db->query('SELECT scan_virus FROM cf_info')
                      ->getFirstData(PDO::FETCH_ASSOC);
+        $killVirusIsUsed = antiIsUsed();
+        $interfaceList   = netGapRes::getInstance()->getInterface(); 
+        $interfaceList['0.0.0.0'] = '0.0.0.0';
         V::getInstance()->assign('editBasicConfig', $result)
         				->assign('httpGet', $httpGet)
         				->assign('httpPost', $httpPost)
@@ -87,7 +95,8 @@
         				->assign('httpHead', $httpHead)
         				->assign('httpPort', $httpPortStr)
         				->assign('httpsPort', $httpsPortStr)
+        				->assign('killVirusIsUsed', $killVirusIsUsed)
         				->assign('virusScan',$virus_scan['scan_virus'])
-        				->assign('interfaceList', netGapRes::getInstance()->getInterface());
+        				->assign('interfaceList', $interfaceList);
     }
 ?>

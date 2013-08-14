@@ -1,7 +1,7 @@
 <?php
     require_once($_SERVER['DOCUMENT_ROOT'] . '/Function/common.php');
 
-     function getWhereStatement($db, $cols, $keyword) {
+    function getWhereStatement($db, $cols, $keyword) {
     	$value = '%' . $keyword . '%';
     	$params = array_fill(0, count(explode(',', $cols)), $value);
     	return array('sql'    => ' WHERE (' .
@@ -37,6 +37,7 @@
         return $db->query($sql, $params)->getCount();
     }
 
+	$killVirusIsUsed = antiIsUsed();
     function getCmd($action) {
         if (!empty($_POST['action'])) {
             $active = $_POST['action'] === 'enable' ? 'on' : 'off';
@@ -53,7 +54,7 @@
         $usergrp = $_POST['usergrp'];
 		$killVirus = $_POST['killVirus'] === 'Y' ? 'Y' : 'N';
 		
-        $result = "cftpctl $action task type client mode trans id $id sa $sa " .
+        $result = "/usr/local/bin/cftpctl $action task type client mode trans id $id sa $sa " .
             " da $da dport $dport active $active ";
         if (!empty($usergrp)) {
             $result .= "auth $usergrp ";
@@ -68,6 +69,8 @@
         $result .= " virus $killVirus";
         return $result;
     }
+
+	//检查病毒防护模块是否被开启
 
     if ($id = $_POST['editId']) {
         // Show Dialog to get specified ftp trans client acl data
@@ -84,12 +87,13 @@
                 netGapRes::getInstance()->getFtpFilterOpts())
             ->assign('roleList', netGapRes::getInstance()->getRoleList())
             ->assign('data', $data)
+			->assign('killVirusIsUsed',$killVirusIsUsed)
             ->assign('type', 'edit')->fetch($tpl);
         echo json_encode(array('msg' => $result));
     } else if ('edit' === $_POST['type']) {
         // Edit specified data
         $cli = new cli();
-        $cli->setIsRec(false)->run('cftpctl del task type client mode trans id ' .
+        $cli->setIsRec(false)->run('/usr/local/bin/cftpctl del task type client mode trans id ' .
             $_POST['ftpTransId']);
         $cli->setIsRec(true)->setLog("修改一条FTP透明访问任务,任务号为".$_POST['ftpTransId'])->run(getCmd('set'));
         echo json_encode(array('msg' =>
@@ -104,7 +108,7 @@
     } else if ($id = $_POST['delId']) {
         // Delete the specified ftp trans client acl
         $cli = new cli();
-        $cli->setLog("删除一条FTP透明访问任务,任务号为".$id)->run('cftpctl del task type client mode trans id '. $id);
+        $cli->setLog("删除一条FTP透明访问任务,任务号为".$id)->run('/usr/local/bin/cftpctl del task type client mode trans id '. $id);
         echo json_encode(array('msg' =>
             '任务[' . $id . ']删除成功.'));
     } else if (!empty($_POST['openAddDialog'])) {
@@ -118,6 +122,7 @@
             ->assign('filterOptions',
                 netGapRes::getInstance()->getFtpFilterOpts())
             ->assign('roleList', netGapRes::getInstance()->getRoleList())
+			->assign('killVirusIsUsed',$killVirusIsUsed)
             ->assign('type', 'add')->fetch($tpl);
         echo json_encode(array('msg' => $result));
     } else if ($action = $_POST['action']) {

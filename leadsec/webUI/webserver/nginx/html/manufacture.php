@@ -1,4 +1,8 @@
 <?php
+    if (!file_exists('/usr/local/sbin/manu')) {
+        header('Location: index.php');
+    } else {
+
     header('Content-type: text/html; charset=utf-8');
     setlocale(LC_CTYPE, 'zh_CN.utf8');
     setcookie('web_locale', 'zh_CN.utf8', 0, "/");
@@ -35,7 +39,8 @@
         if ($status == 0) {
             $msg = 'success';
         } else {
-            $msg = join('<br/>', $lines);
+            //$msg = join('<br/>', $lines);
+            $msg = '生产失败。';
         }
     } else if (!empty($_POST['download'])) {
         // Export manufact result
@@ -179,3 +184,6 @@
         }
     }
 </script>
+<?php
+}
+?>

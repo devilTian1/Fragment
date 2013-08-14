@@ -1,7 +1,7 @@
 <{include file='layout/search.tpl' tableId='generalVisitTable'}>
 <table class="column_95 textMid tablesorter" id="generalVisitTable">
     <caption>
-           信息列表
+           普通访问控制
     </caption>
     <thead>
     <tr>

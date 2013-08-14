@@ -3,7 +3,34 @@
 
     class netGapRes extends RESOURCE {
         static public $instance;
+        
+        private $dbMapMod;
 
+        public function __construct() {
+            $this->dbMapMod = array(
+                'netgap_fastpass.db/fastpass_client_acl' => '客户端/安全通道',
+                'netgap_fastpass.db/fastpass_server_acl' => '服务端/安全通道',
+                'gateway_ftp.db/ftp_trans_client_acl'    => '客户端/FTP访问',
+                'gateway_ftp.db/ftp_comm_client_acl'     => '客户端/FTP访问',
+                'netgap_db.db/db_comm_client_acl'        => '客户端/数据库访问',
+                'netgap_db.db/db_trans_client_acl'       => '客户端/数据库访问',
+                'netgap_msg.db/msg_client_task'          => '客户端/消息传输',
+                'netgap_mail.db/pop3_comm_client_acl'  => '客户端/POP3邮件访问',
+                'netgap_mail.db/pop3_trans_client_acl' => '客户端/POP3邮件访问',
+                'netgap_mail.db/smtp_comm_client_acl'  => '客户端/SMTP邮件访问',
+                'netgap_mail.db/smtp_trans_client_acl' => '客户端/SMTP邮件访问',
+                'netgap_custom.db/tcp_comm_client_acl' => '客户端/TCP定制访问',
+                'netgap_custom.db/tcp_trans_client_acl' => '客户端/TCP定制访问',
+                'netgap_custom.db/udp_comm_client_acl' => '客户端/UDP定制访问',
+                'netgap_custom.db/udp_trans_client_acl' => '客户端/UDP定制访问',
+                'netgap_db_swap.db/db_swap_client_acl' => '客户端/数据库同步',
+                'netgap_new_fs.db/sync_file_client'    => '客户端/文件交换',
+                'netgap_http.db/basic_configure'       => '安全浏览/基本配置',
+                'uma_auth.db/auth_policy' => '资源配置/用户/认证配置/认证策略',
+                'netgap_http.db/acl'      => '安全浏览',
+                'netgap_ha.db/haif'       => '双击热备'
+            );
+        }
         // including addList, addrGrp, domainAddr
         public function getAddr($isSA = false) {
             $db     = new dbsqlite(DB_PATH . '/rule.db');
@@ -176,15 +203,17 @@
         }
 
         public function checkExistTaskId($modName, $id) {
-            if ($modName === 'customized') {
+            if ($modName === 'customizedtcp') {
                 $sql = "SELECT id FROM tcp_comm_client_acl WHERE id = $id
-                    UNION SELECT id FROM tcp_trans_client_acl WHERE id = $id
-                    UNION SELECT id FROM udp_comm_server_acl WHERE id = $id
-                    UNION SELECT id FROM tcp_comm_server_acl WHERE id = $id
-                    UNION SELECT id FROM udp_comm_client_acl WHERE id = $id
-                    UNION SELECT id FROM udp_trans_client_acl WHERE id = $id";
+                    UNION SELECT id FROM tcp_trans_client_acl WHERE id = $id                 
+                    UNION SELECT id FROM tcp_comm_server_acl WHERE id = $id";                   
                 $db  = new dbsqlite(DB_PATH . '/netgap_custom.db');
-            } else if ($modName === 'ftp') {
+            }else if ($modName === 'customizedudp') {
+                $sql = "SELECT id FROM udp_trans_client_acl WHERE id = $id                   
+                    UNION SELECT id FROM udp_comm_server_acl WHERE id = $id                   
+                    UNION SELECT id FROM udp_comm_client_acl WHERE id = $id";                   
+                $db  = new dbsqlite(DB_PATH . '/netgap_custom.db');
+            }else if ($modName === 'ftp') {
                 $sql = "SELECT id FROM ftp_comm_client_acl WHERE id = $id
                     UNION SELECT id FROM ftp_comm_server_acl WHERE id = $id
                     UNION SELECT id FROM ftp_trans_client_acl WHERE id = $id";
@@ -250,39 +279,283 @@
             return $db->query($sql)->getCount() > 0 ? 'false' : 'true';
         }
         
-        public function checkAliasUsed($aliasName) {
-            $checkBuf = Array();
-            
-            $checkBuf[] = array('type'=>'ifname','dbPath'=>'/netgap_ha.db','table'=>'haif','colname'=>'ifname');
-            $checkBuf[] = array('type'=>'ip','dbPath'=>'/gateway_ftp.db','table'=>'ftp_comm_client_acl','colname'=>'lip');
-            $checkBuf[] = array('type'=>'ip','dbPath'=>'/netgap_custom.db','table'=>'tcp_comm_client_acl','colname'=>'lip');
-            $checkBuf[] = array('type'=>'ip','dbPath'=>'/netgap_custom.db','table'=>'udp_comm_client_acl','colname'=>'lip');
-            $checkBuf[] = array('type'=>'ip','dbPath'=>'/netgap_fastpass.db','table'=>'fastpass_client_acl','colname'=>'da');
-            $checkBuf[] = array('type'=>'ip','dbPath'=>'/netgap_fastpass.db','table'=>'fastpass_server_acl','colname'=>'eip');
-            $checkBuf[] = array('type'=>'ip','dbPath'=>'/netgap_db.db','table'=>'db_comm_client_acl','colname'=>'lip');
-            $checkBuf[] = array('type'=>'ip','dbPath'=>'/netgap_msg.db','table'=>'msg_client_task','colname'=>'lip');
-			$checkBuf[] = array('type'=>'ip','dbPath'=>'/netgap_mail.db','table'=>'pop3_comm_client_acl','colname'=>'lip');
-            $checkBuf[] = array('type'=>'ip','dbPath'=>'/netgap_mail.db','table'=>'smtp_comm_client_acl','colname'=>'lip');
-			$checkBuf[] = array('type'=>'ip','dbPath'=>'/netgap_db_swap.db','table'=>'db_swap_client_acl','colname'=>'lip');
-			$checkBuf[] = array('type'=>'ip','dbPath'=>'/netgap_new_fs.db','table'=>'sync_file_client','colname'=>'lip');
+        private function checkAddrUsed($checkBuf, $addrName, $checkActive) {
+            $result = array();
             foreach($checkBuf as $arr) {
-                if($arr['type'] === 'ip') {
-                    $db  = new dbsqlite(DB_PATH . '/configs.db');
-                    $sql = "SELECT ip,ipv6 FROM interface WHERE external_name='$aliasName'";
-                    $result = $db->query($sql)->getFirstData(PDO::FETCH_ASSOC);
-                    $ip = $result['ip'];
-                    $ipv6 = $result['ipv6'];
-                    $sql = "SELECT {$arr['colname']} FROM {$arr['table']} WHERE {$arr['colname']}='$ip' OR {$arr['colname']}='$ipv6'";
-                } else if ($arr['type'] === 'ifname') {                    
-                    $sql = "SELECT {$arr['colname']} FROM {$arr['table']} WHERE {$arr['colname']}='$aliasName'";                    
+                $idCol = 'id';
+                $ipCol = $arr['colname'];
+                $table = $arr['table'];
+                if (isset($arr['taskId'])) {
+                    $idCol = $arr['taskId'];
                 }
-                $db  = new dbsqlite(DB_PATH . $arr['dbPath']);
-                $result = $db->query($sql)->getCount() > 0 ? 'true' : 'false';
-                if($result === 'true') {
-                    return 'true';
+                $activeSql = '';
+                if ($checkActive && isset($arr['actSql'])) {
+                    $activeSql = $arr['actSql'] . ' AND ';
+                }
+                if ($arr['type'] === 'ip') {
+                    $db  = new dbsqlite(DB_PATH . '/configs.db');
+                    $sql = 'SELECT ip, ipv6 FROM interface ' .
+                        "WHERE external_name = '$addrName'";
+                    $ipData = $db->query($sql)->getFirstData(PDO::FETCH_ASSOC);
+                    $ip     = $ipData['ip'];
+                    $ipv6   = $ipData['ipv6'];
+                    $sql    = "SELECT $idCol as id FROM {$arr['table']} " .
+                        "WHERE $activeSql $ipCol = '$ip' OR $ipCol = '$ipv6'";
+                } else if ($arr['type'] === 'ifname') {                    
+                    $sql = "SELECT $idCol as id FROM $table " .
+                        "WHERE $activeSql $ipCol = '$addrName'";
+                }
+                $dbPath  = $arr['dbPath'];
+                $db      = new dbsqlite(DB_PATH . '/' . $dbPath);
+                $modName = $this->dbMapMod[$dbPath . '/' . $table];
+                $data    = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
+                foreach ($data as $d) {
+                    $id       = $d['id'];
+                    $result[] = array('id' => $id, 'mod' => $modName);
                 }
             }
-            return 'false';
+            return $result;
+
+        }
+
+        public function checkAliasUsed($aliasName, $checkActive = false) {
+            $checkBuf = array(
+                array('type'    => 'ifname', 'table'  => 'haif',
+                      'colname' => 'ifname', 'dbPath' => 'netgap_ha.db',
+                      'taskId'  => 'ifname'),
+                array('type'    => 'ip',  'table'  => 'ftp_comm_client_acl',
+                      'colname' => 'lip', 'dbPath' => 'gateway_ftp.db',
+                      'actSql'  => 'active="Y"'),
+                array('type'    => 'ip',  'table'  => 'tcp_comm_client_acl',
+                      'colname' => 'lip', 'dbPath' => 'netgap_custom.db',
+                      'actSql'  => 'active="1"'),
+                array('type'    => 'ip',  'table'  => 'udp_comm_client_acl',
+                      'colname' => 'lip', 'dbPath' => 'netgap_custom.db',
+                      'actSql'  => 'active="1"'),
+                array('type'    => 'ip',  'table'  => 'fastpass_server_acl',
+                      'colname' => 'eip', 'dbPath' => 'netgap_fastpass.db',
+                      'actSql'  => 'active="ok"'),
+                array('type'    => 'ip',  'table'  => 'db_comm_client_acl',
+                      'colname' => 'lip', 'dbPath' => 'netgap_db.db',
+                      'actSql'  => 'active="1"'),
+                array('type'    => 'ip',  'table'  => 'msg_client_task',
+                      'colname' => 'lip', 'dbPath' => 'netgap_msg.db',
+                      'actSql'  => 'active="ok"'),
+                array('type'    => 'ip',  'table'  => 'pop3_comm_client_acl',
+                      'colname' => 'lip', 'dbPath' => 'netgap_mail.db',
+                      'actSql'  => 'active="1"'),
+                array('type'    => 'ip',  'table'  => 'smtp_comm_client_acl',
+                      'colname' => 'lip', 'dbPath' => 'netgap_mail.db',
+                      'actSql'  => 'active="1"'),
+                array('type'    => 'ip',  'table'  => 'db_swap_client_acl',
+                      'colname' => 'lip', 'dbPath' => 'netgap_db_swap.db',
+                      'actSql'  => 'active="Y"'),
+                array('type'    => 'ip',  'table'  => 'sync_file_client',
+                      'colname' => 'lip', 'dbPath' => 'netgap_new_fs.db'),
+                array('type'    => 'ip',         'table'  => 'basic_configure',
+                      'colname' => 'service_ip', 'dbPath' => 'netgap_http.db',
+                      'taskId'  => 'service_ip')
+            );
+            return $this->checkAddrUsed($checkBuf, $aliasName, $checkActive);
+        }
+        
+        public function checkPhysicalUsed($physicalName, $checkActive = false) {
+            $checkBuf = array(
+                array('type'    => 'ip',  'table'  => 'fastpass_client_acl',
+                      'colname' => 'da',  'dbPath' => 'netgap_fastpass.db',
+                      'actSql'  => 'active="ok"'),
+                array('type'    => 'ip',  'table'  => 'fastpass_server_acl',
+                      'colname' => 'eip', 'dbPath' => 'netgap_fastpass.db',
+                      'actSql'  => 'active="ok"'),
+                array('type'    => 'ip',  'table'  => 'ftp_comm_client_acl',
+                      'colname' => 'lip', 'dbPath' => 'gateway_ftp.db',
+                      'actSql'  => 'active="Y"'),
+                array('type'    => 'ip',  'table'  => 'tcp_comm_client_acl',
+                      'colname' => 'lip', 'dbPath' => 'netgap_custom.db',
+                      'actSql'  => 'active="1"'),
+                array('type'    => 'ip',  'table'  => 'udp_comm_client_acl',
+                      'colname' => 'lip', 'dbPath' => 'netgap_custom.db',
+                      'actSql'  => 'active="1"'),
+                array('type'    => 'ip',  'table'  => 'db_comm_client_acl',
+                      'colname' => 'lip', 'dbPath' => 'netgap_db.db',
+                      'actSql'  => 'active="1"'),
+                array('type'    => 'ip',  'table'  => 'msg_client_task',
+                      'colname' => 'lip', 'dbPath' => 'netgap_msg.db',
+                      'actSql'  => 'active="ok"'),
+                array('type'    => 'ip',  'table'  => 'pop3_comm_client_acl',
+                      'colname' => 'lip', 'dbPath' => 'netgap_mail.db',
+                      'actSql'  => 'active="1"'),
+                array('type'    => 'ip',  'table'  => 'smtp_comm_client_acl',
+                      'colname' => 'lip', 'dbPath' => 'netgap_mail.db',
+                      'actSql'  => 'active="1"'),
+                array('type'    => 'ip',  'table'  => 'db_swap_client_acl',
+                      'colname' => 'lip', 'dbPath' => 'netgap_db_swap.db',
+                      'actSql'  => 'active="Y"'),
+                array('type'    => 'ip',  'table'  => 'sync_file_client',
+                      'colname' => 'lip', 'dbPath' => 'netgap_new_fs.db'),
+                array('type'    => 'ip',         'table'  => 'basic_configure',
+                      'colname' => 'service_ip', 'dbPath' => 'netgap_http.db',
+                      'taskId'  => 'service_ip'),
+                array('type'    => 'ifname',         'table'  => 'auth_policy',
+                      'colname' => 'ingress',        'dbPath' => 'uma_auth.db',
+                      'taskId'  => 'auth_policy_id', 'actSql' => 'active="1"'),
+            );
+            return $this->checkAddrUsed($checkBuf, $physicalName, $checkActive);
+        }
+
+        public function checkAddrResUsed($name, $checkActive = false) {
+            $result   = array();
+            $checkBuf = array(
+                array('table'   => 'sync_file_client',
+                      'dbPath'  => 'netgap_new_fs.db',
+                      'colname' => 'sa'),
+                array('table'   => 'db_comm_client_acl',
+                      'dbPath'  => 'netgap_db.db',
+                      'activeW' => 'active="1"',
+                      'colname' => 'sa'),
+                array('table'   => 'db_trans_client_acl',
+                      'dbPath'  => 'netgap_db.db',
+                      'activeW' => 'active="1"',
+                      'colname' => array('sa', 'da')),
+                array('table'   => 'acl',
+                      'dbPath'  => 'netgap_http.db',
+                      'colname' => array('sip', 'dip')),
+                array('table'   => 'ftp_comm_client_acl',
+                      'dbPath'  => 'gateway_ftp.db',
+                      'activeW' => 'active="Y"',
+                      'colname' => 'sa'),
+                array('table'   => 'ftp_trans_client_acl',
+                      'dbPath'  => 'gateway_ftp.db',
+                      'activeW' => 'active="Y"',
+                      'colname' => array('sa', 'da')),
+                array('table'   => 'pop3_comm_client_acl',
+                      'dbPath'  => 'netgap_mail.db',
+                      'activeW' => 'active="1"',
+                      'colname' => 'sa'),
+                array('table'   => 'pop3_trans_client_acl',
+                      'dbPath'  => 'netgap_mail.db',
+                      'activeW' => 'active="1"',
+                      'colname' => array('sa', 'da')),
+                array('table'   => 'smtp_comm_client_acl',
+                      'dbPath'  => 'netgap_mail.db',
+                      'activeW' => 'active="1"',
+                      'colname' => 'sa'),
+                array('table'   => 'smtp_trans_client_acl',
+                      'dbPath'  => 'netgap_mail.db',
+                      'activeW' => 'active="1"',
+                      'colname' => array('sa', 'da')),
+                array('table'   => 'db_swap_client_acl',
+                      'dbPath'  => 'netgap_db_swap.db',
+                      'activeW' => 'active="Y"',
+                      'colname' => 'sa'),
+                array('table'   => 'tcp_comm_client_acl',
+                      'dbPath'  => 'netgap_custom.db',
+                      'activeW' => 'active="1"',
+                      'colname' => 'sa'),
+                array('table'   => 'tcp_trans_client_acl',
+                      'dbPath'  => 'netgap_custom.db',
+                      'activeW' => 'active="1"',
+                      'colname' => array('sa', 'da')),
+                array('table'   => 'udp_comm_client_acl',
+                      'dbPath'  => 'netgap_custom.db',
+                      'activeW' => 'active="1"',
+                      'colname' => 'sa'),
+                array('table'   => 'udp_trans_client_acl',
+                      'dbPath'  => 'netgap_custom.db',
+                      'activeW' => 'active="1"',
+                      'colname' => array('sa', 'da')),
+                array('table'   => 'fastpass_client_acl',
+                      'dbPath'  => 'netgap_fastpass.db',
+                      'activeW' => 'active="ok"',
+                      'colname' => 'sa'),
+                array('table'   => 'msg_client_task',
+                      'dbPath'  => 'netgap_msg.db',
+                      'activeW' => 'active="ok"',
+                      'colname' => 'sa')
+            );
+            foreach ($checkBuf as $arr) {
+                $table     = $arr['table'];
+                $dbPath    = $arr['dbPath'];
+                $colName   = $arr['colname'];
+                $activeSql = '';
+                if ($checkActive && isset($arr['activeW'])) {
+                    $activeSql = $arr['activeW'] . ' AND ';
+                }
+                if (!is_array($colName)) {
+                    $colName = array($colName);
+                }
+                $where = array();
+                foreach ($colName as $cn) {
+                    $where[] = "$cn='{$name}_ipv4' OR $cn='{$name}_ipv6'";
+                }
+                $where   = 'WHERE ' . $activeSql . '(' .
+                    join(' OR ', $where) . ')';
+                $modName = $this->dbMapMod[$dbPath . '/' . $table];
+                $db      = new dbsqlite(DB_PATH . '/' . $dbPath);
+                $sql     = "SELECT id FROM $table $where";
+                $data    = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
+                foreach ($data as $d) {
+                    $result[] = array('id' => $d['id'], 'mod' => $modName);
+                }
+            }
+            return $result;
+        }
+        
+        public function checkRoleUsed($roleName, $checkActive = false) {
+            $checkBuf = array(
+                array('table'  => 'acl', 'activeW' => '',
+                      'colname' => 'usergrp',  'dbPath' => 'netgap_http.db'),
+                array('table'   => 'ftp_trans_client_acl',  'activeW'  => 'active="Y"',
+                      'colname' => 'usergrp', 'dbPath' => 'gateway_ftp.db'),
+                array('table'    => 'ftp_comm_client_acl',  'activeW'  => 'active="Y"',
+                      'colname' => 'usergrp', 'dbPath' => 'gateway_ftp.db'),
+                array('table'    => 'pop3_comm_client_acl',  'activeW'  => 'active="ok"',
+                      'colname' => 'usergrp', 'dbPath' => 'netgap_mail.db'),
+                array('table'    => 'pop3_trans_client_acl',  'activeW'  => 'active="ok"',
+                      'colname' => 'usergrp', 'dbPath' => 'netgap_mail.db'),
+                array('table'    => 'smtp_comm_client_acl',  'activeW'  => 'active="ok"',
+                      'colname' => 'usergrp', 'dbPath' => 'netgap_mail.db'),
+                array('table'    => 'smtp_trans_client_acl',  'activeW'  => 'active="ok"',
+                      'colname' => 'usergrp', 'dbPath' => 'netgap_mail.db'),
+                array('table'    => 'db_trans_client_acl',  'activeW'  => 'active="Y"',
+                      'colname' => 'usergrp', 'dbPath' => 'netgap_db.db'),
+                array('table'    => 'db_comm_client_acl',  'activeW'  => 'active="Y"',
+                      'colname' => 'usergrp', 'dbPath' => 'netgap_db.db'),
+                array('table'    => 'tcp_comm_client_acl',  'activeW'  => 'active="Y"',
+                      'colname' => 'usergrp', 'dbPath' => 'netgap_custom.db'),
+                array('table'    => 'tcp_trans_client_acl',  'activeW'  => 'active="Y"',
+                      'colname' => 'usergrp', 'dbPath' => 'netgap_custom.db'),
+                array('table'    => 'udp_comm_client_acl',  'activeW'  => 'active="Y"',
+                      'colname' => 'usergrp', 'dbPath' => 'netgap_custom.db'),
+                array('table'    => 'udp_trans_client_acl',  'activeW'  => 'active="Y"',
+                      'colname' => 'usergrp', 'dbPath' => 'netgap_custom.db')
+            );
+            foreach ($checkBuf as $arr) {
+                $table     = $arr['table'];
+                $dbPath    = $arr['dbPath'];
+                $colName   = $arr['colname'];
+                $activeSql = '';
+                if ($checkActive && isset($arr['activeW'])) {
+                    $activeSql = $arr['activeW'] . ' AND ';
+                }
+                if (!is_array($colName)) {
+                    $colName = array($colName);
+                }
+                $where = array();
+                foreach ($colName as $cn) {
+                    $where[] = "$cn='{$roleName}'";
+                }
+                $where   = 'WHERE ' . $activeSql . '(' .
+                    join(' OR ', $where) . ')';
+                $modName = $this->dbMapMod[$dbPath . '/' . $table];
+                $db      = new dbsqlite(DB_PATH . '/' . $dbPath);
+                $sql     = "SELECT id FROM $table $where";
+                $data    = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
+                foreach ($data as $d) {
+                    $result[] = array('id' => $d['id'], 'mod' => $modName);
+                }
+            }
+            return $result;
         }
 
         private function __clone() {}

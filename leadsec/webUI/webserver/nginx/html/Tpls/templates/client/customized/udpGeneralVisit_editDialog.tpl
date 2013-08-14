@@ -8,7 +8,7 @@
             <input class="id" type="text" name="customUdpGeneralId" id="customUdpGeneralId" value="<{$data.id}>"
                 <{if $type ==='edit'}>disabled="disabled"<{/if}>
                 size="4" maxlength="4"/>
-            (同一端的任务号必须唯一)
+            (定制访问UDP的任务号必须唯一)
             <{if $type ==='edit'}>
             <input type="hidden" name="customUdpGeneralId"" value="<{$data.id}>"/>
             <{/if}>
@@ -40,13 +40,15 @@
             <input class="port" type="text" name="udpGeneralLport" id="udpGeneralLport" value="<{$data.lport}>" size="5" maxlength="5"/>
         </div>
         
-        <div class="row">
-            <label>流病毒扫描:</label>
-            <{html_radios class="radio" name=killVirus label_ids=true
-                values=array('Y', 'N') output=array('开', '关')
-                selected=$data.killvirus|default: 'N'
-            }>
-        </div>
+        <div <{if $killVirusIsUsed eq 'off'}> class="hide"<{/if}>> 
+	        <div class="row">
+	            <label>流病毒扫描:</label>
+	            <{html_radios class="radio" name=killVirus label_ids=true
+	                values=array('Y', 'N') output=array('开', '关')
+	                selected=$data.killvirus|default: 'N'
+	            }>
+	        </div>
+	    </div>
 
         <div class="row mul">
             <label for="mulMode">通讯模式:</label>

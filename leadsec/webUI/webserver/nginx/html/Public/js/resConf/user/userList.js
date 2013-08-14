@@ -177,7 +177,7 @@ function openDelAllUserListDialog() {
     var dialog  = loadingScreen('删除用户列表');
     var buttons = {};
     if ($("input[name='dataCount']").val() === '0') {
-        dialog.setContent("<p>没有任何用户?</p>");
+        dialog.setContent("<p>没有任何用户？</p>");
         buttons['关闭']  = function() {
             $(this).remove();
         };
@@ -192,7 +192,7 @@ function openDelAllUserListDialog() {
             $(this).remove();
         };
 
-        dialog.setContent("<p>确定要删除所有用户数据吗?</p>");           
+        dialog.setContent("<p>确定要删除所有用户吗？</p>");           
     }
     var dialogParams = {
             width: 300,
@@ -260,7 +260,7 @@ function openDelSpecUserDialog(name) {
         buttons: buttons,
         position : jQuery.getDialogPosition('300','160')
     };
-    dialog.setContent("<p>确定要删除名称为" + name + "的用户数据吗?</p>");
+    dialog.setContent("<p>确定要删除用户" + name + "吗？</p>");
     dialog.setOptions(dialogParams);
 }
 
@@ -358,12 +358,12 @@ function openDelSpecUserListDialog() {
     var dialog  = loadingScreen('删除已选用户');
     var buttons = {};
     if (users.length === 0) {
-        dialog.setContent("<p>没有选择任何用户?</p>");
+        dialog.setContent("<p>没有选择任何用户？</p>");
         buttons['关闭']  = function() {
             $(this).remove();
         };
     } else {
-        dialog.setContent("<p>确定要删除已选的用户数据吗?</p>");
+        dialog.setContent("<p>确定要删除已选的用户吗？</p>");
         buttons['确定'] = function() {
             if ($('#checkAllUser').attr('checked') === 'checked')  {
                 checkUsersInUse('all',users,delSpecUsers);
@@ -408,7 +408,7 @@ function openLockSpecUserDialog(name) {
         $(this).remove();
     };
     var dialogParams = {
-        width   : 420,
+        width   : 550,
         height  : 260,
         buttons : buttons,
         position : jQuery.getDialogPosition('420','260')
@@ -546,6 +546,9 @@ function changeAuthType() {
     if ($("input[name='type']").val() == "edit" && $("input[name='vip']").val() != 1) {
 	enablePasswd();
     }
+    if ('vip' !== authType) {
+        allowPwdModify();
+    }
 }
 
 function enablePasswd() {
@@ -560,6 +563,16 @@ function enablePasswd() {
   
 	$("input[name='passwd_user_again']").attr("value","*********"); 
 	$("input[name='passwd_user_again']").attr("disabled",'disabled');    	
+    }
+}
+
+function allowPwdModify() {
+    var allowPwdModify = $(':radio[name="modifyPwdAllow"]:checked').val();
+    if ('on' === allowPwdModify) {
+        $('#firstModifyDiv').removeClass('hide');
+    } else {
+        $('#firstModifyDiv').addClass('hide');
+        $('input[name="firstChangePwd"]:eq(1)').attr("checked",'checked');
     }
 }
 
@@ -586,6 +599,6 @@ function switchUserActive(id, action,name) {
     };
 
     var str = action === 'disable' ? '禁用' : '启用';
-    dialog.setContent('<p>确定' + str + '[' +  name + ']吗?</p>');
+    dialog.setContent('<p>确定' + str + '[' +  name + ']吗？</p>');
     dialog.setOptions(dialogParams);
 }

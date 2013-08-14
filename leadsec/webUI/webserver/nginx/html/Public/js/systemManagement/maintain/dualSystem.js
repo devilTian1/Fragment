@@ -61,47 +61,19 @@ function submitBackupForm(form) {
 
 function submitRecoverForm(form) {
     
-	//ajaxSubmitForm(form, '结果');
-    var dialog = loadingScreen('结果');
-    var buttons = {};
-    buttons['关闭'] = function() {
-        
-		dialog.close();
-    
-	};
-    var dialogParamsDisable = {
-        
-		width : 250,
-        
-		height: 170,
-        closeOnEscape: false
-    };
-    var dialogParamsEnable = {
-        
-		width : 250,
-        
-		height: 170,
-        buttons : buttons,
-        closeOnEscape: true
-    
-	};
-    dialog.setOptions(dialogParamsDisable);
-    $(".ui-dialog-titlebar-close").hide();
-    var successCallback = function(result, textStatus) {
+    var afterSuccessCallback = function(result, textStatus) {
 
-		changeMode();
-		dialog.setContent(result.msg);
-        
-		dialog.setOptions(dialogParamsEnable);
+		changeMode();    
         $(".ui-dialog-titlebar-close").show();
         if ($("input:radio[name='recoverSystem']:checked").val() == "systemA") {
             $("#systemStatus tbody td:eq(0)").html(result.status);
         } else {
             $("#systemStatus tbody td:eq(1)").html(result.status);
         }
+		dialog.setContent(result.msg);
     };
-    var dialog_c =ajaxSubmitForm(form, '结果',successCallback);
-    dialog_c.close();    
+    ajaxSubmitForm(form, '结果',undefined,undefined,afterSuccessCallback);
+    $(this).remove();
 
 }
 

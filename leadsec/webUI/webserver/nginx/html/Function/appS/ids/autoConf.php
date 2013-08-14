@@ -13,44 +13,62 @@
     	return $IpListArr;
     }
     
+    function checkIDSStatus() {
+    	$path = "/usr/local/lxnids/lxnids.options";
+    	$idsenable = getParamFromFile($path,'/^LXNIDS_RUN=(\w{2,3})/');
+    	if($idsenable[1] === 'YES'){
+    		return 1;
+    	}else{
+    	    return -1;
+    	}
+    }
     
     if (isset($_GET['autoConf'])) {
-    	$enable = $_POST['autoenable'] === 'on' ? 'on' : 'off';
-    	$time = $_POST['timeLimit'];
-    	$iplist = $_POST['iplist'];
-    	$cmd = ''; 
-    	$path1 = "/usr/local/lxnids/lxnids.options";
-    	$autoenable = getParamFromFile($path1,'/^idsautoRUN=([^\n]+)/');
-    	if($enable === 'off')
-    	{
-    		$cmd = "ids setauto off";
-    		$cli = new cli();
-    		$cli->setLog('应用防护的入侵检测的自动响应配置停止')->run($cmd);   		
-    	}
-    	else if($enable === 'on')
-    	{
-    		$cmd = "ids setauto on $time";
-    		if($iplist != '')
+    	$idsstatus = checkIDSStatus();
+    	if($idsstatus === 1){
+    		$enable = $_POST['autoenable'] === 'on' ? 'on' : 'off';
+    		$time = $_POST['timeLimit'];
+    		$iplist = $_POST['iplist'];
+    		$cmd = '';
+    		$path1 = "/usr/local/lxnids/lxnids.options";
+    		$autoenable = getParamFromFile($path1,'/^idsautoRUN=([^\n]+)/');
+    		if($enable === 'off')
     		{
-    			$ipstr = str_replace(","," ", $iplist);
-    			$cmd = $cmd." $ipstr";
+    			$cmd = "ids setauto off";
+    			$cli = new cli();
+    			$cli->setLog('应用防护的入侵检测的自动响应配置停止')->run($cmd);
     		}
-    		else
+    		else if($enable === 'on')
     		{
-    			$cmd = $cmd.' ""';
+    			$cmd = "ids setauto on $time";
+    			if($iplist != '')
+    			{
+    				$ipstr = str_replace(","," ", $iplist);
+    				$cmd = $cmd." $ipstr";
+    			}
+    			else
+    			{
+    				$cmd = $cmd.' ""';
+    			}
+    			$cli = new cli();
+    			$cli->setLog('应用防护的入侵检测的自动响应配置启用')->run($cmd);
     		}
-    		$cli = new cli();
-    		$cli->setLog('应用防护的入侵检测的自动响应配置启用')->run($cmd);
+    		echo json_encode(array('msg' => '修改成功。'));
+    	}else{
+    		echo json_encode(array('msg' => '请先启动入侵检测。'));
     	}
-    	echo json_encode(array('msg' => '修改成功。'));
- 
     }
     else if(isset($_GET['clear']))
     {
-    	$cmd = 'ids setauto on 1 ""';
-    	$cli = new cli();
-    	$cli->setLog('应用防护的入侵检测的自动响应配置清除')->run($cmd);
-    	echo json_encode(array('msg' => '修改成功。'));
+    	$idsstatus = checkIDSStatus();
+    	if($idsstatus === 1){
+    		$cmd = 'ids setauto on 1 ""';
+    		$cli = new cli();
+    		$cli->setLog('应用防护的入侵检测的自动响应配置清除')->run($cmd);
+    		echo json_encode(array('msg' => '修改成功。'));
+    	}else{
+    		echo json_encode(array('msg' => '请先启动入侵检测。'));
+    	}    	
     }
     else
     {    	

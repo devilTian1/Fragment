@@ -20,6 +20,9 @@
         }
         $sql .=  ' ' . $where;
         $result = $db->query($sql, $params)->getAllData(PDO::FETCH_ASSOC);  
+        foreach ($result as $key => $array) {
+        	$result[$key]['sqllist'] = substr($array['sqllist'],0,-1);
+        }
         echo V::getInstance()->assign('res', $result)
             ->assign('pageCount', 10)
             ->fetch($tpl);
@@ -74,7 +77,33 @@
         $cmdArr = array($result,"dbctl reconfigure");
         return $cmdArr;
     }
-
+	function getSqlFilterInUse($name) {
+    	 $flag = 0;
+    	 //被过滤选项集引用
+    	 $db  = new dbsqlite(DB_PATH . '/netgap_db.db');
+	     $sql = "SELECT sqlgrp FROM db_option_list where sqlgrp = '$name'";
+    	 $data = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
+    	 if(count($data) > 0){
+    	 	$flag = 1;
+    	 }
+    	 return $flag;
+    }
+    function getSqlFilterInUseAndEnable($name) {
+    	 $flag = 0;
+    	 //被过滤选项集引用，并且该过滤选项集被任务引用
+    	 $db  = new dbsqlite(DB_PATH . '/netgap_db.db');
+	     $sql = "SELECT db_comm_client_acl.filter FROM db_comm_client_acl,db_option_list
+	         WHERE db_option_list.sqlgrp = '$name' and db_option_list.name =
+	         db_comm_client_acl.filter and db_comm_client_acl.active = 'Y' 
+    	     UNION SELECT db_trans_client_acl.filter FROM db_trans_client_acl,db_option_list 
+    	     WHERE db_option_list.sqlgrp = '$name' and db_option_list.name =
+    	     db_trans_client_acl.filter and db_trans_client_acl.active = 'Y' ";
+    	 $data = $db->query($sql)->getAllData(PDO::FETCH_ASSOC);
+    	 if(count($data) > 0){
+    	 	$flag = 1;
+    	 }
+    	 return $flag;
+    }
     if (!empty($_POST['editId'])) {
         // Get specified data
         $tpl =  'client/db/sqlFilter_editDialog.tpl';
@@ -90,12 +119,18 @@
     } else if ('edit' === $_POST['type']) {
         // Edit a specified addr group data
         $name = $_POST['sqlName'];
-        $cmd = getCmd();
-        $cli  = new cli();
- 		$cli->setLog("编辑名称为".$_POST['sqlName']."的SQL语句过滤")->run($cmd[0]);
-        //$cli->setLog("修改数据库访问配置")->run($cmd[1]);
- 		$cli->setIsRec(false)->run($cmd[1]);
-        echo json_encode(array('msg' => "[$name]修改成功。"));
+        $flag = getSqlFilterInUseAndEnable($name);
+        if ($flag == 1) {       	
+        	$msg = "名称为\"$name\"的SQL语句过滤被引用且处于启用状态，无法编辑。";
+        	echo json_encode(array('msg' => $msg));
+        } else {
+        	$cmd = getCmd();
+        	$cli  = new cli();
+ 			$cli->setLog("编辑名称为".$_POST['sqlName']."的SQL语句过滤")->run($cmd[0]);
+        	//$cli->setLog("修改数据库访问配置")->run($cmd[1]);
+ 			$cli->setIsRec(false)->run($cmd[1]);
+        	echo json_encode(array('msg' => "[$name]修改成功。"));
+        }
     } else if ('add' === $_POST['type']) {
         // Add a new  data
         $name = $_POST['sqlName'];
@@ -107,14 +142,20 @@
         echo json_encode(array('msg' => "[$name]添加成功。"));
     } else if (!empty($_POST['delName'])) {
         // Delete the specified  data
-        $name = $_POST['delName'];
-        $cmd = array("dbctl del sqlgrp name \"$name\"",
+        $name = $_POST['delName'];               
+        $flag = getSqlFilterInUse($name);
+        if ($flag == 1) {       	
+        	$msg = "名称为\"$name\"的SQL语句过滤被引用，无法删除。";
+        	echo json_encode(array('msg' => $msg));
+        } else {
+        	$cmd = array("dbctl del sqlgrp name \"$name\"",
         	"dbctl reconfigure");
-	    $cli    = new cli();
-	    $cli->setLog("删除名称为".$_POST['delName']."的SQL语句过滤")->run($cmd[0]);
-        //$cli->setLog("修改数据库访问配置")->run($cmd[1]);
-	    $cli->setIsRec(false)->run($cmd[1]);
-        echo json_encode(array('msg' => "[$name]删除成功。"));
+	    	$cli    = new cli();
+	    	$cli->setLog("删除名称为".$_POST['delName']."的SQL语句过滤")->run($cmd[0]);
+        	//$cli->setLog("修改数据库访问配置")->run($cmd[1]);
+	    	$cli->setIsRec(false)->run($cmd[1]);
+        	echo json_encode(array('msg' => "[$name]删除成功。"));
+        }      
     } else if (!empty($_POST['openDialog'])) {
         // Display add dialog
         $tpl =  'client/db/sqlFilter_editDialog.tpl';
@@ -133,8 +174,8 @@
         // enable or disable specified acl
         $cmdInfo = $_GET['sqlCmdInfo'];
         $sqlList = join(',', $cmdInfo);
-        $sqlList = $sqlList.",";
-        if($sqlList===","){
+        //$sqlList = $sqlList.",";
+        if($sqlList===""){
         	$flag = 1;
         }else{
         	$flag = 0;

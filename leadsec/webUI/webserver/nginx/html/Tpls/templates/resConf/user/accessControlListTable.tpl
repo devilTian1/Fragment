@@ -4,7 +4,7 @@
         <td><{$val@index+1}></td>
         <td><{$val.rule_name}></td>
         <td class="no_search">
-            <a href="#" class="edit" onclick="openEditSpecRuleDialog('<{$val.rule_name}>')" title="编辑">编辑</a>
+            <a href="#" class="edit" onclick="openEditSpecRuleDialog('<{$val.rule_name}>','<{$val.sum}>')" title="编辑">编辑</a>
             <a href="#" class="delete" onclick="openDelSpecRuleDialog('<{$val.rule_name}>')" title="删除">删除</a>
         </td>
     </tr>

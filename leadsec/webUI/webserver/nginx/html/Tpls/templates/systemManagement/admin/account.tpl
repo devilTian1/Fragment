@@ -1,13 +1,13 @@
 <form action="Function/systemManagement/admin/account.php" method="POST" id="expTimeForm" onSubmit="return false">
 <table class="column_95">
     <caption>
-    管理员帐号
+    管理员账号
     </caption>
     <tbody>
         <tr>
-            <td class="tdheader column_40">管理员登录超时时间(单位: 秒):</td>
+            <td class="tdheader column_40">管理员登录超时时间(单位: 分):</td>
             <td class="tdbody">
-                <input type="text" class="width149" name="expTime" value="<{$smarty.const.EXPIRED_TIME}>"
+                <input type="text" class="width149" name="expTime" value="<{$smarty.const.EXPIRED_TIME/60}>"
                 id="expTimeText"/>
             </td>
         </tr>
@@ -39,9 +39,9 @@ onSubmit="return false;">
             </td>
         </tr>
         <tr>
-            <td class="tdheader column_40">自动解锁时间(单位:秒):</td>
+            <td class="tdheader column_40">自动解锁时间(单位:分):</td>
             <td class="tdbody">
-                <input type="text" class="width149" name="limitErrTime" value="<{$smarty.const.LIMITERR_TIME}>"
+                <input type="text" class="width149" name="limitErrTime" value="<{$smarty.const.LIMITERR_TIME/60}>"
                 id="limitErrTime"/>
             </td>
         </tr>
@@ -66,7 +66,7 @@ onSubmit="return false;">
     </label>
 </label>
 <table class="column_95 textMid tablesorter" id="accountTable">
-    <caption>管理员帐号列表</caption>
+    <caption>管理员账号列表</caption>
     <thead>
         <tr>
             <th class="column_20">账号</th>

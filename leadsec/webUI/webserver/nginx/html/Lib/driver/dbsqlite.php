@@ -131,11 +131,20 @@
             $replace .= '+0';
             return str_replace($name, $replace, $sql);
         }
+        
+        public function getFilterParams($params) {
+            $search  = array('\\"', "\\'", '%26', '%2B', '%23', '%');
+            $replace = array('"',   "'",   '&',   '+',   '#' ,  '/%');
+            foreach ($params as &$param) {
+                $param = '%' . str_replace($search, $replace, $param) . '%';
+            }
+            return $params;
+        }
 
         public function getWhereStatement($colStr, $connect, $operator,
             $value = '?'){
             return str_replace(',', " $operator $value $connect ", $colStr) .
-                " $operator $value";
+                " $operator $value ESCAPE '/'";
         }
 
         public function close() {

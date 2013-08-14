@@ -106,9 +106,13 @@
         return $result;
     }
     
-    function checkFilter($delname){
+    function checkFilter($delname,$action){
     	$db  = new dbsqlite(DB_PATH . '/netgap_fs.db');
-        $sql = "SELECT * FROM dir_info WHERE mode = 'C' and filter = '".$delname."'";
+    	if($action === 'edit'){
+    		$sql = "SELECT * FROM dir_info WHERE mode = 'C' and active = 'Y' and filter = '".$delname."'";
+    	}else{
+    		$sql = "SELECT * FROM dir_info WHERE mode = 'C' and filter = '".$delname."'";
+    	}       
     	return $db->query($sql)->getCount();
     }
 
@@ -143,7 +147,7 @@
         // Edit specified filter conf data
         $id  = $_POST['id'];
         $ename = $_POST['ename'];
-        $rc = checkFilter($ename);
+        $rc = checkFilter($ename,'edit');
         if($rc != 0){
         	echo json_encode(array('msg' => "此文件属性控制策略被引用，不能被修改。"));
         }else{
@@ -162,7 +166,7 @@
     } else if ($id = $_POST['delId']) {
         // delete specified filter conf data
         $cmd = "fsctl del filter id $id";
-        $rc = checkFilter($_POST['delName']);
+        $rc = checkFilter($_POST['delName'],'del');
         if($rc != 0){
         	echo json_encode(array('msg' => "此文件属性控制策略被引用，不能被删除。"));
         }else{

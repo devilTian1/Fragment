@@ -3,13 +3,21 @@
         <td><{$value.external_name}></td>
         <td>
             <{if $value.ip != ''}>
-                <{$value.ip|cat: '/'|cat: $value.mask}>
+				<{if !empty($value.mask)}>
+					<{$value.ip|cat: '/'|cat: $value.mask}>
+				<{else}>
+					<{$value.ip}>
+				<{/if}>
             <{/if}>
             <{if $value.ip != '' AND $value.ipv6 != ''}>
                 <br/>
             <{/if}>
             <{if $value.ipv6 != ''}>
-                <{$value.ipv6|cat: '/'|cat: $value.ipv6_mask}>
+				<{if !empty($value.ipv6_mask)}>
+					<{$value.ipv6|cat: '/'|cat: $value.ipv6_mask}>
+				<{else}>
+					<{$value.ipv6}>
+				<{/if}>
             <{/if}>
         </td>
         <td><{$value.phy_device}></td>
@@ -32,8 +40,8 @@
         </form>
         </td>
         <td>
-      	    <a href="#" class="edit" onclick="isInUseCheck('<{$value.external_name}>',openEditAliasDialog)">编辑</a>
-      	    <a href="#" class="delete" onclick="isInUseCheck('<{$value.external_name}>',openDelAliasDialog)">删除</a>	
+      	    <a href="#" class="edit" onclick="isInUseCheck('<{$value.external_name}>',openEditAliasDialog, true)">编辑</a>
+      	    <a href="#" class="delete" onclick="isInUseCheck('<{$value.external_name}>',openDelAliasDialog, false)">删除</a>	
         </td>
     </tr>
 <{foreachelse}>

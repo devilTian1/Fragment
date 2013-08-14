@@ -7,14 +7,14 @@
 		$cli = new cli();
         if ($_POST['stopService'] === 'disable') {
         	$cmd = "httpctl server_stop";
-        	$activeLog = "关闭安全浏览服务";
+        	$activeLog = "关闭安全浏览服务端";
        		$cli->setLog($activeLog)->run($cmd);
-			echo json_encode(array('status' =>0, 'msg' =>'服务停止成功。'));
+			echo json_encode(array('status' =>0, 'msg' =>'服务端停止成功。'));
 	    } else if ($_POST['stopService'] === 'enable') {
 	    	$cmd = "httpctl server_start";
-	    	$activeLog = "开启安全浏览服务";
+	    	$activeLog = "开启安全浏览服务端";
 			$cli->setLog($activeLog)->run($cmd);
-			echo json_encode(array('status' =>0, 'msg' =>'服务启动成功。'));
+			echo json_encode(array('status' =>0, 'msg' =>'服务端开启成功。'));
 	    } 
    } else {
         // init page data

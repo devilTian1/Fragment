@@ -38,10 +38,12 @@
                 options=$filterOptions selected=$data.filter|default: '无'}>&nbsp;&nbsp;
             <button style="position: static"
                 onclick="openNewFilterDialog('pop3')">添加
-            </button>&nbsp;&nbsp;
+            </button>&nbsp;&nbsp; 
+            <{if $type ==='edit'}>
             <button style="position: static"
                 onclick="openEditFilterDialog($('#filter').val(),'pop3')">修改
-            </button>        
+            </button>
+            <{/if}>
         </div>
 
         <div class="row">
@@ -56,14 +58,14 @@
                 selected=$data.time|default: 'empty'}>
             </select>
         </div>
-        
+        <div <{if $killVirusIsUsed eq 'off'}> class="hide"<{/if}>>
         <div class="row">
     		<label>病毒扫描:</label>
     		<{html_radios class="radio" name=virus label_ids=true values=array('on', 'off')
               output=array('开', '关') selected=$data.virus|default: 'off'
             }>
     	</div>
-        
+        </div>
         <div class="row">
             <label for="active">是否启动:</label>
             <{html_radios class="radio" name=active label_ids=true values=array('ok', 'erro')

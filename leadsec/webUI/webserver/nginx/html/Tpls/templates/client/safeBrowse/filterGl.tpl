@@ -1,3 +1,4 @@
+<!--
 <form action="Function/client/safeBrowse/filterGl.php?filterGl=1" method="POST" id="setFilterGlForm"
     onSubmit="return false;">
     <table class="column_95">
@@ -40,6 +41,8 @@
         </tbody>
     </table>
 </form>
+-->
+
 
 <form action="Function/client/safeBrowse/filterGl.php?mime=1" method="POST" id="setMIMEForm"
     onSubmit="return false;">

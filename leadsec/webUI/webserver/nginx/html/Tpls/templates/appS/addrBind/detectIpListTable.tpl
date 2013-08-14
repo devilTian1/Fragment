@@ -8,6 +8,6 @@
 	</tr>
 <{foreachelse}>
 	<tr>
-		<td colspan='4'>╬▐╩¤╛▌</td>
+		<td colspan='5'>цЧацХ░цНо</td>
 	</tr>
 <{/foreach}>

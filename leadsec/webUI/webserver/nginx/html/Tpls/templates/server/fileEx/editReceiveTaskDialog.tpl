@@ -7,6 +7,7 @@
             <label for="receiveTaskId">任务号:<em class="required">*</em></label>
             <input class="id" type="text" name="receiveTaskId" id="receiveTaskId" value="<{$data.task_id}>"
                 <{if $type ==='edit'}>disabled="disabled"<{/if}>/>
+			(同一端的任务号必须唯一)
             <{if $type ==='edit'}>
                 <input type="hidden" name="receiveTaskId"
                     value="<{$data.task_id}>"/>

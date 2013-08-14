@@ -6,7 +6,7 @@
         <td title="<{$ag.comment|escape}>"><{$ag.comment|escape|truncate:30:"... ..."}></td>
         <td class="no_search">
             <a href="#" class="edit" onclick="openEditAddrGroupDialog('<{$ag.id}>')">编辑</a>
-            <a href="#" class="delete" onclick="openDelAddrGroupDialog('<{$ag.name}>')">删除</a> 
+            <a href="#" class="delete" onclick="openDelAddrGroupDialog('<{$ag.fullName}>')">删除</a> 
         </td>
     </tr>
 <{foreachelse}>

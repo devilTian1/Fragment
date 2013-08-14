@@ -52,7 +52,6 @@
             <td>
                 <label class="floatRight" for="SISkey">
                    	对端证书公共名
-                    <em class="required">*</em>
                 </label>
             </td>
             <td>
@@ -72,7 +71,7 @@
  
     <table class="column_95 textMid tablesorter" id="certListTable">
         <caption>
-            文件交换证书列表:
+            证书列表:
         </caption>
         <thead><tr>
         	<th class="column_20">证书文件</th>

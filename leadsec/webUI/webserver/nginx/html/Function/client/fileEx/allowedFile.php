@@ -37,9 +37,9 @@
         return $db->query($sql, $params)->getCount();
     }
     
-    function checkFile(){
+    function checkFile($name){
     	$db  = new dbsqlite(DB_PATH . '/netgap_fs.db');
-    	$sql = "SELECT * FROM filter WHERE filename = '".$_POST['delName']."'";
+    	$sql = "SELECT * FROM filter WHERE filename = '".$name."'";
     	return $db->query($sql)->getCount();
     }
 
@@ -60,12 +60,17 @@
         $name        = $_POST['FEname'];
         $filenameArr = join(',', $_POST['FEfilenames']);
         $comment     = $_POST['comment'];
-        $cmd         = "fsctl add allowedfile name \"$name\" \"$filenameArr\"" .
-            " comment \"$comment\"";
-        $cli = new cli();
-        $cli->setLog('删除客户端的文件交换的文件名控制,id号为'.$id)->run("fsctl del allowedfile id \"$id\"");
-        $cli->setLog('添加客户端的文件交换的文件名控制,任务名为'.$name)->run($cmd);
-        echo json_encode(array('msg' => '修改成功。'));
+        $rc = checkFile($name);
+        if($rc != 0){
+        	echo json_encode(array('msg' => "此文件名控制策略被引用，不能被修改。"));
+        }else{
+        	$cmd         = "fsctl add allowedfile name \"$name\" \"$filenameArr\"" .
+        	" comment \"$comment\"";
+        	$cli = new cli();
+        	$cli->setLog('删除客户端的文件交换的文件名控制,id号为'.$id)->run("fsctl del allowedfile id \"$id\"");
+        	$cli->setLog('添加客户端的文件交换的文件名控制,任务名为'.$name)->run($cmd);
+        	echo json_encode(array('msg' => '修改成功。'));
+        }        
     } else if ('add' === $_POST['type']) {
         // add a new allowed file data
         $name        = $_POST['FEname'];
@@ -79,7 +84,7 @@
     } else if ($id = $_POST['delId']) {
         // delete specified allowed file data
         $cmd = "fsctl del allowedfile id \"$id\"";
-        $rc = checkFile();
+        $rc = checkFile($_POST['delName']);
         if($rc != 0){
         	echo json_encode(array('msg' => "此文件名控制策略被引用，不能被删除。"));
         }else{

@@ -12,14 +12,14 @@
         </div>        
         <div class="row">
           <label>用户名过滤组:</label>
-          <{html_options  class="select time" name="userNameList" 
+          <{html_options  class="select" name="userNameList" 
                     output=$userList values=$userList
                     selected=$res.usergrp|default: 'empty'}>
         </div>  
 
         <div class="row">
           <label>SQL语句过滤组:</label>
-          <{html_options  class="select time" name="sqlNameList" 
+          <{html_options  class="select" name="sqlNameList" 
                     output=$sqlList values=$sqlList
                     selected=$res.sqlgrp|default: 'empty'}>
         </div>       

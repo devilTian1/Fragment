@@ -218,3 +218,16 @@ function chk_one_clicked() {
 	}
 }
 
+function changeToLinkMode() {
+	var val = $("#link_mode").find("option:selected").val();
+	if (val == 'icmp') {
+		$('#icmp_type_div').show();
+		$('#tcp_type_div').hide();
+	} else if (val == 'tcp') {
+		$('#icmp_type_div').hide();
+		$('#tcp_type_div').show();
+	} else if (val == 'udp') {
+		$('#icmp_type_div').hide();
+		$('#tcp_type_div').hide();
+	}
+}

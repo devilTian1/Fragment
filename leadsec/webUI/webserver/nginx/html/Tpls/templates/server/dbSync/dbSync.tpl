@@ -33,7 +33,8 @@ $(document).ready(function() {
     $(document).ready(function() {
         renderStandardUi();
         freshTable('Function/server/dbSync/dbSync.php', $('#dbSyncServerTable'), 'ORDER BY id ASC LIMIT 10');
-        sortTableInit($('#dbSyncServerTable'), {10: {sorter: false}}, [[0,0]]);
+        sortTableInit($('#dbSyncServerTable'), 
+	{5: {sorter: false}, 7: {sorter: false}},[[1,0]]);
     });
 });
 </script>

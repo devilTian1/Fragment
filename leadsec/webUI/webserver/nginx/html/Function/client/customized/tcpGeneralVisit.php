@@ -2,11 +2,12 @@
     require_once($_SERVER['DOCUMENT_ROOT'] . '/Function/common.php');
     
     function getWhereStatement($db, $cols, $keyword) {
-    	$value = '%' . $keyword . '%';
+    	//$value = '%' . $keyword . '%';
+		$value = $keyword;
     	$params = array_fill(0, count(explode(',', $cols)), $value);
     	return array('sql'    => ' WHERE (' .
     			$db->getWhereStatement($cols, 'OR', 'like') . ')',
-    			'params' => $params);
+    			'params' => $db->getFilterParams($params));
     }
     
     function getCmd() {
@@ -73,6 +74,8 @@
         }        
         return $db->query($sql, $params)->getCount();
     }
+    
+    $killVirusIsUsed = antiIsUsed();
 
     if ($id = $_POST['editId']) {
         // Open dialog to show specified tcp general client acl data
@@ -88,6 +91,7 @@
             ->assign('timeList', netGapRes::getInstance()->getTimeList())
             ->assign('roleList', netGapRes::getInstance()->getRoleList())
             ->assign('data', $data)
+            ->assign('killVirusIsUsed',$killVirusIsUsed)
             ->assign('type', 'edit')->fetch($tpl);
         echo json_encode(array('msg' => $result));
     } else if ('edit' === $_POST['type']) {
@@ -113,6 +117,7 @@
             ->assign('ifList', netGapRes::getInstance()->getInterface())
             ->assign('timeList', netGapRes::getInstance()->getTimeList())
             ->assign('roleList', netGapRes::getInstance()->getRoleList())
+            ->assign('killVirusIsUsed',$killVirusIsUsed)
             ->assign('type', 'add')->fetch($tpl);
         echo json_encode(array('msg' => $result));
     } else if ($id = $_POST['delId']) {
@@ -134,8 +139,8 @@
         echo $db->query($sql)->getCount() > 0 ? 'false' : 'true';
     }  else if (!empty($_GET['checkExistId'])) {
         // Check the same id exist or not
-        echo netGapRes::getInstance()->checkExistTaskId('customized',
-            $_GET['customId']);
+        echo netGapRes::getInstance()->checkExistTaskId('customizedtcp',
+            $_GET['customTcpId']);
     } else if ($orderStatement = $_POST['orderStatement']) {
         // fresh and resort tcp_comm_client_acl table
         appendTcpCommClientAclData($orderStatement);

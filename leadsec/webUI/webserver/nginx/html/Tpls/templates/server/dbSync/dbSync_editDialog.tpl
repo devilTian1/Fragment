@@ -25,7 +25,7 @@
         
         <div class="row">
             <label for="sport">服务器端口:<em class="required">*</em></label>
-            <input class="port" type="text" name="serverport"
+            <input class="port" type="text" name="serverDbsyncPort"
 			value="<{$data.sport}>" size="5" maxlength="5"/>
         </div>
         
