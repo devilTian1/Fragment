@@ -28,7 +28,7 @@ function openEditDialog(id) {
     showDialogByAjax(url, data, title, dialogParams);
 }
 
-function openNewDialog() {
+function openNewBasicDialog() {
     var url   = 'index.php?R=firewall/service/basic/openNewDialog';
     var title = '添加服务';
     var data  = {

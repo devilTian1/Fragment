@@ -1,6 +1,7 @@
 <{foreach $list as $r }>
 <tr>
-        <td><input name="checkflag" type="checkbox" value="" /></td>
+        <td><input type="hidden" value='<{$r.id}>'>
+            <input class="checkSon" type="checkbox"/></td>
         <td><{$r.ip}></td>
         <td><{$r.mask}></td>
         <td><{$r.ipv6}></td>
