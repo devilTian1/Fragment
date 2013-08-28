@@ -4,9 +4,9 @@
     require_once(WEB_PATH . '/Lib/driver/exception.php');
     // Template engine, smarty
     require_once(WEB_PATH . '/Lib/driver/smarty.php');
-    // core controller
+    // public controller
     require_once(WEB_PATH . '/Application/Controllers/common.php');
-    // core view
+    // public view
     require_once(WEB_PATH . '/Application/Views/common.php');
 
     function setLang() {

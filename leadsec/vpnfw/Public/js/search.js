@@ -1,55 +1,48 @@
-function getQueryCols(tableId) {
-    var tableDom = $('#' + tableId);
-    var colNames = $('#colNames').val();
-    var cols     = '';
-    if (colNames === '') {
-        tableDom.find('thead>tr>th[name]').each(function() {
-            cols += $(this).attr('name') + ',';
-        });
-        cols = cols.substr(0, cols.length-1);
+function NoControl() {
+    if ($("input[name=No]").val() != '') {
+        $('#advSearchTable input').not('[name=No]')
+            .attr('disabled', 'disabled');
+        $('#advSearchTable select').attr('disabled', 'disabled');
     } else {
-        cols = colNames;
-    }
-    return cols;
-}
-
-function filterKeyword(keyword) {
-    return keyword.replace('&', '%26').replace('+', '%2B')
-        .replace('#', '%23');
-}
-
-function addQueryParams(url, tableId) {
-    var keyword = $('#search').val();
-    if (keyword != undefined && keyword !== '请输入关键字' &&
-        keyword != '') {
-        var cols = getQueryCols(tableId);
-        if (url.indexOf('?') !== -1) {
-            url += '&';
-        } else {
-            url += '?';
-        }
-        keyword = filterKeyword(keyword);
-        url += 'cols=' + cols + '&keyword=' + keyword;
-    }
-    return encodeURI(url);
-}
-
-function setInitSearch(isFirst) {
-    if (isFirst) {
-        $('#isInitSearch').val(1);
-    } else {
-        $('#isInitSearch').val(0);
+        $('#advSearchTable input').not('[name=No]').removeAttr('disabled');
+        $('#advSearchTable select').removeAttr('disabled');
     }
 }
 
-function blurFunc(str) {
-    if( $('#search').val().trim() === '') {
-        $('#search').val(str);
-    }
+function initPagerCss(pageDom) {
+    var liSelected = pageDom.find('ol.pagination>li.selected');
+    var txt = liSelected.text();
+    liSelected.removeClass('selected').removeClass('selected')
+        .html('<a href="#page=' + txt + '">' + txt + '</a>');
+    pageDom.find('ol.pagination>li:eq(2)').addClass('selected').html(1);
+
+    pageDom.find('select[name="rowsCount"]>option:eq(0)')
+        .attr('selected', 'selected');
 }
 
-function focusFunc(str) {
-    if( $('#search').val().trim() === str) {
-        $('#search').val('');
-    }
+function openAdvSearchDialog(dialogFunc, searchFunc, formId, searchId, tableDom, pageDom, dialogPosition) {
+    var title     = '高级查询';
+    var buttons   = {};
+    buttons[getMessage('Search')] = function() {
+        var formDom   = $('#' + formId);
+        var searchDom = $('#' + searchId);
+        searchDom.data('advSearchData', formDom.serializeArray());
+        initPagerCss(pageDom);
+        freshTableAndPagination(searchFunc, tableDom, pageDom, searchDom);
+        $(this).remove();
+    };
+    var width  = dialogPosition[0];
+    var height = dialogPosition[1];
+    var dialogParams = {
+        width   : width,
+        height  : height,
+        buttons : buttons,
+        position: jQuery.getDialogPosition(width, height)
+    };
+    showDialogByAjax(dialogFunc, {}, title, dialogParams);
+}
+
+function removeAdvSearchData(selector) {
+    selector = jQuery.getDefaultVal(selector, '#advSearch');
+    $(selector).removeData('advSearchData');
 }

@@ -127,10 +127,9 @@
 	'fw_a_a' => array('pid'=>'fw_a','name'=>'地址','link'=>'address'),
 	'fw_a_g' => array('pid'=>'fw_a','name'=>'地址组','link'=>'addrGroup'),
 	'fw_a_p' => array('pid'=>'fw_a','name'=>'地址池','link'=>'addrPool'),
-	'fw_a_d' => array('pid'=>'fw_a','name'=>'域名资源','link'=>'dnSource'),
 
 	'fw_s_p' => array('pid'=>'fw_s','name'=>'预定义服务','link'=>'default'),
-	'fw_s_d' => array('pid'=>'fw_s','name'=>'动态服务','link'=>'dynamic'),
+	'fw_s_d' => array('pid'=>'fw_s','name'=>'动态服务','link'=>'dynamicServices'),
 	'fw_s_i' => array('pid'=>'fw_s','name'=>'ICMP服务','link'=>'ICMP'),
 	'fw_s_b' => array('pid'=>'fw_s','name'=>'基本服务','link'=>'basic'),
 	'fw_s_g' => array('pid'=>'fw_s','name'=>'服务组','link'=>'servGroup'),

@@ -83,8 +83,9 @@
                 call_user_func(array($this->controllerClass,
                                      $funcName));
             } catch (Exception $e) {
-                $msg = "Can`t execute controller function" .
-                    "[{$className}::{$funcName}].<br/>{$e->getMessage()}";
+                $msg = DEBUG ? "Can`t execute controller function" .
+                    "[{$className}::{$funcName}].<br/>{$e->getMessage()}" :
+                    $e->getMessage();
                 throw new Exception($msg);
             }
         }

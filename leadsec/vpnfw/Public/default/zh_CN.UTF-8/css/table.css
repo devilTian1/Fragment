@@ -62,3 +62,13 @@ caption a {
     background-color: #458FFF;
     color: #FFFFFF;
 }
+
+#advSearchTable .searchParamTr {
+    height: 35px;
+}
+#advSearchTable .col1 {
+    width: 25%
+}
+#advSearchTable .col2 {
+    width: 75%
+}

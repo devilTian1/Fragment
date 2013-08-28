@@ -454,7 +454,18 @@ jQuery.extend({
         var left   = (width - dialogWidth)/2;
         var top    = (height - dialogHeight)/2;
      	return [left, top];
+    },
+    objectLength: function(object) {
+        var result = 0;
+        for (var i in object) {
+            ++result;
+        }
+        return result;
+    },
+    getDefaultVal: function(param, defaultValue) {
+        return typeof(param) === 'undefined' ? defaultValue : param;
     }
+    
 });
 jQuery.fn.extend({
     hideOption : function(findParams) {
@@ -466,6 +477,25 @@ jQuery.fn.extend({
         if ($(this).data('hideOpts') !== undefined) {
             $(this).data('hideOpts').appendTo($(this));
         }
+    },
+    checkAll: function(sonSelector) {
+        sonSelector = jQuery.getDefaultVal(sonSelector, '.checkSon');
+        if ($(this).attr('checked')) {
+            $(sonSelector).attr('checked', 'checked');
+        } else {
+            $(sonSelector).removeAttr('checked');
+        }
+    },
+    checkRealAll: function(allSelector,sonSelector) {
+    	allSelector = jQuery.getDefaultVal(allSelector, '.checkAll');
+    	sonSelector = jQuery.getDefaultVal(sonSelector, '.checkSon');
+    	if(!$(this).attr('checked')) {
+    		$(allSelector).removeAttr('checked');
+    	}else{
+    		if($(sonSelector).not(':checked').length === 0){
+    			$(allSelector).attr('checked', 'checked');
+    		}
+    	}
     }
 });
 StandardUiFactory();

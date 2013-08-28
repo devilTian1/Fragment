@@ -20,3 +20,7 @@ ol.pagination a:hover, ol.pagination a:focus, ol.pagination li.selected {
     background-color: #0099CC;
     color: white;
 }
+
+.rowsCount {
+    margin-top: 5px;
+}

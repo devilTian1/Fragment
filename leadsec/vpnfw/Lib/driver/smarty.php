@@ -12,7 +12,7 @@ class V {
         $smarty->setConfigDir(WEB_PATH.'/Tpls/config/');
         $smarty->setCacheDir(WEB_PATH.'/Tpls/cache/');
 
-        $smarty->compile_check = true;
+        $smarty->compile_check = DEBUG;
         $smarty->force_compile = false;
 
         $smarty->debugging = DEBUG;

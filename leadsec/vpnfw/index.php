@@ -2,7 +2,7 @@
     // Load Global Conf Param
     require_once dirname(__file__) . '/Conf/global.php';
     // Enable/Disable Development Environment
-    DEBUG && error_reporting(E_ALL);
+    DEBUG && error_reporting(E_ALL ^ E_NOTICE);
 
     try {
         include dirname(__file__) . '/Application/Loader.php';
