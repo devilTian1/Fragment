@@ -226,7 +226,8 @@
 	//level 4 //routingConf
 	'sm_n_r_d' => array('pid'=>'sm_n_r','name'=>'默认路由','link'=>'default'),
 	'sm_n_r_s' => array('pid'=>'sm_n_r','name'=>'静态路由','link'=>'static'),
-	'sm_n_r_i' => array('pid'=>'sm_n_r','name'=>'ISP路由表','link'=>'ISP'),
+	'sm_n_r_ia' => array('pid'=>'sm_n_r','name'=>'ISP地址','link'=>'ISPaddr'),
+	'sm_n_r_ir' => array('pid'=>'sm_n_r','name'=>'ISP路由表','link'=>'ISProute'),
 	'sm_n_r_a' => array('pid'=>'sm_n_r','name'=>'高级路由表','link'=>'advanced'),
 	'sm_n_r_p' => array('pid'=>'sm_n_r','name'=>'高级路由策略','link'=>'advacedPolicy'),
 	'sm_n_r_dy'=> array('pid'=>'sm_n_r','name'=>'动态路由','link'=>'dynamic'),

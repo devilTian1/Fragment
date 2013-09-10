@@ -1,11 +1,11 @@
 #textareaA {
-	width:98%;
-	background:#cccccc
+    width:98%;
+    background:#cccccc
 }
 
 #textareaB{
-	width:98%;
-	color: blue ;
+    width:98%;
+    color: blue ;
 }
 
 table {
@@ -29,7 +29,7 @@ th {
 
 caption {
     text-align: left;
-	background-color: #a5c8e7;
+    background-color: #a5c8e7;
     color:#000;
     font-weight:bold;
     padding-left: 5px;
@@ -72,3 +72,36 @@ caption a {
 #advSearchTable .col2 {
     width: 75%
 }
+
+/*=================================
+ * configration by liuchao start 
+ *---------------------------------*/
+.configration {
+    margin:15px auto;
+    width:50%;
+}
+.configration label {
+    padding:0 10px;
+}
+.configration caption {
+    text-align:center;
+}
+.configration tr td {
+    border:0;
+}
+.configration tr td.btn {
+    text-align:center;
+    padding-bottom:15px;
+}
+.configration table, .configration table tr td {
+    border:0;
+}
+.configration table tr td input {
+    width:auto;
+}
+.configration table.timeout input {
+    width:60px;
+}
+/*---------------------------------
+ * configration by liuchao end 
+ *=================================*/

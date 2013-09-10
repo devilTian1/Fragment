@@ -276,43 +276,6 @@ function fileLinesToArr($path = LOG_PATH, $rowsNum = 10, $offset = 1,
     return $result;
 }
 
-/*
- * Convert the netmask to specified format.
- * @param $mask String. Subnet mask.
- * @param $format String. 'dot' means 32-bits mask. 'int' means Netmask length.
- *   eg: 'dot' => 255.255.0.0, int => 16.
- * @return string.Dotted decimal notation.
- *   eg: 255.255.128.0
- */
-function convertToIpv4Mask($mask, $format = 'dot') {
-    $regexp = '/^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\.|$)){4}/';
-    if (($format === 'dot' && preg_match($regexp, $mask)) ||
-        ($format === 'int' && $mask >= 1 && $mask <= 32)) {
-        return $mask;
-    } else if ($format === 'int') {
-        $maskFrag = explode('.', $mask);
-        $result = 0;
-        foreach ($maskFrag as $v) {
-            $result += substr_count(base_convert($v, 10, 2), '1');
-        }
-        return $result;
-    } else if ($format === 'dot') {
-        $mask = intval($mask);//转换为整形
-        if ($mask >= 1 && $mask <= 32) {
-            $maskFrag =
-                str_split(str_pad(str_repeat('1', $mask), 32, '0'), 8);
-            foreach ($maskFrag as $k => $v) {
-                $maskFrag[$k] = base_convert($v, 2, 10);//把数字的2进制转化为10进制
-            }
-            return join('.', $maskFrag);
-        } else {
-            throw new Exception('incorrect subnet mask: ' . $mask);
-        }
-        return join('.', $maskFrag);
-    } else {
-        throw new Exception("incorrect subnet mask: $mask, format: $format");
-    }
-}
 
 function getCurModStat($tabPath) {
     $l1 = strtolower($tabPath[1]);

@@ -1,10 +1,5 @@
 <?php
     class BasicController extends commonController{
-        public function __construct(Loader $loader) {
-            parent::__construct($loader);
-            $this->model = $this->getModel();
-			$this->view  = $this->getView();
-        }
         
     	public function initTable() {
             $this->model->indata=$this->model->getInitTable();

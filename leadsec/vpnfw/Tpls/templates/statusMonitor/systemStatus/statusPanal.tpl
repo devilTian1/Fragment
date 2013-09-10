@@ -27,7 +27,7 @@
         </tbody>
     </table>
 </form>
-<script type="text/javascript" src="Public/js/networkManagement/basic/dns.js"></script>
+<script type="text/javascript" src="Public/js/statusMonitor/systemStatus/statusPanal.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
     renderStandardUi();

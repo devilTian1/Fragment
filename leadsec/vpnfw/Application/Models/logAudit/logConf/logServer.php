@@ -1,18 +1,23 @@
 <?php
-    require_once WEB_PATH . '/Lib/driver/dbsqlite.php';
-    require_once WEB_PATH . '/Lib/driver/cli.php';
-
-    class logServerModel {
+    requireCache(WEB_PATH . '/Lib/driver/dbsqlite.php');
+    
+    class LogServerModel {
+     	private $db;
+        
+        public function __construct() {
+            $this->db  = new dbsqlite('configs', DB_PATH . '/configs.db');
+        }
         
         public function getInitPageData() {
-            $this->db = new dbsqlite('configs', DB_PATH . '/configs.db');
-            $data     = $this->db->getInstance('configs')
-                                 ->query('SELECT logsrv, protocol,port FROM logsrv')
+        	$sql	= "SELECT logsrv, protocol,port FROM logsrv";
+            $data   = $this->db->getInstance('configs')
+                                 ->query($sql)
                                  ->getFirstData(PDO::FETCH_ASSOC);
             return $data;
         }
 
         public function setLogServer() {
+        	requireCache(WEB_PATH . '/Lib/driver/cli.php');
             $cli     = new cli();
             $logsrv  = $_POST['logsrv'];
             $port = $_POST['port'];

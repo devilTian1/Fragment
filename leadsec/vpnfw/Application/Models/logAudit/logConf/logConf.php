@@ -1,11 +1,14 @@
 <?php
-    require_once WEB_PATH . '/Lib/driver/dbsqlite.php';
-    require_once WEB_PATH . '/Lib/driver/cli.php';
+    requireCache(WEB_PATH . '/Lib/driver/dbsqlite.php');
 
-    class logConfModel {
+    class LogConfModel {
+    	private $db;
+        
+        public function __construct() {
+            $this->db  = new dbsqlite('configs', DB_PATH . '/configs.db');
+        }
         
         public function getInitPageData() {
-            $this->db = new dbsqlite('configs', DB_PATH . '/configs.db');
             $data     = $this->db->getInstance('configs')
                                  ->query('SELECT overwrite, stopwrite,sendemail FROM logset')
                                  ->getFirstData(PDO::FETCH_ASSOC);
@@ -13,6 +16,7 @@
         }
 
         public function setLogConf() {
+        	requireCache(WEB_PATH . '/Lib/driver/cli.php');
             $cli     = new cli();
             $overstop  = $_POST['overstop'];			
             if (1 === $overstop) {
@@ -37,7 +41,6 @@
         }
         //判断是否设置报警邮箱
         public function ifSetEmail(){
-        	$this->db = new dbsqlite('configs', DB_PATH . '/configs.db');
             $data     = $this->db->getInstance('configs')
                                  ->query('SELECT power FROM gwmail')
                                  ->getFirstData(PDO::FETCH_ASSOC);

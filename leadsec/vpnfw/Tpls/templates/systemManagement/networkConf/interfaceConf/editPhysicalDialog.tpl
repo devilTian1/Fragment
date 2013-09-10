@@ -1,12 +1,17 @@
 <form action="index.php?R=systemManagement/networkConf/interfaceConf/physical/setSpecPhysicalDev" method="POST" id="editPhysicalForm" onSubmit="return false;">
     <input type="hidden" name="type" value="edit"/>
+    <input type="hidden" name="chkBandwidthDef" id="chkBandwidthDef" value="<{$res.qos_enable}>"/>
+    <input type="hidden" name="flgMtuRange" id="flgMtuRange" value="<{$speedBuf.mtuRange}>">
+    <input type="hidden" name="chkAdminDef" id="chkAdminDef" value="<{$res.admin}>">
+    <input type="hidden" name="hid_ip" value="<{$res.ip}>"/>
+    <input type="hidden" name="hid_vpn" value="<{$res.vpn}>"/>
     <fieldset>
         <legend>修改物理设备</legend>
         <ul class="hide" id="summary">
         </ul>
         <div class="row">
         	 <label for="external_name">接口名称:</label>
-             <input type="text" name="external_name" value="<{$res.external_name}>" readonly="readonly"/>(不能修改)
+             <input type="text" name="external_name" class="id" value="<{$res.external_name}>" readonly="readonly"/>(不能修改)
 		</div>
              
         <div class="row"><label for="linkmode">链路工作模式:</label>
@@ -18,7 +23,7 @@
 		<div id="speed_type_div" <{if $res.linkmode eq 0}> class="hide" <{/if}>>
 			<div class="row"><label for="speed">链路速度:</label>
 				<{html_options name="speed" id="speed" class="select"
-					output=array('10','100','1000') values=array(10,100,1000)
+					output=$speedBuf.linkSpeedOption values=$speedBuf.linkSpeedOption
 					selected=$res.speed }>
 			</div>
 		</div>
@@ -72,7 +77,7 @@
         
         <div id="routeDiv">
         <div class="row"><label for="admin">用于管理:</label>
-          <input type="checkbox" name="admin" class="checkbox" <{if $res.admin eq 1}> checked="checked" <{/if}> />
+          <input type="checkbox" name="admin" id="admin" class="checkbox" <{if $res.admin eq 1}> checked="checked" <{/if}> />
         </div>
          
         <div class="row"><label for="ping">允许 PING:</label>
@@ -97,7 +102,7 @@
                              
             <div class="row">
                 <label for="remark_name">备注名称:</label>
-                <input type="text" name="remark_name" value="<{$comment}>" />(1-15位中文、字母、数字、减号、下划线组合)
+                <input type="text" class="width132" name="remark_name" value="<{$comment}>" />(1-15位中文、字母、数字、减号、下划线组合)
 	   </div>      	
             <div class="row"><label for="mac_address">MAC 地址:</label>
               <input type="text" name="mac_address" value="<{$res.mac_address}>" class="width132"/>
@@ -105,7 +110,7 @@
             
             <div class="row" id="workmode_div" <{if $res.workmode eq 2}> class="hide" <{/if}>>
                 <label for="mtu">MTU:</label>
-                <input type="text" name="mtu" value="<{$res.mtu}>" class="width132"/>(68-9216)
+                <input type="text" name="mtu" value="<{$res.mtu}>" class="width132"/><{$speedBuf.mtuRange}>
             </div>
             
             <div id="routeDiv2">
@@ -146,7 +151,7 @@
              <div class="row">
                 <label for="BandwidthManage">开启带宽管理:</label>
                 <input type="checkbox" name="chkBandwidthManage" id="chkBandwidthManage" class="checkbox" <{if $res.qos_enable eq 1}> checked="checked" <{/if}> onclick="bindwidthOnCtrl()"/>
-                <input type="text" name="BandwidthValue" id="BandwidthValue" value="<{$res.qos_device_bw}>" />Kbps <button class="standard floatLeft" style="position: static"  onclick="">自动检测</button>
+                <input type="text" name="BandwidthValue" id="BandwidthValue" value="<{$res.qos_device_bw}>" />Kbps <button class="standard floatLeft" style="position: static"  onclick="bandWidthDetect()">自动检测</button>
              </div>
              
              <div class="row">
@@ -172,6 +177,7 @@
         dhcpOnCtrl();
         bindwidthOnCtrl();
         dynDomainCtrl();
+        checkLinkMode();
 		$("#ipaddr_type").change(function(){
             var val = this.value;
             if (val == 1) {
@@ -223,24 +229,30 @@
                 dhcpOnCtrl();
             } 
         });
+                
+            function checkLinkMode() {
+                    var val = $("#linkmode").val();
+            	if (val == 0) {
+            	// auto
+            		$('#speed_type_div').hide();
+            	} else if (val == 1) {
+            	// full
+            	        $('#speed_type_div').show();
+            	        $('#speed').empty();
+            	        <{foreach $speedBuf.linkSpeedOption as $value}>
+            	            $("<option value='<{$value}>'><{$value}></option>").appendTo($("#speed"));
+            	        <{/foreach}>
+            	} else {
+            	// half
+            		$('#speed_type_div').show();
+            		$('#speed').empty();
+            		$("<option value='10'>10</option>").appendTo($("#speed"));
+            		$("<option value='100'>100</option>").appendTo($("#speed"));
+            	}
+            }            
+                    
 		$("#linkmode").change(function(){
-			var val = this.value;
-			if (val == 0) {
-			// auto
-				$('#speed_type_div').hide();
-			} else if (val == 1) {
-			// full
-			        $('#speed_type_div').show();
-			        if($('select[name="speed"] option').length <= 2) {
-			           $("<option value='1000'>1000</option>").appendTo($("#speed"));
-			        }
-			} else {
-			// half
-				$('#speed_type_div').show();
-				if($('select[name="speed"] option').length >= 3) {
-				    $('#speed option:last').remove();
-				}
-			}
+			checkLinkMode();
 		});
 	});
 </script>

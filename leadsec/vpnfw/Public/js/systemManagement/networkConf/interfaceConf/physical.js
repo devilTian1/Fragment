@@ -1,4 +1,5 @@
 function openEditPhysicalDialog(external_name) {
+    var adminChkResult = 0;
     var url  = 'index.php?R=systemManagement/networkConf/interfaceConf/physical/getSpecDataByName';
     var data = {
         name : external_name
@@ -6,7 +7,22 @@ function openEditPhysicalDialog(external_name) {
     var title   = '修改物理设备';
     var buttons = {};
     buttons['确定'] = function() {
-        if ($('#editPhysicalForm').valid()) {
+        var adminDef = $("#chkAdminDef").val();
+        var adminCur = $("#admin");
+        if (adminDef === '1' && adminCur.attr("checked")!=='checked') {
+            var ret = confirm("关闭设备的用于管理属性可能会导致设备不能被管理，是否继续？");
+            if (ret === true) {
+                adminChkResult = 1;
+            } else {
+                adminCur.attr("checked","checked");
+            }
+        } else {
+            adminChkResult = 1;
+        }
+        if (adminChkResult===1 && $('#editPhysicalForm').valid()) {
+            if ($("input[name='hid_vpn']").val() == '1' && $("input[name='hid_ip']").val() != $("input[name='devIpv4']").val()) {
+        		alert("协商口的IP地址已经改变，VPN进程将自动重启！");
+        	  }
             var afterSuccessCallback = function() {
                 freshTableAndPage();
             };
@@ -51,43 +67,6 @@ function switchPhysicalDev(name, action, formId) {
     };
     var str = action === 'disable' ? '停止' : '启动';
     dialog.setContent('<p>确定' + str + '设备[' + name  + ']吗?</p>');
-    dialog.setOptions(dialogParams);
-}
-
-function openStopDialog() {
-    var title   = '停止物理设备';
-    var dialog  = loadingScreen(title);
-    var buttons = {};
-    var users = [];
-    $('input:checkbox[name="checkSpecPhysical"]:checked').each(function(i) {
-        users[i] = $(this).parent().next().html();
-    });
-    if (users.length === 0) {
-        dialog.setContent("<p>没有任何设备？</p>");
-        buttons['关闭']  = function() {
-            $(this).remove();
-        };
-    } else {
-    buttons['确定'] = function() {
-        var afterSuccessCallback = function() {
-                freshTableAndPage();
-        };
-        //ajaxSubmitForm($('#switchPhyDevForm_' + formId), '结果', undefined,
-        //        undefined, afterSuccessCallback);
-        $(this).remove();
-    };
-    buttons['取消'] = function() {
-        $(this).remove();
-    };    
-    //var str = action === 'disable' ? '停止' : '启动';
-    dialog.setContent('<p>确定停止设备吗?</p>');
-}
-    var dialogParams = {
-        width: 300,
-        height: 160,
-        buttons: buttons,
-        position : jQuery.getDialogPosition('300','160')
-    };
     dialog.setOptions(dialogParams);
 }
 
@@ -137,10 +116,21 @@ function dynDomainCtrl() {
 }
 
 function bindwidthOnCtrl() {
-    if($("#chkBandwidthManage").attr("checked") === "checked" && $("#chkBandwidthManage").attr("disabled") !== "disabled") {
-        $("#BandwidthValue").removeAttr("disabled");
-    } else {
+    if($("#chkBandwidthManage").attr("disabled") === "disabled") {
         $("#BandwidthValue").attr("disabled",'disabled');
+        return;
+    }
+    if($("#chkBandwidthManage").attr("checked") !== "checked") {
+        if($("#chkBandwidthDef").val() === '1') {
+            var ret = confirm("停止设备的带宽管理功能将会导致带宽管理规则失去作用,是否继续？");
+            if (ret === false) {
+                $("#chkBandwidthManage").attr("checked",'checked');                
+                return;
+            }
+        }
+        $("#BandwidthValue").attr("disabled",'disabled');
+    } else {
+        $("#BandwidthValue").removeAttr("disabled");
     }
 }
 
@@ -195,6 +185,43 @@ function checkIpmacCheck()
 
 function freshTableAndPage() {
     var url = 'index.php?R=systemManagement/networkConf/interfaceConf/physical/showTable';
-    freshTable(url, $('#physicalTable'));
+    initTable(url, $('#physicalTable'));
     //freshPagination(url, $('.pager'));
+}
+
+function bandWidthDetect() {
+    var title   = '设备带宽检测';
+    var dialog  = loadingScreen(title);
+    var buttons = {};
+    buttons['确定'] = function() {
+        $(this).remove();
+    };
+    var dialogParams = {
+        width: 300,
+        height: 160,
+        buttons: buttons,
+        position : jQuery.getDialogPosition('300','160')
+    };
+    dialog.setOptions(dialogParams);
+    var url = "index.php?R=systemManagement/networkConf/interfaceConf/physical/bandWidthDetect";
+    var params ={
+	type  : "POST",
+	dataType : 'json',
+	success: function(result, textStatus) {
+	    if(result.status != -1) {
+    	        dialog.setContent(result.msg);
+	        $('#BandwidthValue').val(result.speed); 
+	    } else {
+	        dialog.setContent(result.msg);
+	    }
+	    setTimeout(function(){
+	        dialog.close();
+	    },2000);
+	}
+    };
+    var name = $("input[name='external_name']").val();    
+    var data = {
+        ifname: name
+    };
+    loadAjax(url, data, params);
 }

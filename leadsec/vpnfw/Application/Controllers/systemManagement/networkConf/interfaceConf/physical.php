@@ -1,32 +1,48 @@
 <?php
     class PhysicalController extends commonController {
         
+        public function __construct(Loader $loader) {
+			parent::__construct($loader);
+			$this->model = $this->getModel();
+			$this->view  = $this->getView();
+		}
+        
         public function showTable() {
-            $model = $this->getModel();
-            $view  = $this->getView();
-            $model->getTableData();
-            $view->showTableData();
+            $this->model->getTableData();
+            $this->view->showTable();
         }
 
         public function switchPhysicalDev() {
-            $model = $this->getModel();
-            $view  = $this->getView('common');
-            $model -> setPhysicalDevActive();
-            $view -> showMsg();
+            $this->model->setPhysicalDevActive();
+            $this->view->showMsg();
         }
         
         public function getSpecDataByName() {
-            $model = $this->getModel();
-            $view  = $this->getView();
-            $model -> getSpecPhysicalData();
-            $view -> showSpecPhysicalDialog();
+            $this->model->getSpecPhysicalData();
+            $this->view->showSpecPhysicalDialog();
         }
         
         public function setSpecPhysicalDev() {
-            $model = $this->getModel();
-            $view  = $this->getView('common');
-            $model -> setSpecifiedPhysicalDev();
-            $view -> showMsg();
+            $this->model->setSpecifiedPhysicalDev();
+            $this->view->showMsg();
+        }
+        
+        public function batchStop() {
+            $this->model->setBatchStopCmd();
+            $this->view->showMsg();
+        }
+        
+        public function openAdvSearchDialog() {
+            $this->view->showSimpleAdvSearchDialog();
+        }
+        
+        public function freshTableAndPagination() {
+            $this->model->freshTableAndPagination();
+            $this->view->showTableAndPagination();
+        }
+        
+        public function bandWidthDetect() {
+            $this->model->getBandWidth();
         }
     }
 ?>

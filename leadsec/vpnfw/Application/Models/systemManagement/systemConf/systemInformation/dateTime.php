@@ -40,11 +40,8 @@
 			$data = $db->query($sql)->getFirstData(PDO::FETCH_ASSOC);
 			$initData['curTimezone'] = $data['zoneinfo'];
 			
-			//init page
 			$cli = new cli();
 			$cmd = 'ntp show';
-			// get server timestamp for current now 
-			//$servertime = time();
 			$return = $cli->setGetResult(true)->run($cmd);
 			
 			if (false !== strpos($return[0], 'on')) {
@@ -80,17 +77,17 @@
 			$cli       = new cli();
 			$localTime = $_POST['localTime'];
 			$cmd       = "clock set $localTime";
-			$msg_log   = '系统管理模块系统维护下的时间同步';//TODO
+			$msg_log   = '系统管理模块系统维护下的时间同步';
 			$cli->setLog($msg_log)->run($cmd);
 			$servertime = time();
-			$this->msg  = '时间同步成功。';//TODO
+			$this->msg  = '时间同步成功。';
 		}
 		
 		public function setTimezone() {
 			$cli      = new cli();
 			$timezone = $_POST['timezone'];
 			$cmd      = "timezone set {$timezone}";
-			$msg_log  = '系统管理》系统配置》时间 设置时区'; //TODO
+			$msg_log  = '系统管理》系统配置》时间 设置时区'; 
 			list($status, $lines) = $cli->setLog($msg_log)
                                         ->execCmdGetStatus($cmd);
 			
@@ -98,9 +95,9 @@
 			$sql = "UPDATE timezone SET zoneinfo='{$timezone}';";	
 			$res = $db->exec($sql);
 			if ($status == 0 && $res >0) {
-				$msg = '时区设置成功。'; //TODO
+				$msg = '时区设置成功。'; 
 			} else {
-				$msg = '时区设置失败。'; //TODO
+				$msg = '时区设置失败。'; 
 			}
 			$this->msg =
                 array('msg' => $msg, 'timestamp' => $this->getServerTime());
@@ -111,23 +108,23 @@
 			
 			if (isset($_POST['switchNTP'])) {
 				// sync ntp server
-				$ip       = $_POST['ip'];
 				$interval = $_POST['ntpSyncInterval'];
-				$cmd      = "ntp set ip $ip interval $interval";
-				$msg_log = '系统管理模块系统维护下的设置同步时钟服务器'.$ip;
-                // TODO
+				if (isset($_POST['ip'])) {
+					$cmd = "ntp set ip {$_POST['ip']} interval $interval";
+				} elseif (isset($_POST['dn'])) {
+					$cmd = "ntp set domain {$_POST['dn']} interval $interval";
+				}
 				
+				$msg_log = '系统管理模块系统维护下的设置同步时钟服务器';
 				$cli->run('ntp off');
 				$cli->setLog($msg_log)->run($cmd);
 				$cli->run('ntp on');
-				
-				$this->msg = '设置成功。';//todo
+				$this->msg = '设置成功。';
 			} else {
 				// disable NTP server
-				$msg_log = '系统管理模块系统维护下的同步时钟服务器取消';//todo
+				$msg_log = '系统管理模块系统维护下的同步时钟服务器取消';
 				$cli->setLog($msg_log)->run('ntp off');
-				
-				$this->msg = '取消时间同步成功！';//todo
+				$this->msg = '取消时间同步成功！';
 			}
 			
 		}		
@@ -135,14 +132,14 @@
 		public function syncTime() {
 			// sync time immediately
 			$cmd     = 'ntp sync';
-			$msg_log = '系统管理模块系统维护下的同步时钟服务器';//todo
+			$msg_log = '系统管理模块系统维护下的同步时钟服务器';
 			$cli     = new cli();
 			list($status, $lines) =
                 $cli->setLog($msg_log)->execCmdGetStatus($cmd);
 			if ($status == 2) {
-				$this->msg = '同步失败。';//todo
+				$this->msg = '同步失败。';
 			} else if ($status == 0) {
-				$this->msg = '同步成功。';//todo
+				$this->msg = '同步成功。';
 			} else {
 				$this->msg = join('<br/>', $lines);
 			}

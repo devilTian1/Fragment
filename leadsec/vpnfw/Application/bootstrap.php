@@ -1,37 +1,30 @@
 <?php
-    // Include common driver
+// 记载运行时所需要的文件
+function loadRuntimeFile() {
+    // Load system basic function library
+    require WEB_PATH . '/Application/Common/common.php';
+
     // Exception driver
-    require_once(WEB_PATH . '/Lib/driver/exception.php');
+    requireCache(WEB_PATH . '/Lib/driver/exception.php');
+
     // Template engine, smarty
-    require_once(WEB_PATH . '/Lib/driver/smarty.php');
+    requireCache(WEB_PATH . '/Lib/driver/smarty.php');
+
     // public controller
-    require_once(WEB_PATH . '/Application/Controllers/common.php');
+    requireCache(WEB_PATH . '/Application/Controllers/common.php');
+
     // public view
-    require_once(WEB_PATH . '/Application/Views/common.php');
-
-    function setLang() {
-        // set time zone
-        date_default_timezone_set('Asia/Chongqing');
-        if (isset($_GET['lang'])) {
-            $lo = $_GET['lang'];
-            setcookie('web_locale', $lo, 0, '/');
-            $_COOKIE['web_locale'] = $lo;
-        } else if (isset($_COOKIE['web_locale'])) {
-            $lo = $_COOKIE['web_locale'];
-        } else {
-            $lo = DEFAULT_LOCALE;
-            setcookie('web_locale', $lo, 0, '/');
-        }
-        setlocale(LC_ALL, $lo);
-        putenv('LC_ALL=' . $lo);
-        setlocale(LC_CTYPE, $lo);
-
-        bindtextdomain('message', WEB_PATH . '/Lang');
-        textdomain('message');
-    }
+    requireCache(WEB_PATH . '/Application/Views/common.php');
+    
+    // Load language.
     setLang();
-    include_once WEB_PATH . '/Conf/product.php';
+    // company and product name.
+    requireCache(WEB_PATH . '/Conf/product.php');
 
-    $loader = new Loader();
-    $loader->loader();
+}
+// 加载运行时所需文件
+loadRuntimeFile();
+// 执行入口
+$loader = new Loader();
+$loader->loader();
 ?>

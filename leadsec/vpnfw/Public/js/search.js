@@ -26,7 +26,7 @@ function openAdvSearchDialog(dialogFunc, searchFunc, formId, searchId, tableDom,
     buttons[getMessage('Search')] = function() {
         var formDom   = $('#' + formId);
         var searchDom = $('#' + searchId);
-        searchDom.data('advSearchData', formDom.serializeArray());
+        addAdvSearchData(searchDom, formDom.serializeArray());
         initPagerCss(pageDom);
         freshTableAndPagination(searchFunc, tableDom, pageDom, searchDom);
         $(this).remove();
@@ -40,6 +40,25 @@ function openAdvSearchDialog(dialogFunc, searchFunc, formId, searchId, tableDom,
         position: jQuery.getDialogPosition(width, height)
     };
     showDialogByAjax(dialogFunc, {}, title, dialogParams);
+}
+
+function addAdvSearchData(dom, newObjArr) {
+    var origVal = dom.data('advSearchData');
+    if (origVal !== undefined && origVal.length > 0) {
+        for (var i in newObjArr) {
+            for (var j in origVal) {
+                if (newObjArr[i].name === origVal[j].name) {
+                    origVal[j].value = newObjArr[i].value;
+                } else if (parseInt(j) === (origVal.length-1)) {
+                    origVal[origVal.length] = newObjArr[i];
+                    break;
+                }
+            }
+        }
+        dom.data('advSearchData', origVal);
+    } else {
+        dom.data('advSearchData', newObjArr);
+    }
 }
 
 function removeAdvSearchData(selector) {

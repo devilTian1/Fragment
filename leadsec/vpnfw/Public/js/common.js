@@ -104,7 +104,9 @@ function loadAjax(url, data, params) {
             showErrorDialog(result.msg);
             return;
         }
-        s(result);
+        if (s !== undefined) {
+            s(result);
+        }
     }
     $.ajax(ajaxParams);
 }
@@ -241,8 +243,12 @@ function showDialogByAjax(url, data, title, dialogParams, ajaxParams,
     var dialog = loadingScreen(title);
     if (!successCallback) {
         successCallback = function(result, textStatus) {
-            dialog.setContent(result.msg);
-            dialog.setOptions(dialogParams)
+            if (result.msg === '' && result.status === undefined) {
+                dialog.close();
+            } else {
+                dialog.setContent(result.msg);
+                dialog.setOptions(dialogParams)
+            }
         }
     }
     if (!errorCallback) {
@@ -309,11 +315,15 @@ function ajaxSubmitForm(formEle, title, successCallback, errorCallback,
  
     if (!successCallback) {
         successCallback = function(result, textStatus) {
-	        var content = result.msg;
-	        if ($.isArray(content)) {
-	            content = content.join('<br/>');	
-	        }
-            dialog.setContent($('<p>' + content + '</p>'));
+            if (result.msg === '' && result.status === undefined) {
+                dialog.close();
+            } else {
+	            var content = result.msg;
+                if ($.isArray(content)) {
+                    content = content.join('<br/>');	
+                }
+                dialog.setContent($('<p>' + content + '</p>'));
+            }
             if (afterSuccessCallback != undefined &&
                 typeof(afterSuccessCallback) == 'function') {
                 afterSuccessCallback(result, textStatus);
@@ -489,10 +499,10 @@ jQuery.fn.extend({
     checkRealAll: function(allSelector,sonSelector) {
     	allSelector = jQuery.getDefaultVal(allSelector, '.checkAll');
     	sonSelector = jQuery.getDefaultVal(sonSelector, '.checkSon');
-    	if(!$(this).attr('checked')) {
+    	if (!$(this).attr('checked')) {
     		$(allSelector).removeAttr('checked');
-    	}else{
-    		if($(sonSelector).not(':checked').length === 0){
+    	} else {
+    		if ($(sonSelector).not(':checked').length === 0){
     			$(allSelector).attr('checked', 'checked');
     		}
     	}

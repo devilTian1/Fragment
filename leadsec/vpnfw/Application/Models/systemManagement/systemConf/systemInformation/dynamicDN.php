@@ -8,8 +8,7 @@
 		public function getInitPageData() {
 			$initData = array();
 			$db        = new dbsqlite('ddns_info', DB_PATH . '/configs.db');
-			$initData = $db->query('SELECT * FROM ddns_info')
-                        //todo只查找需要的列
+			$initData = $db->query('SELECT username,password FROM ddns_info')
 						   ->getFirstData(PDO::FETCH_ASSOC);
 						 
 			return $initData;
@@ -19,8 +18,8 @@
 			$cmd = "ddns set username {$_POST['account']} " .
                 "password {$_POST['passwd']} confirm {$_POST['passwd_again']}";
 			$cli = new cli();
-			$log = "系统管理》系统设置》系统信息》动态域名 设置用户信息。";
-            //todo
+			$log = '系统管理》系统设置》系统信息》动态域名 设置用户信息。';
+ 
 			list($status, $result) = $cli->setLog($log)->exec($cmd);
 			if ($status === 0) {
 				$db  = new dbsqlite('ddns_info',DB_PATH . '/configs.db');
@@ -28,12 +27,12 @@
 				$sql = 'INSERT INTO ddns_info (username,password) VALUES (?,?)';
 				$params = array($_POST['account'],$_POST['passwd']);
 				if ($db->exec($sql,$params) > 0) {
-					$this->msg = "修改成功。";//todo
+					$this->msg = '修改成功。';
 				} else {
-					$this->msg = "设置失败。";//todo
+					$this->msg = '设置失败。';
 				}
 			} else {
-				$this->msg = "修改失败。"; //todo
+				$this->msg = '修改失败。'; 
 			}
 			return $this->msg;
 		}

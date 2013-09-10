@@ -55,7 +55,7 @@ function setServerTime() {
         if (oldServerTime != '') {
             clearInterval(oldServerTime);
         }
-        displayTime($('#server'), timestamp);
+        oldServerTime = displayTime($('#server'), timestamp);
         dialog.setContent($('<p>修改成功。</p>'));
     };
         ajaxSubmitForm($('#setServerTimeForm'),'时间同步',undefined,
@@ -65,7 +65,14 @@ function setServerTime() {
 
 function setNTPServer() {
     if ($('#syncTimeForm').valid()) {
-        ajaxSubmitForm($('#syncTimeForm'), '结果');
+		var afterSuccessCallback = function(result, textStatus) {
+			if ($('#serverip').attr('disabled')=='disabled') {
+				$('#serverip').val('');
+			} else {
+				$('#serverdn').val('');
+			}
+		};
+        ajaxSubmitForm($('#syncTimeForm'), '结果',undefined,undefined,afterSuccessCallback);
     }
 }
 
@@ -75,7 +82,7 @@ function setTimezone() {
         if (oldServerTime != '') {
             clearInterval(oldServerTime);
         }
-        displayTime($('#server'), timestamp);
+        oldServerTime = displayTime($('#server'), timestamp);
         dialog.setContent($('<p>修改成功。</p>'));
     };
         ajaxSubmitForm($('#setTimezoneForm'), '结果',undefined,undefined,afterSuccessCallback);

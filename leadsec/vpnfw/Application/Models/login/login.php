@@ -1,7 +1,7 @@
 <?php
     require_once WEB_PATH . '/Lib/driver/dbsqlite.php';
     require_once WEB_PATH . '/Lib/driver/admLog.php';
-    require_once WEB_PATH . '/Application/Models/user.php';
+    require_once WEB_PATH . '/Application/Models/developTools/user.php';
     // Menu
     require_once(WEB_PATH . '/Lib/driver/leftmenu.php');
 
@@ -20,7 +20,7 @@
             $this->uTool  = new User();
             $this->admLog = new admLog();
             $this->db     = new dbsqlite('configs', DB_PATH . '/configs.db');
-            $this->db->setInstance('system', DB_PATH . '/netgap_system.db');
+//            $this->db->setInstance('system', DB_PATH . '/netgap_system.db');
             
             $this->isValidUser = false;
             $this->errMsg      = '';
@@ -98,7 +98,7 @@
                 // login successful
                 session_regenerate_id();
                 $this->uTool->saveUserInfo($data);
-                $role = $this->uTool->getCurrentUserRoles();
+                //$role = $this->uTool->getCurrentUserRoles();
                 $msg = "{$role}管理员[$account]登录成功, 地址来自[$cIp].";
                 $logParam = array(
                     'time' => time(), 'account' => $account, 'pri' => 5,
@@ -119,7 +119,7 @@
                 $this->isValidUser = true;
                 $this->leftmenu    =
                     leftmenu::instance()->getLeftmenuHtml();
-                $this->getOutOrInHost();
+                //$this->getOutOrInHost();
             } else {
                 $this->isValidUser = false;
             }

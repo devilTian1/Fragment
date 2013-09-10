@@ -23,7 +23,7 @@
 		}
 		
 		public function syncTime() {
-			$this->model->synTime();
+			$this->model->syncTime();
 			$this->view->showMsg();			
 		}
 	}

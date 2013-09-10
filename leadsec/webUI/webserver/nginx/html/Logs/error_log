@@ -1,0 +1,108 @@
+
+--------------------------
+2013-06-07 01:59:32 | errMsg:Error Database: No dsn | sisException | code:0
+#0 D:\leadsec\Fragment\leadsec\webUI\webserver\nginx\html\Function\systemManagement\maintain\dualSystem.php(43): dbsqlite->__construct('/usr/local/vsp/...')
+#1 D:\leadsec\Fragment\leadsec\webUI\webserver\nginx\html\Function\view.php(27): require_once('D:\leadsec\Frag...')
+#2 {main}
+
+--------------------------
+2013-06-09 14:35:28 | errMsg:Error Database: No dsn | sisException | code:0
+#0 D:\leadsec\Fragment\leadsec\webUI\webserver\nginx\html\Function\systemManagement\maintain\dualSystem.php(43): dbsqlite->__construct('/usr/local/vsp/...')
+#1 D:\leadsec\Fragment\leadsec\webUI\webserver\nginx\html\Function\view.php(27): require_once('D:\leadsec\Frag...')
+#2 {main}
+
+--------------------------
+2013-07-04 03:01:34 | errMsg:Error Database: No dsn | sisException | code:0
+#0 D:\leadsec\Fragment\leadsec\webUI\webserver\nginx\html\Function\resConf\time\timeList.php(33): dbsqlite->__construct('/usr/local/tss/...')
+#1 D:\leadsec\Fragment\leadsec\webUI\webserver\nginx\html\Function\resConf\time\timeList.php(315): getDataCount()
+#2 D:\leadsec\Fragment\leadsec\webUI\webserver\nginx\html\Function\view.php(27): require_once('D:\leadsec\Frag...')
+#3 {main}
+
+--------------------------
+2013-07-04 03:01:43 | errMsg:Error Database: Database problem: SQLSTATE[HY000]: General error: 1 no such column: scan_virus | sisException | code:0
+#0 D:\leadsec\Fragment\leadsec\webUI\webserver\nginx\html\Function\client\safeBrowse\basicConfig.php(81): dbsqlite->query('SELECT scan_vir...')
+#1 D:\leadsec\Fragment\leadsec\webUI\webserver\nginx\html\Function\view.php(27): require_once('D:\leadsec\Frag...')
+#2 {main}
+
+--------------------------
+2013-07-10 07:29:39 | errMsg:Error Database: No dsn | sisException | code:0
+#0 D:\leadsec\Fragment\leadsec\webUI\webserver\nginx\html\Function\resConf\time\timeList.php(33): dbsqlite->__construct('/usr/local/tss/...')
+#1 D:\leadsec\Fragment\leadsec\webUI\webserver\nginx\html\Function\resConf\time\timeList.php(321): getDataCount()
+#2 D:\leadsec\Fragment\leadsec\webUI\webserver\nginx\html\Function\view.php(27): require_once('D:\leadsec\Frag...')
+#3 {main}
+
+--------------------------
+2013-07-10 07:32:07 | errMsg:Error Database: No dsn | sisException | code:0
+#0 D:\leadsec\Fragment\leadsec\webUI\webserver\nginx\html\Function\resConf\time\timeList.php(33): dbsqlite->__construct('/usr/local/tss/...')
+#1 D:\leadsec\Fragment\leadsec\webUI\webserver\nginx\html\Function\resConf\time\timeList.php(321): getDataCount()
+#2 D:\leadsec\Fragment\leadsec\webUI\webserver\nginx\html\Function\view.php(27): require_once('D:\leadsec\Frag...')
+#3 {main}
+
+--------------------------
+2013-07-10 07:32:08 | errMsg:Error Database: No dsn | sisException | code:0
+#0 D:\leadsec\Fragment\leadsec\webUI\webserver\nginx\html\Function\resConf\time\timeGroup.php(89): dbsqlite->__construct('/usr/local/tss/...')
+#1 D:\leadsec\Fragment\leadsec\webUI\webserver\nginx\html\Function\resConf\time\timeGroup.php(305): getDataCount()
+#2 D:\leadsec\Fragment\leadsec\webUI\webserver\nginx\html\Function\view.php(27): require_once('D:\leadsec\Frag...')
+#3 {main}
+
+--------------------------
+2013-07-10 07:32:08 | errMsg:Error Database: No dsn | sisException | code:0
+#0 D:\leadsec\Fragment\leadsec\webUI\webserver\nginx\html\Function\resConf\time\timeList.php(33): dbsqlite->__construct('/usr/local/tss/...')
+#1 D:\leadsec\Fragment\leadsec\webUI\webserver\nginx\html\Function\resConf\time\timeList.php(321): getDataCount()
+#2 D:\leadsec\Fragment\leadsec\webUI\webserver\nginx\html\Function\view.php(27): require_once('D:\leadsec\Frag...')
+#3 {main}
+
+--------------------------
+2013-07-27 11:45:14 | errMsg:Error Database: Database problem: SQLSTATE[HY000]: General error: 1 no such column: scan_virus | sisException | code:0
+#0 D:\leadsec\Fragment\leadsec\webUI\webserver\nginx\html\Function\client\safeBrowse\basicConfig.php(81): dbsqlite->query('SELECT scan_vir...')
+#1 D:\leadsec\Fragment\leadsec\webUI\webserver\nginx\html\Function\view.php(27): require_once('D:\leadsec\Frag...')
+#2 {main}
+
+--------------------------
+2013-08-12 06:15:05 | errMsg:Error Database: No dsn | sisException | code:0
+#0 D:\leadsec\Fragment\leadsec\webUI\webserver\nginx\html\Lib\driver\netGapRes.php(83): dbsqlite->__construct('/usr/local/tss/...')
+#1 D:\leadsec\Fragment\leadsec\webUI\webserver\nginx\html\Function\client\fileEx\sendTask.php(143): netGapRes->getTimeList()
+#2 {main}
+
+--------------------------
+2013-08-12 06:17:51 | errMsg:Error Database: No dsn | sisException | code:0
+#0 D:\leadsec\Fragment\leadsec\webUI\webserver\nginx\html\Function\resConf\time\timeList.php(33): dbsqlite->__construct('/usr/local/tss/...')
+#1 D:\leadsec\Fragment\leadsec\webUI\webserver\nginx\html\Function\resConf\time\timeList.php(321): getDataCount()
+#2 D:\leadsec\Fragment\leadsec\webUI\webserver\nginx\html\Function\view.php(27): require_once('D:\leadsec\Frag...')
+#3 {main}
+
+--------------------------
+2013-08-12 06:17:58 | errMsg:Error Database: No dsn | sisException | code:0
+#0 D:\leadsec\Fragment\leadsec\webUI\webserver\nginx\html\Lib\driver\netGapRes.php(83): dbsqlite->__construct('/usr/local/tss/...')
+#1 D:\leadsec\Fragment\leadsec\webUI\webserver\nginx\html\Function\server\fileSync\fileSync.php(104): netGapRes->getTimeList()
+#2 {main}
+
+--------------------------
+2013-08-12 06:18:02 | errMsg:Error Database: No dsn | sisException | code:0
+#0 D:\leadsec\Fragment\leadsec\webUI\webserver\nginx\html\Lib\driver\netGapRes.php(83): dbsqlite->__construct('/usr/local/tss/...')
+#1 D:\leadsec\Fragment\leadsec\webUI\webserver\nginx\html\Function\client\fileEx\sendTask.php(143): netGapRes->getTimeList()
+#2 {main}
+
+--------------------------
+2013-08-12 06:19:20 | errMsg:Error Database: No dsn | sisException | code:0
+#0 D:\leadsec\Fragment\leadsec\webUI\webserver\nginx\html\Lib\driver\netGapRes.php(83): dbsqlite->__construct('/usr/local/tss/...')
+#1 D:\leadsec\Fragment\leadsec\webUI\webserver\nginx\html\Function\server\fileSync\fileSync.php(104): netGapRes->getTimeList()
+#2 {main}
+
+--------------------------
+2013-08-12 08:52:06 | errMsg:Error Database: Database problem: SQLSTATE[HY000]: General error: 1 no such column: scan_virus | sisException | code:0
+#0 D:\leadsec\Fragment\leadsec\webUI\webserver\nginx\html\Function\client\safeBrowse\basicConfig.php(81): dbsqlite->query('SELECT scan_vir...')
+#1 D:\leadsec\Fragment\leadsec\webUI\webserver\nginx\html\Function\view.php(27): require_once('D:\leadsec\Frag...')
+#2 {main}
+
+--------------------------
+2013-08-12 08:52:33 | errMsg:Error Database: Database problem: SQLSTATE[HY000]: General error: 1 no such column: mul_src | sisException | code:0
+#0 D:\leadsec\Fragment\leadsec\webUI\webserver\nginx\html\Function\client\customized\udpGeneralVisit.php(70): dbsqlite->query('SELECT id, sa, ...', Array)
+#1 D:\leadsec\Fragment\leadsec\webUI\webserver\nginx\html\Function\client\customized\udpGeneralVisit.php(142): appendUdpCommClientAclData('ORDER BY id ASC...')
+#2 {main}
+
+--------------------------
+2013-08-12 14:11:13 | errMsg:Error Database: No dsn | sisException | code:0
+#0 D:\leadsec\Fragment\leadsec\webUI\webserver\nginx\html\Lib\driver\netGapRes.php(83): dbsqlite->__construct('/usr/local/tss/...')
+#1 D:\leadsec\Fragment\leadsec\webUI\webserver\nginx\html\Function\client\fileEx\sendTask.php(143): netGapRes->getTimeList()
+#2 {main}

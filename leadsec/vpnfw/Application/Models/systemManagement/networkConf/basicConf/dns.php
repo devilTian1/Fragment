@@ -25,12 +25,8 @@
                 $cmd = "dns set ip $dnssrv $dnssrv2";
                 $log = '设置域名服务器IP';
             }
-			try{
-				$cli->setLog($log)->run($cmd);
-				$msg = '修改成功。';
-			} catch (Exception $e) {
-				$msg = DEBUG ? '修改失败。'.$e->getMessage() : '修改失败。';
-			}
-			$this->msg = $msg;
+            $cli->setLog($log)->run($cmd);
+			$this->msg = '修改成功。';
         }		
 	}
+?>

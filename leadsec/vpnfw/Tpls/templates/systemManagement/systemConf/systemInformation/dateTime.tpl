@@ -170,21 +170,22 @@ $(document).ready(function() {
 
 	$('.radio').bind('load click',function(){
 		if($(this).attr('id')=='radio_ip'){
-			$("#serverip").removeAttr("disabled");
-			$("#serverdn").attr("disabled","disabled");
 			if($('#syncBtn').prev().attr('id')!='serverip') {
 				$('#syncBtn').clone(true).insertAfter('#serverip');
-				$('#serverdn').next().remove();
+				$('#serverdn').parent().find('button').remove();
 			}
+			$("#serverip").removeAttr("disabled");
+			$("#serverdn").attr("disabled","disabled");			
 		}else if($(this).attr('id')=='radio_dn'){
-			$("#serverip").attr("disabled","disabled");
-			$("#serverdn").removeAttr("disabled");
 			if($('#syncBtn').prev().attr('id')!='serverdn') {
 				$('#syncBtn').clone(true).insertAfter('#serverdn');
-				$('#serverip').next().remove();
+				$('#serverip').parent().find('button').remove();
 			}
+			$("#serverip").attr("disabled","disabled");
+			$("#serverdn").removeAttr("disabled");			
 		}
 	});
+	
 	/*
 	//选择单选框时
 	$(".radio").click(function(){

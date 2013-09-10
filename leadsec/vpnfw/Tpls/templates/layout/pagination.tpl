@@ -14,8 +14,8 @@
         <li><a href="#page=1" rel="first">首页</a></li>
         <li><a href="#page=<{$initData.prev|default: $prev|default: 1}>" rel="prev">上一页</a></li>
         <{for $pageNo=1 to $initData.pageCount|default:$pageCount}>
-            <{assign var='a' value="`$initData.clickedPageNo|default:1-$pageNo`"}>
-            <{assign var='b' value="`$pageNo-$initData.clickedPageNo|default:1`"}>
+            <{assign var='a' value="`$clickedPageNo|default:1-$pageNo`"}>
+            <{assign var='b' value="`$pageNo-$clickedPageNo|default:1`"}>
             <{if ($pageNo != 1 && $pageNo != $initData.pageCount|default:$pageCount) && ($a > 3 || $b > 2)}>
                 <{continue}>
             <{/if}>

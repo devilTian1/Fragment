@@ -20,11 +20,11 @@
                 '7' => array('id'   => 'next',       'img' => 'top_icon_10.png',
                              'name' => '下一步')
             );
-            $hostStatus = $this->model->hostStatus === 'I' ? '内网' : '外网';
+            //$hostStatus = $this->model->hostStatus === 'I' ? '内网' : '外网';
             // generate smarty instance
             V::getInstance()->assign('headerNav', $headerNav)
                             ->assign('leftmenu', $this->model->leftmenu)
-                            ->assign('hostStatus', $hostStatus)
+          //                  ->assign('hostStatus', $hostStatus)
                             ->assign('loginname', $_SESSION['account'])
                             ->display('index.tpl');
         }

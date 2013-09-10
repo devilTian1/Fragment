@@ -493,7 +493,7 @@ label.errorLabel {
 }
 
 .linkTab {
-    background: url(../images/tab_nofocus.gif) no-repeat; 
+    background: url(../images/tab_nofocus.gif) no-repeat;
 }
 .visitedTab {
     background: url(../images/tab_focus.gif) no-repeat;
@@ -510,12 +510,12 @@ label.errorLabel {
     float: left; 
 	margin: 0px;
 	line-height: 21px;
-	height:21px;
+	height: 21px;
 	font-weight: bold;
 	cursor: pointer;
 	text-align:center;
     width: 100px;
-	overflow:hidden;
+    overflow: hidden;
 }
 
 #tab .tabinfo {
@@ -660,6 +660,10 @@ label.errorLabel {
 	font-weight:bold;
 	line-height:30px;
 	text-align:right;
+}
+
+.boldFont {
+    font-weight: bold;
 }
 
 .edit{background: url(../images/icon/edit.gif) no-repeat left; padding-left:18px;}

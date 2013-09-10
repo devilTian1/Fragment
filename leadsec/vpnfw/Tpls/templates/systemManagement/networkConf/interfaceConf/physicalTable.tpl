@@ -1,14 +1,21 @@
 <{foreach $list as $value }>
     <tr>
-        <td><input type="checkbox" name="checkSpecPhysical"/></td>
+        <td>
+            <input type="hidden" value='<{$value.external_name}>'>
+            <input class="checkSon" type="checkbox" onClick="$(this).checkRealAll()"/>
+        </td>
         <td><{$value.external_name}></td>
         <td>
+            <{if $value.ip neq ''}>
                 <{$value.ip|cat: '/'|cat: $value.mask}>
+            <{/if}>
         </td>
         <td><{$workmodeArr[$value.workmode]}></td>        
         <td><{$ipaddrArr[$value.ipaddr_type]}></td> 
         <td>
-      	    <{if $value.ha_enable eq 1}>
+             <{if $value.enable eq 'HA使用'}>
+                <{$value.ha_enable}>
+      	    <{elseif $value.qos_enable eq 1}>
       	        <img src="<{$smarty.const.THEME_PATH}>/<{$smarty.const.DEFAULT_LOCALE}>/images/icon/select.png"
                     width="16" height="16" />
              <{else}>
@@ -20,7 +27,9 @@
             <form action="index.php?R=systemManagement/networkConf/interfaceConf/physical/switchPhysicalDev" method="POST"
                 id="switchPhyDevForm_<{$value@index}>" onSubmit="return false;">
                 <input type="hidden" name="switch_name" value="<{$value.external_name}>"/>
-            <{if $value.enable eq 1}>
+            <{if $value.enable eq 'HA使用'}>
+                <{$value.enable}>
+            <{elseif $value.enable eq 1}>
                 <a href="#" onClick="switchPhysicalDev('<{$value.external_name}>', 'disable', '<{$value@index}>')">
                     <img src="<{$smarty.const.THEME_PATH}>/<{$smarty.const.DEFAULT_LOCALE}>/images/icon/select.png"
                     width="16" height="16" />
@@ -31,11 +40,15 @@
                     <img src="<{$smarty.const.THEME_PATH}>/<{$smarty.const.DEFAULT_LOCALE}>/images/icon/stop.png"
                     width="16" height="16"/>
                     <input type="hidden" name="action" value="enable"/>
-                </a>
+                </a>             
             <{/if}>
             </form>
         </td>
-        <td><a href="#" class="edit" onclick="openEditPhysicalDialog('<{$value.external_name}>')">编辑</a></td>
+        <td>
+        <{if $value.enable neq 'HA使用'}>        
+            <a href="#" class="edit" onclick="openEditPhysicalDialog('<{$value.external_name}>')">编辑</a>
+        <{/if}>
+        </td>
     </tr>
 <{foreachelse}>
     <tr><td colspan='7'>No Address Data</td></tr>
