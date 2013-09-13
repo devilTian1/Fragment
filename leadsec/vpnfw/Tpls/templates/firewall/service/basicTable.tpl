@@ -1,16 +1,15 @@
-<{foreach $list as $r }>
+<{foreach $basicList as $basic }>
 <tr>
-        <td><input type="hidden" value='<{$r.id}>'>
+        <td><input type="hidden" value='<{$basic.name}>'>
             <input class="checkSon" type="checkbox"/></td>
-        <td><{$r.ip}></td>
-        <td><{$r.mask}></td>
-        <td><{$r.ipv6}></td>
-        <td><{$r.ipv6_mask}></td>
+        <td><{$basic.id}></td>
+        <td><{$basic.name}></td>
+        <td><{$basic.comment}></td>
         <td class="no_search">
             <a href="#" class="edit"
-                onclick="editFilterDialog('<{$r.id}>')">编辑</a>
+                onclick="openEditBasicListDialog('<{$basic.id}>')">编辑</a>
             <a href="#" class="delete"
-                onclick="openDelDialog()">删除</a> 
+                onclick="delBasic('<{$basic.name}>')">删除</a> 
         </td>
     </tr>
 <{foreachelse}>

@@ -1,116 +1,104 @@
-function openEditDialog(id) {
-    var url  = 'Function/client/db/sqlFilter.php';
-    var data = {
-        //tpl    : 'resConf/filterConf/dataVisit_sql_editDialog.tpl',
-        editId : id
-    };
-    var title   = '修改SQL语句过滤';
+function openEditOrAddDialog(type, title, data) {
+    var url =
+        'index.php?R=firewall/service/basic/openAddOrEditBasicListDialog';
     var buttons = {};
-    buttons[getMessage('Ok')] = function() {
-        if ($('#editForm').valid()) {
-        	var afterSuccessCallback = function() {
-                freshTableAndPage();
-            };
-            ajaxSubmitForm($('#editForm'), '结果', undefined,
+    var afterSuccessCallback = function() {
+        $('#basicTable').trigger('sorton', [[[2,0]]]);
+        initPagerCss($('div.pager'));
+        removeAdvSearchData();
+        freshTableAndPage();
+    };
+    if (type === 'add') {
+        buttons['添加下一条'] = function() {
+            if ($('#editBasicListForm').valid()) {
+                openEditOrAddDialog(type, title, data);
+                ajaxSubmitForm($('#editBasicListForm'), '结果', undefined,
+                    undefined, afterSuccessCallback);
+                $(this).remove();
+            }
+        };
+    }
+    buttons['确定'] = function() {
+        if ($('#editBasicListForm').valid()) {
+            ajaxSubmitForm($('#editBasicListForm'), '结果', undefined,
                 undefined, afterSuccessCallback);
             $(this).remove();
         }
     };
-    buttons[getMessage('Cancel')] = function() {
-        $(this).remove();
-    };
-    var dialogParams = {
-        width   : 600,
-        height  : 450,
-        buttons : buttons,
-        position: jQuery.getDialogPosition(600,450)
-    };
-    showDialogByAjax(url, data, title, dialogParams);
-}
-
-function openNewBasicDialog() {
-    var url   = 'index.php?R=firewall/service/basic/openNewDialog';
-    var title = '添加服务';
-    var data  = {
-        //tpl : 'resConf/filterConf/dataVisit_sql_editDialog.tpl',
-		openDialog: true
-    };
-    var buttons = {};
-    buttons[getMessage('Add Next')] = function() {
-        if ($('#editForm').valid()) {
-            openNewDialog();
-            var afterSuccessCallback = function() {
-                freshTableAndPage();
-            };
-            ajaxSubmitForm($('#editForm'), '结果', undefined,
-                undefined, afterSuccessCallback);
-            $(this).remove();
-        }
-    };
-    buttons[getMessage('Ok')] = function() {
-        if ($('#editForm').valid()) {
-        	var afterSuccessCallback = function() {
-                freshTableAndPage();
-            };
-            ajaxSubmitForm($('#editForm'), '结果', undefined,
-                undefined, afterSuccessCallback);
-            $(this).remove();
-        }
-    };
-    buttons[getMessage('Cancel')] = function() {
-        $(this).remove();
-    };
-    var dialogParams = {
-        width   : 800,
-        height  : 500,
-        buttons : buttons,
-        position: jQuery.getDialogPosition(600,450)
-    };
-    showDialogByAjax(url, data, title, dialogParams);
-}
-
-function del(name) {
-    var url  = 'Function/client/db/sqlFilter.php';
-    var data = {
-        delName: name
-    };
-    var title  = '删除SQL语句过滤';
-    var buttons = {};
-    buttons[getMessage('Ok')] = function() {
+    buttons['取消'] = function() {
         freshTableAndPage();
         $(this).remove();
     };
     var dialogParams = {
-        width   : 250,
-        height  : 170,
-        buttons : buttons,
-        position: jQuery.getDialogPosition(250,170)
+        width    : 800,
+        height   : 525,
+        position : jQuery.getDialogPosition('800','525'),
+        buttons  : buttons
     };
     showDialogByAjax(url, data, title, dialogParams);
 }
 
-function openDelDialog() {
-    var dialog  = loadingScreen('确定要删除吗？');
-    var buttons = {};
-    buttons[getMessage('Ok')] = function() {
-        del(name);
-        $(this).remove();
+function openNewBasicListDialog() {
+    var title = '添加服务';
+    var data = {
+        isAdd : true
     };
-    buttons[getMessage('Cancel')]  = function() {
-        $(this).remove();
+    openEditOrAddDialog('add', title, data);
+} 
+
+function openEditBasicListDialog(id) {
+    var title = '编辑服务';
+    var data = {
+        isEdit : true,
+        id     : id
+        
+    }
+    openEditOrAddDialog('edit', title, data);
+}
+
+function delBasic(name) {
+    var url  = 'index.php?R=firewall/service/basic/delSpecBasic';
+    var data = {
+        delName: name
+    };
+    var ajaxParams = {
+        dataType: 'JSON',
+        type: 'POST',
+        complete: function(result) {
+            afterSucessBatchDel();
+        }
+    };
+    loadAjax(url, data, ajaxParams);
+}
+
+function openDelBasicListDialog(name) {
+    var dialog  = loadingScreen('删除服务');
+    var buttons = {};
+    buttons['确定'] = function() {
+        delBasicess(name);
+        dialog.close();
+    };
+    buttons['取消']  = function() {
+        dialog.close();
     };
     var dialogParams = {
         width: 300,
         height: 160,
         buttons: buttons,
-        position: jQuery.getDialogPosition(300,160)
+        position : jQuery.getDialogPosition('300','160')
     };
-    dialog.setContent("确定要删除基本服务吗？");
-    dialog.setOptions(dialogParams);   
+    dialog.setContent("<p>确定要删除" + name + "吗？</p>");
+    dialog.setOptions(dialogParams);
 }
 
 function freshTableAndPage() {
-    var url = 'index.php?R=firewall/service/basic/showTable';
-    freshTable(url, $("#filterTable"));
-    freshPagination(url, $('.pager'),$("#filterTable"));
+    var url = 'index.php?R=firewall/service/basic/freshTableAndPagination';
+	freshTableAndPagination(url);
+}
+
+function afterSucessBatchDel() {
+    $('#basicTable').trigger('sorton', [[[2,0]]]);
+    initPagerCss($('div.pager'));
+    removeAdvSearchData();
+    freshTableAndPage();
 }

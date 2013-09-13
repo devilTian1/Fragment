@@ -638,6 +638,13 @@ var validRules = {
 			url: 'index.php?R=firewall/address/address/uniqueAddrName'
         }
     },
+	basicName: {
+        required: true,
+        nameText: true,
+        remote: {
+			url: 'index.php?R=firewall/service/basic/uniqueBasicName'
+        }
+    },
     fwIp: {
         required: true,
         ip: true  
