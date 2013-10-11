@@ -1,5 +1,4 @@
 <?php
-
     // Load Global Conf Param
     require_once dirname(__file__) . '/Conf/global.php';
     // Enable/Disable Development Environment
